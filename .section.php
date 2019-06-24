@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Manom";
+$arDirProperties = Array(
+
+);
+?>
