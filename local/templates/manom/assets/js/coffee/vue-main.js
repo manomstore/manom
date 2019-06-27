@@ -23,7 +23,6 @@ locationDND = new Vue({
     },
     getUnits: function() {
       var $this;
-      console.log(LocationDataDND);
       this.curentCity = LocationDataDND.cityName;
       this.curentCityID = LocationDataDND.cityID;
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList;
