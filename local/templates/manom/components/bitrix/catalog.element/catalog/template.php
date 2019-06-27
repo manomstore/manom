@@ -60,7 +60,6 @@ if (!$_REQUEST['offer']){
                 <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>' title="в избранное"></div>
             </label>
             <div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_COMPARE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>'></div>
-			<div class="p-nav-top__print" onClick="window.print()"></div>
 		</div>
 	</div>
 	<div class="product-nav2">
@@ -79,30 +78,6 @@ if (!$_REQUEST['offer']){
 				<span class="credential-rostest"><?=$arResult['PROPERTIES'][$arParams['TOP_FIELD_3_CODE']]['VALUE']?></span> &nbsp;
 			<?}?>
 		</div>
-		<div class="product-rating">
-			<?for ($i=0; $i < 5; $i++) {
-				if ($i >= $arResult['PRODUCT_RATING']) {
-					?> <span> ★ </span> <?
-				}else{
-					?> ★ <?
-				}
-			}?>
-		</div>
-        <?
-        $numberof = count($arResult['REVIEWS']);
-        $value = 'отзыв';
-        $suffix = array('', 'а', 'ов');
-
-        function numberof($numberof, $value, $suffix)
-        {
-            $keys = array(2, 0, 1, 1, 1, 2);
-            $mod = $numberof % 100;
-            $suffix_key = $mod > 4 && $mod < 20 ? 2 : $keys[min($mod%10, 5)];
-
-            return $value . $suffix[$suffix_key];
-        }
-        ?>
-		<div class="product-comments"><span><?=count($arResult['REVIEWS']);?></span> <?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?></div>
 	</div>
 	<div class="product-main row">
 <!-- 			<div class="product-photo__left col-1">

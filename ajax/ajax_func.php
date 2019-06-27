@@ -35,10 +35,6 @@ if ($_POST['change_favorite_list'] == "Y") {
       <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/top-heart.svg" alt="">
       <span class="top-count">0</span>
     </a>
-    <!-- preview-heart -->
-    <div class="preview-heart" id="mini_favorite_header">
-      <p class="preview-heart-not-text">Нет товара</p>
-    </div>
   <?else:?><?
     $APPLICATION->IncludeComponent(
       "bitrix:catalog.section",
@@ -203,10 +199,6 @@ endif;
       <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/top-sheets.svg" alt="">
       <span class="top-count">0</span>
     </a>
-    <!-- preview-heart -->
-    <div class="preview-heart" id="mini_compare_header">
-      <p class="preview-heart-not-text">Нет товара</p>
-    </div>
   <?else:?><?
     $APPLICATION->IncludeComponent(
       "bitrix:catalog.section",

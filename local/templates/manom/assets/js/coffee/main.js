@@ -364,6 +364,19 @@ $(document).ready(function() {
           success: function(data) {
             $.fn.setPushUp("Товар добавлен", "Товар был успешно добавлен в вашу корзину", false, "message", false, 5000);
             $this.removeClass('addToCartBtn_dis');
+            $('.preview-shopcart').addClass('preview-card--show');
+            var showMiniCart = function () {
+	            var lastTimeout = null;
+	            if (lastTimeout) {
+		            window.clearTimeout(lastTimeout);
+	            }
+	            lastTimeout = window.setTimeout(function () {
+		            if ($('.preview-shopcart').hasClass('preview-card--show')) {
+			            $('.preview-shopcart').removeClass('preview-card--show');
+		            }
+	            }, 3000);
+            };
+	          showMiniCart();
             if ($this.hasClass('product-sidebar__button')) {
               $this.addClass('dsb-hidden');
               $this.after('<a class="product-sidebar__button goToFcnCart" href="/cart/" data-id="' + productID + '">В корзину</a>');
@@ -1280,3 +1293,4 @@ $.fn.updateURLParameter = function(url, param, paramVal) {
   rows_txt = temp + '' + param + '=' + paramVal;
   return baseURL + '?' + newAdditionalURL + rows_txt;
 };
+

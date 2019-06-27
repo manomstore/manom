@@ -28,8 +28,8 @@ overflow-y: scroll;
 </a>
 
 <?$prodCount = 0;?>
-<div class="preview-shopcart" id="mini_cart_header">
-	<?if ($arResult['NUM_PRODUCTS'] > 0):?>
+<?if ($arResult['NUM_PRODUCTS'] > 0):?>
+	<div class="preview-shopcart" id="mini_cart_header">
 		<?foreach ($arResult['CATEGORIES'] as $key => $cat) {
 			foreach ($cat as $i => $item) {?>
 				<?$prodCount++;
@@ -63,10 +63,8 @@ overflow-y: scroll;
 			</div>
 			<a href="/cart/" class="preview-bottom__button" style="margin-top: 10px;">В корзину</a>
 		</div>
-	<?else:?>
-		<p class="preview-heart-not-text">Нет товара</p>
-	<?endif;?>
-</div>
+	</div>
+<?endif;?>
 <?if ($_REQUEST['AJAX_MIN_CART'] == 'Y'):?>
 <?die();?>
 <?endif;?>

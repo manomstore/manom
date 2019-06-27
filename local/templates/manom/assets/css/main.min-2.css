@@ -1071,7 +1071,6 @@ h1, h2, h3, h4, h5, h6 {
   left: 15px;
   right: 15px;
   z-index: 1001;
-  height: 450px;
   -webkit-transform-origin: center top;
       -ms-transform-origin: center top;
           transform-origin: center top;
@@ -1556,25 +1555,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .p-nav-top__list:hover, .cb-single-nav-top__list:hover {
-  opacity: 1;
-}
-
-.p-nav-top__print, .cb-single-nav-top__print {
-  display: inline-block;
-  height: 18px;
-  width: 18px;
-  margin-bottom: 2px;
-  background: url(../img/print.svg) center center no-repeat;
-  -webkit-background-size: contain;
-          background-size: contain;
-  cursor: pointer;
-  opacity: .7;
-  -webkit-transition: .1s;
-  -o-transition: .1s;
-  transition: .1s;
-}
-
-.p-nav-top__print:hover, .cb-single-nav-top__print:hover {
   opacity: 1;
 }
 
@@ -6909,4 +6889,11 @@ p.price-slider {
   .sci-login__button {
     width: 135px;
   }
+}
+
+.preview-card--show {
+  max-height: 100vh;
+  border-top: 2px solid #79B700;
+  border-bottom: 2px solid #79B700;
+  padding: 12px 10px;
 }
