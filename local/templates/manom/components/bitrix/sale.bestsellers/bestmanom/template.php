@@ -30,17 +30,6 @@ $templateData = array(
                         <div class="p-nav-top">
 
                         </div>
-                        <div class="p-nav-middle">
-                            <div class="p-nav-middle__rating">
-                                <?for ($i=0; $i < 5; $i++) {
-                                    if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
-                                        ?> <span> ★ </span> <?
-                                    }else{
-                                        ?> ★ <?
-                                    }
-                                }?></div>
-                                <div class="p-nav-middle__comments"><span><?=$arResult['REVIEW'][$arItems['ID']]['count']?></span></div>
-                        </div>
                         <h3 class="p-name">
                             <a href="<?=$arItems['DETAIL_PAGE_URL']?>"><?=$arItems['NAME']?></a>
                         </h3>

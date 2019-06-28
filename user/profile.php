@@ -18,8 +18,6 @@ if ($USER->IsAuthorized()){?>
                 <a href="/user/favorite/" id="personal-nav__item4" class="personal-nav__item">Товары в избранном</a>
                 <a href="/catalog/compare/" id="personal-nav__item4" class="personal-nav__item">Сравнение товаров</a>
                 <p class="personal-nav__name">Моя активность:</p>
-                <a href="/user/review/add-list/" id="personal-nav__item4" class="personal-nav__item">Добавить отзыв товару</a>
-                <a href="/user/review/" id="personal-nav__item4" class="personal-nav__item">Мои отзывы</a>
             </aside>
 
             <!-- Личный кабинет - основной блок -->
@@ -98,8 +96,6 @@ if ($USER->IsAuthorized()){?>
                                 </div>
                                 <div class="p-nav-middle">
                                     <div class="p-nav-middle__sale active">Распродажа</div>
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <div class="p-nav-middle__comments"><span>12</span></div>
                                 </div>
                                 <h3 class="p-name cb-single-name">
                                     Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -151,8 +147,6 @@ if ($USER->IsAuthorized()){?>
                                 </div>
                                 <div class="p-nav-middle">
                                     <div class="p-nav-middle__sale active">Распродажа</div>
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <div class="p-nav-middle__comments"><span>12</span></div>
                                 </div>
                                 <h3 class="p-name cb-single-name">
                                     Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -207,8 +201,6 @@ if ($USER->IsAuthorized()){?>
                                 </div>
                                 <div class="p-nav-middle">
                                     <div class="p-nav-middle__sale active">Распродажа</div>
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <div class="p-nav-middle__comments"><span>12</span></div>
                                 </div>
                                 <h3 class="p-name">
                                     Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -242,8 +234,6 @@ if ($USER->IsAuthorized()){?>
                                 </div>
                                 <div class="p-nav-middle">
                                     <div class="p-nav-middle__sale active">Распродажа</div>
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <div class="p-nav-middle__comments"><span>12</span></div>
                                 </div>
                                 <h3 class="p-name">
                                     Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -277,8 +267,6 @@ if ($USER->IsAuthorized()){?>
                                 </div>
                                 <div class="p-nav-middle">
                                     <div class="p-nav-middle__sale active">Распродажа</div>
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <div class="p-nav-middle__comments"><span>12</span></div>
                                 </div>
                                 <h3 class="p-name">
                                     Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -308,8 +296,6 @@ if ($USER->IsAuthorized()){?>
                                 <div class="cb-line-card__main">
                                     <div class="p-nav-middle">
                                         <div class="cb-line-card__sale active">Распродажа</div>
-                                        <div class="p-nav-middle__rating cb-line-card__rating">★ ★ ★ <span>★ ★</span></div>
-                                        <div class="p-nav-middle__comments"><span>12</span></div>
                                     </div>
                                     <div class="cb-line-card__text">
                                         <h3 class="p-name cb-line-name">
@@ -365,8 +351,6 @@ if ($USER->IsAuthorized()){?>
                                 <div class="cb-line-card__main">
                                     <div class="p-nav-middle">
                                         <div class="cb-line-card__sale active">Распродажа</div>
-                                        <div class="p-nav-middle__rating cb-line-card__rating">★ ★ ★ <span>★ ★</span></div>
-                                        <div class="p-nav-middle__comments"><span>12</span></div>
                                     </div>
                                     <div class="cb-line-card__text">
                                         <h3 class="p-name cb-line-name">
@@ -422,8 +406,6 @@ if ($USER->IsAuthorized()){?>
                                 <div class="cb-line-card__main">
                                     <div class="p-nav-middle">
                                         <div class="cb-line-card__sale">Распродажа</div>
-                                        <div class="p-nav-middle__rating cb-line-card__rating">★ ★ ★ <span>★ ★</span></div>
-                                        <div class="p-nav-middle__comments"><span>12</span></div>
                                     </div>
                                     <div class="cb-line-card__text">
                                         <h3 class="p-name cb-line-name">
@@ -539,101 +521,6 @@ if ($USER->IsAuthorized()){?>
                         ),
                         false
                     );?>
-                    <h2 class="pb-comments__title">Мои отзывы:</h2>
-                    <!-- 	block -->
-                    <div class="pb-comments__block">
-                        <div class="pb-comments__product">
-                            <div class="product-card disable">
-                                <div class="product-card__img">
-                                    <div class="product-card__slide">
-                                        <img src="img/4396800.jpg" alt="">
-                                    </div>
-                                    <div class="product-card__slide">
-                                        <img src="img/4396801.jpg" alt="">
-                                    </div>
-                                </div>
-                                <p class="p-label-top active">Товар дня</p>
-                                <div class="p-nav-top">
-                                    <label>
-                                        <input class="p-nav-top__checkbox" type="checkbox" checked>
-                                        <div class="p-nav-top__favorite" title="в избранное"></div>
-                                    </label>
-                                    <div class="p-nav-top__list"></div>
-                                </div>
-                                <h3 class="p-name">
-                                    Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="pb-comments__content">
-                            <div class="pb-comments__header">
-                                <div class="pb-comments__foto">
-                                    <img src="img/personal-foto.jpg" alt="">
-                                </div>
-                                <p class="pb-comments__text">Автор: <span>Константин Константинопольский</span></p>
-                                <p class="pb-comments__text">Дата: <span>14-08-2018</span></p>
-                                <div class="pb-comments__rating">Оценка:
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <span>удовлетворительная</span></div>
-                            </div>
-                            <p class="pb-comments__chapter">Достоинства:</p>
-                            <p class="pb-comments__text">Хорошая звукоизоляция: чтобы слушать музыку, прогуливаясь по шумной улице, не нужно задирать громкость на полную.</p>
-                            <p class="pb-comments__text">Годно держатся в ушах.</p>
-                            <p class="pb-comments__text">Зарядка micro-USB.</p>
-                            <p class="pb-comments__chapter">Недостатки:</p>
-                            <p class="pb-comments__text">Ядовитые верха и некоторая требовательность к источнику. В телефонном приложении Я.Музыки пришлось выставить HQ и покрутить эквалайзер — со всеми другими наушниками, что пробовал, хватало стандартного качества и плоской эквализации. В подкастах сибилянты обращают на себя внимание. Но с компа всё звучит получше. </p>
-                            <p class="pb-comments__text">Домашний ноут — макбук про 2013, макось 10.12 — их не увидел за пару попыток (но мне особо и не надо было, так, ради интереса пробовал). Со служебным более новым тачбарным прошкой спарились без проблем.</p>
-                            <p class="pb-comments__chapter">Комментарий:</p>
-                            <p class="pb-comments__text">Разговаривают со мной по-китайски</p>
-                        </div>
-                    </div>
-                    <!-- 	block -->
-                    <div class="pb-comments__block">
-                        <div class="pb-comments__product">
-                            <div class="product-card">
-                                <div class="product-card__img">
-                                    <div class="product-card__slide">
-                                        <img src="img/4396800.jpg" alt="">
-                                    </div>
-                                    <div class="product-card__slide">
-                                        <img src="img/4396801.jpg" alt="">
-                                    </div>
-                                </div>
-                                <p class="p-label-top active">Товар дня</p>
-                                <div class="p-nav-top">
-                                    <label>
-                                        <input class="p-nav-top__checkbox" type="checkbox" checked>
-                                        <div class="p-nav-top__favorite" title="в избранное"></div>
-                                    </label>
-                                    <div class="p-nav-top__list"></div>
-                                </div>
-                                <h3 class="p-name">
-                                    Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="pb-comments__content">
-                            <div class="pb-comments__header">
-                                <div class="pb-comments__foto">
-                                    <img src="img/personal-foto.jpg" alt="">
-                                </div>
-                                <p class="pb-comments__text">Автор: <span>Константин Константинопольский</span></p>
-                                <p class="pb-comments__text">Дата: <span>14-08-2018</span></p>
-                                <div class="pb-comments__rating">Оценка:
-                                    <div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
-                                    <span>удовлетворительная</span></div>
-                            </div>
-                            <p class="pb-comments__chapter">Достоинства:</p>
-                            <p class="pb-comments__text">Хорошая звукоизоляция: чтобы слушать музыку, прогуливаясь по шумной улице, не нужно задирать громкость на полную.</p>
-                            <p class="pb-comments__text">Годно держатся в ушах.</p>
-                            <p class="pb-comments__text">Зарядка micro-USB.</p>
-                            <p class="pb-comments__chapter">Недостатки:</p>
-                            <p class="pb-comments__text">Ядовитые верха и некоторая требовательность к источнику. В телефонном приложении Я.Музыки пришлось выставить HQ и покрутить эквалайзер — со всеми другими наушниками, что пробовал, хватало стандартного качества и плоской эквализации. В подкастах сибилянты обращают на себя внимание. Но с компа всё звучит получше. </p>
-                            <p class="pb-comments__text">Домашний ноут — макбук про 2013, макось 10.12 — их не увидел за пару попыток (но мне особо и не надо было, так, ради интереса пробовал). Со служебным более новым тачбарным прошкой спарились без проблем.</p>
-                            <p class="pb-comments__chapter">Комментарий:</p>
-                            <p class="pb-comments__text">Разговаривают со мной по-китайски</p>
-                        </div>
-                    </div>
                 </section>
                 <!-- Последние просмотренные товары -->
             </main>

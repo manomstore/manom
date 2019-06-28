@@ -96,15 +96,6 @@ global $glob_sectionInfo, $new_offer_filter;
                                 <?=$arItems['PROPERTIES']['SELL_PROD']['NAME']?>
                             </div>
                         <?}?>
-                        <div class="p-nav-middle__rating">
-            							<?for ($i=0; $i < 5; $i++) {
-            								if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
-            									?> <span> ★ </span> <?
-            								}else{
-            									?> ★ <?
-            								}
-            							}?></div>
-                        <div class="p-nav-middle__comments"><span><?=$arResult['REVIEW'][$arItems['ID']]['count']?></span></div>
                     </div>
                     <h3 class="p-name cb-single-name">
                         <a href="<?=$arItems['~DETAIL_PAGE_URL']?>"><?=$arItems['NAME']?></a>
@@ -202,15 +193,6 @@ global $glob_sectionInfo, $new_offer_filter;
                                 <?=$arResult['ORIGINAL_PARAMETERS']['MESS_NOT_AVAILABLE']?>
                             </div>
                         <?}?>
-                        <div class="p-nav-middle__rating">
-            							<?for ($i=0; $i < 5; $i++) {
-            								if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
-            									?> <span> ★ </span> <?
-            								}else{
-            									?> ★ <?
-            								}
-            							}?></div>
-                        <div class="p-nav-middle__comments"><span><?=$arResult['REVIEW'][$arItems['ID']]['count']?></span></div>
                     </div>
                     <h3 class="p-name">
                         <a href="<?=$arItems['~DETAIL_PAGE_URL']?>"><?=$arItems['NAME']?></a>
@@ -282,15 +264,6 @@ global $glob_sectionInfo, $new_offer_filter;
                                     <?=$arItems['PROPERTIES']['SELL_PROD']['NAME']?>
                                 </div>
                             <?}?>
-                            <div class="p-nav-middle__rating cb-line-card__rating">
-                							<?for ($i=0; $i < 5; $i++) {
-                								if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
-                									?> <span> ★ </span> <?
-                								}else{
-                									?> ★ <?
-                								}
-                							}?></div>
-                            <div class="p-nav-middle__comments"><span><?=$arResult['REVIEW'][$arItems['ID']]['count']?></span></div>
                         </div>
                         <div class="cb-line-card__text">
                             <h3 class="p-name cb-line-name">

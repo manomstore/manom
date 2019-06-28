@@ -1597,19 +1597,6 @@ h1, h2, h3, h4, h5, h6 {
   visibility: visible;
 }
 
-.p-nav-middle__rating {
-  display: inline-block;
-  color: #79B700;
-  font-weight: 700;
-  padding: 0 5px;
-}
-
-.p-nav-middle__rating span {
-  -webkit-filter: grayscale(1);
-          filter: grayscale(1);
-  opacity: .5;
-}
-
 .p-nav-middle__comments {
   height: 14px;
   background: url(../img/p-comments.svg) left bottom no-repeat;
