@@ -430,10 +430,6 @@ if (!$_REQUEST['offer']){
 			<input id="tab3" type="radio" name="tabs">
 			<label for="tab3"><span>Отзывы<br>покупателей</span></label>
 		<?}?>
-		<?if ($arResult['QNA_VALUES']){?>
-			<input id="tab4" type="radio" name="tabs">
-			<label for="tab4"><span>Вопрос-<br>ответ</span></label>
-		<?}?>
 		<?if ($arResult['DELIV']){?>
 			<input id="tab5" type="radio" name="tabs">
 			<label for="tab5"><span>Оплата<br>и доставка</span></label>
@@ -625,33 +621,6 @@ if (!$_REQUEST['offer']){
 					<p class="tab-content__item">
 						<span class="tab-content__title">01.01.2018г. Алла Борисовна: </span>
 						<span class="tab-content__text1">Обалденный Ноутбук! Подарила себе на Новый год - просто в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</span>
-					</p> -->
-				</div>
-			</div>
-		</section>
-		<section id="content4">
-			<div class="tab-content row">
-				<div class="tab-content__column col">
-					<?foreach ($arResult['QNA_VALUES'] as $key => $value) {
-						?>
-						<p class="tab-content__item">
-							<span class="tab-content__title"><?=$value['title']?></span>
-							<span class="tab-content__text1"><?=$value['answer']?></span>
-						</p>
-						<?
-					}?>
-
-					<!-- <p class="tab-content__item">
-						<span class="tab-content__title">Кто дает гарантию?</span>
-						<span class="tab-content__text1">Наш интернет-магазин предоставляет гарантию от производителя. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Есть ли в ноутбуке дискретная графика?</span>
-						<span class="tab-content__text1">Нет, производитель не предусмотрел отдельного графического ускорителя. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Знаках жизни подзаголовок осталось, текст грамматики что эта щеке он!</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Кто дает гарантию?</span>
-						<span class="tab-content__text1">Наш интернет-магазин предоставляет гарантию от производителя. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
 					</p> -->
 				</div>
 			</div>
