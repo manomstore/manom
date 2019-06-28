@@ -1,5 +1,13 @@
 $(document).ready(function() {
   var $clearAll, $maxPrice, $minPrice;
+	var lastTimeout = null;
+	var debounce = function (callback, time) {
+		if (lastTimeout) {
+			window.clearTimeout(lastTimeout);
+		}
+		lastTimeout = window.setTimeout(callback, time);
+	};
+
   $.fn.updateCartHeader();
   if ($(document).find('#btnSubmitOrder').is('div')) {
     submitForm();
@@ -366,17 +374,11 @@ $(document).ready(function() {
             $this.removeClass('addToCartBtn_dis');
             $('.preview-shopcart').addClass('preview-card--show');
             var showMiniCart = function () {
-	            var lastTimeout = null;
-	            if (lastTimeout) {
-		            window.clearTimeout(lastTimeout);
+	            if ($('.preview-shopcart').hasClass('preview-card--show')) {
+		            $('.preview-shopcart').removeClass('preview-card--show');
 	            }
-	            lastTimeout = window.setTimeout(function () {
-		            if ($('.preview-shopcart').hasClass('preview-card--show')) {
-			            $('.preview-shopcart').removeClass('preview-card--show');
-		            }
-	            }, 3000);
             };
-	          showMiniCart();
+            debounce(showMiniCart, 3000);
             if ($this.hasClass('product-sidebar__button')) {
               $this.addClass('dsb-hidden');
               $this.after('<a class="product-sidebar__button goToFcnCart" href="/cart/" data-id="' + productID + '">В корзину</a>');
