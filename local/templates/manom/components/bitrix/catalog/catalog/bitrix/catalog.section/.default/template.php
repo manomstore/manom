@@ -67,6 +67,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name cb-single-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -118,6 +120,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name cb-single-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -169,6 +173,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name cb-single-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -220,6 +226,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name cb-single-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -271,6 +279,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name cb-single-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -324,6 +334,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -357,6 +369,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -390,6 +404,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -423,6 +439,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -456,6 +474,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+<!--					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--					<div class="p-nav-middle__comments"><span>12</span></div>-->
 				</div>
 				<h3 class="p-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple, серый Смартфон Apple, серый Смартфон Apple
@@ -484,6 +504,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-line-card__main">
 					<div class="p-nav-middle">
 						<div class="cb-line-card__sale active">Распродажа</div>
+<!--						<div class="p-nav-middle__rating cb-line-card__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--						<div class="p-nav-middle__comments"><span>12</span></div>-->
 					</div>
 					<div class="cb-line-card__text">
 						<h3 class="p-name cb-line-name">
@@ -539,6 +561,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-line-card__main">
 					<div class="p-nav-middle">
 						<div class="cb-line-card__sale active">Распродажа</div>
+<!--						<div class="p-nav-middle__rating cb-line-card__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--						<div class="p-nav-middle__comments"><span>12</span></div>-->
 					</div>
 					<div class="cb-line-card__text">
 						<h3 class="p-name cb-line-name">
@@ -594,6 +618,8 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-line-card__main">
 					<div class="p-nav-middle">
 						<div class="cb-line-card__sale">Распродажа</div>
+<!--						<div class="p-nav-middle__rating cb-line-card__rating">★ ★ ★ <span>★ ★</span></div>-->
+<!--						<div class="p-nav-middle__comments"><span>12</span></div>-->
 					</div>
 					<div class="cb-line-card__text">
 						<h3 class="p-name cb-line-name">

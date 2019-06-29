@@ -56,6 +56,17 @@
                 <p class="pb-comments__text">Автор: <span><?=$resUser['NAME'].' '.$resUser['LAST_NAME']?></span></p>
               <?}?>
               <p class="pb-comments__text">Дата: <span><?=$rev['date']?></span></p>
+<!--              <div class="pb-comments__rating">Оценка:-->
+<!--                <div class="p-nav-middle__rating">-->
+<!--            			--><?//for ($i=0; $i < 5; $i++) {
+//            				if ($i >= $rev['rating']) {
+//            					?><!-- <span> ★ </span> --><?//
+//            				}else{
+//            					?><!-- ★ --><?//
+//            				}
+//            			}?>
+<!--                </div>-->
+<!--              </div>-->
             </div>
             <?if($rev['merits']):?>
               <p class="pb-comments__chapter">Достоинства:</p>

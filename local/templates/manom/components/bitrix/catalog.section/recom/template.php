@@ -48,6 +48,16 @@ $this->setFrameMode(true);
 						<?if ($value['PROPERTIES']['SELL_PROD']['VALUE'] == 'Да') {?>
 						<div class="p-nav-middle__sale active">Распродажа</div>
 						<?}?>
+
+<!--						<div class="p-nav-middle__rating">-->
+<!--							--><?//for ($i=0; $i < 5; $i++) {
+//								if ($i >= $arResult['REVIEW'][$value['ID']]['rating']) {
+//									?><!-- <span> ★ </span> --><?//
+//								}else{
+//									?><!-- ★ --><?//
+//								}
+//							}?><!--</div>-->
+<!--						<div class="p-nav-middle__comments"><span>--><?//=$arResult['REVIEW'][$value['ID']]['count']?><!--</span></div>-->
 					</div>
 					<h3 class="p-name">
 						<a href="<?=$value['DETAIL_PAGE_URL']?>"><?=$value['NAME']?></a>
@@ -87,6 +97,8 @@ $this->setFrameMode(true);
 				</div>
 				<div class="p-nav-middle">
 					<div class="p-nav-middle__sale active">Распродажа</div>
+					<div class="p-nav-middle__rating">★ ★ ★ <span>★ ★</span></div>
+					<div class="p-nav-middle__comments"><span>12</span></div>
 				</div>
 				<h3 class="p-name">
 					Смартфон Apple iPhone SE 32Gb Space Gray MP822RU/A, серый Смартфон Apple
