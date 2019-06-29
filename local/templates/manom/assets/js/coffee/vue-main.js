@@ -52,8 +52,6 @@ locationDND = new Vue({
       });
     },
     closePopupCity: function (evt) {
-      console.log(evt.target !== this.$el);
-
       if (!evt.target.closest("#" + this.$el.id)) {
           this.specifyInformationStatus = true;
           this.showPopupChangeCity = false;
