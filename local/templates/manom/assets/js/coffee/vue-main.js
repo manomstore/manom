@@ -1,5 +1,15 @@
 var locationDND;
 
+(function(ELEMENT) {
+    ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector || ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
+    ELEMENT.closest = function closest(selector) {
+        if (!this) return null;
+        if (this.matches(selector)) return this;
+        if (!this.parentElement) {return null}
+        else return this.parentElement.closest(selector)
+    };
+}(Element.prototype));
+
 locationDND = new Vue({
   el: "#dnd-location",
   data: {
@@ -41,13 +51,24 @@ locationDND = new Vue({
         }
       });
     },
+    closePopupCity: function (evt) {
+      console.log(evt.target !== this.$el);
+
+      if (!evt.target.closest("#" + this.$el.id)) {
+          this.specifyInformationStatus = true;
+          this.showPopupChangeCity = false;
+	        document.querySelector('body').removeEventListener('click', this.closePopupCity);
+      }
+    },
     doChangeCity: function() {
       if (this.specifyInformationStatus === false && this.showPopupChangeCity === true) {
         this.specifyInformationStatus = true;
         this.showPopupChangeCity = false;
         this.changeCitySearchLine = '';
+	      document.querySelector('body').removeEventListener('click', this.closePopupCity);
         return this.listOfCity = this.listOfCityDefault;
       } else {
+        document.querySelector('body').addEventListener('click', this.closePopupCity);
         this.specifyInformationStatus = false;
         return this.showPopupChangeCity = true;
       }
@@ -56,6 +77,7 @@ locationDND = new Vue({
       this.showPopupChangeCity = false;
       this.specifyInformationStatus = true;
       this.changeCitySearchLine = '';
+	    document.querySelector('body').removeEventListener('click', this.closePopupCity);
       this.listOfCity = [];
       this.listOfCity = this.listOfCityDefault;
       this.curentCity = cityItem.title;
