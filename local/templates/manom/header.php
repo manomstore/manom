@@ -97,19 +97,19 @@ $userCityByGeoIP = $userLocationInfo;
                             <div id="dnd-location">
                                 <div class="dnd-location-line" :class="doShowPanel()">
                                     <div class="dnd-location-curent" @click="doChangeCity()">
-                                        <i class="fas fa-map-marker-alt"></i> <span>{{curentCity}}</span>
+                                        <i class="fas fa-map-marker-alt"></i> <span>{{currentCity}}</span>
                                     </div>
                                     <transition name="slide-fade">
-                                        <div class="dnd-location-specify" v-if="!specifyInformationStatus">
-                                            <div v-if="!showPopupChangeCity">
-                                                <p>"{{curentCity}}" - это ваш город?</p>
+                                        <div class="dnd-location-specify" v-if="!isInformationStatus">
+                                            <div v-if="!isShowPopupCity">
+                                                <p>"{{currentCity}}" - это ваш город?</p>
                                                 <div class="dnd-location-specify-btn">
-                                                    <span @click="curentCityIsActual()">Да</span>
+                                                    <span @click="currentCityIsActual()">Да</span>
                                                     <span @click="doChangeCity()">Нет</span>
                                                 </div>
                                             </div>
                                             <transition name="fade">
-                                                <div v-if="showPopupChangeCity">
+                                                <div v-if="isShowPopupCity">
                                                     <!-- <p>Выберите город</p> -->
                                                     <div class="dnd-location-change-city-form">
                                                         <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
@@ -120,7 +120,7 @@ $userCityByGeoIP = $userLocationInfo;
                                                 </div>
                                             </transition>
                                         </div>
-                                        <!-- <div class="dnd-location-change-city" v-if="showPopupChangeCity">
+                                        <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
                                             <p>Выберите город</p>
                                             <div class="dnd-location-change-city-form">
                                                 <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">

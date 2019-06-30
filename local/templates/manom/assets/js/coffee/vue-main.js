@@ -1,26 +1,27 @@
-var locationDND;
-
 (function(ELEMENT) {
-    ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector || ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
-    ELEMENT.closest = function closest(selector) {
-        if (!this) return null;
-        if (this.matches(selector)) return this;
-        if (!this.parentElement) {return null}
-        else return this.parentElement.closest(selector)
-    };
+	ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector ||      ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
+	ELEMENT.closest = function closest(selector) {
+		if (!this) return null;
+		if (this.matches(selector)) return this;
+		if (!this.parentElement) {return null}
+		else return this.parentElement.closest(selector)
+	};
 }(Element.prototype));
+
+var locationDND;
+var bodyPage = document.querySelector('body');
 
 locationDND = new Vue({
   el: "#dnd-location",
   data: {
     showPanel: false,
-    curentCity: null,
-    curentCityID: null,
+    currentCity: null,
+    currentCityID: null,
     listOfCity: [],
     listOfCityDefault: [],
     listOfCityStore: {},
-    specifyInformationStatus: true,
-    showPopupChangeCity: false,
+    isInformationStatus: true,
+    isShowPopupCity: false,
     changeCitySearchLine: ''
   },
   methods: {
@@ -34,17 +35,17 @@ locationDND = new Vue({
     getUnits: function() {
       var $this;
       console.log(LocationDataDND);
-      this.curentCity = LocationDataDND.cityName;
-      this.curentCityID = LocationDataDND.cityID;
+      this.currentCity = LocationDataDND.cityName;
+      this.currentCityID = LocationDataDND.cityID;
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList;
       $this = this;
       setTimeout(function() {
-        return $this.specifyInformationStatus = LocationDataDND.specifyInformation;
+        return $this.isInformationStatus = LocationDataDND.specifyInformation;
       }, 2000);
       return this.showPanel = true;
     },
-    curentCityIsActual: function() {
-      this.specifyInformationStatus = true;
+    currentCityIsActual: function() {
+      this.isInformationStatus = true;
       return axios.get('/ajax/location.php', {
         params: {
           location_code: 'changeStatusSpecify'
@@ -52,34 +53,34 @@ locationDND = new Vue({
       });
     },
     closePopupCity: function (evt) {
-      if (!evt.target.closest("#" + this.$el.id)) {
-          this.specifyInformationStatus = true;
-          this.showPopupChangeCity = false;
-	        document.querySelector('body').removeEventListener('click', this.closePopupCity);
+      var elID = '#dnd-location';
+      if (!evt.target.closest(elID)) {
+          this.isInformationStatus = true;
+          this.isShowPopupCity = false;
+          bodyPage.removeEventListener('click', this.closePopupCity);
       }
     },
     doChangeCity: function() {
-      if (this.specifyInformationStatus === false && this.showPopupChangeCity === true) {
-        this.specifyInformationStatus = true;
-        this.showPopupChangeCity = false;
+      if (!this.isInformationStatus && this.isShowPopupCity) {
+        this.isInformationStatus = true;
+        this.isShowPopupCity = false;
         this.changeCitySearchLine = '';
-	      document.querySelector('body').removeEventListener('click', this.closePopupCity);
+	      bodyPage.removeEventListener('click', this.closePopupCity);
         return this.listOfCity = this.listOfCityDefault;
-      } else {
-        document.querySelector('body').addEventListener('click', this.closePopupCity);
-        this.specifyInformationStatus = false;
-        return this.showPopupChangeCity = true;
       }
+      bodyPage.addEventListener('click', this.closePopupCity);
+      this.isInformationStatus = false;
+      return this.isShowPopupCity = true;
     },
     changeCity: function(cityItem) {
-      this.showPopupChangeCity = false;
-      this.specifyInformationStatus = true;
+      this.isShowPopupCity = false;
+      this.isInformationStatus = true;
       this.changeCitySearchLine = '';
-	    document.querySelector('body').removeEventListener('click', this.closePopupCity);
+	    bodyPage.removeEventListener('click', this.closePopupCity);
       this.listOfCity = [];
       this.listOfCity = this.listOfCityDefault;
-      this.curentCity = cityItem.title;
-      this.curentCityID = cityItem.id;
+      this.currentCity = cityItem.title;
+      this.currentCityID = cityItem.id;
       $.fn.updGlobalCityInCart(cityItem.id);
       return axios.get('/ajax/location.php', {
         params: {
