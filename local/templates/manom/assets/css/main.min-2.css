@@ -6901,3 +6901,12 @@ p.price-slider {
   border-bottom: 2px solid #79B700;
   padding: 12px 10px;
 }
+
+.header__wrapper--fix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 999;
+}

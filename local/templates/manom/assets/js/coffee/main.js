@@ -1,12 +1,24 @@
 $(document).ready(function() {
   var $clearAll, $maxPrice, $minPrice;
   var lastTimeout = null;
+  var header = $('.header');
+  var headerWrapper = $('.header__wrapper');
+
   var debounce = function(callback, time) {
     if (lastTimeout) {
       clearTimeout(lastTimeout);
     }
     lastTimeout = setTimeout(callback, time);
   };
+
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 1) {
+      header.css('min-height', header.height() + 'px');
+      headerWrapper.addClass('header__wrapper--fix');
+    } else {
+      headerWrapper.removeClass('header__wrapper--fix');
+    }
+  });
 
   $.fn.updateCartHeader();
   if ($(document).find('#btnSubmitOrder').is('div')) {
