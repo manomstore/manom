@@ -1,12 +1,20 @@
-(function(ELEMENT) {
-	ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector ||      ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
-	ELEMENT.closest = function closest(selector) {
-		if (!this) return null;
-		if (this.matches(selector)) return this;
-		if (!this.parentElement) {return null}
-		else return this.parentElement.closest(selector)
-	};
-}(Element.prototype));
+(
+  function(ELEMENT) {
+    ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector || ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
+    ELEMENT.closest = function closest(selector) {
+      if (!this) {
+        return null;
+      }
+      if (this.matches(selector)) {
+        return this;
+      }
+      if (!this.parentElement) {return null}
+      else {
+        return this.parentElement.closest(selector)
+      }
+    };
+  }(Element.prototype)
+);
 
 var locationDND;
 var bodyPage = document.querySelector('body');
@@ -52,12 +60,12 @@ locationDND = new Vue({
         }
       });
     },
-    closePopupCity: function (evt) {
+    closePopupCity: function(evt) {
       var elID = '#dnd-location';
       if (!evt.target.closest(elID)) {
-          this.isInformationStatus = true;
-          this.isShowPopupCity = false;
-          bodyPage.removeEventListener('click', this.closePopupCity);
+        this.isInformationStatus = true;
+        this.isShowPopupCity = false;
+        bodyPage.removeEventListener('click', this.closePopupCity);
       }
     },
     doChangeCity: function() {
@@ -65,7 +73,7 @@ locationDND = new Vue({
         this.isInformationStatus = true;
         this.isShowPopupCity = false;
         this.changeCitySearchLine = '';
-	      bodyPage.removeEventListener('click', this.closePopupCity);
+        bodyPage.removeEventListener('click', this.closePopupCity);
         return this.listOfCity = this.listOfCityDefault;
       }
       bodyPage.addEventListener('click', this.closePopupCity);
@@ -76,7 +84,7 @@ locationDND = new Vue({
       this.isShowPopupCity = false;
       this.isInformationStatus = true;
       this.changeCitySearchLine = '';
-	    bodyPage.removeEventListener('click', this.closePopupCity);
+      bodyPage.removeEventListener('click', this.closePopupCity);
       this.listOfCity = [];
       this.listOfCity = this.listOfCityDefault;
       this.currentCity = cityItem.title;
