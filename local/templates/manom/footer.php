@@ -239,9 +239,9 @@ print_my_debug();?>
 <script>
     grecaptcha.ready(function() {
         grecaptcha.execute('6LeuEIEUAAAAAFd1nHH6PD8ckNxVwX6p0_6j_Hxr', {action: 'action_name'})
-            .then(function(token) {
-// Verify the token on the server.
-            });
+//             .then(function(token) {
+// // Verify the token on the server.
+//             });
     });
 </script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scripts.min.js"></script>

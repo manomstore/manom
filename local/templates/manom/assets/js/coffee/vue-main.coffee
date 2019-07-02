@@ -18,7 +18,6 @@ locationDND = new Vue(
       else
         return ''
     getUnits: ()->
-      console.log LocationDataDND
       this.currentCity = LocationDataDND.cityName
       this.currentCityID = LocationDataDND.cityID
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList
