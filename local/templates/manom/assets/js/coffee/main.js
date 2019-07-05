@@ -1052,10 +1052,21 @@ $.fn.updateMiniFavorite = function(data) {
 };
 
 $.fn.updateMiniCart = function(data) {
+  var emptyMiniCartClass = 'preview-shopcart--empty';
+  var $miniCart = $(document).find('#mini_cart_header');
+  var $miniCartCounter = $(document).find('#mini_cart_header_counter');
   var $ft;
+
   $ft = $('<div></div>').append(data);
-  $(document).find('#mini_cart_header_counter').html($ft.find('#mini_cart_header_counter').html());
-  return $(document).find('#mini_cart_header').html($ft.find('#mini_cart_header').html());
+
+  if ($ft.find('.preview-prod').length > 0) {
+    $miniCart.removeClass(emptyMiniCartClass);
+  } else {
+    $miniCart.addClass(emptyMiniCartClass);
+  }
+
+  $miniCartCounter.html($ft.find('#mini_cart_header_counter').html());
+  return $miniCart.html($ft.find('#mini_cart_header').html());
 };
 
 $.fn.updGlobalCityInCart = function(cityID) {

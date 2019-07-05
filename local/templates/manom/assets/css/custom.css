@@ -1013,6 +1013,9 @@ html {
 .preview-shopcart {
   right: 0;
 }
+.preview-shopcart--empty {
+  display: none;
+}
 #mini_favorite_header {
   right: 45px;
 }
