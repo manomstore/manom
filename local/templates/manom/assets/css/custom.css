@@ -1277,7 +1277,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
   position: relative;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
   .dnd-location-specify, .dnd-location-change-city {
     margin-left: 8px;
     left: 50%;
