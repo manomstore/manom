@@ -1206,14 +1206,14 @@ a.top-submenu2__item:hover .top-submenu2__title {
 .sci-login__button {
   font-weight: 700;
 }
-@@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
 
 }
 .dnd-location-specify, .dnd-location-change-city{
   position: absolute;
   padding: 10px;
-left: -100px;
-top: 25px;
+	left: -40px;
+	top: 25px;
   background-color: #fff;
   z-index: 9;
   border: 3px solid #79b700;
@@ -1225,7 +1225,7 @@ top: 25px;
   border: 10px solid transparent;
   border-bottom: 10px solid #79b700;
   bottom: 100%;
-  left: 50%;
+  left: 32px;
 }
 .dnd-location-specify>div>p{
   color: #333;
@@ -1275,6 +1275,24 @@ top: 25px;
 }
 #dnd-location {
 	position: relative;
+}
+
+@media screen and (max-width: 768px) {
+	.dnd-location-specify, .dnd-location-change-city {
+		margin-left: 8px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.dnd-location-specify::after, .dnd-location-change-city::after {
+		margin-left: -10px;
+		left: 50%;
+	}
+
+	.dnd-location-specify.slide-fade-enter, .dnd-location-change-city.slide-fade-enter,
+	.dnd-location-specify.slide-fade-leave-to, .dnd-location-change-city.slide-fade-leave-to {
+		transform: translateX(calc(-50% + 10px));
+	}
 }
 
 .slide-fade-enter-active {
