@@ -1,5 +1,15 @@
 $(document).ready(function() {
   var $clearAll, $maxPrice, $minPrice;
+
+  $('.sci-add__products').slick({
+    dots: false,
+    infinite: false,
+    speed: 300,
+    prevArrow: false,
+    nextArrow: false,
+    variableWidth: true
+  });
+
   $.fn.updateCartHeader();
   if ($(document).find('#btnSubmitOrder').is('div')) {
     submitForm();
@@ -713,7 +723,7 @@ $(document).ready(function() {
                 if (!hasError) {
                   soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
                   $(document).find('.layout_cart_menu').animate({
-                    width: '100%'
+                    width: '90%'
                   }, 500);
                   return soModule.find('[name="submitbutton"]').click();
                 }

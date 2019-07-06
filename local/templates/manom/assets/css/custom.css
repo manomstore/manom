@@ -1337,26 +1337,3 @@ top: 25px;
 .dsb-hidden{
   display: none!important;
 }
-.shopcart-nav1, .shopcart-nav1 label{
-  position: relative;
-  z-index: 2;
-}
-.shopcart-nav1 label{
-  padding-left: 10px;
-  margin-right: 0;
-  width: calc((100%)/4);
-}
-.shopcart-nav1 .layout_cart_menu{
-  position: absolute;
-  top: 0;
-  left:0;
-  background-color: #79B700;
-  height: 100%;
-  /* -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  -o-transition: 0.5s;
-  transition: 0.5s; */
-}
-input.slide-disable + label{
-  background-color: #dddddd8c;
-}
