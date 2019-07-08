@@ -32,6 +32,12 @@ locationDND = new Vue({
     isShowPopupCity: false,
     changeCitySearchLine: ''
   },
+  created: function() {
+    bodyPage.addEventListener('click', this.closePopupCity);
+  },
+  destroyed: function() {
+    bodyPage.removeEventListener('click', this.closePopupCity);
+  },
   methods: {
     doShowPanel: function() {
       if (this.showPanel === true) {
@@ -61,10 +67,10 @@ locationDND = new Vue({
     },
     closePopupCity: function(evt) {
       var elID = '#dnd-location';
+
       if (!evt.target.closest(elID)) {
         this.isInformationStatus = true;
         this.isShowPopupCity = false;
-        bodyPage.removeEventListener('click', this.closePopupCity);
       }
     },
     doChangeCity: function() {
@@ -72,10 +78,10 @@ locationDND = new Vue({
         this.isInformationStatus = true;
         this.isShowPopupCity = false;
         this.changeCitySearchLine = '';
-        bodyPage.removeEventListener('click', this.closePopupCity);
+
         return this.listOfCity = this.listOfCityDefault;
       }
-      bodyPage.addEventListener('click', this.closePopupCity);
+
       this.isInformationStatus = false;
       return this.isShowPopupCity = true;
     },
@@ -83,7 +89,7 @@ locationDND = new Vue({
       this.isShowPopupCity = false;
       this.isInformationStatus = true;
       this.changeCitySearchLine = '';
-      bodyPage.removeEventListener('click', this.closePopupCity);
+
       this.listOfCity = [];
       this.listOfCity = this.listOfCityDefault;
       this.currentCity = cityItem.title;
