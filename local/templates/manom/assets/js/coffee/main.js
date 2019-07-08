@@ -433,6 +433,24 @@ $(document).ready(function() {
       }
     }
   });
+
+  $(document).on('click', function(event){
+    var showMiniCartClass = 'preview-card--show';
+    var $miniCart = $('.preview-shopcart');
+
+    if (
+      !$(event.target).closest('.addToCartBtn').length > 0
+      && !$(event.target).closest('.preview-shopcart').length > 0
+      && $miniCart.hasClass(showMiniCartClass)
+    ) {
+      if (lastTimeout) {
+        clearTimeout(lastTimeout);
+      }
+
+      $miniCart.removeClass(showMiniCartClass);
+    }
+  });
+
   $(document).on('click', '.preview-prod-bottom__button-cart', function() {
     var $cartItemID;
     $cartItemID = $(this).attr('data-cart-item');
