@@ -1389,15 +1389,17 @@ input.slide-disable + label{
 }
 
 .header {
+  width: 100%;
   flex-shrink: 0;
 }
 
 .content {
-  max-width: 100%;
+  width: 100%;
   flex: 1 0 auto;
 }
 
 .footer {
+  width: 100%;
   flex-shrink: 0;
 }
 
