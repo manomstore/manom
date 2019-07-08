@@ -1393,6 +1393,7 @@ input.slide-disable + label{
 }
 
 .content {
+  max-width: 100%;
   flex: 1 0 auto;
 }
 
