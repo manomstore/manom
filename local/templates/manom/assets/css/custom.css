@@ -1400,3 +1400,9 @@ input.slide-disable + label{
 .footer {
   flex-shrink: 0;
 }
+
+@media screen and (max-width: 767px) {
+  .push_up_item.is-added-to-cart {
+    display: none !important;
+  }
+}
