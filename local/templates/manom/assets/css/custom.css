@@ -1381,3 +1381,21 @@ a.top-submenu2__item:hover .top-submenu2__title {
 input.slide-disable + label{
   background-color: #dddddd8c;
 }
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+.footer {
+  flex-shrink: 0;
+}

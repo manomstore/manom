@@ -2,6 +2,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Профиль");
 // if ($USER->IsAuthorized()){?>
+<div class="content">
     <div class="personal container" style="position: relative;">
 			<div class="preloaderCatalog">
 				<div class="windows8">
@@ -354,4 +355,5 @@ $APPLICATION->SetTitle("Профиль");
 <?//}else{
   //  LocalRedirect("/");
 //}?>
+</div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
