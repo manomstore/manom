@@ -5,7 +5,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
 <head>
-<meta name="yandex-verification" content="5d0e6370947cc2e9" />
+    <meta name=“yandex-verification” content=“ffd678aa654fbf92" />
 	<?
 	// CJSCore::Init(array("jquery"));
 	$APPLICATION->AddHeadScript('https://code.jquery.com/jquery-3.3.1.min.js');
