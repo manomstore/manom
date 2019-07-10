@@ -104,6 +104,7 @@ use Bitrix\Main\Localization\Loc;
       <div class="sci-add">
 				<? if ($acessForThisElement) { ?>
           <h2 class="sci-add__title">С этим товаром покупают</h2>
+          <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
           <div class="sci-add__products">
 						<? foreach ($acessForThisElement as $r => $p) { ?>
               <article class="sci-add__prod" data-id="<?= $p['id'] ?>">
@@ -132,8 +133,9 @@ use Bitrix\Main\Localization\Loc;
           </div>
 				<? } ?>
 				<? if ($dopProdForThisElement) { ?>
-          <div class="sci-add sci-add__services">
+          <div class="sci-add__services">
             <h2 class="sci-add__title">Дополнительные услуги</h2>
+            <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
             <div class="sci-add__products">
 							<? foreach ($dopProdForThisElement as $r => $p) { ?>
                 <div class="sci-add__prod">

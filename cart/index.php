@@ -42,6 +42,8 @@ global $USER;
     </div>
 
     <div class="shopcart__wrapper">
+
+      <!-- Необходимо менять заголовок в зависимости от этапа оформления -->
       <h1 class="shopcart__title">Корзина</h1>
       <button class="button-del button-del--top" type="button">Очистить</button>
     </div>
@@ -104,116 +106,153 @@ global $USER;
           <section class="shopcart-item" id="shopcart-item2">
             <div class="sci-contact">
               <!-- Табы -->
-              <div class="sci-contact-tabs">
-                <input id="sci-contact-tab1" type="radio" name="tabs" checked>
-                <label data-prop="PERSON_TYPE_1" class="sci-contact-tab rb_so" for="sci-contact-tab1"><span>Физическое лицо</span></label>
-                <input id="sci-contact-tab2" type="radio" name="tabs">
-                <label data-prop="PERSON_TYPE_2" class="sci-contact-tab rb_so" for="sci-contact-tab2"><span>Юридическое лицо</span></label>
+              <div class="sci-contact__tabs">
+                <input class="sci-contact__tab visually-hidden" id="sci-contact-tab1" type="radio" name="tabs" checked>
+                <input class="sci-contact__tab visually-hidden" id="sci-contact-tab2" type="radio" name="tabs">
+                <div class="sci-contact__top">
+                  <h2 class="sci-contact__title">Ваши данные</h2>
+                  <label data-prop="PERSON_TYPE_1" class="sci-contact__tab-label rb_so" for="sci-contact-tab1"><span>Оформить как физ. лицо</span></label>
+                  <label data-prop="PERSON_TYPE_2" class="sci-contact__tab-label rb_so" for="sci-contact-tab2"><span>Оформить как юр. лицо</span></label>
+                </div>
                 <section class="sci-contact-content" id="sci-contact-content1">
-                  <label class="sci-contact__label" for="sci-contact__fio">Имя и фамилия*</label>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label" for="sci-contact__fio">Фамилия и имя</label>
                   <input type="text"
                          data-prop="ORDER_PROP_1"
                          name="sci-contact__fio"
                          id="sci-contact__fio"
                          class="sci-contact__input"
-                         placeholder="Ваши имя и фамилия"
+                         placeholder="Ваше имя и фамилия"
                          required>
-                  <label class="sci-contact__label" for="sci-contact__tel">Телефон*</label>
-                  <input type="tel"
-                         data-prop="ORDER_PROP_2"
-                         name="sci-contact__tel"
-                         id="sci-contact__tel"
-                         class="sci-contact__input"
-                         placeholder="Ваш телефон"
-                         required> <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
-                  <label class="sci-contact__label" for="sci-contact__email">E-mail*</label>
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
                   <input type="email"
                          data-prop="ORDER_PROP_3"
                          name="sci-contact__email"
                          id="sci-contact__email"
                          class="sci-contact__input"
-                         placeholder="Ваш e-mail"
+                         placeholder="Введите e-mail"
                          required>
-                  <p class="sci-contact__consent">Заполняя форму я даю согласие на обработку моих персональных данных. <a href="#">Ознакомиться с
-                      соглашением</a>
-                    об обработке персональных данных.
-                  </p>
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
+                  <input type="tel"
+                         data-prop="ORDER_PROP_2"
+                         name="sci-contact__tel"
+                         id="sci-contact__tel"
+                         class="sci-contact__input"
+                         placeholder="Введите номер телефона"
+                         required> <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__consent">
+                    <input class="visually-hidden sci-contact__checkbox"
+                           type="checkbox"
+                           name="sci-contact__consent"
+                           value="sci-contact__consent"
+                           required>
+                    <span class="sci-contact__check">Заполняя форму я даю согласие на обработку моих персональных данных.
+                      <a href="#">Ознакомиться с соглашением</a> об обработке персональных данных.</span>
+                  </label>
+                  </div>
                 </section>
                 <section class="sci-contact-content" id="sci-contact-content2">
-                  <label class="sci-contact__l-label w-100">Название компании*
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Название компании
                     <input type="text"
                            data-prop="ORDER_PROP_4"
                            name="sci-contact__ur-name"
                            id="sci-contact__ur-name"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите название компании"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-100">Телефон*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Телефон
                     <input type="text"
                            data-prop="ORDER_PROP_33"
                            name="sci-contact__ur-phone"
                            id="sci-contact__ur-phone"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите номер телефона"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-100">E-mail*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">E-mail
                     <input type="email"
                            data-prop="ORDER_PROP_32"
                            name="sci-contact__ur-email"
                            id="sci-contact__ur-email"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите e-mail"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-100">Юридическое название*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Юридическое название
                     <input type="text"
                            data-prop="ORDER_PROP_5"
                            name="sci-contact__ur-legal-name"
                            id="sci-contact__ur-legal-name"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите юридическое название"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-50">ОГРН*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">ОГРН
                     <input type="text"
                            data-prop="ORDER_PROP_6"
                            name="sci-contact__ur-ogrn"
                            id="sci-contact__ur-ogrn"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите ОГРН"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-50">Правовая форма*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label sci-contact__label--select">Правовая форма
 
-                    <select data-prop="ORDER_PROP_7" name="sci-contact__ur-legal-norm" id="sci-contact__ur-legal-norm" class="sci-contact__input" required>
+                    <select data-prop="ORDER_PROP_7"
+                            class="sci-contact__input sci-contact__input--select"
+                            name="sci-contact__ur-legal-norm"
+                            id="sci-contact__ur-legal-norm"
+                            required
+                    >
                       <option selected value="1">ИП</option>
                       <option value="2">ООО</option>
                       <option value="3">ОАО</option>
                       <option value="4">ПАО</option>
                     </select>
                   </label>
-
-                  <label class="sci-contact__l-label w-50">ИНН*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">ИНН
                     <input type="text"
                            data-prop="ORDER_PROP_8"
                            name="sci-contact__ur-inn"
                            id="sci-contact__ur-inn"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите ИНН"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-50">КПП*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">КПП
                     <input type="text"
                            data-prop="ORDER_PROP_9"
                            name="sci-contact__ur-kpp"
                            id="sci-contact__ur-kpp"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите КПП"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-100">Юридический адрес*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Юридический адрес
                     <input type="text"
                            data-prop="ORDER_PROP_10"
                            name="sci-contact__ur-legal-address"
@@ -222,7 +261,9 @@ global $USER;
                            placeholder="Индекс, город, адрес"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-100">Фактический адрес*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Фактический адрес
                     <input type="text"
                            data-prop="ORDER_PROP_11"
                            name="sci-contact__ur-fact-address"
@@ -231,56 +272,82 @@ global $USER;
                            placeholder="Индекс, город, адрес"
                            required>
                   </label>
-                  <h3 class="sci-contact__title">Банк</h3>
-                  <label class="sci-contact__l-label w-100">Наименование*
+                  </div>
+                  <h3 class="sci-contact__title sci-contact__title--indent">Банк</h3>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Наименование
                     <input type="text"
                            data-prop="ORDER_PROP_12"
                            name="sci-contact__bank-name"
                            id="sci-contact__bank-name"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите наименование"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-100">Город Банка*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Город Банка
                     <input type="text"
                            data-prop="ORDER_PROP_13"
                            name="sci-contact__bank-sity"
                            id="sci-contact__bank-sity"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Город Банка"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-30">БИК*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">БИК
                     <input type="text"
                            data-prop="ORDER_PROP_14"
                            name="sci-contact__bank-bik"
                            id="sci-contact__bank-bik"
-                           class="sci-contact__input w50"
-                           placeholder=""
+                           class="sci-contact__input"
+                           placeholder="Введите БИК"
                            required>
                   </label>
-                  <label class="sci-contact__l-label w-70">Номер счета*
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__label">Номер счета
                     <input type="text"
                            data-prop="ORDER_PROP_15"
                            name="sci-contact__bank-account"
                            id="sci-contact__bank-account"
                            class="sci-contact__input"
-                           placeholder=""
+                           placeholder="Введите номер счета"
                            required>
                   </label>
-                  <label for="sci-contact__contacts" class="sci-contact__l-label w-100">Контакты
+                  </div>
+                  <div class="sci-contact__field">
+                  <label for="sci-contact__contacts" class="sci-contact__label">Контакты
                   </label>
                   <textarea data-prop="ORDER_PROP_16"
                             name="sci-contact__contacts"
                             id="sci-contact__contacts"
-                            class="sci-contact__input w-100"
-                            placeholder=""
-                            rows="3"></textarea>
-                  <p class="sci-contact__consent">Заполняя форму я даю согласие на обработку моих персональных данных. <a href="#">Ознакомиться с
-                      соглашением</a>
-                    об обработке персональных данных.
-                  </p>
+                            class="sci-contact__input sci-contact__input--area"
+                            placeholder="Контакты">
+                  </textarea>
+                  </div>
+                  <div class="sci-contact__field">
+                  <label class="sci-contact__consent">
+                    <input class="visually-hidden sci-contact__checkbox"
+                           type="checkbox"
+                           name="sci-contact__consent"
+                           value="sci-contact__consent"
+                           required>
+                    <span class="sci-contact__check">Заполняя форму я даю согласие на обработку моих персональных данных.
+                      <a href="#">Ознакомиться с соглашением</a> об обработке персональных данных.</span>
+                  </label>
+                  </div>
                 </section>
+<!--                <div class="sci-contact__button-wrapper">-->
+<!--                  <a class="sci-contact__button-back" href="#" aria-label="Вернуться назад">-->
+<!--                    Вернуться в корзину-->
+<!--                  </a>-->
+<!--                  <a class="sci-contact__button-next" href="#">-->
+<!--                    К доставке-->
+<!--                  </a>-->
+<!--                </div>-->
               </div>
             </div>
 						<? if (!$USER->IsAuthorized()): ?>
@@ -526,9 +593,25 @@ global $USER;
               </section>
             </div>
           </section>
+          <div class="sci-contact__button-wrapper">
+            <a class="sci-contact__button-back" href="#" aria-label="Вернуться назад">
+              Вернуться в корзину
+            </a>
+            <a class="sci-contact__button-next" href="#">
+              К доставке
+            </a>
+          </div>
         </div>
         <div class="shopcart-sidebar">
           <div class="shopcart-sidebar__wrapper">
+
+            <!-- На этапе корзины этот блок не нужен -->
+            <div class="sci-contact__top">
+              <h2 class="sci-contact__title">Состав заказа</h2>
+              <a class="shopcart-sidebar__link" href="#">Изменить</a>
+            </div>
+
+            <!-- Показывать только на этапе корзины -->
             <div class="promo-code shopcart-sidebar__code">
               <form action="#" method="post">
                 <input
@@ -587,6 +670,7 @@ global $USER;
                 <p></p>
               </div>
             </div>
+            <!-- Убрать кнопку после этапа Корзина -->
             <a class="shopcart-sidebar__button" id="btnNextSlide" href="#">Оформить заказ</a>
             <!--        <div class="shopcart-sidebar__button hidden" id="btnSubmitOrder">Оформить заказ</div>-->
             <!--        <div class="shopcart-sidebar__back-shopping BOC_btn" data-fancybox="" data-src="#popap-buy-one-click-cart" href="javascript:;">Купить в 1 клик</div>-->
