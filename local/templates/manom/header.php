@@ -101,11 +101,17 @@ $userCityByGeoIP = $userLocationInfo;
                                     </div>
                                     <transition name="slide-fade">
                                         <div class="dnd-location-specify" v-if="!specifyInformationStatus">
-                                            <div v-if="!showPopupChangeCity">
+                                            <div v-if="showConfirmCity">
                                                 <p>"{{curentCity}}" - это ваш город?</p>
                                                 <div class="dnd-location-specify-btn">
                                                     <span @click="curentCityIsActual()">Да</span>
                                                     <span @click="doChangeCity()">Нет</span>
+                                                </div>
+                                            </div>
+                                            <div v-if="showNotDefinedCity">
+                                                <p>Ваш город не определен</p>
+                                                <div class="dnd-location-specify-btn">
+                                                    <span @click="doChangeCity()">Выбрать</span>
                                                 </div>
                                             </div>
                                             <transition name="fade">

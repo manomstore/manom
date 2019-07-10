@@ -5,6 +5,7 @@ locationDND = new Vue({
   data: {
     showPanel: false,
     curentCity: null,
+    cityNotDefined:false,
     curentCityID: null,
     listOfCity: [],
     listOfCityDefault: [],
@@ -12,6 +13,14 @@ locationDND = new Vue({
     specifyInformationStatus: true,
     showPopupChangeCity: false,
     changeCitySearchLine: ''
+  },
+  computed: {
+      showConfirmCity: function () {
+          return !this.showPopupChangeCity && !this.cityNotDefined;
+      },
+      showNotDefinedCity: function () {
+          return !this.showPopupChangeCity && this.cityNotDefined;
+      }
   },
   methods: {
     doShowPanel: function() {
@@ -25,6 +34,7 @@ locationDND = new Vue({
       var $this;
       this.curentCity = LocationDataDND.cityName;
       this.curentCityID = LocationDataDND.cityID;
+      this.cityNotDefined = this.curentCity.length <= 0;
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList;
       $this = this;
       setTimeout(function() {
