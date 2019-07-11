@@ -840,6 +840,15 @@ h4.p-article__sidebar_title {
 .preview-heart {
   text-align: center;
 }
+.preview-heart--empty {
+  display: none;
+}
+.preview-heart--show {
+  max-height: 100vh;
+  border-top: 2px solid #79B700;
+  border-bottom: 2px solid #79B700;
+  padding: 12px 10px;
+}
 .sale_personal_order_list {
   text-align: left;
 }

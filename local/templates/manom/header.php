@@ -247,6 +247,9 @@ $userCityByGeoIP = $userLocationInfo;
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/top-sheets.svg" alt="">
 										<span class="top-count">0</span>
 									</a>
+									<div class="preview-heart preview-heart--empty" id="mini_compare_header">
+										<p class="preview-heart-not-text">Нет товара</p>
+									</div>
 									<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 										<? die(); ?>
 									<? endif; ?>
@@ -408,6 +411,9 @@ $userCityByGeoIP = $userLocationInfo;
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/top-heart.svg" alt="">
 										<span class="top-count">0</span>
 									</a>
+									<div class="preview-heart preview-heart--empty" id="mini_favorite_header">
+										<p class="preview-heart-not-text">Нет товара</p>
+									</div>
 									<? if ($_REQUEST['AJAX_MIN_CART'] == 'Y'): ?>
 										<? die(); ?>
 									<? endif; ?>

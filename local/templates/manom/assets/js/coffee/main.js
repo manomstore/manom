@@ -608,6 +608,19 @@ $(document).ready(function() {
         AJAX_MIN_FAVORITE: 'Y'
       },
       success: function(data) {
+        var $miniFavorite = $('#mini_favorite_header');
+        var showMiniFavoriteClass = 'preview-heart--show';
+
+        $miniFavorite.addClass(showMiniFavoriteClass);
+
+        var showMiniFavorite = function() {
+          if ($miniFavorite.hasClass(showMiniFavoriteClass)) {
+            $miniFavorite.removeClass(showMiniFavoriteClass);
+          }
+        };
+
+        debounce(showMiniFavorite, 3500);
+
         $.fn.updateMiniFavorite(data);
         if ($this.hasClass('notActive')) {
           $this.removeClass('notActive');
@@ -640,7 +653,21 @@ $(document).ready(function() {
         AJAX_MIN_COMPARE: 'Y'
       },
       success: function(data) {
+        var $miniCompare = $('#mini_compare_header');
+        var showMiniCompareClass = 'preview-heart--show';
+
+        $miniCompare.addClass(showMiniCompareClass);
+
+        var showMiniCompare = function() {
+          if ($miniCompare.hasClass(showMiniCompareClass)) {
+            $miniCompare.removeClass(showMiniCompareClass);
+          }
+        };
+
+        debounce(showMiniCompare, 3500);
+
         $.fn.updateMiniCompare(data);
+
         if ($this.hasClass('notActive')) {
           $.fn.setPushUp("Сравнение", "Товар был добавлен в сравнение", false, "message", false, 5000);
           return $(document).find('.addToCompareList[data-id="' + prodID + '"]').removeClass('notActive');
@@ -1055,27 +1082,44 @@ $.fn.refreshCart = function() {
   });
 };
 
+// TODO: vuex? это какой-то пздц
 $.fn.updateMiniCompare = function(data) {
-  var $ft;
-  $ft = $('<div></div>').append(data);
-  $(document).find('#mini_compare_header_counter').html($ft.find('#mini_compare_header_counter').html());
-  return $(document).find('#mini_compare_header').html($ft.find('#mini_compare_header').html());
+  var emptyMiniCompareClass = 'preview-heart--empty';
+  var $miniCompare = $(document).find('#mini_compare_header');
+  var $miniCompareCounter = $(document).find('#mini_compare_header_counter');
+  var $ft = $('<div></div>').append(data);
+
+  if ($ft.find('.preview-prod').length > 0) {
+    $miniCompare.removeClass(emptyMiniCompareClass);
+  } else {
+    $miniCompare.addClass(emptyMiniCompareClass);
+  }
+
+  $miniCompareCounter.html($ft.find('#mini_compare_header_counter').html());
+  return $miniCompare.html($ft.find('#mini_compare_header').html());
 };
 
 $.fn.updateMiniFavorite = function(data) {
-  var $ft;
-  $ft = $('<div></div>').append(data);
-  $(document).find('#mini_favorite_header_counter').html($ft.find('#mini_favorite_header_counter').html());
-  return $(document).find('#mini_favorite_header').html($ft.find('#mini_favorite_header').html());
+  var emptyMiniFavoriteClass = 'preview-heart--empty';
+  var $miniFavorite = $(document).find('#mini_favorite_header');
+  var $miniFavoriteCounter = $(document).find('#mini_favorite_header_counter');
+  var $ft = $('<div></div>').append(data);
+
+  if ($ft.find('.preview-prod').length > 0) {
+    $miniFavorite.removeClass(emptyMiniFavoriteClass);
+  } else {
+    $miniFavorite.addClass(emptyMiniFavoriteClass);
+  }
+
+  $miniFavoriteCounter.html($ft.find('#mini_favorite_header_counter').html());
+  return $miniFavorite.html($ft.find('#mini_favorite_header').html());
 };
 
 $.fn.updateMiniCart = function(data) {
   var emptyMiniCartClass = 'preview-shopcart--empty';
   var $miniCart = $(document).find('#mini_cart_header');
   var $miniCartCounter = $(document).find('#mini_cart_header_counter');
-  var $ft;
-
-  $ft = $('<div></div>').append(data);
+  var $ft = $('<div></div>').append(data);
 
   if ($ft.find('.preview-prod').length > 0) {
     $miniCart.removeClass(emptyMiniCartClass);
