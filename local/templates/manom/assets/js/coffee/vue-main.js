@@ -84,16 +84,17 @@ locationDND = new Vue({
       }
     },
     doChangeCity: function() {
-      if (!this.isInformationStatus && this.isPopupChangeCityVisible) {
+      // TODO: разобраться что за строка присваивается isInformationStatus и для чего
+      if (this.isInformationStatus === false && this.isPopupChangeCityVisible) {
         this.isInformationStatus = true;
         this.isPopupChangeCityVisible = false;
         this.changeCitySearchLine = '';
 
-        return this.listOfCity = this.listOfCityDefault;
+        this.listOfCity = this.listOfCityDefault;
+      } else {
+        this.isInformationStatus = false;
+        this.isPopupChangeCityVisible = true;
       }
-
-      this.isInformationStatus = false;
-      return this.isPopupChangeCityVisible = true;
     },
     changeCity: function(cityItem) {
       this.isPopupChangeCityVisible = false;

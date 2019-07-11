@@ -111,7 +111,7 @@ $userCityByGeoIP = $userLocationInfo;
 								<div class="container">
 									<div id="dnd-location">
 										<div class="dnd-location-line" :class="doShowPanel()">
-											<div class="dnd-location-curent" @click="doChangeCity()">
+											<div class="dnd-location-curent" @click.stop="doChangeCity()">
 												<i class="fas fa-map-marker-alt"></i> <span>{{currentCity}}</span>
 											</div>
 											<transition name="slide-fade">
@@ -120,13 +120,13 @@ $userCityByGeoIP = $userLocationInfo;
 														<p>"{{currentCity}}" - это ваш город?</p>
 														<div class="dnd-location-specify-btn">
 															<span @click="currentCityIsActual()">Да</span>
-															<span @click="doChangeCity()">Нет</span>
+															<span @click.stop="doChangeCity()">Нет</span>
 														</div>
 													</div>
 													<div v-if="isNotDefinedCityVisible">
 														<p>Ваш город не определен</p>
 														<div class="dnd-location-specify-btn">
-																<span @click="doChangeCity()">Выбрать</span>
+																<span @click.stop="doChangeCity()">Выбрать</span>
 														</div>
 													</div>
 													<transition name="fade">
