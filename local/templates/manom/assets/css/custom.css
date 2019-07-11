@@ -1200,6 +1200,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 .dnd-location-curent{
   display: inline-block;
   cursor: pointer;
+  white-space: nowrap;
 }
 .dnd-location-curent i{
   color: #79b700;
@@ -1406,5 +1407,55 @@ input.slide-disable + label{
 @media screen and (max-width: 767px) {
   .push_up_item.is-added-to-cart {
     display: none !important;
+  }
+}
+
+
+.top-nav__block {
+  flex-wrap: nowrap;
+}
+
+.top-burger {
+  flex-shrink: 0;
+}
+
+.top-sign {
+  white-space: nowrap;
+}
+
+.top-location-line {
+  min-width: 0;
+}
+
+.dnd-location-line {
+  max-width: 100%;
+}
+
+.dnd-location-curent {
+  max-width: 100%;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.dnd-location-curent i {
+  flex-shrink: 0;
+}
+
+.dnd-location-curent span {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.top-personal__shopcart {
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 479px) {
+  .top-sign {
+    margin-right: 0;
+    margin-left: 0;
   }
 }
