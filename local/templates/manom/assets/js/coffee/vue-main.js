@@ -25,11 +25,12 @@ locationDND = new Vue({
     showPanel: false,
     currentCity: null,
     currentCityID: null,
+    cityNotDefined:false,
     listOfCity: [],
     listOfCityDefault: [],
     listOfCityStore: {},
     isInformationStatus: true,
-    isShowPopupCity: false,
+    isPopupChangeCityVisible: false,
     changeCitySearchLine: ''
   },
   created: function() {
@@ -37,6 +38,14 @@ locationDND = new Vue({
   },
   destroyed: function() {
     bodyPage.removeEventListener('click', this.closePopupCity);
+  },
+  computed: {
+    isConfirmCityVisible: function () {
+      return !this.isPopupChangeCityVisible && !this.cityNotDefined;
+    },
+    isNotDefinedCityVisible: function () {
+      return !this.isPopupChangeCityVisible && this.cityNotDefined;
+    }
   },
   methods: {
     doShowPanel: function() {
@@ -50,6 +59,7 @@ locationDND = new Vue({
       var $this;
       this.currentCity = LocationDataDND.cityName;
       this.currentCityID = LocationDataDND.cityID;
+      this.cityNotDefined = this.currentCity.length <= 0;
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList;
       $this = this;
       setTimeout(function() {
@@ -70,23 +80,23 @@ locationDND = new Vue({
 
       if (!evt.target.closest(elID)) {
         this.isInformationStatus = true;
-        this.isShowPopupCity = false;
+        this.isPopupChangeCityVisible = false;
       }
     },
     doChangeCity: function() {
-      if (!this.isInformationStatus && this.isShowPopupCity) {
+      if (!this.isInformationStatus && this.isPopupChangeCityVisible) {
         this.isInformationStatus = true;
-        this.isShowPopupCity = false;
+        this.isPopupChangeCityVisible = false;
         this.changeCitySearchLine = '';
 
         return this.listOfCity = this.listOfCityDefault;
       }
 
       this.isInformationStatus = false;
-      return this.isShowPopupCity = true;
+      return this.isPopupChangeCityVisible = true;
     },
     changeCity: function(cityItem) {
-      this.isShowPopupCity = false;
+      this.isPopupChangeCityVisible = false;
       this.isInformationStatus = true;
       this.changeCitySearchLine = '';
 

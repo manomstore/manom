@@ -9,7 +9,7 @@
 <!--[if gt IE 8]>
 <html class="no-js"> <![endif]-->
 <head>
-	<meta name="yandex-verification" content="5d0e6370947cc2e9"/>
+	<meta name="yandex-verification" content="ffd678aa654fbf92" />
 	<?
 	// CJSCore::Init(array("jquery"));
 	$APPLICATION->AddHeadScript('https://code.jquery.com/jquery-3.3.1.min.js');
@@ -116,15 +116,21 @@ $userCityByGeoIP = $userLocationInfo;
 											</div>
 											<transition name="slide-fade">
 												<div class="dnd-location-specify" v-if="!isInformationStatus">
-													<div v-if="!isShowPopupCity">
+													<div v-if="!isConfirmCityVisible">
 														<p>"{{currentCity}}" - это ваш город?</p>
 														<div class="dnd-location-specify-btn">
 															<span @click="currentCityIsActual()">Да</span>
 															<span @click="doChangeCity()">Нет</span>
 														</div>
 													</div>
+													<div v-if="isNotDefinedCityVisible">
+														<p>Ваш город не определен</p>
+														<div class="dnd-location-specify-btn">
+																<span @click="doChangeCity()">Выбрать</span>
+														</div>
+													</div>
 													<transition name="fade">
-														<div v-if="isShowPopupCity">
+														<div v-if="isPopupChangeCityVisible">
 															<!-- <p>Выберите город</p> -->
 															<div class="dnd-location-change-city-form">
 																<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
