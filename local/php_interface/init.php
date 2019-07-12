@@ -345,7 +345,7 @@ class UserLocation
     return $return;
   }
   public function getUserSpecifyStatus() {
-    $status = $this->getUserSpecify();
+    $status = (bool)$this->getUserSpecify();
     return $status;
   }
   public function changeStatusSpecify() {

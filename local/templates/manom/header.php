@@ -582,12 +582,12 @@ $userCityByGeoIP = $userLocationInfo;
 		</div>
 		<!-- тупа локэйшен -->
 		<script type="text/javascript">
-			const LocationDataDND = {
-				cityName: "<?=$userLocationInfo['CITY_NAME']?>",
-				cityID: "<?=$userLocationInfo['ID']?>",
-				specifyInformation: "<?=$uli->getUserSpecifyStatus()?>",
-				defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
-			}
+            const LocationDataDND = {
+                cityName: "<?=$userLocationInfo['CITY_NAME']?>",
+                cityID: "<?=$userLocationInfo['ID']?>",
+                specifyInformation: <?=$uli->getUserSpecifyStatus() ? "true" : "false"?>,
+                defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
+            }
 		</script>
 
 		<!-- Верхняя навигация 1 -->
