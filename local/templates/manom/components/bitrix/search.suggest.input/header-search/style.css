@@ -1,4 +1,4 @@
-input.search-suggest {}
+input.search-suggestinput.search-suggest {}
 div.search-popup{border: 1px solid #333333;background: #FFFFFF;padding: 2px;margin: 0px;}
 div.search-popup-row, div.search-popup-row-active{position: relative; padding: 2px 4px;margin: 0px;cursor: hand;cursor: pointer;}
 div.search-popup-row{background:#FFFFFF;}

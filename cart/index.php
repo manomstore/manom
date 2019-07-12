@@ -116,448 +116,592 @@ global $USER;
                 </div>
                 <section class="sci-contact-content" id="sci-contact-content1">
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label" for="sci-contact__fio">Фамилия и имя</label>
-                  <input type="text"
-                         data-prop="ORDER_PROP_1"
-                         name="sci-contact__fio"
-                         id="sci-contact__fio"
-                         class="sci-contact__input"
-                         placeholder="Ваше имя и фамилия"
-                         required>
-                  </div>
-                  <div class="sci-contact__field">
-                  <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
-                  <input type="email"
-                         data-prop="ORDER_PROP_3"
-                         name="sci-contact__email"
-                         id="sci-contact__email"
-                         class="sci-contact__input"
-                         placeholder="Введите e-mail"
-                         required>
-                  </div>
-                  <div class="sci-contact__field">
-                  <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
-                  <input type="tel"
-                         data-prop="ORDER_PROP_2"
-                         name="sci-contact__tel"
-                         id="sci-contact__tel"
-                         class="sci-contact__input"
-                         placeholder="Введите номер телефона"
-                         required> <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
-                  </div>
-                  <div class="sci-contact__field">
-                  <label class="sci-contact__consent">
-                    <input class="visually-hidden sci-contact__checkbox"
-                           type="checkbox"
-                           name="sci-contact__consent"
-                           value="sci-contact__consent"
+                    <label class="sci-contact__label" for="sci-contact__fio">Фамилия и имя</label>
+                    <input type="text"
+                           data-prop="ORDER_PROP_1"
+                           name="sci-contact__fio"
+                           id="sci-contact__fio"
+                           class="sci-contact__input"
+                           placeholder="Ваше имя и фамилия"
                            required>
-                    <span class="sci-contact__check">Заполняя форму я даю согласие на обработку моих персональных данных.
+                  </div>
+                  <div class="sci-contact__field">
+                    <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
+                    <input type="email"
+                           data-prop="ORDER_PROP_3"
+                           name="sci-contact__email"
+                           id="sci-contact__email"
+                           class="sci-contact__input"
+                           placeholder="Введите e-mail"
+                           required>
+                  </div>
+                  <div class="sci-contact__field">
+                    <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
+                    <input type="tel"
+                           data-prop="ORDER_PROP_2"
+                           name="sci-contact__tel"
+                           id="sci-contact__tel"
+                           class="sci-contact__input"
+                           placeholder="Введите номер телефона"
+                           required> <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
+                  </div>
+                  <div class="sci-contact__field">
+                    <label class="sci-contact__consent">
+                      <input class="visually-hidden sci-contact__checkbox"
+                             type="checkbox"
+                             name="sci-contact__consent"
+                             value="sci-contact__consent"
+                             required>
+                      <span class="sci-contact__check">Заполняя форму я даю согласие на обработку моих персональных данных.
                       <a href="#">Ознакомиться с соглашением</a> об обработке персональных данных.</span>
-                  </label>
+                    </label>
                   </div>
                 </section>
                 <section class="sci-contact-content" id="sci-contact-content2">
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Название компании
-                    <input type="text"
-                           data-prop="ORDER_PROP_4"
-                           name="sci-contact__ur-name"
-                           id="sci-contact__ur-name"
-                           class="sci-contact__input"
-                           placeholder="Введите название компании"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Название компании
+                      <input type="text"
+                             data-prop="ORDER_PROP_4"
+                             name="sci-contact__ur-name"
+                             id="sci-contact__ur-name"
+                             class="sci-contact__input"
+                             placeholder="Введите название компании"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Телефон
-                    <input type="text"
-                           data-prop="ORDER_PROP_33"
-                           name="sci-contact__ur-phone"
-                           id="sci-contact__ur-phone"
-                           class="sci-contact__input"
-                           placeholder="Введите номер телефона"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Телефон
+                      <input type="text"
+                             data-prop="ORDER_PROP_33"
+                             name="sci-contact__ur-phone"
+                             id="sci-contact__ur-phone"
+                             class="sci-contact__input"
+                             placeholder="Введите номер телефона"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">E-mail
-                    <input type="email"
-                           data-prop="ORDER_PROP_32"
-                           name="sci-contact__ur-email"
-                           id="sci-contact__ur-email"
-                           class="sci-contact__input"
-                           placeholder="Введите e-mail"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">E-mail
+                      <input type="email"
+                             data-prop="ORDER_PROP_32"
+                             name="sci-contact__ur-email"
+                             id="sci-contact__ur-email"
+                             class="sci-contact__input"
+                             placeholder="Введите e-mail"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Юридическое название
-                    <input type="text"
-                           data-prop="ORDER_PROP_5"
-                           name="sci-contact__ur-legal-name"
-                           id="sci-contact__ur-legal-name"
-                           class="sci-contact__input"
-                           placeholder="Введите юридическое название"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Юридическое название
+                      <input type="text"
+                             data-prop="ORDER_PROP_5"
+                             name="sci-contact__ur-legal-name"
+                             id="sci-contact__ur-legal-name"
+                             class="sci-contact__input"
+                             placeholder="Введите юридическое название"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">ОГРН
-                    <input type="text"
-                           data-prop="ORDER_PROP_6"
-                           name="sci-contact__ur-ogrn"
-                           id="sci-contact__ur-ogrn"
-                           class="sci-contact__input"
-                           placeholder="Введите ОГРН"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">ОГРН
+                      <input type="text"
+                             data-prop="ORDER_PROP_6"
+                             name="sci-contact__ur-ogrn"
+                             id="sci-contact__ur-ogrn"
+                             class="sci-contact__input"
+                             placeholder="Введите ОГРН"
+                             required>
+                    </label>
                   </div>
-                  <div class="sci-contact__field">
-                  <label class="sci-contact__label sci-contact__label--select">Правовая форма
+                  <div class="sci-contact__field sci-contact__field--icon sci-contact__field--select">
+                    <label class="sci-contact__label">Правовая форма
 
-                    <select data-prop="ORDER_PROP_7"
-                            class="sci-contact__input sci-contact__input--select"
-                            name="sci-contact__ur-legal-norm"
-                            id="sci-contact__ur-legal-norm"
-                            required
-                    >
-                      <option selected value="1">ИП</option>
-                      <option value="2">ООО</option>
-                      <option value="3">ОАО</option>
-                      <option value="4">ПАО</option>
-                    </select>
-                  </label>
+                      <select data-prop="ORDER_PROP_7"
+                              class="sci-contact__input sci-contact__input--appearance"
+                              name="sci-contact__ur-legal-norm"
+                              id="sci-contact__ur-legal-norm"
+                              required
+                      >
+                        <option selected value="1">ИП</option>
+                        <option value="2">ООО</option>
+                        <option value="3">ОАО</option>
+                        <option value="4">ПАО</option>
+                      </select>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">ИНН
-                    <input type="text"
-                           data-prop="ORDER_PROP_8"
-                           name="sci-contact__ur-inn"
-                           id="sci-contact__ur-inn"
-                           class="sci-contact__input"
-                           placeholder="Введите ИНН"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">ИНН
+                      <input type="text"
+                             data-prop="ORDER_PROP_8"
+                             name="sci-contact__ur-inn"
+                             id="sci-contact__ur-inn"
+                             class="sci-contact__input"
+                             placeholder="Введите ИНН"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">КПП
-                    <input type="text"
-                           data-prop="ORDER_PROP_9"
-                           name="sci-contact__ur-kpp"
-                           id="sci-contact__ur-kpp"
-                           class="sci-contact__input"
-                           placeholder="Введите КПП"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">КПП
+                      <input type="text"
+                             data-prop="ORDER_PROP_9"
+                             name="sci-contact__ur-kpp"
+                             id="sci-contact__ur-kpp"
+                             class="sci-contact__input"
+                             placeholder="Введите КПП"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Юридический адрес
-                    <input type="text"
-                           data-prop="ORDER_PROP_10"
-                           name="sci-contact__ur-legal-address"
-                           id="sci-contact__ur-legal-address"
-                           class="sci-contact__input"
-                           placeholder="Индекс, город, адрес"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Юридический адрес
+                      <input type="text"
+                             data-prop="ORDER_PROP_10"
+                             name="sci-contact__ur-legal-address"
+                             id="sci-contact__ur-legal-address"
+                             class="sci-contact__input"
+                             placeholder="Индекс, город, адрес"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Фактический адрес
-                    <input type="text"
-                           data-prop="ORDER_PROP_11"
-                           name="sci-contact__ur-fact-address"
-                           id="sci-contact__ur-fact-address"
-                           class="sci-contact__input"
-                           placeholder="Индекс, город, адрес"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Фактический адрес
+                      <input type="text"
+                             data-prop="ORDER_PROP_11"
+                             name="sci-contact__ur-fact-address"
+                             id="sci-contact__ur-fact-address"
+                             class="sci-contact__input"
+                             placeholder="Индекс, город, адрес"
+                             required>
+                    </label>
                   </div>
                   <h3 class="sci-contact__title sci-contact__title--indent">Банк</h3>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Наименование
-                    <input type="text"
-                           data-prop="ORDER_PROP_12"
-                           name="sci-contact__bank-name"
-                           id="sci-contact__bank-name"
-                           class="sci-contact__input"
-                           placeholder="Введите наименование"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Наименование
+                      <input type="text"
+                             data-prop="ORDER_PROP_12"
+                             name="sci-contact__bank-name"
+                             id="sci-contact__bank-name"
+                             class="sci-contact__input"
+                             placeholder="Введите наименование"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Город Банка
-                    <input type="text"
-                           data-prop="ORDER_PROP_13"
-                           name="sci-contact__bank-sity"
-                           id="sci-contact__bank-sity"
-                           class="sci-contact__input"
-                           placeholder="Город Банка"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Город Банка
+                      <input type="text"
+                             data-prop="ORDER_PROP_13"
+                             name="sci-contact__bank-sity"
+                             id="sci-contact__bank-sity"
+                             class="sci-contact__input"
+                             placeholder="Город Банка"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">БИК
-                    <input type="text"
-                           data-prop="ORDER_PROP_14"
-                           name="sci-contact__bank-bik"
-                           id="sci-contact__bank-bik"
-                           class="sci-contact__input"
-                           placeholder="Введите БИК"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">БИК
+                      <input type="text"
+                             data-prop="ORDER_PROP_14"
+                             name="sci-contact__bank-bik"
+                             id="sci-contact__bank-bik"
+                             class="sci-contact__input"
+                             placeholder="Введите БИК"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__label">Номер счета
-                    <input type="text"
-                           data-prop="ORDER_PROP_15"
-                           name="sci-contact__bank-account"
-                           id="sci-contact__bank-account"
-                           class="sci-contact__input"
-                           placeholder="Введите номер счета"
-                           required>
-                  </label>
+                    <label class="sci-contact__label">Номер счета
+                      <input type="text"
+                             data-prop="ORDER_PROP_15"
+                             name="sci-contact__bank-account"
+                             id="sci-contact__bank-account"
+                             class="sci-contact__input"
+                             placeholder="Введите номер счета"
+                             required>
+                    </label>
                   </div>
                   <div class="sci-contact__field">
-                  <label for="sci-contact__contacts" class="sci-contact__label">Контакты
-                  </label>
-                  <textarea data-prop="ORDER_PROP_16"
-                            name="sci-contact__contacts"
-                            id="sci-contact__contacts"
-                            class="sci-contact__input sci-contact__input--area"
-                            placeholder="Контакты">
+                    <label for="sci-contact__contacts" class="sci-contact__label">Контакты
+                    </label>
+                    <textarea data-prop="ORDER_PROP_16"
+                              name="sci-contact__contacts"
+                              id="sci-contact__contacts"
+                              class="sci-contact__input sci-contact__input--area"
+                              placeholder="Контакты">
                   </textarea>
                   </div>
                   <div class="sci-contact__field">
-                  <label class="sci-contact__consent">
-                    <input class="visually-hidden sci-contact__checkbox"
-                           type="checkbox"
-                           name="sci-contact__consent"
-                           value="sci-contact__consent"
-                           required>
-                    <span class="sci-contact__check">Заполняя форму я даю согласие на обработку моих персональных данных.
+                    <label class="sci-contact__consent">
+                      <input class="visually-hidden sci-contact__checkbox"
+                             type="checkbox"
+                             name="sci-contact__consent"
+                             value="sci-contact__consent"
+                             required>
+                      <span class="sci-contact__check">Заполняя форму я даю согласие на обработку моих персональных данных.
                       <a href="#">Ознакомиться с соглашением</a> об обработке персональных данных.</span>
-                  </label>
+                    </label>
                   </div>
                 </section>
-<!--                <div class="sci-contact__button-wrapper">-->
-<!--                  <a class="sci-contact__button-back" href="#" aria-label="Вернуться назад">-->
-<!--                    Вернуться в корзину-->
-<!--                  </a>-->
-<!--                  <a class="sci-contact__button-next" href="#">-->
-<!--                    К доставке-->
-<!--                  </a>-->
-<!--                </div>-->
               </div>
             </div>
-						<? if (!$USER->IsAuthorized()): ?>
-              <div class="sci-login" style="margin-top:0;">
-                <h3 class="sci-login__title">Войти в существующий аккаунт</h3>
-                <p class="sci-login__text">Войдите в существующий аккаунт для быстрого оформления покупки.</p>
-                <div style="text-align: center;">
-                  <button class="sci-login__button" id="cart_btn_open_login">Войти</button>
-                </div>
-              </div>
-						<? endif; ?>
+            <!--						--><? // if (!$USER->IsAuthorized()): ?>
+            <!--              <div class="sci-login" style="margin-top:0;">-->
+            <!--                <h3 class="sci-login__title">Войти в существующий аккаунт</h3>-->
+            <!--                <p class="sci-login__text">Войдите в существующий аккаунт для быстрого оформления покупки.</p>-->
+            <!--                <div style="text-align: center;">-->
+            <!--                  <button class="sci-login__button" id="cart_btn_open_login">Войти</button>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--						--><? // endif; ?>
           </section>
           <!-- Корзина - Доставка -->
           <section class="shopcart-item" id="shopcart-item3">
             <!-- <h2>Корзина - Доставка</h2> -->
             <div class="sci-delivery">
               <!-- Табы -->
-              <div class="sci-delivery-tabs">
-                <input id="sci-delivery-tab1" type="radio" name="delivery-tabs" checked>
-                <label data-prop="ID_DELIVERY_ID_5" class="sci-delivery-tab rb_so" for="sci-delivery-tab1"><span>Доставка по адресу</span></label>
-                <input id="sci-delivery-tab2" type="radio" name="delivery-tabs">
-                <label data-prop="ID_DELIVERY_ID_6" class="sci-delivery-tab rb_so" for="sci-delivery-tab2"><span>Доставка до пункта выдачи</span></label>
-                <input id="sci-delivery-tab3" type="radio" name="delivery-tabs">
-                <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery-tab rb_so" for="sci-delivery-tab3"><span>Самовывоз</span></label>
-                <!-- <input id="sci-delivery-tab3" type="radio" name="delivery-tabs" class="rb_so_proxy">
-									<label data-prop="ID_DELIVERY_ID_8" class="sci-delivery-tab rb_so" for="sci-delivery-tab3"><span>Доставка собственным курьером (по МКАДу)</span></label>
-									<input id="sci-delivery-tab4" type="radio" name="delivery-tabs" class="rb_so_proxy">
-									<label data-prop="ID_DELIVERY_ID_9" class="sci-delivery-tab rb_so" for="sci-delivery-tab4"><span>Доставка собственным курьером (за МКАДом)</span></label>
-									<input id="sci-delivery-tab5" type="radio" name="delivery-tabs" class="rb_so_proxy">
-									<label data-prop="ID_DELIVERY_ID_10" class="sci-delivery-tab rb_so" for="sci-delivery-tab5"><span>Доставка собственным курьером (по КАДу)</span></label>
-									<input id="sci-delivery-tab6" type="radio" name="delivery-tabs" class="rb_so_proxy">
-									<label data-prop="ID_DELIVERY_ID_11" class="sci-delivery-tab rb_so" for="sci-delivery-tab6"><span>Доставка собственным курьером (за КАДом)</span></label> -->
+              <ul class="sci-delivery-tabs">
+                <li class="sci-delivery-tab">
+                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab1" type="radio" name="delivery-tabs">
+                  <label data-prop="ID_DELIVERY_ID_5" class="sci-delivery__tab rb_so" for="sci-delivery-tab1">
+                    Курьером manom.ru
+                    <span>1-2 дня, от 350 ₽</span>
+                  </label>
+                  <section class="sci-delivery-content" id="sci-delivery-content1">
+                    <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
+                      <label class="sci-contact__label">Город
+                        <input data-city-prop-alt="ORDER_PROP_25"
+                               data-city-prop-val-alt="ORDER_PROP_25_val"
+                               data-city-prop="ORDER_PROP_18"
+                               data-city-prop-val="ORDER_PROP_18_val"
+                               name="so_city_val"
+                               id="so_city_val"
+                               class="sci-contact__input"
+                               type="text"
+                               placeholder="Введите город доставки"
+                               autocomplete="off"
+                               onfocus="loc_sug_CheckThisAlt(this, this.id);">
+                        <input type="hidden" name="so_city" id="so_city" value="">
+                        <script type="text/javascript">
 
-                <section class="sci-delivery-content" id="sci-delivery-content1">
-                  <h3 class="sci-delivery__title w-100">Введите адрес доставки</h3>
-                  <div class="sci-delivery-content__col">
-                    <label class="sci-delivery__label w-100">Город
-                      <input data-city-prop-alt="ORDER_PROP_25"
-                             data-city-prop-val-alt="ORDER_PROP_25_val"
-                             data-city-prop="ORDER_PROP_18"
-                             data-city-prop-val="ORDER_PROP_18_val"
-                             name="so_city_val"
-                             id="so_city_val"
-                             value=""
-                             class="sci-delivery__input search-suggest"
-                             type="text"
-                             autocomplete="off"
-                             onfocus="loc_sug_CheckThisAlt(this, this.id);">
-                      <input type="hidden" name="so_city" id="so_city" value="">
-                      <script type="text/javascript">
+                          if (typeof oObject != "object") {
+                            window.oObject = {};
+                          }
 
-                        if (typeof oObject != "object") {
-                          window.oObject = {};
-                        }
-
-                        document.loc_sug_CheckThisAlt = function(oObj, id) {
-                          try {
-                            if (SuggestLoadedSale) {
-                              window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
-                              return;
+                          document.loc_sug_CheckThisAlt = function(oObj, id) {
+                            try {
+                              if (SuggestLoadedSale) {
+                                window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
+                                return;
+                              }
+                              else {
+                                setTimeout(loc_sug_CheckThis(oObj, id), 10);
+                              }
                             }
-                            else {
+                            catch (e) {
                               setTimeout(loc_sug_CheckThis(oObj, id), 10);
                             }
                           }
-                          catch (e) {
-                            setTimeout(loc_sug_CheckThis(oObj, id), 10);
-                          }
-                        }
 
-                        clearLocInput = function() {
-                          var inp = BX("so_city_val");
-                          if (inp) {
-                            inp.value = "";
-                            inp.focus();
-                          }
-                        }
-                      </script>
-                    </label>
-                    <label class="sci-delivery__label w-100">Улица*
-                      <input data-prop="ORDER_PROP_20"
-                             data-prop-alt="ORDER_PROP_27"
-                             type="text"
-                             name="sci-delivery-street"
-                             id="sci-delivery-street"
-                             class="sci-delivery__input"
-                             placeholder=""
-                             required>
-                    </label>
-                    <label class="sci-delivery__label w-100">Дом*
-                      <input data-prop="ORDER_PROP_22"
-                             type="text"
-                             data-prop-alt="ORDER_PROP_29"
-                             name="sci-delivery-building"
-                             id="sci-delivery-building"
-                             class="sci-delivery__input w50"
-                             placeholder=""
-                             required>
-                    </label>
-                    <label class="sci-delivery__label w-100">Кв/Офис*
-                      <input data-prop="ORDER_PROP_23"
-                             type="text"
-                             data-prop-alt="ORDER_PROP_30"
-                             name="sci-delivery-apartment"
-                             id="sci-delivery-apartment"
-                             class="sci-delivery__input w50"
-                             placeholder=""
-                             required>
-                    </label>
-                  </div>
-                  <div class="sci-delivery-content__col">
-                    <input type="hidden" data-prop="egor" name="" value="">
-                    <label class="sci-delivery__label w-100">Дата доставки&nbsp
-                      <input data-change="Y"
-                             data-prop="ORDER_PROP_19"
-                             data-prop-alt="ORDER_PROP_26"
-                             type="date"
-                             name="sci-delivery-date"
-                             id="sci-delivery-date"
-                             class="sci-delivery__input"
-                             placeholder="">
-                    </label>
-                    <label class="sci-delivery__label w-100">Время доставки
-                      <!-- <input data-change="Y" data-prop="ORDER_PROP_21" data-prop-alt="ORDER_PROP_28" type="text" name="sci-delivery-time" id="sci-delivery-time" class="sci-delivery__input" placeholder=""> -->
-                      <select data-prop="ORDER_PROP_21"
-                              data-prop-alt="ORDER_PROP_28"
-                              name="sci-delivery-time"
-                              id="sci-delivery-time"
-                              class="sci-contact__input"
-                              required>
-                        <option selected value="c 06:00 до 09:00">c 06:00 до 09:00</option>
-                        <option value="c 09:00 до 012:00">c 09:00 до 012:00</option>
-                        <option value="c 12:00 до 15:00">c 12:00 до 15:00</option>
-                        <option value="c 15:00 до 18:00">c 15:00 до 18:00</option>
-                        <option value="c 18:00 до 21:00">c 18:00 до 21:00</option>
-                      </select>
-                    </label>
-                    <label for="sci-delivery__comment" class="sci-delivery__label w-100">Комментарий для курьера</label>
-                    <textarea data-prop="ORDER_PROP_24"
-                              data-prop-alt="ORDER_PROP_31"
-                              name="sci-delivery__comment"
-                              id="sci-delivery__comment"
-                              class="sci-delivery__input w-100"
-                              placeholder=""
-                              rows="3"></textarea>
-                    <span class="pickup_summ_alt col-12 mb-2"><strong>Стоимость:</strong> <span>не известно</span></span><br>
-                  </div>
-                </section>
-                <section class="sci-delivery-content" id="sci-delivery-content2">
-                  <h3 class="sci-delivery__title">Доставка до пункта выдачи</h3>
-                  <div class="sci-delivery-content__col fix col-12">
-                    <label class="sci-delivery__label w-100" style="padding-left: 15px;text-align: left;">Город
-                      <input data-city-prop-alt="ORDER_PROP_25"
-                             data-city-prop-val-alt="ORDER_PROP_25_val"
-                             data-city-prop="ORDER_PROP_18"
-                             data-city-prop-val="ORDER_PROP_18_val"
-                             name="so_city_alt_val"
-                             id="so_city_alt_val"
-                             value=""
-                             class="sci-delivery__input search-suggest"
-                             type="text"
-                             autocomplete="off"
-                             onfocus="loc_sug_CheckThisAltAlt(this, this.id);">
-                      <input type="hidden" name="so_city_alt" id="so_city_alt" value="">
-                      <script type="text/javascript">
-
-                        if (typeof oObject != "object") {
-                          window.oObject = {};
-                        }
-
-                        document.loc_sug_CheckThisAltAlt = function(oObj, id) {
-                          try {
-                            if (SuggestLoadedSale) {
-                              window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
-                              return;
+                          clearLocInput = function() {
+                            var inp = BX("so_city_val");
+                            if (inp) {
+                              inp.value = "";
+                              inp.focus();
                             }
-                            else {
+                          }
+                        </script>
+                      </label>
+                    </div>
+                    <div class="sci-contact__field">
+                      <label class="sci-contact__label">Адрес
+                        <input data-prop="ORDER_PROP_20"
+                               data-prop-alt="ORDER_PROP_27"
+                               type="text"
+                               name="sci-delivery-street"
+                               id="sci-delivery-street"
+                               class="sci-contact__input"
+                               placeholder="Улица, дом, квартира"
+                               required>
+                      </label>
+                    </div>
+                    <!--                    <div class="sci-contact__field">-->
+                    <!--                      <label class="sci-contact__label">Дом-->
+                    <!--                        <input data-prop="ORDER_PROP_22"-->
+                    <!--                               type="text"-->
+                    <!--                               data-prop-alt="ORDER_PROP_29"-->
+                    <!--                               name="sci-delivery-building"-->
+                    <!--                               id="sci-delivery-building"-->
+                    <!--                               class="sci-contact__input"-->
+                    <!--                               placeholder=""-->
+                    <!--                               required>-->
+                    <!--                      </label>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="sci-contact__field">-->
+                    <!--                      <label class="sci-contact__label">Кв/Офис-->
+                    <!--                        <input data-prop="ORDER_PROP_23"-->
+                    <!--                               type="text"-->
+                    <!--                               data-prop-alt="ORDER_PROP_30"-->
+                    <!--                               name="sci-delivery-apartment"-->
+                    <!--                               id="sci-delivery-apartment"-->
+                    <!--                               class="sci-contact__input"-->
+                    <!--                               placeholder=""-->
+                    <!--                               required>-->
+                    <!--                      </label>-->
+                    <!--                    </div>-->
+                    <!--                    <input type="hidden" data-prop="egor" name="" value="">-->
+                    <div class="sci-contact__row">
+                      <div class="sci-contact__field sci-contact__field--icon sci-contact__field--calendar">
+                        <label class="sci-contact__label">Дата доставки
+                          <input data-change="Y"
+                                 data-prop="ORDER_PROP_19"
+                                 data-prop-alt="ORDER_PROP_26"
+                                 type="date"
+                                 name="sci-delivery-date"
+                                 id="sci-delivery-date"
+                                 class="sci-contact__input sci-contact__input--appearance"
+                                 placeholder="Введите дату доставки">
+                        </label>
+                      </div>
+                      <div class="sci-contact__field sci-contact__field--icon sci-contact__field--select">
+                        <label class="sci-contact__label">Время доставки
+                          <!-- <input data-change="Y" data-prop="ORDER_PROP_21" data-prop-alt="ORDER_PROP_28" type="text" name="sci-delivery-time" id="sci-delivery-time" class="sci-delivery__input" placeholder=""> -->
+                          <select data-prop="ORDER_PROP_21"
+                                  data-prop-alt="ORDER_PROP_28"
+                                  name="sci-delivery-time"
+                                  id="sci-delivery-time"
+                                  class="sci-contact__input sci-contact__input--appearance"
+                                  required>
+                            <option selected value="c 6:00 до 9:00">
+                              c 6:00 до 9:00
+                            </option>
+                            <option value="c 9:00 до 12:00">
+                              c 9:00 до 12:00
+                            </option>
+                            <option value="c 12:00 до 15:00">
+                              c 12:00 до 15:00
+                            </option>
+                            <option value="c 15:00 до 18:00">
+                              c 15:00 до 18:00
+                            </option>
+                            <option value="c 18:00 до 21:00">
+                              c 18:00 до 21:00
+                            </option>
+                          </select>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="sci-contact__field">
+                      <label for="sci-contact__label" class="sci-contact__label sci-contact__label--desc">Комментарий для курьера</label>
+                      <textarea data-prop="ORDER_PROP_24"
+                                data-prop-alt="ORDER_PROP_31"
+                                name="sci-delivery__comment"
+                                id="sci-delivery__comment"
+                                class="sci-contact__input sci-delivery__area"
+                                placeholder="Ваш комментарий"
+                                rows="3"></textarea>
+                    </div>
+                    <span class="sci-delivery__price pickup_summ_alt">
+                        Стоимость доставки: <span>не известно</span>
+                    </span>
+                  </section>
+                </li>
+                <li class="sci-delivery-tab">
+                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab2" type="radio" name="delivery-tabs">
+                  <label data-prop="ID_DELIVERY_ID_6" class="sci-delivery__tab rb_so" for="sci-delivery-tab2">
+                    Курьером СДЭК
+                    <span>1-2 дня, от 350 ₽</span>
+                  </label>
+                  <section class="sci-delivery-content" id="sci-delivery-content2">
+                    <div class="sci-contact__field">
+                      <label class="sci-contact__label">Город
+                        <input data-city-prop-alt="ORDER_PROP_25"
+                               data-city-prop-val-alt="ORDER_PROP_25_val"
+                               data-city-prop="ORDER_PROP_18"
+                               data-city-prop-val="ORDER_PROP_18_val"
+                               name="so_city_alt_val"
+                               id="so_city_alt_val"
+                               value=""
+                               class="sci-contact__input"
+                               type="text"
+                               autocomplete="off"
+                               placeholder="Введите город доставки"
+                               onfocus="loc_sug_CheckThisAltAlt(this, this.id);">
+                        <input type="hidden" name="so_city_alt" id="so_city_alt" value="">
+                        <script type="text/javascript">
+
+                          if (typeof oObject != "object") {
+                            window.oObject = {};
+                          }
+
+                          document.loc_sug_CheckThisAltAlt = function(oObj, id) {
+                            try {
+                              if (SuggestLoadedSale) {
+                                window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
+                                return;
+                              }
+                              else {
+                                setTimeout(loc_sug_CheckThis(oObj, id), 10);
+                              }
+                            }
+                            catch (e) {
                               setTimeout(loc_sug_CheckThis(oObj, id), 10);
                             }
                           }
-                          catch (e) {
-                            setTimeout(loc_sug_CheckThis(oObj, id), 10);
-                          }
-                        }
 
-                        clearLocInput = function() {
-                          var inp = BX("so_city_val_alt");
-                          if (inp) {
-                            inp.value = "";
-                            inp.focus();
+                          clearLocInput = function() {
+                            var inp = BX("so_city_val_alt");
+                            if (inp) {
+                              inp.value = "";
+                              inp.focus();
+                            }
                           }
-                        }
-                      </script>
-                    </label>
-                    <span class="pickup_address col-12 mb-2"><strong>Пункт самовывоза:</strong> <span>не выбран</span></span> <br>
-                    <span class="pickup_summ col-12 mb-2"><strong>Стоимость:</strong> <span>не известно</span></span><br>
-                    <span class="pickup_date col-12 mb-2">Время доставки: <span>не известно</span></span><br>
-                    <span class="shopcart-sidebar__back-shopping" id="soDelivPopUp">Выбрать пункт самовывоза</span>
-                  </div>
-                </section>
-                <section class="sci-delivery-content" id="sci-delivery-content3">
-                  <h3 class="sci-delivery__title">Самовывоз</h3>
-                  <div class="sci-delivery-content__col fix col-12">
-                    <span class="sv_address col-12 mb-2" style="display:block;width: 100%;text-align: left;"></span><br><br><br>
-                    <span class="sv_price col-12 mb-2"
-                          style="display:block;width: 100%;text-align: left;"><strong>Стоимость:</strong> <span>не известно</span></span><br>
-                    <span class="sv_time col-12 mb-2"
-                          style="display:block;width: 100%;text-align: left;"><strong>Время доставки:</strong> <span>не известно</span></span><br>
-                  </div>
-                </section>
+                        </script>
+                      </label>
+                    </div>
+                    <div class="sci-contact__field">
+                      <label class="sci-contact__label">Адрес
+                        <input data-prop="ORDER_PROP_20"
+                               data-prop-alt="ORDER_PROP_27"
+                               type="text"
+                               name="sci-delivery-street"
+                               id="sci-delivery-street"
+                               class="sci-contact__input"
+                               placeholder="Улица, дом, квартира"
+                               required>
+                      </label>
+                    </div>
+                    <div class="sci-contact__row">
+                      <div class="sci-contact__field sci-contact__field--icon sci-contact__field--calendar">
+                        <label class="sci-contact__label">Дата доставки
+                          <input data-change="Y"
+                                 data-prop="ORDER_PROP_19"
+                                 data-prop-alt="ORDER_PROP_26"
+                                 type="date"
+                                 name="sci-delivery-date"
+                                 id="sci-delivery-date"
+                                 class="sci-contact__input sci-contact__input--appearance"
+                                 placeholder="Введите дату доставки">
+                        </label>
+                      </div>
+                      <div class="sci-contact__field sci-contact__field--icon sci-contact__field--select">
+                        <label class="sci-contact__label">Время доставки
+                          <select data-prop="ORDER_PROP_21"
+                                  data-prop-alt="ORDER_PROP_28"
+                                  name="sci-delivery-time"
+                                  id="sci-delivery-time"
+                                  class="sci-contact__input sci-contact__input--appearance"
+                                  required>
+                            <option selected value="c 6:00 до 9:00">
+                              c 6:00 до 9:00
+                            </option>
+                            <option value="c 9:00 до 12:00">
+                              c 9:00 до 12:00
+                            </option>
+                            <option value="c 12:00 до 15:00">
+                              c 12:00 до 15:00
+                            </option>
+                            <option value="c 15:00 до 18:00">
+                              c 15:00 до 18:00
+                            </option>
+                            <option value="c 18:00 до 21:00">
+                              c 18:00 до 21:00
+                            </option>
+                          </select>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="sci-contact__field">
+                      <label for="sci-contact__label" class="sci-contact__label sci-contact__label--desc">Комментарий для курьера</label>
+                      <textarea data-prop="ORDER_PROP_24"
+                                data-prop-alt="ORDER_PROP_31"
+                                name="sci-delivery__comment"
+                                id="sci-delivery__comment"
+                                class="sci-contact__input sci-delivery__area"
+                                placeholder="Ваш комментарий"
+                                rows="3"></textarea>
+                    </div>
+                    <span class="sci-delivery__price pickup_summ">
+                      Стоимость доставки: <span>не известно</span>
+                    </span>
+<!--                    <span class="sci-delivery__time pickup_date">-->
+<!--                      Время доставки: <span>не известно</span>-->
+<!--                    </span>-->
+                  </section>
+                </li>
+                <li class="sci-delivery-tab">
+                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab3" type="radio" name="delivery-tabs">
+                  <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery__tab rb_so" for="sci-delivery-tab3">
+                    Самовывоз СДЭК
+                    <span>1-2 дня, от 350 ₽</span>
+                  </label>
+                  <section class="sci-delivery-content" id="sci-delivery-content3">
+                    <div class="sci-contact__field">
+                      <label class="sci-contact__label">Город
+                        <input data-city-prop-alt="ORDER_PROP_25"
+                               data-city-prop-val-alt="ORDER_PROP_25_val"
+                               data-city-prop="ORDER_PROP_18"
+                               data-city-prop-val="ORDER_PROP_18_val"
+                               name="so_city_alt_val"
+                               id="so_city_alt_val"
+                               value=""
+                               class="sci-contact__input"
+                               type="text"
+                               autocomplete="off"
+                               placeholder="Введите город"
+                               onfocus="loc_sug_CheckThisAltAlt(this, this.id);">
+                        <input type="hidden" name="so_city_alt" id="so_city_alt" value="">
+                        <script type="text/javascript">
+
+                          if (typeof oObject != "object") {
+                            window.oObject = {};
+                          }
+
+                          document.loc_sug_CheckThisAltAlt = function(oObj, id) {
+                            try {
+                              if (SuggestLoadedSale) {
+                                window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
+                                return;
+                              }
+                              else {
+                                setTimeout(loc_sug_CheckThis(oObj, id), 10);
+                              }
+                            }
+                            catch (e) {
+                              setTimeout(loc_sug_CheckThis(oObj, id), 10);
+                            }
+                          }
+
+                          clearLocInput = function() {
+                            var inp = BX("so_city_val_alt");
+                            if (inp) {
+                              inp.value = "";
+                              inp.focus();
+                            }
+                          }
+                        </script>
+                      </label>
+                    </div>
+                    <div class="sci-contact__field">
+                      <div class="pickup_address sci-contact__label">
+                        Пункт самовывоза
+                        <span class="sci-delivery__text">
+                          Не выбран
+                        </span>
+                      </div>
+                    </div>
+
+                    <button class="sci-delivery__choice shopcart-sidebar__back-shopping" id="soDelivPopUp" type="button">
+                      Выбрать пункт самовывоза
+                    </button>
+                  </section>
+                </li>
+                <li class="sci-delivery-tab">
+                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab4" type="radio" name="delivery-tabs">
+                  <label class="sci-delivery__tab rb_so" for="sci-delivery-tab4">
+                    Самовывоз из магазина
+                    <span>1-2 дня, от 350 ₽</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
           </section>
           <!-- Корзина - Оплата -->
           <section class="shopcart-item" id="shopcart-item4">

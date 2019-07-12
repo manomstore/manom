@@ -27,7 +27,7 @@ global $USER;
 		</div>
 	</div>
 </div>
-<h1 class="shopcart__title">Ваша корзина</h1>
+<h1 class="shopcart__title">Корзина</h1>
 <div class="notetext ">
 	 Ваша корзина пуста.
 </div>
