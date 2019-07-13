@@ -104,6 +104,8 @@ use Bitrix\Main\Localization\Loc;
       <div class="sci-add">
 				<? if ($acessForThisElement) { ?>
           <h2 class="sci-add__title">С этим товаром покупают</h2>
+
+          <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
           <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
           <div class="sci-add__products">
 						<? foreach ($acessForThisElement as $r => $p) { ?>
