@@ -662,6 +662,127 @@ $(document).ready(function() {
   $(document).on('change', '[name="sci-contact__fio"], [name="sci-contact__tel"], [name="sci-contact__ur-name"], [name="sci-contact__ur-phone"], [name="so_city_val"], [name="so_city_alt_val"], [name="sci-delivery-street"], [name="sci-delivery-building"], [name="sci-delivery-apartment"], [name="sci-delivery-date"], [name="sci-delivery-time"], [name="ORDER_PROP_37"], [name="ORDER_PROP_36"]', function() {
     return $.fn.updateSideInfo();
   });
+
+    $(".sci-contact__input[type='email']").on('blur', function () {
+        var $parentBlock = $(this).closest(".sci-contact-content");
+        if ($parentBlock.find(".js-error-msg").length <= 0) {
+            $(this).after("<p class='js-error-msg' style='width:100%'></p>");
+        }
+
+        var $errorBlock = $parentBlock.find(".js-error-msg");
+
+        let email = $(this).val();
+        var $passBlock = $parentBlock.find(".js-password-block");
+
+        if (email.length >= 0
+            && (email.match(/.+?\@.+/g) || []).length !== 1) {
+            $(this).val('').css({
+                borderColor: 'red'
+            });
+
+            $errorBlock.text("Не правильно введен email").css("color", "red");
+            $passBlock.addClass("dsb-hidden");
+        } else {
+            $(this).css({
+                borderColor: 'green'
+            });
+            $errorBlock.text("Email введен верно").css("color", "green");
+
+            var isUserExists = false;
+
+            $(document).find('.preloaderCatalog').css({
+                opacity: 0,
+                display: 'block'
+            });
+            $(document).find('.preloaderCatalog').animate({
+                opacity: 1
+            }, 300);
+
+            $.ajax("/ajax/checkout.php",
+                {
+                    method: "GET",
+                    dataType: "JSON",
+                    data: {
+                        type: "checkEmail",
+                        email: email,
+                        sessid: BX.bitrix_sessid(),
+                    },
+                    success: function (result) {
+                        $(document).find('.preloaderCatalog').animate({
+                            opacity: 0
+                        }, 300, function() {
+                            return $(this).css({
+                                opacity: 0,
+                                display: 'none'
+                            });
+                        });
+
+                        if (result.type === "ok") {
+                            isUserExists = Number(result.exist) === 1;
+                        }
+
+                        if (isUserExists) {
+                            $passBlock.removeClass("dsb-hidden");
+                        } else {
+                            $passBlock.addClass("dsb-hidden");
+                        }
+                    }
+                }
+            );
+        }
+    });
+
+    $("").on('blur', function () {
+        var $parentBlock = $(this).closest(".sci-contact-content");
+        if ($parentBlock.find(".js-error-msg").length <= 0) {
+            $(this).after("<p class='js-error-msg' style='width:100%'></p>");
+        }
+
+        var $errorBlock = $parentBlock.find(".js-error-msg");
+
+        let email = $(this).val();
+        var $passBlock = $parentBlock.find(".js-password-block");
+
+        if (email.length >= 0
+            && (email.match(/.+?\@.+/g) || []).length !== 1) {
+            $(this).val('').css({
+                borderColor: 'red'
+            });
+
+            $errorBlock.text("Не правильно введен email").css("color", "red");
+            $passBlock.addClass("dsb-hidden");
+        } else {
+            $(this).css({
+                borderColor: 'green'
+            });
+            $errorBlock.text("Email введен верно").css("color", "green");
+
+            var isUserExists = false;
+
+            $.ajax("/ajax/checkout.php",
+                {
+                    method: "GET",
+                    dataType: "JSON",
+                    data: {
+                        type: "checkEmail",
+                        email: email,
+                        sessid: BX.bitrix_sessid(),
+                    },
+                    success: function (result) {
+                        if (result.type === "ok") {
+                            isUserExists = Number(result.exist) === 1;
+                        }
+
+                        if (isUserExists) {
+                            $passBlock.removeClass("dsb-hidden");
+                        } else {
+                            $passBlock.addClass("dsb-hidden");
+                        }
+                    }
+                }
+            );
+        }
+    });
   return $(document).on('click', '#btnSubmitOrder', function() {
     var firstBlock, hasError, inputCount, secondBlock, soBlock, soModule;
     soBlock = $(document).find('#so_main_block');
@@ -1290,3 +1411,14 @@ $.fn.updateURLParameter = function(url, param, paramVal) {
   rows_txt = temp + '' + param + '=' + paramVal;
   return baseURL + '?' + newAdditionalURL + rows_txt;
 };
+
+function isUserExists(email) {
+    var existUser = false;
+
+    if (email.length <= 0) {
+        return existUser;
+    }
+
+
+    return existUser;
+}
