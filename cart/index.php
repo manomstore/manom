@@ -47,7 +47,7 @@ global $USER;
       <h1 class="shopcart__title">Корзина</h1>
       <button class="button-del button-del--top" type="button">Очистить</button>
     </div>
-		<? if ($_REQUEST['ORDER_ID']): ?>
+		<? if (!$_REQUEST['ORDER_ID']): ?>
 
       <div class="shopcart-main">
         <div class="shopcart-items">
@@ -886,6 +886,7 @@ global $USER;
         <p class="shopcart-success__text">
           В ближайшее время с вами свяжется наш менеджер для дальнейшего подверждения заказа.
         </p>
+        <a class="shopcart-success__button" href="#">Класс, спасибо!</a>
       </section>
 		<? endif ?>
   </div>
