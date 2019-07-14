@@ -47,7 +47,7 @@ global $USER;
       <h1 class="shopcart__title">Корзина</h1>
       <button class="button-del button-del--top" type="button">Очистить</button>
     </div>
-		<? if ($_REQUEST['ORDER_ID']): ?>
+		<? if (!$_REQUEST['ORDER_ID']): ?>
 
       <div class="shopcart-main">
         <div class="shopcart-items">
@@ -135,6 +135,18 @@ global $USER;
                            placeholder="Введите e-mail"
                            required>
                   </div>
+                  <div class="sci-contact__field js-password-block dsb-hidden">
+                      <label class="sci-contact__label" for="sci-contact__password">Пароль</label>
+                      <input type="password"
+                             name="sci-contact__password"
+                             id="sci-contact__password"
+                             class="sci-contact__input"
+                             placeholder="Ваш пароль"
+                      >
+                      <div class="shopcart-sidebar__button">
+                          <span class="js-auth">Войти</span>
+                      </div>
+                  </div>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
                     <input type="tel"
@@ -180,6 +192,20 @@ global $USER;
                              required>
                     </label>
                   </div>
+                    <div class="sci-contact__field js-password-block dsb-hidden">
+                        <label class="sci-contact__label">Пароль
+                            <input type="password"
+                                   data-prop="ORDER_PROP_32"
+                                   name="sci-contact__ur-password"
+                                   id="sci-contact__ur-password"
+                                   class="sci-contact__input"
+                                   placeholder="Введите e-mail"
+                                   required>
+                        </label>
+                        <div class="shopcart-sidebar__button">
+                            <span>Войти</span>
+                        </div>
+                    </div>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Юридическое название
                       <input type="text"
@@ -320,15 +346,6 @@ global $USER;
                 </section>
               </div>
             </div>
-            <!--						--><? // if (!$USER->IsAuthorized()): ?>
-            <!--              <div class="sci-login" style="margin-top:0;">-->
-            <!--                <h3 class="sci-login__title">Войти в существующий аккаунт</h3>-->
-            <!--                <p class="sci-login__text">Войдите в существующий аккаунт для быстрого оформления покупки.</p>-->
-            <!--                <div style="text-align: center;">-->
-            <!--                  <button class="sci-login__button" id="cart_btn_open_login">Войти</button>-->
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--						--><? // endif; ?>
           </section>
           <!-- Корзина - Доставка -->
           <section class="shopcart-item" id="shopcart-item3">
