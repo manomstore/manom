@@ -821,7 +821,7 @@ global $USER;
 
             <!-- На этапе корзины этот блок не нужен -->
             <div class="sci-contact__top">
-              <h2 class="sci-contact__title">Состав заказа</h2>
+              <h2 class="shopcart-sidebar__title">Состав заказа</h2>
               <a class="shopcart-sidebar__link" href="#">Изменить</a>
             </div>
 
@@ -866,6 +866,16 @@ global $USER;
 								false
 							); ?>
 							<? global $cartPrice; ?>
+              <div class="shopcart-sidebar__info">
+                <h3 class="shopcart-sidebar__title">Получатель:</h3>
+                <p class="shopcart-sidebar__text">Константинопольский Константин</p>
+                <p class="shopcart-sidebar__text">+7 (999) 456 77-88</p>
+              </div>
+              <div class="shopcart-sidebar__info">
+                <h3 class="shopcart-sidebar__title">Доставка:</h3>
+                <p class="shopcart-sidebar__text">Ростов-на-Дону, ул. Кирова, д. 96, кв. 113</p>
+                <p class="shopcart-sidebar__text">Срок доставки: <span>2-3 дня</span></p>
+              </div>
               <div class="shopcart-sidebar__total">
                 <div class="shopcart-sidebar__price-wrapper">
                   <p class="shopcart-sidebar__sum-price">

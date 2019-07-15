@@ -6593,12 +6593,31 @@ p.price-slider {
   margin: 0 0 20px;
 }
 
-.sci-contact__title {
+.shopcart-sidebar__info {
+  border-bottom: 1px solid #F2F2F2;
+  margin: 0 -20px 18px;
+  padding: 0 20px 15px;
+}
+
+.sci-contact__title,
+.shopcart-sidebar__title {
   font-size: 18px;
   color: #29282C;
   font-weight: 500;
 
   margin: 0;
+}
+
+.shopcart-sidebar__title {
+  margin: 0 0 10px;
+}
+
+.shopcart-sidebar__text {
+  font-size: 16px;
+  color: #29282C;
+  font-weight: 400;
+
+  margin: 0 0 5px;
 }
 
 .sci-contact__title--indent {
