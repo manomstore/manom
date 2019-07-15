@@ -439,8 +439,13 @@ $(document).ready(function() {
 
   $(document).on('click', function(event){
     var showMiniCartClass = 'preview-card--show';
-    var $miniCart = $('.preview-shopcart');
+    var showMiniPreviewClass = 'preview-heart--show';
 
+    var $miniCart = $('.preview-shopcart');
+    var $miniCompare = $('#mini_compare_header');
+    var $miniFavorite = $('#mini_favorite_header');
+
+    // Закрываем выпадающую корзину по клику за пределами
     if (
       !$(event.target).closest('.addToCartBtn').length > 0
       && !$(event.target).closest('.preview-shopcart').length > 0
@@ -451,6 +456,32 @@ $(document).ready(function() {
       }
 
       $miniCart.removeClass(showMiniCartClass);
+    }
+
+    // Закрываем выпадающее сравнение по клику за пределами
+    if (
+      !$(event.target).closest('.addToCompareList').length > 0
+      && !$(event.target).closest('#mini_compare_header').length > 0
+      && $miniCompare.hasClass(showMiniPreviewClass)
+    ) {
+      if (lastTimeout) {
+        clearTimeout(lastTimeout);
+      }
+
+      $miniCompare.removeClass(showMiniPreviewClass);
+    }
+
+    // Закрываем выпадающее избранное по клику за пределами
+    if (
+      !$(event.target).closest('.addToFavoriteList').length > 0
+      && !$(event.target).closest('#mini_favorite_header').length > 0
+      && $miniFavorite.hasClass(showMiniPreviewClass)
+    ) {
+      if (lastTimeout) {
+        clearTimeout(lastTimeout);
+      }
+
+      $miniFavorite.removeClass(showMiniPreviewClass);
     }
   });
 
