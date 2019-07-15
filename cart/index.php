@@ -505,7 +505,7 @@ global $USER;
                     <span>1-2 дня, от 350 ₽</span>
                   </label>
                   <section class="sci-delivery-content" id="sci-delivery-content2">
-                    <div class="sci-contact__field">
+                    <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
                       <label class="sci-contact__label">Город
                         <input data-city-prop-alt="ORDER_PROP_25"
                                data-city-prop-val-alt="ORDER_PROP_25_val"
@@ -628,7 +628,7 @@ global $USER;
                     <span>1-2 дня, от 350 ₽</span>
                   </label>
                   <section class="sci-delivery-content" id="sci-delivery-content3">
-                    <div class="sci-contact__field">
+                    <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
                       <label class="sci-contact__label">Город
                         <input data-city-prop-alt="ORDER_PROP_25"
                                data-city-prop-val-alt="ORDER_PROP_25_val"
