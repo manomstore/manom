@@ -489,6 +489,12 @@ $(document).ready(function() {
         },
         success: function(data) {
           $.fn.setPushUp("Товар удален", "Товар был удален из избраных товаров", false, "message", false, 5000);
+          $('.addToFavoriteList[data-id="' + $cartItemID + '"]')
+            .addClass('notActive')
+            .prev('input:checkbox')
+            .attr('checked', false)
+            .prop('checked', false);
+
           $.fn.updateMiniFavorite(data);
           if ($(document).find('.addToFavoriteListOnFP').is('div')) {
             $.fn.ajaxLoadCatalog();
@@ -514,6 +520,7 @@ $(document).ready(function() {
           AJAX_MIN_COMPARE: 'Y'
         },
         success: function(data) {
+          $('.addToCompareList[data-id="' + $cartItemID + '"]').addClass('notActive');
           $.fn.setPushUp("Товар удален", "Товар был удален из списков сравнения", false, "message", false, 5000);
           $(document).find('.compare-page-item[data-id="' + $cartItemID + '"] .compare__basket.hidden-remove').click();
           return $.fn.updateMiniCompare(data);
