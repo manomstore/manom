@@ -414,6 +414,9 @@ $(document).ready(function() {
             var showCartClass = 'preview-card--show';
 
             previewCart.addClass(showCartClass);
+            $('#mini_compare_header').removeClass('preview-heart--show');
+            $('#mini_favorite_header').removeClass('preview-heart--show');
+
             var showMiniCart = function() {
               if (previewCart.hasClass(showCartClass)) {
                 previewCart.removeClass(showCartClass);
@@ -612,6 +615,8 @@ $(document).ready(function() {
         var showMiniFavoriteClass = 'preview-heart--show';
 
         $miniFavorite.addClass(showMiniFavoriteClass);
+        $('#mini_compare_header').removeClass('preview-heart--show');
+        $('#mini_cart_header').removeClass('preview-card--show');
 
         var showMiniFavorite = function() {
           if ($miniFavorite.hasClass(showMiniFavoriteClass)) {
@@ -657,6 +662,8 @@ $(document).ready(function() {
         var showMiniCompareClass = 'preview-heart--show';
 
         $miniCompare.addClass(showMiniCompareClass);
+        $('#mini_favorite_header').removeClass('preview-heart--show');
+        $('#mini_cart_header').removeClass('preview-card--show');
 
         var showMiniCompare = function() {
           if ($miniCompare.hasClass(showMiniCompareClass)) {
