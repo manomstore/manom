@@ -704,7 +704,7 @@ global $USER;
               <div class="sci-contact__top">
                 <h2 class="sci-contact__title">Выберите способ оплаты</h2>
               </div>
-              <ul class="sci-delivery-tabs">
+              <ul class="sci-delivery-tabs sci-payment-tabs">
                 <li class="sci-delivery-tab">
                   <input id="sci-payment-tab1"
                          class="sci-delivery__radio visually-hidden"

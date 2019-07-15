@@ -38,9 +38,16 @@
             </div>
             <div class="sci-product__info">
               <div class="sci-product__sum-price">
-                <span>
-                  <?= str_replace('руб.', '', $item['SUM']) ?> ₽
-                </span>
+                <div class="product-price">
+                  <!-- если есть скидка на товар, необходимо добавить класс  product-price__value--new и элемент product-price__value product-price__value--sale в котором указывается
+                  старая цена -->
+                  <span class="product-price__value product-price__value--new">
+                    <?= str_replace('руб.', '', $item['SUM']) ?> ₽
+                  </span>
+                  <span class="product-price__value product-price__value--sale">
+                    99 999 ₽
+                  </span>
+                </div>
                 <!--Добавлять кнопку, если товара нет в наличии-->
                 <button
                   class="sci-product__delete sci-top__remove"
