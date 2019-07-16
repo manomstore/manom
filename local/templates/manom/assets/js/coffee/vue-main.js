@@ -1,26 +1,51 @@
+(
+  function(ELEMENT) {
+    ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector || ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
+    ELEMENT.closest = function closest(selector) {
+      if (!this) {
+        return null;
+      }
+      if (this.matches(selector)) {
+        return this;
+      }
+      if (!this.parentElement) {return null}
+      else {
+        return this.parentElement.closest(selector)
+      }
+    };
+  }(Element.prototype)
+);
+
 var locationDND;
+var bodyPage = document.querySelector('body');
 
 locationDND = new Vue({
   el: "#dnd-location",
   data: {
     showPanel: false,
-    curentCity: null,
+    currentCity: null,
+    currentCityID: null,
     cityNotDefined:false,
-    curentCityID: null,
     listOfCity: [],
     listOfCityDefault: [],
     listOfCityStore: {},
-    specifyInformationStatus: true,
-    showPopupChangeCity: false,
+    isInformationStatus: true,
+    isPopupChangeCityVisible: false,
     changeCitySearchLine: ''
   },
+  created: function() {
+    bodyPage.addEventListener('click', this.closePopupCity);
+  },
+  destroyed: function() {
+    bodyPage.removeEventListener('click', this.closePopupCity);
+  },
   computed: {
-      showConfirmCity: function () {
-          return !this.showPopupChangeCity && !this.cityNotDefined;
-      },
-      showNotDefinedCity: function () {
-          return !this.showPopupChangeCity && this.cityNotDefined;
-      }
+    isConfirmCityVisible: function () {
+      return !this.isPopupChangeCityVisible && !this.cityNotDefined;
+    },
+    isNotDefinedCityVisible: function () {
+      return !this.isPopupChangeCityVisible && this.cityNotDefined;
+    }
   },
   methods: {
     doShowPanel: function() {
@@ -32,43 +57,54 @@ locationDND = new Vue({
     },
     getUnits: function() {
       var $this;
-      this.curentCity = LocationDataDND.cityName;
-      this.curentCityID = LocationDataDND.cityID;
-      this.cityNotDefined = this.curentCity.length <= 0;
+      this.currentCity = LocationDataDND.cityName;
+      this.currentCityID = LocationDataDND.cityID;
+      this.cityNotDefined = this.currentCity.length <= 0;
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList;
       $this = this;
       setTimeout(function() {
-        return $this.specifyInformationStatus = LocationDataDND.specifyInformation;
+        return $this.isInformationStatus = LocationDataDND.specifyInformation;
       }, 2000);
       return this.showPanel = true;
     },
-    curentCityIsActual: function() {
-      this.specifyInformationStatus = true;
+    currentCityIsActual: function() {
+      this.isInformationStatus = true;
       return axios.get('/ajax/location.php', {
         params: {
           location_code: 'changeStatusSpecify'
         }
       });
     },
+    closePopupCity: function(evt) {
+      var elID = '#dnd-location';
+
+      if (!evt.target.closest(elID)) {
+        this.isInformationStatus = true;
+        this.isPopupChangeCityVisible = false;
+      }
+    },
     doChangeCity: function() {
-      if (this.specifyInformationStatus === false && this.showPopupChangeCity === true) {
-        this.specifyInformationStatus = true;
-        this.showPopupChangeCity = false;
+      // TODO: разобраться что за строка присваивается isInformationStatus и для чего
+      if (this.isInformationStatus === false && this.isPopupChangeCityVisible) {
+        this.isInformationStatus = true;
+        this.isPopupChangeCityVisible = false;
         this.changeCitySearchLine = '';
-        return this.listOfCity = this.listOfCityDefault;
+
+        this.listOfCity = this.listOfCityDefault;
       } else {
-        this.specifyInformationStatus = false;
-        return this.showPopupChangeCity = true;
+        this.isInformationStatus = false;
+        this.isPopupChangeCityVisible = true;
       }
     },
     changeCity: function(cityItem) {
-      this.showPopupChangeCity = false;
-      this.specifyInformationStatus = true;
+      this.isPopupChangeCityVisible = false;
+      this.isInformationStatus = true;
       this.changeCitySearchLine = '';
+
       this.listOfCity = [];
       this.listOfCity = this.listOfCityDefault;
-      this.curentCity = cityItem.title;
-      this.curentCityID = cityItem.id;
+      this.currentCity = cityItem.title;
+      this.currentCityID = cityItem.id;
       $.fn.updGlobalCityInCart(cityItem.id);
       return axios.get('/ajax/location.php', {
         params: {

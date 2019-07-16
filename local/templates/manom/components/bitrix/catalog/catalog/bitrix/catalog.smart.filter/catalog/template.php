@@ -48,7 +48,7 @@ foreach($arResult["ITEMS"] as $key=>$arItem)//prices
 				$precision = $arItem["DECIMALS"]? $arItem["DECIMALS"]: 0;
 				?>
 				<li class="catalog-filter__li">
-					<input type="checkbox" class="checkbox-1" checked>
+					<input type="checkbox" class="checkbox-1">
 					<i></i>
 					<h3>Стоимость</h3>
 					<p class="price-slider">
@@ -98,7 +98,7 @@ foreach($arResult["ITEMS"] as $key=>$arItem)//prices
 				continue;
 		?>
 			<li class="catalog-filter__li">
-				<input type="checkbox" class="checkbox-1" checked>
+				<input type="checkbox" class="checkbox-1">
 				<i></i>
 				<h3><?=$arItem['NAME']?></h3>
 				<?switch ($arItem["DISPLAY_TYPE"]) {

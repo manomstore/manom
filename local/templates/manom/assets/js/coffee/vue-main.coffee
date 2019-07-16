@@ -2,13 +2,13 @@ locationDND = new Vue(
   el: "#dnd-location"
   data: {
     showPanel: false
-    curentCity: null
-    curentCityID: null
+    currentCity: null
+    currentCityID: null
     listOfCity: []
     listOfCityDefault: []
     listOfCityStore: {}
-    specifyInformationStatus: true
-    showPopupChangeCity: false
+    isInformationStatus: true
+    isShowPopupCity: false
     changeCitySearchLine: ''
   }
   methods: {
@@ -18,38 +18,38 @@ locationDND = new Vue(
       else
         return ''
     getUnits: ()->
-      this.curentCity = LocationDataDND.cityName
-      this.curentCityID = LocationDataDND.cityID
+      this.currentCity = LocationDataDND.cityName
+      this.currentCityID = LocationDataDND.cityID
       this.listOfCityDefault = this.listOfCity = LocationDataDND.defaultCityList
       $this = this
       setTimeout ()->
-        $this.specifyInformationStatus = LocationDataDND.specifyInformation
+        $this.isInformationStatus = LocationDataDND.specifyInformation
       , 2000
       this.showPanel = true
-    curentCityIsActual: ()->
-      this.specifyInformationStatus = true
+    currentCityIsActual: ()->
+      this.isInformationStatus = true
       axios.get('/ajax/location.php', {
         params: {
           location_code: 'changeStatusSpecify'
         }
       })
     doChangeCity: ()->
-      if this.specifyInformationStatus == false and this.showPopupChangeCity == true
-        this.specifyInformationStatus = true
-        this.showPopupChangeCity = false
+      if this.isInformationStatus == false and this.isShowPopupCity == true
+        this.isInformationStatus = true
+        this.isShowPopupCity = false
         this.changeCitySearchLine = ''
         this.listOfCity = this.listOfCityDefault
       else
-        this.specifyInformationStatus = false
+        this.isInformationStatus = false
         this.showPopupChangeCity = true
     changeCity: (cityItem)->
       this.showPopupChangeCity = false
-      this.specifyInformationStatus = true
+      this.isInformationStatus = true
       this.changeCitySearchLine = ''
       this.listOfCity = []
       this.listOfCity = this.listOfCityDefault
-      this.curentCity = cityItem.title
-      this.curentCityID = cityItem.id
+      this.currentCity = cityItem.title
+      this.currentCityID = cityItem.id
       $.fn.updGlobalCityInCart(cityItem.id)
       axios.get('/ajax/location.php', {
         params: {

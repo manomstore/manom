@@ -1,205 +1,206 @@
 
-<!-- Footer -->
-	<footer class="footer">
-		<div class="container">
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
 
-			<div class="footer-top">
-				<div class="subscription">
-                    <?
-										// $APPLICATION->IncludeComponent("bitrix:subscribe.news","footer_subscribe",Array(
-                    //     "SITE_ID" => "s1",
-                    //     "IBLOCK_TYPE" => "articles",
-                    //     "ID" => "1",
-                    //     "SORT_BY" => "ACTIVE_FROM",
-                    //     "SORT_ORDER" => "DESC"
-                    // ));
-										?>
-										<?$APPLICATION->IncludeComponent("bitrix:subscribe.form", "subs_footer", Array(
-											"USE_PERSONALIZATION" => "Y",	// Определять подписку текущего пользователя
-												"PAGE" => "#SITE_DIR#subscribe/",	// Страница редактирования подписки (доступен макрос #SITE_DIR#)
-												"SHOW_HIDDEN" => "Y",	// Показать скрытые рубрики подписки
-												"CACHE_TYPE" => "A",	// Тип кеширования
-												"CACHE_TIME" => "3600",	// Время кеширования (сек.)
-											),
-											false
-										);?>
-				</div>
+                <div class="footer-top">
+                    <div class="subscription">
+                        <?
+                                            // $APPLICATION->IncludeComponent("bitrix:subscribe.news","footer_subscribe",Array(
+                        //     "SITE_ID" => "s1",
+                        //     "IBLOCK_TYPE" => "articles",
+                        //     "ID" => "1",
+                        //     "SORT_BY" => "ACTIVE_FROM",
+                        //     "SORT_ORDER" => "DESC"
+                        // ));
+                                            ?>
+                                            <?$APPLICATION->IncludeComponent("bitrix:subscribe.form", "subs_footer", Array(
+                                                "USE_PERSONALIZATION" => "Y",	// Определять подписку текущего пользователя
+                                                    "PAGE" => "#SITE_DIR#subscribe/",	// Страница редактирования подписки (доступен макрос #SITE_DIR#)
+                                                    "SHOW_HIDDEN" => "Y",	// Показать скрытые рубрики подписки
+                                                    "CACHE_TYPE" => "A",	// Тип кеширования
+                                                    "CACHE_TIME" => "3600",	// Время кеширования (сек.)
+                                                ),
+                                                false
+                                            );?>
+                    </div>
 
-				<div class="social">
-					<span>Будь на связи с нами</span>
-                    <?$APPLICATION->IncludeComponent(
-                        "bitrix:news.list",
-                        "social_footer",
-                        Array(
-                            "DISPLAY_DATE" => "Y",
-                            "DISPLAY_NAME" => "Y",
-                            "DISPLAY_PICTURE" => "Y",
-                            "DISPLAY_PREVIEW_TEXT" => "Y",
-                            "AJAX_MODE" => "N",
-                            "IBLOCK_TYPE" => "content",
-                            "IBLOCK_ID" => "4",
-                            "NEWS_COUNT" => "20",
-                            "SORT_BY1" => "ACTIVE_FROM",
-                            "SORT_ORDER1" => "DESC",
-                            "SORT_BY2" => "SORT",
-                            "SORT_ORDER2" => "ASC",
-                            "FILTER_NAME" => "",
-                            "FIELD_CODE" => array("SLIDER_LINK"),
-                            "PROPERTY_CODE" => array("SLIDER_LINK"),
-                            "CHECK_DATES" => "Y",
-                            "DETAIL_URL" => "",
-                            "PREVIEW_TRUNCATE_LEN" => "",
-                            "ACTIVE_DATE_FORMAT" => "",
-                            "SET_TITLE" => "N",
-                            "SET_STATUS_404" => "N",
-                            "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
-                            "ADD_SECTIONS_CHAIN" => "N",
-                            "HIDE_LINK_WHEN_NO_DETAIL" => "N",
-                            "PARENT_SECTION" => "",
-                            "PARENT_SECTION_CODE" => "",
-                            "CACHE_TYPE" => "A",
-                            "CACHE_TIME" => "36000000",
-                            "CACHE_NOTES" => "",
-                            "CACHE_FILTER" => "N",
-                            "CACHE_GROUPS" => "N",
-                            "DISPLAY_TOP_PAGER" => "N",
-                            "DISPLAY_BOTTOM_PAGER" => "N",
-                            "PAGER_TITLE" => "Слайдер",
-                            "PAGER_SHOW_ALWAYS" => "N",
-                            "PAGER_TEMPLATE" => "",
-                            "PAGER_DESC_NUMBERING" => "N",
-                            "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-                            "PAGER_SHOW_ALL" => "N",
-                            "AJAX_OPTION_JUMP" => "N",
-                            "AJAX_OPTION_STYLE" => "Y",
-                            "AJAX_OPTION_HISTORY" => "N",
-                            "AJAX_OPTION_ADDITIONAL" => ""
-                        )
-                    );?>
-				</div>
-			</div>
+                    <div class="social">
+                        <span>Будь на связи с нами</span>
+                        <?$APPLICATION->IncludeComponent(
+                            "bitrix:news.list",
+                            "social_footer",
+                            Array(
+                                "DISPLAY_DATE" => "Y",
+                                "DISPLAY_NAME" => "Y",
+                                "DISPLAY_PICTURE" => "Y",
+                                "DISPLAY_PREVIEW_TEXT" => "Y",
+                                "AJAX_MODE" => "N",
+                                "IBLOCK_TYPE" => "content",
+                                "IBLOCK_ID" => "4",
+                                "NEWS_COUNT" => "20",
+                                "SORT_BY1" => "ACTIVE_FROM",
+                                "SORT_ORDER1" => "DESC",
+                                "SORT_BY2" => "SORT",
+                                "SORT_ORDER2" => "ASC",
+                                "FILTER_NAME" => "",
+                                "FIELD_CODE" => array("SLIDER_LINK"),
+                                "PROPERTY_CODE" => array("SLIDER_LINK"),
+                                "CHECK_DATES" => "Y",
+                                "DETAIL_URL" => "",
+                                "PREVIEW_TRUNCATE_LEN" => "",
+                                "ACTIVE_DATE_FORMAT" => "",
+                                "SET_TITLE" => "N",
+                                "SET_STATUS_404" => "N",
+                                "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+                                "ADD_SECTIONS_CHAIN" => "N",
+                                "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+                                "PARENT_SECTION" => "",
+                                "PARENT_SECTION_CODE" => "",
+                                "CACHE_TYPE" => "A",
+                                "CACHE_TIME" => "36000000",
+                                "CACHE_NOTES" => "",
+                                "CACHE_FILTER" => "N",
+                                "CACHE_GROUPS" => "N",
+                                "DISPLAY_TOP_PAGER" => "N",
+                                "DISPLAY_BOTTOM_PAGER" => "N",
+                                "PAGER_TITLE" => "Слайдер",
+                                "PAGER_SHOW_ALWAYS" => "N",
+                                "PAGER_TEMPLATE" => "",
+                                "PAGER_DESC_NUMBERING" => "N",
+                                "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+                                "PAGER_SHOW_ALL" => "N",
+                                "AJAX_OPTION_JUMP" => "N",
+                                "AJAX_OPTION_STYLE" => "Y",
+                                "AJAX_OPTION_HISTORY" => "N",
+                                "AJAX_OPTION_ADDITIONAL" => ""
+                            )
+                        );?>
+                    </div>
+                </div>
 
-			<div class="footer-main row">
-				<div class="col-3 footer-main__column">
-					<h3 class="footer-nav__title">
-                        <?$APPLICATION->IncludeComponent(
-                            "bitrix:main.include",
-                            ".default",
-                            array(
-                                "PATH" => "/include/footer-col-title-1.php",
-                                "COMPONENT_TEMPLATE" => ".default",
-                                "AREA_FILE_SHOW" => "file",
-                                "EDIT_TEMPLATE" => ""
-                            ),
-                            false
+                <div class="footer-main row">
+                    <div class="col-3 footer-main__column">
+                        <h3 class="footer-nav__title">
+                            <?$APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                ".default",
+                                array(
+                                    "PATH" => "/include/footer-col-title-1.php",
+                                    "COMPONENT_TEMPLATE" => ".default",
+                                    "AREA_FILE_SHOW" => "file",
+                                    "EDIT_TEMPLATE" => ""
+                                ),
+                                false
+                            );?>
+                        </h3>
+                        <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_1",Array(
+                                "ROOT_MENU_TYPE" => "bottom",
+                                "MAX_LEVEL" => "1",
+                                "CHILD_MENU_TYPE" => "bottom",
+                                "USE_EXT" => "Y",
+                                "DELAY" => "N",
+                                "ALLOW_MULTI_SELECT" => "Y",
+                                "MENU_CACHE_TYPE" => "N",
+                                "MENU_CACHE_TIME" => "3600",
+                                "MENU_CACHE_USE_GROUPS" => "Y",
+                                "MENU_CACHE_GET_VARS" => ""
+                            )
                         );?>
-                    </h3>
-                    <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_1",Array(
-                            "ROOT_MENU_TYPE" => "bottom",
-                            "MAX_LEVEL" => "1",
-                            "CHILD_MENU_TYPE" => "bottom",
-                            "USE_EXT" => "Y",
-                            "DELAY" => "N",
-                            "ALLOW_MULTI_SELECT" => "Y",
-                            "MENU_CACHE_TYPE" => "N",
-                            "MENU_CACHE_TIME" => "3600",
-                            "MENU_CACHE_USE_GROUPS" => "Y",
-                            "MENU_CACHE_GET_VARS" => ""
-                        )
-                    );?>
-				</div>
-				<div class="col-3 footer-main__column">
-					<h3 class="footer-nav__title">
-                        <?$APPLICATION->IncludeComponent(
-                            "bitrix:main.include",
-                            ".default",
-                            array(
-                                "PATH" => "/include/footer-col-title-2.php",
-                                "COMPONENT_TEMPLATE" => ".default",
-                                "AREA_FILE_SHOW" => "file",
-                                "EDIT_TEMPLATE" => ""
-                            ),
-                            false
+                    </div>
+                    <div class="col-3 footer-main__column">
+                        <h3 class="footer-nav__title">
+                            <?$APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                ".default",
+                                array(
+                                    "PATH" => "/include/footer-col-title-2.php",
+                                    "COMPONENT_TEMPLATE" => ".default",
+                                    "AREA_FILE_SHOW" => "file",
+                                    "EDIT_TEMPLATE" => ""
+                                ),
+                                false
+                            );?>
+                        </h3>
+                        <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_2",Array(
+                                "ROOT_MENU_TYPE" => "bottom2",
+                                "MAX_LEVEL" => "1",
+                                "CHILD_MENU_TYPE" => "bottom2",
+                                "USE_EXT" => "Y",
+                                "DELAY" => "N",
+                                "ALLOW_MULTI_SELECT" => "Y",
+                                "MENU_CACHE_TYPE" => "N",
+                                "MENU_CACHE_TIME" => "3600",
+                                "MENU_CACHE_USE_GROUPS" => "Y",
+                                "MENU_CACHE_GET_VARS" => ""
+                            )
                         );?>
-                    </h3>
-                    <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_2",Array(
-                            "ROOT_MENU_TYPE" => "bottom2",
-                            "MAX_LEVEL" => "1",
-                            "CHILD_MENU_TYPE" => "bottom2",
-                            "USE_EXT" => "Y",
-                            "DELAY" => "N",
-                            "ALLOW_MULTI_SELECT" => "Y",
-                            "MENU_CACHE_TYPE" => "N",
-                            "MENU_CACHE_TIME" => "3600",
-                            "MENU_CACHE_USE_GROUPS" => "Y",
-                            "MENU_CACHE_GET_VARS" => ""
-                        )
-                    );?>
-				</div>
-				<div class="col-3 footer-main__column">
-					<h3 class="footer-nav__title">
-                        <?$APPLICATION->IncludeComponent(
-                            "bitrix:main.include",
-                            ".default",
-                            array(
-                                "PATH" => "/include/footer-col-title-3.php",
-                                "COMPONENT_TEMPLATE" => ".default",
-                                "AREA_FILE_SHOW" => "file",
-                                "EDIT_TEMPLATE" => ""
-                            ),
-                            false
+                    </div>
+                    <div class="col-3 footer-main__column">
+                        <h3 class="footer-nav__title">
+                            <?$APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                ".default",
+                                array(
+                                    "PATH" => "/include/footer-col-title-3.php",
+                                    "COMPONENT_TEMPLATE" => ".default",
+                                    "AREA_FILE_SHOW" => "file",
+                                    "EDIT_TEMPLATE" => ""
+                                ),
+                                false
+                            );?>
+                        </h3>
+                        <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_3",Array(
+                                "ROOT_MENU_TYPE" => "bottom3",
+                                "MAX_LEVEL" => "1",
+                                "CHILD_MENU_TYPE" => "bottom3",
+                                "USE_EXT" => "Y",
+                                "DELAY" => "N",
+                                "ALLOW_MULTI_SELECT" => "Y",
+                                "MENU_CACHE_TYPE" => "N",
+                                "MENU_CACHE_TIME" => "3600",
+                                "MENU_CACHE_USE_GROUPS" => "Y",
+                                "MENU_CACHE_GET_VARS" => ""
+                            )
                         );?>
-                    </h3>
-                    <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_3",Array(
-                            "ROOT_MENU_TYPE" => "bottom3",
-                            "MAX_LEVEL" => "1",
-                            "CHILD_MENU_TYPE" => "bottom3",
-                            "USE_EXT" => "Y",
-                            "DELAY" => "N",
-                            "ALLOW_MULTI_SELECT" => "Y",
-                            "MENU_CACHE_TYPE" => "N",
-                            "MENU_CACHE_TIME" => "3600",
-                            "MENU_CACHE_USE_GROUPS" => "Y",
-                            "MENU_CACHE_GET_VARS" => ""
-                        )
-                    );?>
-				</div>
-				<div class="col-3 footer-main__column">
-					<h3 class="footer-nav__title">
-                        <?$APPLICATION->IncludeComponent(
-	"bitrix:main.include", 
-	".default", 
-	array(
-		"PATH" => "/include/footer-col-title-4.php",
-		"COMPONENT_TEMPLATE" => ".default",
-		"AREA_FILE_SHOW" => "file",
-		"EDIT_TEMPLATE" => ""
-	),
-	false
-);?>
-                    </h3>
-                    <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_4",Array(
-                            "ROOT_MENU_TYPE" => "bottom4",
-                            "MAX_LEVEL" => "1",
-                            "CHILD_MENU_TYPE" => "bottom4",
-                            "USE_EXT" => "Y",
-                            "DELAY" => "N",
-                            "ALLOW_MULTI_SELECT" => "Y",
-                            "MENU_CACHE_TYPE" => "N",
-                            "MENU_CACHE_TIME" => "3600",
-                            "MENU_CACHE_USE_GROUPS" => "Y",
-                            "MENU_CACHE_GET_VARS" => ""
-                        )
-                    );?>
-				</div>
-			</div>
-			<div class="footer-bottom">
-				<p class="footer-bottom__copyright">© Manom.ru 2018-<?=date("Y")?></p>
-				<a href="/public_offer_agreement/" class="footer-bottom__contract">Договор публичной оферты</a>
-				<a href="/privacy_policy/" class="footer-bottom__policy">Политика конфиденциальности</a>
-			</div>
-		</div>
-	</footer>
+                    </div>
+                    <div class="col-3 footer-main__column">
+                        <h3 class="footer-nav__title">
+                            <?$APPLICATION->IncludeComponent(
+        "bitrix:main.include",
+        ".default",
+        array(
+            "PATH" => "/include/footer-col-title-4.php",
+            "COMPONENT_TEMPLATE" => ".default",
+            "AREA_FILE_SHOW" => "file",
+            "EDIT_TEMPLATE" => ""
+        ),
+        false
+    );?>
+                        </h3>
+                        <?$APPLICATION->IncludeComponent("bitrix:menu","footer_menu_4",Array(
+                                "ROOT_MENU_TYPE" => "bottom4",
+                                "MAX_LEVEL" => "1",
+                                "CHILD_MENU_TYPE" => "bottom4",
+                                "USE_EXT" => "Y",
+                                "DELAY" => "N",
+                                "ALLOW_MULTI_SELECT" => "Y",
+                                "MENU_CACHE_TYPE" => "N",
+                                "MENU_CACHE_TIME" => "3600",
+                                "MENU_CACHE_USE_GROUPS" => "Y",
+                                "MENU_CACHE_GET_VARS" => ""
+                            )
+                        );?>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="footer-bottom__copyright">© Manom.ru 2018-<?=date("Y")?></p>
+                    <a href="/public_offer_agreement/" class="footer-bottom__contract">Договор публичной оферты</a>
+                    <a href="/privacy_policy/" class="footer-bottom__policy">Политика конфиденциальности</a>
+                </div>
+            </div>
+        </footer>
+    </div>
 <?php
 //$GLOBALS["MY_DEBUG"] = $arResult; (Пример принта массива компанента ($arResult))
 function print_my_debug() {
