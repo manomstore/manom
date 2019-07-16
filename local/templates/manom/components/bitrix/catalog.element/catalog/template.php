@@ -226,7 +226,9 @@ if (!$_REQUEST['offer']){
 			</p>
 			<a href="#product-tabs"	class="product-content__more">Подробнее...</a>
 <!-- 				<p class="product-content__color">Выберите цвет: <span>Красный</span></p> -->
-			<div><div class="offers_by_prop_json" data-json='<?=json_encode($arResult['OFFERS_BY_DISPLAY_PROP']);?>'></div></div>
+			<div>
+                <div class="offers_by_prop_json" data-json='<?=htmlspecialchars(json_encode($arResult['OFFERS_BY_DISPLAY_PROP']))?>'></div>
+            </div>
 			<?if(count($arResult['DISPLAY_OFFERS']) > 1):?>
 				<?foreach ($arResult['DATA_PROP_FOR_CHOICE'] as $key => $item) {
 					?><div class="offers_prop" data-code="<?=$item['CODE']?>" data-id="<?=$item['ID']?>"><p class="product-content__color prop_title"><?=$item['TITLE']?>: <span><?=$actualOffer['props'][$item['CODE']]['title']?></span></p><?
