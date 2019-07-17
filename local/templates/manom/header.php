@@ -31,6 +31,7 @@
 
 	<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.css">
 	<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/css/custom.css">
+	<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/css/fixes.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <script type="text/javascript" src="https://vk.com/js/api/share.js?93" charset="windows-1251"></script>
     <script src='https://www.google.com/recaptcha/api.js?render=6LeuEIEUAAAAAFd1nHH6PD8ckNxVwX6p0_6j_Hxr'></script>

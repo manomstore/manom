@@ -1,0 +1,9 @@
+@media (min-width: 1000px) {
+	.sci-add--collapsed .sci-add__products {
+		display: none;
+	}
+
+	.sci-add__button-hide {
+		top: 26px;
+	}
+}

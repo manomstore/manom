@@ -1,3 +1,8 @@
+var app = {};
+
+app.$doc = $(document);
+app.$win = $(window)
+
 $(document).ready(function() {
   var $clearAll, $maxPrice, $minPrice;
 
@@ -479,6 +484,20 @@ $(document).ready(function() {
           return $.fn.refreshMiniCart();
         }
       });
+    }
+  });
+  $(document).on('click', '.sci-add__button-hide', function(){
+    var collapsedClass = 'sci-add--collapsed';
+    var hideButtonOnClass = 'sci-add__button-hide--on';
+    var $hideButton = $(this);
+    var $collapsableBlock = $hideButton.closest('.sci-add');
+
+    if ($collapsableBlock.hasClass(collapsedClass)) {
+      $collapsableBlock.removeClass(collapsedClass);
+      $hideButton.removeClass(hideButtonOnClass);
+    } else {
+      $collapsableBlock.addClass(collapsedClass);
+      $hideButton.addClass(hideButtonOnClass);
     }
   });
   $(document).on('click', '.sci-top__remove', function() {
