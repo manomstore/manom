@@ -98,7 +98,10 @@ pre.dnd-dump:hover {
 }
 /*preloader Start*/
 .windows8 {
-	position: relative;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	width: 90px;
 	height:90px;
 	margin:auto;
@@ -447,7 +450,7 @@ pre.dnd-dump:hover {
 }
 .preloaderCatalog{
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -457,9 +460,6 @@ pre.dnd-dump:hover {
 }
 .preloaderCatalog.preloaderCatalogActive {
   display: block;
-}
-.windows8{
-  padding-top: 150px;
 }
 /*preloader done*/
 .mp-element.mp-active{
