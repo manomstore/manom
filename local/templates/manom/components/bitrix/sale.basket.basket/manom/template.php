@@ -28,7 +28,8 @@ use Bitrix\Main\Localization\Loc;
   </script>
 <? endif ?>
 <? foreach ($arResult['GRID']['ROWS'] as $key => $value) { ?>
-  <article class="sci-product" data-id="<?= $value['ID'] ?>">
+  <article class="sci-product<?=!$value['has_prod'] ? ' sci-product--off' : '';?>"
+           data-id="<?= $value['ID'] ?>">
     <div class="sci-product__wrapper">
       <div class="sci-product__picture">
         <img src="<?= $value['PIC'] ?>" alt="">
@@ -58,7 +59,11 @@ use Bitrix\Main\Localization\Loc;
           </h3>
         </a>
         <p class="sci-product__status">
-          Есть в наличии
+          <? if ($value['has_prod']) {?>
+            Есть в наличии
+          <?} else {?>
+            Товар закончился
+          <?}?>
         </p>
         <div class="sci-product__counter-wrapper">
           <div class="sci-product__counter">

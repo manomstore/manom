@@ -1,10 +1,62 @@
 var app = {};
 
 app.$doc = $(document);
-app.$win = $(window)
+app.$win = $(window);
+
+// ЧЕКАУТ
+(function(){
+  var classes = {
+    hidden: 'sc-hidden'
+  };
+
+  var selectors = {
+    title: '.js-shopcart-title'
+  };
+
+  app.shopcart = {
+    _step: 1,
+    setStep: function(step){
+      switch (step) {
+        case 1: {
+
+          break;
+        }
+
+        case 2: {
+
+          break;
+        }
+
+        case 3: {
+
+          break;
+        }
+
+        case 4: {
+
+          break;
+        }
+
+        default:
+          new Error('Указан неверный шаг');
+          break;
+      }
+
+      if ([1, 2, 3, 4].indexOf(step) >= 0) {
+        // this.$el - пока инициализируем ниже, потом перетянуть
+        this.$el.find(selectors.title).text(SHOPCART_STEP_TITLES[step - 1]);
+        this.$el.removeClass('shopcart--step-' + this._step);
+        this.$el.addClass('shopcart--step-' + step);
+        this._step = step;
+      }
+    }
+  };
+})();
 
 $(document).ready(function() {
   var $clearAll, $maxPrice, $minPrice;
+
+  app.shopcart.$el = $('.shopcart');
 
   $('.sci-add__products').slick({
     dots: false,
@@ -31,11 +83,11 @@ $(document).ready(function() {
       }, 500);
     }
   });
-  $(document).on('click', '#btnNextSlide', function() {
+  $(document).on('click', '.js-shopcart-next', function(e) {
     var inputCount, slideNum;
     inputCount = $(document).find('.shopcart-nav1 input').length;
     slideNum = 1;
-    return $(document).find('.shopcart-nav1 input[type="radio"]').each(function() {
+    $(document).find('.shopcart-nav1 input[type="radio"]').each(function() {
       var $count, $formIsValid, sBlock;
       if ($(this).prop('checked')) {
         slideNum = $(this).attr('data-num');
@@ -114,6 +166,12 @@ $(document).ready(function() {
         }
       }
     });
+
+    e.preventDefault();
+  });
+  $(document).on('click', '.js-shopcart-back', function(e) {
+    $(document).find('.shopcart-nav1 label[for="shopcart-tab' + (app.shopcart._step - 1) + '"]').click();
+    e.preventDefault();
   });
   $(document).on('click', '.shopcart-nav1 label', function() {
     var slideNum;
@@ -126,6 +184,13 @@ $(document).ready(function() {
       return $(document).find('#btnNextSlide').removeClass('hidden');
     }
   });
+
+  $(document).on('change', '.shopcart-nav1 input', function(){
+    var step = $(this).data('num');
+
+    app.shopcart.setStep(step);
+  });
+
   $(document).on('submit', '#popap-call form', function() {
     var $this, form_id, name, phone;
     $this = $(this);
@@ -623,9 +688,7 @@ $(document).ready(function() {
       return $.fn.updateDateSaleOrder();
     }
   });
-  $(document).on('click', '#backToCatalog', function() {
-    return location.href = '/catalog/';
-  });
+
   $(document).on('change', '#so_city_val', function() {
     var $this, soBlock, soCityAlt, soCityAltID, soCityID, soModule;
     soCityID = $(document).find('#so_city');
@@ -882,12 +945,15 @@ $.fn.updateSideInfo = function() {
   soModule = $(document).find('#module_so');
   uName = '[name="sci-contact__fio"]';
   uPhone = '[name="sci-contact__tel"]';
+  uEmail = '[name="sci-contact__email"]';
   if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
     uName = '[name="sci-contact__ur-name"]';
     uPhone = '[name="sci-contact__ur-phone"]';
+    uEmail = '[name="sci-contact__ur-email"]';
   }
   soBlock.find('.shopcart-sidebar__buyer-fio').html(soBlock.find(uName).val());
   soBlock.find('.shopcart-sidebar__buyer-tel').html(soBlock.find(uPhone).val());
+  soBlock.find('.shopcart-sidebar__buyer-email').html(soBlock.find(uEmail).val())
   uCity = soBlock.find('[name="so_city_val"]').val();
   uAddress = "";
   if (soBlock.find('[name="sci-delivery-street"]').val()) {
@@ -903,16 +969,20 @@ $.fn.updateSideInfo = function() {
   uDeliveryTime = soBlock.find('[name="sci-delivery-time"]').val();
   deliveryPrice = '0';
   totalPrice = '0';
-  soModule.find('.sale_order_full tfoot tr').each(function() {
-    if ($(this).find('td').eq(0).find('b').is('b')) {
-      if ($(this).find('td').eq(0).find('b').html().toString() === 'Доставка:') {
-        deliveryPrice = $(this).find('td').eq(1).html().toString().replace('руб.', '');
+  if ([3, 4].indexOf(app.shopcart._step) !== -1) {
+    soModule.find('.sale_order_full tfoot tr').each(function() {
+      if ($(this).find('td').eq(0).find('b').is('b')) {
+        if ($(this).find('td').eq(0).find('b').html().toString() === 'Доставка:') {
+          deliveryPrice = $(this).find('td').eq(1).html().toString().replace('руб.', '');
+        }
+        if ($(this).find('td').eq(0).find('b').html().toString() === 'Итого:') {
+          totalPrice = $(this).find('td').eq(1).find('b').html().toString().replace('руб.', '');
+        }
       }
-      if ($(this).find('td').eq(0).find('b').html().toString() === 'Итого:') {
-        return totalPrice = $(this).find('td').eq(1).find('b').html().toString().replace('руб.', '');
-      }
-    }
-  });
+    });
+  } else {
+    totalPrice = $(document).find('#cart_sum_prod').html();
+  }
   uDeliveryTime = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
   if (soModule.find('#ID_DELIVERY_ID_6').prop('checked')) {
     if (soModule.find('#PERSON_TYPE_2').prop('checked')) {

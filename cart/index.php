@@ -5,7 +5,7 @@ CModule::IncludeModule('statistic');
 global $USER;
 ?>
 
-<main class="shopcart" id="so_main_block">
+<main class="shopcart shopcart--step-1" id="so_main_block">
   <div class="shopcart-nav1">
     <div class="shopcart-nav1__wrapper">
       <div class="layout_cart_menu"></div>
@@ -42,9 +42,7 @@ global $USER;
     </div>
 
     <div class="shopcart__wrapper">
-
-      <!-- Необходимо менять заголовок в зависимости от этапа оформления -->
-      <h1 class="shopcart__title">Корзина</h1>
+      <h1 class="shopcart__title js-shopcart-title">Корзина</h1>
       <button class="button-del button-del--top" type="button">Очистить</button>
     </div>
 		<? if (!$_REQUEST['ORDER_ID']): ?>
@@ -109,7 +107,7 @@ global $USER;
               <div class="sci-contact__tabs">
                 <input class="sci-contact__tab visually-hidden" id="sci-contact-tab1" type="radio" name="tabs" checked>
                 <input class="sci-contact__tab visually-hidden" id="sci-contact-tab2" type="radio" name="tabs">
-                <div class="sci-contact__top">
+                <div class="sci-contact__top sci-contact__top--contacts">
                   <h2 class="sci-contact__title">Ваши данные</h2>
                   <label data-prop="PERSON_TYPE_1" class="sci-contact__tab-label rb_so" for="sci-contact-tab1"><span>Оформить как физ. лицо</span></label>
                   <label data-prop="PERSON_TYPE_2" class="sci-contact__tab-label rb_so" for="sci-contact-tab2"><span>Оформить как юр. лицо</span></label>
@@ -143,9 +141,9 @@ global $USER;
                              class="sci-contact__input"
                              placeholder="Ваш пароль"
                       >
-                      <div class="shopcart-sidebar__button">
+                      <button class="shopcart-sidebar__button" type="button">
                           <span class="js-auth">Войти</span>
-                      </div>
+                      </button>
                   </div>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
@@ -199,8 +197,7 @@ global $USER;
                                    name="sci-contact__ur-password"
                                    id="sci-contact__ur-password"
                                    class="sci-contact__input"
-                                   placeholder="Введите e-mail"
-                                   required>
+                                   placeholder="Введите e-mail">
                         </label>
                         <div class="shopcart-sidebar__button">
                             <span>Войти</span>
@@ -345,6 +342,14 @@ global $USER;
                   </div>
                 </section>
               </div>
+            </div>
+            <div class="sci-contact__button-wrapper">
+              <a class="sci-contact__button-back js-shopcart-back" href="#" aria-label="Вернуться назад">
+                Вернуться в корзину
+              </a>
+              <a class="sci-contact__button-next js-shopcart-next" href="#">
+                К доставке
+              </a>
             </div>
           </section>
           <!-- Корзина - Доставка -->
@@ -697,6 +702,14 @@ global $USER;
                 </li>
               </ul>
             </div>
+            <div class="sci-contact__button-wrapper">
+              <a class="sci-contact__button-back js-shopcart-back" href="#" title="Контактные данные">
+                Контактные данные
+              </a>
+              <a class="sci-contact__button-next js-shopcart-next" href="#" title="К доставке">
+                К оплате
+              </a>
+            </div>
           </section>
           <!-- Корзина - Оплата -->
           <section class="shopcart-item" id="shopcart-item4">
@@ -801,31 +814,21 @@ global $USER;
                          value="sci-contact__consent"
                          required>
                   <span class="sci-contact__check">
-                    Нажимая «Оформить заказ» вы даете согласие на                         хранение и обработку ваших персональных данных в                      соответствии <a href="#">с условиями</a>
+                    Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a href="#">с условиями</a>
                   </span>
                 </label>
               </div>
             </div>
           </section>
-          <div class="sci-contact__button-wrapper">
-            <a class="sci-contact__button-back" href="#" aria-label="Вернуться назад">
-              Вернуться в корзину
-            </a>
-            <a class="sci-contact__button-next" href="#">
-              К доставке
-            </a>
-          </div>
         </div>
         <div class="shopcart-sidebar">
           <div class="shopcart-sidebar__wrapper">
 
-            <!-- На этапе корзины этот блок не нужен -->
-            <div class="sci-contact__top">
+            <div class="sci-contact__top sci-contact__top--order">
               <h2 class="shopcart-sidebar__title">Состав заказа</h2>
               <a class="shopcart-sidebar__link" href="#">Изменить</a>
             </div>
 
-            <!-- Показывать только на этапе корзины -->
             <div class="promo-code shopcart-sidebar__code">
               <form action="#" method="post">
                 <input
@@ -866,12 +869,19 @@ global $USER;
 								false
 							); ?>
 							<? global $cartPrice; ?>
-              <div class="shopcart-sidebar__info">
+              <div class="shopcart-sidebar__info shopcart-sidebar__info--contacts">
                 <h3 class="shopcart-sidebar__title">Получатель:</h3>
-                <p class="shopcart-sidebar__text">Константинопольский Константин</p>
-                <p class="shopcart-sidebar__text">+7 (999) 456 77-88</p>
+                <p class="shopcart-sidebar__text">
+                  <span class="shopcart-sidebar__buyer-fio"></span>
+                </p>
+                <p class="shopcart-sidebar__text">
+                  <span class="shopcart-sidebar__buyer-email"></span>
+                </p>
+                <p class="shopcart-sidebar__text">
+                  <span class="shopcart-sidebar__buyer-tel"></span>
+                </p>
               </div>
-              <div class="shopcart-sidebar__info">
+              <div class="shopcart-sidebar__info shopcart-sidebar__info--delivery">
                 <h3 class="shopcart-sidebar__title">Доставка:</h3>
                 <p class="shopcart-sidebar__text">Ростов-на-Дону, ул. Кирова, д. 96, кв. 113</p>
                 <p class="shopcart-sidebar__text">Срок доставки: <span>2-3 дня</span></p>
@@ -891,16 +901,17 @@ global $USER;
                   Итого:
                   <span id="total_price_cart"><?= $cartPrice; ?> ₽</span>
                 </p>
-                <p></p>
               </div>
             </div>
-            <!-- Убрать кнопку после этапа Корзина -->
-            <a class="shopcart-sidebar__button" id="btnNextSlide" href="#">Оформить заказ</a>
-            <!--        <div class="shopcart-sidebar__button hidden" id="btnSubmitOrder">Оформить заказ</div>-->
-            <!--        <div class="shopcart-sidebar__back-shopping BOC_btn" data-fancybox="" data-src="#popap-buy-one-click-cart" href="javascript:;">Купить в 1 клик</div>-->
+
+            <div class="shopcart-sidebar__button-wrapper">
+              <a class="shopcart-sidebar__button js-shopcart-next" href="#" title="Оформить заказ">Оформить заказ</a>
+              <!--        <div class="shopcart-sidebar__button hidden" id="btnSubmitOrder">Оформить заказ</div>-->
+              <!--        <div class="shopcart-sidebar__back-shopping BOC_btn" data-fancybox="" data-src="#popap-buy-one-click-cart" href="javascript:;">Купить в 1 клик</div>-->
+            </div>
           </div>
           <div class="shopcart-sidebar__back-wrapper">
-            <a class="shopcart-sidebar__back-shopping" id="backToCatalog" href="#">Вернуться к покупкам</a>
+            <a class="shopcart-sidebar__back-shopping" href="/catalog/" title="Вернуться к покупкам">Вернуться к покупкам</a>
           </div>
         </div>
       </div>
@@ -1027,4 +1038,8 @@ if ($_REQUEST['ORDER_ID']) {
   </div>
 
 </div>
+
+<script>
+  var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
+</script>
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

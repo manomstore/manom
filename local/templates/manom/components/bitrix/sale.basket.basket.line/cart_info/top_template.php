@@ -22,52 +22,54 @@
   <pre><? print_r($arResult); ?></pre>
 </div>
 
-<!-- На этапе корзины этот блок не нужен -->
 <div id="cart_info_block" class="shopcart-sidebar__prods">
 	<? if ($_REQUEST['AJAX_CART_INFO'] == 'Y'): ?>
 		<? $APPLICATION->RestartBuffer(); ?>
 	<? endif; ?>
-	<? if ($arResult['NUM_PRODUCTS'] > 0): ?>
-		<? foreach ($arResult['CATEGORIES'] as $key => $cat) {
-			foreach ($cat as $i => $item) { ?>
-        <!-- Если товара нет в налиции необходимо добавить класс shopcart-sidebar__prod--stop -->
-        <div class="shopcart-sidebar__prod">
-          <div class="sci-product__wrapper">
-            <div class="sci-product__picture">
-              <img src="<?= $item['PIC'] ?>" alt="">
-            </div>
-            <div class="sci-product__info">
-              <div class="sci-product__sum-price">
-                <div class="product-price">
-                  <!-- если есть скидка на товар, необходимо добавить класс  product-price__value--new и элемент product-price__value product-price__value--sale в котором указывается
-                  старая цена -->
-                  <span class="product-price__value product-price__value--new">
-                    <?= str_replace('руб.', '', $item['SUM']) ?> ₽
-                  </span>
-                  <span class="product-price__value product-price__value--sale">
-                    99 999 ₽
-                  </span>
-                </div>
-                <!--Добавлять кнопку, если товара нет в наличии-->
-                <button
-                  class="sci-product__delete sci-top__remove"
-                  type="button"
-                  aria-label="Удалить товар"
-                  data-id="<?= $item['ID'] ?>"
-                >
-                </button>
+  <? if ($arResult['NUM_PRODUCTS'] > 0): ?>
+    <div class="shopcart-sidebar__prod-list">
+      <? foreach ($arResult['CATEGORIES'] as $key => $cat) {
+        foreach ($cat as $i => $item) { ?>
+          <div class="shopcart-sidebar__prod<?=!$item['has_prod'] ? ' shopcart-sidebar__prod--stop' : '';?>">
+            <div class="sci-product__wrapper">
+              <div class="sci-product__picture">
+                <img src="<?= $item['PIC'] ?>" alt="">
               </div>
-
-              <h3 class="sci-product__name">
-								<?= $item['NAME'] ?>
-              </h3>
+              <div class="sci-product__info">
+                <div class="sci-product__sum-price">
+                  <div class="product-price">
+                    <!-- если есть скидка на товар, необходимо добавить класс  product-price__value--new и элемент product-price__value product-price__value--sale в котором указывается
+                    старая цена -->
+                    <span class="product-price__value product-price__value--new">
+                      <?= str_replace('руб.', '', $item['SUM']) ?> ₽
+                    </span>
+                    <span class="product-price__value product-price__value--sale">
+                      99 999 ₽
+                    </span>
+                  </div>
+                  <? if (!$item['has_prod']): ?>
+                    <button
+                      class="sci-product__delete sci-top__remove"
+                      type="button"
+                      aria-label="Удалить товар"
+                      data-id="<?= $item['ID'] ?>"
+                    >
+                    </button>
+                  <? endif; ?>
+                </div>
+                <h3 class="sci-product__name">
+                  <?= $item['NAME'] ?>
+                </h3>
+              </div>
             </div>
+            <? if (!$item['has_prod']): ?>
+              <p class="shopcart-sidebar__error">Товар закончился, удалите его и оформите заказ</p>
+            <? endif; ?>
           </div>
-          <p class="shopcart-sidebar__error">Товар закончился, удалите его и оформите заказ</p>
-        </div>
-				<?
-			}
-		} ?>
+          <?
+        }
+      } ?>
+    </div>
 	<? endif; ?>
   <div class="hidden" style="display:none;">
 		<?
