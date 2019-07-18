@@ -357,8 +357,9 @@ global $USER;
             <!-- <h2>Корзина - Доставка</h2> -->
             <div class="sci-delivery">
               <!-- Табы -->
-              <ul class="sci-delivery-tabs">
-                <li class="sci-delivery-tab">
+              <!-- <ul class="sci-delivery-tabs"> -->
+              <div class="sci-delivery-tabs">
+                <!-- <li class="sci-delivery-tab"> -->
                   <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab1" type="radio" name="delivery-tabs">
                   <label data-prop="ID_DELIVERY_ID_5" class="sci-delivery__tab rb_so" for="sci-delivery-tab1">
                     Курьером manom.ru
@@ -502,8 +503,8 @@ global $USER;
                         Стоимость доставки: <span>не известно</span>
                     </span>
                   </section>
-                </li>
-                <li class="sci-delivery-tab">
+                <!-- </li> -->
+                <!-- <li class="sci-delivery-tab"> -->
                   <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab2" type="radio" name="delivery-tabs">
                   <label data-prop="ID_DELIVERY_ID_6" class="sci-delivery__tab rb_so" for="sci-delivery-tab2">
                     Курьером СДЭК
@@ -625,10 +626,10 @@ global $USER;
 <!--                      Время доставки: <span>не известно</span>-->
 <!--                    </span>-->
                   </section>
-                </li>
-                <li class="sci-delivery-tab">
+                <!-- </li>
+                <li class="sci-delivery-tab"> -->
                   <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab3" type="radio" name="delivery-tabs">
-                  <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery__tab rb_so" for="sci-delivery-tab3">
+                  <label class="sci-delivery__tab rb_so" for="sci-delivery-tab3">
                     Самовывоз СДЭК
                     <span>1-2 дня, от 350 ₽</span>
                   </label>
@@ -692,15 +693,16 @@ global $USER;
                       Выбрать пункт самовывоза
                     </button>
                   </section>
-                </li>
-                <li class="sci-delivery-tab">
+                <!-- </li>
+                <li class="sci-delivery-tab"> -->
                   <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab4" type="radio" name="delivery-tabs">
-                  <label class="sci-delivery__tab rb_so" for="sci-delivery-tab4">
+                  <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery__tab rb_so" for="sci-delivery-tab4">
                     Самовывоз из магазина
                     <span>1-2 дня, от 350 ₽</span>
                   </label>
-                </li>
-              </ul>
+                <!-- </li> -->
+              <!-- </div> -->
+              </div>
             </div>
             <div class="sci-contact__button-wrapper">
               <a class="sci-contact__button-back js-shopcart-back" href="#" title="Контактные данные">

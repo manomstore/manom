@@ -1065,7 +1065,7 @@ $.fn.updateDateSaleOrder = function() {
     if (!soBlock.find('.sci-delivery-tabs .rb_so[data-prop="' + delivID + '"]').is('label')) {
       indLav = parseInt(soBlock.find('.sci-delivery-tabs .rb_so').length) + 1;
       titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
-      soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery-tab rb_so" for="sci-delivery-tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
+      soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery__tab rb_so" for="sci-delivery__tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
       soBlock.find('.sci-delivery-tabs').prepend('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="rb_so_proxy">');
       if ($(this).prop('checked')) {
         return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();

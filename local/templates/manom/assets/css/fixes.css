@@ -59,6 +59,10 @@
 	margin-bottom: 0;
 }
 
+.sci-delivery-tabs input[type="radio"] {
+	display: none;
+}
+
 .shopcart--step-1 .shopcart-sidebar .sci-contact__top--order,
 .shopcart--step-1 .shopcart-sidebar__info--contacts,
 .shopcart--step-1 .shopcart-sidebar__info--delivery,
