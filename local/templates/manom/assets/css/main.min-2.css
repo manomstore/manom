@@ -7598,7 +7598,7 @@ p.price-slider {
     display: block;
     width: 100%;
     background-color: #fff;
-    padding: 38px 0 30px;
+    padding: 28px 0 30px;
   }
 
   .shopcart-nav1__wrapper {
@@ -7645,7 +7645,7 @@ p.price-slider {
     display: block;
     width: 25%;
     position: relative;
-    padding-top: 30px;
+    padding-top: 20px;
     transition: all 0.2s ease;
   }
 
