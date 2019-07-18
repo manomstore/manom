@@ -1048,7 +1048,7 @@ $.fn.updateDateSaleOrder = function() {
       if (soModule.find('#' + $(this).attr('data-prop') + '').is('input')) {
         titleDeliv = soModule.find('label[for="' + $(this).attr('data-prop') + '"]>b').eq(0).html();
         $(this).find('span').html(titleDeliv);
-        $(this).find('span.sci-payment__radio').html('');
+        // $(this).find('span.sci-payment__radio').html('');
         $(this).removeClass('rb_so__hide');
         if (soModule.find('#' + $(this).attr('data-prop') + '').prop('checked')) {
           $(this).click();
@@ -1065,13 +1065,15 @@ $.fn.updateDateSaleOrder = function() {
     if (!soBlock.find('.sci-delivery-tabs .rb_so[data-prop="' + delivID + '"]').is('label')) {
       indLav = parseInt(soBlock.find('.sci-delivery-tabs .rb_so').length) + 1;
       titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
-      // soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery-tab rb_so" for="sci-delivery-tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
-      // soBlock.find('.sci-delivery-tabs').prepend('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="rb_so_proxy">');
+      soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery__tab rb_so" for="sci-delivery__tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
+      soBlock.find('.sci-delivery-tabs').prepend('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="rb_so_proxy">');
       if ($(this).prop('checked')) {
         return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
       }
     }
   });
+
+
   soModule.find('.sale_order_full_table input[name="PAY_SYSTEM_ID"]').each(function() {
     var delivID, htmlNewEl, indLav, titleDeliv;
     delivID = $(this).attr('id');
@@ -1080,14 +1082,16 @@ $.fn.updateDateSaleOrder = function() {
       titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
       htmlNewEl = $('<label class="sci-payment__tab rb_so" data-prop="' + delivID + '">');
       htmlNewEl.append('<input id="sci-payment-tab' + indLav + '" type="radio" name="payment-tabs" class="sci-payment__input">');
-      htmlNewEl.append('<span class="sci-payment__radio"></span>');
-      htmlNewEl.append('<span class="sci-payment__name">' + titleDeliv + '</span>');
+      // htmlNewEl.append('<span class="sci-payment__radio"></span>');
+      htmlNewEl.append('<span class="sci-payment__box">' + titleDeliv + '</span>');
       soBlock.find('.sci-payment-tabs').prepend(htmlNewEl);
       if ($(this).prop('checked')) {
         return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
       }
     }
   });
+
+
   soBlock.find('input, textarea, select').each(function() {
     if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
       if (!$(this).is('select')) {
