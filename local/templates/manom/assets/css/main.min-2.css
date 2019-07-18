@@ -7298,7 +7298,7 @@ p.price-slider {
     justify-content: space-between;
     align-items: flex-start;
     position: relative;
-    width: 890px;
+    width: 980px;
     margin: 0 auto;
   }
 
@@ -7306,7 +7306,7 @@ p.price-slider {
     content: "";
     position: absolute;
     top: 5px;
-    left: 110px;
+    left: 0;
     display: block;
     height: 1px;
     width: 75%;
@@ -7317,7 +7317,7 @@ p.price-slider {
   .shopcart-nav1__wrapper .layout_cart_menu {
     position: absolute;
     top: 5px;
-    left: 112px;
+    left: 0;
     background-color: #79B700;
     height: 1px;
     transition: 0.5s;
@@ -7331,7 +7331,7 @@ p.price-slider {
   .shopcart-tab {
     font-size: 16px;
     color: #99989D;
-    text-align: center;
+    text-align: left;
     font-weight: 500;
 
     display: block;
@@ -7349,8 +7349,7 @@ p.price-slider {
     content: "";
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -7369,8 +7368,7 @@ p.price-slider {
     content: "";
     position: absolute;
     top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: -8px;
     width: 26px;
     height: 26px;
     border-radius: 50%;
@@ -7585,7 +7583,8 @@ p.price-slider {
   }
 
   .shopcart-nav1__wrapper {
-    width: 930px;
+    width: 944px;
+    margin: 0;
   }
 
   .shopcart-items {
