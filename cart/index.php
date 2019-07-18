@@ -136,7 +136,6 @@ global $USER;
                            required>
                   </div>
                   <div class="sci-contact__field js-password-block dsb-hidden">
-<<<<<<< Updated upstream
                       <label class="sci-contact__label" for="sci-contact__password">Пароль</label>
                       <input type="password"
                              name="sci-contact__password"
@@ -147,18 +146,6 @@ global $USER;
                       <button class="shopcart-sidebar__button" type="button">
                           <span class="js-auth">Войти</span>
                       </button>
-=======
-                    <label class="sci-contact__label" for="sci-contact__password">Пароль</label>
-                    <input type="password"
-                           name="sci-contact__password"
-                           id="sci-contact__password"
-                           class="sci-contact__input"
-                           placeholder="Ваш пароль"
-                    >
-                    <div class="shopcart-sidebar__button">
-                      <span class="js-auth">Войти</span>
-                    </div>
->>>>>>> Stashed changes
                   </div>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
@@ -205,7 +192,6 @@ global $USER;
                              required>
                     </label>
                   </div>
-<<<<<<< Updated upstream
                     <div class="sci-contact__field js-password-block dsb-hidden">
                         <label class="sci-contact__label">Пароль
                             <input type="password"
@@ -215,25 +201,10 @@ global $USER;
                                    class="sci-contact__input"
                                    placeholder="Введите e-mail">
                         </label>
-                        <div class="shopcart-sidebar__button">
-                            <span>Войти</span>
-                        </div>
-=======
-                  <div class="sci-contact__field js-password-block dsb-hidden">
-                    <label class="sci-contact__label">Пароль
-                      <input type="password"
-                             data-prop="ORDER_PROP_32"
-                             name="sci-contact__ur-password"
-                             id="sci-contact__ur-password"
-                             class="sci-contact__input"
-                             placeholder="Введите e-mail"
-                             required>
-                    </label>
-                    <div class="shopcart-sidebar__button">
-                      <span>Войти</span>
->>>>>>> Stashed changes
+                        <button class="shopcart-sidebar__button" type="button">
+                            <span class="js-auth">Войти</span>
+                        </button>
                     </div>
-                  </div>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Юридическое название
                       <input type="text"
