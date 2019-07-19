@@ -1059,9 +1059,9 @@ $.fn.updateDateSaleOrder = function() {
     var $thisParent = $this.closest('.sci-delivery-tab');
     var id = $this.attr('data-prop');
 
-    if ($this.hasClass('sci-delivery__tab')) {
-      $this.addClass('rb_so_disbled');
+    $this.addClass('rb_so_disbled');
 
+    if ($this.hasClass('sci-delivery__tab')) {
       if (id) {
         if (soModule.find('#' + id + '').is('input')) {
           var $soModuleDelivery = soModule.find('label[for="' + id + '"]');
@@ -1079,29 +1079,27 @@ $.fn.updateDateSaleOrder = function() {
           $thisParent.addClass('rb_so__hide');
         }
       }
+    } else if ($this.hasClass('sci-payment__tab')) {
+      if (id) {
+        if (soModule.find('#' + id + '').is('input')) {
+          var $soModulePayment = soModule.find('label[for="' + id + '"]');
+          var paymentTitle = $soModulePayment.find('>b').eq(0).html();
 
-      $thisParent.removeClass('rb_so_disbled');
-    } else {
-      $this.addClass('rb_so_disbled');
+          $this.html(paymentTitle);
+          $thisParent.removeClass('rb_so__hide');
 
-      var titleDeliv;
-      if ($(this).attr('data-prop')) {
-        if (soModule.find('#' + $(this).attr('data-prop') + '').is('input')) {
-          titleDeliv = soModule.find('label[for="' + $(this).attr('data-prop') + '"]>b').eq(0).html();
-          $(this).find('span').html(titleDeliv);
-          $(this).find('span.sci-payment__radio').html('');
-          $(this).removeClass('rb_so__hide');
-          if (soModule.find('#' + $(this).attr('data-prop') + '').prop('checked')) {
-            $(this).click();
+          if (soModule.find('#' + id + '').prop('checked')) {
+            $this.click();
           }
         } else {
-          $(this).addClass('rb_so__hide');
+          $thisParent.addClass('rb_so__hide');
         }
       }
-
-      $(this).removeClass('rb_so_disbled');
     }
+
+    $this.removeClass('rb_so_disbled');
   });
+
   soModule.find('.sale_order_full_table input[name="DELIVERY_ID"]').each(function() {
     var delivID, indLav, titleDeliv;
     delivID = $(this).attr('id');
@@ -1120,18 +1118,21 @@ $.fn.updateDateSaleOrder = function() {
     }
   });
   soModule.find('.sale_order_full_table input[name="PAY_SYSTEM_ID"]').each(function() {
-    var delivID, htmlNewEl, indLav, titleDeliv;
-    delivID = $(this).attr('id');
-    if (!soBlock.find('.sci-payment-tabs .rb_so[data-prop="' + delivID + '"]').is('label')) {
-      indLav = parseInt(soBlock.find('.sci-payment-tabs .rb_so').length) + 1;
-      titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
-      htmlNewEl = $('<label class="sci-payment__tab rb_so" data-prop="' + delivID + '">');
-      htmlNewEl.append('<input id="sci-payment-tab' + indLav + '" type="radio" name="payment-tabs" class="sci-payment__input">');
-      htmlNewEl.append('<span class="sci-payment__radio"></span>');
-      htmlNewEl.append('<span class="sci-payment__name">' + titleDeliv + '</span>');
+    var paymentID, htmlNewEl, indLav, titleDeliv;
+    paymentID = $(this).attr('id');
+    if (!soBlock.find('.sci-payment-tabs .rb_so[data-prop="' + paymentID + '"]').is('label')) {
+      indLav = parseInt(soBlock.find('.sci-payment-tabs .sci-payment-tab').length) + 1;
+      titleDeliv = soModule.find('label[for="' + paymentID + '"]>b').eq(0).html();
+      htmlNewEl = $('<li class="sci-payment-tab">');
+      htmlNewEl.append('<input id="sci-payment-tab' + indLav + '" type="radio" name="payment-tabs" class="sci-payment__radio visually-hidden" value="' + indLav + '">');
+      htmlNewEl.append('' +
+        '<label class="sci-payment__tab rb_so" data-prop="' + paymentID + '" for="sci-payment-tab' + indLav + '">' +
+          titleDeliv +
+        '</label>'
+      );
       soBlock.find('.sci-payment-tabs').prepend(htmlNewEl);
       if ($(this).prop('checked')) {
-        return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
+        soBlock.find('.rb_so[data-prop="' + paymentID + '"]').click();
       }
     }
   });

@@ -777,15 +777,15 @@ global $USER;
               <div class="sci-contact__top">
                 <h2 class="sci-contact__title">Выберите способ оплаты</h2>
               </div>
-              <!-- <ul class="sci-delivery-tabs sci-payment-tabs">
-                <li class="sci-delivery-tab">
+              <ul class="sci-payment-tabs">
+                <!-- <li class="sci-payment-tab">
                   <input id="sci-payment-tab1"
-                         class="sci-delivery__radio visually-hidden"
+                         class="sci-payment__radio visually-hidden"
                          type="radio"
                          name="payment-tabs"
                          value="1"
                          checked>
-                  <label class="sci-delivery__tab sci-payment__tab"
+                  <label class="sci-payment__tab rb_so"
                          data-prop="ID_PAY_SYSTEM_ID_6"
                          for="sci-payment-tab1">
                     Наличными при получении
@@ -799,13 +799,13 @@ global $USER;
                     </i>
                   </label>
                 </li>
-                <li class="sci-delivery-tab">
+                <li class="sci-payment-tab">
                   <input id="sci-payment-tab2"
-                         class="sci-delivery__radio visually-hidden"
+                         class="sci-payment__radio visually-hidden"
                          type="radio"
                          name="payment-tabs"
                          value="2">
-                  <label class="sci-delivery__tab sci-payment__tab"
+                  <label class="sci-payment__tab rb_so"
                          data-prop="ID_PAY_SYSTEM_ID_4"
                          for="sci-payment-tab2">
                     Банковской картой при получении
@@ -887,79 +887,8 @@ global $USER;
                       </svg>
                     </i>
                   </label>
-                </li>
-              </ul> -->
-              <div class="sci-payment-tabs">
-                <label class="sci-payment__tab rb_so"
-                        data-prop="ID_PAY_SYSTEM_ID_6">
-                  <input id="sci-payment-tab1"
-                        class="sci-payment__input"
-                        type="radio"
-                        name="payment-tabs"
-                        value="1"
-                        checked>
-                  <span class="sci-payment__box">
-                    Наличными при получении
-                  </span>
-                </label>
-                <label class="sci-payment__tab rb_so"
-                        data-prop="ID_PAY_SYSTEM_ID_4">
-                  <input id="sci-payment-tab2"
-                        class="sci-payment__input"
-                        type="radio"
-                        name="payment-tabs"
-                        value="2">
-                  <span class="sci-payment__box">
-                    Банковской картой при получении
-                  </span>
-                </label>
-                <!-- <label class="sci-payment__tab rb_so"
-                        data-prop="ID_PAY_SYSTEM_ID_4">
-                  <input id="sci-payment-tab3"
-                        class="sci-payment__input"
-                        type="radio"
-                        name="payment-tabs"
-                        value="3">
-                  <span class="sci-payment__radio"></span>
-                  <span class="sci-payment__name">Оплата картой онлайн</span>
-                </label> -->
-
-                <!-- <label class="sci-delivery__tab sci-payment__tab"
-                        data-prop="ID_PAY_SYSTEM_ID_4"
-                        for="sci-payment-tab3">
-                  Оплата картой онлайн
-                  <i class="sci-payment__icon">
-                    <svg viewBox="0 0 26 26" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.14 9.16H9.06l1.3-8.09h2.08l-1.3 8.09zm7.55-7.89a5.11 5.11 0 0 0-1.87-.35c-2.06 0-3.5 1.1-3.51 2.68-.02 1.16 1.03 1.8 1.82 2.2.8.39 1.08.65 1.08 1 0 .54-.65.8-1.25.8-.83 0-1.28-.14-1.95-.44l-.28-.13-.29 1.82c.49.22 1.39.42 2.32.43 2.19 0 3.61-1.08 3.63-2.76 0-.92-.55-1.63-1.75-2.2-.73-.37-1.17-.62-1.17-1 0-.35.37-.7 1.2-.7.67-.02 1.17.15 1.55.31l.18.09.29-1.75zm2.77 5.03l.83-2.27.27-.77.15.7.48 2.33h-1.73zm2.57-5.23h-1.61c-.5 0-.88.15-1.1.67l-3.09 7.42h2.19l.44-1.21h2.67l.25 1.2h1.93l-1.68-8.08zm-16.71 0L5.28 6.6l-.22-1.12a6.18 6.18 0 0 0-2.88-3.4l1.86 7.08h2.2l3.28-8.08h-2.2z" fill="#00579F"/><path d="M3.38 1.07H.03L0 1.23c2.61.68 4.34 2.3 5.06 4.24l-.73-3.72c-.12-.52-.5-.66-.95-.68z" fill="#FAA61A"/><path d="M17.17 14.77h-5.6v9.89h5.6v-9.89z" fill="#FF5F00"/><path d="M11.92 19.71c0-1.93.9-3.75 2.44-4.94a6.49 6.49 0 0 0-8.99 1.06 6.2 6.2 0 0 0 1.08 8.83 6.5 6.5 0 0 0 7.91 0 6.23 6.23 0 0 1-2.44-4.95z" fill="#EB001B"/><path d="M24.73 19.71a6.35 6.35 0 0 1-6.4 6.29 6.48 6.48 0 0 1-3.96-1.34 6.2 6.2 0 0 0 0-9.89 6.49 6.49 0 0 1 8.99 1.06 6.2 6.2 0 0 1 1.37 3.88z" fill="#F79E1B"/></svg>
-                  </i>
-                </label>
-                <input id="sci-payment-tab4"
-                        class="sci-delivery__radio visually-hidden"
-                        type="radio"
-                        name="payment-tabs"
-                        value="4">
-                <label class="sci-delivery__tab sci-payment__tab"
-                        data-prop="ID_PAY_SYSTEM_ID_2"
-                        for="sci-payment-tab4">
-                  Яндекс.Деньги
-                  <i class="sci-payment__icon">
-                    <svg viewBox="0 0 19 26" width="19" height="26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 12.65c0-1.38.12-2.27 3.02-4.4C5.42 6.46 13.14.4 13.14.4v10.13H19V25.1H1.83c-1 0-1.83-.82-1.83-1.81V12.65z" fill="#F5CA44"/><path d="M13.14 10.53v5.86L2.36 23.65 16 19.27v-8.74h-2.85z" fill="#BE9E34"/><path d="M8.21 10.22c.63-.74 1.55-1 2.06-.58.5.42.4 1.36-.23 2.1s-1.55 1-2.05.58c-.5-.41-.4-1.36.22-2.1z" fill="#000"/></svg>
-                  </i>
-                </label>
-                <input id="sci-payment-tab5"
-                        class="sci-delivery__radio visually-hidden"
-                        type="radio"
-                        name="payment-tabs"
-                        value="5">
-                <label class="sci-delivery__tab sci-payment__tab"
-                        data-prop="ID_PAY_SYSTEM_ID_2"
-                        for="sci-payment-tab5">
-                  Безналичный расчет для юр. лиц
-                  <i class="sci-payment__icon">
-                    <svg viewBox="0 0 26 23" width="24" height="21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12.67V20c0 1.1.9 2 2 2h20a2
-2 0 0 0 2-2v-7.33m-24 0V7.44c0-1.1.9-2 2-2h4m-6 7.23h9.2m14.8 0V7.44a2 2 0 0 0-2-2h-4.4m6.4 7.23h-9.6M7 5.44V3c0-1.1.9-2 2-2h7.6a2 2 0 0 1 2 2v2.44M7 5.44h11.6m-3.2 8.3v-2.05a1 1 0 0 0-1-1h-3.2a1 1 0 0 0-1 1v2.04a1 1 0 0 0 1 1h3.2a1 1 0 0 0 1-1z" stroke="currentColor" stroke-width="1.5"/></svg>
-                  </i>
-                </label> -->
-              </div>
+                </li> -->
+              </ul>
               <div class="sci-payment__button">
                 <a class="shopcart-sidebar__button" href="#">Оформить заказ</a>
               </div>
@@ -971,12 +900,7 @@ global $USER;
                          value="sci-contact__consent"
                          required>
                   <span class="sci-contact__check">
-<<<<<<< Updated upstream
                     Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a href="#">с условиями</a>
-=======
-                    Нажимая «Оформить заказ» вы даете согласие на                         хранение и обработку ваших персональных данных в                      соответствии <a
-                      href="#">с условиями</a>
->>>>>>> Stashed changes
                   </span>
                 </label>
               </div>
