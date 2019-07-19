@@ -128,24 +128,35 @@ $(document).ready(function() {
           });
         } else if (parseInt(slideNum) === 3) {
           $formIsValid = true;
-          if ($(document).find('#sci-delivery-tab1').prop('checked') || $(document).find('#sci-delivery-tab3').prop('checked') || $(document).find('#sci-delivery-tab4').prop('checked') || $(document).find('#sci-delivery-tab5').prop('checked') || $(document).find('#sci-delivery-tab6').prop('checked')) {
+
+          if (
+            $(document).find('#sci-delivery-tab1').prop('checked')
+            || $(document).find('#sci-delivery-tab3').prop('checked')
+            // || $(document).find('#sci-delivery-tab4').prop('checked')
+            || $(document).find('#sci-delivery-tab5').prop('checked')
+            || $(document).find('#sci-delivery-tab6').prop('checked')
+          ) {
             if (!$(document).find('#so_city_val').val()) {
               $formIsValid = false;
             }
             if (!$(document).find('#sci-delivery-street').val()) {
               $formIsValid = false;
             }
-            if (!$(document).find('#sci-delivery-building').val()) {
-              $formIsValid = false;
-            }
-            if (!$(document).find('#sci-delivery-apartment').val()) {
-              $formIsValid = false;
-            }
+            // if (!$(document).find('#sci-delivery-building').val()) {
+            //   $formIsValid = false;
+            // }
+            // if (!$(document).find('#sci-delivery-apartment').val()) {
+            //   $formIsValid = false;
+            // }
           } else {
-            if (!$(document).find('#so_city_alt_val').val()) {
+            if (
+              !$(document).find('#so_city_alt_val').val()
+              && !$(document).find('#sci-delivery-tab4').prop('checked')
+            ) {
               $formIsValid = false;
             }
           }
+
           if ($formIsValid) {
             $(document).find('.shopcart-nav1 input#shopcart-tab' + (parseInt(slideNum) + 1) + '').removeClass('slide-disable');
             $(document).find('.shopcart-nav1 label[for="shopcart-tab' + (parseInt(slideNum) + 1) + '"]').click();
@@ -1038,42 +1049,76 @@ $.fn.changeRadioButtonSaleOrder = function(l_name) {
 };
 
 $.fn.updateDateSaleOrder = function() {
-  var soBlock, soCity, soCityAlt, soCityAltID, soCityID, soModule;
-  soBlock = $(document).find('#so_main_block');
-  soModule = $(document).find('#module_so');
-  soBlock.find('.rb_so').addClass('rb_so_disbled');
-  soBlock.find('.rb_so').each(function() {
-    var titleDeliv;
-    if ($(this).attr('data-prop')) {
-      if (soModule.find('#' + $(this).attr('data-prop') + '').is('input')) {
-        titleDeliv = soModule.find('label[for="' + $(this).attr('data-prop') + '"]>b').eq(0).html();
-        $(this).find('span').html(titleDeliv);
-        // $(this).find('span.sci-payment__radio').html('');
-        $(this).removeClass('rb_so__hide');
-        if (soModule.find('#' + $(this).attr('data-prop') + '').prop('checked')) {
-          $(this).click();
+  var soCity, soCityAlt, soCityAltID, soCityID;
+  var soBlock = $(document).find('#so_main_block');
+  var soModule = $(document).find('#module_so');
+  var $radioButton = soBlock.find('.rb_so');
+
+  $radioButton.each(function() {
+    var $this = $(this);
+    var $thisParent = $this.closest('.sci-delivery-tab');
+    var id = $this.attr('data-prop');
+
+    if ($this.hasClass('sci-delivery__tab')) {
+      $this.addClass('rb_so_disbled');
+
+      if (id) {
+        if (soModule.find('#' + id + '').is('input')) {
+          var $soModuleDelivery = soModule.find('label[for="' + id + '"]');
+          var deliveryTitle = $soModuleDelivery.find('>b').eq(0).html();
+          var deliveryPeriod = $soModuleDelivery.find('.so_delivery_period').html();
+          var deliveryPrice = $soModuleDelivery.find('.prs_soa').html();
+
+          $this.html(deliveryTitle + '<span>' + deliveryPeriod + ', ' + deliveryPrice + '</span>');
+          $thisParent.removeClass('rb_so__hide');
+
+          if (soModule.find('#' + id + '').prop('checked')) {
+            $this.click();
+          }
+        } else {
+          $thisParent.addClass('rb_so__hide');
         }
-      } else {
-        $(this).addClass('rb_so__hide');
       }
+
+      $thisParent.removeClass('rb_so_disbled');
+    } else {
+      $this.addClass('rb_so_disbled');
+
+      var titleDeliv;
+      if ($(this).attr('data-prop')) {
+        if (soModule.find('#' + $(this).attr('data-prop') + '').is('input')) {
+          titleDeliv = soModule.find('label[for="' + $(this).attr('data-prop') + '"]>b').eq(0).html();
+          $(this).find('span').html(titleDeliv);
+          $(this).find('span.sci-payment__radio').html('');
+          $(this).removeClass('rb_so__hide');
+          if (soModule.find('#' + $(this).attr('data-prop') + '').prop('checked')) {
+            $(this).click();
+          }
+        } else {
+          $(this).addClass('rb_so__hide');
+        }
+      }
+
+      $(this).removeClass('rb_so_disbled');
     }
-    return $(this).removeClass('rb_so_disbled');
   });
   soModule.find('.sale_order_full_table input[name="DELIVERY_ID"]').each(function() {
     var delivID, indLav, titleDeliv;
     delivID = $(this).attr('id');
     if (!soBlock.find('.sci-delivery-tabs .rb_so[data-prop="' + delivID + '"]').is('label')) {
-      indLav = parseInt(soBlock.find('.sci-delivery-tabs .rb_so').length) + 1;
+      indLav = parseInt(soBlock.find('.sci-delivery-tabs .sci-delivery-tab').length) + 1;
       titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
-      soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery__tab rb_so" for="sci-delivery__tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
-      soBlock.find('.sci-delivery-tabs').prepend('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="rb_so_proxy">');
-      if ($(this).prop('checked')) {
-        return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
-      }
+      // soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery-tab rb_so" for="sci-delivery-tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
+      // soBlock.find('.sci-delivery-tabs').prepend('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="rb_so_proxy">');
+      // if ($(this).prop('checked')) {
+      //   return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
+      // }
+    }
+
+    if ($(this).prop('checked')) {
+      $(this).click();
     }
   });
-
-
   soModule.find('.sale_order_full_table input[name="PAY_SYSTEM_ID"]').each(function() {
     var delivID, htmlNewEl, indLav, titleDeliv;
     delivID = $(this).attr('id');
@@ -1082,16 +1127,14 @@ $.fn.updateDateSaleOrder = function() {
       titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
       htmlNewEl = $('<label class="sci-payment__tab rb_so" data-prop="' + delivID + '">');
       htmlNewEl.append('<input id="sci-payment-tab' + indLav + '" type="radio" name="payment-tabs" class="sci-payment__input">');
-      // htmlNewEl.append('<span class="sci-payment__radio"></span>');
-      htmlNewEl.append('<span class="sci-payment__box">' + titleDeliv + '</span>');
+      htmlNewEl.append('<span class="sci-payment__radio"></span>');
+      htmlNewEl.append('<span class="sci-payment__name">' + titleDeliv + '</span>');
       soBlock.find('.sci-payment-tabs').prepend(htmlNewEl);
       if ($(this).prop('checked')) {
         return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
       }
     }
   });
-
-
   soBlock.find('input, textarea, select').each(function() {
     if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
       if (!$(this).is('select')) {
