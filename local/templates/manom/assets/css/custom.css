@@ -65,6 +65,7 @@ pre.dnd-dump:hover {
   border-radius: 6px;
 }
 .form_msg {
+  width: 100%;
   padding: 25px 0;
   color: #79b700;
   font-weight: 600;

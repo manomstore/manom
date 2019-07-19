@@ -184,39 +184,52 @@ $(document).ready(function() {
     }
     return false;
   });
-  $(document).on('submit', '#popap-buy-one-click form', function() {
-    var $this, email, form_id, name, phone, prod_id, prod_name;
-    $this = $(this);
-    name = $(this).find('input[name="name"]').val();
-    phone = $(this).find('input[name="phone"]').val();
-    form_id = $(this).find('input[name="form_id"]').val();
-    prod_id = $(this).find('input[name="prod_id"]').val();
-    prod_name = $(this).find('input[name="prod_name"]').val();
-    email = $(this).find('input[name="email"]').val();
-    if (name && phone && form_id && email && prod_id && prod_name) {
-      $.ajax({
-        url: '/ajax/add_cb.php',
-        type: 'POST',
-        data: {
-          name: name,
-          phone: phone,
-          form_id: form_id,
-          prod_id: prod_id,
-          prod_name: prod_name,
-          email: email
-        },
-        success: function(data) {
-          $this.find('.form_msg').css('display', 'block');
-          $this.find('.form_msg').html('Ваша заявка принятя. Наши менеджеры свяжутся с вами в течении 15 минут.');
-          return $this.find('button, label, input').css('display', 'none');
+
+    $(document).on('submit', '.js-one-click-order', function (e) {
+        e.preventDefault();
+        var $this, formData, formFields, $messageField, validFields;
+        $this = $(this);
+        $messageField = $this.find(".js-message-field");
+        validFields = true;
+        formData = {};
+        formFields = $this.serializeArray();
+
+        formFields.forEach(function (field) {
+            if (field.value.length <= 0) {
+                validFields = false;
+                return false;
+            }
+
+            formData[field.name] = field.value;
+        });
+
+        formData.sessid = BX.bitrix_sessid();
+        formData.type = "makeOrder";
+
+        if (validFields) {
+            $.ajax({
+                url: '/ajax/ajax_func.php',
+                type: 'POST',
+                dataType: "json",
+                data: formData,
+                success: function (result) {
+                    if (result.success === true) {
+                        $.fn.refreshMiniCart();
+                        $messageField.html('Ваша заявка принятя. Наши менеджеры свяжутся с вами в течении 15 минут.');
+                        $messageField.show();
+                        return $this.find('button, label, input').hide();
+                    } else {
+                        $messageField.html('Произошла ошибка. Повторите попытку позднее.');
+                        $messageField.show();
+                    }
+                }
+            });
+        } else {
+            $messageField.show();
+            $messageField.html('Заполните все поля для отправки.');
         }
-      });
-    } else {
-      $this.find('.form_msg').css('display', 'block');
-      $this.find('.form_msg').html('Заполните все поля для отправки.');
-    }
-    return false;
-  });
+    });
+
   $(document).on('submit', '#popap-buy-one-click-cart form', function() {
     var $this, email, form_id, name, phone;
     $this = $(this);
@@ -1276,6 +1289,7 @@ $.fn.checkPropParams = function() {
         newURL = $.fn.updateURLParameter(window.location.href, 'offer', filtResultByProp[0].id_offer);
         window.history.replaceState('', '', newURL);
         $(document).find('.addToCartBtn_mainPage').attr('data-id', filtResultByProp[0].id_offer);
+        $(document).find('.js-one-click-order .js-product-id').val(filtResultByProp[0].id_offer);
         if ($(document).find('.goToFcnCart[data-id="' + filtResultByProp[0].id_offer + '"]').is('a')) {
           $(document).find('.addToCartBtn_mainPage').addClass('dsb-hidden');
           $(document).find('.goToFcnCart[data-id="' + filtResultByProp[0].id_offer + '"]').removeClass('dsb-hidden');

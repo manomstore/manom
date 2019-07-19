@@ -1,17 +1,30 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-use Bitrix\Main\Application;
-use Bitrix\Main\Web\Cookie;
-CModule::IncludeModule("main");
-CModule::IncludeModule("iblock");
-CModule::IncludeModule("form");
-CModule::IncludeModule("catalog");
-CModule::IncludeModule("sale");
+
+use Bitrix\Main\Application,
+    \Bitrix\Currency\CurrencyManager,
+    \Bitrix\Sale\Order,
+    \Bitrix\Sale\Basket,
+    \Bitrix\Sale\Fuser,
+    \Bitrix\Main\Context,
+    Bitrix\Main\Loader,
+    Bitrix\Main\Web\Cookie;
+
+Loader::IncludeModule("main");
+Loader::IncludeModule("iblock");
+Loader::IncludeModule("form");
+Loader::IncludeModule("sale");
+Loader::IncludeModule("catalog");
+
 global $USER;
 
 // echo $USER->GetID();
 // echo "string";
 // changeValProp('UF_FAVORITE_ID', 1);
+
+$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+
+$type = $request->get("type");
 
 if ($_POST['change_favorite_list'] == "Y") {
   $retByAddFunc = false;
@@ -350,6 +363,103 @@ endif;
       false
     );
 endif;
+} elseif ($type === "makeOrder") {
+    $result = [
+        "success" => false
+    ];
+
+    try {
+        if (!$request->isPost()) {
+            throw new \Exception();
+        }
+
+        if (!check_bitrix_sessid()) {
+            throw new \Exception();
+        }
+
+        if (
+            (int)$request->get("productId") <= 0
+            || empty($request->get("name"))
+            || empty($request->get("phone"))
+            || (
+                empty($request->get("email"))
+                && !$USER->IsAuthorized()
+            )
+        ) {
+            throw new \Exception();
+        }
+
+        $fields = [
+            'PRODUCT_ID' => $request->get("productId"),
+            'QUANTITY' => 1,
+        ];
+
+        $r = Bitrix\Catalog\Product\Basket::addProduct($fields);
+        if (!$r->isSuccess()) {
+            throw new \Exception();
+        }
+
+        $obBasket = Basket::loadItemsForFUser(
+            Fuser::getId(),
+            Context::getCurrent()->getSite()
+        );
+
+        $request = Context::getCurrent()->getRequest();
+        $personTypeId = 1;
+        $userId = null;
+
+        $orderProp = [
+            "FIO" => $request->get("name"),
+            "PHONE" => $request->get("phone"),
+        ];
+
+        if ($USER->isAuthorized()) {
+            $userId = $USER->GetID();
+            $orderProp["EMAIL"] = $USER->GetEmail();
+        } else {
+            $defaultUser = \CUser::GetList($by, $order, ["=EMAIL" => "oneclick@manom.ru"])->GetNext();
+            if (empty($defaultUser)) {
+                throw new \Exception();
+            }
+            $userId = $defaultUser["ID"];
+            $orderProp["EMAIL"] = $request->get("email");
+        }
+
+        $order = Order::create(
+            Context::getCurrent()->getSite(),
+            $userId
+        );
+
+        /** @var $obBasket Basket; */
+
+        $order->setBasket($obBasket);
+
+        $order->setPersonTypeId($personTypeId);
+        $order->setField('CURRENCY', CurrencyManager::getBaseCurrency());
+
+        $propertyCollection = $order->getPropertyCollection();
+        foreach ($propertyCollection as $property) {
+            if ((int)$property->getPersonTypeId() !== $personTypeId || $property->isUtil()) {
+                continue;
+            }
+
+            if (array_key_exists($property->getField("CODE"), $orderProp)) {
+                $property->setValue($orderProp[$property->getField("CODE")]);
+            }
+        }
+
+        $order->doFinalAction(true);
+        $orderResult = $order->save();
+        $success = $orderResult->isSuccess();
+
+        if (!$success) {
+            throw new \Exception();
+        }
+
+        $result["success"] = $success;
+    } catch (\Exception $e) {
+    }
+    die(json_encode($result));
 }
 
 function changeValProp($code, $prod_id) {

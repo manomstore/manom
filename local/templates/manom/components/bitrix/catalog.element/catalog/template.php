@@ -304,18 +304,36 @@ if (!$_REQUEST['offer']){
 				</div>
 				<div id="popap-buy-one-click" class="popap-login">
 					<h3 class="sci-login__title">Купить в один клик</h3>
-					<form class="sci-login__form">
-						<div class="form_msg">tesr</div>
-						<input type="hidden" name="form_id" value="2">
-						<input type="hidden" name="prod_id" value="<?=$arResult['ID']?>">
-						<input type="hidden" name="prod_name" value="<?=$arResult['NAME']?>">
+					<form class="sci-login__form js-one-click-order">
+						<div class="form_msg js-message-field"></div>
+						<input type="hidden" name="productId" class="js-product-id" value="<?=$actualOffer['id_offer']?>">
 						<label class="sci-login__label" for="sci-login__name_alt">Имя</label>
-						<input type="text" name="name" id="sci-login__name_alt" class="sci-login__input" placeholder="Ваше имя" required>
+                        <input
+                                type="text"
+                                name="name"
+                                value="<?= $arResult["CURRENT_USER"]["NAME"] ?>"
+                                id="sci-login__name_alt"
+                                class="sci-login__input"
+                                placeholder="Ваше имя"
+                                required
+                        >
+
 						<label class="sci-login__label" for="sci-login__tel_alt">Телефон</label>
-						<input type="tel" name="phone" id="sci-login__tel_alt" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
+						<input
+                                type="tel"
+                                name="phone"
+                                value="<?= $arResult["CURRENT_USER"]["PHONE"] ?>"
+                                id="sci-login__tel_alt" 
+                                class="sci-login__input" 
+                                placeholder="+7 (___) ___-__-__" 
+                                required
+                        >
+                        
+                        <?if (!$USER->IsAuthorized()):?>
 						<label class="sci-login__label" for="sci-login__tel">E-mail</label>
 						<input type="email" name="email" id="sci-login__tel" class="sci-login__input" placeholder="E-mail" required>
-						<button class="sci-login__button">Отправить</button>
+                        <?endif;?>
+						<button class="sci-login__button">Купить</button>
 					</form>
 				</div>
 			<?endif;?>

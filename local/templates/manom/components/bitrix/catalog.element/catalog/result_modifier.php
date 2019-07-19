@@ -349,3 +349,28 @@ $getCheaper = CIBlockElement::GetList(
 while ($resCheaper = $getCheaper->Fetch()) {
   $arResult['CHEAPER'][] = $resCheaper['ID'];
 }
+
+global $USER;
+
+$arResult["CURRENT_USER"] = [
+    "NAME" => "",
+    "PHONE" => "",
+];
+
+if ($USER->IsAuthorized()) {
+    $currentUser = \CUser::GetList(
+        $by,
+        $order,
+        [
+            "ID" => $USER->GetID()
+        ],
+        [
+            "ID",
+            "PERSONAL_PHONE"
+        ]
+    )->GetNext();
+
+    $arResult["CURRENT_USER"]["NAME"] = $USER->GetFullName();
+    $arResult["CURRENT_USER"]["PHONE"] = strlen($currentUser["PERSONAL_PHONE"]) > 10 ?
+        substr($currentUser["PERSONAL_PHONE"], -10) : $currentUser["PERSONAL_PHONE"];
+}
