@@ -890,7 +890,7 @@ global $USER;
                 </li> -->
               </ul>
               <div class="sci-payment__button">
-                <a class="shopcart-sidebar__button" href="#">Оформить заказ</a>
+                <button id="btnSubmitOrder" class="shopcart-sidebar__button" type="button">Оформить заказ</button>
               </div>
               <div class="sci-contact__field sci-payment__consent">
                 <label class="sci-contact__consent">
