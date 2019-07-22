@@ -587,6 +587,9 @@ $(document).ready(function() {
     $cartItemID = $(this).attr('data-id');
     if ($cartItemID) {
       $(document).find('#shopcart-item1 .sci-product[data-id="' + $cartItemID + '"]').remove();
+        if ($(document).find('#shopcart-item1 .sci-product').length <= 0) {
+            $(document).find('.js-basket-clear').remove();
+        }
       return $.ajax({
         url: '/ajax/add_to_cart.php',
         type: 'POST',
@@ -602,6 +605,23 @@ $(document).ready(function() {
       });
     }
   });
+
+    $(document).on('click', '.js-basket-clear', function () {
+        $(document).find('#shopcart-item1 .sci-product').remove();
+        $(document).find('.js-basket-clear').remove();
+        return $.ajax({
+            url: '/ajax/add_to_cart.php',
+            type: 'POST',
+            data: {
+                METHOD_CART: 'clear',
+                AJAX_CART: 'Y'
+            },
+            success: function (data) {
+                $.fn.updateCart(data);
+                return $.fn.setPushUp("Корзина очищена", "Ваша корзина была очищена", false, "message", false, 5000);
+            }
+        });
+    });
   $(document).on('click', '.square-color', function(e) {
     var activePhoto, dcolor;
     if (!$(this).hasClass('propDisabled')) {

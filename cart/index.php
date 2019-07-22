@@ -103,7 +103,6 @@ global $USER;
 							],
 							false
 						); ?>
-            <button class="button-del button-del--bottom" type="button">Очистить корзину</button>
           </section>
           <!-- Корзина - Контактные данные -->
           <section class="shopcart-item" id="shopcart-item2">

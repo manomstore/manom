@@ -12,14 +12,34 @@ $cmlProdIDs = array();
 $acessAndServIDs = array();
 $rlateCmlProds = array();
 foreach ($arResult['GRID']['ROWS'] as $i => $item) {
-  if (!$item['PICTURE_SRC'] and !$item['DETAIL_PICTURE'])
-    $prodIDs[] = $item['PRODUCT_ID'];
-  elseif($item['PICTURE_SRC'])
-    $arResult['GRID']['ROWS'][$i]['PIC'] = $item['PICTURE_SRC'];
-  else
-    $arResult['GRID']['ROWS'][$i]['PIC'] = $item['DETAIL_PICTURE'];
-  if ($item['PICTURE_SRC'] or $item['DETAIL_PICTURE'])
-    $arResult['GRID']['ROWS'][$i]['has_prod'] = true;
+    if (!$item['PICTURE_SRC'] and !$item['DETAIL_PICTURE']) {
+        $prodIDs[] = $item['PRODUCT_ID'];
+    } elseif ($item['PICTURE_SRC']) {
+        $arResult['GRID']['ROWS'][$i]['PIC'] = $item['PICTURE_SRC'];
+    } else {
+        $arResult['GRID']['ROWS'][$i]['PIC'] = $item['DETAIL_PICTURE'];
+    }
+    if ($item['PICTURE_SRC'] or $item['DETAIL_PICTURE']) {
+        $arResult['GRID']['ROWS'][$i]['has_prod'] = true;
+    }
+    $arResult['GRID']['ROWS'][$i]['SUM'] = \CCurrencyLang::CurrencyFormat(
+        $item['SUM_VALUE'],
+        $item['CURRENCY'],
+        false
+    );
+    $arResult['GRID']['ROWS'][$i]['PRICE_FORMATED'] = \CCurrencyLang::CurrencyFormat(
+        $item['PRICE'],
+        $item['CURRENCY'],
+        false
+    );
+
+    if ($item["DISCOUNT_PRICE_PERCENT"] > 0) {
+        $item["SUM_FULL_PRICE_FORMATED"] = \CCurrencyLang::CurrencyFormat(
+            $item['SUM_FULL_PRICE'],
+            $item['CURRENCY'],
+            false
+        );
+    }
 }
 $getProd = CIBlockElement::GetList(
   array(),
