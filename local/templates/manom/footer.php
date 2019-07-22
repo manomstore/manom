@@ -1,5 +1,5 @@
-
-<!-- Footer -->
+<? if ($APPLICATION->GetCurPage() !== "/cart/"): ?>
+    <!-- Footer -->
 	<footer class="footer">
 		<div class="container">
 
@@ -167,8 +167,8 @@
 				<div class="col-3 footer-main__column">
 					<h3 class="footer-nav__title">
                         <?$APPLICATION->IncludeComponent(
-	"bitrix:main.include", 
-	".default", 
+	"bitrix:main.include",
+	".default",
 	array(
 		"PATH" => "/include/footer-col-title-4.php",
 		"COMPONENT_TEMPLATE" => ".default",
@@ -199,7 +199,8 @@
 				<a href="/privacy_policy/" class="footer-bottom__policy">Политика конфиденциальности</a>
 			</div>
 		</div>
-	</footer>
+    </footer>
+<? endif; ?>
 <?php
 //$GLOBALS["MY_DEBUG"] = $arResult; (Пример принта массива компанента ($arResult))
 function print_my_debug() {
