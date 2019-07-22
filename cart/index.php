@@ -5,6 +5,7 @@ CModule::IncludeModule('statistic');
 global $USER;
 ?>
 
+<? if (!$_REQUEST['ORDER_ID']): ?>
 <main class="shopcart shopcart--step-1" id="so_main_block">
   <div class="shopcart-nav1">
     <div class="container">
@@ -21,7 +22,9 @@ global $USER;
       </div>
     </div>
   </div>
-
+<? else: ?>
+<main class="shopcart" id="so_main_block">
+<? endif ?>
   <div class="container">
     <div class="preloaderCatalog preloaderCatalogActive">
       <div class="windows8">
@@ -43,11 +46,11 @@ global $USER;
       </div>
     </div>
 
-    <div class="shopcart__wrapper">
-      <h1 class="shopcart__title js-shopcart-title">Корзина</h1>
-      <button class="button-del button-del--top" type="button">Очистить</button>
-    </div>
 		<? if (!$_REQUEST['ORDER_ID']): ?>
+      <div class="shopcart__wrapper">
+        <h1 class="shopcart__title js-shopcart-title">Корзина</h1>
+        <button class="button-del button-del--top" type="button">Очистить</button>
+      </div>
 
       <div class="shopcart-main">
         <div class="shopcart-items">
@@ -1022,7 +1025,7 @@ global $USER;
         <p class="shopcart-success__text">
           В ближайшее время с вами свяжется наш менеджер для дальнейшего подверждения заказа.
         </p>
-        <a class="shopcart-success__button" href="#">Класс, спасибо!</a>
+        <a class="shopcart-success__button" href="/">Класс, спасибо!</a>
       </section>
 		<? endif ?>
   </div>
