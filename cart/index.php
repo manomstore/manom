@@ -894,7 +894,7 @@ global $USER;
               </div>
               <div class="sci-contact__field sci-payment__consent">
                 <label class="sci-contact__consent">
-                  <input class="visually-hidden sci-contact__checkbox"
+                  <input class="visually-hidden sci-contact__checkbox js-shopcart-agree"
                          type="checkbox"
                          name="sci-contact__consent"
                          value="sci-contact__consent"

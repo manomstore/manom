@@ -893,6 +893,11 @@ $(document).ready(function() {
     }
   })
   $(document).on('click', '#btnSubmitOrder', function() {
+    if (!document.querySelector('.js-shopcart-agree').checked) {
+      $.fn.setPushUp('Ошибка', 'Чтобы оформить заказ необходимо активировать чекбокс согласия', false, 'message', false, 5000);
+      return false;
+    }
+
     var firstBlock, hasError, inputCount, secondBlock, soBlock, soModule;
     soBlock = $(document).find('#so_main_block');
     soModule = $(document).find('#module_so');
