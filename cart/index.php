@@ -972,8 +972,11 @@ global $USER;
               </div>
               <div class="shopcart-sidebar__info shopcart-sidebar__info--delivery">
                 <h3 class="shopcart-sidebar__title">Доставка:</h3>
-                <p class="shopcart-sidebar__text">Ростов-на-Дону, ул. Кирова, д. 96, кв. 113</p>
-                <p class="shopcart-sidebar__text">Срок доставки: <span>2-3 дня</span></p>
+                <p class="shopcart-sidebar__text">
+                  <span class="shopcart-sidebar__delivery-city"></span>, <span class="shopcart-sidebar__delivery-address"></span>
+                </p>
+                <p class="shopcart-sidebar__text shopcart-sidebar__delivery-date">Дата доставки: <span></span></p>
+                <p class="shopcart-sidebar__text shopcart-sidebar__delivery-time">Срок доставки: <span>2-3 дня</span></p>
               </div>
               <div class="shopcart-sidebar__total">
                 <div class="shopcart-sidebar__price-wrapper">
