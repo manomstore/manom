@@ -48,6 +48,7 @@ if($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
   AddEventHandler("iblock", "OnBeforeIBlockSectionAdd", Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler"));
   AddEventHandler("iblock", "OnBeforeIBlockSectionUpdate", Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler"));
 endif;
+AddEventHandler("sale", "OnBeforeEventAdd", Array("MyHandlerClass","OnBeforeEventAddHandler"));
 
 // AddEventHandler("iblock", "OnBeforeIBlockElementAdd", Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler"));
 // AddEventHandler("iblock", "OnAfterIBlockSectionAdd", Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler"));
@@ -78,6 +79,38 @@ class MyHandlerClass
     // fwrite($fp, print_r($arFields, TRUE));
     // fclose($fp);
   }
+
+    function OnBeforeEventAddHandler(&$event, &$lid, &$arFields)
+    {
+        try {
+            if (!isSaleNotifyMessage($event) || empty($arFields["ORDER_ID"])) {
+                throw new \Exception();
+            }
+            $order = \Bitrix\Sale\Order::load($arFields["ORDER_ID"]);
+            $userId = $order->getUserId();
+            $user = \Bitrix\Main\UserTable::getList([
+                "filter" => [
+                    "=ID" => $userId
+                ],
+                "select" => [
+                    "ID",
+                    "EMAIL"
+                ]
+            ])->fetch();
+            if (!empty($user)) {
+                throw new \Exception();
+            }
+
+            $oneClick = $user["EMAIL"] === "oneclick@manom.ru";
+
+            if ($oneClick) {
+                $event .= "_ONE_CLICK";
+            }
+
+        } catch (\Exception $e) {
+        }
+        return true;
+    }
 }
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
@@ -270,6 +303,19 @@ function getUserReviewForProd($prodID) {
   }
 
   return $return;
+}
+
+function isSaleNotifyMessage($event) {
+    return in_array($event, [
+        "SALE_NEW_ORDER",
+        "SALE_ORDER_CANCEL",
+        "SALE_ORDER_DELIVERY",
+        "SALE_ORDER_PAID",
+        "SALE_ORDER_SHIPMENT_STATUS_CHANGED",
+        "SALE_ORDER_TRACKING_NUMBER",
+        "SALE_STATUS_CHANGED_F",
+        "SALE_STATUS_CHANGED_N",
+    ]);
 }
 
 AddEventHandler("main", "OnAfterUserRegister", array('UserHandler', 'afterRegister'));
