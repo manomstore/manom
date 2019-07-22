@@ -8179,8 +8179,17 @@ p.price-slider {
     left: 30px;
   }
 
+  .sci-payment__icon {
+    width: 40px;
+    height: 1.278em;
+    position: relative;
+  }
+
   .sci-payment__svg {
-    margin: -12px 0;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
   }
 
   .sci-payment__svg--cash {
