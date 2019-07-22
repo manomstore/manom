@@ -62,7 +62,7 @@ $userCityByGeoIP = $userLocationInfo;
   <header class="header header--cart">
     <div class="container">
       <div class="top-nav">
-        <a class="top-nav__logo" href="#">
+        <a class="top-nav__logo" href="/">
           <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" class="top-nav__picture" alt="Логотип интернет магазина Manom.ru" width="130" height="23">
         </a>
 
