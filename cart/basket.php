@@ -29,9 +29,14 @@ global $USER;
           </div>
         </div>
       </div>
-      <h1 class="shopcart__title">Корзина</h1>
-      <div class="notetext ">
-        Ваша корзина пуста.
+      <div class="shopcart__wrapper">
+        <h1 class="shopcart__title">Корзина</h1>
       </div>
-    </div>
+      <div class="shopcart-main">
+        <div class="sci-product">
+          <div class="notetext">
+            Ваша корзина пуста.
+          </div>
+        </div>
+      </div>
   </main><? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

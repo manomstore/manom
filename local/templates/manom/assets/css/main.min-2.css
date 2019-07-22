@@ -6825,6 +6825,7 @@ p.price-slider {
   background-color: #fffffd;
   margin: 0 0 10px;
   border-radius: 0 0 3px 3px;
+  width: 100%;
 }
 
 .sci-contact__button-back {
