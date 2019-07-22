@@ -44,6 +44,7 @@
   <script src='https://www.google.com/recaptcha/api.js?render=6LeuEIEUAAAAAFd1nHH6PD8ckNxVwX6p0_6j_Hxr'></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
 </head>
 <? global $USER; ?>
 <? $APPLICATION->ShowHead(); ?>

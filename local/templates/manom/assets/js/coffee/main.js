@@ -1054,6 +1054,46 @@ $.fn.changeRadioButtonSaleOrder = function(l_name) {
   }
 };
 
+var getPaymentIcon = function(id){
+  var tmplSelector = '';
+
+  switch (id) {
+    case 2: {
+      tmplSelector = '#tmpl-payment-icon-ya-money';
+      break;
+    }
+    case 4: {
+      tmplSelector = '#tmpl-payment-icon-visa-master';
+      break;
+    }
+    case 7: {
+      tmplSelector = '#tmpl-payment-icon-cash';
+      break;
+    }
+    case 9: {
+      tmplSelector = '#tmpl-payment-icon-cashless';
+      break;
+    }
+    case 8: {
+      tmplSelector = '#tmpl-payment-icon-card';
+      break;
+    }
+  }
+
+
+  var $tmpl = $(tmplSelector);
+
+  if ($tmpl.length > 0) {
+    var tmplHtml = $tmpl.html();
+
+    Mustache.parse(tmplHtml);
+
+    return '<i class="sci-payment__icon">' + Mustache.render(tmplHtml) + '</i>';
+  }
+
+  return '';
+};
+
 $.fn.updateDateSaleOrder = function() {
   var soCity, soCityAlt, soCityAltID, soCityID;
   var soBlock = $(document).find('#so_main_block');
@@ -1091,7 +1131,10 @@ $.fn.updateDateSaleOrder = function() {
           var $soModulePayment = soModule.find('label[for="' + id + '"]');
           var paymentTitle = $soModulePayment.find('>b').eq(0).html();
 
-          $this.html(paymentTitle);
+          $this.html(
+            paymentTitle +
+            getPaymentIcon(parseInt(id.replace('ID_PAY_SYSTEM_ID_', '')))
+          );
           $thisParent.removeClass('rb_so__hide');
 
           if (soModule.find('#' + id + '').prop('checked')) {
@@ -1123,6 +1166,7 @@ $.fn.updateDateSaleOrder = function() {
       $(this).click();
     }
   });
+
   soModule.find('.sale_order_full_table input[name="PAY_SYSTEM_ID"]').each(function() {
     var paymentID, htmlNewEl, indLav, titleDeliv;
     paymentID = $(this).attr('id');
@@ -1134,6 +1178,7 @@ $.fn.updateDateSaleOrder = function() {
       htmlNewEl.append('' +
         '<label class="sci-payment__tab rb_so" data-prop="' + paymentID + '" for="sci-payment-tab' + indLav + '">' +
           titleDeliv +
+          getPaymentIcon(parseInt(paymentID.replace('ID_PAY_SYSTEM_ID_', ''))) +
         '</label>'
       );
       soBlock.find('.sci-payment-tabs').prepend(htmlNewEl);
