@@ -67,6 +67,12 @@ $(document).ready(function() {
     variableWidth: true
   });
 
+  $('.top-nav__button-show').click(function(evt) {
+    evt.preventDefault();
+    $('.top-nav__button-show').toggleClass('top-nav__button-show--active');
+    $('.top-nav__request').toggleClass('top-nav__request--show');
+  });
+
   $.fn.updateCartHeader();
   if ($(document).find('#btnSubmitOrder').is('div')) {
     submitForm();
