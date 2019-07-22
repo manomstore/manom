@@ -915,7 +915,7 @@ global $USER;
               <a class="shopcart-sidebar__link" href="#">Изменить</a>
             </div>
 
-            <div class="promo-code shopcart-sidebar__code">
+            <!-- <div class="promo-code shopcart-sidebar__code">
               <form action="#" method="post">
                 <input
                   class="promo-code__field"
@@ -925,7 +925,7 @@ global $USER;
                 >
                 <button class="promo-code__button" type="submit">Применить</button>
               </form>
-            </div>
+            </div> -->
             <div class="shopcart-sidebar__check">
 							<? $APPLICATION->IncludeComponent(
 								"bitrix:sale.basket.basket.line",
