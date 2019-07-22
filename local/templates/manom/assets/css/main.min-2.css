@@ -6586,7 +6586,7 @@ p.price-slider {
 
 .sci-contact__top {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   flex-wrap: nowrap;
   width: 100%;
