@@ -976,16 +976,28 @@ global $USER;
                 <div class="shopcart-sidebar__price-wrapper">
                   <p class="shopcart-sidebar__sum-price">
                     Стоимость товаров
-                    <span>512 940 ₽</span>
+                    <span>
+                      <span id="cart-price">512 940</span> ₽
+                    </span>
                   </p>
-                  <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--sale">
+                  <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--sale sc-hidden">
                     Скидка на товары
-                    <span>− 2 582 ₽</span>
+                    <span>
+                      <span id="cart-discount-price">0</span> ₽
+                    </span>
+                  </p>
+                  <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--delivery">
+                    Доставка
+                    <span>
+                      <span id="cart-delivery-price">0</span> ₽
+                    </span>
                   </p>
                 </div>
                 <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--total">
                   Итого:
-                  <span id="total_price_cart"><?= $cartPrice; ?> ₽</span>
+                  <span>
+                    <span id="total_price_cart"><?= $cartPrice; ?></span> ₽
+                  </span>
                 </p>
               </div>
             </div>

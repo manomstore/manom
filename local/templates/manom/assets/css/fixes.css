@@ -66,6 +66,7 @@
 .shopcart--step-1 .shopcart-sidebar .sci-contact__top--order,
 .shopcart--step-1 .shopcart-sidebar__info--contacts,
 .shopcart--step-1 .shopcart-sidebar__info--delivery,
+.shopcart--step-1 .shopcart-sidebar__sum-price--delivery,
 .shopcart--step-1 .shopcart-sidebar__prods {
 	display: none;
 }
@@ -73,6 +74,7 @@
 .shopcart--step-2 .shopcart-sidebar__code,
 .shopcart--step-2 .shopcart-sidebar__info--contacts,
 .shopcart--step-2 .shopcart-sidebar__info--delivery,
+.shopcart--step-2 .shopcart-sidebar__sum-price--delivery,
 .shopcart--step-2 .shopcart-sidebar__button-wrapper,
 .shopcart--step-2 .shopcart-sidebar__back-wrapper {
 	display: none;

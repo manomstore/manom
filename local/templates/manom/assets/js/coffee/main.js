@@ -1028,6 +1028,24 @@ $.fn.updateSideInfo = function() {
   soBlock.find('.pickup_summ_alt span').html(deliveryPrice + '₽');
   soBlock.find('.shopcart-sidebar__delivery-price span').html(deliveryPrice);
   soBlock.find('#total_price_cart').html(totalPrice);
+  if (soModule.find('#sale-order-full-price').length > 0) {
+    soBlock.find('#cart-price').html(
+      soModule.find('#sale-order-full-price').html().toString().replace('руб.', '')
+    );
+  }
+  if (soModule.find('#sale-order-full-discount-price').length > 0) {
+    soBlock.find('.shopcart-sidebar__sum-price--sale').removeClass('sc-hidden');
+    soBlock.find('#cart-discount-price').html(
+      soModule.find('#sale-order-full-discount-price').html().toString().replace('руб.', '')
+    );
+  } else {
+    soBlock.find('.shopcart-sidebar__sum-price--sale').addClass('sc-hidden');
+  }
+  if (soModule.find('#sale-order-full-delivery-price').length > 0) {
+    soBlock.find('#cart-delivery-price').html(
+      soModule.find('#sale-order-full-delivery-price').html().toString().replace('руб.', '')
+    );
+  }
   soBlock.find('.shopcart-sidebar__delivery-city').html(uCity);
   soBlock.find('.shopcart-sidebar__delivery-address').html(uAddress);
   if (!uDeliveryDate) {
