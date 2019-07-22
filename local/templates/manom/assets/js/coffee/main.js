@@ -825,6 +825,12 @@ $(document).ready(function() {
         }
     });
 
+    app.$doc.on('click', '.js-shopcart-cart-link', function(e){
+      app.$doc.find('.shopcart-nav1 label[for="shopcart-tab1"]').click();
+
+      e.preventDefault();
+    });
+
     $("").on('blur', function () {
         var $parentBlock = $(this).closest(".sci-contact-content");
         if ($parentBlock.find(".js-error-msg").length <= 0) {

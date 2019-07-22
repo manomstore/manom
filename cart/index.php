@@ -912,7 +912,7 @@ global $USER;
 
             <div class="sci-contact__top sci-contact__top--order">
               <h2 class="shopcart-sidebar__title">Состав заказа</h2>
-              <a class="shopcart-sidebar__link" href="#">Изменить</a>
+              <a class="shopcart-sidebar__link js-shopcart-cart-link" href="/cart/">Изменить</a>
             </div>
 
             <!-- <div class="promo-code shopcart-sidebar__code">
