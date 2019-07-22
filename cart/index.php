@@ -1126,7 +1126,7 @@ if ($_REQUEST['ORDER_ID']) {
 </div>
 
 <script id="tmpl-payment-icon-cash" type="x-tmpl-mustache">
-  <svg viewBox="0 0 27 18" width="25" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="sci-payment__svg sci-payment__svg--cash" viewBox="0 0 27 18" width="25" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M22.67 1H4.33M26 17H1V3.9h25V17zm-9.17-6.74c0 1.86-1.49 3.37-3.33 3.37a3.35 3.35 0 0 1-3.33-3.37c0-1.86 1.49-3.37 3.33-3.37s3.33 1.51 3.33 3.37z"
           stroke="currentColor"
           stroke-width="1.5"/>
@@ -1134,7 +1134,7 @@ if ($_REQUEST['ORDER_ID']) {
 </script>
 
 <script id="tmpl-payment-icon-card" type="x-tmpl-mustache">
-  <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="sci-payment__svg sci-payment__svg--card" width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6.89478 8.09064L6.89478 15.3421C6.89478 16.4467 7.7902 17.3421 8.89477 17.3421L27 17.3421C28.1046 17.3421 29 16.4467 29 15.3421L29 8.09064M6.89478 8.09064L29 8.09064M6.89478 8.09064V5.55263M29 8.09064V5.55263M6.89478 5.55263V3.5C6.89478 2.39543 7.79021 1.5 8.89478 1.5H27C28.1046 1.5 29 2.39543 29 3.5V5.55263M6.89478 5.55263H29" stroke="currentColor" stroke-width="1.5"/>
     <circle cx="6.89474" cy="17.3421" r="5.89474" fill="#FEFFFD" stroke="currentColor" stroke-width="1.5"/>
     <path d="M4.31592 17.5071H5.15592V14.3947H7.10118C7.89697 14.3947 8.4776 14.5657 8.84308 14.9076C9.21444 15.2436 9.40013 15.7151 9.40013 16.3223C9.40013 16.9177 9.2115 17.3892 8.83423 17.737C8.46287 18.0789 7.88518 18.2499 7.10118 18.2499H5.98708V18.8423H8.07381V19.4966H5.98708V20.5842H5.15592V19.4966H4.31592V18.8423H5.15592V18.2499H4.31592V17.5071ZM5.98708 15.1551V17.5071H7.10118C7.62581 17.5071 7.99718 17.4099 8.21529 17.2153C8.43339 17.0208 8.54244 16.7261 8.54244 16.3311C8.54244 15.9421 8.43044 15.6503 8.20644 15.4558C7.98834 15.2553 7.61992 15.1551 7.10118 15.1551H5.98708Z" fill="currentColor"/>
@@ -1142,7 +1142,7 @@ if ($_REQUEST['ORDER_ID']) {
 </script>
 
 <script id="tmpl-payment-icon-visa-master" type="x-tmpl-mustache">
-  <svg viewBox="0 0 26 26" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="sci-payment__svg sci-payment__svg--visa-master" viewBox="0 0 26 26" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M11.14 9.16H9.06l1.3-8.09h2.08l-1.3 8.09zm7.55-7.89a5.11 5.11 0 0 0-1.87-.35c-2.06 0-3.5 1.1-3.51 2.68-.02 1.16 1.03 1.8 1.82 2.2.8.39 1.08.65 1.08 1 0 .54-.65.8-1.25.8-.83 0-1.28-.14-1.95-.44l-.28-.13-.29 1.82c.49.22 1.39.42 2.32.43 2.19 0 3.61-1.08 3.63-2.76 0-.92-.55-1.63-1.75-2.2-.73-.37-1.17-.62-1.17-1 0-.35.37-.7 1.2-.7.67-.02 1.17.15 1.55.31l.18.09.29-1.75zm2.77 5.03l.83-2.27.27-.77.15.7.48 2.33h-1.73zm2.57-5.23h-1.61c-.5 0-.88.15-1.1.67l-3.09 7.42h2.19l.44-1.21h2.67l.25 1.2h1.93l-1.68-8.08zm-16.71 0L5.28 6.6l-.22-1.12a6.18 6.18 0 0 0-2.88-3.4l1.86 7.08h2.2l3.28-8.08h-2.2z"
           fill="#00579F"/>
     <path d="M3.38 1.07H.03L0 1.23c2.61.68 4.34 2.3 5.06 4.24l-.73-3.72c-.12-.52-.5-.66-.95-.68z" fill="#FAA61A"/>
@@ -1155,7 +1155,7 @@ if ($_REQUEST['ORDER_ID']) {
 </script>
 
 <script id="tmpl-payment-icon-ya-money" type="x-tmpl-mustache">
-  <svg viewBox="0 0 19 26" width="19" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="sci-payment__svg sci-payment__svg--ya-money" viewBox="0 0 19 26" width="19" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 12.65c0-1.38.12-2.27 3.02-4.4C5.42 6.46 13.14.4 13.14.4v10.13H19V25.1H1.83c-1 0-1.83-.82-1.83-1.81V12.65z" fill="#F5CA44"/>
     <path d="M13.14 10.53v5.86L2.36 23.65 16 19.27v-8.74h-2.85z" fill="#BE9E34"/>
     <path d="M8.21 10.22c.63-.74 1.55-1 2.06-.58.5.42.4 1.36-.23 2.1s-1.55 1-2.05.58c-.5-.41-.4-1.36.22-2.1z" fill="#000"/>
@@ -1163,7 +1163,7 @@ if ($_REQUEST['ORDER_ID']) {
 </script>
 
 <script id="tmpl-payment-icon-cashless" type="x-tmpl-mustache">
-  <svg viewBox="0 0 26 23" width="24" height="21" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="sci-payment__svg sci-payment__svg--cashless" viewBox="0 0 26 23" width="24" height="21" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1 12.67V20c0 1.1.9 2 2 2h20a2
   2 0 0 0 2-2v-7.33m-24 0V7.44c0-1.1.9-2 2-2h4m-6 7.23h9.2m14.8 0V7.44a2 2 0 0 0-2-2h-4.4m6.4 7.23h-9.6M7 5.44V3c0-1.1.9-2 2-2h7.6a2 2 0 0 1 2 2v2.44M7 5.44h11.6m-3.2 8.3v-2.05a1 1 0 0 0-1-1h-3.2a1 1 0 0 0-1 1v2.04a1 1 0 0 0 1 1h3.2a1 1 0 0 0 1-1z"
           stroke="currentColor"

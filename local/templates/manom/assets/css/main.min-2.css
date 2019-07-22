@@ -8179,6 +8179,35 @@ p.price-slider {
     left: 30px;
   }
 
+  .sci-payment__svg {
+    margin: -12px 0;
+  }
+
+  .sci-payment__svg--cash {
+    width: 30px;
+    height: 19px;
+  }
+
+  .sci-payment__svg--card {
+    width: 38px;
+    height: 30px;
+  }
+
+  .sci-payment__svg--visa-master {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sci-payment__svg--ya-money {
+    width: 23px;
+    height: 30px;
+  }
+
+  .sci-payment__svg--cashless {
+    width: 30px;
+    height: 26px;
+  }
+
   .sci-contact__button-next {
     padding: 16px 47px 16px 31px;
   }
