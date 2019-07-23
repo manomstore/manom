@@ -760,8 +760,8 @@ global $USER;
                   </section>
                 </li> -->
                 <li class="sci-delivery-tab">
-                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab4" type="radio" name="delivery-tabs">
-                  <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery__tab rb_so" for="sci-delivery-tab4">
+                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab3" type="radio" name="delivery-tabs">
+                  <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery__tab rb_so" for="sci-delivery-tab3">
                     Самовывоз из магазина
                     <span>1-2 дня, от 350 ₽</span>
                   </label>

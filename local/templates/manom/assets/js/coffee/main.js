@@ -137,7 +137,7 @@ $(document).ready(function() {
 
           if (
             $(document).find('#sci-delivery-tab1').prop('checked')
-            || $(document).find('#sci-delivery-tab3').prop('checked')
+            // || $(document).find('#sci-delivery-tab3').prop('checked')
             // || $(document).find('#sci-delivery-tab4').prop('checked')
             || $(document).find('#sci-delivery-tab5').prop('checked')
             || $(document).find('#sci-delivery-tab6').prop('checked')
@@ -722,7 +722,6 @@ $(document).ready(function() {
   });
   $(document).find('#module_so').bind('DOMSubtreeModified', function() {
     var soModule;
-    console.log('DOMSubtreeModified');
     soModule = $(document).find('#module_so');
     if (soModule.find('.wrewfwer .wrewfwer_ajax').is('span')) {
       soModule.find('.wrewfwer .wrewfwer_ajax').remove();
@@ -930,6 +929,21 @@ $(document).ready(function() {
       }
     }
   })
+  $(document).on('change', '.sci-delivery__radio', function(){
+    var $this = $(this);
+    var $thisParent = $this.closest('.sci-delivery-tab');
+
+    if (
+      (
+        $this.is($('#sci-delivery-tab1'))
+        || $this.is($('#sci-delivery-tab5'))
+        || $this.is($('#sci-delivery-tab7'))
+      )
+      && $this.prop('checked')
+    ) {
+      $thisParent.append($('#sci-delivery-content1'));
+    }
+  });
   $(document).on('click', '#btnSubmitOrder', function() {
     if (!document.querySelector('.js-shopcart-agree').checked) {
       $.fn.setPushUp('Ошибка', 'Чтобы оформить заказ необходимо активировать чекбокс согласия', false, 'message', false, 5000);
@@ -947,7 +961,7 @@ $(document).ready(function() {
     if ($(document).find('#sci-delivery-tab2').prop('checked')) {
       secondBlock = '#shopcart-item3 #sci-delivery-content2';
     }
-    if ($(document).find('#sci-delivery-tab4').prop('checked')) {
+    if ($(document).find('#sci-delivery-tab3').prop('checked')) {
       secondBlock = '';
     }
     inputCount = $(document).find(firstBlock + " input, " + firstBlock + " textarea, " + firstBlock + " select").length;
@@ -1198,7 +1212,7 @@ $.fn.updateDateSaleOrder = function() {
           var deliveryPeriod = $soModuleDelivery.find('.so_delivery_period').html();
           var deliveryPrice = $soModuleDelivery.find('.prs_soa').html();
 
-          $this.html(deliveryTitle + '<span>' + deliveryPeriod + ', ' + deliveryPrice + '</span>');
+          $this.html(deliveryTitle + '<span>' + (deliveryPeriod ? deliveryPeriod + ', ' : '') + deliveryPrice + '</span>');
           $thisParent.removeClass('rb_so__hide');
 
           if (soModule.find('#' + id + '').prop('checked')) {
@@ -1233,16 +1247,27 @@ $.fn.updateDateSaleOrder = function() {
   });
 
   soModule.find('.sale_order_full_table input[name="DELIVERY_ID"]').each(function() {
-    var delivID, indLav, titleDeliv;
-    delivID = $(this).attr('id');
+    var delivID = $(this).attr('id');
+
     if (!soBlock.find('.sci-delivery-tabs .rb_so[data-prop="' + delivID + '"]').is('label')) {
-      indLav = parseInt(soBlock.find('.sci-delivery-tabs .sci-delivery-tab').length) + 1;
-      titleDeliv = soModule.find('label[for="' + delivID + '"]>b').eq(0).html();
-      // soBlock.find('.sci-delivery-tabs').prepend('<label data-prop="' + delivID + '" class="sci-delivery-tab rb_so" for="sci-delivery-tab' + indLav + '"><span>' + titleDeliv + '</span></label>');
-      // soBlock.find('.sci-delivery-tabs').prepend('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="rb_so_proxy">');
-      // if ($(this).prop('checked')) {
-      //   return soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
-      // }
+      var indLav = parseInt(soBlock.find('.sci-delivery-tabs .sci-delivery-tab').length) + 1;
+      var $soModuleDelivery = soModule.find('label[for="' + delivID + '"]');
+      var deliveryTitle = $soModuleDelivery.find('>b').eq(0).html();
+      var deliveryPeriod = $soModuleDelivery.find('.so_delivery_period').html();
+      var deliveryPrice = $soModuleDelivery.find('.prs_soa').html();
+
+      htmlNewEl = $('<li class="sci-delivery-tab">');
+      htmlNewEl.append('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="sci-delivery__radio visually-hidden">');
+      htmlNewEl.append('' +
+        '<label class="sci-delivery__tab rb_so" data-prop="' + delivID + '" for="sci-delivery-tab' + indLav + '">' +
+          deliveryTitle +
+          '<span>' + (deliveryPeriod ? deliveryPeriod + ', ' : '') + deliveryPrice + '</span>' +
+        '</label>'
+      );
+      soBlock.find('.sci-delivery-tabs').prepend(htmlNewEl);
+      if ($(this).prop('checked')) {
+        soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
+      }
     }
 
     if ($(this).prop('checked')) {
