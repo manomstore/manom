@@ -722,6 +722,7 @@ $(document).ready(function() {
   });
   $(document).find('#module_so').bind('DOMSubtreeModified', function() {
     var soModule;
+    console.log('DOMSubtreeModified');
     soModule = $(document).find('#module_so');
     if (soModule.find('.wrewfwer .wrewfwer_ajax').is('span')) {
       soModule.find('.wrewfwer .wrewfwer_ajax').remove();
