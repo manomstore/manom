@@ -417,7 +417,7 @@ global $USER;
                     <div class="sci-contact__field">
                       <label class="sci-contact__label">Адрес
                         <input data-prop="ORDER_PROP_20"
-                               data-prop-alt="ORDER_PROP_27"
+                               data-prop-alt="ORDER_PROP_37"
                                type="text"
                                name="sci-delivery-street"
                                id="sci-delivery-street"

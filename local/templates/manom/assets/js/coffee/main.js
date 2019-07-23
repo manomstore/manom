@@ -917,8 +917,16 @@ $(document).ready(function() {
 
     if ($(this).is('select')) {
       soModule.find('[name="' + $(this).attr('data-prop') + '"] option[value="' + valEl + '"]').prop('selected', true);
+
+      if ($(this).attr('data-prop-alt')) {
+        soModule.find('[name="' + $(this).attr('data-prop-alt') + '"] option[value="' + valEl + '"]').prop('selected', true);
+      }
     } else {
       soModule.find('[name="' + $(this).attr('data-prop') + '"]').val(valEl);
+
+      if ($(this).attr('data-prop-alt')) {
+        soModule.find('[name="' + $(this).attr('data-prop-alt') + '"]').val(valEl);
+      }
     }
   })
   $(document).on('click', '#btnSubmitOrder', function() {
