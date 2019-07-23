@@ -232,7 +232,7 @@ global $USER;
                   <div class="sci-contact__field sci-contact__field--icon sci-contact__field--select">
                     <label class="sci-contact__label">Правовая форма
 
-                      <select data-prop="ORDER_PROP_7"
+                      <select data-prop="ORDER_PROP_8"
                               class="sci-contact__input sci-contact__input--appearance"
                               name="sci-contact__ur-legal-norm"
                               id="sci-contact__ur-legal-norm"
@@ -248,7 +248,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">ИНН
                       <input type="text"
-                             data-prop="ORDER_PROP_8"
+                             data-prop="ORDER_PROP_9"
                              name="sci-contact__ur-inn"
                              id="sci-contact__ur-inn"
                              class="sci-contact__input"
@@ -259,7 +259,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">КПП
                       <input type="text"
-                             data-prop="ORDER_PROP_9"
+                             data-prop="ORDER_PROP_10"
                              name="sci-contact__ur-kpp"
                              id="sci-contact__ur-kpp"
                              class="sci-contact__input"
@@ -270,7 +270,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Юридический адрес
                       <input type="text"
-                             data-prop="ORDER_PROP_10"
+                             data-prop="ORDER_PROP_11"
                              name="sci-contact__ur-legal-address"
                              id="sci-contact__ur-legal-address"
                              class="sci-contact__input"
@@ -281,7 +281,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Фактический адрес
                       <input type="text"
-                             data-prop="ORDER_PROP_11"
+                             data-prop="ORDER_PROP_12"
                              name="sci-contact__ur-fact-address"
                              id="sci-contact__ur-fact-address"
                              class="sci-contact__input"
@@ -293,7 +293,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Наименование
                       <input type="text"
-                             data-prop="ORDER_PROP_12"
+                             data-prop="ORDER_PROP_13"
                              name="sci-contact__bank-name"
                              id="sci-contact__bank-name"
                              class="sci-contact__input"
@@ -304,7 +304,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Город Банка
                       <input type="text"
-                             data-prop="ORDER_PROP_13"
+                             data-prop="ORDER_PROP_14"
                              name="sci-contact__bank-sity"
                              id="sci-contact__bank-sity"
                              class="sci-contact__input"
@@ -315,7 +315,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">БИК
                       <input type="text"
-                             data-prop="ORDER_PROP_14"
+                             data-prop="ORDER_PROP_15"
                              name="sci-contact__bank-bik"
                              id="sci-contact__bank-bik"
                              class="sci-contact__input"
@@ -326,7 +326,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Номер счета
                       <input type="text"
-                             data-prop="ORDER_PROP_15"
+                             data-prop="ORDER_PROP_16"
                              name="sci-contact__bank-account"
                              id="sci-contact__bank-account"
                              class="sci-contact__input"
@@ -337,7 +337,7 @@ global $USER;
                   <div class="sci-contact__field">
                     <label for="sci-contact__contacts" class="sci-contact__label">Контакты
                     </label>
-                    <textarea data-prop="ORDER_PROP_16"
+                    <textarea data-prop="ORDER_PROP_17"
                               name="sci-contact__contacts"
                               id="sci-contact__contacts"
                               class="sci-contact__input sci-contact__input--area"
