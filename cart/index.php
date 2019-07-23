@@ -1109,7 +1109,7 @@ if ($_REQUEST['ORDER_ID']) {
 			"USER_CONSENT_IS_CHECKED"        => "Y",
 			"USER_CONSENT_IS_LOADED"         => "N",
 			"COMPONENT_TEMPLATE"             => "old_version",
-			"ALLOW_APPEND_ORDER"             => "N",
+			"ALLOW_APPEND_ORDER"             => "Y",
 			"SHOW_NOT_CALCULATED_DELIVERIES" => "L",
 			"SPOT_LOCATION_BY_GEOIP"         => "Y",
 			"USE_PRELOAD"                    => "Y",
