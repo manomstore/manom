@@ -203,9 +203,12 @@ $(document).ready(function() {
   });
 
   $(document).on('change', '.shopcart-nav1 input', function(){
-    var step = $(this).data('num');
+    var $stepRadio = $(this),
+      step = $stepRadio.data('num');
 
-    app.shopcart.setStep(step);
+    if ($stepRadio.prop('checked')) {
+      app.shopcart.setStep(step);
+    }
   });
 
   $(document).on('submit', '#popap-call form', function() {
