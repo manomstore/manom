@@ -137,6 +137,7 @@ global $USER;
                            placeholder="Введите e-mail"
                            required>
                   </div>
+                    <? /*
                   <div class="sci-contact__field js-password-block dsb-hidden">
                       <label class="sci-contact__label" for="sci-contact__password">Пароль</label>
                       <input type="password"
@@ -149,6 +150,7 @@ global $USER;
                           <span class="js-auth">Войти</span>
                       </button>
                   </div>
+                    */ ?>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
                     <input type="tel"
@@ -194,6 +196,7 @@ global $USER;
                              required>
                     </label>
                   </div>
+                    <? /*
                     <div class="sci-contact__field js-password-block dsb-hidden">
                         <label class="sci-contact__label">Пароль
                             <input type="password"
@@ -207,6 +210,7 @@ global $USER;
                             <span class="js-auth">Войти</span>
                         </button>
                     </div>
+                    */ ?>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Юридическое название
                       <input type="text"
