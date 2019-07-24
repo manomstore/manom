@@ -34,7 +34,7 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     );
 
     if ($item["DISCOUNT_PRICE_PERCENT"] > 0) {
-        $item["SUM_FULL_PRICE_FORMATED"] = \CCurrencyLang::CurrencyFormat(
+        $arResult['GRID']['ROWS'][$i]["SUM_FULL_PRICE_FORMATED"] = \CCurrencyLang::CurrencyFormat(
             $item['SUM_FULL_PRICE'],
             $item['CURRENCY'],
             false

@@ -38,14 +38,18 @@
               <div class="sci-product__info">
                 <div class="sci-product__sum-price">
                   <div class="product-price">
-                    <!-- если есть скидка на товар, необходимо добавить класс  product-price__value--new и элемент product-price__value product-price__value--sale в котором указывается
-                    старая цена -->
-                    <span class="product-price__value product-price__value--new">
-                      <?= str_replace('руб.', '', $item['SUM']) ?> ₽
+                      <?if ($item["DISCOUNT_PRICE_PERCENT"] > 0): ?>
+                          <span class="product-price__value product-price__value--new">
+                      <?= $item['SUM'] ?> ₽
                     </span>
-                    <span class="product-price__value product-price__value--sale">
-                      99 999 ₽
+                          <span class="product-price__value product-price__value--sale">
+                      <?= $item['SUM_FULL_PRICE_FORMATTED'] ?> ₽
                     </span>
+                      <? else: ?>
+                          <span class="product-price__value">
+                      <?= $item['SUM'] ?> ₽
+                    </span>
+                      <?endif; ?>
                   </div>
                   <? if (!$item['has_prod']): ?>
                     <button

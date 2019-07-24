@@ -16,6 +16,20 @@ foreach ($arResult['CATEGORIES'] as $key => $cat) {
       $arResult['CATEGORIES'][$key][$i]['PIC'] = $item['DETAIL_PICTURE'];
     if ($item['PICTURE_SRC'] or $item['DETAIL_PICTURE'])
       $arResult['CATEGORIES'][$key][$i]['has_prod'] = true;
+
+      $arResult['CATEGORIES'][$key][$i]['SUM'] = \CCurrencyLang::CurrencyFormat(
+          $item['SUM_VALUE'],
+          $item['CURRENCY'],
+          false
+      );
+
+      if ($item["DISCOUNT_PRICE_PERCENT"] > 0) {
+          $arResult['CATEGORIES'][$key][$i]["SUM_FULL_PRICE_FORMATTED"] = \CCurrencyLang::CurrencyFormat(
+              $item['BASE_PRICE'],
+              $item['CURRENCY'],
+              false
+          );
+      }
   }
 }
 $getProd = CIBlockElement::GetList(

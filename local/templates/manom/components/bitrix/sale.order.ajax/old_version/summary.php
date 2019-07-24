@@ -15,34 +15,16 @@
 		<?foreach ($arResult["GRID"]["ROWS"] as $k => $arData):?>
 		<tr>
 			<?foreach ($arResult["GRID"]["HEADERS"] as $id => $arColumn):
-                $isSumCol = false;
-                if ($arColumn["id"] === "SUM") {
-                    $sumBase = isset($arData["columns"]["SUM_BASE"]) ?
-                        $arData["columns"]["SUM_BASE"] : $arData["data"]["SUM_BASE"];
-                    $sumBase = \CCurrencyLang::CurrencyFormat(
-                        $sumBase,
-                        isset($arData["columns"]["CURRENCY"]) ?
-                            $arData["columns"]["CURRENCY"] : $arData["data"]["CURRENCY"],
-                        false
-                    );
-                    $existDiscount = (int)(isset($arData["columns"]["DISCOUNT_PRICE_PERCENT"]) ?
-                            $arData["columns"]["CURRENCY"] : $arData["data"]["DISCOUNT_PRICE_PERCENT"]) > 0;
-                    $isSumCol = true;
-                }
 				$align = (isset($arColumn["align"])) ? "align=".$arColumn["align"] : "";
 			?>
-                <td <?= $align ?>
-                    <? if ($isSumCol):?>
-                        data-old-price="<?= !empty($sumBase) ? $sumBase : "" ?>"
-                        data-exist-discount="<?= $existDiscount ?>"
-                    <? endif; ?>>
-                    <?
-                    if (isset($arData["columns"][$arColumn["id"]])) {
-                        echo $arData["columns"][$arColumn["id"]];
-                    } else
-                        echo $arData["data"][$arColumn["id"]]
-                    ?>
-                </td>
+			<td <?=$align?>>
+				<?
+				if (isset($arData["columns"][$arColumn["id"]]))
+					echo $arData["columns"][$arColumn["id"]];
+				else
+					echo $arData["data"][$arColumn["id"]]
+				?>
+			</td>
 			<?endforeach;?>
 		<?endforeach;?>
 		</tr>
