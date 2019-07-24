@@ -95,11 +95,37 @@ $userCityByGeoIP = $userLocationInfo;
 				<!-- Верхняя навигация -->
 				<div class="top-nav">
 					<div class="container">
-						<div class="row top-nav__block">
-							<input class="top-burger__checkbox" type="checkbox" id="top-burger">
-							<label class="top-burger" for="top-burger" title="Меню"></label>
+						<div class="top-nav__block">
+              <button class="top-nav__toggle" type="button" aria-label="Открыть меню">
+                <span></span>
+              </button>
+              <nav class="top-nav__menu">
+                <ul class="top-nav__list">
+                  <li>
+                    <a class="top-nav__link" href="#">Компьютерная техника</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link" href="#">Смартфоны и планшеты</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link" href="#">Apple TV</a>
+                  </li>
+                </ul>
+
+                <ul class="top-nav__list">
+                  <li>
+                    <a class="top-nav__link" href="#">Сравнение</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link" href="#">Смартфоны и планшеты</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link" href="#">Apple TV</a>
+                  </li>
+                </ul>
+              </nav>
+
 							<div class="top-menu">
-								<div class="close-top-menu"></div>
 								<? $APPLICATION->IncludeComponent(
 									"bitrix:menu",
 									"top_menu",
