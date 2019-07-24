@@ -1241,6 +1241,14 @@ $.fn.updateDateSaleOrder = function() {
           $thisParent.addClass('rb_so__hide');
         }
       }
+    } else {
+      if (id) {
+        if (soModule.find('#' + id + '').is('input')) {
+          if (soModule.find('#' + id + '').prop('checked')) {
+            $this.click();
+          }
+        }
+      }
     }
 
     $this.removeClass('rb_so_disbled');
