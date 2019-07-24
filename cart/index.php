@@ -477,19 +477,19 @@ global $USER;
                                   id="sci-delivery-time"
                                   class="sci-contact__input sci-contact__input--appearance"
                                   required>
-                            <option selected value="c 6:00 до 9:00">
+                            <option selected value="1">
                               c 6:00 до 9:00
                             </option>
-                            <option value="c 9:00 до 12:00">
+                            <option value="2">
                               c 9:00 до 12:00
                             </option>
-                            <option value="c 12:00 до 15:00">
+                            <option value="3">
                               c 12:00 до 15:00
                             </option>
-                            <option value="c 15:00 до 18:00">
+                            <option value="4">
                               c 15:00 до 18:00
                             </option>
-                            <option value="c 18:00 до 21:00">
+                            <option value="5">
                               c 18:00 до 21:00
                             </option>
                           </select>
