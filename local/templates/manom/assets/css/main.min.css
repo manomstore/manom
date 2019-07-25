@@ -6748,16 +6748,6 @@ p.price-slider {
   vertical-align: middle;
 }
 
-#sci-delivery-tab1:checked ~ #sci-delivery-content1,
-#sci-delivery-tab5:checked ~ #sci-delivery-content1,
-#sci-delivery-tab7:checked ~ #sci-delivery-content1,
-#sci-delivery-tab2:checked ~ #sci-delivery-content2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .sci-delivery-tabs input:checked + .sci-delivery-tab {
   color: #79B700;
   border-top: 2px solid #79B700;

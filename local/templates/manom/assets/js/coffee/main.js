@@ -935,9 +935,11 @@ $(document).ready(function() {
 
     if (
       (
-        $this.is($('#sci-delivery-tab1'))
-        || $this.is($('#sci-delivery-tab5'))
-        || $this.is($('#sci-delivery-tab7'))
+        $this.next('[data-prop="ID_DELIVERY_ID_5"]')
+        || $this.next('[data-prop="ID_DELIVERY_ID_8"]')
+        || $this.next('[data-prop="ID_DELIVERY_ID_9"]')
+        || $this.next('[data-prop="ID_DELIVERY_ID_10"]')
+        || $this.next('[data-prop="ID_DELIVERY_ID_11"]')
       )
       && $this.prop('checked')
     ) {
