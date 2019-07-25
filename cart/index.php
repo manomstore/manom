@@ -420,7 +420,7 @@ global $USER;
                     </div>
                     <div class="sci-contact__field">
                       <label class="sci-contact__label">Адрес
-                        <input data-prop="ORDER_PROP_20"
+                        <input data-prop="ORDER_PROP_36"
                                data-prop-alt="ORDER_PROP_37"
                                type="text"
                                name="sci-delivery-street"
