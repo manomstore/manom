@@ -935,14 +935,15 @@ $(document).ready(function() {
 
     if (
       (
-        $this.next('[data-prop="ID_DELIVERY_ID_5"]')
-        || $this.next('[data-prop="ID_DELIVERY_ID_8"]')
-        || $this.next('[data-prop="ID_DELIVERY_ID_9"]')
-        || $this.next('[data-prop="ID_DELIVERY_ID_10"]')
-        || $this.next('[data-prop="ID_DELIVERY_ID_11"]')
+        $this.next('[data-prop="ID_DELIVERY_ID_5"]').length > 0
+        || $this.next('[data-prop="ID_DELIVERY_ID_8"]').length > 0
+        || $this.next('[data-prop="ID_DELIVERY_ID_9"]').length > 0
+        || $this.next('[data-prop="ID_DELIVERY_ID_10"]').length > 0
+        || $this.next('[data-prop="ID_DELIVERY_ID_11"]').length > 0
       )
       && $this.prop('checked')
     ) {
+      console.log($this.prop('checked'));
       $thisParent.append($('#sci-delivery-content1'));
     }
   });
@@ -1080,6 +1081,9 @@ $.fn.updateSideInfo = function() {
     });
   } else {
     totalPrice = $(document).find('#cart_sum_prod').html();
+  }
+  if (soModule.find('.sale_order_full tfoot #sale-order-full-delivery-price').length > 0) {
+    deliveryPrice = soModule.find('.sale_order_full tfoot #sale-order-full-delivery-price').html().toString().replace('руб.', '');
   }
   uDeliveryTime = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
   if (soModule.find('#ID_DELIVERY_ID_6').prop('checked')) {
@@ -1280,7 +1284,7 @@ $.fn.updateDateSaleOrder = function() {
       }
     }
 
-    if ($(this).prop('checked')) {
+    if ($(this).prop('checked') || $(this).attr('checked')) {
       $(this).click();
     }
   });
