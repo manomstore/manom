@@ -22,8 +22,8 @@ overflow-y: scroll;
 <?if ($_REQUEST['AJAX_MIN_CART'] == 'Y'):?>
 <?$APPLICATION->RestartBuffer();?>
 <?endif;?>
-<a href="/cart/" class="top-personal__shopcart" id="mini_cart_header_counter">
-	<img src="<?=SITE_TEMPLATE_PATH?>/assets/img/top-shopcart.svg" alt="">
+<a href="/cart/" class="top-personal__link" id="mini_cart_header_counter">
+	<img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
 	<span class="top-count"><?=$arResult['NUM_PRODUCTS']?></span>
 </a>
 

@@ -11,6 +11,15 @@ $(document).ready(function() {
     lastTimeout = setTimeout(callback, time);
   };
 
+  $('.sub-menu__list').slick({
+    dots: false,
+    infinite: false,
+    speed: 300,
+    prevArrow: false,
+    nextArrow: false,
+    variableWidth: true
+  });
+
   $(window).scroll(function() {
     if ($(this).scrollTop() > 1) {
       header.css('min-height', header.height() + 'px');

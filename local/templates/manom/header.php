@@ -105,7 +105,131 @@ $userCityByGeoIP = $userLocationInfo;
 
     <div class="header__wrapper">
       <!-- Верхняя навигация -->
-      <div class="top-nav top-nav--opened">
+      <div class="user-nav" style="display: none">
+        <!-- location -->
+        <div class="top-location-line">
+          <div class="container">
+            <div id="dnd-location">
+              <div class="dnd-location-line" :class="doShowPanel()">
+                <div class="dnd-location-curent" @click.stop="doChangeCity()">
+                  <i class="fas fa-map-marker-alt"></i> <span>{{currentCity}}</span>
+                </div>
+                <transition name="slide-fade">
+                  <div class="dnd-location-specify" v-if="!isInformationStatus">
+                    <div v-if="isConfirmCityVisible">
+                      <p>"{{currentCity}}" - это ваш город?</p>
+                      <div class="dnd-location-specify-btn">
+                        <span @click="currentCityIsActual()">Да</span>
+                        <span @click.stop="doChangeCity()">Нет</span>
+                      </div>
+                    </div>
+                    <div v-if="isNotDefinedCityVisible">
+                      <p>Ваш город не определен</p>
+                      <div class="dnd-location-specify-btn">
+                        <span @click.stop="doChangeCity()">Выбрать</span>
+                      </div>
+                    </div>
+                    <transition name="fade">
+                      <div v-if="isPopupChangeCityVisible">
+                        <!-- <p>Выберите город</p> -->
+                        <div class="dnd-location-change-city-form">
+                          <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
+                          <ul>
+                            <li v-for="cityItem in listOfCity" @click="changeCity(cityItem)">{{cityItem.title}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </transition>
+                  </div>
+                  <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
+											<p>Выберите город</p>
+											<div class="dnd-location-change-city-form">
+													<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
+											</div>
+									</div> -->
+                </transition>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript">
+          const LocationDataDND = {
+            cityName: "<?=$userLocationInfo['CITY_NAME']?>",
+            cityID: "<?=$userLocationInfo['ID']?>",
+            specifyInformation: <?=$uli->getUserSpecifyStatus() ? "true" : "false"?>,
+            defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
+          }
+        </script>
+        <!-- /location -->
+
+        <!-- login -->
+        <div class="top-sign">
+		      <? if ($USER->IsAuthorized()) { ?>
+            <a href="/user/profile.php">Личный кабинет</a> /
+            <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
+              <input type="hidden" name="bitrix_include_areas" value="N">
+              <input type="hidden" name="logout" value="yes">
+              <input type="submit" name="logout_butt" value="Выйти">
+            </form>
+		      <? } else { ?>
+            <a data-fancybox data-src="#popap-login" href="javascript:;" class="top-sign__on">Вход</a> /
+            <a href="/auth/registration.php" class="top-sign__in">Регистрация</a>
+            <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
+		      <? } ?>
+        </div>
+        <!-- /login -->
+
+        <!-- time -->
+        <div class="top-nav1__worktime coll-2">
+		      <? $APPLICATION->IncludeComponent(
+			      "bitrix:main.include",
+			      ".default",
+			      [
+				      "PATH"               => "/include/time.php",
+				      "COMPONENT_TEMPLATE" => ".default",
+				      "AREA_FILE_SHOW"     => "file",
+				      "EDIT_TEMPLATE"      => "",
+			      ],
+			      false
+		      ); ?>
+        </div>
+        <!-- /time -->
+
+        <!-- number -->
+        <div class="top-nav1__call coll-2">
+		      <? $APPLICATION->IncludeComponent(
+			      "bitrix:main.include",
+			      ".default",
+			      [
+				      "PATH"               => "/include/phone.php",
+				      "COMPONENT_TEMPLATE" => ".default",
+				      "AREA_FILE_SHOW"     => "file",
+				      "EDIT_TEMPLATE"      => "",
+			      ],
+			      false
+		      ); ?>
+          <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav1__call-request">Заказать звонок</a>
+        </div>
+
+        <!-- Всплывающее окно Заказать звонок -->
+        <div id="popap-call" class="popap-login">
+          <h3 class="sci-login__title">Заказать обратный звонок</h3>
+          <form class="sci-login__form">
+            <div class="form_msg">tesr</div>
+            <input type="hidden" name="form_id" value="1">
+            <label class="sci-login__label" for="sci-login__name">Имя</label>
+            <input type="text" name="name" id="sci-login__name" class="sci-login__input" placeholder="Ваше имя" required>
+            <label class="sci-login__label" for="sci-login__tel">Телефон</label>
+            <input type="tel" name="phone" id="sci-login__tel" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
+            <button class="sci-login__button">Позвоните мне</button>
+          </form>
+        </div>
+        <!-- /number -->
+
+      </div>
+
+
+      <div class="top-nav">
         <div class="container">
           <div class="top-nav__block">
             <button class="top-nav__toggle" type="button" aria-label="Открыть меню">
@@ -164,96 +288,32 @@ $userCityByGeoIP = $userLocationInfo;
               </nav>
             </div>
 
-            <div class="top-menu">
-							<? $APPLICATION->IncludeComponent(
-								"bitrix:menu",
-								"top_menu",
-								[
-									"ROOT_MENU_TYPE"        => "top",
-									"MAX_LEVEL"             => "1",
-									"CHILD_MENU_TYPE"       => "top",
-									"USE_EXT"               => "Y",
-									"DELAY"                 => "N",
-									"ALLOW_MULTI_SELECT"    => "Y",
-									"MENU_CACHE_TYPE"       => "N",
-									"MENU_CACHE_TIME"       => "3600",
-									"MENU_CACHE_USE_GROUPS" => "Y",
-									"MENU_CACHE_GET_VARS"   => "",
-								]
-							); ?>
-            </div>
-            <div class="top-location-line">
-              <div class="container">
-                <div id="dnd-location">
-                  <div class="dnd-location-line" :class="doShowPanel()">
-                    <div class="dnd-location-curent" @click.stop="doChangeCity()">
-                      <i class="fas fa-map-marker-alt"></i> <span>{{currentCity}}</span>
-                    </div>
-                    <transition name="slide-fade">
-                      <div class="dnd-location-specify" v-if="!isInformationStatus">
-                        <div v-if="isConfirmCityVisible">
-                          <p>"{{currentCity}}" - это ваш город?</p>
-                          <div class="dnd-location-specify-btn">
-                            <span @click="currentCityIsActual()">Да</span>
-                            <span @click.stop="doChangeCity()">Нет</span>
-                          </div>
-                        </div>
-                        <div v-if="isNotDefinedCityVisible">
-                          <p>Ваш город не определен</p>
-                          <div class="dnd-location-specify-btn">
-                            <span @click.stop="doChangeCity()">Выбрать</span>
-                          </div>
-                        </div>
-                        <transition name="fade">
-                          <div v-if="isPopupChangeCityVisible">
-                            <!-- <p>Выберите город</p> -->
-                            <div class="dnd-location-change-city-form">
-                              <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
-                              <ul>
-                                <li v-for="cityItem in listOfCity" @click="changeCity(cityItem)">{{cityItem.title}}</li>
-                              </ul>
-                            </div>
-                          </div>
-                        </transition>
-                      </div>
-                      <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
-													<p>Выберите город</p>
-													<div class="dnd-location-change-city-form">
-															<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
-													</div>
-											</div> -->
-                    </transition>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="top-sign">
-							<? if ($USER->IsAuthorized()) { ?>
-                <a href="/user/profile.php">Личный кабинет</a> /
-                <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
-                  <input type="hidden" name="bitrix_include_areas" value="N">
-                  <input type="hidden" name="logout" value="yes">
-                  <input type="submit" name="logout_butt" value="Выйти">
-                </form>
-							<? } else { ?>
-                <a data-fancybox data-src="#popap-login" href="javascript:;" class="top-sign__on">Вход</a> /
-                <a href="/auth/registration.php" class="top-sign__in">Регистрация</a>
-                <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
-							<? } ?>
-            </div>
-            <!-- Всплывающее окно Логин -->
-						<? $APPLICATION->IncludeComponent(
-							"bitrix:system.auth.form",
-							"popup",
-							[
-								"REGISTER_URL"        => "/auth/registration.php",
-								"FORGOT_PASSWORD_URL" => "/auth/foget.php",
-								"PROFILE_URL"         => "/user/index.php",
-								"SHOW_ERRORS"         => "Y",
-								"COMPONENT_TEMPLATE"  => "auth-cart",
-							],
-							false
-						); ?>
+            <a href="/" class="top-nav__logo">
+              <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" alt="Логотип интернет магазина Manom.ru" width="129" height="23">
+            </a>
+
+<!--            <div class="top-menu">-->
+<!--							--><?// $APPLICATION->IncludeComponent(
+//								"bitrix:menu",
+//								"top_menu",
+//								[
+//									"ROOT_MENU_TYPE"        => "top",
+//									"MAX_LEVEL"             => "1",
+//									"CHILD_MENU_TYPE"       => "top",
+//									"USE_EXT"               => "Y",
+//									"DELAY"                 => "N",
+//									"ALLOW_MULTI_SELECT"    => "Y",
+//									"MENU_CACHE_TYPE"       => "N",
+//									"MENU_CACHE_TIME"       => "3600",
+//									"MENU_CACHE_USE_GROUPS" => "Y",
+//									"MENU_CACHE_GET_VARS"   => "",
+//								]
+//							); ?>
+<!--            </div>-->
+
+
+
+
             <!--			  	<div id="popap-login" class="popap-login">-->
             <!--			  		<h3 class="sci-login__title">Войти в существующий аккаунт</h3>-->
             <!--						<form class="sci-login__form">-->
@@ -280,35 +340,12 @@ $userCityByGeoIP = $userLocationInfo;
             <!--							<a href="#" class="sci-login__forgot">Забыли пароль?</a>-->
             <!--						</form>-->
             <!--			  	</div>-->
-            <!-- Всплывающее окно Регистрация -->
-            <div id="popap-reg" class="popap-login">
-              <h3 class="sci-login__title">Регистрация аккаунта</h3>
-              <form class="sci-login__form">
-                <label class="sci-login__label" for="sci-reg__email">E-mail</label>
-                <input type="email" name="email" id="sci-reg__email" class="sci-login__input" placeholder="Ваш e-mail" required>
-                <label class="sci-login__label" for="sci-reg__password">Пароль</label>
-                <input type="password" name="password" id="sci-reg__password" class="sci-login__input" placeholder="Ваш пароль" required>
-                <div class="sci-login__social">
-                  <span>Регистрация через соц.сети: </span>
-                  <a href="#" class="sci-login__social-link">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-instagram.png" alt="">
-                  </a>
-                  <a href="#" class="sci-login__social-link">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-telegram.png" alt="">
-                  </a>
-                  <a href="#" class="sci-login__social-link">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-facebook.png" alt="">
-                  </a>
-                  <a href="#" class="sci-login__social-link">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-vk.png" alt="">
-                  </a>
-                </div>
-                <button class="sci-login__button">Регистрация</button>
-              </form>
-            </div>
 
-            <div class="top-personal coll-2 text-right">
-
+            <div class="top-personal">
+              <a class="top-personal__link top-personal__link--search" href="#">
+                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка сравнения" width="15" height="15">
+                Поиск
+              </a>
 							<?
 							global $customFilt;
 							$favList = getProdListFavoritAndCompare('UF_COMPARE_ID');
@@ -318,8 +355,8 @@ $userCityByGeoIP = $userLocationInfo;
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
-                <a href="/catalog/compare/" class="top-personal__heart" id="mini_compare_header_counter">
-                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/top-sheets.svg" alt="">
+                <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
+                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="17" height="15">
                   <span class="top-count">0</span>
                 </a>
                 <div class="preview-heart preview-heart--empty" id="mini_compare_header">
@@ -482,8 +519,8 @@ $userCityByGeoIP = $userLocationInfo;
 								<? if ($_REQUEST['AJAX_MIN_FAVORITE'] == 'Y'): ?>
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
-                <a href="" class="top-personal__heart" id="mini_favorite_header_counter">
-                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/top-heart.svg" alt="">
+                <a href="#" class="top-personal__link" id="mini_favorite_header_counter">
+                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg" alt="Иконка избранного" width="17" height="15">
                   <span class="top-count">0</span>
                 </a>
                 <div class="preview-heart preview-heart--empty" id="mini_favorite_header">
@@ -669,109 +706,82 @@ $userCityByGeoIP = $userLocationInfo;
 
             </div>
           </div>
+
+          <div class="sub-menu">
+            <ul class="sub-menu__list">
+              <li>
+                <a class="sub-menu__link" href="#">Компьютерная техника</a>
+              </li>
+              <li>
+                <a class="sub-menu__link" href="#">Смартфоны и планшеты</a>
+              </li>
+              <li>
+                <a class="sub-menu__link" href="#">Apple TV</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <script type="text/javascript">
-        const LocationDataDND = {
-          cityName: "<?=$userLocationInfo['CITY_NAME']?>",
-          cityID: "<?=$userLocationInfo['ID']?>",
-          specifyInformation: <?=$uli->getUserSpecifyStatus() ? "true" : "false"?>,
-          defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
-        }
-      </script>
+
 
       <!-- Верхняя навигация 1 -->
-      <div class="top-nav1">
-        <div class="container">
-          <div class="row top-nav1__block">
-            <a href="/" class="top-nav1__logo">
-              <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" class="top-nav1__logo-desk" alt="">
-              <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/a.jpg" class="top-nav1__logo-mob" alt="">
-            </a>
-						<? $APPLICATION->IncludeComponent(
-							"bitrix:search.form",
-							"search",
-							[
-								"USE_SUGGEST"        => "N",
-								"PAGE"               => "#SITE_DIR#search/index.php",
-								"COMPONENT_TEMPLATE" => "search",
-							],
-							false
-						); ?>
-            <div class="top-nav1__call coll-2">
-							<? $APPLICATION->IncludeComponent(
-								"bitrix:main.include",
-								".default",
-								[
-									"PATH"               => "/include/phone.php",
-									"COMPONENT_TEMPLATE" => ".default",
-									"AREA_FILE_SHOW"     => "file",
-									"EDIT_TEMPLATE"      => "",
-								],
-								false
-							); ?>
-              <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav1__call-request">Заказать звонок</a>
-            </div>
-            <!-- Всплывающее окно Заказать звонок -->
-            <div id="popap-call" class="popap-login">
-              <h3 class="sci-login__title">Заказать обратный звонок</h3>
-              <form class="sci-login__form">
-                <div class="form_msg">tesr</div>
-                <input type="hidden" name="form_id" value="1">
-                <label class="sci-login__label" for="sci-login__name">Имя</label>
-                <input type="text" name="name" id="sci-login__name" class="sci-login__input" placeholder="Ваше имя" required>
-                <label class="sci-login__label" for="sci-login__tel">Телефон</label>
-                <input type="tel" name="phone" id="sci-login__tel" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
-                <button class="sci-login__button">Позвоните мне</button>
-              </form>
-            </div>
+<!--      <div class="top-nav1">-->
+<!--        <div class="container">-->
+<!--          <div class="row top-nav1__block">-->
+<!--            <a href="/" class="top-nav1__logo">-->
+<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/logo.svg" class="top-nav1__logo-desk" alt="">-->
+<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/a.jpg" class="top-nav1__logo-mob" alt="">-->
+<!--            </a>-->
 
-            <div class="top-nav1__worktime coll-2">
-							<? $APPLICATION->IncludeComponent(
-								"bitrix:main.include",
-								".default",
-								[
-									"PATH"               => "/include/time.php",
-									"COMPONENT_TEMPLATE" => ".default",
-									"AREA_FILE_SHOW"     => "file",
-									"EDIT_TEMPLATE"      => "",
-								],
-								false
-							); ?>
-            </div>
-          </div>
-        </div>
-      </div>
+            <!-- SEARCH -->
+<!--						--><?// $APPLICATION->IncludeComponent(
+//							"bitrix:search.form",
+//							"search",
+//							[
+//								"USE_SUGGEST"        => "N",
+//								"PAGE"               => "#SITE_DIR#search/index.php",
+//								"COMPONENT_TEMPLATE" => "search",
+//							],
+//							false
+//						); ?>
+            <!-- /SEARCH -->
+
+
+
+
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
       <!-- Верхняя навигация 2 -->
-      <div class="top-nav2">
-        <div class="container">
-          <div class="top-nav2__block">
-						<? $APPLICATION->IncludeComponent(
-							"bitrix:catalog.section.list",
-							"main-menu",
-							[
-								"VIEW_MODE"           => "TEXT",
-								"SHOW_PARENT_NAME"    => "Y",
-								"IBLOCK_TYPE"         => "catalog",
-								"IBLOCK_ID"           => "6",
-								"SECTION_ID"          => $_REQUEST["SECTION_ID"],
-								"SECTION_CODE"        => "",
-								"SECTION_URL"         => "",
-								"COUNT_ELEMENTS"      => "Y",
-								"TOP_DEPTH"           => "2",
-								"SECTION_FIELDS"      => "",
-								"SECTION_USER_FIELDS" => "",
-								"ADD_SECTIONS_CHAIN"  => "Y",
-								"CACHE_TYPE"          => "A",
-								"CACHE_TIME"          => "36000000",
-								"CACHE_NOTES"         => "",
-								"CACHE_GROUPS"        => "Y",
-							]
-						); ?>
-          </div>
-        </div>
-      </div>
+<!--      <div class="top-nav2">-->
+<!--        <div class="container">-->
+<!--          <div class="top-nav2__block">-->
+<!--						--><?// $APPLICATION->IncludeComponent(
+//							"bitrix:catalog.section.list",
+//							"main-menu",
+//							[
+//								"VIEW_MODE"           => "TEXT",
+//								"SHOW_PARENT_NAME"    => "Y",
+//								"IBLOCK_TYPE"         => "catalog",
+//								"IBLOCK_ID"           => "6",
+//								"SECTION_ID"          => $_REQUEST["SECTION_ID"],
+//								"SECTION_CODE"        => "",
+//								"SECTION_URL"         => "",
+//								"COUNT_ELEMENTS"      => "Y",
+//								"TOP_DEPTH"           => "2",
+//								"SECTION_FIELDS"      => "",
+//								"SECTION_USER_FIELDS" => "",
+//								"ADD_SECTIONS_CHAIN"  => "Y",
+//								"CACHE_TYPE"          => "A",
+//								"CACHE_TIME"          => "36000000",
+//								"CACHE_NOTES"         => "",
+//								"CACHE_GROUPS"        => "Y",
+//							]
+//						); ?>
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 			<?
 			$page = $APPLICATION->GetCurPage();
 			if ($page == '/') { ?>
@@ -804,5 +814,50 @@ $userCityByGeoIP = $userLocationInfo;
         <!--						</div>-->
         <!--					</div>-->
 			<? } ?>
+
+
     </div>
+
+    <!-- Всплывающее окно Регистрация -->
+    <div id="popap-reg" class="popap-login">
+      <h3 class="sci-login__title">Регистрация аккаунта</h3>
+      <form class="sci-login__form">
+        <label class="sci-login__label" for="sci-reg__email">E-mail</label>
+        <input type="email" name="email" id="sci-reg__email" class="sci-login__input" placeholder="Ваш e-mail" required>
+        <label class="sci-login__label" for="sci-reg__password">Пароль</label>
+        <input type="password" name="password" id="sci-reg__password" class="sci-login__input" placeholder="Ваш пароль" required>
+        <div class="sci-login__social">
+          <span>Регистрация через соц.сети: </span>
+          <a href="#" class="sci-login__social-link">
+            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-instagram.png" alt="">
+          </a>
+          <a href="#" class="sci-login__social-link">
+            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-telegram.png" alt="">
+          </a>
+          <a href="#" class="sci-login__social-link">
+            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-facebook.png" alt="">
+          </a>
+          <a href="#" class="sci-login__social-link">
+            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-vk.png" alt="">
+          </a>
+        </div>
+        <button class="sci-login__button">Регистрация</button>
+      </form>
+    </div>
+    <!-- /Всплывающее окно Регистрация -->
+
+    <!-- Всплывающее окно Логин -->
+	  <? $APPLICATION->IncludeComponent(
+		  "bitrix:system.auth.form",
+		  "popup",
+		  [
+			  "REGISTER_URL"        => "/auth/registration.php",
+			  "FORGOT_PASSWORD_URL" => "/auth/foget.php",
+			  "PROFILE_URL"         => "/user/index.php",
+			  "SHOW_ERRORS"         => "Y",
+			  "COMPONENT_TEMPLATE"  => "auth-cart",
+		  ],
+		  false
+	  ); ?>
+    <!-- /Всплывающее окно Логин -->
   </header>
