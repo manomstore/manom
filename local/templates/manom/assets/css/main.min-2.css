@@ -8246,5 +8246,9 @@ p.price-slider {
 }
 
 .sci-contact__input.is-error {
-  border-color: #f00;
+  border-color: #ff7171;
+}
+
+.sci-contact__input.is-success {
+  border-color: #76AF17;
 }

@@ -803,9 +803,14 @@ $(document).ready(function() {
     return $.fn.updateSideInfo();
   });
 
-  $(document).on('change', '.sci-contact__input.is-error', function(){
-    if ($(this).val() !== '') {
-      $(this).removeClass('is-error');
+  $(document).on('change', '.sci-contact__input', function(){
+    if ($(this).prop('required')) {
+      if ($(this).val() !== '') {
+        $(this).addClass('is-success');
+        $(this).removeClass('is-error');
+      } else {
+        $(this).removeClass('is-success');
+      }
     }
   });
 
@@ -822,16 +827,12 @@ $(document).ready(function() {
 
         if (email.length >= 0
             && (email.match(/.+?\@.+/g) || []).length !== 1) {
-            $(this).val('').css({
-                borderColor: 'red'
-            });
+            $(this).val('').addClass('is-error').removeClass('is-success');
 
             // $errorBlock.text("Не правильно введен email").css("color", "red");
             $passBlock.addClass("dsb-hidden");
         } else {
-            $(this).css({
-                borderColor: 'green'
-            });
+            $(this).removeClass('is-error').addClass('is-success');
             // $errorBlock.text("Email введен верно").css("color", "green");
 
             var isUserExists = false;
@@ -897,16 +898,12 @@ $(document).ready(function() {
 
         if (email.length >= 0
             && (email.match(/.+?\@.+/g) || []).length !== 1) {
-            $(this).val('').css({
-                borderColor: 'red'
-            });
+            $(this).val('').addClass('is-error').removeClass('is-success');
 
             // $errorBlock.text("Не правильно введен email").css("color", "red");
             $passBlock.addClass("dsb-hidden");
         } else {
-            $(this).css({
-                borderColor: 'green'
-            });
+            $(this).removeClass('is-error').addClass('is-success');
             // $errorBlock.text("Email введен верно").css("color", "green");
 
             var isUserExists = false;
