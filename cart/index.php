@@ -278,6 +278,7 @@ global $USER;
                              name="sci-contact__ur-legal-address"
                              id="sci-contact__ur-legal-address"
                              class="sci-contact__input"
+                             autocomplete="none"
                              placeholder="Индекс, город, адрес"
                              required>
                     </label>
@@ -289,6 +290,7 @@ global $USER;
                              name="sci-contact__ur-fact-address"
                              id="sci-contact__ur-fact-address"
                              class="sci-contact__input"
+                             autocomplete="none"
                              placeholder="Индекс, город, адрес"
                              required>
                     </label>
@@ -312,6 +314,7 @@ global $USER;
                              name="sci-contact__bank-sity"
                              id="sci-contact__bank-sity"
                              class="sci-contact__input"
+                             autocomplete="none"
                              placeholder="Город Банка"
                              required>
                     </label>
@@ -384,7 +387,7 @@ global $USER;
                                class="sci-contact__input"
                                type="text"
                                placeholder="Введите город доставки"
-                               autocomplete="off"
+                               autocomplete="none"
                                onfocus="loc_sug_CheckThisAlt(this, this.id);">
                         <input type="hidden" name="so_city" id="so_city" value="">
                         <script type="text/javascript">
@@ -426,6 +429,7 @@ global $USER;
                                name="sci-delivery-street"
                                id="sci-delivery-street"
                                class="sci-contact__input"
+                               autocomplete="none"
                                placeholder="Улица, дом, квартира"
                                required>
                       </label>
@@ -643,7 +647,7 @@ global $USER;
                                value=""
                                class="sci-contact__input"
                                type="text"
-                               autocomplete="off"
+                               autocomplete="none"
                                placeholder="Введите город"
                                onfocus="loc_sug_CheckThisAltAlt(this, this.id);">
                         <input type="hidden" name="so_city_alt" id="so_city_alt" value="">
