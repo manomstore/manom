@@ -837,13 +837,7 @@ $(document).ready(function() {
 
             var isUserExists = false;
 
-            $(document).find('.preloaderCatalog').css({
-                opacity: 0,
-                display: 'block'
-            });
-            $(document).find('.preloaderCatalog').animate({
-                opacity: 1
-            }, 300);
+            $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
 
             $.ajax("/ajax/checkout.php",
                 {
@@ -855,14 +849,7 @@ $(document).ready(function() {
                         sessid: BX.bitrix_sessid(),
                     },
                     success: function (result) {
-                        $(document).find('.preloaderCatalog').animate({
-                            opacity: 0
-                        }, 300, function() {
-                            return $(this).css({
-                                opacity: 0,
-                                display: 'none'
-                            });
-                        });
+                        $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
 
                         if (result.type === "ok") {
                             isUserExists = Number(result.exist) === 1;
@@ -1610,13 +1597,7 @@ $.fn.ajaxLoadCatalog = function() {
   } else {
     $(document).find('.cb-filter .cb-filter__clear').addClass('dnd-hide');
   }
-  $(document).find('.preloaderCatalog').css({
-    opacity: 0,
-    display: 'block'
-  });
-  $(document).find('.preloaderCatalog').animate({
-    opacity: 1
-  }, 300);
+  $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
   urlForSend = $(document).find('.ajaxPageNav .cb-nav-pagination__item.active').attr('data-href');
   styleBlock = 'v-block';
   countOnPage = $(document).find('select[name="countOnPage"]').val();
@@ -1642,14 +1623,7 @@ $.fn.ajaxLoadCatalog = function() {
       type: 'GET',
       data: $data,
       success: function(data) {
-        $(document).find('.preloaderCatalog').animate({
-          opacity: 0
-        }, 300, function() {
-          return $(this).css({
-            opacity: 0,
-            display: 'none'
-          });
-        });
+        $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         $(document).find('#PROPDS_BLOCK').html(data);
         return $(document).find('.catTopCount .catTopCountValue').html($(document).find('#PROPDS_BLOCK .catTopCountValue').html());
       }
