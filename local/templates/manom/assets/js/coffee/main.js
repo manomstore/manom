@@ -826,13 +826,13 @@ $(document).ready(function() {
                 borderColor: 'red'
             });
 
-            $errorBlock.text("Не правильно введен email").css("color", "red");
+            // $errorBlock.text("Не правильно введен email").css("color", "red");
             $passBlock.addClass("dsb-hidden");
         } else {
             $(this).css({
                 borderColor: 'green'
             });
-            $errorBlock.text("Email введен верно").css("color", "green");
+            // $errorBlock.text("Email введен верно").css("color", "green");
 
             var isUserExists = false;
 
@@ -901,13 +901,13 @@ $(document).ready(function() {
                 borderColor: 'red'
             });
 
-            $errorBlock.text("Не правильно введен email").css("color", "red");
+            // $errorBlock.text("Не правильно введен email").css("color", "red");
             $passBlock.addClass("dsb-hidden");
         } else {
             $(this).css({
                 borderColor: 'green'
             });
-            $errorBlock.text("Email введен верно").css("color", "green");
+            // $errorBlock.text("Email введен верно").css("color", "green");
 
             var isUserExists = false;
 
