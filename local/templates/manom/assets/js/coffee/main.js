@@ -167,15 +167,11 @@ $(document).ready(function() {
             }
           }
 
-          if ($formIsValid) {
-            $(document).find('.shopcart-nav1 input#shopcart-tab' + (parseInt(slideNum) + 1) + '').removeClass('slide-disable');
-            $(document).find('.shopcart-nav1 label[for="shopcart-tab' + (parseInt(slideNum) + 1) + '"]').click();
-            if ((parseInt(slideNum) + 1) === 4) {
-              $(document).find('#btnSubmitOrder').removeClass('hidden');
-              $(document).find('#btnNextSlide').addClass('hidden');
-            }
-          } else {
-            $.fn.setPushUp("Не заполнены поля", "Поля обязательные к заполнению небыли заполнены", false, "message", false, 5000);
+          var isDeliveryChecked = true;
+
+          if ($('.sci-delivery__radio:checked').length === 0) {
+            $formIsValid = false;
+            isDeliveryChecked = false;
           }
 
           $(document)
@@ -191,6 +187,21 @@ $(document).ready(function() {
                 $(this).removeClass('is-error');
               }
             });
+
+          if ($formIsValid) {
+            $(document).find('.shopcart-nav1 input#shopcart-tab' + (parseInt(slideNum) + 1) + '').removeClass('slide-disable');
+            $(document).find('.shopcart-nav1 label[for="shopcart-tab' + (parseInt(slideNum) + 1) + '"]').click();
+            if ((parseInt(slideNum) + 1) === 4) {
+              $(document).find('#btnSubmitOrder').removeClass('hidden');
+              $(document).find('#btnNextSlide').addClass('hidden');
+            }
+          } else {
+            if (!isDeliveryChecked) {
+              $.fn.setPushUp("Не выбрана доставка", "Необходимо выбрать доставку из списка", false, "message", false, 5000);
+            } else {
+              $.fn.setPushUp("Не заполнены поля", "Поля обязательные к заполнению небыли заполнены", false, "message", false, 5000);
+            }
+          }
         }
       }
       if (parseInt(slideNum) === 2) {
@@ -755,6 +766,9 @@ $(document).ready(function() {
     soBlock = $(document).find('#so_main_block');
     soModule = $(document).find('#module_so');
     $this = $(this);
+    var $checkedDeliveryRadio = $('.sci-delivery__radio:checked');
+    $checkedDeliveryRadio.prop('checked', false);
+    soModule.find('#' + $checkedDeliveryRadio.next('.sci-delivery__tab').data('prop')).prop('checked', false);
     return setTimeout(function() {
       if (soCityID.val() === soCityID.attr('data-old')) {
         $this.val($this.attr('data-old'));
