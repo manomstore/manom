@@ -246,10 +246,11 @@ print_my_debug();?>
     });
 </script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scripts.min.js"></script>
-	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.js"></script>
+    <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.js"></script>
+    <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.maskedinput.min.js"></script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.suggestions.min.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/main.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/vue-main.js"></script>
-	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.maskedinput.min.js"></script>
     <script>
         //Маска для ввода телефона
         $(function () {

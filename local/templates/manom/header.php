@@ -30,7 +30,8 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Open+Sans:400,600,700&amp;subset=cyrillic-ext" rel="stylesheet">
   <!-- Add fancyBox -->
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery-ui.css">
-  <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery.fancybox.min.css"/>
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery.fancybox.min.css"/>
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/suggestions.min.css"/>
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/main.min-2.css">
 
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/js/coffee/pushUpJS/pushUp.css">

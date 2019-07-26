@@ -8252,3 +8252,39 @@ p.price-slider {
 .sci-contact__input.is-success {
   border-color: #76AF17;
 }
+
+.sci-contact__field .suggestions-constraints {
+  width: 0;
+  display: none;
+  overflow: hidden;
+}
+
+.sci-contact__field .suggestions-suggestions {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 5px;
+  border: 1px solid #e1e1e1;
+  border-radius: 3px;
+  box-shadow: 0px 14px 14px rgba(0, 0, 0, 0.1);
+  -webkit-font-smoothing: antialiased;
+}
+
+.sci-contact__field .suggestions-hint {
+  padding: 6px 15px;
+}
+
+.sci-contact__field .suggestions-suggestion {
+  padding: 6px 15px;
+}
+
+.sci-contact__field .suggestions-suggestions strong {
+  font-weight: bold;
+  color: #000;
+}
+
+.sci-contact__field .suggestions-promo {
+  display: none !important;
+}
+.sci-contact__field .suggestions-addon[data-addon-type="clear"] {
+  background-size: 20px;
+}

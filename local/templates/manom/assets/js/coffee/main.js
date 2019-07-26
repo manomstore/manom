@@ -769,6 +769,15 @@ $(document).ready(function() {
     var $checkedDeliveryRadio = $('.sci-delivery__radio:checked');
     $checkedDeliveryRadio.prop('checked', false);
     soModule.find('#' + $checkedDeliveryRadio.next('.sci-delivery__tab').data('prop')).prop('checked', false);
+    $('#sci-delivery-street')
+      .suggestions('setOptions', {
+        constraints: {
+          locations: {
+            city: $this.val().split(', ')[0]
+          }
+        }
+      })
+      .val('');
     return setTimeout(function() {
       if (soCityID.val() === soCityID.attr('data-old')) {
         $this.val($this.attr('data-old'));
@@ -965,7 +974,6 @@ $(document).ready(function() {
       )
       && $this.prop('checked')
     ) {
-      console.log($this.prop('checked'));
       $thisParent.append($('#sci-delivery-content1'));
     }
   });
@@ -1058,6 +1066,22 @@ $(document).ready(function() {
       }
     });
   });
+
+  $('#sci-delivery-street')
+    .suggestions({
+      token: '13c28158e6b58d73020665b170c93b462e2db582',
+      type: 'ADDRESS',
+      placeholder: 'Введите город доставки',
+      constraints: {
+        locations: {
+          city: $('#so_city_val').val().split(', ')[0]
+        }
+      },
+      // onSelect: this.onSelect,
+      // в списке подсказок не показываем область
+      restrict_value: true
+    })
+    .attr('autocomplete', 'none');
 });
 
 $.fn.updateSideInfo = function() {
@@ -1376,6 +1400,15 @@ $.fn.updateDateSaleOrder = function() {
       soCityAltID.attr('data-old', soModule.find('[name="' + soCityAlt.attr('data-city-prop-alt') + '"]').val());
     }
   }
+  $('#sci-delivery-street')
+    .suggestions('setOptions', {
+      constraints: {
+        locations: {
+          city: soCity.val().split(', ')[0]
+        }
+      }
+    })
+    .val('');
   $.fn.updateSideInfo();
   soModule.find('.errortext').each(function() {
     return $.fn.setPushUp("Ошибка", $(this).text(), false, "message", false, 5000);
