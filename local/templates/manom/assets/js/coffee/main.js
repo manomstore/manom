@@ -118,7 +118,11 @@ $(document).ready(function() {
           sBlock.find('input').each(function() {
             if (!$(this).val() && $(this).prop('required')) {
               $formIsValid = false;
+              $(this).addClass('is-error');
+            } else {
+              $(this).removeClass('is-error');
             }
+
             if (!--$count) {
               if ($formIsValid) {
                 $(document).find('.shopcart-nav1 input#shopcart-tab' + (parseInt(slideNum) + 1) + '').removeClass('slide-disable');
@@ -173,6 +177,20 @@ $(document).ready(function() {
           } else {
             $.fn.setPushUp("Не заполнены поля", "Поля обязательные к заполнению небыли заполнены", false, "message", false, 5000);
           }
+
+          $(document)
+            .find('#shopcart-item3')
+            .find('.sci-delivery__radio:checked')
+            .parent()
+            .find('.sci-delivery-content')
+            .find('input')
+            .each(function(){
+              if (!$(this).val() && $(this).prop('required')) {
+                $(this).addClass('is-error');
+              } else {
+                $(this).removeClass('is-error');
+              }
+            });
         }
       }
       if (parseInt(slideNum) === 2) {
@@ -783,6 +801,12 @@ $(document).ready(function() {
   });
   $(document).on('change', '[name="sci-contact__fio"], [name="sci-contact__tel"], [name="sci-contact__ur-name"], [name="sci-contact__ur-phone"], [name="so_city_val"], [name="so_city_alt_val"], [name="sci-delivery-street"], [name="sci-delivery-building"], [name="sci-delivery-apartment"], [name="sci-delivery-date"], [name="sci-delivery-time"], [name="ORDER_PROP_37"], [name="ORDER_PROP_36"]', function() {
     return $.fn.updateSideInfo();
+  });
+
+  $(document).on('change', '.sci-contact__input.is-error', function(){
+    if ($(this).val() !== '') {
+      $(this).removeClass('is-error');
+    }
   });
 
     $(".sci-contact__input[type='email']").on('blur', function () {

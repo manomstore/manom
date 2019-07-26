@@ -8244,3 +8244,7 @@ p.price-slider {
     left: 2px;
   }
 }
+
+.sci-contact__input.is-error {
+  border-color: #f00;
+}
