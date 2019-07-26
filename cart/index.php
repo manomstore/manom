@@ -904,7 +904,8 @@ global $USER;
                          type="checkbox"
                          name="sci-contact__consent"
                          value="sci-contact__consent"
-                         required>
+                         required
+                         checked>
                   <span class="sci-contact__check">
                     Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a href="#">с условиями</a>
                   </span>
