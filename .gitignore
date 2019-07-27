@@ -2,6 +2,7 @@
 *.log
 *.txt
 *.xml
+!/robots.txt
 
 /bitrix/
 /landing_template/
