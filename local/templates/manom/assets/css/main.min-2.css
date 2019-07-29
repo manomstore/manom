@@ -8292,3 +8292,8 @@ p.price-slider {
 .sci-contact__field .suggestions-addon[data-addon-type="clear"] {
   background-size: 20px;
 }
+
+.sci-delivery__text.is-error {
+  border: 0;
+  color: #ff7171;
+}

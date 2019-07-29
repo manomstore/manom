@@ -167,6 +167,20 @@ $(document).ready(function() {
             }
           }
 
+          if ($('#ID_DELIVERY_ID_6').prop('checked')) {
+            var $pickupAddress = $('.pickup_address span');
+
+            $pickupAddress.removeClass('is-error');
+
+            if (
+              typeof window.IPOLSDEK_pvz !== 'undefined'
+              && !window.IPOLSDEK_pvz.pvzId
+            ) {
+              $formIsValid = false;
+              $pickupAddress.addClass('is-error');
+            }
+          }
+
           var isDeliveryChecked = true;
 
           if ($('.sci-delivery__radio:checked').length === 0) {
@@ -1092,6 +1106,8 @@ $(document).ready(function() {
     .attr('autocomplete', 'none');
 });
 
+var isSideInfoInited = false;
+
 $.fn.updateSideInfo = function() {
   var deliveryPrice, soBlock, soModule, totalPrice, uAddress, uCity, uDeliveryDate, uDeliveryTime, uName, uPhone;
   soBlock = $(document).find('#so_main_block');
@@ -1141,11 +1157,21 @@ $.fn.updateSideInfo = function() {
   }
   uDeliveryTime = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
   if (soModule.find('#ID_DELIVERY_ID_6').prop('checked')) {
-    if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
-      uAddress = soModule.find('[name="ORDER_PROP_37"]').val();
+    if (!isSideInfoInited) {
+      if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
+        uAddress = soModule.find('[name="ORDER_PROP_37"]').val();
+      } else {
+        uAddress = soModule.find('[name="ORDER_PROP_36"]').val();
+      }
     } else {
-      uAddress = soModule.find('[name="ORDER_PROP_36"]').val();
+      if (
+        typeof window.IPOLSDEK_pvz !== 'undefined'
+        && window.IPOLSDEK_pvz.pvzId
+      ) {
+        uAddress = window.IPOLSDEK_pvz.pvzAdress;
+      }
     }
+
     uDeliveryDate = "";
     uDeliveryTime = "";
     uDeliveryTime = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
@@ -1193,6 +1219,9 @@ $.fn.updateSideInfo = function() {
     soBlock.find('.shopcart-sidebar__delivery-date').show();
     soBlock.find('.shopcart-sidebar__delivery-date span').html(uDeliveryDate);
   }
+
+  isSideInfoInited = true;
+
   if (!uDeliveryTime) {
     return soBlock.find('.shopcart-sidebar__delivery-time').hide();
   } else {
@@ -1418,6 +1447,14 @@ $.fn.updateDateSaleOrder = function() {
     })
     .val('');
   $.fn.updateSideInfo();
+
+  if (
+    typeof window.IPOLSDEK_pvz !== 'undefined'
+    && window.IPOLSDEK_pvz.pvzId
+  ) {
+    soBlock.find('.pickup_address span').removeClass('is-error');
+  }
+
   soModule.find('.errortext').each(function() {
     return $.fn.setPushUp("Ошибка", $(this).text(), false, "message", false, 5000);
   });
