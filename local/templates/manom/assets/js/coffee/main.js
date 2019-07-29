@@ -1419,6 +1419,19 @@ $.fn.updateDateSaleOrder = function() {
     if (soModule.find('[name="' + soCity.attr('data-city-prop-val') + '"]').is('input')) {
       soCity.val(soModule.find('[name="' + soCity.attr('data-city-prop-val') + '"]').val());
       soCityID.val(soModule.find('[name="' + soCity.attr('data-city-prop') + '"]').val());
+
+      if (soCityID.val() !== soCityID.attr('data-old')) {
+        $('#sci-delivery-street')
+          .suggestions('setOptions', {
+            constraints: {
+              locations: {
+                city: soCity.val().split(', ')[0]
+              }
+            }
+          })
+          .val('');
+      }
+
       soCity.attr('data-old', soModule.find('[name="' + soCity.attr('data-city-prop-val') + '"]').val());
       soCityID.attr('data-old', soModule.find('[name="' + soCity.attr('data-city-prop') + '"]').val());
       soCityAlt.val(soModule.find('[name="' + soCityAlt.attr('data-city-prop-val') + '"]').val());
@@ -1429,6 +1442,19 @@ $.fn.updateDateSaleOrder = function() {
     if (soModule.find('[name="' + soCity.attr('data-city-prop-val-alt') + '"]').is('input')) {
       soCity.val(soModule.find('[name="' + soCity.attr('data-city-prop-val-alt') + '"]').val());
       soCityID.val(soModule.find('[name="' + soCity.attr('data-city-prop-alt') + '"]').val());
+
+      if (soCityID.val() !== soCityID.attr('data-old')) {
+        $('#sci-delivery-street')
+          .suggestions('setOptions', {
+            constraints: {
+              locations: {
+                city: soCity.val().split(', ')[0]
+              }
+            }
+          })
+          .val('');
+      }
+
       soCity.attr('data-old', soModule.find('[name="' + soCity.attr('data-city-prop-val-alt') + '"]').val());
       soCityID.attr('data-old', soModule.find('[name="' + soCity.attr('data-city-prop-alt') + '"]').val());
       soCityAlt.val(soModule.find('[name="' + soCityAlt.attr('data-city-prop-val-alt') + '"]').val());
@@ -1437,15 +1463,7 @@ $.fn.updateDateSaleOrder = function() {
       soCityAltID.attr('data-old', soModule.find('[name="' + soCityAlt.attr('data-city-prop-alt') + '"]').val());
     }
   }
-  $('#sci-delivery-street')
-    .suggestions('setOptions', {
-      constraints: {
-        locations: {
-          city: soCity.val().split(', ')[0]
-        }
-      }
-    })
-    .val('');
+
   $.fn.updateSideInfo();
 
   if (
