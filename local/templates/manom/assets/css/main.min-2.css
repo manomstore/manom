@@ -7446,6 +7446,10 @@ p.price-slider {
   background-size: contain;
 }
 
+.shopcart-nav1__radio.slide-disable + .shopcart-tab {
+  pointer-events: none;
+}
+
 @media (min-width: 767px) {
   .header--cart {
     padding: 15px 0 7px;    padding: 15px 0 7px;
