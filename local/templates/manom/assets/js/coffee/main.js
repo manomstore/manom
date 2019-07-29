@@ -795,7 +795,7 @@ $(document).ready(function() {
       .suggestions('setOptions', {
         constraints: {
           locations: {
-            city: $this.val().split(', ')[0]
+            city: $this.val() ? $this.val().split(', ')[0] : ''
           }
         }
       })
@@ -1098,7 +1098,7 @@ $(document).ready(function() {
       placeholder: 'Введите город доставки',
       constraints: {
         locations: {
-          city: $('#so_city_val').val().split(', ')[0]
+          city: $('#so_city_val').val() ? $('#so_city_val').val().split(', ')[0] : ''
         }
       },
       // onSelect: this.onSelect,
@@ -1445,7 +1445,7 @@ $.fn.updateDateSaleOrder = function() {
     .suggestions('setOptions', {
       constraints: {
         locations: {
-          city: soCity.val().split(', ')[0]
+          city: soCity.val() ? soCity.val().split(', ')[0] : ''
         }
       }
     });
