@@ -20,6 +20,20 @@ $(document).ready(function() {
     variableWidth: true
   });
 
+  document.querySelectorAll(".main-nav__link--lv2").forEach(function(item) {
+    var innerListAll = document.querySelectorAll(".main-nav__innerlist");
+
+    innerListAll.forEach(function(list) {
+      item.addEventListener("mouseenter", function() {
+        list.classList.add("main-nav__innerlist--show");
+      });
+
+      item.addEventListener("focus", function() {
+        list.classList.add("main-nav__innerlist--show");
+      });
+    })
+  });
+
   $(window).scroll(function() {
     if ($(this).scrollTop() > 1) {
       header.css('min-height', header.height() + 'px');

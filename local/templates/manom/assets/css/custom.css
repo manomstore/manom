@@ -734,12 +734,6 @@ input.pb-info__button {
 .slick-next {
   right: -15px;
 }
-.preview-prod__name a {
-  color: #000;
-}
-.preview-prod__name a:hover {
-  color: #79B700;
-}
 /* .addToFavoriteList.notActive {
   -webkit-filter: grayscale(1)!important;
   filter: grayscale(1)!important;
@@ -1199,10 +1193,10 @@ a.top-submenu2__item:hover .top-submenu2__title {
   position: relative; */
 }
 .top-location-line {
-  text-align: right;
+  /*text-align: right;*/
     /*position: absolute;*/
     /*right: 200px;*/
-    font-size: 12px;
+    /*font-size: 12px;*/
 }
 .dnd-location-line.dnd-location-line-show {
   display: block;

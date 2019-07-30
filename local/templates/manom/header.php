@@ -105,127 +105,130 @@ $userCityByGeoIP = $userLocationInfo;
 
     <div class="header__wrapper">
       <!-- Верхняя навигация -->
-      <div class="user-nav" style="display: none">
-        <!-- location -->
-        <div class="top-location-line">
-          <div class="container">
-            <div id="dnd-location">
-              <div class="dnd-location-line" :class="doShowPanel()">
-                <div class="dnd-location-curent" @click.stop="doChangeCity()">
-                  <i class="fas fa-map-marker-alt"></i> <span>{{currentCity}}</span>
-                </div>
-                <transition name="slide-fade">
-                  <div class="dnd-location-specify" v-if="!isInformationStatus">
-                    <div v-if="isConfirmCityVisible">
-                      <p>"{{currentCity}}" - это ваш город?</p>
-                      <div class="dnd-location-specify-btn">
-                        <span @click="currentCityIsActual()">Да</span>
-                        <span @click.stop="doChangeCity()">Нет</span>
-                      </div>
-                    </div>
-                    <div v-if="isNotDefinedCityVisible">
-                      <p>Ваш город не определен</p>
-                      <div class="dnd-location-specify-btn">
-                        <span @click.stop="doChangeCity()">Выбрать</span>
-                      </div>
-                    </div>
-                    <transition name="fade">
-                      <div v-if="isPopupChangeCityVisible">
-                        <!-- <p>Выберите город</p> -->
-                        <div class="dnd-location-change-city-form">
-                          <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
-                          <ul>
-                            <li v-for="cityItem in listOfCity" @click="changeCity(cityItem)">{{cityItem.title}}</li>
-                          </ul>
+      <div class="user-nav">
+        <div class="container">
+          <div class="user-nav__wrapper">
+            <!-- location -->
+            <div class="top-location-line user-nav__location">
+              <div id="dnd-location">
+                <div class="dnd-location-line" :class="doShowPanel()">
+                  <div class="dnd-location-curent" @click.stop="doChangeCity()">
+                    <span>{{currentCity}}</span>
+                  </div>
+                  <transition name="slide-fade">
+                    <div class="dnd-location-specify" v-if="!isInformationStatus">
+                      <div v-if="isConfirmCityVisible">
+                        <p>"{{currentCity}}" - это ваш город?</p>
+                        <div class="dnd-location-specify-btn">
+                          <span @click="currentCityIsActual()">Да</span>
+                          <span @click.stop="doChangeCity()">Нет</span>
                         </div>
                       </div>
-                    </transition>
-                  </div>
-                  <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
-											<p>Выберите город</p>
-											<div class="dnd-location-change-city-form">
-													<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
-											</div>
-									</div> -->
-                </transition>
+                      <div v-if="isNotDefinedCityVisible">
+                        <p>Ваш город не определен</p>
+                        <div class="dnd-location-specify-btn">
+                          <span @click.stop="doChangeCity()">Выбрать</span>
+                        </div>
+                      </div>
+                      <transition name="fade">
+                        <div v-if="isPopupChangeCityVisible">
+                          <!-- <p>Выберите город</p> -->
+                          <div class="dnd-location-change-city-form">
+                            <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
+                            <ul>
+                              <li v-for="cityItem in listOfCity" @click="changeCity(cityItem)">{{cityItem.title}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </transition>
+                    </div>
+                    <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
+												<p>Выберите город</p>
+												<div class="dnd-location-change-city-form">
+														<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
+												</div>
+										</div> -->
+                  </transition>
+                </div>
               </div>
             </div>
+            <script type="text/javascript">
+              const LocationDataDND = {
+                cityName: "<?=$userLocationInfo['CITY_NAME']?>",
+                cityID: "<?=$userLocationInfo['ID']?>",
+                specifyInformation: <?=$uli->getUserSpecifyStatus() ? "true" : "false"?>,
+                defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
+              }
+            </script>
+            <!-- /location -->
+
+            <!-- login -->
+            <div class="user-nav__login">
+							<? if ($USER->IsAuthorized()) { ?>
+                <a class="user-nav__link" href="/user/profile.php">Личный кабинет</a> /
+                <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
+                  <input type="hidden" name="bitrix_include_areas" value="N">
+                  <input type="hidden" name="logout" value="yes">
+                  <button class="user-nav__link" type="submit" name="logout_butt">Выйти</button>
+                </form>
+							<? } else { ?>
+                <a class="user-nav__link" data-fancybox data-src="#popap-login" href="javascript:;">Вход</a>
+                /
+                <a class="user-nav__link" href="/auth/registration.php">Регистрация</a>
+                <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
+							<? } ?>
+            </div>
+            <!-- /login -->
+
+            <!-- time -->
+            <div class="top-nav__time-wrapper">
+							<? $APPLICATION->IncludeComponent(
+								"bitrix:main.include",
+								".default",
+								[
+									"PATH"               => "/include/time.php",
+									"COMPONENT_TEMPLATE" => ".default",
+									"AREA_FILE_SHOW"     => "file",
+									"EDIT_TEMPLATE"      => "",
+								],
+								false
+							); ?>
+            </div>
+            <!-- /time -->
+
+            <!-- number -->
+            <div class="top-nav__number">
+							<? $APPLICATION->IncludeComponent(
+								"bitrix:main.include",
+								".default",
+								[
+									"PATH"               => "/include/phone.php",
+									"COMPONENT_TEMPLATE" => ".default",
+									"AREA_FILE_SHOW"     => "file",
+									"EDIT_TEMPLATE"      => "",
+								],
+								false
+							); ?>
+              <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__call-request">Заказать звонок</a>
+            </div>
+
+            <!-- Всплывающее окно Заказать звонок -->
+            <div id="popap-call" class="popap-login">
+              <h3 class="sci-login__title">Заказать обратный звонок</h3>
+              <form class="sci-login__form">
+                <div class="form_msg">tesr</div>
+                <input type="hidden" name="form_id" value="1">
+                <label class="sci-login__label" for="sci-login__name">Имя</label>
+                <input type="text" name="name" id="sci-login__name" class="sci-login__input" placeholder="Ваше имя" required>
+                <label class="sci-login__label" for="sci-login__tel">Телефон</label>
+                <input type="tel" name="phone" id="sci-login__tel" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
+                <button class="sci-login__button">Позвоните мне</button>
+              </form>
+            </div>
+            <!-- /number -->
+
           </div>
         </div>
-        <script type="text/javascript">
-          const LocationDataDND = {
-            cityName: "<?=$userLocationInfo['CITY_NAME']?>",
-            cityID: "<?=$userLocationInfo['ID']?>",
-            specifyInformation: <?=$uli->getUserSpecifyStatus() ? "true" : "false"?>,
-            defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
-          }
-        </script>
-        <!-- /location -->
-
-        <!-- login -->
-        <div class="top-sign">
-		      <? if ($USER->IsAuthorized()) { ?>
-            <a href="/user/profile.php">Личный кабинет</a> /
-            <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
-              <input type="hidden" name="bitrix_include_areas" value="N">
-              <input type="hidden" name="logout" value="yes">
-              <input type="submit" name="logout_butt" value="Выйти">
-            </form>
-		      <? } else { ?>
-            <a data-fancybox data-src="#popap-login" href="javascript:;" class="top-sign__on">Вход</a> /
-            <a href="/auth/registration.php" class="top-sign__in">Регистрация</a>
-            <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
-		      <? } ?>
-        </div>
-        <!-- /login -->
-
-        <!-- time -->
-        <div class="top-nav1__worktime coll-2">
-		      <? $APPLICATION->IncludeComponent(
-			      "bitrix:main.include",
-			      ".default",
-			      [
-				      "PATH"               => "/include/time.php",
-				      "COMPONENT_TEMPLATE" => ".default",
-				      "AREA_FILE_SHOW"     => "file",
-				      "EDIT_TEMPLATE"      => "",
-			      ],
-			      false
-		      ); ?>
-        </div>
-        <!-- /time -->
-
-        <!-- number -->
-        <div class="top-nav1__call coll-2">
-		      <? $APPLICATION->IncludeComponent(
-			      "bitrix:main.include",
-			      ".default",
-			      [
-				      "PATH"               => "/include/phone.php",
-				      "COMPONENT_TEMPLATE" => ".default",
-				      "AREA_FILE_SHOW"     => "file",
-				      "EDIT_TEMPLATE"      => "",
-			      ],
-			      false
-		      ); ?>
-          <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav1__call-request">Заказать звонок</a>
-        </div>
-
-        <!-- Всплывающее окно Заказать звонок -->
-        <div id="popap-call" class="popap-login">
-          <h3 class="sci-login__title">Заказать обратный звонок</h3>
-          <form class="sci-login__form">
-            <div class="form_msg">tesr</div>
-            <input type="hidden" name="form_id" value="1">
-            <label class="sci-login__label" for="sci-login__name">Имя</label>
-            <input type="text" name="name" id="sci-login__name" class="sci-login__input" placeholder="Ваше имя" required>
-            <label class="sci-login__label" for="sci-login__tel">Телефон</label>
-            <input type="tel" name="phone" id="sci-login__tel" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
-            <button class="sci-login__button">Позвоните мне</button>
-          </form>
-        </div>
-        <!-- /number -->
-
       </div>
 
 
@@ -261,7 +264,20 @@ $userCityByGeoIP = $userLocationInfo;
                     <a class="top-nav__link top-nav__link--location" href="#">Смартфоны и планшеты</a>
                   </li>
                   <li>
-                    <a class="top-nav__link top-nav__link--login" href="#">Apple TV</a>
+                    <div class="top-nav__login">
+											<? if ($USER->IsAuthorized()) { ?>
+                        <a class="top-nav__link" href="/user/profile.php">Личный кабинет</a>
+                        <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
+                          <input type="hidden" name="bitrix_include_areas" value="N">
+                          <input type="hidden" name="logout" value="yes">
+                          <button class="top-nav__link top-nav__link--login" type="submit" name="logout_butt">Выйти</button>
+                        </form>
+											<? } else { ?>
+                        <a class="top-nav__link top-nav__link--login" data-fancybox data-src="#popap-login" href="javascript:;">Вход</a>
+                        <a class="top-nav__link" href="/auth/registration.php">Регистрация</a>
+                        <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
+											<? } ?>
+                    </div>
                   </li>
                 </ul>
 
@@ -292,26 +308,24 @@ $userCityByGeoIP = $userLocationInfo;
               <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" alt="Логотип интернет магазина Manom.ru" width="129" height="23">
             </a>
 
-<!--            <div class="top-menu">-->
-<!--							--><?// $APPLICATION->IncludeComponent(
-//								"bitrix:menu",
-//								"top_menu",
-//								[
-//									"ROOT_MENU_TYPE"        => "top",
-//									"MAX_LEVEL"             => "1",
-//									"CHILD_MENU_TYPE"       => "top",
-//									"USE_EXT"               => "Y",
-//									"DELAY"                 => "N",
-//									"ALLOW_MULTI_SELECT"    => "Y",
-//									"MENU_CACHE_TYPE"       => "N",
-//									"MENU_CACHE_TIME"       => "3600",
-//									"MENU_CACHE_USE_GROUPS" => "Y",
-//									"MENU_CACHE_GET_VARS"   => "",
-//								]
-//							); ?>
-<!--            </div>-->
-
-
+            <!--            <div class="top-menu">-->
+            <!--							--><? // $APPLICATION->IncludeComponent(
+						//								"bitrix:menu",
+						//								"top_menu",
+						//								[
+						//									"ROOT_MENU_TYPE"        => "top",
+						//									"MAX_LEVEL"             => "1",
+						//									"CHILD_MENU_TYPE"       => "top",
+						//									"USE_EXT"               => "Y",
+						//									"DELAY"                 => "N",
+						//									"ALLOW_MULTI_SELECT"    => "Y",
+						//									"MENU_CACHE_TYPE"       => "N",
+						//									"MENU_CACHE_TIME"       => "3600",
+						//									"MENU_CACHE_USE_GROUPS" => "Y",
+						//									"MENU_CACHE_GET_VARS"   => "",
+						//								]
+						//							); ?>
+            <!--            </div>-->
 
 
             <!--			  	<div id="popap-login" class="popap-login">-->
@@ -341,11 +355,152 @@ $userCityByGeoIP = $userLocationInfo;
             <!--						</form>-->
             <!--			  	</div>-->
 
+            <div class="main-nav">
+              <ul class="main-nav__list">
+                <li class="main-nav__item main-nav__item--dropdown">
+                  <a class="main-nav__link" href="#">
+                    Компьютерная техника
+                    <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                  </a>
+                  <div class="main-nav__list-wrapper">
+                    <div class="main-nav__inner">
+                      <ul class="main-nav__sublist">
+                        <li>
+                          <a class="main-nav__link main-nav__link--lv2" href="#">
+                            Компьютеры Apple
+                            <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Ноутбуки Apple
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link main-nav__link--lv2" href="#">
+                            Периферийные устройства
+                            <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Аксессуары ПК
+                          </a>
+                        </li>
+                      </ul>
+                      <ul class="main-nav__innerlist">
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            iMac
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Mac Mini
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Mac Pro
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="main-nav__item main-nav__item--dropdown">
+                  <a class="main-nav__link" href="#">
+                    Смартфоны и планшеты
+                    <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                  </a>
+                  <div class="main-nav__list-wrapper">
+                    <div class="main-nav__inner">
+                      <ul class="main-nav__sublist">
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            iPhone
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            iPad
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Apple Watch
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link main-nav__link--lv2" href="#">
+                            Аксессуары
+                            <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                          </a>
+                        </li>
+                      </ul>
+                      <ul class="main-nav__innerlist">
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Для iPhone
+                          </a>
+                        </li>
+                        <li>
+                          <a class="main-nav__link" href="#">
+                            Для iPad
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="main-nav__item">
+                  <a class="main-nav__link" href="#">Apple TV</a>
+                </li>
+              </ul>
+            </div>
+
             <div class="top-personal">
               <a class="top-personal__link top-personal__link--search" href="#">
                 <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка сравнения" width="15" height="15">
                 Поиск
               </a>
+              <div class="popup-block">
+                <div class="popup-block__overlay"></div>
+                <div class="popup-block__wrapper">
+                  <h2 class="popup-block__title">Поиск</h2>
+                  <button class="popup-block__close" aria-label="Закрыть окно"></button>
+
+                  <div class="search-block">
+                    <form action="#">
+                      <label>
+                        <input class="search-block__input" type="search">
+                      </label>
+                      <button class="search-block__button" aria-label="Найти"></button>
+                    </form>
+                    <ul class="search-block__list">
+                      <li>
+                        <a class="search-block__mark" href="#">airpods</a>
+                      </li>
+                      <li>
+                        <a class="search-block__mark" href="#">iphone x</a>
+                      </li>
+                      <li>
+                        <a class="search-block__mark" href="#">airpods</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 							<?
 							global $customFilt;
 							$favList = getProdListFavoritAndCompare('UF_COMPARE_ID');
@@ -356,10 +511,10 @@ $userCityByGeoIP = $userLocationInfo;
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
                 <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
-                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="17" height="15">
+                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
                   <span class="top-count">0</span>
                 </a>
-                <div class="preview-heart preview-heart--empty" id="mini_compare_header">
+                <div class="preview-heart preview-heart--empty personal-preview" id="mini_compare_header">
                   <p class="preview-heart-not-text">Нет товара</p>
                 </div>
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
@@ -520,10 +675,12 @@ $userCityByGeoIP = $userLocationInfo;
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
                 <a href="#" class="top-personal__link" id="mini_favorite_header_counter">
-                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg" alt="Иконка избранного" width="17" height="15">
-                  <span class="top-count">0</span>
+                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg"
+                       alt="Иконка избранного"
+                       width="17"
+                       height="15"><span class="top-count">0</span>
                 </a>
-                <div class="preview-heart preview-heart--empty" id="mini_favorite_header">
+                <div class="preview-heart preview-heart--empty personal-preview" id="mini_favorite_header">
                   <p class="preview-heart-not-text">Нет товара</p>
                 </div>
 								<? if ($_REQUEST['AJAX_MIN_CART'] == 'Y'): ?>
@@ -724,64 +881,61 @@ $userCityByGeoIP = $userLocationInfo;
       </div>
 
 
-
       <!-- Верхняя навигация 1 -->
-<!--      <div class="top-nav1">-->
-<!--        <div class="container">-->
-<!--          <div class="row top-nav1__block">-->
-<!--            <a href="/" class="top-nav1__logo">-->
-<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/logo.svg" class="top-nav1__logo-desk" alt="">-->
-<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/a.jpg" class="top-nav1__logo-mob" alt="">-->
-<!--            </a>-->
+      <!--      <div class="top-nav1">-->
+      <!--        <div class="container">-->
+      <!--          <div class="row top-nav1__block">-->
+      <!--            <a href="/" class="top-nav1__logo">-->
+      <!--              <img src="--><? //= SITE_TEMPLATE_PATH ?><!--/assets/img/logo.svg" class="top-nav1__logo-desk" alt="">-->
+      <!--              <img src="--><? //= SITE_TEMPLATE_PATH ?><!--/assets/img/a.jpg" class="top-nav1__logo-mob" alt="">-->
+      <!--            </a>-->
 
-            <!-- SEARCH -->
-<!--						--><?// $APPLICATION->IncludeComponent(
-//							"bitrix:search.form",
-//							"search",
-//							[
-//								"USE_SUGGEST"        => "N",
-//								"PAGE"               => "#SITE_DIR#search/index.php",
-//								"COMPONENT_TEMPLATE" => "search",
-//							],
-//							false
-//						); ?>
-            <!-- /SEARCH -->
-
-
+      <!-- SEARCH -->
+      <!--						--><? // $APPLICATION->IncludeComponent(
+			//							"bitrix:search.form",
+			//							"search",
+			//							[
+			//								"USE_SUGGEST"        => "N",
+			//								"PAGE"               => "#SITE_DIR#search/index.php",
+			//								"COMPONENT_TEMPLATE" => "search",
+			//							],
+			//							false
+			//						); ?>
+      <!-- /SEARCH -->
 
 
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
       <!-- Верхняя навигация 2 -->
-<!--      <div class="top-nav2">-->
-<!--        <div class="container">-->
-<!--          <div class="top-nav2__block">-->
-<!--						--><?// $APPLICATION->IncludeComponent(
-//							"bitrix:catalog.section.list",
-//							"main-menu",
-//							[
-//								"VIEW_MODE"           => "TEXT",
-//								"SHOW_PARENT_NAME"    => "Y",
-//								"IBLOCK_TYPE"         => "catalog",
-//								"IBLOCK_ID"           => "6",
-//								"SECTION_ID"          => $_REQUEST["SECTION_ID"],
-//								"SECTION_CODE"        => "",
-//								"SECTION_URL"         => "",
-//								"COUNT_ELEMENTS"      => "Y",
-//								"TOP_DEPTH"           => "2",
-//								"SECTION_FIELDS"      => "",
-//								"SECTION_USER_FIELDS" => "",
-//								"ADD_SECTIONS_CHAIN"  => "Y",
-//								"CACHE_TYPE"          => "A",
-//								"CACHE_TIME"          => "36000000",
-//								"CACHE_NOTES"         => "",
-//								"CACHE_GROUPS"        => "Y",
-//							]
-//						); ?>
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--      <div class="top-nav2">-->
+      <!--        <div class="container">-->
+      <!--          <div class="top-nav2__block">-->
+      <!--						--><? // $APPLICATION->IncludeComponent(
+			//							"bitrix:catalog.section.list",
+			//							"main-menu",
+			//							[
+			//								"VIEW_MODE"           => "TEXT",
+			//								"SHOW_PARENT_NAME"    => "Y",
+			//								"IBLOCK_TYPE"         => "catalog",
+			//								"IBLOCK_ID"           => "6",
+			//								"SECTION_ID"          => $_REQUEST["SECTION_ID"],
+			//								"SECTION_CODE"        => "",
+			//								"SECTION_URL"         => "",
+			//								"COUNT_ELEMENTS"      => "Y",
+			//								"TOP_DEPTH"           => "2",
+			//								"SECTION_FIELDS"      => "",
+			//								"SECTION_USER_FIELDS" => "",
+			//								"ADD_SECTIONS_CHAIN"  => "Y",
+			//								"CACHE_TYPE"          => "A",
+			//								"CACHE_TIME"          => "36000000",
+			//								"CACHE_NOTES"         => "",
+			//								"CACHE_GROUPS"        => "Y",
+			//							]
+			//						); ?>
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
 			<?
 			$page = $APPLICATION->GetCurPage();
 			if ($page == '/') { ?>
@@ -847,17 +1001,17 @@ $userCityByGeoIP = $userLocationInfo;
     <!-- /Всплывающее окно Регистрация -->
 
     <!-- Всплывающее окно Логин -->
-	  <? $APPLICATION->IncludeComponent(
-		  "bitrix:system.auth.form",
-		  "popup",
-		  [
-			  "REGISTER_URL"        => "/auth/registration.php",
-			  "FORGOT_PASSWORD_URL" => "/auth/foget.php",
-			  "PROFILE_URL"         => "/user/index.php",
-			  "SHOW_ERRORS"         => "Y",
-			  "COMPONENT_TEMPLATE"  => "auth-cart",
-		  ],
-		  false
-	  ); ?>
+		<? $APPLICATION->IncludeComponent(
+			"bitrix:system.auth.form",
+			"popup",
+			[
+				"REGISTER_URL"        => "/auth/registration.php",
+				"FORGOT_PASSWORD_URL" => "/auth/foget.php",
+				"PROFILE_URL"         => "/user/index.php",
+				"SHOW_ERRORS"         => "Y",
+				"COMPONENT_TEMPLATE"  => "auth-cart",
+			],
+			false
+		); ?>
     <!-- /Всплывающее окно Логин -->
   </header>
