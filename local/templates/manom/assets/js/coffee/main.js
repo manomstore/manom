@@ -20,6 +20,15 @@ $(document).ready(function() {
     variableWidth: true
   });
 
+  $('.search-block__list').slick({
+    dots: false,
+    infinite: false,
+    speed: 300,
+    prevArrow: false,
+    nextArrow: false,
+    variableWidth: true
+  });
+
   document.querySelectorAll(".main-nav__link--lv2").forEach(function(item) {
     var innerListAll = document.querySelectorAll(".main-nav__innerlist");
 

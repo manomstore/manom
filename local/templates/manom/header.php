@@ -474,30 +474,38 @@ $userCityByGeoIP = $userLocationInfo;
                 <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка сравнения" width="15" height="15">
                 Поиск
               </a>
-              <div class="popup-block">
+              <div class="popup-block popup-block--search">
                 <div class="popup-block__overlay"></div>
                 <div class="popup-block__wrapper">
-                  <h2 class="popup-block__title">Поиск</h2>
-                  <button class="popup-block__close" aria-label="Закрыть окно"></button>
+                  <div class="container">
+                    <div class="popup-block__top">
+                      <h2 class="popup-block__title">Поиск</h2>
+                      <button class="popup-block__close" type="button" aria-label="Закрыть окно"></button>
+                    </div>
+                    <div class="search-block">
+											<? $APPLICATION->IncludeComponent(
+												"bitrix:search.form",
+												"search",
+												[
+													"USE_SUGGEST"        => "N",
+													"PAGE"               => "#SITE_DIR#search/index.php",
+													"COMPONENT_TEMPLATE" => "search",
+												],
+												false
+											); ?>
 
-                  <div class="search-block">
-                    <form action="#">
-                      <label>
-                        <input class="search-block__input" type="search">
-                      </label>
-                      <button class="search-block__button" aria-label="Найти"></button>
-                    </form>
-                    <ul class="search-block__list">
-                      <li>
-                        <a class="search-block__mark" href="#">airpods</a>
-                      </li>
-                      <li>
-                        <a class="search-block__mark" href="#">iphone x</a>
-                      </li>
-                      <li>
-                        <a class="search-block__mark" href="#">airpods</a>
-                      </li>
-                    </ul>
+                      <ul class="search-block__list">
+                        <li>
+                          <a class="search-block__mark" href="#">airpods</a>
+                        </li>
+                        <li>
+                          <a class="search-block__mark" href="#">iphone x</a>
+                        </li>
+                        <li>
+                          <a class="search-block__mark" href="#">airpods</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>

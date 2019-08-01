@@ -12,7 +12,7 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);?>
 
-    <div class="top-nav1__search coll-5">
+    <div class="search-block__field">
         <form action="<?=$arResult["FORM_ACTION"]?>" is-search-form>
             <?$APPLICATION->IncludeComponent(
                 "bitrix:search.suggest.input",
@@ -25,8 +25,6 @@ $this->setFrameMode(true);?>
                 ),
                 $component, array("HIDE_ICONS" => "Y")
             );?>
-            <a href="" class="top-nav1__search-button">
-                <input name="s" type="submit" value="" style="background: url('<?=SITE_TEMPLATE_PATH?>/assets/img/top-search.svg') no-repeat;width: 13px;border: none;"/>
-            </a>
+            <button class="search-block__submit" type="submit" aria-label="Поиск"></button>
         </form>
     </div>
