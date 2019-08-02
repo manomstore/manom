@@ -302,6 +302,25 @@ $userCityByGeoIP = $userLocationInfo;
                   </a>
                 </div>
               </nav>
+
+              <div class="submenu-mob">
+                <button class="submenu-mob__back" type="button" aria-label="Вернуться назад"></button>
+                <h2 class="submenu-mob__title">Компьютерная техника</h2>
+                <ul class="top-nav__list">
+                  <li>
+                    <a class="top-nav__link top-nav__link--arrow" href="#">Компьютеры Apple</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link top-nav__link--arrow" href="#">Ноутбуки Apple</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link top-nav__link--arrow" href="#">Периферийные устройства</a>
+                  </li>
+                  <li>
+                    <a class="top-nav__link" href="#">Аксессуары ПК</a>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <a href="/" class="top-nav__logo">
