@@ -1020,12 +1020,6 @@ html {
 .preview-shopcart--empty {
   display: none;
 }
-#mini_favorite_header {
-  right: 45px;
-}
-#mini_compare_header {
-  right: 85px;
-}
 @media screen and (max-width: 385px){
   #slider-range-alt{
     display: none;
