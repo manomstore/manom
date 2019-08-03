@@ -66,7 +66,7 @@
                   <div class="preview-prod-bottom__price">
 										<?= str_replace('руб.', '', $item['SUM']) ?><span> ₽</span>
                   </div>
-                  <button class="preview-prod-bottom__del" type="button" aria-label="Удалить товар" data-cart-item="<?= $item['ID'] ?>"></button>
+                  <button class="preview-prod-bottom__del preview-prod-bottom__button-cart" type="button" aria-label="Удалить товар" data-cart-item="<?= $item['ID'] ?>"></button>
                   <!--                <label>-->
                   <!--                  <input class="preview-prod-bottom__checkbox" type="checkbox" checked>-->
                   <!--                  <span class="preview-prod-bottom__button preview-prod-bottom__button-cart" data-cart-item="-->

@@ -52,7 +52,7 @@ global $glob_sectionInfo, $new_offer_filter;
                 <div class="preview-prod-bottom__price">
 									<?= number_format($value['MIN_PRICE']['DISCOUNT_VALUE_VAT'], 0, '.', ' ') ?><span> ₽</span>
                 </div>
-                <button class="preview-prod-bottom__del" type="button" aria-label="Удалить товар" data-cart-item="<?= $value['ID'] ?>"></button>
+                <button class="preview-prod-bottom__del preview-prod-bottom__button-favorite" type="button" aria-label="Удалить товар" data-cart-item="<?= $value['ID'] ?>"></button>
                 <!--            <label>-->
                 <!--              <input class="preview-prod-bottom__checkbox" type="checkbox" checked>-->
                 <!--              <span class="preview-prod-bottom__button preview-prod-bottom__button-favorite" data-cart-item="-->

@@ -22,8 +22,8 @@ global $glob_sectionInfo, $new_offer_filter;
 <? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 	<? $APPLICATION->RestartBuffer(); ?>
 <? endif; ?>
-<div class="top-personal__block">
-  <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
+<div class="top-personal__block top-personal__block--compare">
+  <a href="/catalog/compare/" class="top-personal__link" id="mini_compare_header_counter">
     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
     <span class="top-count"><?= count($arResult['ITEMS']); ?></span>
   </a>
@@ -41,7 +41,7 @@ global $glob_sectionInfo, $new_offer_filter;
 					<? if ($prodCount > 5) {
 						continue;
 					} ?>
-          <div class="preview-prod preview-prods" data-cart-item="<?= $value['ID'] ?>">
+          <div class="preview-prod" data-cart-item="<?= $value['ID'] ?>">
             <div class="preview-prod__picture">
               <img src="<?= CFile::GetPath($value['PROPERTIES']['MORE_PHOTO']['VALUE'][0]); ?>" alt="Изображение товара">
             </div>
@@ -50,7 +50,7 @@ global $glob_sectionInfo, $new_offer_filter;
                 <div class="preview-prod-bottom__price">
 									<?= number_format($value['MIN_PRICE']['DISCOUNT_VALUE_VAT'], 0, '.', ' ') ?><span> ₽</span>
                 </div>
-                <button class="preview-prod-bottom__del" type="button" aria-label="Удалить товар" data-cart-item="<?= $value['ID'] ?>"></button>
+                <button class="preview-prod-bottom__del preview-prod-bottom__button-compare" type="button" aria-label="Удалить товар" data-cart-item="<?= $value['ID'] ?>"></button>
                 <!--                <label>-->
                 <!--                  <input class="preview-prod-bottom__checkbox" type="checkbox" checked>-->
                 <!--                  <span class="preview-prod-bottom__button preview-prod-bottom__button-compare" data-cart-item="-->

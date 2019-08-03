@@ -489,6 +489,7 @@ $userCityByGeoIP = $userLocationInfo;
             </div>
 
             <div class="top-personal">
+
               <a class="top-personal__link top-personal__link--search" href="#">
                 <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка сравнения" width="15" height="15">
                 Поиск
@@ -537,6 +538,7 @@ $userCityByGeoIP = $userLocationInfo;
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
+              <div class="top-personal__block top-personal__block--compare">
                 <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
                   <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
                   <span class="top-count">0</span>
@@ -544,6 +546,7 @@ $userCityByGeoIP = $userLocationInfo;
                 <div class="preview-heart preview-heart--empty personal-preview" id="mini_compare_header">
                   <p class="preview-heart-not-text">Нет товара</p>
                 </div>
+              </div>
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 									<? die(); ?>
 								<? endif; ?>
@@ -701,6 +704,7 @@ $userCityByGeoIP = $userLocationInfo;
 								<? if ($_REQUEST['AJAX_MIN_FAVORITE'] == 'Y'): ?>
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
+              <div class="top-personal__block">
                 <a href="#" class="top-personal__link" id="mini_favorite_header_counter">
                   <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg"
                        alt="Иконка избранного"
@@ -710,6 +714,7 @@ $userCityByGeoIP = $userLocationInfo;
                 <div class="preview-heart preview-heart--empty personal-preview" id="mini_favorite_header">
                   <p class="preview-heart-not-text">Нет товара</p>
                 </div>
+              </div>
 								<? if ($_REQUEST['AJAX_MIN_CART'] == 'Y'): ?>
 									<? die(); ?>
 								<? endif; ?>
@@ -885,9 +890,6 @@ $userCityByGeoIP = $userLocationInfo;
 								],
 								false
 							); ?>
-
-              <!-- preview-shopcart -->
-
             </div>
           </div>
 
