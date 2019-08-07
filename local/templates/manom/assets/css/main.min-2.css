@@ -7980,6 +7980,10 @@ p.price-slider {
     margin-left: 25px;
   }
 
+  .shopcart-sidebar__wrapper .sci-product__sum-price {
+    margin-left: 0;
+  }
+
   .product-price {
     flex-direction: column;
     align-items: flex-end;
