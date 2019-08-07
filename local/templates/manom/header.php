@@ -109,34 +109,54 @@ $userCityByGeoIP = $userLocationInfo;
         <div class="container">
           <div class="user-nav__wrapper">
             <!-- location -->
-            <div class="top-location-line user-nav__location">
+            <div class="top-location-line">
               <div id="dnd-location">
                 <div class="dnd-location-line" :class="doShowPanel()">
-                  <div class="dnd-location-curent" @click.stop="doChangeCity()">
+                  <a class="dnd-location-curent user-nav__location" @click="doChangeCity()" data-fancybox data-src="#popup-location" href="javascript:;">
                     <span>{{currentCity}}</span>
-                  </div>
+                  </a>
                   <transition name="slide-fade">
-                    <div class="dnd-location-specify" v-if="!isInformationStatus">
+                    <div class="dnd-location-specify popup-block popup-block--location" v-if="!isInformationStatus" id="popup-location">
                       <div v-if="isConfirmCityVisible">
-                        <p>"{{currentCity}}" - это ваш город?</p>
+                        <h2 class="popup-block__title">"{{currentCity}}" - это ваш город?</h2>
                         <div class="dnd-location-specify-btn">
-                          <span @click="currentCityIsActual()">Да</span>
-                          <span @click.stop="doChangeCity()">Нет</span>
+                          <button @click="currentCityIsActual()" type="button">Да</button>
+                          <button @click.stop="doChangeCity()" type="button">Нет</button>
                         </div>
                       </div>
                       <div v-if="isNotDefinedCityVisible">
-                        <p>Ваш город не определен</p>
+                        <h2 class="popup-block__title">Ваш город не определен</h2>
                         <div class="dnd-location-specify-btn">
-                          <span @click.stop="doChangeCity()">Выбрать</span>
+                          <button @click.stop="doChangeCity()" type="button">Выбрать</button>
                         </div>
                       </div>
                       <transition name="fade">
                         <div v-if="isPopupChangeCityVisible">
                           <!-- <p>Выберите город</p> -->
                           <div class="dnd-location-change-city-form">
-                            <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
+                            <div class="popup-block__top">
+                              <h2 class="popup-block__title">Выбрать город</h2>
+                            </div>
+                            <div class="popup-block__field popup-block__field--row">
+                              <input
+                                class="popup-block__input popup-block__input--search"
+                                type="text"
+                                name="dndLocationChangeCity"
+                                v-model="changeCitySearchLine"
+                                placeholder="Введите название города">
+                              <i class="search-block__submit"></i>
+                              <!-- Кнопка не работает, нет функционала -->
+                              <button class="popup-block__choice" type="button">Выбрать</button>
+                            </div>
                             <ul>
-                              <li v-for="cityItem in listOfCity" @click="changeCity(cityItem)">{{cityItem.title}}</li>
+                              <li v-for="cityItem in listOfCity"
+                                  @click="changeCity(cityItem)"
+                                  data-fancybox-close
+                                  class="dnd-location__item"
+                                  :class="{'dnd-location__item--active': currentCity === cityItem.title}"
+                              >
+                                {{cityItem.title}}
+                              </li >
                             </ul>
                           </div>
                         </div>
@@ -261,7 +281,9 @@ $userCityByGeoIP = $userLocationInfo;
                     <a class="top-nav__link top-nav__link--compare" href="#">Сравнение</a>
                   </li>
                   <li>
-                    <a class="top-nav__link top-nav__link--location" href="#">Смартфоны и планшеты</a>
+                    <!-- location -->
+                    <a class="top-nav__link top-nav__link--location" href="#">Город</a>
+                    <!-- /location -->
                   </li>
                   <li>
                     <div class="top-nav__login">
@@ -538,15 +560,15 @@ $userCityByGeoIP = $userLocationInfo;
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
-              <div class="top-personal__block top-personal__block--compare">
-                <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
-                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
-                  <span class="top-count">0</span>
-                </a>
-                <div class="preview-heart preview-heart--empty personal-preview" id="mini_compare_header">
-                  <p class="preview-heart-not-text">Нет товара</p>
+                <div class="top-personal__block top-personal__block--compare">
+                  <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
+                    <span class="top-count">0</span>
+                  </a>
+                  <div class="preview-heart preview-heart--empty personal-preview" id="mini_compare_header">
+                    <p class="preview-heart-not-text">Нет товара</p>
+                  </div>
                 </div>
-              </div>
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
 									<? die(); ?>
 								<? endif; ?>
@@ -704,17 +726,17 @@ $userCityByGeoIP = $userLocationInfo;
 								<? if ($_REQUEST['AJAX_MIN_FAVORITE'] == 'Y'): ?>
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
-              <div class="top-personal__block">
-                <a href="#" class="top-personal__link" id="mini_favorite_header_counter">
-                  <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg"
-                       alt="Иконка избранного"
-                       width="17"
-                       height="15"><span class="top-count">0</span>
-                </a>
-                <div class="preview-heart preview-heart--empty personal-preview" id="mini_favorite_header">
-                  <p class="preview-heart-not-text">Нет товара</p>
+                <div class="top-personal__block">
+                  <a href="#" class="top-personal__link" id="mini_favorite_header_counter">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg"
+                         alt="Иконка избранного"
+                         width="17"
+                         height="15"><span class="top-count">0</span>
+                  </a>
+                  <div class="preview-heart preview-heart--empty personal-preview" id="mini_favorite_header">
+                    <p class="preview-heart-not-text">Нет товара</p>
+                  </div>
                 </div>
-              </div>
 								<? if ($_REQUEST['AJAX_MIN_CART'] == 'Y'): ?>
 									<? die(); ?>
 								<? endif; ?>

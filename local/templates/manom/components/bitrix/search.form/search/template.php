@@ -12,7 +12,7 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);?>
 
-    <div class="search-block__field">
+    <div class="popup-block__field">
         <form action="<?=$arResult["FORM_ACTION"]?>" is-search-form>
             <?$APPLICATION->IncludeComponent(
                 "bitrix:search.suggest.input",

@@ -1206,37 +1206,34 @@ a.top-submenu2__item:hover .top-submenu2__title {
 .sci-login__button {
   font-weight: 700;
 }
-@media screen and (max-width: 768px) {
-
-}
-.dnd-location-specify, .dnd-location-change-city{
-  position: absolute;
-  padding: 10px;
-  left: -40px;
-  top: 25px;
-  background-color: #fff;
-  z-index: 9;
-  border: 3px solid #79b700;
-  border-radius: 3px;
-}
-.dnd-location-specify::after, .dnd-location-change-city::after {
-  content: '';
-  position: absolute;
-  border: 10px solid transparent;
-  border-bottom: 10px solid #79b700;
-  bottom: 100%;
-  left: 32px;
-}
-.dnd-location-specify>div>p{
-  color: #333;
-  font-size: 13pt;
-  width: 300px;
-  text-align: center;
-}
-.dnd-location-specify-btn{
-  text-align: center;
-  margin-top: 15px;
-}
+/*.dnd-location-specify, .dnd-location-change-city{*/
+  /*position: absolute;*/
+  /*padding: 10px;*/
+  /*left: -40px;*/
+  /*top: 25px;*/
+  /*background-color: #fff;*/
+  /*z-index: 9;*/
+  /*border: 3px solid #79b700;*/
+  /*border-radius: 3px;*/
+/*}*/
+/*.dnd-location-specify::after, .dnd-location-change-city::after {*/
+  /*content: '';*/
+  /*position: absolute;*/
+  /*border: 10px solid transparent;*/
+  /*border-bottom: 10px solid #79b700;*/
+  /*bottom: 100%;*/
+  /*left: 32px;*/
+/*}*/
+/*.dnd-location-specify>div>p{*/
+  /*color: #333;*/
+  /*font-size: 13pt;*/
+  /*width: 300px;*/
+  /*text-align: center;*/
+/*}*/
+/*.dnd-location-specify-btn{*/
+  /*text-align: center;*/
+  /*margin-top: 15px;*/
+/*}*/
 .dnd-location-specify-btn span{
   background-color: #79b700;
   color: #ffffff;
@@ -1247,47 +1244,60 @@ a.top-submenu2__item:hover .top-submenu2__title {
   font-size: 12px;
   cursor: pointer;
 }
-.dnd-location-change-city-form input{
-  font-size: 20px;
-  border: 0;
-  border-bottom: 1px solid #79b700;
-  padding: 5px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-size: 13pt;
-  width: 230px;
-}
+/*.dnd-location-change-city-form input{*/
+  /*font-size: 20px;*/
+  /*border: 0;*/
+  /*border-bottom: 1px solid #79b700;*/
+  /*padding: 5px;*/
+  /*margin-bottom: 15px;*/
+  /*text-align: center;*/
+  /*font-size: 13pt;*/
+  /*width: 230px;*/
+/*}*/
 .dnd-location-change-city-form ul{
   padding: 0;
   margin: 0;
+  list-style: none;
 }
-.dnd-location-change-city-form ul>li{
-  padding: 5px 10px;
+.dnd-location__item {
+  color: #29282C;
+  font-size: 18px;
+  font-weight: 500;
+
+  padding: 10px;
+  padding-left: 22px;
   cursor: pointer;
-  border-bottom: 1px solid #ddd;
-  color: #333;
-  text-align: center;
-  font-size: 13pt;
-  list-style-type: none;
 }
-.dnd-location-change-city-form ul>li:last-child{
-  border-bottom: none;
+.dnd-location__item--active {
+  position: relative;
+  color: #83BB26;
+}
+.dnd-location__item--active::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 0;
+  transform: rotate(133deg);
+  width: 11px;
+  height: 5px;
+  border-top: 2px solid #83BB26;
+  border-right: 2px solid #83BB26;
 }
 #dnd-location {
   position: relative;
 }
 
 @media screen and (min-width: 768px) {
-  .dnd-location-specify, .dnd-location-change-city {
-    margin-left: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  /*.dnd-location-specify, .dnd-location-change-city {*/
+    /*margin-left: 8px;*/
+    /*left: 50%;*/
+    /*transform: translateX(-50%);*/
+  /*}*/
 
-  .dnd-location-specify::after, .dnd-location-change-city::after {
-    margin-left: -10px;
-    left: 50%;
-  }
+  /*.dnd-location-specify::after, .dnd-location-change-city::after {*/
+    /*margin-left: -10px;*/
+    /*left: 50%;*/
+  /*}*/
 
   .dnd-location-specify.slide-fade-enter, .dnd-location-change-city.slide-fade-enter,
   .dnd-location-specify.slide-fade-leave-to, .dnd-location-change-city.slide-fade-leave-to {
@@ -1453,5 +1463,16 @@ input.slide-disable + label{
   .top-sign {
     margin-right: 0;
     margin-left: 0;
+  }
+}
+
+@media (min-width: 1130px) {
+  .dnd-location-change-city-form ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .dnd-location__item {
+    width: 50%;
   }
 }

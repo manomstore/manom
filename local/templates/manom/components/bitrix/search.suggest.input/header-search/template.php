@@ -34,7 +34,7 @@ CJSCore::Init(array("ajax"));
 	id="<?echo $arResult["ID"]?>"
 	value="<?echo $arParams["VALUE"]?>"
   placeholder="Введите название товара"
-  class="search-block__input"
+  class="popup-block__input popup-block__input--search"
 	type="text"
 	autocomplete="off"
 />
