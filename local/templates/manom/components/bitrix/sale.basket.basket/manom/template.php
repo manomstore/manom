@@ -97,7 +97,7 @@ use Bitrix\Main\Localization\Loc;
                         </button>
                     </div>
                     <span class="sci-product__price">
-						<?= $row['PRICE_FORMATED'] ?> ₽/шт.
+						<?= $row['PRICE_FORMATED'] ?> ₽
           </span>
                 </div>
             </div>
@@ -115,6 +115,7 @@ use Bitrix\Main\Localization\Loc;
         <? if ($acessForThisElement or $dopProdForThisElement): ?>
             <div class="sci-add">
                 <? if ($acessForThisElement) { ?>
+                <div class="sci-add__block">
                     <h2 class="sci-add__title">С этим товаром покупают</h2>
 
                     <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
@@ -145,9 +146,10 @@ use Bitrix\Main\Localization\Loc;
                             </article>
                         <? } ?>
                     </div>
+                </div>
                 <? } ?>
                 <? if ($dopProdForThisElement) { ?>
-                    <div class="sci-add__services">
+                    <div class="sci-add__services sci-add__block">
                         <h2 class="sci-add__title">Дополнительные услуги</h2>
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">

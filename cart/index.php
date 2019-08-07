@@ -118,16 +118,6 @@ global $USER;
                 </div>
                 <section class="sci-contact-content" id="sci-contact-content1">
                   <div class="sci-contact__field">
-                    <label class="sci-contact__label" for="sci-contact__fio">Фамилия и имя</label>
-                    <input type="text"
-                           data-prop="ORDER_PROP_1"
-                           name="sci-contact__fio"
-                           id="sci-contact__fio"
-                           class="sci-contact__input"
-                           placeholder="Ваше имя и фамилия"
-                           required>
-                  </div>
-                  <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
                     <input type="email"
                            data-prop="ORDER_PROP_3"
@@ -135,6 +125,16 @@ global $USER;
                            id="sci-contact__email"
                            class="sci-contact__input"
                            placeholder="Введите e-mail"
+                           required>
+                  </div>
+                  <div class="sci-contact__field">
+                    <label class="sci-contact__label" for="sci-contact__fio">Фамилия и имя</label>
+                    <input type="text"
+                           data-prop="ORDER_PROP_1"
+                           name="sci-contact__fio"
+                           id="sci-contact__fio"
+                           class="sci-contact__input"
+                           placeholder="Ваше имя и фамилия"
                            required>
                   </div>
                     <? /*

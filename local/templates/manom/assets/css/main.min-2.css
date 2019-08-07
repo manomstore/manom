@@ -7941,18 +7941,17 @@ p.price-slider {
   }
 
   .sci-product__name-link {
-    width: 260px;
-    margin-right: 25px;
+    width: 240px;
     order: 1;
   }
 
   .sci-product__counter-wrapper {
     flex-direction: row-reverse;
     justify-content: space-between;
-    width: 210px;
+    min-width: 210px;
     order: 2;
-    margin-right: 30px;
     margin-top: -10px;
+    margin-left: 25px;
   }
 
   .sci-product__counter {
@@ -7961,6 +7960,7 @@ p.price-slider {
     padding: 9px;
     background-color: #fff;
     margin: 0;
+    margin-left: 5px;
   }
 
   .sci-product__counter input {
@@ -7977,6 +7977,7 @@ p.price-slider {
     flex-grow: 1;
     align-items: flex-start;
     order: 3;
+    margin-left: 25px;
   }
 
   .product-price {

@@ -626,7 +626,7 @@ $(document).ready(function() {
     var collapsedClass = 'sci-add--collapsed';
     var hideButtonOnClass = 'sci-add__button-hide--on';
     var $hideButton = $(this);
-    var $collapsableBlock = $hideButton.closest('.sci-add');
+    var $collapsableBlock = $hideButton.closest('.sci-add__block');
 
     if ($collapsableBlock.hasClass(collapsedClass)) {
       $collapsableBlock.removeClass(collapsedClass);
