@@ -26,32 +26,42 @@
 	<? if ($_REQUEST['AJAX_CART_INFO'] == 'Y'): ?>
 		<? $APPLICATION->RestartBuffer(); ?>
 	<? endif; ?>
-  <? if ($arResult['NUM_PRODUCTS'] > 0): ?>
+	<? if ($arResult['NUM_PRODUCTS'] > 0): ?>
     <div class="shopcart-sidebar__prod-list">
-      <? foreach ($arResult['CATEGORIES'] as $key => $cat) {
-        foreach ($cat as $i => $item) { ?>
-          <div class="shopcart-sidebar__prod<?=!$item['has_prod'] ? ' shopcart-sidebar__prod--stop' : '';?>">
+			<? foreach ($arResult['CATEGORIES'] as $key => $cat) {
+				foreach ($cat as $i => $item) { ?>
+          <div class="shopcart-sidebar__prod<?= !$item['has_prod'] ? ' shopcart-sidebar__prod--stop' : ''; ?>">
             <div class="sci-product__wrapper">
               <div class="sci-product__picture">
                 <img src="<?= $item['PIC'] ?>" alt="">
               </div>
               <div class="sci-product__info">
-                <div class="sci-product__sum-price">
-                  <div class="product-price">
-                      <?if ($item["DISCOUNT_PRICE_PERCENT"] > 0): ?>
-                          <span class="product-price__value product-price__value--new">
+                <div class="sci-product__info-wrapper">
+                  <div class="sci-product__sum-price">
+                    <div class="product-price">
+		                  <?if ($item["DISCOUNT_PRICE_PERCENT"] > 0): ?>
+                        <span class="product-price__value product-price__value--new">
                       <?= $item['SUM'] ?> ₽
                     </span>
-                          <span class="product-price__value product-price__value--sale">
+                        <span class="product-price__value product-price__value--sale">
                       <?= $item['SUM_FULL_PRICE_FORMATTED'] ?> ₽
                     </span>
-                      <? else: ?>
-                          <span class="product-price__value">
+		                  <? else: ?>
+                        <span class="product-price__value">
                       <?= $item['SUM'] ?> ₽
                     </span>
-                      <?endif; ?>
+		                  <?endif; ?>
+                    </div>
                   </div>
-                  <? if (!$item['has_prod']): ?>
+                  <h3 class="sci-product__name">
+										<?= $item['NAME'] ?>
+                  </h3>
+                </div>
+                <div class="sci-product__count-block">
+                  <span class="sci-product__name">
+                    <?= $item['QUANTITY'] ?> шт.
+                  </span>
+									<? if (!$item['has_prod']): ?>
                     <button
                       class="sci-product__delete sci-top__remove"
                       type="button"
@@ -59,20 +69,17 @@
                       data-id="<?= $item['ID'] ?>"
                     >
                     </button>
-                  <? endif; ?>
+									<? endif; ?>
                 </div>
-                <h3 class="sci-product__name">
-                  <?= $item['NAME'] ?>
-                </h3>
               </div>
             </div>
-            <? if (!$item['has_prod']): ?>
+						<? if (!$item['has_prod']): ?>
               <p class="shopcart-sidebar__error">Товар закончился, удалите его и оформите заказ</p>
-            <? endif; ?>
+						<? endif; ?>
           </div>
-          <?
-        }
-      } ?>
+					<?
+				}
+			} ?>
     </div>
 	<? endif; ?>
   <div class="hidden" style="display:none;">
