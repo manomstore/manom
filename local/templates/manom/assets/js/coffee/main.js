@@ -1101,7 +1101,20 @@ $(document).ready(function() {
           city: $('#so_city_val').val() ? $('#so_city_val').val().split(', ')[0] : ''
         }
       },
-      // onSelect: this.onSelect,
+        onSelect: function (result) {
+            var zip = Number(result.data.postal_code);
+            if (zip > 0) {
+                var soModule;
+                soModule = $(document).find('#module_so');
+                if (soModule.is('div')) {
+                    if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
+                        soModule.find('[name="ORDER_PROP_39"]').val(zip);
+                    } else {
+                        soModule.find('[name="ORDER_PROP_38"]').val(zip);
+                    }
+                }
+            }
+        },
       // в списке подсказок не показываем область
       restrict_value: true
     })
