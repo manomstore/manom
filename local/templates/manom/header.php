@@ -112,62 +112,86 @@ $userCityByGeoIP = $userLocationInfo;
             <div class="top-location-line">
               <div id="dnd-location">
                 <div class="dnd-location-line" :class="doShowPanel()">
-                  <a class="dnd-location-curent user-nav__location" @click="doChangeCity()" data-fancybox data-src="#popup-location" href="javascript:;">
+                  <a class="dnd-location-curent user-nav__location" @click.stop="doChangeCity()" href="#">
                     <span>{{currentCity}}</span>
                   </a>
-                  <transition name="slide-fade">
-                    <div class="dnd-location-specify popup-block popup-block--location" v-if="!isInformationStatus" id="popup-location">
-                      <div v-if="isConfirmCityVisible">
-                        <h2 class="popup-block__title">"{{currentCity}}" - это ваш город?</h2>
-                        <div class="dnd-location-specify-btn">
-                          <button @click="currentCityIsActual()" type="button">Да</button>
-                          <button @click.stop="doChangeCity()" type="button">Нет</button>
-                        </div>
+                  <transition name="fade">
+                    <div class="dnd-location-specify popup-block popup-block--location" v-if="!isInformationStatus">
+                      <div class="popup-block__overlay"
+                           @click.stop="doChangeCity()">
                       </div>
-                      <div v-if="isNotDefinedCityVisible">
-                        <h2 class="popup-block__title">Ваш город не определен</h2>
-                        <div class="dnd-location-specify-btn">
-                          <button @click.stop="doChangeCity()" type="button">Выбрать</button>
-                        </div>
-                      </div>
-                      <transition name="fade">
-                        <div v-if="isPopupChangeCityVisible">
-                          <!-- <p>Выберите город</p> -->
-                          <div class="dnd-location-change-city-form">
-                            <div class="popup-block__top">
-                              <h2 class="popup-block__title">Выбрать город</h2>
-                            </div>
-                            <div class="popup-block__field popup-block__field--row">
-                              <input
-                                class="popup-block__input popup-block__input--search"
-                                type="text"
-                                name="dndLocationChangeCity"
-                                v-model="changeCitySearchLine"
-                                placeholder="Введите название города">
-                              <i class="search-block__submit"></i>
-                              <!-- Кнопка не работает, нет функционала -->
-                              <button class="popup-block__choice" type="button">Выбрать</button>
-                            </div>
-                            <ul>
-                              <li v-for="cityItem in listOfCity"
-                                  @click="changeCity(cityItem)"
-                                  data-fancybox-close
-                                  class="dnd-location__item"
-                                  :class="{'dnd-location__item--active': currentCity === cityItem.title}"
-                              >
-                                {{cityItem.title}}
-                              </li >
-                            </ul>
+                      <div class="popup-block__wrapper popup-block__wrapper--location">
+                        <div v-if="isConfirmCityVisible">
+                          <div class="popup-block__top">
+                            <h2 class="popup-block__title">
+                              "{{currentCity}}" - это ваш город?
+                            </h2>
+                            <button class="popup-block__close"
+                                    type="button"
+                                    aria-label="Закрыть окно"
+                                    @click.stop="doChangeCity()">
+                            </button>
+                          </div>
+                          <div class="dnd-location-specify-btn">
+                            <button @click="currentCityIsActual()" type="button">Да</button>
+                            <button @click.stop="doChangeCity()" type="button">Нет</button>
                           </div>
                         </div>
-                      </transition>
+                        <div v-if="isNotDefinedCityVisible">
+                          <div class="popup-block__top">
+                            <h2 class="popup-block__title">Ваш город не определен</h2>
+                            <button class="popup-block__close"
+                                    type="button"
+                                    aria-label="Закрыть окно"
+                                    @click.stop="doChangeCity()">
+                            </button>
+                          </div>
+                          <div class="dnd-location-specify-btn">
+                            <button @click.stop="doChangeCity()" type="button">Выбрать</button>
+                          </div>
+                        </div>
+                        <transition name="fade">
+                          <div v-if="isPopupChangeCityVisible">
+                            <!-- <p>Выберите город</p> -->
+                            <div class="dnd-location-change-city-form">
+                              <div class="popup-block__top">
+                                <h2 class="popup-block__title">Выбрать город</h2>
+                                <button class="popup-block__close"
+                                        type="button"
+                                        aria-label="Закрыть окно"
+                                        @click.stop="doChangeCity()">
+                                </button>
+                              </div>
+                              <div class="popup-block__field popup-block__field--row">
+                                <input
+                                  class="popup-block__input popup-block__input--search"
+                                  type="text"
+                                  name="dndLocationChangeCity"
+                                  v-model="changeCitySearchLine"
+                                  placeholder="Введите название города">
+                                <i class="search-block__submit"></i>
+                              </div>
+                              <ul>
+                                <li v-for="cityItem in listOfCity"
+                                    @click="changeCity(cityItem)"
+                                    data-fancybox-close
+                                    class="dnd-location__item"
+                                    :class="{'dnd-location__item--active': currentCity === cityItem.title}"
+                                >
+                                  {{cityItem.title}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </transition>
+                      </div>
+                      <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
+                          <p>Выберите город</p>
+                          <div class="dnd-location-change-city-form">
+                              <input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
+                          </div>
+                      </div> -->
                     </div>
-                    <!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
-												<p>Выберите город</p>
-												<div class="dnd-location-change-city-form">
-														<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
-												</div>
-										</div> -->
                   </transition>
                 </div>
               </div>

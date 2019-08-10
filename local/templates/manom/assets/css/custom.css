@@ -1230,11 +1230,11 @@ a.top-submenu2__item:hover .top-submenu2__title {
   /*width: 300px;*/
   /*text-align: center;*/
 /*}*/
-/*.dnd-location-specify-btn{*/
-  /*text-align: center;*/
-  /*margin-top: 15px;*/
-/*}*/
-.dnd-location-specify-btn span{
+.dnd-location-specify-btn{
+  text-align: center;
+  margin-top: 15px;
+}
+.dnd-location-specify-btn button {
   background-color: #79b700;
   color: #ffffff;
   margin: 0 5px;
