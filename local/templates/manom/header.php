@@ -174,7 +174,6 @@ $userCityByGeoIP = $userLocationInfo;
                               <ul>
                                 <li v-for="cityItem in listOfCity"
                                     @click="changeCity(cityItem)"
-                                    data-fancybox-close
                                     class="dnd-location__item"
                                     :class="{'dnd-location__item--active': currentCity === cityItem.title}"
                                 >
