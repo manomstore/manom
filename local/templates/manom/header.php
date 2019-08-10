@@ -112,7 +112,7 @@ $userCityByGeoIP = $userLocationInfo;
             <div class="top-location-line">
               <div id="dnd-location">
                 <div class="dnd-location-line" :class="doShowPanel()">
-                  <a class="dnd-location-curent user-nav__location" @click.stop="doChangeCity()" href="#">
+                  <a class="dnd-location-curent user-nav__link user-nav__link--location" @click.stop="doChangeCity()" href="#">
                     <span>{{currentCity}}</span>
                   </a>
                   <transition name="fade">
@@ -204,23 +204,40 @@ $userCityByGeoIP = $userLocationInfo;
               }
             </script>
             <!-- /location -->
-
-            <!-- login -->
-            <div class="user-nav__login">
-							<? if ($USER->IsAuthorized()) { ?>
-                <a class="user-nav__link" href="/user/profile.php">Личный кабинет</a> /
-                <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
-                  <input type="hidden" name="bitrix_include_areas" value="N">
-                  <input type="hidden" name="logout" value="yes">
-                  <button class="user-nav__link" type="submit" name="logout_butt">Выйти</button>
-                </form>
-							<? } else { ?>
-                <a class="user-nav__link" data-fancybox data-src="#popap-login" href="javascript:;">Вход</a>
-                /
-                <a class="user-nav__link" href="/auth/registration.php">Регистрация</a>
-                <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
-							<? } ?>
+            <div class="user-nav__block">
+		          <? $APPLICATION->IncludeComponent(
+			          "bitrix:menu",
+			          "top_menu",
+			          [
+				          "ROOT_MENU_TYPE"        => "top",
+				          "MAX_LEVEL"             => "1",
+				          "CHILD_MENU_TYPE"       => "top",
+				          "USE_EXT"               => "Y",
+				          "DELAY"                 => "N",
+				          "ALLOW_MULTI_SELECT"    => "Y",
+				          "MENU_CACHE_TYPE"       => "N",
+				          "MENU_CACHE_TIME"       => "3600",
+				          "MENU_CACHE_USE_GROUPS" => "Y",
+				          "MENU_CACHE_GET_VARS"   => "",
+			          ]
+		          ); ?>
             </div>
+            <!-- login -->
+            <!--            <div class="user-nav__login">-->
+            <!--							--><? // if ($USER->IsAuthorized()) { ?>
+            <!--                <a class="user-nav__link" href="/user/profile.php">Личный кабинет</a> /-->
+            <!--                <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">-->
+            <!--                  <input type="hidden" name="bitrix_include_areas" value="N">-->
+            <!--                  <input type="hidden" name="logout" value="yes">-->
+            <!--                  <button class="user-nav__link" type="submit" name="logout_butt">Выйти</button>-->
+            <!--                </form>-->
+            <!--							--><? // } else { ?>
+            <!--                <a class="user-nav__link" data-fancybox data-src="#popap-login" href="javascript:;">Вход</a>-->
+            <!--                /-->
+            <!--                <a class="user-nav__link" href="/auth/registration.php">Регистрация</a>-->
+            <!--                <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
+            <!--							--><? // } ?>
+            <!--            </div>-->
             <!-- /login -->
 
             <!-- time -->
@@ -308,22 +325,6 @@ $userCityByGeoIP = $userLocationInfo;
                     <a class="top-nav__link top-nav__link--location" href="#">Город</a>
                     <!-- /location -->
                   </li>
-                  <li>
-                    <div class="top-nav__login">
-											<? if ($USER->IsAuthorized()) { ?>
-                        <a class="top-nav__link" href="/user/profile.php">Личный кабинет</a>
-                        <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">
-                          <input type="hidden" name="bitrix_include_areas" value="N">
-                          <input type="hidden" name="logout" value="yes">
-                          <button class="top-nav__link top-nav__link--login" type="submit" name="logout_butt">Выйти</button>
-                        </form>
-											<? } else { ?>
-                        <a class="top-nav__link top-nav__link--login" data-fancybox data-src="#popap-login" href="javascript:;">Вход</a>
-                        <a class="top-nav__link" href="/auth/registration.php">Регистрация</a>
-                        <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
-											<? } ?>
-                    </div>
-                  </li>
                 </ul>
 
                 <p class="top-nav__time">Ежедневно 11:00 - 19:00</p>
@@ -368,8 +369,11 @@ $userCityByGeoIP = $userLocationInfo;
               </div>
             </div>
 
-            <a href="/" class="top-nav__logo">
-              <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" alt="Логотип интернет магазина Manom.ru" width="129" height="23">
+            <a href="/" class="top-nav__logo-link">
+              <picture>
+                <source media="(min-width: 768px)" srcset="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg">
+                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo-mobile.svg" alt="Логотип интернет магазина Manom.ru">
+              </picture>
             </a>
 
             <!--            <div class="top-menu">-->
@@ -537,7 +541,6 @@ $userCityByGeoIP = $userLocationInfo;
 
               <a class="top-personal__link top-personal__link--search" href="#">
                 <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка сравнения" width="15" height="15">
-                Поиск
               </a>
               <div class="popup-block popup-block--search">
                 <div class="popup-block__overlay"></div>
@@ -573,6 +576,23 @@ $userCityByGeoIP = $userLocationInfo;
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="top-personal__block">
+								<? if ($USER->IsAuthorized()) { ?>
+                  <a class="top-personal__link"
+                     href="/user/profile.php"
+                     aria-label="Профиль">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="20" height="20">
+                  </a>
+								<? } else { ?>
+                  <a class="top-personal__link"
+                     data-fancybox
+                     data-src="#popap-login"
+                     href="javascript:;"
+                     aria-label="Вход">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="20" height="20">
+                  </a>
+								<? } ?>
               </div>
 							<?
 							global $customFilt;

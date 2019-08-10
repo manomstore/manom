@@ -18,6 +18,6 @@ CUtil::InitJSCore();
 ?>
 <?foreach ($arResult as $key => $items) {
     ?>
-    <a href="<?=$items['LINK']?>" class="top-menu__items"><?=$items['TEXT']?></a>
+    <a href="<?=$items['LINK']?>" class="user-nav__link"><?=$items['TEXT']?></a>
     <?
 }?>
