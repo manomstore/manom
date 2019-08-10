@@ -370,7 +370,7 @@ global $USER;
               <!-- Табы -->
               <ul class="sci-delivery-tabs">
                 <li class="sci-delivery-tab">
-                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab1" type="radio" name="delivery-tabs" checked>
+                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab1" type="radio" name="delivery-tabs">
                   <label data-prop="ID_DELIVERY_ID_5" class="sci-delivery__tab rb_so" for="sci-delivery-tab1">
                     Курьером manom.ru
                     <span>1-2 дня, от 350 ₽</span>
