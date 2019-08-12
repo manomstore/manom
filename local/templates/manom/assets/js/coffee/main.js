@@ -964,6 +964,11 @@ $(document).ready(function() {
             );
         }
     });
+
+  $(document).on('change', '#module_so [name="PERSON_TYPE"]', function(){
+    $('#so_main_block .sci-delivery [data-change="Y"]').removeAttr('data-change');
+  });
+
   $(document).on('change', '#so_main_block [data-prop]', function(){
     var soModule = $(document).find('#module_so');
     var valEl = $(this).val();
@@ -1408,6 +1413,7 @@ $.fn.updateDateSaleOrder = function() {
       }
     }
   });
+
   soBlock.find('input, textarea, select').each(function() {
     if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
       if (!$(this).is('select')) {

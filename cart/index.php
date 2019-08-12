@@ -462,8 +462,7 @@ global $USER;
                     <div class="sci-contact__row">
                       <div class="sci-contact__field sci-contact__field--icon sci-contact__field--calendar">
                         <label class="sci-contact__label">Дата доставки
-                          <input data-change="Y"
-                                 data-prop="ORDER_PROP_19"
+                          <input data-prop="ORDER_PROP_19"
                                  data-prop-alt="ORDER_PROP_26"
                                  type="text"
                                  name="sci-delivery-date"
