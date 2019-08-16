@@ -7447,6 +7447,8 @@ p.price-slider {
 }
 
 .shopcart-nav1__radio.slide-disable + .shopcart-tab {
+  color: #99989D;
+  cursor: default;
   pointer-events: none;
 }
 
@@ -7710,6 +7712,7 @@ p.price-slider {
     width: 25%;
     position: relative;
     padding-top: 25px;
+    cursor: pointer;
     transition: all 0.2s ease;
   }
 
@@ -7759,6 +7762,10 @@ p.price-slider {
   .shopcart-nav1__radio:checked + .shopcart-tab::before {
     background-color: #83BB26;
     border-color: #83BB26;
+  }
+
+  .shopcart-tab:hover {
+    color: #73737E;
   }
 
   .shopcart__wrapper,
