@@ -1005,6 +1005,8 @@ $(document).ready(function() {
     }
 
     $('#sci-delivery-street').val('');
+
+    $.fn.toggleDeliveryPriceInfoVisibility();
   });
   $(document).on('click', '#btnSubmitOrder', function() {
     if (!document.querySelector('.js-shopcart-agree').checked) {
@@ -1124,9 +1126,18 @@ $(document).ready(function() {
       restrict_value: true
     })
     .attr('autocomplete', 'none');
+
+  $.fn.toggleDeliveryPriceInfoVisibility();
 });
 
 var isSideInfoInited = false;
+
+$.fn.toggleDeliveryPriceInfoVisibility = function() {
+  var isDeliveryChecked = $('.sci-delivery-tab:not(.rb_so__hide) .sci-delivery__radio:checked').length > 0;
+
+  $('.shopcart-sidebar__info--delivery, .shopcart-sidebar__sum-price--delivery')
+    .toggleClass('sc-hidden', !isDeliveryChecked);
+}
 
 $.fn.updateSideInfo = function() {
   var deliveryPrice, soBlock, soModule, totalPrice, uAddress, uCity, uDeliveryDate, uDeliveryTime, uName, uPhone;
@@ -1242,6 +1253,8 @@ $.fn.updateSideInfo = function() {
   }
 
   isSideInfoInited = true;
+
+  $.fn.toggleDeliveryPriceInfoVisibility();
 
   if (!uDeliveryTime) {
     return soBlock.find('.shopcart-sidebar__delivery-time').hide();

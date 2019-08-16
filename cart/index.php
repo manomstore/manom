@@ -977,7 +977,7 @@ global $USER;
                   <span class="shopcart-sidebar__buyer-tel"></span>
                 </p>
               </div>
-              <div class="shopcart-sidebar__info shopcart-sidebar__info--delivery">
+              <div class="shopcart-sidebar__info shopcart-sidebar__info--delivery sc-hidden">
                 <h3 class="shopcart-sidebar__title">Доставка:</h3>
                 <p class="shopcart-sidebar__text">
                   <span class="shopcart-sidebar__delivery-city"></span>, <span class="shopcart-sidebar__delivery-address"></span>
@@ -999,7 +999,7 @@ global $USER;
                       <span id="cart-discount-price">0</span> ₽
                     </span>
                   </p>
-                  <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--delivery">
+                  <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--delivery sc-hidden">
                     Доставка
                     <span>
                       <span id="cart-delivery-price">0</span> ₽
