@@ -25,7 +25,7 @@ foreach ($arResult['CATEGORIES'] as $key => $cat) {
 
       if ($item["DISCOUNT_PRICE_PERCENT"] > 0) {
           $arResult['CATEGORIES'][$key][$i]["SUM_FULL_PRICE_FORMATTED"] = \CCurrencyLang::CurrencyFormat(
-              $item['BASE_PRICE'],
+              $item['BASE_PRICE'] * $item['QUANTITY'],
               $item['CURRENCY'],
               false
           );
