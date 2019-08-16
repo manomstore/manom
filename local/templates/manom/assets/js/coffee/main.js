@@ -790,6 +790,7 @@ $(document).ready(function() {
     $this = $(this);
     var $checkedDeliveryRadio = $('.sci-delivery__radio:checked');
     // $checkedDeliveryRadio.prop('checked', false);
+    console.log('test');
     soModule.find('#' + $checkedDeliveryRadio.next('.sci-delivery__tab').data('prop')).prop('checked', false);
     $('#sci-delivery-street')
       .suggestions('setOptions', {
