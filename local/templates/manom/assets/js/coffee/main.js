@@ -1005,6 +1005,8 @@ $(document).ready(function() {
     }
 
     $('#sci-delivery-street').val('');
+
+    toggleDeliveryPriceInfoVisibility();
   });
   $(document).on('click', '#btnSubmitOrder', function() {
     if (!document.querySelector('.js-shopcart-agree').checked) {
@@ -1124,6 +1126,15 @@ $(document).ready(function() {
       restrict_value: true
     })
     .attr('autocomplete', 'none');
+
+  toggleDeliveryPriceInfoVisibility();
+
+  function toggleDeliveryPriceInfoVisibility() {
+    var isDeliveryChecked = $('.sci-delivery__radio:checked').length > 0;
+
+    $('.shopcart-sidebar__info--delivery, .shopcart-sidebar__sum-price--delivery')
+      .toggleClass('sc-hidden', !isDeliveryChecked);
+  }
 });
 
 var isSideInfoInited = false;
