@@ -6108,6 +6108,10 @@ p.price-slider {
   padding: 20px;
 }
 
+.shopcart__sum-amount {
+  display: none;
+}
+
 .button-del {
   color: #99989D;
   font-size: 14px;
@@ -7959,7 +7963,18 @@ p.price-slider {
   }
 
   .shopcart__wrapper {
+    width: 790px;
+    margin: 0;
     padding: 55px 0 30px;
+  }
+
+  .shopcart__sum-amount {
+    font-size: 16px;
+    color: #29282C;
+    font-weight: 500;
+    text-align: right;
+
+    display: block;
   }
 
   .shopcart__title {

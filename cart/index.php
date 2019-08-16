@@ -50,6 +50,8 @@ global $USER;
       <div class="shopcart__wrapper">
         <h1 class="shopcart__title js-shopcart-title">Корзина</h1>
         <button class="button-del button-del--top" type="button">Очистить</button>
+
+        <span class="shopcart__sum-amount">4 товара</span>
       </div>
 
       <div class="shopcart-main">
