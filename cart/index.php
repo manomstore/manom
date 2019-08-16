@@ -988,13 +988,13 @@ global $USER;
               <div class="shopcart-sidebar__total">
                 <div class="shopcart-sidebar__price-wrapper">
                   <p class="shopcart-sidebar__sum-price">
-                    Стоимость товаров
+                    Стоимость
                     <span>
                       <span id="cart-price">512 940</span> ₽
                     </span>
                   </p>
                   <p class="shopcart-sidebar__sum-price shopcart-sidebar__sum-price--sale sc-hidden">
-                    Скидка на товары
+                    Скидка
                     <span>
                       <span id="cart-discount-price">0</span> ₽
                     </span>
