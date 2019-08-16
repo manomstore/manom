@@ -7586,7 +7586,7 @@ p.price-slider {
   }
 
   .shopcart-sidebar__wrapper  .sci-product__sum-price {
-    margin-left: 5px;
+    margin-left: 15px;
   }
 
   .shopcart-sidebar__wrapper .product-price {
@@ -7979,6 +7979,7 @@ p.price-slider {
   }
 
   .sci-product__picture {
+    flex-shrink: 0;
     width: 80px;
     height: 80px;
     border: 1px solid #F2F2F2;
@@ -8013,6 +8014,7 @@ p.price-slider {
     background-color: #fff;
     margin: 0;
     margin-left: 5px;
+    border-color: transparent;
   }
 
   .sci-product__counter input {
@@ -8175,10 +8177,6 @@ p.price-slider {
     /*justify-content: space-between;*/
     /*width: 100%;*/
   /*}*/
-
-  .shopcart-sidebar__wrapper .sci-product__sum-price {
-    margin-left: 5px;
-  }
 
   /*.shopcart-sidebar__prod .product-price {*/
     /*align-items: flex-end;*/
