@@ -247,11 +247,14 @@ $(document).ready(function() {
 
   $(document).on('change', '.shopcart-nav1 input', function(){
     var $stepRadio = $(this),
-      step = $stepRadio.data('num');
+      step = $stepRadio.data('num'),
+      scrollTopPosition = $('.shopcart__wrapper').offset().top;
 
     if ($stepRadio.prop('checked')) {
       app.shopcart.setStep(step);
     }
+
+    $('html, body').stop().animate({scrollTop: scrollTopPosition}, 600);
   });
 
   $(document).on('submit', '#popap-call form', function() {
