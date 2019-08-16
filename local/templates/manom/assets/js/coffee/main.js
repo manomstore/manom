@@ -1127,6 +1127,18 @@ $(document).ready(function() {
     })
     .attr('autocomplete', 'none');
 
+  // Инициализация календаря
+  (function(){
+    var startDate = new Date();
+
+    startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+
+    $('.js-shopcart-datepicker').datepicker({
+      language: 'ru',
+      startDate: startDate
+    });
+  })();
+
   $.fn.toggleDeliveryPriceInfoVisibility();
 });
 

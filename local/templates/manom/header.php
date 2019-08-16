@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery-ui.css">
 	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery.fancybox.min.css"/>
 	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/suggestions.min.css"/>
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/bootstrap-datepicker.css"/>
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/main.min-2.css">
 
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/js/coffee/pushUpJS/pushUp.css">

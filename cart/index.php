@@ -467,7 +467,7 @@ global $USER;
                                  type="text"
                                  name="sci-delivery-date"
                                  id="sci-delivery-date"
-                                 class="sci-contact__input"
+                                 class="sci-contact__input js-shopcart-datepicker"
                                  placeholder="Введите дату доставки">
                         </label>
                       </div>
