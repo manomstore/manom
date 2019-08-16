@@ -21,7 +21,7 @@ use Bitrix\Main\Localization\Loc;
 <? endif; ?>
 <? if (count($arResult['GRID']['ROWS']) <= 0): ?>
     <script type="text/javascript">
-        location.href = '/cart/basket.php';
+        location.href = '/';
     </script>
 <? endif ?>
 <? foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
@@ -116,7 +116,7 @@ use Bitrix\Main\Localization\Loc;
             <div class="sci-add">
                 <? if ($acessForThisElement) { ?>
                 <div class="sci-add__block">
-                    <h2 class="sci-add__title">С этим товаром покупают</h2>
+                    <h2 class="sci-add__title">Рекомендуем добавить в заказ</h2>
 
                     <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
                     <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
@@ -141,7 +141,7 @@ use Bitrix\Main\Localization\Loc;
                                         data-id="<?= $p['id'] ?>"
                                         type="button"
                                 >
-                                    В корзину
+                                    Добавить
                                 </button>
                             </article>
                         <? } ?>
@@ -150,7 +150,7 @@ use Bitrix\Main\Localization\Loc;
                 <? } ?>
                 <? if ($dopProdForThisElement) { ?>
                     <div class="sci-add__services sci-add__block">
-                        <h2 class="sci-add__title">Дополнительные услуги</h2>
+                        <h2 class="sci-add__title">Не забудьте еще</h2>
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
                             <? foreach ($dopProdForThisElement as $r => $p) { ?>
@@ -173,7 +173,7 @@ use Bitrix\Main\Localization\Loc;
                                             data-id="<?= $p['id'] ?>"
                                             type="button"
                                     >
-                                        В корзину
+                                        Добавить
                                     </button>
                                 </div>
                             <? } ?>
