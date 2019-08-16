@@ -21,7 +21,7 @@ use Bitrix\Main\Localization\Loc;
 <? endif; ?>
 <? if (count($arResult['GRID']['ROWS']) <= 0): ?>
     <script type="text/javascript">
-        location.href = '/cart/basket.php';
+        location.href = '/';
     </script>
 <? endif ?>
 <? foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
