@@ -30,10 +30,6 @@ global $USER;
                type="radio"
                name="login-toggle"
                id="sing-up">
-        <div class="popup-login__titles">
-          <h2>Войти в аккаунт</h2>
-          <h2>Регистрация</h2>
-        </div>
 
         <ul class="popup-login__toggles">
           <li>
@@ -171,8 +167,8 @@ global $USER;
               />
               <span>
               Нажимая «Зарегистрироваться и войти» вы соглашаетесь
-              <a href="#">с условиями оферты</a> и
-              <a href="#">политикой конфиденциальности</a>
+              <a target="_blank" href="/public_offer_agreement/">с условиями оферты</a> и
+              <a target="_blank" href="/privacy_policy/">политикой конфиденциальности</a>
             </span>
             </label>
 
@@ -290,8 +286,8 @@ global $USER;
               />
               <span>
               Нажимая «Зарегистрироваться и войти» вы соглашаетесь
-              <a href="#">с условиями оферты</a> и
-              <a href="#">политикой конфиденциальности</a>
+              <a target="_blank" href="/public_offer_agreement/">с условиями оферты</a> и
+              <a target="_blank" href="/privacy_policy/">политикой конфиденциальности</a>
             </span>
             </label>
           </form>
@@ -304,6 +300,8 @@ global $USER;
             <li class="advantages__item">История и статусы заказов</li>
             <li class="advantages__item">Специальные предложения</li>
           </ul>
+
+          <a class="popup-login__service" href="#">Зарегистрироваться</a>
         </div>
       </div>
     </div>

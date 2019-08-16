@@ -6873,7 +6873,7 @@ button.top-nav__link {
 
 .top-personal {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-left: auto;
 }
 
@@ -7362,6 +7362,12 @@ button.top-nav__link {
   padding: 0 0 15px;
   margin-right: 15px;
   transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.popup-login__toggle:hover,
+.popup-login__toggle:focus {
+  color: #29282C;
 }
 
 #sing-in.popup-login__radio:checked ~ .popup-login__toggles .popup-login__toggle[for="sing-in"],
@@ -7419,6 +7425,7 @@ button.top-nav__link {
   font: inherit;
   color: #29282C;
   font-weight: 500;
+  font-size: 16px;
 
   height: 50px;
   width: 100%;
@@ -7527,6 +7534,7 @@ button.top-nav__link {
   background-color: #83BB26;
   border-radius: 3px;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .popup-login__button:hover,
@@ -7548,7 +7556,7 @@ button.top-nav__link {
 .popup-login__service {
   font-size: 14px;
   font-weight: 500;
-  color: #83BB26;
+  color: #73737E;
   text-align: center;
 
   padding: 15px 10px;
@@ -8005,8 +8013,109 @@ button.top-nav__link {
     width: 1041px;
   }
 
+  .popup-login__wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .popup-login__label {
+    font-size: 18px;
+  }
+
+  .popup-login__input {
+    font-size: 18px;
+    height: 60px;
+  }
+
+  .popup-login__button,
+  .popup-login__service {
+    font-size: 18px;
+    padding: 18px 10px;
+  }
+
   .popup-login__block {
-    width: 530px;
-    padding: 40px 40px 0;
+    width: 50%;
+    padding: 25px 40px 0;
+    padding-right: 50px;
+  }
+
+  .popup-login__field {
+    margin: 0 0 40px;
+  }
+
+  .popup-login__toggles {
+    padding: 0 40px 15px;
+    border: none;
+    width: 835px;
+  }
+
+  .popup-login__toggle {
+    font-size: 36px;
+    padding: 0;
+  }
+
+  .popup-login__toggle::after {
+    display: none;
+  }
+
+  .advantages {
+    font-size: 18px;
+    color: #000;
+    font-weight: 500;
+
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 25px 40px 0;
+    padding-left: 50px;
+    position: relative;
+  }
+
+  .advantages::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 80%;
+    background-color: #F2F2F2;
+  }
+
+  .advantages__title {
+    font-weight: 500;
+    margin: 0 0 15px;
+  }
+
+  .advantages__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .advantages__item {
+    position: relative;
+    padding-left: 34px;
+    margin-bottom: 20px;
+  }
+
+  .advantages__item:last-child {
+    margin-bottom: 40px;
+  }
+
+  .advantages__item::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #83BB26;
+    background-image: url("../img/icons/icon-check.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 12px;
   }
 }
