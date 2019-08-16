@@ -1,7 +1,7 @@
 <?php
 global $USER;
 
-if (!$USER->IsAuthorized()) {
+if (!$USER->IsAuthorized() && \Bitrix\Main\Context::getCurrent()->getRequest()->get("is_ajax_post") !== "Y") {
     foreach ($arResult["DELIVERY"] as &$delivery) {
         $delivery["CHECKED"] = "N";
     }
