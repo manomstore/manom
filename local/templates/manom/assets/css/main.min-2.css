@@ -7439,7 +7439,7 @@ button.top-nav__link {
 }
 
 .popup-login__label-check {
-  font-size: 16px;
+  font-size: 12px;
   vertical-align: middle;
   color: rgba(41, 40, 44, 0.6);
   font-weight: 500;
@@ -7464,6 +7464,7 @@ button.top-nav__link {
 }
 
 .popup-login__label-check--remember {
+  font-size: 16px;
   line-height: 25px;
   color: rgba(152, 153, 157, 0.6);
 }
@@ -7596,6 +7597,10 @@ button.top-nav__link {
 .popup-login__forget:hover,
 .popup-login__forget:focus {
   color: #99989D;
+}
+
+.advantages {
+  display: none;
 }
 
 @media (min-width: 768px) {
@@ -7994,5 +7999,14 @@ button.top-nav__link {
 
   .main-nav__innerlist--show {
     display: block;
+  }
+
+  .popup-login {
+    width: 1041px;
+  }
+
+  .popup-login__block {
+    width: 530px;
+    padding: 40px 40px 0;
   }
 }

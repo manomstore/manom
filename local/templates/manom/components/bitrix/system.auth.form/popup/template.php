@@ -30,6 +30,11 @@ global $USER;
                type="radio"
                name="login-toggle"
                id="sing-up">
+        <div class="popup-login__titles">
+          <h2>Войти в аккаунт</h2>
+          <h2>Регистрация</h2>
+        </div>
+
         <ul class="popup-login__toggles">
           <li>
             <label class="popup-login__toggle" for="sing-in">
@@ -290,6 +295,15 @@ global $USER;
             </span>
             </label>
           </form>
+        </div>
+
+        <div class="advantages">
+          <h3 class="advantages__title">Преимущества регистрации:</h3>
+          <ul class="advantages__list">
+            <li class="advantages__item">Быстрое оформление заказа</li>
+            <li class="advantages__item">История и статусы заказов</li>
+            <li class="advantages__item">Специальные предложения</li>
+          </ul>
         </div>
       </div>
     </div>
