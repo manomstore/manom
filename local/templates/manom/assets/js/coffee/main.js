@@ -1492,6 +1492,19 @@ $.fn.updateDateSaleOrder = function() {
     }
   });
 
+    var fizPerson = soModule.find('#PERSON_TYPE_1').prop('checked');
+
+    $(document).find('#so_main_block')
+        .find("[data-prop=ORDER_PROP_19],[data-prop=ORDER_PROP_21]")
+        .each(function () {
+            var curProp = fizPerson ? $(this).attr('data-prop') : $(this).attr('data-prop-alt');
+            if (soModule.find("[name='" + curProp + "']").length > 0) {
+                $(this).closest(".sci-contact__field").show();
+            } else {
+                $(this).closest(".sci-contact__field").hide();
+            }
+        })
+
   soBlock.find('input, textarea, select').each(function() {
     if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
       if (!$(this).is('select')) {
