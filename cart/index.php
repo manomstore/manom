@@ -2,6 +2,7 @@
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Корзина");
 CModule::IncludeModule('statistic');
+CModule::IncludeModule('sale');
 global $USER;
 ?>
 
@@ -46,12 +47,34 @@ global $USER;
       </div>
     </div>
 
-		<? if (!$_REQUEST['ORDER_ID']): ?>
+      <? if (!$_REQUEST['ORDER_ID']):
+          $quantity = 0;
+
+          $dbBasketItems = \CSaleBasket::GetList(
+              false,
+              [
+                  "FUSER_ID" => \CSaleBasket::GetBasketUserID(),
+                  "LID" => SITE_ID,
+                  "ORDER_ID" => "NULL",
+                  "DELAY" => "N"
+              ],
+              false,
+              false,
+              [
+                  "ID",
+                  "QUANTITY",
+              ]);
+
+          while ($arItems = $dbBasketItems->Fetch()) {
+              $quantity += $arItems['QUANTITY'];
+          }
+
+          ?>
       <div class="shopcart__wrapper">
         <h1 class="shopcart__title js-shopcart-title">Корзина</h1>
         <button class="button-del button-del--top" type="button">Очистить</button>
 
-        <span class="shopcart__sum-amount">4 товара</span>
+          <span class="shopcart__sum-amount"><?= $quantity ?> товара</span>
       </div>
 
       <div class="shopcart-main">
