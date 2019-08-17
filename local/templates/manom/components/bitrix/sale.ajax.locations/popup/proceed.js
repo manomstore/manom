@@ -189,6 +189,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 			locName = aEl['NAME'];
             if (aEl['REGION_NAME'].length > 0 && locName.length <= 0)
                 locName = aEl['REGION_NAME'];
+            else if (aEl['REGION_NAME'].length > 0)
+                locName = locName +', '+ aEl['REGION_NAME'];
 
             if (aEl['COUNTRY_NAME'].length > 0 && locName.length <= 0)
                 locName = aEl['COUNTRY_NAME'];
