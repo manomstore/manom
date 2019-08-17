@@ -1101,34 +1101,71 @@ $(document).ready(function() {
     });
   });
 
-  $('#sci-delivery-street')
-    .suggestions({
-      token: '13c28158e6b58d73020665b170c93b462e2db582',
-      type: 'ADDRESS',
-      placeholder: 'Введите город доставки',
-      constraints: {
-        locations: {
-          city: $('#so_city_val').val() ? $('#so_city_val').val().split(', ')[0] : ''
+    var suggestions = {
+        selected: false,
+        lastSuggestionsItems: false,
+        nothing: false,
+    };
+
+    var $deliveryStreetField = $('.js-delivery-street');
+
+    $deliveryStreetField.on("change", function () {
+        if (suggestions.selected) {
+            suggestions.selected = false;
+            return true;
         }
-      },
-        onSelect: function (result) {
-            var zip = Number(result.data.postal_code);
-            if (zip > 0) {
-                var soModule;
-                soModule = $(document).find('#module_so');
-                if (soModule.is('div')) {
-                    if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
-                        soModule.find('[name="ORDER_PROP_39"]').val(zip);
-                    } else {
-                        soModule.find('[name="ORDER_PROP_38"]').val(zip);
+
+        var that = this;
+        var isSetZip = false;
+        if (suggestions.lastSuggestionsItems.length > 0 && !suggestions.nothing) {
+            suggestions.lastSuggestionsItems.forEach(function (item) {
+                if (suggestions.lastSuggestionsItems.length > 1) {
+                    var address = item.data.city_with_type ?
+                        item.value.replace(item.data.city_with_type + ", ", "")
+                        : item.value;
+
+                    if (address !== $(that).val().trim()) {
+                        return false;
                     }
+
                 }
-            }
-        },
-      // в списке подсказок не показываем область
-      restrict_value: true
-    })
-    .attr('autocomplete', 'none');
+                setZipCode(item.data.postal_code);
+                isSetZip = true;
+                return true;
+            });
+        }
+
+        if (suggestions.lastSuggestionsItems.length <= 0 || suggestions.nothing || !isSetZip) {
+            setZipCode(0);
+        }
+    });
+
+    $deliveryStreetField
+        .suggestions({
+            token: '13c28158e6b58d73020665b170c93b462e2db582',
+            type: 'ADDRESS',
+            placeholder: 'Введите город доставки',
+            constraints: {
+                locations: {
+                    city: $('#so_city_val').val() ? $('#so_city_val').val().split(', ')[0] : ''
+                }
+            },
+            onSelect: function (result) {
+                setZipCode(result.data.postal_code);
+                suggestions.selected = true;
+                suggestions.nothing = false;
+            },
+            onSelectNothing: function () {
+                suggestions.nothing = true;
+                suggestions.selected = false;
+            },
+            onSuggestionsFetch: function (items) {
+                suggestions.lastSuggestionsItems = items;
+            },
+            // в списке подсказок не показываем область
+            restrict_value: true
+        })
+        .attr('autocomplete', 'none');
 
   // Инициализация календаря
   (function(){
@@ -1143,6 +1180,19 @@ $(document).ready(function() {
   })();
 
   $.fn.toggleDeliveryPriceInfoVisibility();
+
+    function setZipCode(zip) {
+        zip = Number(zip) > 0 ? zip : "000000";
+        var soModule;
+        soModule = $(document).find('#module_so');
+        if (soModule.is('div')) {
+            if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
+                soModule.find('[name="ORDER_PROP_39"]').val(zip);
+            } else {
+                soModule.find('[name="ORDER_PROP_38"]').val(zip);
+            }
+        }
+    }
 });
 
 var isSideInfoInited = false;

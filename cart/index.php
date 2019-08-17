@@ -430,7 +430,7 @@ global $USER;
                                type="text"
                                name="sci-delivery-street"
                                id="sci-delivery-street"
-                               class="sci-contact__input"
+                               class="sci-contact__input js-delivery-street"
                                autocomplete="none"
                                placeholder="Улица, дом, квартира"
                                required>
