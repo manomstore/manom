@@ -914,6 +914,13 @@ $(document).ready(function() {
         }
     });
 
+    app.$doc.on('click', '#SDEK_button', function(){
+      $(document)
+        .find('#so_main_block')
+        .find('.preloaderCatalog')
+        .addClass('preloaderCatalogActive');
+    });
+
     app.$doc.on('click', '.js-shopcart-cart-link', function(e){
       app.$doc.find('.shopcart-nav1 label[for="shopcart-tab1"]').click();
 
