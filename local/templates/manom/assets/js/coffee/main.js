@@ -1713,10 +1713,14 @@ $.fn.updateMiniCart = function(data) {
 };
 
 $.fn.updGlobalCityInCart = function(cityID) {
+  var soBlock;
   var soModule;
+  soBlock = $(document).find('#so_main_block');
   soModule = $(document).find('#module_so');
   if (soModule.is('div')) {
     soModule.find('[name="ORDER_PROP_18"]').val(cityID);
+    soModule.find('input[name="DELIVERY_ID"]:checked').prop('checked', false);
+    soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
     return $.fn.updateCart();
   }
 };
