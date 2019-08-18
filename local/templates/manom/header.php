@@ -346,7 +346,7 @@ $userCityByGeoIP = $userLocationInfo;
 
                 <ul class="top-nav__list top-nav__list--user">
                   <li>
-                    <a class="top-nav__link top-nav__link--compare" href="#">Сравнение</a>
+                    <a class="top-nav__link top-nav__link--compare" href="/catalog/compare/">Сравнение</a>
                   </li>
                   <li>
                     <!-- location -->

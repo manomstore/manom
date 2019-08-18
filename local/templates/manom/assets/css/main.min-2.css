@@ -6690,9 +6690,10 @@ p.price-slider {
 
 .top-nav--opened .top-nav__toggle {
   position: fixed;
-  right: -10px;
+  right: 3%;
   top: 20px;
   z-index: 102;
+  margin: 0;
 }
 
 .top-nav--opened .top-nav__toggle span {
