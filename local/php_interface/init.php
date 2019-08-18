@@ -116,10 +116,21 @@ class MyHandlerClass
 
 
     function OnSaleComponentOrderPropertiesHandler(&$arUserResult, $request, &$arParams, &$arResult) {
+        \Bitrix\Main\Loader::includeModule("sale");
         $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
-        /** @var \Bitrix\Sale\PropertyBase $propertyClassName */
 
-        $locationProp = ($registry->getPropertyClassName())::getList([
+        if (!method_exists($registry, "getPropertyClassName")) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\PropertyBase $propertyClassName */
+        $propertyClassName = $registry->getPropertyClassName();
+
+        if (!class_exists($propertyClassName)) {
+            return true;
+        }
+
+        $locationProp = $propertyClassName::getList([
             'select' => ['ID'],
             'filter' => [
                 '=PERSON_TYPE_ID' => $arUserResult["PERSON_TYPE_ID"],
