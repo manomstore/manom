@@ -142,16 +142,31 @@ global $USER;
                   <label data-prop="PERSON_TYPE_2" class="sci-contact__tab-label rb_so" for="sci-contact-tab2"><span>Оформить как юр. лицо</span></label>
                 </div>
                 <section class="sci-contact-content" id="sci-contact-content1">
-                  <div class="sci-contact__field">
-                    <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
-                    <input type="email"
-                           data-prop="ORDER_PROP_3"
-                           name="sci-contact__email"
-                           id="sci-contact__email"
-                           class="sci-contact__input"
-                           placeholder="Введите e-mail"
-                           required>
-                  </div>
+                    <? if (!$USER->IsAuthorized()):?>
+                        <div class="sci-contact__field">
+                            <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
+                            <input type="email"
+                                   data-prop="ORDER_PROP_3"
+                                   name="sci-contact__email"
+                                   id="sci-contact__email"
+                                   class="sci-contact__input js-email-field"
+                                   placeholder="Введите e-mail"
+                                   required>
+                        </div>
+                        <div class="js-password-block dsb-hidden sci-contact__field">
+                            <label class="sci-contact__label"
+                                   for="sci-contact__password">Пароль</label>
+                            <input type="password"
+                                   name="sci-contact__password"
+                                   id="sci-contact__password"
+                                   class="sci-contact__input js-password-field"
+                                   placeholder="Ваш пароль"
+                            >
+                            <button class="shopcart-sidebar__button js-auth" type="button">
+                                Войти
+                            </button>
+                        </div>
+                    <? endif; ?>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__fio">Фамилия и имя</label>
                     <input type="text"
@@ -162,20 +177,6 @@ global $USER;
                            placeholder="Ваше имя и фамилия"
                            required>
                   </div>
-                    <? /*
-                  <div class="sci-contact__field js-password-block dsb-hidden">
-                      <label class="sci-contact__label" for="sci-contact__password">Пароль</label>
-                      <input type="password"
-                             name="sci-contact__password"
-                             id="sci-contact__password"
-                             class="sci-contact__input"
-                             placeholder="Ваш пароль"
-                      >
-                      <button class="shopcart-sidebar__button" type="button">
-                          <span class="js-auth">Войти</span>
-                      </button>
-                  </div>
-                    */ ?>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label" for="sci-contact__tel">Телефон</label>
                     <input type="tel"
@@ -210,32 +211,31 @@ global $USER;
                              required>
                     </label>
                   </div>
-                  <div class="sci-contact__field">
-                    <label class="sci-contact__label">E-mail
-                      <input type="email"
-                             data-prop="ORDER_PROP_32"
-                             name="sci-contact__ur-email"
-                             id="sci-contact__ur-email"
-                             class="sci-contact__input"
-                             placeholder="Введите e-mail"
-                             required>
-                    </label>
-                  </div>
-                    <? /*
-                    <div class="sci-contact__field js-password-block dsb-hidden">
-                        <label class="sci-contact__label">Пароль
-                            <input type="password"
-                                   data-prop="ORDER_PROP_32"
-                                   name="sci-contact__ur-password"
-                                   id="sci-contact__ur-password"
-                                   class="sci-contact__input"
-                                   placeholder="Введите e-mail">
-                        </label>
-                        <button class="shopcart-sidebar__button" type="button">
-                            <span class="js-auth">Войти</span>
-                        </button>
-                    </div>
-                    */ ?>
+                    <? if (!$USER->IsAuthorized()): ?>
+                        <div class="sci-contact__field">
+                            <label class="sci-contact__label">E-mail
+                                <input type="email"
+                                       data-prop="ORDER_PROP_32"
+                                       name="sci-contact__ur-email"
+                                       id="sci-contact__ur-email"
+                                       class="sci-contact__input js-email-field"
+                                       placeholder="Введите e-mail"
+                                       required>
+                            </label>
+                        </div>
+                        <div class="sci-contact__field js-password-block dsb-hidden">
+                            <label class="sci-contact__label">Пароль
+                                <input type="password"
+                                       name="sci-contact__ur-password"
+                                       id="sci-contact__ur-password"
+                                       class="sci-contact__input js-email-field"
+                                       placeholder="Введите e-mail">
+                            </label>
+                            <button class="shopcart-sidebar__button js-auth" type="button">
+                                Войти
+                            </button>
+                        </div>
+                    <? endif; ?>
                   <div class="sci-contact__field">
                     <label class="sci-contact__label">Юридическое название
                       <input type="text"
@@ -1081,7 +1081,7 @@ if ($_REQUEST['ORDER_ID']) {
 		[
 			"ADDITIONAL_PICT_PROP_8"         => "-",
 			"ALLOW_AUTO_REGISTER"            => "Y",
-			"ALLOW_NEW_PROFILE"              => "Y",
+			"ALLOW_NEW_PROFILE"              => "N",
 			"ALLOW_USER_PROFILES"            => "Y",
 			"BASKET_IMAGES_SCALING"          => "standard",
 			"BASKET_POSITION"                => "before",

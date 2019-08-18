@@ -1181,6 +1181,64 @@ $(document).ready(function() {
 
   $.fn.toggleDeliveryPriceInfoVisibility();
 
+    $(".js-auth").on("click", function (e) {
+        e.preventDefault();
+        var password = $(this).closest(".js-password-block").find(".js-password-field").val();
+        var email = $(this).closest("section").find(".js-email-field").val();
+
+        if (email.length <= 0) {
+            $.fn.setPushUp("Ошибка авторизации", "Не указан e-mail", false, "message", false, 5000);
+            return false;
+        }
+
+        if (password.length <= 0) {
+            $.fn.setPushUp("Ошибка авторизации", "Не указан пароль", false, "message", false, 5000);
+            return false;
+        }
+
+        $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
+
+        $.ajax("/ajax/checkout.php",
+            {
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    type: "authorize",
+                    email: email,
+                    password: password,
+                    sessid: BX.bitrix_sessid(),
+                },
+                success: function (result) {
+                    if (result.success) {
+                        BX("profile_change").value = "Y";
+                        submitForm();
+                        $.fn.setPushUp(
+                            "Авторизация",
+                            "Вы успешно авторизовались",
+                            false,
+                            "message",
+                            false,
+                            5000
+                        );
+                    } else {
+                        $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+
+                        if (result.errorMessage) {
+                            $.fn.setPushUp(
+                                "Ошибка авторизации",
+                                result.errorMessage,
+                                false,
+                                "message",
+                                false,
+                                5000
+                            );
+                        }
+                    }
+                }
+            }
+        );
+    });
+
     function setZipCode(zip) {
         zip = Number(zip) > 0 ? zip : "000000";
         var soModule;
