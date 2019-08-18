@@ -50,7 +50,12 @@ global $glob_sectionInfo, $new_offer_filter;
             <div class="preview-prod__descr">
               <div class="preview-prod-bottom">
                 <div class="preview-prod-bottom__price">
-									<?= number_format($value['MIN_PRICE']['DISCOUNT_VALUE_VAT'], 0, '.', ' ') ?><span> ₽</span>
+                  <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
+                    <?= number_format($value['MIN_PRICE']['DISCOUNT_VALUE_VAT'], 0, '.', ' ') ?> ₽
+                  </span>
+                  <span class="preview-prod-bottom__value preview-prod-bottom__value--sale">
+                    999 999 ₽
+                  </span>
                 </div>
                 <button class="preview-prod-bottom__del preview-prod-bottom__button-favorite" type="button" aria-label="Удалить товар" data-cart-item="<?= $value['ID'] ?>"></button>
                 <!--            <label>-->

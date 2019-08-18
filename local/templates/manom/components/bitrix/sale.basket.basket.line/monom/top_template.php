@@ -64,7 +64,12 @@
               <div class="preview-prod__descr">
                 <div class="preview-prod-bottom">
                   <div class="preview-prod-bottom__price">
-										<?= str_replace('руб.', '', $item['SUM']) ?><span> ₽</span>
+                    <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
+                    <?= str_replace('руб.', '', $item['SUM']) ?> ₽
+                  </span>
+                    <span class="preview-prod-bottom__value preview-prod-bottom__value--sale">
+                    999 999 ₽
+                  </span>
                   </div>
                   <button class="preview-prod-bottom__del preview-prod-bottom__button-cart" type="button" aria-label="Удалить товар" data-cart-item="<?= $item['ID'] ?>"></button>
                   <!--                <label>-->
