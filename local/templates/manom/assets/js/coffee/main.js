@@ -249,9 +249,19 @@ $(document).ready(function() {
     var $stepRadio = $(this),
       step = $stepRadio.data('num'),
       scrollTopPosition = $('.shopcart__wrapper').offset().top;
+      $fullTotalPrice = $('#sale-order-full-total-price');
 
     if ($stepRadio.prop('checked')) {
       app.shopcart.setStep(step);
+    }
+
+    if (
+      (step === 3 || step === 4)
+      && $('.sci-delivery-tab:not(.rb_so__hide)').find('.sci-delivery__radio:checked').length > 0
+    ) {
+      if ($fullTotalPrice.length > 0) {
+        $('#total_price_cart').html($fullTotalPrice.html().replace('руб.', ''));
+      }
     }
 
     $('html, body').stop().animate({scrollTop: scrollTopPosition}, 600);
@@ -1227,6 +1237,8 @@ $(document).ready(function() {
                           $('#so_main_block').find('[data-change="Y"]').removeAttr('data-change');
                           // Обновляем значения полей из дефолтного модуля
                           $.fn.updateDateSaleOrder();
+                          // Обновляем товары в корзине и стоимость
+                          $.fn.updateSideInfo();
                           // Обновляем маску телефона
                           setTimeout(function(){
                             $('#so_main_block').find('input[name="sci-contact__tel"]')
@@ -1327,7 +1339,9 @@ $.fn.updateSideInfo = function() {
       }
     });
   } else {
-    totalPrice = $(document).find('#cart_sum_prod').html();
+    if ($(document).find('#sale-order-full-price').length > 0) {
+      totalPrice = $(document).find('#sale-order-full-price').html().replace('руб.', '');
+    }
   }
   if (soModule.find('.sale_order_full tfoot #sale-order-full-delivery-price').length > 0) {
     deliveryPrice = soModule.find('.sale_order_full tfoot #sale-order-full-delivery-price').html().toString().replace('руб.', '');
