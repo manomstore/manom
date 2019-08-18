@@ -1274,6 +1274,19 @@ $(document).ready(function() {
         );
     });
 
+  $(document).on('change', '.sci-contact', function(){
+    var $inputs = $('#sci-contact__email, #sci-contact__fio, #sci-contact__tel');
+    var persistData = JSON.parse(localStorage.getItem('checkout:contacts')) || {};
+
+    $inputs.each(function(){
+      persistData[this.name] = this.value;
+    });
+
+    localStorage.setItem('checkout:contacts', JSON.stringify(persistData));
+  });
+
+  restorePersistData();
+
     function setZipCode(zip) {
         zip = Number(zip) > 0 ? zip : "000000";
         var soModule;
@@ -1286,6 +1299,16 @@ $(document).ready(function() {
             }
         }
     }
+
+  function restorePersistData() {
+    var persistData = JSON.parse(localStorage.getItem('checkout:contacts')) || {};
+
+    for (var key in persistData) {
+      var $input = $('[name="' + key + '"]');
+
+      $input.val(persistData[key]);
+    }
+  }
 });
 
 var isSideInfoInited = false;
