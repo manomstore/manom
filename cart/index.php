@@ -143,7 +143,7 @@ global $USER;
                 </div>
                 <section class="sci-contact-content" id="sci-contact-content1">
                     <? if (!$USER->IsAuthorized()):?>
-                        <div class="sci-contact__field">
+                        <div class="js-email-block sci-contact__field">
                             <label class="sci-contact__label" for="sci-contact__email">E-mail</label>
                             <input type="email"
                                    data-prop="ORDER_PROP_3"

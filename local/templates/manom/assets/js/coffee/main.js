@@ -1217,8 +1217,24 @@ $(document).ready(function() {
                 },
                 success: function (result) {
                     if (result.success) {
+                        $('.js-email-block').addClass('dsb-hidden');
+                        $('.js-password-block').addClass('dsb-hidden');
                         BX("profile_change").value = "Y";
                         submitForm();
+
+                        $(document).find('#module_so').one('DOMSubtreeModified', function(){
+                          // HACK: Удаляем data-change, чтобы можно было обновить значения полей
+                          $('#so_main_block').find('[data-change="Y"]').removeAttr('data-change');
+                          // Обновляем значения полей из дефолтного модуля
+                          $.fn.updateDateSaleOrder();
+                          // Обновляем маску телефона
+                          setTimeout(function(){
+                            $('#so_main_block').find('input[name="sci-contact__tel"]')
+                              .unmask()
+                              .mask("+7 (999) 999-99-99");
+                          }, 0);
+                        });
+
                         $.fn.setPushUp(
                             "Авторизация",
                             "Вы успешно авторизовались",
