@@ -6717,6 +6717,7 @@ p.price-slider {
   right: 16px;
   background-repeat: no-repeat;
   background-size: contain;
+  pointer-events: none;
 }
 
 .sci-contact__field--select::before {
