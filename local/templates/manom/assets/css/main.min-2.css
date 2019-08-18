@@ -6675,6 +6675,7 @@ p.price-slider {
   padding: 10px 15px;
   margin: 10px 0 0;
   transition: all 0.2s ease;
+  box-shadow: none;
 }
 
 .sci-contact__input:hover {
