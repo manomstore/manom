@@ -205,22 +205,22 @@ $userCityByGeoIP = $userLocationInfo;
             </script>
             <!-- /location -->
             <div class="user-nav__block">
-		          <? $APPLICATION->IncludeComponent(
-			          "bitrix:menu",
-			          "top_menu",
-			          [
-				          "ROOT_MENU_TYPE"        => "top",
-				          "MAX_LEVEL"             => "1",
-				          "CHILD_MENU_TYPE"       => "top",
-				          "USE_EXT"               => "Y",
-				          "DELAY"                 => "N",
-				          "ALLOW_MULTI_SELECT"    => "Y",
-				          "MENU_CACHE_TYPE"       => "N",
-				          "MENU_CACHE_TIME"       => "3600",
-				          "MENU_CACHE_USE_GROUPS" => "Y",
-				          "MENU_CACHE_GET_VARS"   => "",
-			          ]
-		          ); ?>
+							<? $APPLICATION->IncludeComponent(
+								"bitrix:menu",
+								"top_menu",
+								[
+									"ROOT_MENU_TYPE"        => "top",
+									"MAX_LEVEL"             => "1",
+									"CHILD_MENU_TYPE"       => "top",
+									"USE_EXT"               => "Y",
+									"DELAY"                 => "N",
+									"ALLOW_MULTI_SELECT"    => "Y",
+									"MENU_CACHE_TYPE"       => "N",
+									"MENU_CACHE_TIME"       => "3600",
+									"MENU_CACHE_USE_GROUPS" => "Y",
+									"MENU_CACHE_GET_VARS"   => "",
+								]
+							); ?>
             </div>
             <!-- login -->
             <!--            <div class="user-nav__login">-->
@@ -273,17 +273,40 @@ $userCityByGeoIP = $userLocationInfo;
             </div>
 
             <!-- Всплывающее окно Заказать звонок -->
-            <div id="popap-call" class="popap-login">
-              <h3 class="sci-login__title">Заказать обратный звонок</h3>
-              <form class="sci-login__form">
-                <div class="form_msg">tesr</div>
-                <input type="hidden" name="form_id" value="1">
-                <label class="sci-login__label" for="sci-login__name">Имя</label>
-                <input type="text" name="name" id="sci-login__name" class="sci-login__input" placeholder="Ваше имя" required>
-                <label class="sci-login__label" for="sci-login__tel">Телефон</label>
-                <input type="tel" name="phone" id="sci-login__tel" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
-                <button class="sci-login__button">Позвоните мне</button>
-              </form>
+            <div id="popap-call" class="popup-block popup-block--call">
+              <div class="popup-block__wrapper">
+                <div class="popup-block__top">
+                  <h2 class="popup-block__title">Заказать обратный звонок</h2>
+                </div>
+                <form action="" method="get">
+                  <input type="hidden" name="form_id" value="1">
+                  <div class="popup-block__field">
+                    <label class="popup-block__label" for="sci-login__name">
+                      Имя
+                    </label>
+                    <input class="popup-block__input"
+                           type="text"
+                           name="name"
+                           id="sci-login__name"
+                           placeholder="Ваше имя"
+                           required>
+                  </div>
+                  <div class="popup-block__field">
+                    <label class="popup-block__label" for="sci-login__tel">
+                      Телефон
+                    </label>
+                    <input class="popup-block__input"
+                           type="tel"
+                           name="phone"
+                           id="sci-login__tel"
+                           placeholder="+7 (___) ___-__-__"
+                           required>
+                  </div>
+                  <button class="popup-block__button" type="submit">
+                    Позвоните мне
+                  </button>
+                </form>
+              </div>
             </div>
             <!-- /number -->
 
