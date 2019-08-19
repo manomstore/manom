@@ -3,7 +3,7 @@
 
 <? $colspan = count($arResult["GRID"]["HEADERS"]) - 1; ?>
 
-<table class="sale_order_full">
+<table class="sale_order_full" data-total-props='<?= $arResult["TOTAL_DATA_ATTRS"] ?>'>
 	<thead>
 		<tr>
 		<?foreach ($arResult["GRID"]["HEADERS"] as $id => $arColumn):?>
@@ -13,7 +13,7 @@
 	</thead>
 	<tbody>
 		<?foreach ($arResult["GRID"]["ROWS"] as $k => $arData):?>
-		<tr>
+		<tr data-props='<?=$row["DATA_ATTRS"]?>'>
 			<?foreach ($arResult["GRID"]["HEADERS"] as $id => $arColumn):
 				$align = (isset($arColumn["align"])) ? "align=".$arColumn["align"] : "";
 			?>

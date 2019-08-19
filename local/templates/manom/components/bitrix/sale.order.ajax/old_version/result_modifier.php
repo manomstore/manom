@@ -26,3 +26,31 @@ if (!$isMoscowLocations) {
 
     unset($property);
 }
+
+$totalQuantity = 0;
+
+foreach ($arResult["GRID"]["ROWS"] as &$row) {
+    $dataAttrs = [];
+    $dataAttrs["id"] = $row["data"]["ID"];
+    $dataAttrs["name"] = $row["data"]["NAME"];
+    $dataAttrs["image"] = $row["data"]["PREVIEW_PICTURE_SRC"];
+    $dataAttrs["sum"] = $row["data"]["SUM"];
+    $dataAttrs["oldSum"] = $row["data"]["SUM_BASE_FORMATED"];
+    $dataAttrs["quantity"] = $row["data"]["QUANTITY"];
+    $dataAttrs["existDiscount"] = $row["data"]["DISCOUNT_PRICE_PERCENT"] > 0;
+    $row["DATA_ATTRS"] = json_encode($dataAttrs);
+    $totalQuantity += (int)$row["data"]["QUANTITY"];
+}
+
+unset($row);
+
+$arResult["TOTAL_DATA_ATTRS"] = [
+    "productsSum" => $arResult["ORDER_PRICE_FORMATED"],
+    "discountSum" => $arResult["DISCOUNT_PRICE_FORMATED"],
+    "deliverySum" => $arResult["DELIVERY_PRICE_FORMATED"],
+    "totalSum" => $arResult["ORDER_TOTAL_PRICE_FORMATED"],
+    "existDiscount" => $arResult["DISCOUNT_PERCENT"] > 0,
+    "totalQuantity" => $totalQuantity,
+];
+
+$arResult["TOTAL_DATA_ATTRS"] = json_encode($arResult["TOTAL_DATA_ATTRS"]);
