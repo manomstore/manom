@@ -804,11 +804,14 @@ $(document).ready(function() {
     var $checkedDeliveryRadio = $('.sci-delivery__radio:checked');
     // $checkedDeliveryRadio.prop('checked', false);
     soModule.find('#' + $checkedDeliveryRadio.next('.sci-delivery__tab').data('prop')).prop('checked', false);
+
+    var cityName = $this.val() ? $this.val().split(', ')[0] : '';
+
     $('#sci-delivery-street')
       .suggestions('setOptions', {
         constraints: {
           locations: {
-            city: $this.val() ? $this.val().split(', ')[0] : ''
+            city: cityName
           }
         }
       })
@@ -827,6 +830,13 @@ $(document).ready(function() {
         soCityAltID.val(soCityID.val());
         soCityAlt.val($this.val());
         soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
+
+        // Обновляем город в шапке
+        locationDND.changeCity({
+          title: cityName,
+          id: parseInt(soCityID.val())
+        });
+
         return submitForm();
       }
     }, 300);
@@ -1669,11 +1679,13 @@ $.fn.updateDateSaleOrder = function() {
     }
   }
 
+  var cityName = soCity.val() ? soCity.val().split(', ')[0] : ''
+
   $('#sci-delivery-street')
     .suggestions('setOptions', {
       constraints: {
         locations: {
-          city: soCity.val() ? soCity.val().split(', ')[0] : ''
+          city: cityName
         }
       }
     });
