@@ -396,16 +396,16 @@ h1, h2, h3, h4, h5, h6 {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
   color: #FFFFFF;
   height: 30px;
+  position: relative;
 }
 
 .top-ad-line__text {
@@ -416,6 +416,10 @@ h1, h2, h3, h4, h5, h6 {
 .top-ad-line__close {
   vertical-align: middle;
   line-height: 1;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .top-nav {
@@ -1127,7 +1131,6 @@ h1, h2, h3, h4, h5, h6 {
   left: 15px;
   right: 15px;
   z-index: 1001;
-  height: 450px;
   -webkit-transform-origin: center top;
   -ms-transform-origin: center top;
   transform-origin: center top;
@@ -1673,12 +1676,12 @@ h1, h2, h3, h4, h5, h6 {
   visibility: visible;
 }
 
-.p-nav-middle__rating {
-  display: inline-block;
-  color: #79B700;
-  font-weight: 700;
-  padding: 0 5px;
-}
+/*.p-nav-middle__rating {*/
+  /*display: inline-block;*/
+  /*color: #79B700;*/
+  /*font-weight: 700;*/
+  /*padding: 0 5px;*/
+/*}*/
 
 .p-nav-middle__rating span {
   -webkit-filter: grayscale(1);
@@ -8435,4 +8438,19 @@ p.price-slider {
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover,
 .datepicker table tr td span.disabled, .datepicker table tr td span.disabled:hover {
   color: #ddd;
+}
+.preview-card--show {
+  max-height: 100vh;
+  border-top: 2px solid #79B700;
+  border-bottom: 2px solid #79B700;
+  padding: 12px 10px;
+}
+
+.header__wrapper--fix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 999;
 }

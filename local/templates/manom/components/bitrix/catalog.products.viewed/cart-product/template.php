@@ -178,17 +178,17 @@ $containerName = 'catalog-products-viewed-container';
                                             <div class="p-nav-middle__sale active">
                                                 Распродажа
                                             </div>
-                                        <? } ?>
-                                        <div class="p-nav-middle__rating">
-                                            <? for ($i = 0; $i < 5; $i++) {
-                                                if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
-                                                    ?> <span> ★ </span> <?
-                                                } else {
-                                                    ?> ★ <?
-                                                }
-                                            } ?></div>
-                                        <div class="p-nav-middle__comments">
-                                            <span><?= $arResult['REVIEW'][$arItems['ID']]['count'] ?></span></div>
+                                        <?}?>
+<!--                                        <div class="p-nav-middle__rating">-->
+<!--                                            --><?//for ($i=0; $i < 5; $i++) {
+//                                                if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
+//                                                    ?><!-- <span> ★ </span> --><?//
+//                                                }else{
+//                                                    ?><!-- ★ --><?//
+//                                                }
+//                                            }?><!--</div>-->
+<!--                                        <div class="p-nav-middle__comments"><span>--><?//=$arResult['REVIEW'][$arItems['ID']]['count']?><!--</span></div>-->
+
                                     </div>
                                     <h3 class="p-name">
                                         <a href="<?= $detailPageUrl ?>"><?= $arOffers['NAME'] ?></a>

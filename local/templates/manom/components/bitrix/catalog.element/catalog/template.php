@@ -60,7 +60,6 @@ if (!$_REQUEST['offer']){
                 <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>' title="в избранное"></div>
             </label>
             <div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_COMPARE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>'></div>
-			<div class="p-nav-top__print" onClick="window.print()"></div>
 		</div>
 	</div>
 	<div class="product-nav2">
@@ -79,6 +78,7 @@ if (!$_REQUEST['offer']){
 				<span class="credential-rostest"><?=$arResult['PROPERTIES'][$arParams['TOP_FIELD_3_CODE']]['VALUE']?></span> &nbsp;
 			<?}?>
 		</div>
+		<?/*
 		<div class="product-rating">
 			<?for ($i=0; $i < 5; $i++) {
 				if ($i >= $arResult['PRODUCT_RATING']) {
@@ -88,21 +88,24 @@ if (!$_REQUEST['offer']){
 				}
 			}?>
 		</div>
-        <?
-        $numberof = count($arResult['REVIEWS']);
-        $value = 'отзыв';
-        $suffix = array('', 'а', 'ов');
+		<?
+			$numberof = count($arResult['REVIEWS']);
+			$value = 'отзыв';
+			$suffix = array('', 'а', 'ов');
 
-        function numberof($numberof, $value, $suffix)
-        {
-            $keys = array(2, 0, 1, 1, 1, 2);
-            $mod = $numberof % 100;
-            $suffix_key = $mod > 4 && $mod < 20 ? 2 : $keys[min($mod%10, 5)];
+			function numberof($numberof, $value, $suffix) {
+				$keys = array(2, 0, 1, 1, 1, 2);
+				$mod = $numberof % 100;
+				$suffix_key = $mod > 4 && $mod < 20 ? 2 : $keys[min($mod%10, 5)];
 
-            return $value . $suffix[$suffix_key];
-        }
-        ?>
-		<div class="product-comments"><span><?=count($arResult['REVIEWS']);?></span> <?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?></div>
+				return $value . $suffix[$suffix_key];
+			}
+		?>
+		<div class="product-comments">
+			<span><?=count($arResult['REVIEWS']);?></span>
+			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
+		</div>
+		*/?>
 	</div>
 	<div class="product-main row">
 <!-- 			<div class="product-photo__left col-1">
@@ -223,7 +226,9 @@ if (!$_REQUEST['offer']){
 			</p>
 			<a href="#product-tabs"	class="product-content__more">Подробнее...</a>
 <!-- 				<p class="product-content__color">Выберите цвет: <span>Красный</span></p> -->
-			<div><div class="offers_by_prop_json" data-json='<?=json_encode($arResult['OFFERS_BY_DISPLAY_PROP']);?>'></div></div>
+			<div>
+                <div class="offers_by_prop_json" data-json='<?=htmlspecialchars(json_encode($arResult['OFFERS_BY_DISPLAY_PROP']))?>'></div>
+            </div>
 			<?if(count($arResult['DISPLAY_OFFERS']) > 1):?>
 				<?foreach ($arResult['DATA_PROP_FOR_CHOICE'] as $key => $item) {
 					?><div class="offers_prop" data-code="<?=$item['CODE']?>" data-id="<?=$item['ID']?>"><p class="product-content__color prop_title"><?=$item['TITLE']?>: <span><?=$actualOffer['props'][$item['CODE']]['title']?></span></p><?
@@ -299,18 +304,36 @@ if (!$_REQUEST['offer']){
 				</div>
 				<div id="popap-buy-one-click" class="popap-login">
 					<h3 class="sci-login__title">Купить в один клик</h3>
-					<form class="sci-login__form">
-						<div class="form_msg">tesr</div>
-						<input type="hidden" name="form_id" value="2">
-						<input type="hidden" name="prod_id" value="<?=$arResult['ID']?>">
-						<input type="hidden" name="prod_name" value="<?=$arResult['NAME']?>">
+					<form class="sci-login__form js-one-click-order">
+						<div class="form_msg js-message-field"></div>
+						<input type="hidden" name="productId" class="js-product-id" value="<?=$actualOffer['id_offer']?>">
 						<label class="sci-login__label" for="sci-login__name_alt">Имя</label>
-						<input type="text" name="name" id="sci-login__name_alt" class="sci-login__input" placeholder="Ваше имя" required>
+                        <input
+                                type="text"
+                                name="name"
+                                value="<?= $arResult["CURRENT_USER"]["NAME"] ?>"
+                                id="sci-login__name_alt"
+                                class="sci-login__input"
+                                placeholder="Ваше имя"
+                                required
+                        >
+
 						<label class="sci-login__label" for="sci-login__tel_alt">Телефон</label>
-						<input type="tel" name="phone" id="sci-login__tel_alt" class="sci-login__input" placeholder="+7 (___) ___-__-__" required>
+						<input
+                                type="tel"
+                                name="phone"
+                                value="<?= $arResult["CURRENT_USER"]["PHONE"] ?>"
+                                id="sci-login__tel_alt" 
+                                class="sci-login__input" 
+                                placeholder="+7 (___) ___-__-__" 
+                                required
+                        >
+                        
+                        <?if (!$USER->IsAuthorized()):?>
 						<label class="sci-login__label" for="sci-login__tel">E-mail</label>
 						<input type="email" name="email" id="sci-login__tel" class="sci-login__input" placeholder="E-mail" required>
-						<button class="sci-login__button">Отправить</button>
+                        <?endif;?>
+						<button class="sci-login__button">Купить</button>
 					</form>
 				</div>
 			<?endif;?>
@@ -451,14 +474,12 @@ if (!$_REQUEST['offer']){
 		<label for="tab2"><span>Описание</span></label>
 		<input id="tab1" type="radio" name="tabs" >
 		<label for="tab1"><span>Характеристики</span></label>
+		<?/*
 		<?if ($arResult['REVIEWS']){?>
 			<input id="tab3" type="radio" name="tabs">
 			<label for="tab3"><span>Отзывы<br>покупателей</span></label>
 		<?}?>
-		<?if ($arResult['QNA_VALUES']){?>
-			<input id="tab4" type="radio" name="tabs">
-			<label for="tab4"><span>Вопрос-<br>ответ</span></label>
-		<?}?>
+		*/?>
 		<?if ($arResult['DELIV']){?>
 			<input id="tab5" type="radio" name="tabs">
 			<label for="tab5"><span>Оплата<br>и доставка</span></label>
@@ -625,6 +646,7 @@ if (!$_REQUEST['offer']){
 				</div>
 			</div>
 		</section>*/?>
+		<?/*
 		<section id="content3">
 			<div class="tab-content row">
 				<div class="tab-content__column col">
@@ -654,33 +676,7 @@ if (!$_REQUEST['offer']){
 				</div>
 			</div>
 		</section>
-		<section id="content4">
-			<div class="tab-content row">
-				<div class="tab-content__column col">
-					<?foreach ($arResult['QNA_VALUES'] as $key => $value) {
-						?>
-						<p class="tab-content__item">
-							<span class="tab-content__title"><?=$value['title']?></span>
-							<span class="tab-content__text1"><?=$value['answer']?></span>
-						</p>
-						<?
-					}?>
-
-					<!-- <p class="tab-content__item">
-						<span class="tab-content__title">Кто дает гарантию?</span>
-						<span class="tab-content__text1">Наш интернет-магазин предоставляет гарантию от производителя. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Есть ли в ноутбуке дискретная графика?</span>
-						<span class="tab-content__text1">Нет, производитель не предусмотрел отдельного графического ускорителя. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Знаках жизни подзаголовок осталось, текст грамматики что эта щеке он!</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Кто дает гарантию?</span>
-						<span class="tab-content__text1">Наш интернет-магазин предоставляет гарантию от производителя. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
-					</p> -->
-				</div>
-			</div>
-		</section>
+		*/?>
 		<section id="content5">
 			<div class="tab-content row">
 				<div class="tab-content__column col">

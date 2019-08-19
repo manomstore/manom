@@ -27,9 +27,7 @@ text-align: left;
 <!-- preview-heart -->
 <?$prodCount = 0;?>
 <div class="preview-heart" id="mini_compare_header">
-	<?if(!$arResult['ITEMS']):?>
-		<p class="preview-heart-not-text">Нет товара</p>
-	<?else:?>
+	<?if($arResult['ITEMS']):?>
     <?foreach ($arResult['ITEMS'] as $key => $value) {?>
 			<?$prodCount++;?>
 			<?if($prodCount>5) continue;?>

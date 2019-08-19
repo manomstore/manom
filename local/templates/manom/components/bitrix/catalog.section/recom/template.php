@@ -49,15 +49,15 @@ $this->setFrameMode(true);
 						<div class="p-nav-middle__sale active">Распродажа</div>
 						<?}?>
 
-						<div class="p-nav-middle__rating">
-							<?for ($i=0; $i < 5; $i++) {
-								if ($i >= $arResult['REVIEW'][$value['ID']]['rating']) {
-									?> <span> ★ </span> <?
-								}else{
-									?> ★ <?
-								}
-							}?></div>
-						<div class="p-nav-middle__comments"><span><?=$arResult['REVIEW'][$value['ID']]['count']?></span></div>
+<!--						<div class="p-nav-middle__rating">-->
+<!--							--><?//for ($i=0; $i < 5; $i++) {
+//								if ($i >= $arResult['REVIEW'][$value['ID']]['rating']) {
+//									?><!-- <span> ★ </span> --><?//
+//								}else{
+//									?><!-- ★ --><?//
+//								}
+//							}?><!--</div>-->
+<!--						<div class="p-nav-middle__comments"><span>--><?//=$arResult['REVIEW'][$value['ID']]['count']?><!--</span></div>-->
 					</div>
 					<h3 class="p-name">
 						<a href="<?=$value['DETAIL_PAGE_URL']?>"><?=$value['NAME']?></a>

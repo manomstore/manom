@@ -7,7 +7,8 @@ global $USER;
 ?>
 
 <? if (!$_REQUEST['ORDER_ID']): ?>
-<main class="shopcart shopcart--step-1" id="so_main_block">
+<div class="content">
+<main class="shopcart shopcart--step-1" id="so_main_block" style="position:relative;">
   <div class="shopcart-nav1">
     <div class="container">
       <div class="shopcart-nav1__wrapper">
@@ -24,7 +25,7 @@ global $USER;
     </div>
   </div>
 <? else: ?>
-<main class="shopcart" id="so_main_block">
+<main class="shopcart" id="so_main_block" style="position:relative;">
 <? endif ?>
   <div class="container">
     <div class="preloaderCatalog preloaderCatalogActive">
@@ -1066,6 +1067,7 @@ global $USER;
 		<? endif ?>
   </div>
 </main>
+</div>
 <?
 $template = 'old_version';
 if ($_REQUEST['ORDER_ID']) {
@@ -1174,6 +1176,7 @@ if ($_REQUEST['ORDER_ID']) {
     </form>
   </div>
 
+	</div>
 </div>
 
 <script id="tmpl-payment-icon-cash" type="x-tmpl-mustache">
