@@ -138,7 +138,7 @@ $userCityByGeoIP = $userLocationInfo;
                                                 </div>
                                             </div>
 											<transition name="fade">
-												<div v-if="showPopupChangeCity">
+												<div v-if="isPopupChangeCityVisible">
 													<!-- <p>Выберите город</p> -->
 													<div class="dnd-location-change-city-form">
 														<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
@@ -149,7 +149,7 @@ $userCityByGeoIP = $userLocationInfo;
 												</div>
 											</transition>
 										</div>
-										<!-- <div class="dnd-location-change-city" v-if="showPopupChangeCity">
+										<!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
 												<p>Выберите город</p>
 												<div class="dnd-location-change-city-form">
 														<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
