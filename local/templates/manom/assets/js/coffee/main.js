@@ -1847,6 +1847,12 @@ $.fn.updateDateSaleOrder = function() {
       }
     });
 
+    // Обновляем город в шапке
+    locationDND.changeCity({
+        title: cityName,
+        id: parseInt(soCityID.val())
+    });
+
   $.fn.updateSideInfo();
 
   if (
