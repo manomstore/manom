@@ -6,9 +6,9 @@ CModule::IncludeModule('sale');
 global $USER;
 ?>
 
-<? if (!$_REQUEST['ORDER_ID']): ?>
 <div class="content">
-<main class="shopcart shopcart--step-1" id="so_main_block" style="position:relative;">
+<? if (!$_REQUEST['ORDER_ID']): ?>
+<main class="shopcart shopcart--step-1" id="so_main_block">
   <div class="shopcart-nav1">
     <div class="container">
       <div class="shopcart-nav1__wrapper">
@@ -25,7 +25,7 @@ global $USER;
     </div>
   </div>
 <? else: ?>
-<main class="shopcart" id="so_main_block" style="position:relative;">
+<main class="shopcart" id="so_main_block">
 <? endif ?>
   <div class="container">
     <div class="preloaderCatalog preloaderCatalogActive">
