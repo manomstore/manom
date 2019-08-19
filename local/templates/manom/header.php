@@ -120,14 +120,14 @@ $userCityByGeoIP = $userLocationInfo;
 							<div id="dnd-location">
 								<div class="dnd-location-line" :class="doShowPanel()">
 									<div class="dnd-location-curent" @click="doChangeCity()">
-										<span>{{curentCity}}</span>
+										<span>{{currentCity}}</span>
 									</div>
 									<transition name="slide-fade">
 										<div class="dnd-location-specify" v-if="!specifyInformationStatus">
 											<div v-if="!showPopupChangeCity">
-												<p>"{{curentCity}}" - это ваш город?</p>
+												<p>"{{currentCity}}" - это ваш город?</p>
 												<div class="dnd-location-specify-btn">
-													<span @click="curentCityIsActual()">Да</span>
+													<span @click="currentCityIsActual()">Да</span>
 													<span @click="doChangeCity()">Нет</span>
 												</div>
 											</div>
