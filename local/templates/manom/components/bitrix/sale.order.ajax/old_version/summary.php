@@ -13,7 +13,7 @@
 	</thead>
 	<tbody>
 		<?foreach ($arResult["GRID"]["ROWS"] as $k => $arData):?>
-		<tr data-props='<?=$row["DATA_ATTRS"]?>'>
+		<tr data-props='<?=$arData["DATA_ATTRS"]?>'>
 			<?foreach ($arResult["GRID"]["HEADERS"] as $id => $arColumn):
 				$align = (isset($arColumn["align"])) ? "align=".$arColumn["align"] : "";
 			?>
