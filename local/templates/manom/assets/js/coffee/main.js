@@ -988,12 +988,6 @@ $(document).ready(function() {
         soCityAlt.val($this.val());
         soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
 
-        // Обновляем город в шапке
-        locationDND.changeCity({
-          title: cityName,
-          id: parseInt(soCityID.val())
-        });
-
         return submitForm();
       }
     }, 300);
@@ -1847,11 +1841,13 @@ $.fn.updateDateSaleOrder = function() {
       }
     });
 
-    // Обновляем город в шапке
-    locationDND.changeCity({
-        title: cityName,
-        id: parseInt(soCityID.val())
-    });
+    if (soCityID.length > 0) {
+        // Обновляем город в шапке
+        locationDND.changeCity({
+            title: cityName,
+            id: parseInt(soCityID.val())
+        }, false);
+    }
 
   $.fn.updateSideInfo();
 
@@ -1981,7 +1977,12 @@ $.fn.updGlobalCityInCart = function(cityID) {
   soBlock = $(document).find('#so_main_block');
   soModule = $(document).find('#module_so');
   if (soModule.is('div')) {
-    soModule.find('[name="ORDER_PROP_18"]').val(cityID);
+      if (soModule.find('#PERSON_TYPE_1').prop('checked')) {
+          soModule.find('[name="ORDER_PROP_18"]').val(cityID);
+      } else {
+          soModule.find('[name="ORDER_PROP_25"]').val(cityID);
+      }
+
     soModule.find('input[name="DELIVERY_ID"]:checked').prop('checked', false);
     soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
     return $.fn.updateCart();
