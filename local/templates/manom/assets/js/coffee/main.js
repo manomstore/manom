@@ -947,6 +947,11 @@ $(document).ready(function() {
     return $(document).find('.SDEK_selectPVZ').click();
   });
   $(document).on('click', '.rb_so', function() {
+
+    if ($(this).siblings("input[name='delivery-tabs']").length > 0) {
+        $(document).find('#module_so').find("[name='isChangeLocation']").remove()
+    }
+
     if ($(this).attr('data-prop')) {
       return $.fn.changeRadioButtonSaleOrder($(this).attr('data-prop'));
     }
@@ -996,6 +1001,12 @@ $(document).ready(function() {
         soModule.find('[name="' + $this.attr('data-city-prop-val-alt') + '"]').val($this.val());
         soCityAltID.val(soCityID.val());
         soCityAlt.val($this.val());
+
+        var orderForm = soModule.find("#ORDER_FORM");
+
+        if (orderForm.find("[name='isChangeLocation']").length <= 0) {
+          orderForm.prepend("<input type='hidden' name='isChangeLocation' value='Y'>");
+        }
         soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
 
         return submitForm();
@@ -1714,6 +1725,10 @@ $.fn.updateDateSaleOrder = function() {
   var soModule = $(document).find('#module_so');
   var $radioButton = soBlock.find('.rb_so');
 
+  if (soModule.find("[name='isChangeLocation']").length > 0) {
+      soModule.find("[name='isChangeLocation']").remove()
+  }
+
   // Обновляем количество товаров в корзине на чекауте
   $.fn.updateShopcartAmount();
   // Обновляем товары в сайдбаре на чекауте
@@ -2038,6 +2053,11 @@ $.fn.updGlobalCityInCart = function(cityID) {
           soModule.find('[name="ORDER_PROP_25"]').val(cityID);
       }
 
+      var orderForm = soModule.find("#ORDER_FORM");
+
+      if (orderForm.find("[name='isChangeLocation']").length <= 0) {
+        orderForm.prepend("<input type='hidden' name='isChangeLocation' value='Y'>");
+      }
     soModule.find('input[name="DELIVERY_ID"]:checked').prop('checked', false);
     soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
     return $.fn.updateCart();
