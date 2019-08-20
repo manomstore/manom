@@ -993,6 +993,8 @@ $(document).ready(function() {
         $this.val($this.attr('data-old'));
         return soCityID.val(soCityID.attr('data-old'));
       } else {
+        soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
+        soModule.find('input[name="DELIVERY_ID"]:checked').prop('checked', false);
         soCityID.attr('data-old', $this.val());
         $this.attr('data-old', soCityID.val());
         soModule.find('[name="' + $this.attr('data-city-prop') + '"]').val(soCityID.val());
@@ -1026,6 +1028,8 @@ $(document).ready(function() {
         $this.val($this.attr('data-old'));
         return soCityID.val(soCityID.attr('data-old'));
       } else {
+        soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
+        soModule.find('input[name="DELIVERY_ID"]:checked').prop('checked', false);
         soCityID.attr('data-old', $this.val());
         $this.attr('data-old', soCityID.val());
         soModule.find('[name="' + $this.attr('data-city-prop') + '"]').val(soCityID.val());
