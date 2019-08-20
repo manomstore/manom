@@ -6626,7 +6626,6 @@ p.price-slider {
 }
 
 .header__wrapper {
-  border-bottom: 1px solid #F2F2F2;
   background-color: #fff;
 }
 
@@ -6644,6 +6643,7 @@ p.price-slider {
 }
 
 .top-nav {
+  border-bottom: 1px solid #F2F2F2;
   padding: 20px 0;
 }
 
@@ -7294,6 +7294,18 @@ button.top-nav__link {
   transition: all 0.2s ease;
 }
 
+.popup-block__input::-webkit-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.popup-block__input::-moz-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.popup-block__input:-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.popup-block__input::-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
 .popup-block__input::placeholder {
   color: rgba(153, 152, 157, 0.5);
 }
@@ -7559,6 +7571,18 @@ button.top-nav__link {
   transition: all 0.2s ease;
 }
 
+.popup-login__input::-webkit-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.popup-login__input::-moz-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.popup-login__input:-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.popup-login__input::-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
 .popup-login__input::placeholder {
   color: rgba(153, 152, 157, 0.5);
 }
