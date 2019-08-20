@@ -3,6 +3,16 @@ var app = {};
 app.$doc = $(document);
 app.$win = $(window);
 
+app.utils = {
+  pluralize: function(number, variants){
+    var cases = [2, 0, 1, 1, 1];
+
+    number = Math.abs(number);
+
+    return variants[(number % 100 > 4 && number % 100 < 20) ? 2 : (number % 10 > 4) ? 2 : cases[number % 10]];
+  }
+};
+
 // ЧЕКАУТ
 (function(){
   var classes = {
@@ -1608,6 +1618,15 @@ $.fn.updateSideInfo = function() {
   }
 };
 
+$.fn.updateShopcartAmount = function(){
+  var PRODUCT_DECLENSTION = ['товар', 'товара', 'товаров'];
+  var totalProps = $('.sale_order_full[data-total-props]').data('total-props') || {};
+
+  $('.js-shopcart-amount')
+    .html(totalProps.totalQuantity + ' ' + app.utils.pluralize(totalProps.totalQuantity, PRODUCT_DECLENSTION));
+  $('#cart_count_prod').text(totalProps.totalQuantity);
+};
+
 $.fn.changeRadioButtonSaleOrder = function(l_name) {
   var soBlock, soModule;
   soBlock = $(document).find('#so_main_block');
@@ -1663,6 +1682,9 @@ $.fn.updateDateSaleOrder = function() {
   var soBlock = $(document).find('#so_main_block');
   var soModule = $(document).find('#module_so');
   var $radioButton = soBlock.find('.rb_so');
+
+  // Обновляем количество товаров в корзине на чекауте
+  $.fn.updateShopcartAmount();
 
   $radioButton.each(function() {
     var $this = $(this);

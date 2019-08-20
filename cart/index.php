@@ -75,7 +75,7 @@ global $USER;
         <h1 class="shopcart__title js-shopcart-title">Корзина</h1>
         <button class="button-del button-del--top" type="button">Очистить</button>
 
-          <span class="shopcart__sum-amount"><?= $quantity ?> товара</span>
+          <span class="shopcart__sum-amount js-shopcart-amount"><?= $quantity ?> товара</span>
       </div>
 
       <div class="shopcart-main">
