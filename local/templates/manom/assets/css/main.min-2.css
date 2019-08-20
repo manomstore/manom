@@ -7125,6 +7125,12 @@ button.top-nav__link {
 
 .preview-prod__name a {
   color: rgba(115, 115, 126, 0.4);
+  transition: all 0.2s ease;
+}
+
+.preview-prod__name a:hover,
+.preview-prod__name a:focus {
+  color: rgb(115, 115, 126);
 }
 
 .preview-bottom {
@@ -8004,7 +8010,7 @@ button.top-nav__link {
   }
 
   .popup-block--search {
-    top: 118px;
+    top: 117px;
   }
 
   .popup-block__overlay {
@@ -8136,7 +8142,7 @@ button.top-nav__link {
     display: none;
     top: 20px;
     left: -35px;
-    padding-top: 35px;
+    padding-top: 40px;
     z-index: 99;
   }
 
@@ -8177,6 +8183,14 @@ button.top-nav__link {
 
   .main-nav__innerlist--show {
     display: block;
+  }
+
+  .personal-preview {
+    padding-top: 38px;
+  }
+
+  .personal-preview.preview-shopcart {
+    padding-top: 20px;
   }
 
   .popup-login {
