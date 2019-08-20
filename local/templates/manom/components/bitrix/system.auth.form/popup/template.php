@@ -301,7 +301,7 @@ global $USER;
             <li class="advantages__item">Специальные предложения</li>
           </ul>
 
-          <a class="popup-login__service" href="#">Зарегистрироваться</a>
+          <a class="popup-login__service" href="/auth/registration.php">Зарегистрироваться</a>
         </div>
       </div>
     </div>

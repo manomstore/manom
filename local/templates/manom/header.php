@@ -58,7 +58,7 @@
         crossorigin="anonymous">
   <script>
     // Picture element HTML5 shiv
-    document.createElement( "picture" );
+    document.createElement("picture");
   </script>
   <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/picturefill.js" async></script>
   <script type="text/javascript" src="https://vk.com/js/api/share.js?93" charset="windows-1251"></script>
@@ -319,7 +319,6 @@ $userCityByGeoIP = $userLocationInfo;
         </div>
       </div>
 
-
       <div class="top-nav">
         <div class="container">
           <div class="top-nav__block">
@@ -456,7 +455,7 @@ $userCityByGeoIP = $userLocationInfo;
                 <li class="main-nav__item main-nav__item--dropdown">
                   <a class="main-nav__link" href="#">
                     Компьютерная техника
-                    <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="main-nav__icon main-nav__icon--rotate" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
                     </svg>
                   </a>
@@ -513,7 +512,7 @@ $userCityByGeoIP = $userLocationInfo;
                 <li class="main-nav__item main-nav__item--dropdown">
                   <a class="main-nav__link" href="#">
                     Смартфоны и планшеты
-                    <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="main-nav__icon main-nav__icon--rotate" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
                     </svg>
                   </a>
@@ -567,8 +566,9 @@ $userCityByGeoIP = $userLocationInfo;
 
             <div class="top-personal">
 
-              <a class="top-personal__link top-personal__link--search" href="#">
-                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка сравнения" width="15" height="15">
+              <a class="top-personal__link top-personal__link--search"
+                 href="#">
+                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/search.svg" alt="Иконка поиска" width="15" height="15">
               </a>
               <div class="popup-block popup-block--search">
                 <div class="popup-block__overlay"></div>
@@ -1058,9 +1058,9 @@ $userCityByGeoIP = $userLocationInfo;
       <!--          </div>-->
       <!--        </div>-->
       <!--      </div>-->
-			<?
-			$page = $APPLICATION->GetCurPage();
-			if ($page == '/') { ?>
+<!--			--><?//
+//			$page = $APPLICATION->GetCurPage();
+//			if ($page == '/') { ?>
         <!--					<div class="top-nav2 mobile">-->
         <!--						<div class="container">-->
         <!--							<div class="top-nav2__block">-->
@@ -1089,51 +1089,50 @@ $userCityByGeoIP = $userLocationInfo;
         <!--							</div>-->
         <!--						</div>-->
         <!--					</div>-->
-			<? } ?>
+<!--			--><?// } ?>
 
+      <!-- Всплывающее окно Регистрация -->
+<!--      <div id="popap-reg" class="popap-login">-->
+<!--        <h3 class="sci-login__title">Регистрация аккаунта</h3>-->
+<!--        <form class="sci-login__form">-->
+<!--          <label class="sci-login__label" for="sci-reg__email">E-mail</label>-->
+<!--          <input type="email" name="email" id="sci-reg__email" class="sci-login__input" placeholder="Ваш e-mail" required>-->
+<!--          <label class="sci-login__label" for="sci-reg__password">Пароль</label>-->
+<!--          <input type="password" name="password" id="sci-reg__password" class="sci-login__input" placeholder="Ваш пароль" required>-->
+<!--          <div class="sci-login__social">-->
+<!--            <span>Регистрация через соц.сети: </span>-->
+<!--            <a href="#" class="sci-login__social-link">-->
+<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/s-instagram.png" alt="">-->
+<!--            </a>-->
+<!--            <a href="#" class="sci-login__social-link">-->
+<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/s-telegram.png" alt="">-->
+<!--            </a>-->
+<!--            <a href="#" class="sci-login__social-link">-->
+<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/s-facebook.png" alt="">-->
+<!--            </a>-->
+<!--            <a href="#" class="sci-login__social-link">-->
+<!--              <img src="--><?//= SITE_TEMPLATE_PATH ?><!--/assets/img/s-vk.png" alt="">-->
+<!--            </a>-->
+<!--          </div>-->
+<!--          <button class="sci-login__button">Регистрация</button>-->
+<!--        </form>-->
+<!--      </div>-->
+      <!-- /Всплывающее окно Регистрация -->
+
+      <!-- Всплывающее окно Логин -->
+			<? $APPLICATION->IncludeComponent(
+				"bitrix:system.auth.form",
+				"popup",
+				[
+					"REGISTER_URL"        => "/auth/registration.php",
+					"FORGOT_PASSWORD_URL" => "/auth/foget.php",
+					"PROFILE_URL"         => "/user/index.php",
+					"SHOW_ERRORS"         => "Y",
+					"COMPONENT_TEMPLATE"  => "auth-cart",
+				],
+				false
+			); ?>
+      <!-- /Всплывающее окно Логин -->
 
     </div>
-
-    <!-- Всплывающее окно Регистрация -->
-    <div id="popap-reg" class="popap-login">
-      <h3 class="sci-login__title">Регистрация аккаунта</h3>
-      <form class="sci-login__form">
-        <label class="sci-login__label" for="sci-reg__email">E-mail</label>
-        <input type="email" name="email" id="sci-reg__email" class="sci-login__input" placeholder="Ваш e-mail" required>
-        <label class="sci-login__label" for="sci-reg__password">Пароль</label>
-        <input type="password" name="password" id="sci-reg__password" class="sci-login__input" placeholder="Ваш пароль" required>
-        <div class="sci-login__social">
-          <span>Регистрация через соц.сети: </span>
-          <a href="#" class="sci-login__social-link">
-            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-instagram.png" alt="">
-          </a>
-          <a href="#" class="sci-login__social-link">
-            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-telegram.png" alt="">
-          </a>
-          <a href="#" class="sci-login__social-link">
-            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-facebook.png" alt="">
-          </a>
-          <a href="#" class="sci-login__social-link">
-            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/s-vk.png" alt="">
-          </a>
-        </div>
-        <button class="sci-login__button">Регистрация</button>
-      </form>
-    </div>
-    <!-- /Всплывающее окно Регистрация -->
-
-    <!-- Всплывающее окно Логин -->
-		<? $APPLICATION->IncludeComponent(
-			"bitrix:system.auth.form",
-			"popup",
-			[
-				"REGISTER_URL"        => "/auth/registration.php",
-				"FORGOT_PASSWORD_URL" => "/auth/foget.php",
-				"PROFILE_URL"         => "/user/index.php",
-				"SHOW_ERRORS"         => "Y",
-				"COMPONENT_TEMPLATE"  => "auth-cart",
-			],
-			false
-		); ?>
-    <!-- /Всплывающее окно Логин -->
   </header>

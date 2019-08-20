@@ -6630,6 +6630,19 @@ p.price-slider {
   background-color: #fff;
 }
 
+.fancybox-can-swipe .fancybox-content {
+  cursor: default;
+  margin: 0;
+}
+
+.fancybox-slide--html .fancybox-close-small {
+  color: #90908f;
+}
+
+.fancybox-slide--html {
+  padding: 0;
+}
+
 .top-nav {
   padding: 20px 0;
 }
@@ -6852,6 +6865,7 @@ button.top-nav__link {
 .top-nav__number {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .top-nav__number a {
@@ -7013,6 +7027,16 @@ button.top-nav__link {
 
   color: #73737E;
   cursor: pointer;
+  opacity: 0.6;
+}
+
+.personal-preview__link:hover,
+.personal-preview__link:focus {
+  opacity: 1;
+}
+
+.personal-preview__link:active {
+  opacity: 0.4;
 }
 
 .preview-prod {
@@ -7035,6 +7059,11 @@ button.top-nav__link {
   background-color: #FBFBFB;
   overflow: hidden;
   margin-right: 5px;
+}
+
+.preview-prod__picture img {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .preview-prod-bottom {
@@ -7151,8 +7180,17 @@ button.top-nav__link {
 
 .popup-block--opened {
   display: block;
+  animation: show 0.4s;
 }
 
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .popup-block--location {
   width: 100%;
   height: 100vh;
@@ -7230,8 +7268,8 @@ button.top-nav__link {
   top: 50%;
   left: 50%;
   width: 100%;
-  height: 2px;
-  background-color: rgba(34, 34, 34, 0.5);
+  height: 1px;
+  background-color: #90908f;
 }
 
 .popup-block__close::before {
@@ -7254,6 +7292,10 @@ button.top-nav__link {
   width: 100%;
   height: 50px;
   transition: all 0.2s ease;
+}
+
+.popup-block__input::placeholder {
+  color: rgba(153, 152, 157, 0.5);
 }
 
 .popup-block__input:hover,
@@ -7304,7 +7346,9 @@ button.top-nav__link {
 }
 
 .popup-login__button:hover,
-.popup-login__button:focus {
+.popup-login__button:focus,
+.popup-block__button:hover,
+.popup-block__button:focus {
   color: #83BB26;
   background-color: #fff;
 }
@@ -7405,17 +7449,18 @@ button.top-nav__link {
 .popup-login {
   font-family: "PT Root UI", "Arial", sans-serif;
   width: 100%;
-  height: calc(100vh - 12px);
+  height: 100vh;
   background-color: #FEFFFD;
   display: none;
   padding: 30px 0 20px;
   margin: 0;
+  cursor: default;
 }
 
 .popup-login__wrapper {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 62px);
+  height: calc(100vh - 50px);
   flex-wrap: nowrap;
 }
 
@@ -7515,7 +7560,7 @@ button.top-nav__link {
 }
 
 .popup-login__input::placeholder {
-  color: #99989D;
+  color: rgba(153, 152, 157, 0.5);
 }
 
 .popup-login__input:hover,
@@ -7762,14 +7807,10 @@ button.top-nav__link {
     display: block;
   }
 
-  .user-nav .container {
-    padding: 0 20px;
-  }
-
   .user-nav__wrapper {
     display: flex;
     align-items: flex-start;
-    padding: 10px 0;
+    padding: 9px 0;
     border-bottom: 1px solid #F7F7F7;
   }
 
@@ -7854,7 +7895,7 @@ button.top-nav__link {
   }
 
   .top-nav {
-    padding: 12px 0;
+    padding: 13px 0;
   }
 
   .top-nav__time-wrapper {
@@ -7894,9 +7935,10 @@ button.top-nav__link {
 
     background-color: #F7F7F7;
     border-radius: 3px;
-    padding: 16px 20px;
+    padding: 17px 20px;
     display: flex;
     align-items: center;
+    margin-left: 10px;
   }
 
   .top-personal__cart--full {
@@ -8008,6 +8050,7 @@ button.top-nav__link {
 
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     transition: all 0.2s ease;
   }
 
@@ -8019,6 +8062,8 @@ button.top-nav__link {
 
   .main-nav__icon {
     margin-left: 5px;
+    margin-top: 3px;
+    transition: transform 0.2s ease;
   }
 
   .main-nav__sublist,
@@ -8051,6 +8096,11 @@ button.top-nav__link {
   .main-nav__item--dropdown:hover > .main-nav__list-wrapper,
   .main-nav__item--dropdown:focus > .main-nav__list-wrapper {
     display: block;
+  }
+
+  .main-nav__item--dropdown:hover .main-nav__icon--rotate,
+  .main-nav__item--dropdown:focus .main-nav__icon--rotate {
+    transform: rotate(180deg);
   }
 
   .main-nav__item--dropdown:focus-within > .main-nav__list-wrapper {
@@ -8144,10 +8194,12 @@ button.top-nav__link {
     padding: 0 40px 15px;
     border: none;
     width: 835px;
+    margin-right: auto;
   }
 
   .popup-login__toggle {
     font-size: 36px;
+    color: #29282C;
     padding: 0;
   }
 
@@ -8213,5 +8265,12 @@ button.top-nav__link {
     background-position: center;
     background-repeat: no-repeat;
     background-size: 12px;
+  }
+}
+
+@media (min-width: 1240px) {
+  .user-nav .container,
+  .top-nav .container {
+    padding: 0;
   }
 }
