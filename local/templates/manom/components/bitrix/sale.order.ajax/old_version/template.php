@@ -47,8 +47,7 @@ else
 		<script type="text/javascript">
 		function submitForm(val)
 		{
-			if(val != 'Y')
-				BX('confirmorder').value = 'N';
+            BX('confirmorder').value = val !== 'Y' ? "N" : val;
 
 			var orderForm = BX('ORDER_FORM');
 
