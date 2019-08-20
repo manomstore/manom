@@ -80,7 +80,7 @@ global $USER;
 
       <div class="shopcart-main">
         <div class="shopcart-items">
-          <section class="shopcart-item" id="shopcart-item1">
+          <section class="shopcart-item js-shopcart-items" id="shopcart-item1">
 						<? $APPLICATION->IncludeComponent(
 							"bitrix:sale.basket.basket",
 							"manom",

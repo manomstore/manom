@@ -1401,6 +1401,22 @@ $(document).ready(function() {
                         $('.js-email-block').addClass('dsb-hidden');
                         $('.js-password-block').addClass('dsb-hidden');
                         BX("profile_change").value = "Y";
+
+                        $.ajax("/ajax/checkout.php",
+                            {
+                                method: "GET",
+                                dataType: "JSON",
+                                data: {
+                                    type: "updateBasket",
+                                    sessid: BX.bitrix_sessid(),
+                                },
+                                success: function (result) {
+                                    if (result.html) {
+                                        $(".js-shopcart-items").html(result.html);
+                                    }
+                                }
+                            });
+
                         submitForm();
 
                         $(document).find('#module_so').one('DOMSubtreeModified', function(){
@@ -1410,6 +1426,7 @@ $(document).ready(function() {
                           $.fn.updateDateSaleOrder();
                           // Обновляем товары в корзине и стоимость
                           $.fn.updateSideInfo();
+
                           // Обновляем маску телефона
                           setTimeout(function(){
                             $('#so_main_block').find('input[name="sci-contact__tel"]')
