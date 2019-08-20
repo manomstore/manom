@@ -27,7 +27,7 @@
 		<? $APPLICATION->RestartBuffer(); ?>
 	<? endif; ?>
 	<? if ($arResult['NUM_PRODUCTS'] > 0): ?>
-    <div class="shopcart-sidebar__prod-list">
+    <div class="shopcart-sidebar__prod-list js-shopcart-sidebar-product-list">
 			<? foreach ($arResult['CATEGORIES'] as $key => $cat) {
 				foreach ($cat as $i => $item) { ?>
           <div class="shopcart-sidebar__prod<?= !$item['has_prod'] ? ' shopcart-sidebar__prod--stop' : ''; ?>">

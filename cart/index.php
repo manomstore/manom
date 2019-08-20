@@ -1225,6 +1225,35 @@ if ($_REQUEST['ORDER_ID']) {
   </svg>
 </script>
 
+<script id="tmpl-shopcart-sidebar-product" type="x-tmpl-mustache">
+  <div class="shopcart-sidebar__prod">
+    <div class="sci-product__wrapper">
+      <div class="sci-product__picture">
+        <img src="{{image}}" alt="">
+      </div>
+      <div class="sci-product__info">
+        <div class="sci-product__info-wrapper">
+          <div class="sci-product__sum-price">
+            <div class="product-price">
+              {{#existDiscount}}
+                <span class="product-price__value product-price__value--new">{{sum}}</span>
+                <span class="product-price__value product-price__value--sale">{{oldSum}}</span>
+              {{/existDiscount}}
+              {{^existDiscount}}
+                <span class="product-price__value">{{sum}}</span>
+              {{/existDiscount}}
+            </div>
+          </div>
+          <div class="sci-product__name">{{name}}</div>
+        </div>
+        <div class="sci-product__count-block">
+          <span class="sci-product__name">{{quantity}} шт.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
 <script>
   var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
 </script>

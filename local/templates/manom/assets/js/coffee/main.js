@@ -1627,6 +1627,20 @@ $.fn.updateShopcartAmount = function(){
   $('#cart_count_prod').text(totalProps.totalQuantity);
 };
 
+$.fn.updateShopcartSidebarProducts = function(){
+  var tmplHtml = $('#tmpl-shopcart-sidebar-product').html(),
+    $sidebarProductList = $('.js-shopcart-sidebar-product-list');
+
+  Mustache.parse(tmplHtml);
+  $sidebarProductList.empty();
+
+  $('.sale_order_full tr[data-props]').each(function(){
+    var props = $(this).data('props');
+
+    $sidebarProductList.append(Mustache.render(tmplHtml, props));
+  });
+};
+
 $.fn.changeRadioButtonSaleOrder = function(l_name) {
   var soBlock, soModule;
   soBlock = $(document).find('#so_main_block');
@@ -1685,6 +1699,8 @@ $.fn.updateDateSaleOrder = function() {
 
   // Обновляем количество товаров в корзине на чекауте
   $.fn.updateShopcartAmount();
+  // Обновляем товары в сайдбаре на чекауте
+  $.fn.updateShopcartSidebarProducts();
 
   $radioButton.each(function() {
     var $this = $(this);
