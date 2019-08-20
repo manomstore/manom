@@ -589,18 +589,6 @@ $userCityByGeoIP = $userLocationInfo;
 												],
 												false
 											); ?>
-
-                      <ul class="search-block__list">
-                        <li>
-                          <a class="search-block__mark" href="#">airpods</a>
-                        </li>
-                        <li>
-                          <a class="search-block__mark" href="#">iphone x</a>
-                        </li>
-                        <li>
-                          <a class="search-block__mark" href="#">airpods</a>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
