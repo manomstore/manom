@@ -11,6 +11,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 	t.sParams = sParams;
 	t.domain = domain;
 	t.submit = ssubmit;
+	t.showedPopup = false;
 
 	// Arrays for data
 	if (sParser)
@@ -46,7 +47,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 			sThis = false, tmp = 0,
 			bUnfined = false, word = "",
 			cursor = {};
-
+			t.showedPopup = false;
 		if (!t.eFocus)
 			return;
 
@@ -147,7 +148,13 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Show = function(result)
 	{
-		t.Destroy();
+        var $cityField = $("#so_city_val");
+        var cityFieldOffset = $cityField.offset();
+        var cityFieldProp = {
+            width: $cityField.css("width"),
+            left: Math.round(parseFloat(cityFieldOffset.left)),
+        };
+        t.Destroy();
 		t.oDiv = document.body.appendChild(document.createElement("DIV"));
 		t.oDiv.id = t.oObj.id+'_div';
 
@@ -157,8 +164,8 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		t.aDiv = t.Print(result);
 		var pos = TCJsUtils.GetRealPos(t.oObj);
 		//t.oDiv.style.width = parseInt(pos["width"]) + "px";
-		t.oDiv.style.width = "auto";
-		TCJsUtils.show(t.oDiv, pos["left"], pos["bottom"]);
+		t.oDiv.style.width = cityFieldProp.width;
+		TCJsUtils.show(t.oDiv, cityFieldProp.left, pos["bottom"]);
 		TCJsUtils.addEvent(document, "click", t.CheckMouse);
 		TCJsUtils.addEvent(document, "keydown", t.CheckKeyword);
 	},
@@ -301,11 +308,16 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		return;
 	},
 
-	t.CheckMouse = function()
-	{
-		t.Replace();
-		t.Destroy();
-	},
+	t.CheckMouse = function(event) {
+        t.Replace();
+        if (t.eFocus === false && !t.oActive && !t.showedPopup) {
+            document.holdChangeCity = true;
+            $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
+            t.showedPopup = true;
+        } else if (t.oPointer_this !== "input_field" && event.x > 0 && event.y > 0) {
+            t.Destroy();
+        }
+    },
 
 	t.CheckKeyword = function(e)
 	{
