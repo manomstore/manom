@@ -223,16 +223,16 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 	t.Destroy = function()
 	{
-		try
-		{
-			TCJsUtils.hide(t.oDiv);
-			t.oDiv.parentNode.removeChild(t.oDiv);
-		}
-		catch(e)
-		{}
-
-        if (t.eFocus === false && !t.oActive) {
-            $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
+        try {
+            if (t.eFocus === false && !t.oActive) {
+                document.holdChangeCity = true;
+                $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
+            } else {
+                TCJsUtils.hide(t.oDiv);
+                t.oDiv.parentNode.removeChild(t.oDiv);
+            }
+        }
+        catch (e) {
         }
 
         t.aDiv = Array();

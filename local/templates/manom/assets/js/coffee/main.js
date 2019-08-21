@@ -990,7 +990,12 @@ $(document).ready(function() {
       .val('');
     return setTimeout(function() {
       if (soCityID.val() === soCityID.attr('data-old')) {
-        $this.val($this.attr('data-old'));
+        if (document.hasOwnProperty("holdChangeCity") && document.holdChangeCity === true) {
+          delete document.holdChangeCity;
+        } else {
+          $this.val($this.attr('data-old'));
+        }
+
         return soCityID.val(soCityID.attr('data-old'));
       } else {
         soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
