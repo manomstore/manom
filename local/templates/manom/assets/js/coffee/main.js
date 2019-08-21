@@ -290,6 +290,13 @@ $(document).ready(function() {
   $(document).on('click', '.shopcart-nav1 label', function() {
     var slideNum;
     slideNum = $(document).find('.shopcart-nav1 input[id="' + $(this).attr('for') + '"]').attr('data-num');
+
+      if (parseInt(slideNum) === 1) {
+          $(".js-shopcart-amount").show();
+      } else {
+          $(".js-shopcart-amount").hide();
+      }
+
     if (parseInt(slideNum) === 4) {
       $(document).find('#btnSubmitOrder').removeClass('hidden');
       return $(document).find('#btnNextSlide').addClass('hidden');
