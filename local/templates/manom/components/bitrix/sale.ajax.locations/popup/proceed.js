@@ -122,18 +122,13 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 				try
 				{
-					if (TCJsUtils.empty(oError) && (typeof result == 'object'))
-					{
-						if (!(result.length == 1 && result[0]['NAME'] == t.oEl['content']))
-						{
-							t.Show(result);
-							return;
-						}
-					}
-					else
-					{
-						t.oUnfinedWords[t.oEl['content']] = '!fined';
-					}
+                    if (TCJsUtils.empty(oError) && (typeof result == 'object')) {
+                        t.Show(result);
+                        return;
+                    }
+                    else {
+                        t.oUnfinedWords[t.oEl['content']] = '!fined';
+                    }
 				}
 				catch(e)
 				{
@@ -235,7 +230,12 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 		}
 		catch(e)
 		{}
-		t.aDiv = Array();
+
+        if (t.eFocus === false && !t.oActive) {
+            $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
+        }
+
+        t.aDiv = Array();
 		t.oPointer = Array(), t.oPointer_default = Array(), t.oPointer_this = 'input_field';
 		t.bReady = true, t.eFocus = true, oError = {},
 		t.oActive = null;
