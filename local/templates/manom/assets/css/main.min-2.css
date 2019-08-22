@@ -7056,6 +7056,7 @@ p.price-slider {
   border-color: transparent;
   border-radius: 3px 3px 0 0;
   padding-left: 56px;
+  pointer-events: none;
 }
 
 .sci-delivery__radio:checked ~ .sci-delivery__tab::before {
