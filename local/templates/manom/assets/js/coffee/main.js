@@ -1294,9 +1294,6 @@ $(document).ready(function() {
               if (!--inputCount) {
                 if (!hasError) {
                   soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
-                  $(document).find('.layout_cart_menu').animate({
-                    width: '90%'
-                  }, 500);
                   return soModule.find('[name="submitbutton"]').click();
                 }
               }
@@ -1305,9 +1302,6 @@ $(document).ready(function() {
           else {
             if (!hasError) {
               soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
-              $(document).find('.layout_cart_menu').animate({
-                width: '90%'
-              }, 500);
               return soModule.find('[name="submitbutton"]').click();
             }
           }
