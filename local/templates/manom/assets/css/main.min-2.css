@@ -7762,7 +7762,7 @@ button.top-nav__link {
 
 @media (min-width: 768px) {
   .popup-login {
-    position: static;
+    position: relative;
     width: 500px;
     height: auto;
     border-radius: 3px;

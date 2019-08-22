@@ -1235,16 +1235,30 @@ a.top-submenu2__item:hover .top-submenu2__title {
   margin-top: 15px;
 }
 .dnd-location-specify-btn button {
-  background-color: #79b700;
-  color: #ffffff;
-  margin: 0 5px;
-  padding: 5px 20px;
-  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+
   display: inline-block;
-  font-size: 12px;
+  padding: 5px 20px;
+  margin: 0 5px;
+  border: none;
+  background-color: #83BB26;
+  border-radius: 3px;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
-/*.dnd-location-change-city-form input{*/
+
+.dnd-location-specify-btn button:hover,
+.dnd-location-specify-btn button:focus {
+  background-color: #76AF17;
+}
+
+.dnd-location-specify-btn button:active {
+  background-color: #5C8911;
+}
+  /*.dnd-location-change-city-form input{*/
   /*font-size: 20px;*/
   /*border: 0;*/
   /*border-bottom: 1px solid #79b700;*/
