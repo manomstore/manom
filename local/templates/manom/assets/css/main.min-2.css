@@ -6703,7 +6703,7 @@ p.price-slider {
 
 .top-nav--opened .top-nav__toggle {
   position: fixed;
-  right: 3%;
+  right: 13px;
   top: 20px;
   z-index: 102;
   margin: 0;
@@ -6750,9 +6750,10 @@ p.price-slider {
 .top-nav__menu {
   position: fixed;
   top: 0;
-  left: -90%;
+  left: -100%;
   bottom: 0;
-  width: 320px;
+  width: 90%;
+  max-width: 280px;
   background-color: #FEFFFD;
   z-index: 102;
   transition: 0.4s;
@@ -6760,8 +6761,7 @@ p.price-slider {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  height: 100vh;
-  padding: 22px 20px 50px;
+  padding: 22px 20px;
   overflow-y: auto;
 }
 
@@ -6907,17 +6907,17 @@ button.top-nav__link {
 }
 
 .top-count {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   color: #73737E;
   text-align: center;
 
   position: absolute;
-  top: -5px;
+  top: -9px;
   right: -6px;
   display: block;
   min-width: 13px;
-  height: 14px;
+  height: auto;
   border: 1px solid #FEFFFD;
   border-radius: 3px;
   background-color: #F3F8E9;
@@ -6932,7 +6932,7 @@ button.top-nav__link {
   content: "";
   position: absolute;
   top: 0;
-  right: 0;
+  right: -20px;
   width: 50px;
   height: 30px;
   background: linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
@@ -6947,6 +6947,7 @@ button.top-nav__link {
   display: flex;
   flex-wrap: nowrap;
   overflow: hidden;
+  min-width: 768px;
 }
 
 .sub-menu__link {
@@ -7418,13 +7419,13 @@ button.top-nav__link {
 .submenu-mob {
   position: fixed;
   top: 0;
-  left: -90%;
+  left: -100%;
   bottom: 0;
+  width: 90%;
+  max-width: 280px;
   z-index: 102;
   transition: 0.2s;
   background-color: #FEFFFD;
-  width: 320px;
-  height: 100vh;
   padding: 15px 20px;
   overflow-y: auto;
 }
@@ -7986,7 +7987,6 @@ button.top-nav__link {
     top: -9px;
     right: -9px;
     min-width: 15px;
-    height: 19px;
   }
 
   .top-personal__count {
