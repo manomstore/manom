@@ -48,7 +48,6 @@ if ($_POST['change_favorite_list'] == "Y") {
       <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg" alt="Иконка избранного"
            width="17"
            height="15">
-      <span class="top-count">0</span>
     </a>
 <!--    <div class="preview-heart preview-heart--empty" id="mini_favorite_header">-->
 <!--      <p class="preview-heart-not-text">Нет товара</p>-->
@@ -215,7 +214,6 @@ endif;
   <?if(!$favList):?>
     <a href="/catalog/compare/" class="top-personal__heart" id="mini_compare_header_counter">
       <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
-      <span class="top-count">0</span>
     </a>
 <!--    <div class="preview-heart preview-heart--empty" id="mini_compare_header">-->
 <!--      <p class="preview-heart-not-text">Нет товара</p>-->

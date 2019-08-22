@@ -27,7 +27,9 @@ global $glob_sectionInfo, $new_offer_filter;
     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg" alt="Иконка избранного"
          width="17"
          height="15">
-    <span class="top-count"><?= count($arResult['ITEMS']); ?></span>
+	  <? if (count($arResult['ITEMS']) !== 0): ?>
+      <span class="top-count"><?= count($arResult['ITEMS']); ?></span>
+	  <? endif; ?>
   </a>
   <!-- preview-heart -->
 	<? $prodCount = 0; ?>

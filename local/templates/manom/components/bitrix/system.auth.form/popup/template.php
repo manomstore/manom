@@ -157,13 +157,12 @@ global $USER;
             <!--                    </div>-->
 
 
-            <label class="popup-login__label-check"
-                   title="<?= GetMessage("AUTH_REMEMBER_ME") ?>"
-            >
+            <label class="popup-login__label-check">
               <input class="popup-login__check visually-hidden"
                      type="checkbox"
                      name="popup-login-consent"
                      required
+                     checked
               />
               <span>
               Нажимая «Зарегистрироваться и войти» вы соглашаетесь
@@ -276,13 +275,12 @@ global $USER;
                href="#">
               <span>Войти с помощью ВК</span>
             </a>
-            <label class="popup-login__label-check"
-                   title="<?= GetMessage("AUTH_REMEMBER_ME") ?>"
-            >
+            <label class="popup-login__label-check">
               <input class="popup-login__check visually-hidden"
                      type="checkbox"
                      name="popup-login-consent"
                      required
+                     checked
               />
               <span>
               Нажимая «Зарегистрироваться и войти» вы соглашаетесь

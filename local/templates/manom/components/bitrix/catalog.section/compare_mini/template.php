@@ -25,7 +25,9 @@ global $glob_sectionInfo, $new_offer_filter;
 <div class="top-personal__block top-personal__block--compare">
   <a href="/catalog/compare/" class="top-personal__link" id="mini_compare_header_counter">
     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
-    <span class="top-count"><?= count($arResult['ITEMS']); ?></span>
+	  <? if (count($arResult['ITEMS']) !== 0): ?>
+      <span class="top-count"><?= count($arResult['ITEMS']); ?></span>
+	  <? endif; ?>
   </a>
   <!-- preview-heart -->
 	<? $prodCount = 0; ?>

@@ -28,17 +28,15 @@
 <!-- Если в корзине что-то есть добавлчется класс top-personal__cart--full -->
 <div class="top-personal__block">
   <a href="/cart/"
-     class="top-personal__link top-personal__cart <?= $arResult['NUM_PRODUCTS'] !== 0 ? ' top-personal__cart--full' : ''; ?>"
+     class="top-personal__link top-personal__cart <?= ($arResult['NUM_PRODUCTS'] !== 0) ? ' top-personal__cart--full' : ''; ?>"
      id="mini_cart_header_counter">
     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
-		<? if ($arResult['NUM_PRODUCTS'] === 0): ?>
-      Корзина пуста
-		<? else: ?>
+		<? if ($arResult['NUM_PRODUCTS'] !== 0): ?>
 			<?= str_replace('руб.', '', $arResult['TOTAL_PRICE']) ?>
       &#8381;
       (<span class="top-count top-personal__count">
-      <?= $arResult['NUM_PRODUCTS'] ?>
-    </span>)
+        <?= $arResult['NUM_PRODUCTS'] ?>
+      </span>)
 		<? endif; ?>
   </a>
 

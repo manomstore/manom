@@ -1264,15 +1264,13 @@ a.top-submenu2__item:hover .top-submenu2__title {
   font-size: 18px;
   font-weight: 500;
 
+  position: relative;
   padding: 10px;
   padding-left: 22px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
-.dnd-location__item--active {
-  position: relative;
-  color: #83BB26;
-}
-.dnd-location__item--active::before {
+.dnd-location__item::before {
   content: "";
   position: absolute;
   top: 17px;
@@ -1280,8 +1278,26 @@ a.top-submenu2__item:hover .top-submenu2__title {
   transform: rotate(133deg);
   width: 11px;
   height: 5px;
-  border-top: 2px solid #83BB26;
-  border-right: 2px solid #83BB26;
+  border-top: 2px solid transparent;
+  border-right: 2px solid transparent;
+}
+.dnd-location__item:hover {
+  color: #83BB26;
+}
+.dnd-location__item:hover::before {
+  border-top-color: rgba(153, 152, 157, 0.3);
+  border-right-color: rgba(153, 152, 157, 0.3);
+}
+.dnd-location__item--active {
+  color: #83BB26;
+}
+.dnd-location__item--active::before {
+  border-top-color: #83BB26;
+  border-right-color: #83BB26;
+}
+.dnd-location__item--active:hover::before {
+  border-top-color: #83BB26;
+  border-right-color: #83BB26;
 }
 #dnd-location {
   position: relative;

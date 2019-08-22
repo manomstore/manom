@@ -14,7 +14,6 @@ $(document).ready(function() {
   $('.sub-menu__list').slick({
     dots: false,
     infinite: false,
-    speed: 300,
     prevArrow: false,
     nextArrow: false,
     variableWidth: true

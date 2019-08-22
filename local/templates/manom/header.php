@@ -598,7 +598,7 @@ $userCityByGeoIP = $userLocationInfo;
                   <a class="top-personal__link"
                      href="/user/profile.php"
                      aria-label="Профиль">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="20" height="20">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="18" height="18">
                   </a>
 								<? } else { ?>
                   <a class="top-personal__link"
@@ -606,7 +606,7 @@ $userCityByGeoIP = $userLocationInfo;
                      data-src="#popap-login"
                      href="javascript:;"
                      aria-label="Вход">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="20" height="20">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="18" height="18">
                   </a>
 								<? } ?>
               </div>
@@ -622,7 +622,7 @@ $userCityByGeoIP = $userLocationInfo;
                 <div class="top-personal__block top-personal__block--compare">
                   <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
                     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
-                    <span class="top-count">0</span>
+<!--                    <span class="top-count">0</span>-->
                   </a>
                   <div class="preview-heart preview-heart--empty personal-preview" id="mini_compare_header">
                     <p class="preview-heart-not-text">Нет товара</p>
@@ -790,7 +790,8 @@ $userCityByGeoIP = $userLocationInfo;
                     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg"
                          alt="Иконка избранного"
                          width="17"
-                         height="15"><span class="top-count">0</span>
+                         height="15">
+<!--                    <span class="top-count">0</span>-->
                   </a>
                   <div class="preview-heart preview-heart--empty personal-preview" id="mini_favorite_header">
                     <p class="preview-heart-not-text">Нет товара</p>
