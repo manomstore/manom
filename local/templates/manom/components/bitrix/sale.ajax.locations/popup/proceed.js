@@ -187,7 +187,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 			aRes = Array();
 			aRes['ID'] = (aEl['ID'] && aEl['ID'].length > 0) ? aEl['ID'] : iCnt++;
 			aRes['GID'] = sPrefix + '_' + aRes['ID'];
-			
+
 			locName = aEl['NAME'];
             if (aEl['REGION_NAME'].length > 0 && locName.length <= 0)
                 locName = aEl['REGION_NAME'];
@@ -196,7 +196,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
             if (aEl['COUNTRY_NAME'].length > 0 && locName.length <= 0)
                 locName = aEl['COUNTRY_NAME'];
-				
+
 			aRes['NAME'] = TCJsUtils.htmlspecialcharsEx(locName);
 
 			//aRes['CNT'] = aEl['CNT'];
@@ -234,10 +234,9 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
             if (t.eFocus === false && !t.oActive) {
                 document.holdChangeCity = true;
                 $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
-            } else {
-                TCJsUtils.hide(t.oDiv);
-                t.oDiv.parentNode.removeChild(t.oDiv);
-            }
+            } else {}
+						TCJsUtils.hide(t.oDiv);
+						t.oDiv.parentNode.removeChild(t.oDiv);
         }
         catch (e) {
         }
@@ -264,12 +263,16 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 				tmp1 = elEntities.innerHTML;
 				//document.getElementById(t.oObj.name+'_val').value = tmp['ID'];
 				var n = t.oObj.name.substr(0, (t.oObj.name.length - 4));
-				document.getElementById(n).value = tmp['ID'];
-				
+				var nElement = document.getElementById(n);
+
+				if (nElement !== null) {
+					document.getElementById(n).value = tmp['ID'];
+				}
+
 				if(t.submit && t.submit.length > 0)
 					eval(t.submit);
 				//submit form
-				// submitForm();	
+				// submitForm();
 			}
 			//this preserves leading spaces
 			var start = t.oEl['start'];
@@ -309,14 +312,15 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 	},
 
 	t.CheckMouse = function(event) {
-        t.Replace();
+				t.Replace();
+
         if (t.eFocus === false && !t.oActive && !t.showedPopup) {
             document.holdChangeCity = true;
-            $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
+            // $.fn.setPushUp("Предупреждение", "Необходимо выбрать город из списка", false, "message", false, 5000);
             t.showedPopup = true;
-        } else if (t.oPointer_this !== "input_field" && event.x > 0 && event.y > 0) {
-            t.Destroy();
-        }
+				} else if (t.oPointer_this !== "input_field" && event.x > 0 && event.y > 0) {}
+
+				t.Destroy();
     },
 
 	t.CheckKeyword = function(e)
