@@ -1,0 +1,108 @@
+.sc-hidden {
+	display: none !important;
+}
+
+.sci-contact__button-wrapper {
+	width: 100%;
+}
+
+.sci-contact__top--order .shopcart-sidebar__title {
+	margin-bottom: 0;
+}
+
+.shopcart-sidebar__prod {
+	padding: 9px;
+	margin: 0 -10px -1px;
+	border: 1px solid transparent;
+}
+
+.shopcart-sidebar__prod:first-child {
+	margin-top: -10px;
+}
+
+.shopcart-sidebar__prod:last-child {
+	margin-bottom: 0;
+}
+
+.shopcart-sidebar__prod--stop {
+	border-color: #E44D3F;
+}
+
+.shopcart-sidebar__prod--stop:first-child {
+	margin-top: 0;
+}
+
+.shopcart-sidebar__prod--stop:last-child {
+	margin-bottom: 10px;
+}
+
+.shopcart-sidebar__prod .shopcart-sidebar__error {
+	margin-top: 10px;
+}
+
+.shopcart-sidebar__button {
+	border: 0;
+	appearance: none;
+	outline: 0;
+	cursor: pointer;
+}
+
+.shopcart-sidebar__button:disabled {
+	cursor: default;
+}
+
+.shopcart-sidebar__back-shopping:hover {
+	color: #666672;
+}
+
+.shopcart-sidebar__sum-price--total:last-child {
+	margin-bottom: 0;
+}
+
+.sci-delivery-tabs input[type="radio"] {
+	display: none;
+}
+
+.shopcart--step-1 .shopcart-sidebar .sci-contact__top--order,
+.shopcart--step-1 .shopcart-sidebar__info--contacts,
+.shopcart--step-1 .shopcart-sidebar__info--delivery,
+.shopcart--step-1 .shopcart-sidebar__sum-price--delivery,
+.shopcart--step-1 .shopcart-sidebar__prods {
+	display: none;
+}
+
+.shopcart--step-2 .shopcart-sidebar__code,
+.shopcart--step-2 .shopcart-sidebar__info--contacts,
+.shopcart--step-2 .shopcart-sidebar__info--delivery,
+.shopcart--step-2 .shopcart-sidebar__sum-price--delivery,
+.shopcart--step-2 .shopcart-sidebar__button-wrapper,
+.shopcart--step-2 .shopcart-sidebar__back-wrapper {
+	display: none;
+}
+
+.shopcart--step-3 .shopcart-sidebar__code,
+.shopcart--step-3 .shopcart-sidebar__info--delivery,
+.shopcart--step-3 .shopcart-sidebar__button-wrapper,
+.shopcart--step-3 .shopcart-sidebar__back-wrapper {
+	display: none;
+}
+
+.shopcart--step-4 .shopcart-sidebar__code,
+.shopcart--step-4 .shopcart-sidebar__button-wrapper,
+.shopcart--step-4 .shopcart-sidebar__back-wrapper {
+	display: none;
+}
+
+@media (min-width: 1000px) {
+	.sci-add--collapsed .sci-add__products {
+		display: none;
+	}
+
+	.sci-add__button-hide {
+		top: 26px;
+	}
+
+	.sci-contact__top--contacts {
+		margin-bottom: 40px;
+	}
+}

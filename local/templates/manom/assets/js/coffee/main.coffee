@@ -581,9 +581,6 @@ $(document).ready ()->
       soModule.find('.wrewfwer .wrewfwer_ajax').remove();
       $.fn.updateDateSaleOrder()
 
-  $(document).on 'click', '#backToCatalog', ()->
-    location.href = '/catalog/'
-
   $(document).on 'change', '#so_city_val', ()->
     soCityID = $(document).find('#so_city')
     soCityAltID = $(document).find('#so_city_alt')

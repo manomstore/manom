@@ -1,4 +1,4 @@
-
+<? if ($APPLICATION->GetCurPage() !== "/cart/"): ?>
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
@@ -200,6 +200,7 @@
                 </div>
             </div>
         </footer>
+<? endif; ?>
     </div>
 <?php
 //$GLOBALS["MY_DEBUG"] = $arResult; (Пример принта массива компанента ($arResult))
@@ -246,57 +247,20 @@ print_my_debug();?>
     });
 </script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scripts.min.js"></script>
-	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.js"></script>
+    <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.js"></script>
+    <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/bootstrap-datepicker.js"></script>
+    <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/locales/bootstrap-datepicker.ru.min.js"></script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.suggestions.min.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/main.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/vue-main.js"></script>
-	<script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.maskedinput.min.js"></script>
     <script>
         //Маска для ввода телефона
-        $(function(){
+        $(function () {
             $("#sci-login__tel").mask("+7 (999) 999-99-99");
             $("#sci-login__tel_alt").mask("+7 (999) 999-99-99");
-						$("#sci-contact__tel").mask("+7 (999) 999-99-99");
-						$("#sci-contact__ur-phone").mask("+7 (999) 999-99-99");
-        });
-        //Валидация email
-        $('#sci-contact-content2 input[type=email]').on('blur', function () {
-            let email = $(this).val();
-            if (email.length > 0
-                && (email.match(/.+?\@.+/g) || []).length !== 1) {
-                $(this).val('').css({
-                    borderColor: 'red'
-                });
-                $('.error-msg').html('');
-                $(this).parent().append('<p class="error-msg" style="color:red;width:100%;">Не правильно введен email</p>');
-                console.log('invalid');
-            } else {
-                console.log('valid');
-                $(this).css({
-                    borderColor: 'green'
-                });
-                $('.error-msg').html('');
-                $(this).parent().append('<p class="error-msg" style="color:green;width:100%;">Email введен верно</p>');
-
-            }
-        });
-        $('#sci-contact-content1 input[type=email]').on('blur', function () {
-            let email = $(this).val();
-            if (email.length > 0
-                && (email.match(/.+?\@.+/g) || []).length !== 1) {
-                $(this).val('').css({
-                    borderColor: 'red'
-                });
-                $('.error-msg').html('');
-                $(this).parent().append('<p class="error-msg" style="color:red;width:100%;">Не правильно введен email</p>');
-                console.log('invalid');
-            } else {
-                console.log('valid');
-                $(this).css({
-                    borderColor: 'green'
-                });
-                $('.error-msg').html('');
-                $(this).parent().append('<p class="error-msg" style="color:green;width:100%;">Email введен верно</p>');
-            }
+            $("#sci-contact__tel").mask("+7 (999) 999-99-99");
+            $("#sci-contact__ur-phone").mask("+7 (999) 999-99-99");
         });
     </script>
 <meta name="yandex-verification" content="5d0e6370947cc2e9" />

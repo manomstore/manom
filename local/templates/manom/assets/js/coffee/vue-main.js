@@ -96,7 +96,7 @@ locationDND = new Vue({
         this.isPopupChangeCityVisible = true;
       }
     },
-    changeCity: function(cityItem) {
+    changeCity: function (cityItem, needSubmitForm = true) {
       this.isPopupChangeCityVisible = false;
       this.isInformationStatus = true;
       this.changeCitySearchLine = '';
@@ -105,7 +105,9 @@ locationDND = new Vue({
       this.listOfCity = this.listOfCityDefault;
       this.currentCity = cityItem.title;
       this.currentCityID = cityItem.id;
-      $.fn.updGlobalCityInCart(cityItem.id);
+      if (needSubmitForm) {
+          $.fn.updGlobalCityInCart(cityItem.id);
+      }
       return axios.get('/ajax/location.php', {
         params: {
           location_code: 'changeCity',
