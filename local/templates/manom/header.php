@@ -47,11 +47,14 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Open+Sans:400,600,700&amp;subset=cyrillic-ext" rel="stylesheet">
   <!-- Add fancyBox -->
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery-ui.css">
-  <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery.fancybox.min.css"/>
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery.fancybox.min.css"/>
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/suggestions.min.css"/>
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/bootstrap-datepicker.css"/>
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/main.min-2.css">
 
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/js/coffee/pushUpJS/pushUp.css">
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/custom.css?v=2">
+  <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/fixes.css">
   <link rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -65,6 +68,7 @@
   <script src='https://www.google.com/recaptcha/api.js?render=6LeuEIEUAAAAAFd1nHH6PD8ckNxVwX6p0_6j_Hxr'></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
 </head>
 <? global $USER; ?>
 <? $APPLICATION->ShowHead(); ?>
@@ -78,35 +82,137 @@ $userLocationInfo = $uli->getUserLocationInfo();
 $userCityByGeoIP = $userLocationInfo;
 ?>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MFLXNC9" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-<div class="layout">
-  <header class="header">
-    <!-- Рекламная полоса -->
-    <!--    <div class="top-ad-line">-->
-    <!--      <div class="container">-->
-    <!--        <div class="top-ad-line__block">-->
-    <!--					--><? // $APPLICATION->IncludeComponent(
-		//						"bitrix:main.include",
-		//						".default",
-		//						[
-		//							"PATH"               => "/include/header-line.php",
-		//							"COMPONENT_TEMPLATE" => ".default",
-		//							"AREA_FILE_SHOW"     => "file",
-		//							"EDIT_TEMPLATE"      => "",
-		//						],
-		//						false
-		//					); ?>
-    <!---->
-    <!--          <a href="" class="top-ad-line__close">-->
-    <!--            <img src="--><? //= SITE_TEMPLATE_PATH ?><!--/assets/img/top-close.svg" alt="">-->
-    <!--          </a>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MFLXNC9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+	<div class="layout">
+<? if ($APPLICATION->GetCurPage() === "/cart/"): ?>
+		<header class="header header--cart">
+			<div class="container">
+				<div class="top-nav">
+					<a class="top-nav__logo" href="/">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" class="top-nav__picture" alt="Логотип интернет магазина Manom.ru" width="130" height="23">
+					</a>
+
+					<div class="top-nav1__call coll-2">
+						<? $APPLICATION->IncludeComponent(
+							"bitrix:main.include",
+							".default",
+							[
+								"PATH"               => "/include/phone.php",
+								"COMPONENT_TEMPLATE" => ".default",
+								"AREA_FILE_SHOW"     => "file",
+								"EDIT_TEMPLATE"      => "",
+							],
+							false
+						); ?>
+						<button class="top-nav__button-show" type="button"></button>
+						<a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__request">Заказать звонок</a>
+					</div>
+
+					<div class="header__wrapper-top">
+						<nav class="header__nav">
+							<? $APPLICATION->IncludeComponent(
+								"bitrix:menu",
+								"top_menu",
+								[
+									"ROOT_MENU_TYPE"        => "top",
+									"MAX_LEVEL"             => "1",
+									"CHILD_MENU_TYPE"       => "top",
+									"USE_EXT"               => "Y",
+									"DELAY"                 => "N",
+									"ALLOW_MULTI_SELECT"    => "Y",
+									"MENU_CACHE_TYPE"       => "N",
+									"MENU_CACHE_TIME"       => "3600",
+									"MENU_CACHE_USE_GROUPS" => "Y",
+									"MENU_CACHE_GET_VARS"   => "",
+								]
+							); ?>
+						</nav>
+
+						<div class="top-location-line">
+							<div id="dnd-location">
+								<div class="dnd-location-line" :class="doShowPanel()">
+									<div class="dnd-location-curent" @click="doChangeCity()">
+										<span>{{currentCity}}</span>
+									</div>
+									<transition name="slide-fade">
+										<div class="dnd-location-specify" v-if="!isInformationStatus">
+                                            <div v-if="isConfirmCityVisible">
+                                                <p>"{{currentCity}}" - это ваш город?</p>
+                                                <div class="dnd-location-specify-btn">
+                                                    <span @click="currentCityIsActual()">Да</span>
+                                                    <span @click.stop="doChangeCity()">Нет</span>
+                                                </div>
+                                            </div>
+                                            <div v-if="isNotDefinedCityVisible">
+                                                <p>Ваш город не определен</p>
+                                                <div class="dnd-location-specify-btn">
+                                                    <span @click.stop="doChangeCity()">Выбрать</span>
+                                                </div>
+                                            </div>
+											<transition name="fade">
+												<div v-if="isPopupChangeCityVisible">
+													<!-- <p>Выберите город</p> -->
+													<div class="dnd-location-change-city-form">
+														<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine" placeholder="Введите название города">
+														<ul>
+															<li v-for="cityItem in listOfCity" @click="changeCity(cityItem)">{{cityItem.title}}</li>
+														</ul>
+													</div>
+												</div>
+											</transition>
+										</div>
+										<!-- <div class="dnd-location-change-city" v-if="isShowPopupCity">
+												<p>Выберите город</p>
+												<div class="dnd-location-change-city-form">
+														<input type="text" name="dndLocationChangeCity" v-model="changeCitySearchLine">
+												</div>
+										</div> -->
+									</transition>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- тупа локэйшен -->
+			<script type="text/javascript">
+				const LocationDataDND = {
+					cityName: "<?=$userLocationInfo['CITY_NAME']?>",
+					cityID: "<?=$userLocationInfo['ID']?>",
+					specifyInformation: "<?=$uli->getUserSpecifyStatus()?>",
+					defaultCityList: <?=json_encode($uli->getDefaultListOfCity())?>
+				}
+			</script>
+		</header>
+<? else: ?>
+		<header class="header">
+			<!-- Рекламная полоса -->
+<!--			<div class="top-ad-line">
+				<div class="container">
+					<div class="top-ad-line__block">
+						<?/* $APPLICATION->IncludeComponent(
+							"bitrix:main.include",
+							".default",
+							[
+								"PATH"               => "/include/header-line.php",
+								"COMPONENT_TEMPLATE" => ".default",
+								"AREA_FILE_SHOW"     => "file",
+								"EDIT_TEMPLATE"      => "",
+							],
+							false
+						); */?>
+
+						<a href="" class="top-ad-line__close">
+							<img src="<?/*= SITE_TEMPLATE_PATH */?>/assets/img/top-close.svg" alt="">
+						</a>
+					</div>
+				</div>
+			</div>-->
 
     <div class="header__wrapper">
       <!-- Верхняя навигация -->
@@ -1125,3 +1231,4 @@ $userCityByGeoIP = $userLocationInfo;
 
     </div>
   </header>
+<? endif; ?>

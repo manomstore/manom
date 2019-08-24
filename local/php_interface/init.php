@@ -49,6 +49,8 @@ if($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
   AddEventHandler("iblock", "OnBeforeIBlockSectionUpdate", Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler"));
 endif;
 AddEventHandler("sale", "OnBeforeEventAdd", Array("MyHandlerClass","OnBeforeEventAddHandler"));
+AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass","OnSaleComponentOrderPropertiesHandler"));
+
 
 // AddEventHandler("iblock", "OnBeforeIBlockElementAdd", Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler"));
 // AddEventHandler("iblock", "OnAfterIBlockSectionAdd", Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler"));
@@ -110,6 +112,52 @@ class MyHandlerClass
         } catch (\Exception $e) {
         }
         return true;
+    }
+
+
+    function OnSaleComponentOrderPropertiesHandler(&$arUserResult, $request, &$arParams, &$arResult) {
+        \Bitrix\Main\Loader::includeModule("sale");
+        $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
+
+        if (!method_exists($registry, "getPropertyClassName")) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\PropertyBase $propertyClassName */
+        $propertyClassName = $registry->getPropertyClassName();
+
+        if (!class_exists($propertyClassName)) {
+            return true;
+        }
+
+        $locationProp = $propertyClassName::getList([
+            'select' => ['ID'],
+            'filter' => [
+                '=PERSON_TYPE_ID' => $arUserResult["PERSON_TYPE_ID"],
+                'TYPE' => "LOCATION"
+            ]
+        ])->fetch();
+
+        if (!empty($arUserResult["ORDER_PROP"][$locationProp["ID"]])) {
+            return true;
+        }
+
+        $userLocation = (new UserLocation)->getUserLocationInfo();
+
+        if ((int)$userLocation["ID"] <= 0) {
+            return true;
+        }
+
+        $arLocation = \Bitrix\Sale\Location\LocationTable::getList([
+            'select' => ['CODE'],
+            'filter' => ['ID' => $userLocation["ID"]],
+        ])->fetch();
+
+        if (empty($arLocation)) {
+            return true;
+        }
+
+        $arUserResult["ORDER_PROP"][$locationProp["ID"]] = $arLocation['CODE'];
     }
 }
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));

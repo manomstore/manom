@@ -3,7 +3,7 @@
 
 <? $colspan = count($arResult["GRID"]["HEADERS"]) - 1; ?>
 
-<table class="sale_order_full">
+<table class="sale_order_full" data-total-props='<?= $arResult["TOTAL_DATA_ATTRS"] ?>'>
 	<thead>
 		<tr>
 		<?foreach ($arResult["GRID"]["HEADERS"] as $id => $arColumn):?>
@@ -13,7 +13,7 @@
 	</thead>
 	<tbody>
 		<?foreach ($arResult["GRID"]["ROWS"] as $k => $arData):?>
-		<tr>
+		<tr data-props='<?=$arData["DATA_ATTRS"]?>'>
 			<?foreach ($arResult["GRID"]["HEADERS"] as $id => $arColumn):
 				$align = (isset($arColumn["align"])) ? "align=".$arColumn["align"] : "";
 			?>
@@ -37,7 +37,7 @@
 		</tr>
 		<tr>
 			<td align="right"><b><?=GetMessage("SOA_TEMPL_SUM_SUMMARY")?></b></td>
-			<td align="right" colspan="<?=$colspan?>"><?=$arResult["ORDER_PRICE_FORMATED"]?></td>
+			<td align="right" colspan="<?=$colspan?>"><span id="sale-order-full-price"><?=$arResult["ORDER_PRICE_FORMATED"]?></span></td>
 		</tr>
 		<?
 		if (doubleval($arResult["DISCOUNT_PRICE"]) > 0)
@@ -45,7 +45,7 @@
 			?>
 			<tr>
 				<td align="right"><b><?=GetMessage("SOA_TEMPL_SUM_DISCOUNT")?><?if (strLen($arResult["DISCOUNT_PERCENT_FORMATED"])>0):?> (<?echo $arResult["DISCOUNT_PERCENT_FORMATED"];?>)<?endif;?>:</b></td>
-				<td align="right" colspan="<?=$colspan?>"><?echo $arResult["DISCOUNT_PRICE_FORMATED"]?>
+				<td align="right" colspan="<?=$colspan?>"><span id="sale-order-full-discount-price"><?echo $arResult["DISCOUNT_PRICE_FORMATED"]?></span>
 				</td>
 			</tr>
 			<?
@@ -82,14 +82,14 @@
 				<td align="right">
 					<b><?=GetMessage("SOA_TEMPL_SUM_DELIVERY")?></b>
 				</td>
-				<td align="right" colspan="<?=$colspan?>"><?=$arResult["DELIVERY_PRICE_FORMATED"]?></td>
+				<td align="right" colspan="<?=$colspan?>"><span id="sale-order-full-delivery-price"><?=$arResult["DELIVERY_PRICE_FORMATED"]?></span></td>
 			</tr>
 			<?
 		}
 		?>
 		<tr>
 			<td align="right"><b><?=GetMessage("SOA_TEMPL_SUM_IT")?></b></td>
-			<td align="right" colspan="<?=$colspan?>"><b><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></b>
+			<td align="right" colspan="<?=$colspan?>"><b id="sale-order-full-total-price"><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></b>
 			</td>
 		</tr>
 		<?
