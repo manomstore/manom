@@ -9254,6 +9254,50 @@ button.top-nav__link {
   display: none;
 }
 
+.user-nav__link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #73737E;
+
+  opacity: 0.6;
+  margin-right: 10px;
+  transition: all 0.2s ease;
+}
+
+.user-nav__link--location {
+  position: relative;
+  padding-left: 20px;
+  margin-right: 50px;
+}
+
+.user-nav__link--location::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 13px;
+  height: 13px;
+  background-image: url("./../img/icons/location.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.user-nav__link:hover,
+.user-nav__link:focus {
+  opacity: 1;
+}
+
+.header--cart .user-nav__link--location{
+  margin: 0;
+}
+
+.header--cart .top-nav {
+  padding: 0;
+  border: none;
+}
+
 @media (min-width: 768px) {
   .popup-login {
     position: relative;
@@ -9352,38 +9396,7 @@ button.top-nav__link {
   }
 
   .user-nav__link {
-    font-size: 14px;
-    font-weight: 500;
-    color: #73737E;
-
-    opacity: 0.6;
     margin-right: 20px;
-    transition: all 0.2s ease;
-  }
-
-  .user-nav__link--location {
-    position: relative;
-    padding-left: 20px;
-    margin-right: 50px;
-  }
-
-  .user-nav__link--location::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 13px;
-    height: 13px;
-    background-image: url("./../img/icons/location.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-  }
-
-  .user-nav__link:hover,
-  .user-nav__link:focus {
-    opacity: 1;
   }
 
   .user-nav__login {
