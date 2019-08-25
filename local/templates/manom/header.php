@@ -763,7 +763,7 @@ $userCityByGeoIP = $userLocationInfo;
                         </a>
                       </li>
                       <li>
-                        <a class="top-personal__user-link top-personal__user-link--history" href="#">
+                        <a class="top-personal__user-link top-personal__user-link--history" href="/user/history.php">
                           История заказов
                         </a>
                       </li>
