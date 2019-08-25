@@ -379,23 +379,6 @@ $userCityByGeoIP = $userLocationInfo;
 								]
 							); ?>
             </div>
-            <!-- login -->
-            <!--            <div class="user-nav__login">-->
-            <!--							--><? // if ($USER->IsAuthorized()) { ?>
-            <!--                <a class="user-nav__link" href="/user/profile.php">Личный кабинет</a> /-->
-            <!--                <form class="sci-login__form" action="/auth/?bitrix_include_areas=N">-->
-            <!--                  <input type="hidden" name="bitrix_include_areas" value="N">-->
-            <!--                  <input type="hidden" name="logout" value="yes">-->
-            <!--                  <button class="user-nav__link" type="submit" name="logout_butt">Выйти</button>-->
-            <!--                </form>-->
-            <!--							--><? // } else { ?>
-            <!--                <a class="user-nav__link" data-fancybox data-src="#popap-login" href="javascript:;">Вход</a>-->
-            <!--                /-->
-            <!--                <a class="user-nav__link" href="/auth/registration.php">Регистрация</a>-->
-            <!--                <!--                            <a data-fancybox data-src="#popap-reg" href="javascript:;" class="top-sign__in">Регистрация</a>-->
-            <!--							--><? // } ?>
-            <!--            </div>-->
-            <!-- /login -->
 
             <!-- time -->
             <div class="top-nav__time-wrapper">
