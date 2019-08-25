@@ -8233,7 +8233,7 @@ p.price-slider {
   left: 0;
   bottom: 0;
   background-color: rgba(41, 40, 44, 0.8);
-  z-index: 101;
+  z-index: 1002;
   display: none;
 }
 
@@ -8249,7 +8249,7 @@ p.price-slider {
   width: 90%;
   max-width: 280px;
   background-color: #FEFFFD;
-  z-index: 102;
+  z-index: 1003;
   transition: 0.4s;
 
   display: flex;
@@ -8991,7 +8991,7 @@ button.top-nav__link {
   bottom: 0;
   width: 90%;
   max-width: 280px;
-  z-index: 102;
+  z-index: 1003;
   transition: 0.2s;
   background-color: #FEFFFD;
   padding: 15px 20px;
