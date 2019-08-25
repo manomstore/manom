@@ -747,11 +747,44 @@ $userCityByGeoIP = $userLocationInfo;
               </div>
               <div class="top-personal__block">
 								<? if ($USER->IsAuthorized()) { ?>
-                  <a class="top-personal__link"
-                     href="/user/profile.php"
+                  <a class="top-personal__link js-user-block"
+                     href="#"
                      aria-label="Профиль">
-                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg" alt="Иконка пользователя" width="18" height="18">
+                    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/icon-user.svg"
+                         alt="Иконка пользователя"
+                         width="18" height="18">
                   </a>
+                  <div class="personal-preview personal-preview--user">
+                    <ul class="top-personal__list">
+                      <li>
+                        <a class="top-personal__user-link top-personal__user-link--profile"
+                           href="/user/profile.php">
+                          Личный кабинет
+                        </a>
+                      </li>
+                      <li>
+                        <a class="top-personal__user-link top-personal__user-link--history" href="#">
+                          История заказов
+                        </a>
+                      </li>
+                      <li>
+                        <form class="sci-login__form"
+                              action="/auth/?bitrix_include_areas=N">
+                          <input type="hidden"
+                                 name="bitrix_include_areas"
+                                 value="N">
+                          <input type="hidden"
+                                 name="logout"
+                                 value="yes">
+                          <button class="top-personal__user-link top-personal__user-link--out"
+                                  type="submit"
+                                  name="logout_butt">
+                            Выйти
+                          </button>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
 								<? } else { ?>
                   <a class="top-personal__link"
                      data-fancybox

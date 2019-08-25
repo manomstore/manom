@@ -111,6 +111,14 @@ $(document).ready(function() {
     variableWidth: true
   });
 
+  var userLink = document.querySelector('.js-user-block');
+  var userBlock = document.querySelector('.personal-preview--user');
+  userLink.addEventListener('click', function(evt) {
+    evt.preventDefault();
+
+    userBlock.classList.toggle('personal-preview--show');
+  });
+
   document.querySelectorAll(".main-nav__link--lv2").forEach(function(item) {
     var innerListAll = document.querySelectorAll(".main-nav__innerlist");
 

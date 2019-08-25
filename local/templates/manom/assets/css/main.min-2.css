@@ -8473,14 +8473,85 @@ button.top-nav__link {
   margin-left: 20px;
 }
 
+.top-personal__list {
+  list-style: none;
+  margin: 0;
+
+  width: 200px;
+  padding: 10px 15px;
+  overflow: hidden;
+  background-color: #FEFFFD;
+  border: 1px solid #F2F2F2;
+  box-shadow: 0 14px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.top-personal__user-link {
+  font-family: "PT Root UI", "Arial", sans-serif;
+  font-size: 16px;
+  color: #73737E;
+  font-weight: 500;
+  text-align: left;
+
+  display: block;
+  width: 100%;
+  padding: 10px;
+  padding-left: 30px;
+  position: relative;
+
+  border: none;
+  margin: 0;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.top-personal__user-link:hover,
+.top-personal__user-link:focus {
+  opacity: 0.6;
+}
+
+.top-personal__user-link:active {
+  opacity: 0.4;
+}
+
+.top-personal__user-link::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 15px;
+  height: 15px;
+}
+
+.top-personal__user-link--out::before {
+  background-image: url("../img/icons/icon-logout.svg");
+}
+
+.top-personal__user-link--history::before {
+  background-image: url("../img/icons/icon-list.svg");
+}
+
+.top-personal__user-link--profile::before {
+  background-image: url("../img/icons/icon-user.svg");
+}
+
 .personal-preview {
   position: absolute;
   top: 100%;
   right: 0;
   z-index: 1001;
-  padding-top: 24px;
+  padding-top: 15px;
   overflow: hidden;
   display: none;
+}
+
+.personal-preview--show {
+  display: block;
 }
 
 .preview-shopcart--empty,
@@ -9399,40 +9470,6 @@ button.top-nav__link {
     margin-right: 20px;
   }
 
-  .user-nav__login {
-    font-size: 14px;
-    font-weight: 500;
-    color: #73737E;
-
-    padding-left: 17px;
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .user-nav__login::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 13px;
-    background-image: url("./../img/icons/enter.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-  }
-
-  button.user-nav__link {
-    font-family: "PT Root UI", "Arial", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    background-color: transparent;
-    padding: 0;
-  }
-
   .top-nav {
     padding: 12px 0;
   }
@@ -9454,6 +9491,10 @@ button.top-nav__link {
   .top-personal {
     position: relative;
     align-items: center;
+  }
+
+  .top-personal__list {
+    width: 250px;
   }
 
   .top-personal__link:last-child {
