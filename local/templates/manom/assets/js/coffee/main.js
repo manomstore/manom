@@ -66,6 +66,8 @@ app.utils = {
 $(document).ready(function() {
   var $clearAll, $maxPrice, $minPrice;
 
+  var REG_EXP_EMAIL = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+
   app.shopcart.$el = $('.shopcart');
 
   $('.sci-add__products').slick({
@@ -125,6 +127,7 @@ $(document).ready(function() {
     slideNum = 1;
     $(document).find('.shopcart-nav1 input[type="radio"]').each(function() {
       var $count, $formIsValid, sBlock;
+      var isEmailValid = false;
       if ($(this).prop('checked')) {
         slideNum = $(this).attr('data-num');
       }
@@ -152,11 +155,28 @@ $(document).ready(function() {
           $count = sBlock.find('input').length;
           $formIsValid = true;
           sBlock.find('input').each(function() {
-            if (!$(this).val() && $(this).prop('required')) {
+            var $input = $(this);
+            var inputValue = $input.val();
+
+            if (!inputValue && $input.prop('required')) {
               $formIsValid = false;
-              $(this).addClass('is-error');
+              $input.addClass('is-error');
             } else {
-              $(this).removeClass('is-error');
+              $input.removeClass('is-error');
+
+              if ($input.attr('name') === 'sci-contact__email') {
+                isEmailValid = true;
+              }
+            }
+
+            if (
+              $input.attr('name') === 'sci-contact__email'
+              && inputValue !== ''
+              && inputValue.match(REG_EXP_EMAIL) === null
+            ) {
+              $input.addClass('is-error');
+              $formIsValid = false;
+              isEmailValid = false;
             }
 
             if (!--$count) {
@@ -173,6 +193,8 @@ $(document).ready(function() {
                   $(document).find('#btnSubmitOrder').removeClass('hidden');
                   return $(document).find('#btnNextSlide').addClass('hidden');
                 }
+              } else if (!isEmailValid) {
+                return $.fn.setPushUp("Ошибка валидации E-mail", "Неверно заполнено поле E-mail", false, "message", false, 5000);
               } else {
                 return $.fn.setPushUp("Не заполнены поля", "Поля обязательные к заполнению небыли заполнены", false, "message", false, 5000);
               }
@@ -260,6 +282,8 @@ $(document).ready(function() {
           } else {
             if (!isDeliveryChecked) {
               $.fn.setPushUp("Не выбрана доставка", "Необходимо выбрать доставку из списка", false, "message", false, 5000);
+            } else if (!isEmailValid) {
+              $.fn.setPushUp("Ошибка валидации E-mail", "Неверно заполнено поле E-mail", false, "message", false, 5000);
             } else {
               $.fn.setPushUp("Не заполнены поля", "Поля обязательные к заполнению небыли заполнены", false, "message", false, 5000);
             }
@@ -1081,9 +1105,11 @@ $(document).ready(function() {
         let email = $(this).val();
         var $passBlock = $parentBlock.find(".js-password-block");
 
-        if (email.length >= 0
-            && (email.match(/.+?\@.+/g) || []).length !== 1) {
-            $(this).val('').addClass('is-error').removeClass('is-success');
+        if (
+          email.length >= 0
+          && email.match(REG_EXP_EMAIL) === null
+        ) {
+            $(this).addClass('is-error').removeClass('is-success');
 
             // $errorBlock.text("Не правильно введен email").css("color", "red");
             $passBlock.addClass("dsb-hidden");
@@ -1146,9 +1172,11 @@ $(document).ready(function() {
         let email = $(this).val();
         var $passBlock = $parentBlock.find(".js-password-block");
 
-        if (email.length >= 0
-            && (email.match(/.+?\@.+/g) || []).length !== 1) {
-            $(this).val('').addClass('is-error').removeClass('is-success');
+        if (
+          email.length >= 0
+          && email.match(REG_EXP_EMAIL) === null
+        ) {
+            $(this).addClass('is-error').removeClass('is-success');
 
             // $errorBlock.text("Не правильно введен email").css("color", "red");
             $passBlock.addClass("dsb-hidden");
