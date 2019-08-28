@@ -133,7 +133,11 @@ if ($_REQUEST['METHOD_CART'] and (int)$_REQUEST['PRODUCT_ID'] > 0) {
       );
     }
   }elseif ($_REQUEST['METHOD_CART'] == 'delete') {
-    CSaleBasket::Delete((int)$_REQUEST['PRODUCT_ID']);
+      if ($_REQUEST['clear_all'] === "Y") {
+          \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
+      } else {
+          CSaleBasket::Delete((int)$_REQUEST['PRODUCT_ID']);
+      }
     if ($_REQUEST['AJAX_MIN_CART'] == 'Y') {
       $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "monom", Array(
           "HIDE_ON_BASKET_PAGES" => "Y",	// Не показывать на страницах корзины и оформления заказа

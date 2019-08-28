@@ -113,16 +113,17 @@ global $USER;
                 <span><? echo GetMessage("AUTH_REMEMBER_SHORT") ?></span>
               </label>
 						<? } ?>
-            <button class="popup-login__button" type="submit">
+            <button class="popup-login__button" type="submit" style="margin: 0 0 20px;">
               Войти
             </button>
 						<? if ($arResult["AUTH_SERVICES"]) { ?>
+                            <?/*
               <span class="popup-login__or">или</span>
               <a class="popup-login__service popup-login__service--vk"
                  href="#">
                 <span>Войти с помощью ВК</span>
               </a>
-
+*/?>
               <!-- не нашел этот компонент и пока захардкодил ссылку выше -->
               <!--            <div class="bx-auth-lbl">-->
               <!--              --><? //= GetMessage("socserv_as_user_form") ?>
@@ -267,14 +268,16 @@ global $USER;
                 <span><? echo GetMessage("AUTH_REMEMBER_SHORT") ?></span>
               </label>
 						<? } ?>
-            <button class="popup-login__button" type="submit">
+            <button class="popup-login__button" type="submit" style="margin: 0 0 20px;">
               Зарегистрироваться
             </button>
+              <?/*
             <span class="popup-login__or">или</span>
             <a class="popup-login__service popup-login__service--vk"
                href="#">
               <span>Войти с помощью ВК</span>
             </a>
+*/?>
             <label class="popup-login__label-check">
               <input class="popup-login__check visually-hidden"
                      type="checkbox"

@@ -35,7 +35,7 @@ global $glob_sectionInfo, $new_offer_filter;
     <div class="personal-preview__wrapper">
       <div class="personal-preview__top">
         <h2 class="personal-preview__title">Сравнение</h2>
-        <button class="personal-preview__link" type="button">Очистить</button>
+        <button class="personal-preview__link js-clear-compare" type="button">Очистить</button>
       </div>
 			<? if ($arResult['ITEMS']): ?>
 				<? foreach ($arResult['ITEMS'] as $key => $value) { ?>

@@ -64,6 +64,35 @@ app.utils = {
 })();
 
 $(document).ready(function() {
+
+    $(".js-search-field .popup-block__input--search").on("change", function () {
+        $(this).closest("form").submit();
+    });
+
+    $(".popup-login__toggle[for='sing-up']").on("click", function (event) {
+        event.preventDefault();
+        window.location.href = "/auth/registration.php";
+
+    });
+
+    $(".js-link-stub").on("click", function (event) {
+        event.preventDefault();
+        $(this).focusout()
+    }).on("mouseenter", function (event) {
+        var menuId = parseInt($(this).data("item-id"));
+        if (menuId > 0) {
+            $("[data-submenu-id='" + menuId + "']").addClass("main-nav__innerlist--show");
+        }
+    });
+
+    $(".main-nav__sublist li").on("mouseenter", function (event) {
+        var existSubmenu = $(this).find(".js-link-stub").length > 0;
+        var menuId = parseInt($(this).find(".js-link-stub").data("item-id"));
+        if (!existSubmenu && menuId <= 0 || parseInt($(".main-nav__innerlist--show").data("submenu-id")) !== menuId) {
+            $(".main-nav__innerlist--show").removeClass("main-nav__innerlist--show");
+        }
+    });
+
   var $clearAll, $maxPrice, $minPrice;
 
   app.shopcart.$el = $('.shopcart');
@@ -118,20 +147,6 @@ $(document).ready(function() {
       userBlock.classList.toggle('personal-preview--show');
     });
   }
-
-  document.querySelectorAll(".main-nav__link--lv2").forEach(function(item) {
-    var innerListAll = document.querySelectorAll(".main-nav__innerlist");
-
-    innerListAll.forEach(function(list) {
-      item.addEventListener("mouseenter", function() {
-        list.classList.add("main-nav__innerlist--show");
-      });
-
-      item.addEventListener("focus", function() {
-        list.classList.add("main-nav__innerlist--show");
-      });
-    })
-  });
 
   var header = $('.header');
   var headerWrapper = $('.header__wrapper');
@@ -730,6 +745,22 @@ $(document).ready(function() {
       });
     }
   });
+    $(document).on('click', '.js-clear-cart', function () {
+        return $.ajax({
+            url: '/ajax/add_to_cart.php',
+            type: 'POST',
+            data: {
+                clear_all: "Y",
+                METHOD_CART: 'delete',
+                PRODUCT_ID: 1,
+                AJAX_MIN_CART: 'Y'
+            },
+            success: function (data) {
+                $.fn.setPushUp("Корзина очищена", "Ваша корзина была очищена", false, "message", false, 5000);
+                return $.fn.updateMiniCart(data);
+            }
+        });
+    });
   $(document).on('click', '.preview-prod-bottom__button-favorite', function() {
     var $cartItemID;
     $cartItemID = $(this).attr('data-cart-item');
@@ -762,6 +793,24 @@ $(document).ready(function() {
       });
     }
   });
+
+    $(document).on('click', '.js-clear-favorite', function () {
+        return $.ajax({
+            type: 'POST',
+            url: '/ajax/ajax_func.php',
+            data: {
+                change_favorite_list: 'Y',
+                clear_all: "Y",
+                AJAX_MIN_FAVORITE: 'Y'
+            },
+            success: function (data) {
+                $.fn.setPushUp("Список очищен", "Список избранного был очищен", false, "message", false, 5000);
+                $.fn.updateMiniFavorite(data);
+            }
+        });
+    });
+
+
   $(document).on('click', '.preview-prod-bottom__button-compare', function() {
     var $cartItemID;
     $cartItemID = $(this).attr('data-cart-item');
@@ -783,6 +832,23 @@ $(document).ready(function() {
         }
       });
     }
+  });
+  $(document).on('click', '.js-clear-compare', function() {
+      $(document).find('.compare-page-item .compare__basket.hidden-remove').click();
+      return $.ajax({
+        type: 'POST',
+        url: '/ajax/ajax_func.php',
+        data: {
+          change_compare_list: 'Y',
+          clear_all: "Y",
+          AJAX_MIN_COMPARE: 'Y'
+        },
+        success: function(data) {
+          $('.addToCompareList').addClass('notActive');
+          $.fn.setPushUp("Список очищен", "Список сравнения был очищен", false, "message", false, 5000);
+          return $.fn.updateMiniCompare(data);
+        }
+      });
   });
   $(document).on('click', '.sci-top__count-up, .sci-top__count-down', function() {
     var cartItemID = $(this).attr('data-id');
@@ -2088,11 +2154,13 @@ $.fn.updateMiniCart = function(data) {
   var $miniCartCounter = $(document).find('#mini_cart_header_counter');
   var $ft = $('<div></div>').append(data);
 
-  if ($ft.find('.preview-prod').length > 0) {
-    $miniCart.removeClass(emptyMiniCartClass);
-  } else {
-    $miniCart.addClass(emptyMiniCartClass);
-  }
+    if ($ft.find('.preview-prod').length > 0) {
+        $miniCart.removeClass(emptyMiniCartClass);
+        $miniCartCounter.addClass("top-personal__cart--full");
+    } else {
+        $miniCart.addClass(emptyMiniCartClass);
+        $miniCartCounter.removeClass("top-personal__cart--full");
+    }
 
   $miniCartCounter.html($ft.find('#mini_cart_header_counter').html());
   return $miniCart.html($ft.find('#mini_cart_header').html());

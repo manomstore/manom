@@ -45,7 +45,7 @@
     <div class="personal-preview__wrapper">
       <div class="personal-preview__top">
         <h2 class="personal-preview__title">Корзина</h2>
-        <button class="personal-preview__link" type="button">Очистить</button>
+        <button class="personal-preview__link js-clear-cart" type="button">Очистить</button>
       </div>
 			<? if ($arResult['NUM_PRODUCTS'] > 0): ?>
 				<? foreach ($arResult['CATEGORIES'] as $key => $cat) {
