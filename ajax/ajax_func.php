@@ -45,12 +45,13 @@ if ($_POST['change_favorite_list'] == "Y") {
   ?>
   <?if(!$favList):?>
     <a href="" class="top-personal__heart" id="mini_favorite_header_counter">
-      <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/top-heart.svg" alt="">
-      <span class="top-count">0</span>
+      <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg" alt="Иконка избранного"
+           width="17"
+           height="15">
     </a>
-    <div class="preview-heart preview-heart--empty" id="mini_favorite_header">
-      <p class="preview-heart-not-text">Нет товара</p>
-    </div>
+<!--    <div class="preview-heart preview-heart--empty" id="mini_favorite_header">-->
+<!--      <p class="preview-heart-not-text">Нет товара</p>-->
+<!--    </div>-->
   <?else:?><?
     $APPLICATION->IncludeComponent(
       "bitrix:catalog.section",
@@ -212,12 +213,11 @@ endif;
   ?>
   <?if(!$favList):?>
     <a href="/catalog/compare/" class="top-personal__heart" id="mini_compare_header_counter">
-      <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/top-sheets.svg" alt="">
-      <span class="top-count">0</span>
+      <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
     </a>
-    <div class="preview-heart preview-heart--empty" id="mini_compare_header">
-      <p class="preview-heart-not-text">Нет товара</p>
-    </div>
+<!--    <div class="preview-heart preview-heart--empty" id="mini_compare_header">-->
+<!--      <p class="preview-heart-not-text">Нет товара</p>-->
+<!--    </div>-->
   <?else:?><?
     $APPLICATION->IncludeComponent(
       "bitrix:catalog.section",

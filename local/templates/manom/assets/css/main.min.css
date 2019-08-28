@@ -2818,12 +2818,12 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 0;
 }
 
-.top-personal__shopcart:hover + .preview-shopcart, .preview-shopcart:hover {
-  max-height: 100vh;
-  border-top: 2px solid #79B700;
-  border-bottom: 2px solid #79B700;
-  padding: 12px 10px;
-}
+/*.top-personal__shopcart:hover + .preview-shopcart, .preview-shopcart:hover {*/
+  /*max-height: 100vh;*/
+  /*border-top: 2px solid #79B700;*/
+  /*border-bottom: 2px solid #79B700;*/
+  /*padding: 12px 10px;*/
+/*}*/
 
 .preview-sheets, .preview-heart {
   position: absolute;

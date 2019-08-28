@@ -1,70 +1,102 @@
-<?if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true) die();
+<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+	die();
+}
 /**
- * @global array $arParams
- * @global CUser $USER
- * @global CMain $APPLICATION
+ * @global array  $arParams
+ * @global CUser  $USER
+ * @global CMain  $APPLICATION
  * @global string $cartId
  */
 ?>
 <div style="
-position: fixed;
-width: 100%;
-height: 100%;
-background-color: black;
-left: 0;
-top: 0;
-z-index: 100;
-overflow-y: scroll;
-<?=$_REQUEST['show_ci'] ? '' : 'display: none;';?>
-">
-	<pre><?print_r($arResult);?></pre>
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  overflow-y: scroll;
+<?= $_REQUEST['show_ci'] ? '' : 'display: none;'; ?>
+  ">
+  <pre><? print_r($arResult); ?></pre>
 </div>
-<?if ($_REQUEST['AJAX_MIN_CART'] == 'Y'):?>
-<?$APPLICATION->RestartBuffer();?>
-<?endif;?>
-<a href="/cart/" class="top-personal__shopcart" id="mini_cart_header_counter">
-	<img src="<?=SITE_TEMPLATE_PATH?>/assets/img/top-shopcart.svg" alt="">
-	<span class="top-count"><?=$arResult['NUM_PRODUCTS']?></span>
-</a>
+<? if ($_REQUEST['AJAX_MIN_CART'] == 'Y'): ?>
+	<? $APPLICATION->RestartBuffer(); ?>
+<? endif; ?>
 
-<?$prodCount = 0;?>
-<div class="preview-shopcart<?=$arResult['NUM_PRODUCTS'] === 0 ? ' preview-shopcart--empty' : '';?>" id="mini_cart_header">
-	<?if ($arResult['NUM_PRODUCTS'] > 0):?>
-		<?foreach ($arResult['CATEGORIES'] as $key => $cat) {
-			foreach ($cat as $i => $item) {?>
-				<?$prodCount++;
-				if($prodCount>5) continue;?>
-				<div class="preview-prod" data-cart-item="<?=$item['ID']?>">
-					<img src="<?=$item['PIC']?>" alt="">
-					<div class="preview-prod__descr">
-						<h3 class="preview-prod__name">
-							<a href="<?=$item['DETAIL_PAGE_URL']?>"><?=$item['NAME']?> (<?=$item['QUANTITY']?>шт.)</a>
-						</h3>
-						<div class="preview-prod-bottom">
-							<div class="preview-prod-bottom__price">
-								<?=str_replace('руб.', '', $item['SUM'])?><span> ₽</span>
-							</div>
-							<label>
-								<input class="preview-prod-bottom__checkbox" type="checkbox" checked>
-								<span class="preview-prod-bottom__button preview-prod-bottom__button-cart" data-cart-item="<?=$item['ID']?>"></span>
-							</label>
-						</div>
-					</div>
-				</div>
-			<?}
-		}?>
-		<div class="hr"></div>
-		<?if ($prodCount > 5):?>
-			<p style="text-align: left;padding: 5px 10px;">Товаров: <?=$prodCount;?></p>
-		<?endif;?>
-		<div class="preview-bottom">
-			<div class="preview-bottom__price">
-				<?=str_replace('руб.', '', $arResult['TOTAL_PRICE'])?><span> ₽</span>
-			</div>
-			<a href="/cart/" class="preview-bottom__button" style="margin-top: 10px;">В корзину</a>
-		</div>
-	<?endif;?>
+<!-- Если в корзине что-то есть добавлчется класс top-personal__cart--full -->
+<div class="top-personal__block">
+  <a href="/cart/"
+     class="top-personal__link top-personal__cart <?= ($arResult['NUM_PRODUCTS'] !== 0) ? ' top-personal__cart--full' : ''; ?>"
+     id="mini_cart_header_counter">
+    <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
+		<? if ($arResult['NUM_PRODUCTS'] !== 0): ?>
+			<?= str_replace('руб.', '', $arResult['TOTAL_PRICE']) ?>
+      &#8381;
+      (<span class="top-count top-personal__count">
+        <?= $arResult['NUM_PRODUCTS'] ?>
+      </span>)
+		<? endif; ?>
+  </a>
+
+	<? $prodCount = 0; ?>
+  <div class="personal-preview preview-shopcart<?= $arResult['NUM_PRODUCTS'] === 0 ? ' preview-shopcart--empty' : ''; ?>" id="mini_cart_header">
+    <div class="personal-preview__wrapper">
+      <div class="personal-preview__top">
+        <h2 class="personal-preview__title">Корзина</h2>
+        <button class="personal-preview__link js-clear-cart" type="button">Очистить</button>
+      </div>
+			<? if ($arResult['NUM_PRODUCTS'] > 0): ?>
+				<? foreach ($arResult['CATEGORIES'] as $key => $cat) {
+					foreach ($cat as $i => $item) { ?>
+						<?
+						$prodCount++;
+						if ($prodCount > 5) {
+							continue;
+						} ?>
+            <div class="preview-prod" data-cart-item="<?= $item['ID'] ?>">
+              <div class="preview-prod__picture">
+                <img src="<?= $item['PIC'] ?>" alt="Изображение товара">
+              </div>
+              <div class="preview-prod__descr">
+                <div class="preview-prod-bottom">
+                  <div class="preview-prod-bottom__price">
+                    <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
+                    <?= str_replace('руб.', '', $item['SUM']) ?> ₽
+                  </span>
+                    <span class="preview-prod-bottom__value preview-prod-bottom__value--sale">
+                    999 999 ₽
+                  </span>
+                  </div>
+                  <button class="preview-prod-bottom__del preview-prod-bottom__button-cart" type="button" aria-label="Удалить товар" data-cart-item="<?= $item['ID'] ?>"></button>
+                  <!--                <label>-->
+                  <!--                  <input class="preview-prod-bottom__checkbox" type="checkbox" checked>-->
+                  <!--                  <span class="preview-prod-bottom__button preview-prod-bottom__button-cart" data-cart-item="-->
+									<?//= $item['ID'] ?><!--"></span>-->
+                  <!--                </label>-->
+                </div>
+                <h3 class="preview-prod__name">
+                  <a href="<?= $item['DETAIL_PAGE_URL'] ?>"><?= $item['NAME'] ?> (<?= $item['QUANTITY'] ?>шт.)</a>
+                </h3>
+              </div>
+            </div>
+						<?
+					}
+				} ?>
+				<? if ($prodCount > 5): ?>
+          <p style="text-align: left;padding: 5px 10px;">Товаров: <?= $prodCount; ?></p>
+				<? endif; ?>
+        <div class="preview-bottom">
+          <!--        <div class="preview-bottom__price">-->
+          <!--					--><? //= str_replace('руб.', '', $arResult['TOTAL_PRICE']) ?><!--<span> ₽</span>-->
+          <!--        </div>-->
+          <a href="/cart/" class="preview-bottom__button">В корзину</a>
+        </div>
+			<? endif; ?>
+    </div>
+  </div>
 </div>
-<?if ($_REQUEST['AJAX_MIN_CART'] == 'Y'):?>
-<?die();?>
-<?endif;?>
+<? if ($_REQUEST['AJAX_MIN_CART'] == 'Y'): ?>
+	<? die(); ?>
+<? endif; ?>
