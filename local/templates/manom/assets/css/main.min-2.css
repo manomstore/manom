@@ -9775,10 +9775,20 @@ button.top-nav__link {
     font-size: 36px;
     color: #29282C;
     padding: 0;
+    cursor: default;
+    pointer-events: none;
   }
 
   .popup-login__toggle::after {
     display: none;
+  }
+
+  .popup-login__block--sing-in {
+    display: flex !important;
+  }
+
+  .popup-login__block--sing-up {
+    display: none !important;
   }
 
   .advantages {
