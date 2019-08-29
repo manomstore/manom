@@ -576,6 +576,7 @@ $APPLICATION->SetTitle("Manom");
 							false
 					);?>
 
+	<? /*
 	<!-- Бренды -->
 	<section class="brands">
 			<?$APPLICATION->IncludeComponent(
@@ -628,7 +629,9 @@ $APPLICATION->SetTitle("Manom");
 					)
 			);?>
 	</section>
+	*/ ?>
 
+	<? /*
 	<!-- Бестселлеры -->
 	<section class="bestsellers">
 			<?$APPLICATION->IncludeComponent(
@@ -724,6 +727,7 @@ $APPLICATION->SetTitle("Manom");
 	);?>
 
 	</section>
+	*/ ?>
 
 	<!-- О магазине -->
 	<section id="about-shops" class="about-shops">
