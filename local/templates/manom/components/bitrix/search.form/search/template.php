@@ -28,7 +28,8 @@ $this->setFrameMode(true); ?>
 			$component,
 			["HIDE_ICONS" => "Y"]
 		); ?>
-    <button class="search-block__submit" type="submit" aria-label="Поиск"></button>
+    <i class="search-block__submit"></i>
+    <button class="search-block__submit-button" type="submit">Найти</button>
   </div>
 
   <ul class="search-block__list">
