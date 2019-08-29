@@ -74,24 +74,6 @@ $(document).ready(function() {
         window.location.href = "/auth/registration.php";
     });
 
-    $(".js-link-stub").on("click", function (event) {
-        event.preventDefault();
-        $(this).focusout()
-    }).on("mouseenter", function (event) {
-        var menuId = parseInt($(this).data("item-id"));
-        if (menuId > 0) {
-            $("[data-submenu-id='" + menuId + "']").addClass("main-nav__innerlist--show");
-        }
-    });
-
-    $(".main-nav__sublist li").on("mouseenter", function (event) {
-        var existSubmenu = $(this).find(".js-link-stub").length > 0;
-        var menuId = parseInt($(this).find(".js-link-stub").data("item-id"));
-        if (!existSubmenu && menuId <= 0 || parseInt($(".main-nav__innerlist--show").data("submenu-id")) !== menuId) {
-            $(".main-nav__innerlist--show").removeClass("main-nav__innerlist--show");
-        }
-    });
-
   var $clearAll, $maxPrice, $minPrice;
 
   var REG_EXP_EMAIL = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;

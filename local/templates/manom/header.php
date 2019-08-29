@@ -466,22 +466,22 @@ $userCityByGeoIP = $userLocationInfo;
                 <a href="/" class="top-nav__logo">
                   <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/logo.svg" alt="Логотип интернет магазина Manom.ru" width="129" height="23">
                 </a>
-                <ul class="top-nav__list">
-                  <li>
-                    <a class="top-nav__link top-nav__link--arrow"
-                       data-item-id="1"
-                       href="/catalog/noutbuki-i-kompyuternaya-tekhnika/">Компьютерная техника</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link top-nav__link--arrow"
-                       data-item-id="2"
-                       href="/catalog/smartfony-i-planshety/">Смартфоны и планшеты</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/tsifrovoe-sputnikovoe-tv/">Apple TV</a>
-                  </li>
-                </ul>
-
+                  <? $APPLICATION->IncludeComponent(
+                      "bitrix:menu",
+                      "mob_sections_with_submenu",
+                      [
+                          "ROOT_MENU_TYPE"        => "sections",
+                          "MAX_LEVEL"             => "1",
+                          "CHILD_MENU_TYPE"       => "top",
+                          "USE_EXT"               => "Y",
+                          "DELAY"                 => "N",
+                          "ALLOW_MULTI_SELECT"    => "Y",
+                          "MENU_CACHE_TYPE"       => "N",
+                          "MENU_CACHE_TIME"       => "3600",
+                          "MENU_CACHE_USE_GROUPS" => "Y",
+                          "MENU_CACHE_GET_VARS"   => "",
+                      ]
+                  ); ?>
                 <ul class="top-nav__list top-nav__list--user">
                   <li>
                     <a class="top-nav__link top-nav__link--compare" href="/catalog/compare/">Сравнение</a>
@@ -514,43 +514,22 @@ $userCityByGeoIP = $userLocationInfo;
                   </a>
                 </div>
               </nav>
-
-              <div class="submenu-mob" data-submenu-id="1">
-                <button class="submenu-mob__back" type="button" aria-label="Вернуться назад"></button>
-                <h2 class="submenu-mob__title">Компьютерная техника</h2>
-                <ul class="top-nav__list">
-                  <li>
-                    <a class="top-nav__link" href="/catalog/kompyutery-apple-/">Компьютеры Apple</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/noutbuki-apple/">Ноутбуки Apple</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">Периферийные устройства</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">Аксессуары ПК</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="submenu-mob" data-submenu-id="2">
-                <button class="submenu-mob__back" type="button" aria-label="Вернуться назад"></button>
-                <h2 class="submenu-mob__title">Смартфоны и планшеты</h2>
-                <ul class="top-nav__list">
-                  <li>
-                    <a class="top-nav__link" href="/catalog/apple-iphone/">iPhone</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/planshety1/">iPad</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/watch/">Apple Watch</a>
-                  </li>
-                  <li>
-                    <a class="top-nav__link" href="/catalog/aksessuary-dlya-smartfonov/">Аксессуары</a>
-                  </li>
-                </ul>
-              </div>
+                <? $APPLICATION->IncludeComponent(
+                    "bitrix:menu",
+                    "mob_sections_submenu",
+                    [
+                        "ROOT_MENU_TYPE"        => "sections",
+                        "MAX_LEVEL"             => "1",
+                        "CHILD_MENU_TYPE"       => "top",
+                        "USE_EXT"               => "Y",
+                        "DELAY"                 => "N",
+                        "ALLOW_MULTI_SELECT"    => "Y",
+                        "MENU_CACHE_TYPE"       => "N",
+                        "MENU_CACHE_TIME"       => "3600",
+                        "MENU_CACHE_USE_GROUPS" => "Y",
+                        "MENU_CACHE_GET_VARS"   => "",
+                    ]
+                ); ?>
             </div>
 
             <a href="/" class="top-nav__logo-link">
@@ -606,147 +585,22 @@ $userCityByGeoIP = $userLocationInfo;
             <!--							<a href="#" class="sci-login__forgot">Забыли пароль?</a>-->
             <!--						</form>-->
             <!--			  	</div>-->
-
-            <div class="main-nav">
-              <ul class="main-nav__list">
-                <li class="main-nav__item main-nav__item--dropdown">
-                  <a class="main-nav__link" href="/catalog/noutbuki-i-kompyuternaya-tekhnika/">
-                    Компьютерная техника
-                    <svg class="main-nav__icon main-nav__icon--rotate" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
-                    </svg>
-                  </a>
-                  <div class="main-nav__list-wrapper">
-                    <div class="main-nav__inner">
-                      <ul class="main-nav__sublist">
-                        <li>
-                          <a class="main-nav__link main-nav__link--lv2 js-link-stub" data-item-id="1" href="#">
-                            Компьютеры Apple
-                            <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
-                            </svg>
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/noutbuki-apple/">
-                            Ноутбуки Apple
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link main-nav__link--lv2 js-link-stub"
-                             data-item-id="2"
-                             href="/catalog/aksessuary-dlya-kompyuterov/">
-                              Периферийные устройства
-                            <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
-                            </svg>
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">
-                            Аксессуары ПК
-                          </a>
-                        </li>
-                      </ul>
-                      <ul class="main-nav__innerlist" data-submenu-id="1">
-                        <li>
-                          <a class="main-nav__link" href="/catalog/kompyutery-apple-/">
-                            iMac
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/sistemnye-bloki-apple/">
-                            Mac Mini
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/apple-mac-pro-/">
-                            Mac Pro
-                          </a>
-                        </li>
-                      </ul>
-                      <ul class="main-nav__innerlist" data-submenu-id="2">
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">
-                              Мониторы
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">
-                              Акустические системы
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">
-                              Мышки
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-kompyuterov/">
-                              Клавиатуры
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="main-nav__item main-nav__item--dropdown">
-                  <a class="main-nav__link" href="/catalog/apple-iphone/">
-                    Смартфоны и планшеты
-                    <svg class="main-nav__icon main-nav__icon--rotate" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
-                    </svg>
-                  </a>
-                  <div class="main-nav__list-wrapper">
-                    <div class="main-nav__inner">
-                      <ul class="main-nav__sublist">
-                        <li>
-                          <a class="main-nav__link" href="/catalog/apple-iphone/">
-                            iPhone
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/planshety1/">
-                            iPad
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/watch/">
-                            Apple Watch
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link main-nav__link--lv2 js-link-stub"
-                             data-item-id="3"
-                             href="#">
-                            Аксессуары
-                            <svg class="main-nav__icon" viewBox="0 0 10 6" width="10" height="7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M9 1L5 5 1 1" stroke="currentColor" stroke-width="1.5"/>
-                            </svg>
-                          </a>
-                        </li>
-                      </ul>
-                      <ul class="main-nav__innerlist" data-submenu-id="3">
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-smartfonov/">
-                            Для iPhone
-                          </a>
-                        </li>
-                        <li>
-                          <a class="main-nav__link" href="/catalog/aksessuary-dlya-planshetov/">
-                            Для iPad
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="main-nav__item">
-                  <a class="main-nav__link" href="/catalog/tsifrovoe-sputnikovoe-tv/">Apple TV</a>
-                </li>
-              </ul>
-            </div>
-
+              <? $APPLICATION->IncludeComponent(
+                  "bitrix:menu",
+                  "menu_sections",
+                  [
+                      "ROOT_MENU_TYPE"        => "sections",
+                      "MAX_LEVEL"             => "1",
+                      "CHILD_MENU_TYPE"       => "top",
+                      "USE_EXT"               => "Y",
+                      "DELAY"                 => "N",
+                      "ALLOW_MULTI_SELECT"    => "Y",
+                      "MENU_CACHE_TYPE"       => "N",
+                      "MENU_CACHE_TIME"       => "3600",
+                      "MENU_CACHE_USE_GROUPS" => "Y",
+                      "MENU_CACHE_GET_VARS"   => "",
+                  ]
+              ); ?>
             <div class="top-personal">
 
               <a class="top-personal__link top-personal__link--search"
@@ -1190,20 +1044,22 @@ $userCityByGeoIP = $userLocationInfo;
 							); ?>
             </div>
           </div>
-
-          <div class="sub-menu">
-            <ul class="sub-menu__list">
-              <li>
-                <a class="sub-menu__link" href="/catalog/noutbuki-i-kompyuternaya-tekhnika/">Компьютерная техника</a>
-              </li>
-              <li>
-                <a class="sub-menu__link" href="/catalog/smartfony-i-planshety/">Смартфоны и планшеты</a>
-              </li>
-              <li>
-                <a class="sub-menu__link" href="/catalog/tsifrovoe-sputnikovoe-tv/">Apple TV</a>
-              </li>
-            </ul>
-          </div>
+            <? $APPLICATION->IncludeComponent(
+                "bitrix:menu",
+                "mob_sections_without_submenu",
+                [
+                    "ROOT_MENU_TYPE"        => "sections",
+                    "MAX_LEVEL"             => "1",
+                    "CHILD_MENU_TYPE"       => "top",
+                    "USE_EXT"               => "Y",
+                    "DELAY"                 => "N",
+                    "ALLOW_MULTI_SELECT"    => "Y",
+                    "MENU_CACHE_TYPE"       => "N",
+                    "MENU_CACHE_TIME"       => "3600",
+                    "MENU_CACHE_USE_GROUPS" => "Y",
+                    "MENU_CACHE_GET_VARS"   => "",
+                ]
+            ); ?>
         </div>
       </div>
 
