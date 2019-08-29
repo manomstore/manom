@@ -8091,9 +8091,6 @@ p.price-slider {
 }
 .preview-card--show {
   max-height: 100vh;
-  border-top: 2px solid #79B700;
-  border-bottom: 2px solid #79B700;
-  padding: 12px 10px;
 }
 
 .header {
@@ -8544,18 +8541,13 @@ button.top-nav__link {
   right: 0;
   z-index: 1001;
   padding-top: 15px;
-  overflow: hidden;
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ease .2s, opacity .2s ease;
 }
 
 .personal-preview--show {
   display: block;
-}
-
-.preview-shopcart--empty,
-.preview-heart--empty,
-.preview-heart--empty {
-  display: none!important;
 }
 
 .personal-preview__wrapper {
@@ -9416,12 +9408,20 @@ button.top-nav__link {
   }
 
   .top-personal__block:hover .personal-preview,
-  .top-personal__block:focus .personal-preview {
-    display: block;
+  .top-personal__block:focus .personal-preview,
+  .top-personal__block:focus-within .personal-preview {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s ease, opacity .2s ease;
   }
 
-  .top-personal__block:focus-within .personal-preview {
-    display: block;
+  .top-personal__block:hover .preview-shopcart--empty,
+  .top-personal__block:focus .preview-shopcart--empty,
+  .top-personal__block:focus-within .preview-shopcart--empty,
+  .top-personal__block:hover .preview-heart--empty,
+  .top-personal__block:focus .preview-heart--empty,
+  .top-personal__block:focus-within .preview-heart--empty {
+    display: none;
   }
 }
 

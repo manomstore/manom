@@ -835,12 +835,11 @@ h4.p-article__sidebar_title {
 .preview-heart {
   text-align: center;
 }
-.preview-heart--empty {
-  display: none;
-}
 .preview-heart--show,
 .preview-card--show {
-  display: block;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s ease, opacity .2s ease;
 }
 .sale_personal_order_list {
   text-align: left;
@@ -1007,9 +1006,6 @@ html {
 }
 .preview-shopcart {
   right: 0;
-}
-.preview-shopcart--empty {
-  display: none;
 }
 @media screen and (max-width: 385px){
   #slider-range-alt{
