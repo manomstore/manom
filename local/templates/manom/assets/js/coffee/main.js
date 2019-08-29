@@ -69,12 +69,6 @@ $(document).ready(function() {
         $(this).closest("form").submit();
     });
 
-    $(".popup-login__toggle[for='sing-up']").on("click", function (event) {
-        event.preventDefault();
-        window.location.href = "/auth/registration.php";
-
-    });
-
     $(".js-link-stub").on("click", function (event) {
         event.preventDefault();
         $(this).focusout()
