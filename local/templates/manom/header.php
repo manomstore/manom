@@ -483,9 +483,10 @@ $userCityByGeoIP = $userLocationInfo;
                       ]
                   ); ?>
                 <ul class="top-nav__list top-nav__list--user">
-                  <li>
-                    <a class="top-nav__link top-nav__link--compare" href="/catalog/compare/">Сравнение</a>
-                  </li>
+                    <li>
+                        <a class="top-nav__link top-nav__link--compare"
+                           <?= getProdListFavoritAndCompare('UF_COMPARE_ID') ? "href='/catalog/compare/'" : "" ?>>Сравнение</a>
+                    </li>
                   <li>
                     <!-- location -->
                     <a class="top-nav__link top-nav__link--location" href="#">Город</a>
@@ -690,7 +691,7 @@ $userCityByGeoIP = $userLocationInfo;
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
                 <div class="top-personal__block top-personal__block--compare">
-                  <a href="/catalog/compare/" class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
+                  <a class="top-personal__link top-personal__link--compare" id="mini_compare_header_counter">
                     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">
                     <!--                    <span class="top-count">0</span>-->
                   </a>
@@ -856,7 +857,7 @@ $userCityByGeoIP = $userLocationInfo;
 									<? $APPLICATION->RestartBuffer(); ?>
 								<? endif; ?>
                 <div class="top-personal__block">
-                  <a href="#" class="top-personal__link" id="mini_favorite_header_counter">
+                  <a class="top-personal__link" id="mini_favorite_header_counter">
                     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg"
                          alt="Иконка избранного"
                          width="17"

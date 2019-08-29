@@ -23,7 +23,9 @@ global $glob_sectionInfo, $new_offer_filter;
 	<? $APPLICATION->RestartBuffer(); ?>
 <? endif; ?>
 <div class="top-personal__block">
-  <a href="/user/favorite/" class="top-personal__link" id="mini_favorite_header_counter">
+    <a <?= count($arResult['ITEMS']) > 0 ? "href='/user/favorite/'" : "" ?>
+            class="top-personal__link"
+            id="mini_favorite_header_counter">
     <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/icons/heart.svg" alt="Иконка избранного"
          width="17"
          height="15">
