@@ -122,13 +122,13 @@ $(document).ready(function() {
     lastTimeout = setTimeout(callback, time);
   };
 
-  $('.sub-menu__list').slick({
-    dots: false,
-    infinite: false,
-    prevArrow: false,
-    nextArrow: false,
-    variableWidth: true
-  });
+  // $('.sub-menu__list').slick({
+  //   dots: false,
+  //   infinite: false,
+  //   prevArrow: false,
+  //   nextArrow: false,
+  //   variableWidth: true
+  // });
 
   $('.search-block__list').slick({
     dots: false,
