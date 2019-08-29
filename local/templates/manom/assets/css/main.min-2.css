@@ -9764,6 +9764,10 @@ button.top-nav__link {
     margin: 0 0 40px;
   }
 
+  .popup-login__field--before-check {
+    margin-bottom: 30px;
+  }
+
   .popup-login__toggles {
     padding: 0 40px 15px;
     border: none;
@@ -9789,6 +9793,10 @@ button.top-nav__link {
 
   .popup-login__block--sing-up {
     display: none !important;
+  }
+
+  .popup-login__label-check {
+    margin-bottom: 40px;
   }
 
   .advantages {

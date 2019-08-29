@@ -85,7 +85,7 @@ global $USER;
                 }
               });
             </script>
-            <div class="popup-login__field">
+            <div class="popup-login__field popup-login__field--before-check">
               <label class="popup-login__label" for="sci-login__password">Пароль</label>
               <input class="popup-login__input"
                      type="password"
@@ -101,14 +101,14 @@ global $USER;
 								} ?>
               </div>
             </div>
-						<? if ($arResult["STORE_PASSWORD"] == "Y") { ?>
+            <? if ($arResult["STORE_PASSWORD"] == "Y") { ?>
               <label class="popup-login__label-check popup-login__label-check--remember"
-                     title="<?= GetMessage("AUTH_REMEMBER_ME") ?>"
+                    title="<?= GetMessage("AUTH_REMEMBER_ME") ?>"
               >
                 <input class="popup-login__check visually-hidden"
-                       type="checkbox"
-                       name="USER_REMEMBER"
-                       value="Y"
+                      type="checkbox"
+                      name="USER_REMEMBER"
+                      value="Y"
                 />
                 <span><? echo GetMessage("AUTH_REMEMBER_SHORT") ?></span>
               </label>
@@ -240,7 +240,7 @@ global $USER;
                 }
               });
             </script>
-            <div class="popup-login__field">
+            <div class="popup-login__field popup-login__field--before-check">
               <label class="popup-login__label" for="sing-up-password">Пароль</label>
               <input class="popup-login__input"
                      type="password"
@@ -256,14 +256,14 @@ global $USER;
 								} ?>
               </div>
             </div>
-						<? if ($arResult["STORE_PASSWORD"] == "Y") { ?>
+            <? if ($arResult["STORE_PASSWORD"] == "Y") { ?>
               <label class="popup-login__label-check popup-login__label-check--remember"
-                     title="<?= GetMessage("AUTH_REMEMBER_ME") ?>"
+                    title="<?= GetMessage("AUTH_REMEMBER_ME") ?>"
               >
                 <input class="popup-login__check visually-hidden"
-                       type="checkbox"
-                       name="USER_REMEMBER"
-                       value="Y"
+                      type="checkbox"
+                      name="USER_REMEMBER"
+                      value="Y"
                 />
                 <span><? echo GetMessage("AUTH_REMEMBER_SHORT") ?></span>
               </label>
