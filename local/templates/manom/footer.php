@@ -2,7 +2,7 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
-
+                <? /*
                 <div class="footer-top">
                     <div class="subscription">
                         <?
@@ -78,6 +78,7 @@
                         );?>
                     </div>
                 </div>
+                */ ?>
 
                 <div class="footer-main row">
                     <div class="col-3 footer-main__column">
