@@ -72,7 +72,6 @@ $(document).ready(function() {
     $(".popup-login__toggle[for='sing-up']").on("click", function (event) {
         event.preventDefault();
         window.location.href = "/auth/registration.php";
-
     });
 
     $(".js-link-stub").on("click", function (event) {
@@ -123,13 +122,13 @@ $(document).ready(function() {
     lastTimeout = setTimeout(callback, time);
   };
 
-  $('.sub-menu__list').slick({
-    dots: false,
-    infinite: false,
-    prevArrow: false,
-    nextArrow: false,
-    variableWidth: true
-  });
+  // $('.sub-menu__list').slick({
+  //   dots: false,
+  //   infinite: false,
+  //   prevArrow: false,
+  //   nextArrow: false,
+  //   variableWidth: true
+  // });
 
   $('.search-block__list').slick({
     dots: false,
