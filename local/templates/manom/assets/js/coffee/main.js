@@ -2178,13 +2178,22 @@ $.fn.updateMiniCompare = function(data) {
   var emptyMiniCompareClass = 'preview-heart--empty';
   var $miniCompare = $(document).find('#mini_compare_header');
   var $miniCompareCounter = $(document).find('#mini_compare_header_counter');
-  var $ft = $('<div></div>').append(data);
+  var $mobileCompareLink = $(document).find('.top-nav__link.top-nav__link--compare');
+    var $ft = $('<div></div>').append(data);
 
-  if ($ft.find('.preview-prod').length > 0) {
-    $miniCompare.removeClass(emptyMiniCompareClass);
-  } else {
-    $miniCompare.addClass(emptyMiniCompareClass);
-  }
+    if ($ft.find('.preview-prod').length > 0) {
+        $miniCompare.removeClass(emptyMiniCompareClass);
+        if (!$miniCompareCounter.attr("href")) {
+            $miniCompareCounter.attr("href", "/catalog/compare/");
+        }
+        if (!$mobileCompareLink.attr("href")) {
+            $miniCompareCounter.attr("href", "/catalog/compare/");
+        }
+    } else {
+        $miniCompareCounter.removeAttr("href");
+        $mobileCompareLink.removeAttr("href");
+        $miniCompare.addClass(emptyMiniCompareClass);
+    }
 
   $miniCompareCounter.html($ft.find('#mini_compare_header_counter').html());
   return $miniCompare.html($ft.find('#mini_compare_header').html());
@@ -2196,11 +2205,15 @@ $.fn.updateMiniFavorite = function(data) {
   var $miniFavoriteCounter = $(document).find('#mini_favorite_header_counter');
   var $ft = $('<div></div>').append(data);
 
-  if ($ft.find('.preview-prod').length > 0) {
-    $miniFavorite.removeClass(emptyMiniFavoriteClass);
-  } else {
-    $miniFavorite.addClass(emptyMiniFavoriteClass);
-  }
+    if ($ft.find('.preview-prod').length > 0) {
+        $miniFavorite.removeClass(emptyMiniFavoriteClass);
+        if (!$miniFavoriteCounter.attr("href")) {
+            $miniFavoriteCounter.attr("href", "/user/favorite/");
+        }
+    } else {
+        $miniFavoriteCounter.removeAttr("href");
+        $miniFavorite.addClass(emptyMiniFavoriteClass);
+    }
 
   $miniFavoriteCounter.html($ft.find('#mini_favorite_header_counter').html());
   return $miniFavorite.html($ft.find('#mini_favorite_header').html());
@@ -2215,9 +2228,11 @@ $.fn.updateMiniCart = function(data) {
     if ($ft.find('.preview-prod').length > 0) {
         $miniCart.removeClass(emptyMiniCartClass);
         $miniCartCounter.addClass("top-personal__cart--full");
+        $miniCartCounter.attr("href", "/cart/");
     } else {
         $miniCart.addClass(emptyMiniCartClass);
         $miniCartCounter.removeClass("top-personal__cart--full");
+        $miniCartCounter.removeAttr("href");
     }
 
   $miniCartCounter.html($ft.find('#mini_cart_header_counter').html());
