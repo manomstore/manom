@@ -936,8 +936,7 @@ global $USER;
                          required
                          checked>
                   <span class="sci-contact__check">
-                    Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a target="_blank" href="https://manom
-                    .ru/public_offer_agreement/">с условиями</a>.
+                    Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a target="_blank" href="/public_offer_agreement/">с условиями</a>.
                   </span>
                 </label>
               </div>
