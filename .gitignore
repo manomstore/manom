@@ -4,6 +4,8 @@
 *.xml
 
 /bitrix/
+/include/
 /landing_template/
 /upload/
+/vopros-otvet/
 /.htaccess
