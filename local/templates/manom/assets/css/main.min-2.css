@@ -8365,6 +8365,8 @@ button.top-nav__link {
   display: flex;
   align-items: center;
   margin-left: auto;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .top-personal__link {
