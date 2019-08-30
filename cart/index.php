@@ -535,9 +535,9 @@ global $USER;
                                 placeholder="Ваш комментарий"
                                 rows="3"></textarea>
                     </div>
-                    <span class="sci-delivery__price pickup_summ_alt">
+                    <!-- <span class="sci-delivery__price pickup_summ_alt">
                         Стоимость доставки: <span>не известно</span>
-                    </span>
+                    </span> -->
                   </section>
                 </li>
                 <li class="sci-delivery-tab">
@@ -936,8 +936,7 @@ global $USER;
                          required
                          checked>
                   <span class="sci-contact__check">
-                    Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a target="_blank" href="https://manom
-                    .ru/public_offer_agreement/">с условиями</a>.
+                    Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших персональных данных в соответствии <a target="_blank" href="/public_offer_agreement/">с условиями</a>.
                   </span>
                 </label>
               </div>
@@ -1009,8 +1008,12 @@ global $USER;
                 <p class="shopcart-sidebar__text">
                   <span class="shopcart-sidebar__delivery-city"></span>, <span class="shopcart-sidebar__delivery-address"></span>
                 </p>
-                <p class="shopcart-sidebar__text shopcart-sidebar__delivery-date">Дата доставки: <span></span></p>
+                <p class="shopcart-sidebar__text">
+                  <span class="shopcart-sidebar__delivery-date"><span></span></span><span class="shopcart-sidebar__delivery-time">, <span></span></span>
+                </p>
+                <? /*
                 <p class="shopcart-sidebar__text shopcart-sidebar__delivery-time">Срок доставки: <span>2-3 дня</span></p>
+                */ ?>
               </div>
               <div class="shopcart-sidebar__total">
                 <div class="shopcart-sidebar__price-wrapper">
