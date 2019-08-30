@@ -2,7 +2,7 @@
 <?if ($arResult['ITEMS']) {?>
 <section class="promotion">
     <div class="container">
-        <h2 class="promotion-h2">Товары по акции</h2>
+        <h2 class="promotion-h2 promotion-h2--no-bt">Товары по акции</h2>
 <div class="row promotion__block arrow-fix">
     <?foreach ($arResult['ITEMS'] as $key => $arItems) {?>
         <?$arCanBuy = CCatalogSKU::IsExistOffers($arItems['ID'], $arResult['IBLOCK_ID']);?>
