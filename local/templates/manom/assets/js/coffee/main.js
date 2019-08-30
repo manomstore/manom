@@ -80,13 +80,26 @@ $(document).ready(function() {
 
   app.shopcart.$el = $('.shopcart');
 
-  $('.sci-add__products').slick({
-    dots: false,
-    infinite: false,
-    speed: 300,
-    prevArrow: false,
-    nextArrow: false,
-    variableWidth: true
+  $('.sci-add__products').each(function(){
+    var $slider = $(this),
+      slidesWidth = 0;
+
+    $slider.slick({
+      dots: false,
+      infinite: false,
+      speed: 300,
+      variableWidth: true
+    });
+
+    $slider.find('.slick-slide').each(function(){
+      var $slide = $(this);
+
+      slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
+    });
+
+    if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
+      $slider.find('.slick-arrow').hide();
+    }
   });
 
   $('.top-nav__button-show').click(function(evt) {
