@@ -216,6 +216,7 @@ $APPLICATION->SetTitle("Manom");
 			</div>
 	</section>
 
+	<? /*
 	<!-- Выгоды -->
 	<section class="benefit">
 			<?$APPLICATION->IncludeComponent(
@@ -268,6 +269,7 @@ $APPLICATION->SetTitle("Manom");
 				)
 			);?>
 	</section>
+	*/ ?>
 
 	<!-- Товары по акции -->
 
