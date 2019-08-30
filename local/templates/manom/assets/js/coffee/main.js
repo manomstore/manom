@@ -1727,7 +1727,14 @@ $.fn.updateSideInfo = function() {
     uAddress += "кв. " + soBlock.find('[name="sci-delivery-apartment"]').val() + " ";
   }
   uDeliveryDate = soBlock.find('[name="sci-delivery-date"]').val();
-  uDeliveryTime = soBlock.find('[name="sci-delivery-time"]').val();
+  uDeliveryPeriod = soBlock.find('[name="sci-delivery-time"]').val();
+  uDeliveryTime = ($('.sci-delivery-tab:not(.rb_so__hide)')
+    .find('.sci-delivery__radio:checked')
+    .parent()
+    .find('#sci-delivery-time option:selected')
+    .text() || ''
+  ).trim();
+
   deliveryPrice = '0';
   totalPrice = '0';
   if ([3, 4].indexOf(app.shopcart._step) !== -1) {
@@ -1749,7 +1756,7 @@ $.fn.updateSideInfo = function() {
   if (soModule.find('.sale_order_full tfoot #sale-order-full-delivery-price').length > 0) {
     deliveryPrice = soModule.find('.sale_order_full tfoot #sale-order-full-delivery-price').html().toString().replace('руб.', '');
   }
-  uDeliveryTime = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
+  uDeliveryPeriod = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
   if (soModule.find('#ID_DELIVERY_ID_6').prop('checked')) {
     if (!isSideInfoInited) {
       if (soModule.find('#PERSON_TYPE_2').prop('checked')) {
@@ -1768,19 +1775,19 @@ $.fn.updateSideInfo = function() {
     }
 
     uDeliveryDate = "";
-    uDeliveryTime = "";
-    uDeliveryTime = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
+    uDeliveryPeriod = "";
+    uDeliveryPeriod = soModule.find('[for="ID_DELIVERY_ID_6"] .so_delivery_period').html();
     if (uAddress) {
       soBlock.find('.pickup_address span').html(uAddress);
     }
     soBlock.find('.pickup_summ span').html(deliveryPrice + '₽');
-    soBlock.find('.pickup_date span').html(uDeliveryTime);
+    soBlock.find('.pickup_date span').html(uDeliveryPeriod);
   }
   if (soModule.find('#ID_DELIVERY_ID_13').prop('checked')) {
     uCity = '';
     uAddress = $(document).find('label[for="ID_DELIVERY_ID_13"] .dsc_soa').html();
     deliveryPrice = $(document).find('label[for="ID_DELIVERY_ID_13"] .prs_soa').html().replace('руб.', '');
-    uDeliveryTime = $(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html();
+    uDeliveryPeriod = $(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html();
     soBlock.find('.sv_address').html($(document).find('label[for="ID_DELIVERY_ID_13"] .dsc_soa').html());
     soBlock.find('.sv_price span').html($(document).find('label[for="ID_DELIVERY_ID_13"] .prs_soa').html().replace('руб.', '') + '₽');
     soBlock.find('.sv_time span').html($(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html());
@@ -1806,25 +1813,25 @@ $.fn.updateSideInfo = function() {
       soModule.find('#sale-order-full-delivery-price').html().toString().replace('руб.', '')
     );
   }
+
+  uDeliveryDate = ($('.sci-delivery-tab:not(.rb_so__hide)')
+    .find('.sci-delivery__radio:checked')
+    .parent()
+    .find('#sci-delivery-date')
+    .val() || ''
+  ).trim();
+
   soBlock.find('.shopcart-sidebar__delivery-city').html(uCity);
   soBlock.find('.shopcart-sidebar__delivery-address').html(uAddress);
-  if (!uDeliveryDate) {
-    soBlock.find('.shopcart-sidebar__delivery-date').hide();
-  } else {
-    soBlock.find('.shopcart-sidebar__delivery-date').show();
-    soBlock.find('.shopcart-sidebar__delivery-date span').html(uDeliveryDate);
-  }
 
   isSideInfoInited = true;
 
   $.fn.toggleDeliveryPriceInfoVisibility();
 
-  if (!uDeliveryTime) {
-    return soBlock.find('.shopcart-sidebar__delivery-time').hide();
-  } else {
-    soBlock.find('.shopcart-sidebar__delivery-time').show();
-    return soBlock.find('.shopcart-sidebar__delivery-time span').html(uDeliveryTime);
-  }
+  soBlock.find('.shopcart-sidebar__delivery-date span').html(uDeliveryDate);
+  soBlock.find('.shopcart-sidebar__delivery-date')[uDeliveryDate === '' ? 'hide' : 'show']();
+  soBlock.find('.shopcart-sidebar__delivery-time span').html(uDeliveryTime);
+  soBlock.find('.shopcart-sidebar__delivery-time')[uDeliveryTime === '' ? 'hide' : 'show']();
 };
 
 $.fn.updateShopcartAmount = function(){
