@@ -1110,6 +1110,7 @@ if ($_REQUEST['ORDER_ID']) {
 			"PRODUCT_COLUMNS_VISIBLE"        => [
 				0 => "PREVIEW_PICTURE",
 				1 => "PROPS",
+                2 => "PROPERTY_CML2_ARTICLE",
 			],
 			"PROPS_FADE_LIST_1"              => [
 				0 => "19",
@@ -1249,6 +1250,11 @@ if ($_REQUEST['ORDER_ID']) {
         <div class="sci-product__count-block">
           <span class="sci-product__name">{{quantity}} шт.</span>
         </div>
+        {{#article}}
+        <div class="sci-product__count-block">
+          <span class="sci-product__name">Артикул {{article}}</span>
+        </div>
+        {{/article}}
       </div>
     </div>
   </div>
