@@ -535,9 +535,9 @@ global $USER;
                                 placeholder="Ваш комментарий"
                                 rows="3"></textarea>
                     </div>
-                    <span class="sci-delivery__price pickup_summ_alt">
+                    <!-- <span class="sci-delivery__price pickup_summ_alt">
                         Стоимость доставки: <span>не известно</span>
-                    </span>
+                    </span> -->
                   </section>
                 </li>
                 <li class="sci-delivery-tab">
