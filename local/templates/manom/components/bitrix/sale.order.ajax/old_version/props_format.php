@@ -93,6 +93,9 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif($arProperties["TYPE"] == "TEXT")
 						{
+                            if ($arProperties["CODE"] === "DATE_DELIVERY"){
+                                $arProperties["VALUE"] = date("d.m.Y");
+                            }
 							?>
 							<input type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
 							<?

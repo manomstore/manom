@@ -40,6 +40,7 @@ foreach ($arResult["GRID"]["ROWS"] as &$row) {
     $dataAttrs["oldSum"] = $row["data"]["SUM_BASE_FORMATED"];
     $dataAttrs["quantity"] = $row["data"]["QUANTITY"];
     $dataAttrs["existDiscount"] = $row["data"]["DISCOUNT_PRICE_PERCENT"] > 0;
+    $dataAttrs["article"] = $row["data"]["PROPERTY_CML2_ARTICLE_VALUE"];
     $row["DATA_ATTRS"] = json_encode($dataAttrs);
     $totalQuantity += (int)$row["data"]["QUANTITY"];
 }
