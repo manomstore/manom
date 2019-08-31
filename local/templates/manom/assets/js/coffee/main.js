@@ -66,6 +66,9 @@ app.utils = {
 $(document).ready(function() {
 
     $(".js-search-field .popup-block__input--search").on("change", function () {
+        if ($(this).val().trim().length <= 0) {
+            return true;
+        }
         $(this).closest("form").submit();
     });
 
