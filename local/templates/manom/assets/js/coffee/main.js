@@ -1894,6 +1894,16 @@ $.fn.updateShopcartSidebarProducts = function(){
   $('.sale_order_full tr[data-props]').each(function(){
     var props = $(this).data('props');
 
+      for (var key in props) {
+          if (props.hasOwnProperty(key) && typeof props[key] === "string") {
+              props[key] = props[key].replace("&amp;", '&')
+                  .replace("&quot;", '"')
+                  .replace("&#039;", "'")
+                  .replace("&lt;", '<')
+                  .replace("&gt;", '>');
+          }
+      }
+
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
 };
