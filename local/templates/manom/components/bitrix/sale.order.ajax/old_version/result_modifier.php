@@ -41,7 +41,7 @@ foreach ($arResult["GRID"]["ROWS"] as &$row) {
     $dataAttrs["quantity"] = $row["data"]["QUANTITY"];
     $dataAttrs["existDiscount"] = $row["data"]["DISCOUNT_PRICE_PERCENT"] > 0;
     $dataAttrs["article"] = $row["data"]["PROPERTY_CML2_ARTICLE_VALUE"];
-    $row["DATA_ATTRS"] = json_encode($dataAttrs);
+    $row["DATA_ATTRS"] = htmlspecialchars(json_encode($dataAttrs));
     $totalQuantity += (int)$row["data"]["QUANTITY"];
 }
 
@@ -56,4 +56,4 @@ $arResult["TOTAL_DATA_ATTRS"] = [
     "totalQuantity" => $totalQuantity,
 ];
 
-$arResult["TOTAL_DATA_ATTRS"] = json_encode($arResult["TOTAL_DATA_ATTRS"]);
+$arResult["TOTAL_DATA_ATTRS"] = htmlspecialchars(json_encode($arResult["TOTAL_DATA_ATTRS"]));

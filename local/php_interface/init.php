@@ -51,6 +51,8 @@ endif;
 AddEventHandler("sale", "OnBeforeEventAdd", Array("MyHandlerClass","OnBeforeEventAddHandler"));
 AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass","OnSaleComponentOrderPropertiesHandler"));
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","reIndexSku"));
+AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
+
 
 
 // AddEventHandler("iblock", "OnBeforeIBlockElementAdd", Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler"));
@@ -190,6 +192,73 @@ class MyHandlerClass
                 \CAllIBlockElement::UpdateSearch($offer["ID"], true);
             } else {
                 \CSearch::DeleteIndex("iblock", $offer["ID"]);
+            }
+        }
+    }
+
+    function checkTimeDelivery($entity) {
+        $dateDelivery = $timeDelivery = null;
+        $dateDeliveryExist = false;
+        foreach ($entity->getPropertyCollection() as $property) {
+            $propertyValue = $property->getFieldValues();
+
+            if ($propertyValue["CODE"] === "DATE_DELIVERY") {
+                $dateDelivery = $property->getValue();
+                $dateDeliveryExist = true;
+            }
+
+            if ($propertyValue["CODE"] === "TIME_DELIVERY") {
+                $timeDelivery = $property->getValue();
+                if (is_array($timeDelivery)) {
+                    $timeDelivery = $timeDelivery[0];
+                }
+                $dateDeliveryExist = true;
+            }
+        }
+
+        if (!$dateDeliveryExist){
+            return;
+        }
+
+        $timeRanges = [
+            1 => 6,
+            2 => 9,
+            3 => 12,
+            4 => 15,
+            5 => 18,
+        ];
+
+        $currentHour = (int)date("G");
+        $isPast = false;
+
+        if ($dateDelivery){
+            $isPast = strtotime($dateDelivery)===false;
+            if (!$isPast){
+                $isPast = strtotime($dateDelivery) < strtotime(date('d.m.Y'));
+            }
+        }
+
+        if (!$isPast && $dateDelivery === date('d.m.Y')) {
+            foreach ($timeRanges as $key => $range) {
+                if ($currentHour >= $range && $key === (int)$timeDelivery) {
+                    $isPast = true;
+                }
+            }
+        }
+
+        if ($isPast) {
+            return new Bitrix\Main\EventResult(
+                Bitrix\Main\EventResult::ERROR,
+                new Bitrix\Sale\ResultError("Дата или время доставки указаны некорректно"),
+                'sale'
+            );
+        } elseif (!$dateDelivery && $timeDelivery) {
+            foreach ($entity->getPropertyCollection() as $property) {
+                $propertyValue = $property->getFieldValues();
+
+                if ($propertyValue["CODE"] === "TIME_DELIVERY") {
+                    $property->setValue("");
+                }
             }
         }
     }

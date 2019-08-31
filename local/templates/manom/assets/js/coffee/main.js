@@ -72,6 +72,10 @@ $(document).ready(function() {
         $(this).closest("form").submit();
     });
 
+    $(".js-shopcart-datepicker").on("change", function () {
+        checkDeliveryTime();
+    });
+
     $(".popup-login__toggle[for='sing-up']").on("click", function (event) {
         event.preventDefault();
         window.location.href = "/auth/registration.php";
@@ -1536,17 +1540,18 @@ $(document).ready(function() {
         })
         .attr('autocomplete', 'none');
 
-  // Инициализация календаря
-  (function(){
-    var startDate = new Date();
-
-    startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-
-    $('.js-shopcart-datepicker').datepicker({
-      language: 'ru',
-      startDate: startDate
-    });
-  })();
+    // Инициализация календаря
+    (function () {
+        var startDate = new Date();
+        if (startDate.getHours() >= 18) {
+            startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+        }
+        $('.js-shopcart-datepicker').datepicker({
+            language: 'ru',
+            startDate: startDate
+        });
+        checkDeliveryTime()
+    })();
 
   $.fn.toggleDeliveryPriceInfoVisibility();
 
@@ -1705,6 +1710,49 @@ $(document).ready(function() {
       $input.val(persistData[key]);
     }
   }
+
+    function checkDeliveryTime() {
+        var $deliveryTime = $("#sci-delivery-time");
+        var $deliveryDate = $(".js-shopcart-datepicker");
+
+        var timeRanges = {
+            1: 6,
+            2: 9,
+            3: 12,
+            4: 15,
+            5: 18,
+        };
+
+        var selectedDate = $deliveryDate.datepicker("getDate");
+
+        if (!selectedDate || (selectedDate.hasOwnProperty("length") && selectedDate.length <= 0)) {
+            $deliveryTime.find("option.sci-hidden").removeClass("sci-hidden");
+            $deliveryTime.val($deliveryTime.find("option").first().attr("value"));
+            $deliveryTime.attr("disabled", true);
+            return true;
+        }
+
+        $deliveryTime.attr("disabled", false);
+
+        var currentData = new Date();
+        if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
+            var hour = currentData.getHours();
+            for (var key in timeRanges) {
+                if (hour >= timeRanges[key]) {
+                    $deliveryTime.find("option[value='" + key + "']").addClass("sci-hidden");
+                }
+            }
+            if ($deliveryTime.find("option.sci-hidden").length > 0) {
+                $deliveryTime.val($deliveryTime.find("option").not(".sci-hidden").first().attr("value"))
+            }
+        }else {
+            if ($deliveryTime.find("option.sci-hidden").length > 0) {
+              $deliveryTime.find("option.sci-hidden").removeClass("sci-hidden");
+              $deliveryTime.val($deliveryTime.find("option").first().attr("value"));
+          }
+        }
+
+    }
 });
 
 var isSideInfoInited = false;
@@ -1868,6 +1916,16 @@ $.fn.updateShopcartSidebarProducts = function(){
 
   $('.sale_order_full tr[data-props]').each(function(){
     var props = $(this).data('props');
+
+      for (var key in props) {
+          if (props.hasOwnProperty(key) && typeof props[key] === "string") {
+              props[key] = props[key].replace("&amp;", '&')
+                  .replace("&quot;", '"')
+                  .replace("&#039;", "'")
+                  .replace("&lt;", '<')
+                  .replace("&gt;", '>');
+          }
+      }
 
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });

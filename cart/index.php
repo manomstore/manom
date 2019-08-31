@@ -1250,14 +1250,14 @@ if ($_REQUEST['ORDER_ID']) {
           </div>
           <div class="sci-product__name">{{name}}</div>
         </div>
+        {{#article}}
+        <div class="sci-product__count-block">
+          <span class="sci-product__name">Артикул: {{article}}</span>
+        </div>
+        {{/article}}
         <div class="sci-product__count-block">
           <span class="sci-product__name">{{quantity}} шт.</span>
         </div>
-        {{#article}}
-        <div class="sci-product__count-block">
-          <span class="sci-product__name">Артикул {{article}}</span>
-        </div>
-        {{/article}}
       </div>
     </div>
   </div>

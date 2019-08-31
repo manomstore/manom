@@ -93,8 +93,9 @@ if (!function_exists("PrintPropsForm"))
 						}
 						elseif($arProperties["TYPE"] == "TEXT")
 						{
-                            if ($arProperties["CODE"] === "DATE_DELIVERY"){
-                                $arProperties["VALUE"] = date("d.m.Y");
+                            if ($arProperties["CODE"] === "DATE_DELIVERY") {
+                                $addDay = (int)date("G") >= 18 ? 1 : 0;
+                                $arProperties["VALUE"] = date('d.m.Y', strtotime("+{$addDay} days"));
                             }
 							?>
 							<input type="text" maxlength="250" size="<?=$arProperties["SIZE1"]?>" value="<?=$arProperties["VALUE"]?>" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>">
