@@ -9376,6 +9376,10 @@ button.top-nav__link {
   border: none;
 }
 
+.sci-hidden {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .popup-login {
     position: relative;
