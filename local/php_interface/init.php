@@ -50,6 +50,7 @@ if($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
 endif;
 AddEventHandler("sale", "OnBeforeEventAdd", Array("MyHandlerClass","OnBeforeEventAddHandler"));
 AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass","OnSaleComponentOrderPropertiesHandler"));
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","reIndexSku"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
 
 
@@ -160,6 +161,39 @@ class MyHandlerClass
         }
 
         $arUserResult["ORDER_PROP"][$locationProp["ID"]] = $arLocation['CODE'];
+    }
+
+    function reIndexSku($arFields)
+    {
+        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+            return true;
+        }
+
+        $existOffers = \CCatalogSKU::getExistOffers([$arFields["ID"]])[$arFields["ID"]];
+
+        if (!$existOffers) {
+            return true;
+        }
+
+        $offersList = \CCatalogSKU::getOffersList([$arFields["ID"]]);
+        $offers = [];
+        if (!empty($offersList[$arFields["ID"]])) {
+            $offers = $offersList[$arFields["ID"]];
+        }
+
+        if (empty($offers)) {
+            return true;
+        }
+
+        $activeProduct = $arFields["ACTIVE"] === "Y";
+
+        foreach ($offers as $offer) {
+            if ($activeProduct) {
+                \CAllIBlockElement::UpdateSearch($offer["ID"], true);
+            } else {
+                \CSearch::DeleteIndex("iblock", $offer["ID"]);
+            }
+        }
     }
 
     function checkTimeDelivery($entity) {

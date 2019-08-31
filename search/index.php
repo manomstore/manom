@@ -27,7 +27,7 @@ $APPLICATION->SetTitle("Поиск");
 			"AJAX_MODE" => "Y",
 			"RESTART" => "Y",
 			"NO_WORD_LOGIC" => "N",
-			"USE_LANGUAGE_GUESS" => "Y",
+			"USE_LANGUAGE_GUESS" => "N",
 			"CHECK_DATES" => "Y",
 			"USE_TITLE_RANK" => "Y",
 			"DEFAULT_SORT" => $_REQUEST['search_sort'] == 1 ? 'date' : 'rank',

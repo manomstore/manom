@@ -1010,6 +1010,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 18px;
 }
 
+.promotion-h2--no-bt {
+  border-top: 0;
+}
+
 .promotion__block, .new-product__block, .bestsellers__block, .about-shops__block, .brands__block, .additionally__block, .last-view__block {
   display: -webkit-box;
   display: -webkit-flex;
@@ -8365,6 +8369,8 @@ button.top-nav__link {
   display: flex;
   align-items: center;
   margin-left: auto;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .top-personal__link {
