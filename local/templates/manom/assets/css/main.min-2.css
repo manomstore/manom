@@ -8191,7 +8191,7 @@ p.price-slider {
   position: fixed;
   right: 13px;
   top: 20px;
-  z-index: 102;
+  z-index: 1005;
   margin: 0;
 }
 
@@ -8249,6 +8249,10 @@ p.price-slider {
   flex-wrap: nowrap;
   padding: 22px 20px;
   overflow-y: auto;
+}
+
+.top-nav__menu .top-nav__logo {
+  padding-left: 0;
 }
 
 .top-nav--opened .top-nav__menu {
