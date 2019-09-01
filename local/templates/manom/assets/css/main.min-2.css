@@ -6348,6 +6348,13 @@ p.price-slider {
   font-weight: 500;
 }
 
+.sci-contact__input:disabled {
+  border-color: rgba(153, 152, 157, 0.2);
+  opacity: 0.5;
+  color: #bbb;
+  pointer-events: none;
+}
+
 .sci-contact__input--appearance {
   -webkit-appearance: none;
   -moz-appearance: none;
