@@ -686,7 +686,6 @@ $(document).ready(function() {
             AJAX_MIN_CART: 'Y'
           },
           success: function(data) {
-            $.fn.setPushUp("Товар добавлен", "Товар был успешно добавлен в вашу корзину", false, "message", false, 5000, undefined, 'is-added-to-cart');
             $this.removeClass('addToCartBtn_dis');
             var previewCart = $('.preview-shopcart');
             var showCartClass = 'preview-card--show';
@@ -777,7 +776,6 @@ $(document).ready(function() {
           AJAX_MIN_CART: 'Y'
         },
         success: function(data) {
-          $.fn.setPushUp("Товар удален", "Товар был удален из вашей корзины", false, "message", false, 5000);
           return $.fn.updateMiniCart(data);
         }
       });
@@ -794,7 +792,6 @@ $(document).ready(function() {
                 AJAX_MIN_CART: 'Y'
             },
             success: function (data) {
-                $.fn.setPushUp("Корзина очищена", "Ваша корзина была очищена", false, "message", false, 5000);
                 return $.fn.updateMiniCart(data);
             }
         });
@@ -813,7 +810,6 @@ $(document).ready(function() {
           AJAX_MIN_FAVORITE: 'Y'
         },
         success: function(data) {
-          $.fn.setPushUp("Товар удален", "Товар был удален из избраных товаров", false, "message", false, 5000);
           $('.addToFavoriteList[data-id="' + $cartItemID + '"]')
             .addClass('notActive')
             .prev('input:checkbox')
@@ -842,7 +838,6 @@ $(document).ready(function() {
                 AJAX_MIN_FAVORITE: 'Y'
             },
             success: function (data) {
-                $.fn.setPushUp("Список очищен", "Список избранного был очищен", false, "message", false, 5000);
                 $.fn.updateMiniFavorite(data);
             }
         });
@@ -864,7 +859,6 @@ $(document).ready(function() {
         },
         success: function(data) {
           $('.addToCompareList[data-id="' + $cartItemID + '"]').addClass('notActive');
-          $.fn.setPushUp("Товар удален", "Товар был удален из списков сравнения", false, "message", false, 5000);
           $(document).find('.compare-page-item[data-id="' + $cartItemID + '"] .compare__basket.hidden-remove').click();
           return $.fn.updateMiniCompare(data);
         }
@@ -883,7 +877,6 @@ $(document).ready(function() {
         },
         success: function(data) {
           $('.addToCompareList').addClass('notActive');
-          $.fn.setPushUp("Список очищен", "Список сравнения был очищен", false, "message", false, 5000);
           return $.fn.updateMiniCompare(data);
         }
       });
@@ -955,7 +948,6 @@ $(document).ready(function() {
         },
         success: function(data) {
           $.fn.updateCart(data);
-          return $.fn.setPushUp("Товар удален", "Товар был удален из вашей корзины", false, "message", false, 5000);
         }
       });
     }
@@ -973,7 +965,6 @@ $(document).ready(function() {
             },
             success: function (data) {
                 $.fn.updateCart(data);
-                return $.fn.setPushUp("Корзина очищена", "Ваша корзина была очищена", false, "message", false, 5000);
             }
         });
     });
@@ -1038,11 +1029,9 @@ $(document).ready(function() {
         $.fn.updateMiniFavorite(data);
         if ($this.hasClass('notActive')) {
           $this.removeClass('notActive');
-          $.fn.setPushUp("Закладки", "Товар был добавлен в избраное", false, "message", false, 5000);
           $(document).find('.addToFavoriteList[data-id="' + prodID + '"]').parent('label').find('input[type="checkbox"]').prop('checked', true);
         } else {
           $this.addClass('notActive');
-          $.fn.setPushUp("Избраное", "Товар был удален из избраного", false, "message", false, 5000);
           $(document).find('.addToFavoriteList[data-id="' + prodID + '"]').parent('label').find('input[type="checkbox"]').prop('checked', false);
         }
         if ($(document).find('.addToFavoriteListOnFP').is('div')) {
@@ -1085,10 +1074,8 @@ $(document).ready(function() {
         $.fn.updateMiniCompare(data);
 
         if ($this.hasClass('notActive')) {
-          $.fn.setPushUp("Сравнение", "Товар был добавлен в сравнение", false, "message", false, 5000);
           return $(document).find('.addToCompareList[data-id="' + prodID + '"]').removeClass('notActive');
         } else {
-          $.fn.setPushUp("Сравнение", "Товар был удален из сравнения", false, "message", false, 5000);
           return $(document).find('.addToCompareList[data-id="' + prodID + '"]').addClass('notActive');
         }
       }

@@ -85,7 +85,7 @@
       if (type !== "review_alert" && link_to) {
         $mblock.attr('href', link_to);
       }
-      $mblock.append('<span class="close_pushUp_alert" data-for="' + $itemID + '">&#10006;</span>');
+      $mblock.append('<span class="close_pushUp_alert" data-for="' + $itemID + '"></span>');
       $mblock.on('click', '.close_pushUp_alert', function() {
         return $('#' + $(this).attr('data-for')).animate({
           opacity: 0,
