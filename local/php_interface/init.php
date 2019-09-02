@@ -118,7 +118,8 @@ class MyHandlerClass
     }
 
 
-    function OnSaleComponentOrderPropertiesHandler(&$arUserResult, $request, &$arParams, &$arResult) {
+    function OnSaleComponentOrderPropertiesHandler(&$arUserResult, $request, &$arParams, &$arResult)
+    {
         \Bitrix\Main\Loader::includeModule("sale");
         $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
 
@@ -133,34 +134,47 @@ class MyHandlerClass
             return true;
         }
 
-        $locationProp = $propertyClassName::getList([
-            'select' => ['ID'],
+        $properties = $propertyClassName::getList([
+            'select' => ['ID', "CODE"],
             'filter' => [
                 '=PERSON_TYPE_ID' => $arUserResult["PERSON_TYPE_ID"],
-                'TYPE' => "LOCATION"
+                'CODE' => [
+                    "LOCATION",
+                    "ZIP"
+                ]
             ]
-        ])->fetch();
+        ])->fetchAll();
 
-        if (!empty($arUserResult["ORDER_PROP"][$locationProp["ID"]])) {
-            return true;
+        foreach ($properties as $property) {
+            if ($property["CODE"] === "LOCATION") {
+                if (!empty($arUserResult["ORDER_PROP"][$property["ID"]])) {
+                    continue;
+                }
+
+                $userLocation = (new UserLocation)->getUserLocationInfo();
+
+                if ((int)$userLocation["ID"] <= 0) {
+                    continue;
+                }
+
+                $arLocation = \Bitrix\Sale\Location\LocationTable::getList([
+                    'select' => ['CODE'],
+                    'filter' => ['ID' => $userLocation["ID"]],
+                ])->fetch();
+
+                if (empty($arLocation)) {
+                    continue;
+                }
+
+                $arUserResult["ORDER_PROP"][$property["ID"]] = $arLocation['CODE'];
+            } else {
+                if ($property["CODE"] === "ZIP") {
+                    if ((int)$arUserResult["ORDER_PROP"][$property["ID"]] <= 0) {
+                        $arUserResult["ORDER_PROP"][$property["ID"]] = "000000";
+                    }
+                }
+            }
         }
-
-        $userLocation = (new UserLocation)->getUserLocationInfo();
-
-        if ((int)$userLocation["ID"] <= 0) {
-            return true;
-        }
-
-        $arLocation = \Bitrix\Sale\Location\LocationTable::getList([
-            'select' => ['CODE'],
-            'filter' => ['ID' => $userLocation["ID"]],
-        ])->fetch();
-
-        if (empty($arLocation)) {
-            return true;
-        }
-
-        $arUserResult["ORDER_PROP"][$locationProp["ID"]] = $arLocation['CODE'];
     }
 
     function reIndexSku($arFields)
@@ -225,10 +239,6 @@ class MyHandlerClass
                     $property->setValue("000000");
                 }
             }
-        }
-
-        if (!in_array((int)$orderFields["DELIVERY_ID"],[5,8,9,10,11])){
-            return;
         }
 
         if (!$dateDeliveryExist){
