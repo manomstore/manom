@@ -197,6 +197,10 @@ class MyHandlerClass
     }
 
     function checkTimeDelivery($entity) {
+        //Тут ещё обрабатывается пустой почтовый индекс
+
+        $orderFields = $entity->getFieldValues();
+
         $dateDelivery = $timeDelivery = null;
         $dateDeliveryExist = false;
         foreach ($entity->getPropertyCollection() as $property) {
@@ -214,6 +218,17 @@ class MyHandlerClass
                 }
                 $dateDeliveryExist = true;
             }
+
+            if ($propertyValue["CODE"] === "ZIP") {
+                $zip = $property->getValue();
+                if ((int)$zip <= 0) {
+                    $property->setValue("000000");
+                }
+            }
+        }
+
+        if (!in_array((int)$orderFields["DELIVERY_ID"],[5,8,9,10,11])){
+            return;
         }
 
         if (!$dateDeliveryExist){
