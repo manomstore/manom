@@ -52,12 +52,18 @@ global $glob_sectionInfo, $new_offer_filter;
             <div class="preview-prod__descr">
               <div class="preview-prod-bottom">
                 <div class="preview-prod-bottom__price">
-                  <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
-                    <?= number_format($value['MIN_PRICE']['DISCOUNT_VALUE_VAT'], 0, '.', ' ') ?> ₽
+                    <? if ((int)$value['MIN_PRICE']["DISCOUNT_DIFF_PERCENT"] <= 0): ?>
+                        <span class="preview-prod-bottom__value">
+                    <?= number_format($value['MIN_PRICE']['VALUE'], 0, '.', ' ') ?> ₽
                   </span>
-                  <span class="preview-prod-bottom__value preview-prod-bottom__value--sale">
-                    999 999 ₽
+                    <? else: ?>
+                        <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
+                    <?= number_format($value['MIN_PRICE']['DISCOUNT_VALUE'], 0, '.', ' ') ?> ₽
                   </span>
+                        <span class="preview-prod-bottom__value preview-prod-bottom__value--sale">
+                    <?= number_format($value['MIN_PRICE']['VALUE'], 0, '.', ' ') ?> ₽
+                  </span>
+                    <? endif; ?>
                 </div>
                 <button class="preview-prod-bottom__del preview-prod-bottom__button-compare" type="button" aria-label="Удалить товар" data-cart-item="<?= $value['ID'] ?>"></button>
                 <!--                <label>-->
