@@ -1252,7 +1252,7 @@ if ($_REQUEST['ORDER_ID']) {
         </div>
         {{#model}}
         <div class="sci-product__count-block">
-          <span class="sci-product__name">Модель: {{model}}</span>
+          <span class="sci-product__name">{{model}}</span>
         </div>
         {{/model}}
         <div class="sci-product__count-block">
