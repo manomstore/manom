@@ -7,7 +7,7 @@ $APPLICATION->SetPageProperty("title", "Manom");
 $APPLICATION->SetTitle("Manom");
 ?>
 
-<div class="content">
+<div class="content content--index">
 	<!-- Слайдер -->
 	<section class='first-scr'>
 			<div class="container">
