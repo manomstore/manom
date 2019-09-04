@@ -9556,7 +9556,12 @@ button.top-nav__link {
     color: #73737E;
     font-weight: 500;
 
-    padding: 17px 0;
+    padding: 18px 0;
+  }
+
+  .top-personal__cart img {
+    margin-top: 2px;
+    margin-bottom: 1px;
   }
 
   .top-personal__cart--full {

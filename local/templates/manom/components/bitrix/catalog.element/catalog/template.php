@@ -323,12 +323,12 @@ if (!$_REQUEST['offer']){
                                 type="tel"
                                 name="phone"
                                 value="<?= $arResult["CURRENT_USER"]["PHONE"] ?>"
-                                id="sci-login__tel_alt" 
-                                class="sci-login__input" 
-                                placeholder="+7 (___) ___-__-__" 
+                                id="sci-login__tel_alt"
+                                class="sci-login__input"
+                                placeholder="+7 (___) ___-__-__"
                                 required
                         >
-                        
+
                         <?if (!$USER->IsAuthorized()):?>
 						<label class="sci-login__label" for="sci-login__tel">E-mail</label>
 						<input type="email" name="email" id="sci-login__tel" class="sci-login__input" placeholder="E-mail" required>
@@ -365,6 +365,7 @@ if (!$_REQUEST['offer']){
 			</div>
 			<?}?>
 
+			<? /*
 			<div class="social">
 				<span>Поделись с друзьями: </span>
                 <a href="#" class="social-link">
@@ -379,8 +380,9 @@ if (!$_REQUEST['offer']){
                 <a href="https://vk.com/share.php?url=http://<?=$_SERVER['HTTP_HOST'] . $arResult['DETAIL_PAGE_URL']?>" class="social-link">
                     <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-vk.png" alt="">
                 </a>
-				</a>
+				</span>
 			</div>
+			*/ ?>
 		</div>
 	</div>
 	<?if($arResult['PROPERTIES'][$arParams['TEXT_UNDER_PHOTO_CODE']]['VALUE']):?>
