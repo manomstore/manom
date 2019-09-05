@@ -494,6 +494,17 @@ function isSaleNotifyMessage($event) {
     ]);
 }
 
+function cssAutoVersion($file)
+{
+    if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'] . $file)) {
+        return $file;
+    }
+
+    $modifyTime = filemtime($_SERVER['DOCUMENT_ROOT'] . $file);
+
+    return $file . "?m={$modifyTime}";
+}
+
 AddEventHandler("main", "OnAfterUserRegister", array('UserHandler', 'afterRegister'));
 class UserHandler
 {
