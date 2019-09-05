@@ -1906,11 +1906,11 @@ $.fn.updateShopcartSidebarProducts = function(){
 
       for (var key in props) {
           if (props.hasOwnProperty(key) && typeof props[key] === "string") {
-              props[key] = props[key].replace("&amp;", '&')
-                  .replace("&quot;", '"')
-                  .replace("&#039;", "'")
-                  .replace("&lt;", '<')
-                  .replace("&gt;", '>');
+              props[key] = props[key].replace(/&amp;/g, '&')
+                  .replace(/&quot;/g, '"')
+                  .replace(/&#039;/g, "'")
+                  .replace(/&lt;/g, '<')
+                  .replace(/&gt;/g, '>');
           }
       }
 
