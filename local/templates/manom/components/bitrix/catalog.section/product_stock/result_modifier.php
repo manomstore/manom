@@ -28,6 +28,17 @@ foreach ($arResult['ITEMS'] as $key => $item) {
   }
   $ids[] = $item['PROPERTIES']['CML2_LINK']['VALUE'];
 }
+
+foreach ($arResult['ITEMS'] as $key => &$item) {
+    if ($item['PROPERTIES']['SALES_ITEM']['VALUE'] !== 'YES' || $item['CATALOG_QUANTITY'] <= 0) {
+        $item = null;
+    }
+}
+
+$arResult['ITEMS'] = array_filter($arResult['ITEMS']);
+
+unset($item);
+
 $rev = getRatingAndCountReviewForList($ids);
 $arResult['REVIEW'] = array();
 foreach ($rev as $key => $value) {
