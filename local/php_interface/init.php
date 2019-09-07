@@ -291,19 +291,37 @@ class MyHandlerClass
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUpdate"));
+AddEventHandler("main", "OnAfterUserAdd", Array("CUserEx", "OnAfterUserAddHandler"));
+AddEventHandler("main", "OnSendUserInfo", Array("CUserEx", "OnSendUserInfoHandler"));
+
 class CUserEx
 {
+    public static $newUserPass;
+
     function OnBeforeUserLogin($arFields)
     {
         $filter = Array("EMAIL" => $arFields["LOGIN"]);
-        $rsUsers = CUser::GetList(($by="LAST_NAME"), ($order="asc"), $filter);
-        if($user = $rsUsers->GetNext())
+        $rsUsers = CUser::GetList(($by = "LAST_NAME"), ($order = "asc"), $filter);
+        if ($user = $rsUsers->GetNext()) {
             $arFields["LOGIN"] = $user["LOGIN"];
+        }
         /*else $arFields["LOGIN"] = "";*/
     }
+
     function OnBeforeUserRegister($arFields)
     {
         $arFields["LOGIN"] = $arFields["EMAIL"];
+    }
+
+    function OnAfterUserAddHandler($arFields)
+    {
+        self::$newUserPass = $arFields["CONFIRM_PASSWORD"];
+    }
+
+    function OnSendUserInfoHandler($arFields)
+    {
+        $arFields["FIELDS"]["PASSWORD"] = "Пароль: " . self::$newUserPass . "\n";
+        self::$newUserPass = null;
     }
 }
 
