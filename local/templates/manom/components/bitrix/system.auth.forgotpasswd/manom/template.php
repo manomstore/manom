@@ -20,17 +20,11 @@ if (strlen($arResult["BACKURL"]) > 0)
 	</p>
     <div class="auth-get"><?=GetMessage("AUTH_GET_CHECK_STRING")?></div>
     <div class="form-group">
-        <label class="sci-login__label" for="sci-login__email"><?=GetMessage("AUTH_LOGIN")?></label>
-        <input id="sci-login__email" class="sci-login__input" type="text" name="USER_LOGIN" maxlength="50" value="<?=$arResult["LAST_LOGIN"]?>" />
-    </div>
-    <div class="or">
-        <?=GetMessage("AUTH_OR")?>
-    </div>
-    <div class="form-group">
         <label class="sci-login__label" for="sci-login__password"><?=GetMessage("AUTH_EMAIL")?></label>
         <input id="sci-login__password" class="sci-login__input" type="text" name="USER_EMAIL" maxlength="255" />
     </div>
     <input class="sci-login__button" type="submit" name="send_account_info" value="<?=GetMessage("AUTH_SEND")?>" />
+    <? ShowMessage($arResult['ERROR_MESSAGE']) ?>
     <p>
     <a class="auth-link" href="/auth/"><?=GetMessage("AUTH_AUTH")?></a>
     </p>
