@@ -108,92 +108,96 @@ if (!$_REQUEST['offer']){
 		*/?>
 	</div>
 	<div class="product-main row">
-<!-- 			<div class="product-photo__left col-1">
-			<img class="active" src="img/4396801.jpg" data-fancybox="gallery-prod" data-color="Черный" alt="">
-			<img src="img/4396801-red.jpg" data-fancybox="gallery-prod" data-color="Красный" alt="">
-			<img src="img/4396801-white.jpg" data-fancybox="gallery-prod" data-color="Белый" alt="">
-			<img src="img/submenu2.jpg" data-fancybox="gallery-prod" alt="">
-			<img src="img/submenu6.jpg" data-fancybox="gallery-prod" alt="">
-		</div>
-		<div class="product-photo__right col-5">
-			<img src="img/4396801.jpg" data-fancybox="gallery-prod" alt="">
-		</div>	 -->
-
-		<div class="product-photo__left col-1">
-			<?/*foreach ($arResult['PHOTOS'] as $key => $photo) {
-				if ($photo['is_offer'] and !$photo['is_more_photo']) {
-					?><img
-					<?if($actualOffer['photo_hash'] == $photo['hash_offer_color']):?>class="active"<?endif;?>
-					<?if($key == 0 and !$actualOffer['photo_hash']):?>class="active"<?endif;?> src="<?=$photo['src']?>"
-					data-color="<?=$photo['hash_offer_color']?>" alt=""><?
-				} elseif ($photo['is_offer'] and $photo['is_more_photo']) {
-					?>
-					<img
-					<?if($actualOffer['photo_hash'] == $photo['hash_offer_color']):?>class="mp-element mp-active"<?endif;?>
-					<?if($actualOffer['photo_hash'] != $photo['hash_offer_color']):?>class="mp-element mp-disable"<?endif;?>
-					data-color-mp="<?=$photo['hash_offer_color']?>"
-					src="<?=$photo['src']?>">
-					<?
-				} else {
-					?><img <?if($key == 0 and !$actualOffer['photo_hash']):?>class="active"<?endif;?> src="<?=$photo['src']?>"><?
-				}
-			}*/?>
-			<?$findMainPhoto = false?>
-			<?foreach ($arResult['PHOTOS'] as $key => $photo) {
-				if(!$findMainPhoto) {
-					if ($photo['is_offer']) {
-						if ($actualOffer['photo_hash'] == $photo['hash_offer_color']){
+		<div class="product-photo">
+	<!-- 			<div class="product-photo__left col-1">
+				<img class="active" src="img/4396801.jpg" data-fancybox="gallery-prod" data-color="Черный" alt="">
+				<img src="img/4396801-red.jpg" data-fancybox="gallery-prod" data-color="Красный" alt="">
+				<img src="img/4396801-white.jpg" data-fancybox="gallery-prod" data-color="Белый" alt="">
+				<img src="img/submenu2.jpg" data-fancybox="gallery-prod" alt="">
+				<img src="img/submenu6.jpg" data-fancybox="gallery-prod" alt="">
+			</div>
+			<div class="product-photo__right col-5">
+				<img src="img/4396801.jpg" data-fancybox="gallery-prod" alt="">
+			</div>	 -->
+			<div class="product-photo__left col-1">
+				<?/*foreach ($arResult['PHOTOS'] as $key => $photo) {
+					if ($photo['is_offer'] and !$photo['is_more_photo']) {
+						?><img
+						<?if($actualOffer['photo_hash'] == $photo['hash_offer_color']):?>class="active"<?endif;?>
+						<?if($key == 0 and !$actualOffer['photo_hash']):?>class="active"<?endif;?> src="<?=$photo['src']?>"
+						data-color="<?=$photo['hash_offer_color']?>" alt=""><?
+					} elseif ($photo['is_offer'] and $photo['is_more_photo']) {
+						?>
+						<img
+						<?if($actualOffer['photo_hash'] == $photo['hash_offer_color']):?>class="mp-element mp-active"<?endif;?>
+						<?if($actualOffer['photo_hash'] != $photo['hash_offer_color']):?>class="mp-element mp-disable"<?endif;?>
+						data-color-mp="<?=$photo['hash_offer_color']?>"
+						src="<?=$photo['src']?>">
+						<?
+					} else {
+						?><img <?if($key == 0 and !$actualOffer['photo_hash']):?>class="active"<?endif;?> src="<?=$photo['src']?>"><?
+					}
+				}*/?>
+				<?$findMainPhoto = false?>
+				<?foreach ($arResult['PHOTOS'] as $key => $photo) {
+					if(!$findMainPhoto) {
+						if ($photo['is_offer']) {
+							if ($actualOffer['photo_hash'] == $photo['hash_offer_color']){
+								$arResult['PHOTOS'][$key]['is_main_photo'] = $photo['is_main_photo'] = true;
+								$findMainPhoto = true;
+							}
+						} else {
 							$arResult['PHOTOS'][$key]['is_main_photo'] = $photo['is_main_photo'] = true;
 							$findMainPhoto = true;
 						}
-					} else {
-						$arResult['PHOTOS'][$key]['is_main_photo'] = $photo['is_main_photo'] = true;
-						$findMainPhoto = true;
 					}
-				}
-				?>
-					<img
-					src="<?=$photo['src']?>"
+					?>
+						<img
+						src="<?=$photo['src']?>"
+						data-color="<?=$photo['hash_offer_color']?>"
+						data-photo-id="<?=$photo['id']?>"
+						class="
+						<?=$photo['is_main_photo'] ? "active" : ""?>
+						<?=$photo['is_offer'] ? "pp__is_offer" : "pp__is_prod no-display-img-detail"?>
+						<?=($photo['is_offer'] && $actualOffer['photo_hash'] != $photo['hash_offer_color']) ? "pp__is_offer__disable" : ""?>
+						"
+						>
+					<?}?>
+			</div>
+			<div class="product-photo__right col-5">
+				<?/*foreach ($arResult['PHOTOS'] as $key => $photo) {
+					?><a data-fancybox="gallery-prod" href="<?=$photo['src']?>">
+						<?if($key == 0 and !$actualOffer['photo_hash']):?><img src="<?=$photo['src']?>" alt=""><?endif;?>
+						<?if($actualOffer['photo_hash'] && $actualOffer['photo_hash'] == $photo['hash_offer_color'] && ($photo['is_offer'] and !$photo['is_more_photo'])):?>
+							<img src="<?=$photo['src']?>" alt="">
+						<?endif;?>
+					</a><?
+				}*/?>
+				<?foreach ($arResult['PHOTOS'] as $key => $photo) {
+					?>
+					<a
+					data-fancybox="
+					<?=($photo['is_offer'] && $actualOffer['photo_hash'] == $photo['hash_offer_color']) ? "gallery-prod" : ""?>
+					<?=!$photo['is_offer'] ? "gallery-prod" : ""?>
+					"
+					href="<?=$photo['src']?>"
 					data-color="<?=$photo['hash_offer_color']?>"
 					data-photo-id="<?=$photo['id']?>"
 					class="
+					pp__big_photo
 					<?=$photo['is_main_photo'] ? "active" : ""?>
-					<?=$photo['is_offer'] ? "pp__is_offer" : "pp__is_prod no-display-img-detail"?>
+					<?=$photo['is_offer'] ? "pp__is_offer" : ""?>
 					<?=($photo['is_offer'] && $actualOffer['photo_hash'] != $photo['hash_offer_color']) ? "pp__is_offer__disable" : ""?>
 					"
 					>
-				<?}?>
-		</div>
-		<div class="product-photo__right col-5">
-			<?/*foreach ($arResult['PHOTOS'] as $key => $photo) {
-				?><a data-fancybox="gallery-prod" href="<?=$photo['src']?>">
-					<?if($key == 0 and !$actualOffer['photo_hash']):?><img src="<?=$photo['src']?>" alt=""><?endif;?>
-					<?if($actualOffer['photo_hash'] && $actualOffer['photo_hash'] == $photo['hash_offer_color'] && ($photo['is_offer'] and !$photo['is_more_photo'])):?>
 						<img src="<?=$photo['src']?>" alt="">
-					<?endif;?>
-				</a><?
-			}*/?>
-			<?foreach ($arResult['PHOTOS'] as $key => $photo) {
-				?>
-				<a
-				data-fancybox="
-				<?=($photo['is_offer'] && $actualOffer['photo_hash'] == $photo['hash_offer_color']) ? "gallery-prod" : ""?>
-				<?=!$photo['is_offer'] ? "gallery-prod" : ""?>
-				"
-				href="<?=$photo['src']?>"
-				data-color="<?=$photo['hash_offer_color']?>"
-				data-photo-id="<?=$photo['id']?>"
-				class="
-				pp__big_photo
-				<?=$photo['is_main_photo'] ? "active" : ""?>
-				<?=$photo['is_offer'] ? "pp__is_offer" : ""?>
-				<?=($photo['is_offer'] && $actualOffer['photo_hash'] != $photo['hash_offer_color']) ? "pp__is_offer__disable" : ""?>
-				"
-				>
-					<img src="<?=$photo['src']?>" alt="">
-				</a>
-				<?
-			}?>
+					</a>
+					<?
+				}?>
+			</div>
+			<?if($arResult['PROPERTIES'][$arParams['TEXT_UNDER_PHOTO_CODE']]['VALUE']):?>
+				<div class="interesting-fact"><?=$arResult['PROPERTIES'][$arParams['TEXT_UNDER_PHOTO_CODE']]['~VALUE']['TEXT']?></div>
+			<?endif;?>
 		</div>
 		<div class="product-content col-3">
             <?
@@ -387,11 +391,6 @@ if (!$_REQUEST['offer']){
 			*/ ?>
 		</div>
 	</div>
-	<?if($arResult['PROPERTIES'][$arParams['TEXT_UNDER_PHOTO_CODE']]['VALUE']):?>
-		<div class="interesting row">
-			<div class="interesting-fact col-6"><?=$arResult['PROPERTIES'][$arParams['TEXT_UNDER_PHOTO_CODE']]['~VALUE']['TEXT']?></div>
-		</div>
-	<?endif;?>
 <!--	<div class="product-kit">-->
 <!--		<h2 class="product-kit__title">Купить в комплекте со скидкой</h2>-->
 <!--		<div class="product-kit__compile">Собрать свой комплект</div>-->

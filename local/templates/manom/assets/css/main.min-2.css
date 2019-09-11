@@ -2557,10 +2557,6 @@ p.price-slider {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
   -ms-flex-align: start;
@@ -2609,6 +2605,29 @@ p.price-slider {
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
   opacity: .5;
+}
+
+.product-photo {
+  width: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.product-photo .product-photo__left {
+  width: 16.6666%;
+}
+
+.product-photo .product-photo__right {
+  width: 83.3334%;
+}
+
+.product-photo .interesting-fact {
+  width: 100%;
 }
 
 .product-photo__left {
