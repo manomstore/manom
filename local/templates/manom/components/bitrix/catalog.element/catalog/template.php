@@ -652,9 +652,12 @@ if (!$_REQUEST['offer']){
 				<div class="tab-content__column col">
 					<?foreach ($arResult['REVIEWS'] as $key => $value) {?>
 						<p class="tab-content__item">
-							<span class="tab-content__title"><?=$value['date']?> <?=$value['user']['full_name']?>: </span>
-							<span class="tab-content__text1"><?=$value['review_text']?></span>
-						</p>
+							<span class="tab-content__title"><?= $value['date'] ?> <?=$value['user']['full_name']?>: </span>
+                            <span class="tab-content__text1"><?= $value['review_text'] ?></span>
+                            <? if (!empty($value["source"])): ?>
+                                <span class="tab-content__text1"><?= $value["source"] ?></span>
+                            <? endif; ?>
+                        </p>
 					<?}?>
 
 					<!-- <p class="tab-content__item">

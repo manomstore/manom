@@ -204,21 +204,24 @@ while($res = $result->fetch())
 $arResult['PRODUCT_RATING'] = 0;
 $arResult['REVIEWS'] = array();
 $getAllReviewByProdID = CIBlockElement::GetList(
-  array('ID' => 'DESC'),
-  array(
-    'IBLOCK_ID' => $arParams['REVIEW_IBLOCK_ID'],
-    'PROPERTY_RV_PRODCTS' => $arResult['ID'],
-    'ACTIVE' => 'Y'
-  ),
-  false,
-  false,
-  array(
-    'PROPERTY_RV_USER',
-    'PROPERTY_RV_RATING',
-    'PREVIEW_TEXT',
-    'DATE_CREATE',
-    'ID', 'PROPERTY_RV_MERITS', 'PROPERTY_RV_DISADVANTAGES'
-  )
+    array('ID' => 'DESC'),
+    array(
+        'IBLOCK_ID' => $arParams['REVIEW_IBLOCK_ID'],
+        'PROPERTY_RV_PRODCTS' => $arResult['ID'],
+        'ACTIVE' => 'Y'
+    ),
+    false,
+    false,
+    array(
+        'PROPERTY_RV_USER',
+        'PROPERTY_RV_RATING',
+        'PREVIEW_TEXT',
+        'DATE_CREATE',
+        'ID',
+        'PROPERTY_RV_MERITS',
+        'PROPERTY_RV_DISADVANTAGES',
+        'PROPERTY_SOURCE',
+    )
 );
 $sumRating = 0;
 $users = array();
@@ -230,6 +233,7 @@ while ($resReview = $getAllReviewByProdID->Fetch()) {
     'review_text' => $resReview['PREVIEW_TEXT'],
     'rating' => (int)$resReview['PROPERTY_RV_RATING_VALUE'],
     'merits' => $resReview['PROPERTY_RV_MERITS_VALUE']['TEXT'],
+    'source' => $resReview['PROPERTY_SOURCE_VALUE'],
     'disadvantages' => $resReview['PROPERTY_RV_DISADVANTAGES_VALUE']['TEXT'],
     'date' => $dateCreate[0],
     'user' => array()
