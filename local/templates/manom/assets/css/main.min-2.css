@@ -9625,8 +9625,12 @@ button.top-nav__link {
     background-color: transparent;
   }
 
-  .popup-block--search {
-    top: 117px;
+  .header__wrapper--fix .popup-block--search {
+    top: 135px;
+  }
+
+  .header__wrapper--fix .popup-block--search .popup-block__overlay {
+    top: 135px;
   }
 
   .popup-block--search .popup-block__wrapper {
