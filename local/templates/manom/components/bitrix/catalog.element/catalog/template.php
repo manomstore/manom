@@ -205,7 +205,8 @@ if (!$_REQUEST['offer']){
                             <p class="product-content__discount_text"><?=$arResult['PROPERTIES']['BS_STR']['~VALUE']['TEXT']?></p>
                         </div>
                     <?}?>
-            <?}?>
+			<?}?>
+			<? /*
 			<?if($arResult['CAN_BUY'] == 'Y'):?>
 				<div class="product-content__available">Товар в наличии</div>
 			<?elseif($arResult['CAN_BUY'] == 'N'):?>
@@ -221,6 +222,7 @@ if (!$_REQUEST['offer']){
 				}?>
 
 			</div>
+			*/ ?>
 			<p class="product-content__text">
 					<?=$arResult['~PREVIEW_TEXT']?>
 			</p>
