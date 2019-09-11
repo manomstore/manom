@@ -476,12 +476,10 @@ if (!$_REQUEST['offer']){
 		<label for="tab2"><span>Описание</span></label>
 		<input id="tab1" type="radio" name="tabs" >
 		<label for="tab1"><span>Характеристики</span></label>
-		<?/*
 		<?if ($arResult['REVIEWS']){?>
 			<input id="tab3" type="radio" name="tabs">
 			<label for="tab3"><span>Отзывы<br>покупателей</span></label>
 		<?}?>
-		*/?>
 		<?if ($arResult['DELIV']){?>
 			<input id="tab5" type="radio" name="tabs">
 			<label for="tab5"><span>Оплата<br>и доставка</span></label>
@@ -648,7 +646,7 @@ if (!$_REQUEST['offer']){
 				</div>
 			</div>
 		</section>*/?>
-		<?/*
+
 		<section id="content3">
 			<div class="tab-content row">
 				<div class="tab-content__column col">
@@ -678,7 +676,7 @@ if (!$_REQUEST['offer']){
 				</div>
 			</div>
 		</section>
-		*/?>
+
 		<section id="content5">
 			<div class="tab-content row">
 				<div class="tab-content__column col">
