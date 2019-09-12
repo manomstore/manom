@@ -65,12 +65,32 @@ app.utils = {
 
 $(document).ready(function() {
 
-    $(".js-search-field .popup-block__input--search").on("change", function () {
-        if ($(this).val().trim().length <= 0) {
-            return true;
-        }
-        $(this).closest("form").submit();
-    });
+  $('.js-search-field .popup-block__input-clear').on('click', function(){
+    var $input = $(this).parent().find('.popup-block__input--search');
+
+    $input.val('');
+    $input.closest('.popup-block__field').removeClass('popup-block__field--not-empty');
+  });
+
+  $('.js-search-field .popup-block__input--search').on('keydown paste input', function(e){
+    var $input = $(this);
+
+    $input.closest('.popup-block__field').toggleClass('popup-block__field--not-empty', $input.val() !== '');
+
+    if (e.keyCode === 13 && $input.val().trim().length > 0) {
+      $(this).closest('form').submit();
+    }
+  });
+
+  $('.js-search-field .search-block__submit-button').on('click', function(){
+    var $input = $(this).parent().find('.popup-block__input--search');
+
+    if ($input.val().trim().length <= 0) {
+      return false;
+    }
+
+    $(this).closest('form').submit();
+  });
 
     $(".js-shopcart-datepicker").on("change", function () {
         checkDeliveryTime();
