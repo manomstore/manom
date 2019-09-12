@@ -5,6 +5,7 @@
  * @var CatalogSectionComponent $component
  */
 
+$allQuantity = 0;
 $prodIDs = array();
 foreach ($arResult['CATEGORIES'] as $key => $cat) {
   foreach ($cat as $i => $item) {
@@ -26,8 +27,13 @@ foreach ($arResult['CATEGORIES'] as $key => $cat) {
       } else {
           $arResult['CATEGORIES'][$key][$i]["EXIST_DISCOUNT"] = false;
       }
+
+      $allQuantity = $allQuantity + (int)$arResult['CATEGORIES'][$key][$i]["QUANTITY"];
   }
 }
+
+$arResult['NUM_PRODUCTS'] = $allQuantity;
+
 $getProd = CIBlockElement::GetList(
   array(),
   array(
