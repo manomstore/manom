@@ -210,12 +210,12 @@ if (!$_REQUEST['offer']){
                         </div>
                     <?}?>
 			<?}?>
-			<? /*
 			<?if($arResult['CAN_BUY'] == 'Y'):?>
 				<div class="product-content__available">Товар в наличии</div>
 			<?elseif($arResult['CAN_BUY'] == 'N'):?>
 				<div class="product-content__available">Товар нет в наличии</div>
 			<?endif;?>
+			<? /*
 <!--			<p class="prodBroke__title">Характеристики:</p>-->
 			<div class="product-content__properties offersPropertiesList">
 				<?foreach ($actualOffer['props'] as $key => $prop) {
@@ -230,7 +230,9 @@ if (!$_REQUEST['offer']){
 			<p class="product-content__text">
 					<?=$arResult['~PREVIEW_TEXT']?>
 			</p>
+			<? /*
 			<a href="#product-tabs"	class="product-content__more">Подробнее...</a>
+			*/ ?>
 <!-- 				<p class="product-content__color">Выберите цвет: <span>Красный</span></p> -->
 			<div>
                 <div class="offers_by_prop_json" data-json='<?=htmlspecialchars(json_encode($arResult['OFFERS_BY_DISPLAY_PROP']))?>'></div>
