@@ -657,8 +657,11 @@ if (!$_REQUEST['offer']){
 						<p class="tab-content__item">
 							<span class="tab-content__title"><?= $value['date'] ?> <?=$value['user']['full_name']?>: </span>
                             <span class="tab-content__text1"><?= $value['review_text'] ?></span>
-                            <? if (!empty($value["source"])): ?>
-                                <span class="tab-content__text1"><?= $value["source"] ?></span>
+                            <? if (!empty($value["source"]) || !empty($value["author"])): ?>
+                                <span class="tab-content__text1">
+                                    <?= !empty($value["author"]) ? $value["author"] . "." : "" ?>
+                                    <?= !empty($value["source"]) ? $value["source"] . "." : "" ?>
+                                </span>
                             <? endif; ?>
                         </p>
 					<?}?>
