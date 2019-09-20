@@ -657,18 +657,15 @@ if (!$_REQUEST['offer']){
 		<section id="content3">
 			<div class="tab-content row">
 				<div class="tab-content__column col">
-					<?foreach ($arResult['REVIEWS'] as $key => $value) {?>
-						<p class="tab-content__item">
-							<span class="tab-content__title"><?= $value['date'] ?> <?=$value['user']['full_name']?>: </span>
+                    <? foreach ($arResult['REVIEWS'] as $key => $value) { ?>
+                        <p class="tab-content__item">
+							<span class="tab-content__title"><?= $value['date'] ?>
+                                <?= !empty($value["author"]) ? $value["author"] . "." : "" ?>
+                                <?= !empty($value["source"]) ? $value["source"] . "." : "" ?>
+                            </span>
                             <span class="tab-content__text1"><?= $value['review_text'] ?></span>
-                            <? if (!empty($value["source"]) || !empty($value["author"])): ?>
-                                <span class="tab-content__text1">
-                                    <?= !empty($value["author"]) ? $value["author"] . "." : "" ?>
-                                    <?= !empty($value["source"]) ? $value["source"] . "." : "" ?>
-                                </span>
-                            <? endif; ?>
                         </p>
-					<?}?>
+                    <? } ?>
 
 					<!-- <p class="tab-content__item">
 						<span class="tab-content__title">01.01.2018г. Максим Галкин: </span>
