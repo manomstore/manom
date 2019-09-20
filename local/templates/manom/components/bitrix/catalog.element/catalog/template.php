@@ -483,6 +483,10 @@ if (!$_REQUEST['offer']){
 			<input id="tab3" type="radio" name="tabs">
 			<label for="tab3"><span>Отзывы<br>покупателей</span></label>
 		<?}?>
+        <? if (!empty($arResult['QNA_VALUES'])): ?>
+            <input id="tab4" type="radio" name="tabs">
+            <label for="tab4"><span>Вопрос-<br>ответ</span></label>
+        <? endif; ?>
 		<?if ($arResult['DELIV']){?>
 			<input id="tab5" type="radio" name="tabs">
 			<label for="tab5"><span>Оплата<br>и доставка</span></label>
@@ -685,7 +689,22 @@ if (!$_REQUEST['offer']){
 				</div>
 			</div>
 		</section>
-
+        <? if (!empty($arResult['QNA_VALUES'])): ?>
+            <section id="content4">
+                <div class="tab-content row">
+                    <div class="tab-content__column col">
+                        <? foreach ($arResult['QNA_VALUES'] as $key => $value) {
+                            ?>
+                            <p class="tab-content__item">
+                                <span class="tab-content__title"><?= $value['title'] ?></span>
+                                <span class="tab-content__text1"><?= $value['answer'] ?></span>
+                            </p>
+                            <?
+                        } ?>
+                    </div>
+                </div>
+            </section>
+        <? endif; ?>
 		<section id="content5">
 			<div class="tab-content row">
 				<div class="tab-content__column col">
