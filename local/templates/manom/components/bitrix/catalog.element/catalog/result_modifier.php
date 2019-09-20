@@ -282,6 +282,19 @@ if ($arResult['REVIEWS']) {
       }
     }
   }
+
+    foreach ($arResult['REVIEWS'] as $key => &$rev) {
+        if (!empty($rev["author"])) {
+            $rev["author"] = trim($rev["author"]);
+        }
+
+        $rev["author"] = empty($rev["author"]) ? "" : $rev["author"];
+
+        if (!empty($rev['user']) && !empty(trim($rev['user']["full_name"]))) {
+            $rev["author"] = $rev['user']["full_name"];
+        }
+    }
+    unset($rev);
 }
 //Получаем Q'n'A
 
