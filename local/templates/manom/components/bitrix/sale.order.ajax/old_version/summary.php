@@ -74,19 +74,16 @@
 				</tr>
 				<?
 			}
-		}
-		if (doubleval($arResult["DELIVERY_PRICE"]) > 0)
-		{
-			?>
-			<tr>
-				<td align="right">
-					<b><?=GetMessage("SOA_TEMPL_SUM_DELIVERY")?></b>
-				</td>
-				<td align="right" colspan="<?=$colspan?>"><span id="sale-order-full-delivery-price"><?=$arResult["DELIVERY_PRICE_FORMATED"]?></span></td>
-			</tr>
-			<?
-		}
-		?>
+		}?>
+        <tr>
+            <td align="right">
+                <b><?= GetMessage("SOA_TEMPL_SUM_DELIVERY") ?></b>
+            </td>
+            <td align="right" colspan="<?= $colspan ?>"><span
+                        id="sale-order-full-delivery-price"><?= (int)$arResult["DELIVERY_PRICE"] ?>
+                </span>
+            </td>
+        </tr>
 		<tr>
 			<td align="right"><b><?=GetMessage("SOA_TEMPL_SUM_IT")?></b></td>
 			<td align="right" colspan="<?=$colspan?>"><b id="sale-order-full-total-price"><?=$arResult["ORDER_TOTAL_PRICE_FORMATED"]?></b>
