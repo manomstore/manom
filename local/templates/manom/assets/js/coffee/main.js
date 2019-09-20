@@ -342,6 +342,29 @@ $(document).ready(function() {
             isDeliveryChecked = false;
           }
 
+            if ($(document).find('#sci-contact-tab1').prop('checked')) {
+                sBlock = $(document).find('#sci-contact-content1');
+            } else {
+                sBlock = $(document).find('#sci-contact-content2');
+            }
+
+            var $emailField = sBlock.find('#sci-contact__email');
+
+            if ($emailField.length >= 1) {
+
+                if (!$emailField.val() && $emailField.prop('required')) {
+                    isEmailValid = false;
+                } else {
+                    isEmailValid = true;
+                }
+
+                if ($emailField.val() !== '' && $emailField.val().match(REG_EXP_EMAIL) === null) {
+                    isEmailValid = false;
+                }
+            } else {
+                isEmailValid = true;
+            }
+
           $(document)
             .find('#shopcart-item3')
             .find('.sci-delivery__radio:checked')
