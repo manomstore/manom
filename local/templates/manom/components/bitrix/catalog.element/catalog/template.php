@@ -656,39 +656,59 @@ if (!$_REQUEST['offer']){
 
 		<section id="content3">
 			<div class="tab-content row">
-				<div class="tab-content__column col">
+				<div class="reviews">
                     <? foreach ($arResult['REVIEWS'] as $key => $value) { ?>
-                        <p class="tab-content__item">
-							<span class="tab-content__title"><?= $value['date'] ?>
-                                <?= !empty($value["author"]) ? $value["author"] . "." : "" ?>
-                                <?= !empty($value["source"]) ? $value["source"] . "." : "" ?>
-                            </span>
-                            <span class="tab-content__text1"><?= $value['review_text'] ?></span>
-	                        <? if (!empty($value['merits'])): ?>
-		                        <span class="tab-content__text1">Достоинства: <?= $value['merits'] ?></span>
-	                        <? endif; ?>
-	                        <? if (!empty($value['disadvantages'])): ?>
-		                        <span class="tab-content__text1">Недостатки: <?= $value['disadvantages'] ?></span>
-	                        <? endif; ?>
-                        </p>
+                        <div class="reviews-item">
+							<div class="reviews-item__header">
+								<span class="reviews-item__username"><?= !empty($value["author"]) ? $value["author"] : "" ?></span>
+								<span class="reviews-item__date"><?= $value['date'] ?></span>
+                                <span class="reviews-item__source"><?= !empty($value["source"]) ? $value["source"] : "" ?></span>
+							</div>
+							<div class="reviews-item__content">
+								<div class="reviews-item__desc">
+									<p class="reviews-item__text"><?= $value['review_text'] ?></p>
+								</div>
+								<? if (!empty($value['merits'])): ?>
+									<div class="reviews-item__summary reviews-item__summary--plus">
+										<p class="reviews-item__text"><?= $value['merits'] ?></p>
+									</div>
+								<? endif; ?>
+								<? if (!empty($value['disadvantages'])): ?>
+									<div class="reviews-item__summary reviews-item__summary--minus">
+										<p class="reviews-item__text"><?= $value['disadvantages'] ?></p>
+									</div>
+								<? endif; ?>
+							</div>
+                        </div>
                     <? } ?>
 
 					<!-- <p class="tab-content__item">
 						<span class="tab-content__title">01.01.2018г. Максим Галкин: </span>
 						<span class="tab-content__text1">Обалденный Ноутбук! Подарил жене - она в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">01.01.2018г. Кристина Орбакайте: </span>
-						<span class="tab-content__text1">Обалденный Ноутбук! Подарила маме - она в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">01.01.2018г. Владимир Пресняков: </span>
-						<span class="tab-content__text1">Обалденный Ноутбук! Подарил бывшей теще - она в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">01.01.2018г. Алла Борисовна: </span>
-						<span class="tab-content__text1">Обалденный Ноутбук! Подарила себе на Новый год - просто в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</span>
-					</p> -->
+					</!-->
+					<div class="reviews-item">
+					<div class="reviews-item">
+						<div class="reviews-item__header">
+							<span class="reviews-item__username">Кристина Орбакайте</span>
+							<span class="reviews-item__date">01.01.2018</span>
+						</div>
+						<div class="reviews-item__content">
+							<div class="reviews-item__desc">
+								<p class="reviews-item__text">Обалденный Ноутбук! Подарила маме - она в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</p>
+							</div>
+						</div>
+					</div>
+					<div class="reviews-item">
+						<div class="reviews-item__header">
+							<span class="reviews-item__username">Владимир Пресняков</span>
+							<span class="reviews-item__date">01.01.2018</span>
+						</div>
+						<div class="reviews-item__content">
+							<div class="reviews-item__desc">
+								<p class="reviews-item__text">Обалденный Ноутбук! Подарила маме - она в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>

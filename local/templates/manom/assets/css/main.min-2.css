@@ -10179,3 +10179,97 @@ button.top-nav__link {
     border-right: 0;
   }
 }
+
+.reviews-item {
+  margin-bottom: 35px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.reviews-item:last-child {
+  margin-bottom: 0;
+}
+
+.reviews-item__header {
+  margin-bottom: 15px;
+}
+
+.reviews-item__username {
+  margin-right: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.reviews-item__date {
+  margin-right: 8px;
+  color: #bbb;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.reviews-item__source {
+  padding: 2px 7px;
+  margin-right: 8px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #999;
+  font-size: 12px;
+}
+
+.reviews-item__desc {
+  margin-bottom: 15px;
+}
+
+.reviews-item__summary {
+  margin-bottom: 15px;
+}
+
+.reviews-item__summary--plus,
+.reviews-item__summary--minus {
+  padding-left: 30px;
+  position: relative;
+}
+
+.reviews-item__summary--plus:before,
+.reviews-item__summary--minus:before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 1px;
+  left: 0;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.reviews-item__summary--plus:before {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgd2lkdGg9IjUxMnB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGw9IiM3OUI3MDAiIGQ9Im00MzcuMDE5NTMxIDc0Ljk4MDQ2OWMtNDguMzUxNTYyLTQ4LjM1MTU2My0xMTIuNjQwNjI1LTc0Ljk4MDQ2OS0xODEuMDE5NTMxLTc0Ljk4MDQ2OXMtMTMyLjY2Nzk2OSAyNi42Mjg5MDYtMTgxLjAxOTUzMSA3NC45ODA0NjljLTQ4LjM1MTU2MyA0OC4zNTE1NjItNzQuOTgwNDY5IDExMi42NDA2MjUtNzQuOTgwNDY5IDE4MS4wMTk1MzFzMjYuNjI4OTA2IDEzMi42Njc5NjkgNzQuOTgwNDY5IDE4MS4wMTk1MzFjNDguMzUxNTYyIDQ4LjM1MTU2MyAxMTIuNjQwNjI1IDc0Ljk4MDQ2OSAxODEuMDE5NTMxIDc0Ljk4MDQ2OXMxMzIuNjY3OTY5LTI2LjYyODkwNiAxODEuMDE5NTMxLTc0Ljk4MDQ2OWM0OC4zNTE1NjMtNDguMzUxNTYyIDc0Ljk4MDQ2OS0xMTIuNjQwNjI1IDc0Ljk4MDQ2OS0xODEuMDE5NTMxcy0yNi42Mjg5MDYtMTMyLjY2Nzk2OS03NC45ODA0NjktMTgxLjAxOTUzMXptLTE4MS4wMTk1MzEgMzk3LjAxOTUzMWMtMTE5LjEwMTU2MiAwLTIxNi05Ni44OTg0MzgtMjE2LTIxNnM5Ni44OTg0MzgtMjE2IDIxNi0yMTYgMjE2IDk2Ljg5ODQzOCAyMTYgMjE2LTk2Ljg5ODQzOCAyMTYtMjE2IDIxNnptMjAtMjM2LjAxOTUzMWg5MHY0MGgtOTB2OTBoLTQwdi05MGgtOTB2LTQwaDkwdi05MGg0MHptMCAwIi8+PC9zdmc+);
+}
+
+.reviews-item__summary--minus:before {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgd2lkdGg9IjUxMnB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGw9IiNmZjY4NjgiIGQ9Im0yNTYgNTEyYy02OC4zNzg5MDYgMC0xMzIuNjY3OTY5LTI2LjYyODkwNi0xODEuMDE5NTMxLTc0Ljk4MDQ2OS00OC4zNTE1NjMtNDguMzUxNTYyLTc0Ljk4MDQ2OS0xMTIuNjQwNjI1LTc0Ljk4MDQ2OS0xODEuMDE5NTMxczI2LjYyODkwNi0xMzIuNjY3OTY5IDc0Ljk4MDQ2OS0xODEuMDE5NTMxYzQ4LjM1MTU2Mi00OC4zNTE1NjMgMTEyLjY0MDYyNS03NC45ODA0NjkgMTgxLjAxOTUzMS03NC45ODA0NjlzMTMyLjY2Nzk2OSAyNi42Mjg5MDYgMTgxLjAxOTUzMSA3NC45ODA0NjljNDguMzUxNTYzIDQ4LjM1MTU2MiA3NC45ODA0NjkgMTEyLjY0MDYyNSA3NC45ODA0NjkgMTgxLjAxOTUzMXMtMjYuNjI4OTA2IDEzMi42Njc5NjktNzQuOTgwNDY5IDE4MS4wMTk1MzFjLTQ4LjM1MTU2MiA0OC4zNTE1NjMtMTEyLjY0MDYyNSA3NC45ODA0NjktMTgxLjAxOTUzMSA3NC45ODA0Njl6bTAtNDcyYy0xMTkuMTAxNTYyIDAtMjE2IDk2Ljg5ODQzOC0yMTYgMjE2czk2Ljg5ODQzOCAyMTYgMjE2IDIxNiAyMTYtOTYuODk4NDM4IDIxNi0yMTYtOTYuODk4NDM4LTIxNi0yMTYtMjE2em0xMTAgMTk1Ljk4MDQ2OWgtMjIwdjQwaDIyMHptMCAwIi8+PC9zdmc+);
+}
+
+@media screen and (min-width: 768px) {
+  .product-tabs section .reviews {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .reviews-item {
+    margin-bottom: 45px;
+    font-size: 14px;
+  }
+
+  .reviews-item__source,
+  .reviews-item__date {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .product-tabs section .reviews {
+    padding: 10px 30px 0;
+  }
+}
