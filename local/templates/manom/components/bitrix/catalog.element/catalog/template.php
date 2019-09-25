@@ -664,6 +664,8 @@ if (!$_REQUEST['offer']){
                                 <?= !empty($value["source"]) ? $value["source"] . "." : "" ?>
                             </span>
                             <span class="tab-content__text1"><?= $value['review_text'] ?></span>
+                            <span class="tab-content__text1">Достоинства: <?= $value['merits'] ?></span>
+                            <span class="tab-content__text1">Недостатки: <?= $value['disadvantages'] ?></span>
                         </p>
                     <? } ?>
 
