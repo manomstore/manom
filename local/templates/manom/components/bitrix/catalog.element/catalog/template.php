@@ -682,10 +682,7 @@ if (!$_REQUEST['offer']){
                         </div>
                     <? } ?>
 
-					<!-- <p class="tab-content__item">
-						<span class="tab-content__title">01.01.2018г. Максим Галкин: </span>
-						<span class="tab-content__text1">Обалденный Ноутбук! Подарил жене - она в восторге! Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768. Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Составитель то безопасную заглавных. Несколько безопасную даль текста вскоре сих!</span>
-					</!-->
+					<? /*
 					<div class="reviews-item">
 					<div class="reviews-item">
 						<div class="reviews-item__header">
@@ -709,6 +706,7 @@ if (!$_REQUEST['offer']){
 							</div>
 						</div>
 					</div>
+					*/ ?>
 				</div>
 			</div>
 		</section>
