@@ -10194,6 +10194,10 @@ button.top-nav__link {
   margin-bottom: 15px;
 }
 
+.reviews-item__header-line {
+  margin-bottom: 3px;
+}
+
 .reviews-item__username {
   margin-right: 8px;
   font-weight: bold;
@@ -10214,6 +10218,28 @@ button.top-nav__link {
   border: 1px solid rgba(0, 0, 0, 0.08);
   color: #999;
   font-size: 12px;
+}
+
+.reviews-item__rating {
+  width: 100px;
+  height: 20px;
+  display: inline-block;
+  background-repeat: repeat-x;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIj4KCTxwYXRoIGZpbGw9IiNlZGVkZWQiIGQ9Ik0gMTAgMS40Mzk0NTMxIEwgNy4yMTg3NSA3LjA3NjE3MTkgTCAxIDcuOTgwNDY4OCBMIDUuNSAxMi4zNjUyMzQgTCA0LjQzNzUgMTguNTYwNTQ3IEwgMTAgMTUuNjM0NzY2IEwgMTUuNTYyNSAxOC41NjA1NDcgTCAxNC41IDEyLjM2NTIzNCBMIDE5IDcuOTgwNDY4OCBMIDEyLjc4MTI1IDcuMDc2MTcxOSBMIDEwIDEuNDM5NDUzMSB6ICIgLz4KPC9zdmc+);
+  background-size: auto 100%;
+  vertical-align: middle;
+}
+
+.reviews-item__rating:first-child {
+  margin-left: -2px;
+}
+
+.reviews-item__rating-fill {
+  height: 100%;
+  display: block;
+  background-repeat: repeat-x;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIj4KCTxwYXRoIGZpbGw9IiNmZmQ0MjciIGQ9Ik0gMTAgMS40Mzk0NTMxIEwgNy4yMTg3NSA3LjA3NjE3MTkgTCAxIDcuOTgwNDY4OCBMIDUuNSAxMi4zNjUyMzQgTCA0LjQzNzUgMTguNTYwNTQ3IEwgMTAgMTUuNjM0NzY2IEwgMTUuNTYyNSAxOC41NjA1NDcgTCAxNC41IDEyLjM2NTIzNCBMIDE5IDcuOTgwNDY4OCBMIDEyLjc4MTI1IDcuMDc2MTcxOSBMIDEwIDEuNDM5NDUzMSB6ICIgLz4KPC9zdmc+);
+  background-size: auto 100%;
 }
 
 .reviews-item__desc {

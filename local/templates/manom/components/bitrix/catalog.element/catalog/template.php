@@ -660,9 +660,14 @@ if (!$_REQUEST['offer']){
                     <? foreach ($arResult['REVIEWS'] as $key => $value) { ?>
                         <div class="reviews-item">
 							<div class="reviews-item__header">
-								<span class="reviews-item__username"><?= !empty($value["author"]) ? $value["author"] : "" ?></span>
-								<span class="reviews-item__date"><?= $value['date'] ?></span>
-                                <span class="reviews-item__source"><?= !empty($value["source"]) ? $value["source"] : "" ?></span>
+								<div class="reviews-item__header-line">
+									<span class="reviews-item__username"><?= !empty($value["author"]) ? $value["author"] : "" ?></span>
+									<span class="reviews-item__date"><?= $value['date'] ?></span>
+									<span class="reviews-item__source"><?= !empty($value["source"]) ? $value["source"] : "" ?></span>
+								</div>
+								<!-- <div class="reviews-item__header-line">
+									<span class="reviews-item__rating"><span class="reviews-item__rating-fill" style="width: 90%;"></span></span>
+								</div> -->
 							</div>
 							<div class="reviews-item__content">
 								<div class="reviews-item__desc">
