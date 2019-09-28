@@ -208,7 +208,8 @@ $getAllReviewByProdID = CIBlockElement::GetList(
     array(
         'IBLOCK_ID' => $arParams['REVIEW_IBLOCK_ID'],
         'PROPERTY_RV_PRODCTS' => $arResult['ID'],
-        'ACTIVE' => 'Y'
+        'ACTIVE' => 'Y',
+        'ACTIVE_DATE' => 'Y',
     ),
     false,
     false,
@@ -217,6 +218,7 @@ $getAllReviewByProdID = CIBlockElement::GetList(
         'PROPERTY_RV_RATING',
         'PREVIEW_TEXT',
         'DATE_CREATE',
+        'ACTIVE_FROM',
         'ID',
         'PROPERTY_RV_MERITS',
         'PROPERTY_RV_DISADVANTAGES',
@@ -227,7 +229,8 @@ $getAllReviewByProdID = CIBlockElement::GetList(
 $sumRating = 0;
 $users = array();
 while ($resReview = $getAllReviewByProdID->Fetch()) {
-  $dateCreate = explode(' ', $resReview['DATE_CREATE']);
+    $dateCreate = !empty($resReview['ACTIVE_FROM']) ? $resReview['ACTIVE_FROM'] : $resReview['DATE_CREATE'];
+    $dateCreate = explode(' ', $dateCreate);
   $review_item = array(
     'id' => $resReview['ID'],
     'user_id' => $resReview['PROPERTY_RV_USER_VALUE'],
