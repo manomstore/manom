@@ -293,6 +293,8 @@ if ($arResult['REVIEWS']) {
         if (!empty($rev['user']) && !empty(trim($rev['user']["full_name"]))) {
             $rev["author"] = $rev['user']["full_name"];
         }
+
+        $rev["rating"] = $rev["rating"] > 5 ? 5 : ($rev["rating"] < 0 ? 0 : $rev["rating"]);
     }
     unset($rev);
 }
