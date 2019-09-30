@@ -224,6 +224,7 @@ $getAllReviewByProdID = CIBlockElement::GetList(
         'PROPERTY_RV_DISADVANTAGES',
         'PROPERTY_SOURCE',
         'PROPERTY_AUTHOR',
+        'PROPERTY_RECOMMEND',
     )
 );
 $sumRating = 0;
@@ -240,6 +241,7 @@ while ($resReview = $getAllReviewByProdID->Fetch()) {
     'source' => $resReview['PROPERTY_SOURCE_VALUE'],
     'author' => $resReview['PROPERTY_AUTHOR_VALUE'],
     'disadvantages' => $resReview['PROPERTY_RV_DISADVANTAGES_VALUE']['TEXT'],
+    'recommend' => $resReview['PROPERTY_RECOMMEND_VALUE'] === "Y",
     'date' => $dateCreate[0],
     'user' => array()
   );

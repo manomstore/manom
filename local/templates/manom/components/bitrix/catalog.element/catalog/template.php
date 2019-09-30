@@ -78,7 +78,7 @@ if (!$_REQUEST['offer']){
 				<span class="credential-rostest"><?=$arResult['PROPERTIES'][$arParams['TOP_FIELD_3_CODE']]['VALUE']?></span> &nbsp;
 			<?}?>
 		</div>
-		<?/*
+
 		<div class="product-rating">
 			<?for ($i=0; $i < 5; $i++) {
 				if ($i >= $arResult['PRODUCT_RATING']) {
@@ -105,7 +105,7 @@ if (!$_REQUEST['offer']){
 			<span><?=count($arResult['REVIEWS']);?></span>
 			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
 		</div>
-		*/?>
+
 	</div>
 	<div class="product-main row">
 		<div class="product-photo">
@@ -672,6 +672,15 @@ if (!$_REQUEST['offer']){
                                     </span>
                                 </div>
                             </div>
+                            <? if ($value["recommend"]): ?>
+                                <div class="reviews-item__summary">
+                                    <p class="reviews-item__text">Рекомендую</p>
+                                </div>
+                            <? else: ?>
+                                <div class="reviews-item__summary">
+                                    <p class="reviews-item__text">Не рекомендую</p>
+                                </div>
+                            <? endif; ?>
 							<div class="reviews-item__content">
 								<div class="reviews-item__desc">
 									<p class="reviews-item__text"><?= $value['review_text'] ?></p>
