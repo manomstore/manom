@@ -669,18 +669,18 @@ if (!$_REQUEST['offer']){
                                     <span class="reviews-item__rating">
                                         <span class="reviews-item__rating-fill"
                                               style="width: <?= $value["rating"] * 20 ?>%;"></span>
-                                    </span>
+									</span>
+									<? if ($value["recommend"]): ?>
+										<span class="reviews-item__recommend reviews-item__recommend--yes">
+											Рекомендую
+										</span>
+									<? else: ?>
+										<span class="reviews-item__recommend reviews-item__recommend--no">
+											Не рекомендую
+										</span>
+									<? endif; ?>
                                 </div>
                             </div>
-                            <? if ($value["recommend"]): ?>
-                                <div class="reviews-item__summary">
-                                    <p class="reviews-item__text">Рекомендую</p>
-                                </div>
-                            <? else: ?>
-                                <div class="reviews-item__summary">
-                                    <p class="reviews-item__text">Не рекомендую</p>
-                                </div>
-                            <? endif; ?>
 							<div class="reviews-item__content">
 								<div class="reviews-item__desc">
 									<p class="reviews-item__text"><?= $value['review_text'] ?></p>
