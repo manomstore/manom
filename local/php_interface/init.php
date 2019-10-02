@@ -52,6 +52,8 @@ AddEventHandler("sale", "OnBeforeEventAdd", Array("MyHandlerClass","OnBeforeEven
 AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass","OnSaleComponentOrderPropertiesHandler"));
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","reIndexSku"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
+AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
+
 
 
 
@@ -284,6 +286,47 @@ class MyHandlerClass
                 if ($propertyValue["CODE"] === "TIME_DELIVERY") {
                     $property->setValue("");
                 }
+            }
+        }
+    }
+
+    function OnSaleOrderBeforeSavedHandler($arFields)
+    {
+        \Bitrix\Main\Loader::includeModule("sale");
+        $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
+
+        if (!method_exists($registry, "getPropertyClassName")) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\PropertyBase $propertyClassName */
+        $propertyClassName = $registry->getPropertyClassName();
+
+        if (!class_exists($propertyClassName)) {
+            return true;
+        }
+
+        $orderProperties = $arFields->getPropertyCollection()->getArray()["properties"];
+
+        $properties = $propertyClassName::getList([
+            'select' => ['ID', "CODE"],
+            'filter' => [
+                '=PERSON_TYPE_ID' => $arFields->getPersonTypeId(),
+                'CODE' => [
+                    "COMMENT"
+                ]
+            ]
+        ])->fetchAll();
+
+        foreach ($properties as $property) {
+            if ($property["CODE"] === "COMMENT") {
+                foreach ($orderProperties as $orderProperty) {
+                    if ($orderProperty["ID"] === $property["ID"]) {
+                        $arFields->setField("USER_DESCRIPTION", $orderProperty["VALUE"][0]);
+                        break;
+                    }
+                }
+                break;
             }
         }
     }
