@@ -322,7 +322,7 @@ class MyHandlerClass
             if ($property["CODE"] === "COMMENT") {
                 foreach ($orderProperties as $orderProperty) {
                     if ($orderProperty["ID"] === $property["ID"]) {
-                        $arFields->setField("USER_DESCRIPTION", $orderProperty["VALUE"][0]);
+                        $arFields->setField("COMMENTS", $orderProperty["VALUE"][0]);
                         break;
                     }
                 }
