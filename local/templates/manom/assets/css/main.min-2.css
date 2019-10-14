@@ -3228,6 +3228,61 @@ p.price-slider {
   vertical-align: middle;
 }
 
+.product-tabs .tab-content {
+  margin: 15px;
+  color: #29282C;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.product-tabs .tab-content__text1 {
+  display: block;
+  font: inherit;
+}
+
+.product-tabs .tab-content__item {
+  margin-bottom: 25px;
+  font: inherit;
+}
+
+.product-tabs .tab-content__item:last-child {
+  margin-bottom: 0;
+}
+
+.product-tabs .tab-content__item .tab-content__text1:last-child {
+  margin-bottom: 0;
+}
+
+.product-tabs .instruction-wrapper {
+  margin-bottom: 25px;
+}
+
+@media screen and (min-width: 768px) {
+  .product-tabs .tab-content {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .product-tabs .tab-content {
+    margin: 30px;
+  }
+
+  .product-tabs .instruction-wrapper {
+    width: 25%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .product-tabs .tab-content {
+    margin: 40px;
+  }
+
+  .product-tabs .tab-content__item {
+    margin-bottom: 30px;
+  }
+}
+
 .product-tabs section {
   display: none;
   width: 100%;
@@ -3313,6 +3368,11 @@ p.price-slider {
 
 .tab-content {
   margin: 30px 15px;
+  text-align: left;
+}
+
+.tab-content__row {
+  margin: 0 -15px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3325,7 +3385,13 @@ p.price-slider {
   -webkit-align-items: flex-start;
   -ms-flex-align: start;
   align-items: flex-start;
-  text-align: left;
+}
+
+.tab-content__row--reverse {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .tab-content__column {
@@ -10284,6 +10350,10 @@ button.top-nav__link {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNDc1LjA5MnB4IiBoZWlnaHQ9IjQ3NS4wOTJweCIgdmlld0JveD0iMCAwIDQ3NS4wOTIgNDc1LjA5MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDc1LjA5MiA0NzUuMDkyOyINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgZmlsbD0iI2ZkNjk2YyI+DQoJPHBhdGggZD0iTTQ0Mi44MjIsMjA5LjU2MmMxLjcxNS02LjI4MywyLjU3LTEyLjg0NywyLjU3LTE5LjcwMmMwLTE0LjY1NS0zLjYyMS0yOC4zNjEtMTAuODUyLTQxLjExMg0KCQljMC41NjctMy45OTUsMC44NTUtOC4wODgsMC44NTUtMTIuMjc1YzAtMTkuMjIzLTUuNzE2LTM2LjE2Mi0xNy4xMzItNTAuODE5di0xLjQyN2MwLjE5MS0yNi4wNzUtNy45NDYtNDYuNjMyLTI0LjQxNC02MS42NjkNCgkJQzM3Ny4zODcsNy41MjEsMzU1LjgzMSwwLDMyOS4xODYsMGgtMzEuOTc3Yy0xOS45ODUsMC0zOS4wMiwyLjA5My01Ny4xMDIsNi4yOGMtMTguMDg2LDQuMTg5LTM5LjMwNCwxMC40NjgtNjMuNjY2LDE4Ljg0Mg0KCQljLTIyLjA4LDcuNjE2LTM1LjIxMSwxMS40MjItMzkuMzk5LDExLjQyMkg1NC44MjFjLTEwLjA4OCwwLTE4LjcwMiwzLjU2Ny0yNS44NCwxMC43MDRDMjEuODQ1LDU0LjM4NywxOC4yNzYsNjMsMTguMjc2LDczLjA4NQ0KCQl2MTgyLjcyOGMwLDEwLjA4OSwzLjU2NiwxOC42OTgsMTAuNzA1LDI1LjgzN2M3LjE0Miw3LjEzOSwxNS43NTIsMTAuNzA1LDI1Ljg0LDEwLjcwNWg3OC4yMjgNCgkJYzYuODQ5LDQuNTcyLDE5Ljg4OSwxOS4zMjQsMzkuMTEzLDQ0LjI1NWMxMS4yMzEsMTQuNjYxLDIxLjQxNiwyNi43NDEsMzAuNTUxLDM2LjI2NWMzLjYxMiwzLjk5Nyw2LjU2NCwxMC4wODksOC44NDgsMTguMjcxDQoJCWMyLjI4NCw4LjE4NiwzLjk0OSwxNi4yMjgsNC45OTgsMjQuMTI2YzEuMDQ3LDcuODk4LDMuNDc1LDE2LjUxNiw3LjI4MSwyNS44MzdjMy44MDYsOS4zMjksOC45NDQsMTcuMTM5LDE1LjQxNSwyMy40MjINCgkJYzcuNDIzLDcuMDQzLDE1Ljk4NSwxMC41NjEsMjUuNjk3LDEwLjU2MWMxNS45ODgsMCwzMC4zNjEtMy4wODcsNDMuMTEyLTkuMjc0YzEyLjc1NC02LjE4NCwyMi40NjMtMTUuODQ1LDI5LjEyNi0yOC45ODENCgkJYzYuNjYzLTEyLjk0Myw5Ljk5Ni0zMC42NDYsOS45OTYtNTMuMTAzYzAtMTcuNzAyLTQuNTY4LTM1Ljk3NC0xMy43MDItNTQuODE5aDUwLjI0NGMxOS44MDEsMCwzNi45MjUtNy4yMyw1MS4zOTQtMjEuNw0KCQljMTQuNDY5LTE0LjQ2MiwyMS42OTMtMzEuNDk3LDIxLjY5My01MS4xMDNDNDU2LjgwOSwyMzkuMTY1LDQ1Mi4xNSwyMjMuNjUyLDQ0Mi44MjIsMjA5LjU2MnogTTg1Ljk0MiwxMDQuMjE5DQoJCWMtMy42MTYsMy42MTUtNy44OTgsNS40MjQtMTIuODQ3LDUuNDI0Yy00Ljk1LDAtOS4yMzMtMS44MDUtMTIuODUtNS40MjRjLTMuNjE1LTMuNjIxLTUuNDI0LTcuODk4LTUuNDI0LTEyLjg1MQ0KCQljMC00Ljk0OCwxLjgwOS05LjIzMSw1LjQyNC0xMi44NDdjMy42MjEtMy42MTcsNy45LTUuNDI0LDEyLjg1LTUuNDI0YzQuOTQ5LDAsOS4yMzEsMS44MDcsMTIuODQ3LDUuNDI0DQoJCWMzLjYxNywzLjYxNiw1LjQyNiw3Ljg5OCw1LjQyNiwxMi44NDdDOTEuMzY4LDk2LjMxNyw4OS41NiwxMDAuNTk4LDg1Ljk0MiwxMDQuMjE5eiBNNDA5LjEzNSwyODEuMzc3DQoJCWMtNy40Miw3LjMzLTE1Ljg4NiwxMC45OTItMjUuNDEzLDEwLjk5MkgyODMuMjI3YzAsMTEuMDQsNC41NjQsMjYuMjE3LDEzLjY5OCw0NS41MzVjOS4xMzgsMTkuMzIxLDEzLjcxLDM0LjU5OCwxMy43MSw0NS44MjkNCgkJYzAsMTguNjQ3LTMuMDQ2LDMyLjQ0OS05LjEzNCw0MS4zOTVjLTYuMDkyLDguOTQ5LTE4LjI3NCwxMy40MjItMzYuNTQ2LDEzLjQyMmMtNC45NTEtNC45NDgtOC41NzItMTMuMDQ1LTEwLjg1NC0yNC4yNzYNCgkJYy0yLjI3Ni0xMS4yMjUtNS4xODUtMjMuMTY4LTguNzA2LTM1LjgzYy0zLjUxOS0xMi42NTUtOS4xOC0yMy4wNzktMTYuOTg0LTMxLjI2NmMtNC4xODQtNC4zNzMtMTEuNTE2LTEzLjAzOC0yMS45ODItMjUuOTgNCgkJYy0wLjc2MS0wLjk1MS0yLjk1Mi0zLjgwNi02LjU2Ny04LjU2MmMtMy42MTQtNC43NTctNi42MTMtOC42NTgtOC45OTItMTEuNzAzYy0yLjM4LTMuMDQ2LTUuNjY0LTcuMDkxLTkuODUxLTEyLjEzNg0KCQljLTQuMTg5LTUuMDQ0LTcuOTk1LTkuMjMyLTExLjQyMi0xMi41NjVjLTMuNDI3LTMuMzI3LTcuMDg5LTYuNzA4LTEwLjk5Mi0xMC4xMzdjLTMuOTAxLTMuNDI2LTcuNzEtNS45OTYtMTEuNDIxLTcuNzA3DQoJCWMtMy43MTEtMS43MTEtNy4wODktMi41NjYtMTAuMTM1LTIuNTY2aC05LjEzNlY3My4wOTJoOS4xMzZjMi40NzQsMCw1LjQ3LTAuMjgyLDguOTkzLTAuODU0YzMuNTE4LTAuNTcxLDYuNjU4LTEuMTkyLDkuNDE5LTEuODU4DQoJCWMyLjc2LTAuNjY2LDYuMzc3LTEuNzEzLDEwLjg0OS0zLjE0YzQuNDc2LTEuNDI1LDcuODA0LTIuNTIyLDkuOTk0LTMuMjgzYzIuMTktMC43NjMsNS41NjgtMS45NTEsMTAuMTM4LTMuNTcxDQoJCWM0LjU3LTEuNjE1LDcuMzMtMi42MTMsOC4yOC0yLjk5NmM0MC4xNTktMTMuODk0LDcyLjcwOC0yMC44MzksOTcuNjQ4LTIwLjgzOWgzNi41NDJjMTYuNTYzLDAsMjkuNTA2LDMuODk5LDM4LjgyOCwxMS43MDQNCgkJYzkuMzI4LDcuODA0LDEzLjk4OSwxOS43OTUsMTMuOTg5LDM1Ljk3NWMwLDQuOTQ5LTAuNDc5LDEwLjI3OS0xLjQyMywxNS45ODdjNS43MDgsMy4wNDYsMTAuMjMxLDguMDQyLDEzLjU1OSwxNC45ODcNCgkJYzMuMzMzLDYuOTQ1LDQuOTk2LDEzLjk0NCw0Ljk5NiwyMC45ODVjMCw3LjAzOS0xLjcxMSwxMy42MS01LjE0MSwxOS43MDFjMTAuMDg5LDkuNTE3LDE1LjEyNiwyMC44MzksMTUuMTI2LDMzLjk3NA0KCQljMCw0Ljc1OS0wLjk0OCwxMC4wMzktMi44NDcsMTUuODQ2Yy0xLjg5OSw1LjgwOC00LjI4NSwxMC4zMjctNy4xMzksMTMuNTYyYzYuMDkxLDAuMTkyLDExLjE4NCw0LjY2NSwxNS4yNzYsMTMuNDIyDQoJCWM0LjA5Myw4Ljc1NCw2LjE0LDE2LjQ2OCw2LjE0LDIzLjEyN0M0MjAuMjc3LDI2NS41MjUsNDE2LjU2MSwyNzQuMDQzLDQwOS4xMzUsMjgxLjM3N3oiLz4NCjwvc3ZnPg0K);
 }
 
+.reviews-item__content > *:last-child {
+  margin-bottom: 0;
+}
+
 .reviews-item__desc {
   margin-bottom: 15px;
 }
@@ -10320,11 +10390,6 @@ button.top-nav__link {
 }
 
 @media screen and (min-width: 768px) {
-  .product-tabs section .reviews {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-
   .reviews-item {
     margin-bottom: 45px;
     font-size: 14px;
@@ -10340,8 +10405,100 @@ button.top-nav__link {
   }
 }
 
-@media screen and (min-width: 992px) {
-  .product-tabs section .reviews {
-    padding: 10px 30px 0;
+.characteristics-wrapper .name-properties {
+  margin-bottom: 15px;
+  display: block;
+  line-height: inherit;
+}
+
+.characteristics-wrapper .redesign-characteristics {
+  margin-bottom: 20px;
+}
+
+.characteristics-wrapper .redesign-characteristics:last-child {
+  margin-bottom: 0;
+}
+
+.characteristics-wrapper .redesign-characteristics .row:nth-child(2n+1) {
+  background-color: #f8f8f8;
+}
+
+.characteristics-wrapper .redesign-characteristics .row {
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-radius: 2px;
+}
+
+.characteristics-wrapper .redesign-characteristics span {
+  font-size: inherit;
+}
+
+.characteristics-wrapper .redesign-characteristics-name {
+  font-weight: 500;
+}
+
+@media screen and (min-width: 768px) {
+  .characteristics-wrapper .redesign-characteristics .row > .col-40 {
+    width: 40%;
   }
+
+  .characteristics-wrapper .redesign-characteristics .row > .col-60 {
+    width: 60%;
+  }
+
+  .characteristics-wrapper .redesign-characteristics .row > .col-40:first-child {
+    padding-right: 20px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .characteristics-wrapper .redesign-characteristics .row {
+    padding: 10px 12px;
+  }
+}
+
+.instruction-wrapper .name-properties {
+  margin-bottom: 15px;
+  display: block;
+  line-height: inherit;
+}
+
+.files-item {
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+a.files-item {
+  color: #000;
+  transition: color .2s ease;
+}
+
+a.files-item:hover {
+  color: #555;
+}
+
+.files-item__icon {
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.files-item__content {
+  min-width: 0;
+  flex: 1;
+
+}
+
+.files-item__size {
+  color: #999;
+  font-weight: normal;
+  font-size: 0.923em;
+}
+
+.files-item__icon + .files-item__content {
+  padding-left: 15px;
 }
