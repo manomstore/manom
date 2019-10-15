@@ -4,7 +4,7 @@ $APPLICATION->SetTitle("Гарантия");
 ?>
 <div class="content">
     <div class="container">
-        <div class="text-left warranty">
+        <div class="text-content text-content--container warranty">
             <?$APPLICATION->IncludeComponent(
                 "bitrix:main.include",
                 ".default",
