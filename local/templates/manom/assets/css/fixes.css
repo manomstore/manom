@@ -106,3 +106,82 @@
 		margin-bottom: 40px;
 	}
 }
+
+
+
+
+.text-content {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	line-height: 1.5;
+}
+
+.text-content h1,
+.text-content h2,
+.text-content h3 {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.text-content h4,
+.text-content h5,
+.text-content h6,
+.text-content p,
+.text-content ol,
+.text-content ul {
+	margin-top: 1.25em;
+	margin-bottom: 1.25em;
+}
+
+.text-content ol,
+.text-content ul {
+	margin-left: 1.25em;
+}
+
+.text-content ol li,
+.text-content ul li {
+	padding-left: 0.25em;
+	margin: 0.5em 0;
+}
+
+.text-content h1,
+.text-content h2,
+.text-content h3,
+.text-content h4,
+.text-content h5,
+.text-content h6,
+.text-content p:first-child,
+.text-content ol:first-child,
+.text-content ul:first-child {
+	margin-top: 0;
+}
+
+.text-content h1,
+.text-content h2,
+.text-content h3,
+.text-content h4,
+.text-content h5,
+.text-content h6,
+.text-content p:last-child,
+.text-content ol:last-child,
+.text-content ul:last-child {
+	margin-top: 0;
+}
+
+.text-content b,
+.text-content strong {
+	font-weight: 600;
+}
+
+.text-content--container {
+	max-width: 740px;
+	padding-top: 30px;
+	padding-bottom: 30%;
+}
+
+@media (min-width: 768px) {
+	.text-content--container {
+		padding-top: 40px;
+		padding-bottom: 40%;
+	}
+}
