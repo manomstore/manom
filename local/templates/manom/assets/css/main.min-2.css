@@ -6668,6 +6668,10 @@ p.price-slider {
   padding: 20px;
 }
 
+.delivery-pickup-type {
+  display: none;
+}
+
 .sci-delivery-tab {
   margin: 0 0 10px;
   border-radius: 3px;
@@ -6755,6 +6759,10 @@ p.price-slider {
 }
 
 .sci-delivery__radio:checked ~ .sci-delivery-content {
+  display: block;
+}
+
+.delivery-pickup-type.current-type {
   display: block;
 }
 

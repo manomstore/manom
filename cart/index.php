@@ -4,7 +4,9 @@ $APPLICATION->SetTitle("Корзина");
 CModule::IncludeModule('statistic');
 CModule::IncludeModule('sale');
 global $USER;
-?>
+
+$userLocationInfo = (new UserLocation)->getUserLocationInfo();
+$isMoscow = (int)$userLocationInfo["ID"] === 84; ?>
 
 <div class="content">
 <? if (!$_REQUEST['ORDER_ID']): ?>
@@ -397,155 +399,157 @@ global $USER;
               <ul class="sci-delivery-tabs">
                 <li class="sci-delivery-tab">
                   <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab1" type="radio" name="delivery-tabs">
-                  <label data-prop="ID_DELIVERY_ID_5" class="sci-delivery__tab rb_so" for="sci-delivery-tab1">
-                    Курьером manom.ru
-                    <span>1-2 дня, от 350 ₽</span>
-                  </label>
-                  <section class="sci-delivery-content" id="sci-delivery-content1">
-                    <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
-                      <label class="sci-contact__label">Город
-                        <input data-city-prop-alt="ORDER_PROP_25"
-                               data-city-prop-val-alt="ORDER_PROP_25_val"
-                               data-city-prop="ORDER_PROP_18"
-                               data-city-prop-val="ORDER_PROP_18_val"
-                               name="so_city_val"
-                               id="so_city_val"
-                               class="sci-contact__input"
-                               type="text"
-                               placeholder="Введите город доставки"
-                               autocomplete="none"
-                               onfocus="loc_sug_CheckThisAlt(this, this.id);">
-                        <input type="hidden" name="so_city" id="so_city" value="">
-                        <script type="text/javascript">
+                    <label data-prop="ID_DELIVERY_ID_<?= $isMoscow ? "8" : "5" ?>"
+                           class="sci-delivery__tab rb_so" for="sci-delivery-tab1">
+                        Курьерской службой
+                        <span>1-2 дня, от 350 ₽</span>
+                    </label>
+                    <section class="sci-delivery-content current-content" id="sci-delivery-content1">
+                        <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
+                            <label class="sci-contact__label">Город
+                                <input data-city-prop-alt="ORDER_PROP_25"
+                                       data-city-prop-val-alt="ORDER_PROP_25_val"
+                                       data-city-prop="ORDER_PROP_18"
+                                       data-city-prop-val="ORDER_PROP_18_val"
+                                       name="so_city_val"
+                                       id="so_city_val"
+                                       class="sci-contact__input"
+                                       type="text"
+                                       placeholder="Введите город доставки"
+                                       autocomplete="none"
+                                       onfocus="loc_sug_CheckThisAlt(this, this.id);">
+                                <input type="hidden" name="so_city" id="so_city" value="">
+                                <script type="text/javascript">
 
-                          if (typeof oObject != "object") {
-                            window.oObject = {};
-                          }
+                                    if (typeof oObject != "object") {
+                                        window.oObject = {};
+                                    }
 
-                          document.loc_sug_CheckThisAlt = function(oObj, id) {
-                            try {
-                              if (SuggestLoadedSale) {
-                                window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
-                                return;
-                              }
-                              else {
-                                setTimeout(loc_sug_CheckThis(oObj, id), 10);
-                              }
-                            }
-                            catch (e) {
-                              setTimeout(loc_sug_CheckThis(oObj, id), 10);
-                            }
-                          }
+                                    document.loc_sug_CheckThisAlt = function(oObj, id) {
+                                        try {
+                                            if (SuggestLoadedSale) {
+                                                window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
+                                                return;
+                                            }
+                                            else {
+                                                setTimeout(loc_sug_CheckThis(oObj, id), 10);
+                                            }
+                                        }
+                                        catch (e) {
+                                            setTimeout(loc_sug_CheckThis(oObj, id), 10);
+                                        }
+                                    }
 
-                          clearLocInput = function() {
-                            var inp = BX("so_city_val");
-                            if (inp) {
-                              inp.value = "";
-                              inp.focus();
-                            }
-                          }
-                        </script>
-                      </label>
-                    </div>
-                    <div class="sci-contact__field">
-                      <label class="sci-contact__label">Адрес
-                        <input data-prop="ORDER_PROP_36"
-                               data-prop-alt="ORDER_PROP_37"
-                               type="text"
-                               name="sci-delivery-street"
-                               id="sci-delivery-street"
-                               class="sci-contact__input js-delivery-street"
-                               autocomplete="none"
-                               placeholder="Улица, дом, квартира"
-                               required>
-                      </label>
-                    </div>
-                    <!--                    <div class="sci-contact__field">-->
-                    <!--                      <label class="sci-contact__label">Дом-->
-                    <!--                        <input data-prop="ORDER_PROP_22"-->
-                    <!--                               type="text"-->
-                    <!--                               data-prop-alt="ORDER_PROP_29"-->
-                    <!--                               name="sci-delivery-building"-->
-                    <!--                               id="sci-delivery-building"-->
-                    <!--                               class="sci-contact__input"-->
-                    <!--                               placeholder=""-->
-                    <!--                               required>-->
-                    <!--                      </label>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="sci-contact__field">-->
-                    <!--                      <label class="sci-contact__label">Кв/Офис-->
-                    <!--                        <input data-prop="ORDER_PROP_23"-->
-                    <!--                               type="text"-->
-                    <!--                               data-prop-alt="ORDER_PROP_30"-->
-                    <!--                               name="sci-delivery-apartment"-->
-                    <!--                               id="sci-delivery-apartment"-->
-                    <!--                               class="sci-contact__input"-->
-                    <!--                               placeholder=""-->
-                    <!--                               required>-->
-                    <!--                      </label>-->
-                    <!--                    </div>-->
-                    <!--                    <input type="hidden" data-prop="egor" name="" value="">-->
-                    <div class="sci-contact__row">
-                      <div class="sci-contact__field sci-contact__field--icon sci-contact__field--calendar">
-                        <label class="sci-contact__label">Дата доставки
-                          <input data-prop="ORDER_PROP_19"
-                                 data-prop-alt="ORDER_PROP_26"
-                                 type="text"
-                                 name="sci-delivery-date"
-                                 id="sci-delivery-date"
-                                 class="sci-contact__input js-shopcart-datepicker"
-                                 placeholder="Введите дату доставки">
-                        </label>
-                      </div>
-                      <div class="sci-contact__field sci-contact__field--icon sci-contact__field--select">
-                        <label class="sci-contact__label">Время доставки
-                          <!-- <input data-change="Y" data-prop="ORDER_PROP_21" data-prop-alt="ORDER_PROP_28" type="text" name="sci-delivery-time" id="sci-delivery-time" class="sci-delivery__input" placeholder=""> -->
-                          <select data-prop="ORDER_PROP_21"
-                                  data-prop-alt="ORDER_PROP_28"
-                                  name="sci-delivery-time"
-                                  id="sci-delivery-time"
-                                  class="sci-contact__input sci-contact__input--appearance"
-                                  required>
-                            <option selected value="1">
-                              c 6:00 до 9:00
-                            </option>
-                            <option value="2">
-                              c 9:00 до 12:00
-                            </option>
-                            <option value="3">
-                              c 12:00 до 15:00
-                            </option>
-                            <option value="4">
-                              c 15:00 до 18:00
-                            </option>
-                            <option value="5">
-                              c 18:00 до 21:00
-                            </option>
-                          </select>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="sci-contact__field">
-                      <label for="sci-contact__label" class="sci-contact__label sci-contact__label--desc">Комментарий для курьера</label>
-                      <textarea data-prop="ORDER_PROP_24"
-                                data-prop-alt="ORDER_PROP_31"
-                                name="sci-delivery__comment"
-                                id="sci-delivery__comment"
-                                class="sci-contact__input sci-delivery__area"
-                                placeholder="Ваш комментарий"
-                                rows="3"></textarea>
-                    </div>
-                    <!-- <span class="sci-delivery__price pickup_summ_alt">
-                        Стоимость доставки: <span>не известно</span>
-                    </span> -->
-                  </section>
+                                    clearLocInput = function() {
+                                        var inp = BX("so_city_val");
+                                        if (inp) {
+                                            inp.value = "";
+                                            inp.focus();
+                                        }
+                                    }
+                                </script>
+                            </label>
+                        </div>
+                        <div class="sci-contact__field">
+                            <label class="sci-contact__label">Адрес
+                                <input data-prop="ORDER_PROP_36"
+                                       data-prop-alt="ORDER_PROP_37"
+                                       type="text"
+                                       name="sci-delivery-street"
+                                       id="sci-delivery-street"
+                                       class="sci-contact__input js-delivery-street"
+                                       autocomplete="none"
+                                       placeholder="Улица, дом, квартира"
+                                       required>
+                            </label>
+                        </div>
+                        <!--                    <div class="sci-contact__field">-->
+                        <!--                      <label class="sci-contact__label">Дом-->
+                        <!--                        <input data-prop="ORDER_PROP_22"-->
+                        <!--                               type="text"-->
+                        <!--                               data-prop-alt="ORDER_PROP_29"-->
+                        <!--                               name="sci-delivery-building"-->
+                        <!--                               id="sci-delivery-building"-->
+                        <!--                               class="sci-contact__input"-->
+                        <!--                               placeholder=""-->
+                        <!--                               required>-->
+                        <!--                      </label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="sci-contact__field">-->
+                        <!--                      <label class="sci-contact__label">Кв/Офис-->
+                        <!--                        <input data-prop="ORDER_PROP_23"-->
+                        <!--                               type="text"-->
+                        <!--                               data-prop-alt="ORDER_PROP_30"-->
+                        <!--                               name="sci-delivery-apartment"-->
+                        <!--                               id="sci-delivery-apartment"-->
+                        <!--                               class="sci-contact__input"-->
+                        <!--                               placeholder=""-->
+                        <!--                               required>-->
+                        <!--                      </label>-->
+                        <!--                    </div>-->
+                        <!--                    <input type="hidden" data-prop="egor" name="" value="">-->
+                        <div class="sci-contact__row">
+                            <div class="sci-contact__field sci-contact__field--icon sci-contact__field--calendar">
+                                <label class="sci-contact__label">Дата доставки
+                                    <input data-prop="ORDER_PROP_19"
+                                           data-prop-alt="ORDER_PROP_26"
+                                           type="text"
+                                           name="sci-delivery-date"
+                                           id="sci-delivery-date"
+                                           class="sci-contact__input js-shopcart-datepicker"
+                                           placeholder="Введите дату доставки">
+                                </label>
+                            </div>
+                            <div class="sci-contact__field sci-contact__field--icon sci-contact__field--select">
+                                <label class="sci-contact__label">Время доставки
+                                    <!-- <input data-change="Y" data-prop="ORDER_PROP_21" data-prop-alt="ORDER_PROP_28" type="text" name="sci-delivery-time" id="sci-delivery-time" class="sci-delivery__input" placeholder=""> -->
+                                    <select data-prop="ORDER_PROP_21"
+                                            data-prop-alt="ORDER_PROP_28"
+                                            name="sci-delivery-time"
+                                            id="sci-delivery-time"
+                                            class="sci-contact__input sci-contact__input--appearance"
+                                            required>
+                                        <option selected value="1">
+                                            c 6:00 до 9:00
+                                        </option>
+                                        <option value="2">
+                                            c 9:00 до 12:00
+                                        </option>
+                                        <option value="3">
+                                            c 12:00 до 15:00
+                                        </option>
+                                        <option value="4">
+                                            c 15:00 до 18:00
+                                        </option>
+                                        <option value="5">
+                                            c 18:00 до 21:00
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="sci-contact__field">
+                            <label for="sci-contact__label" class="sci-contact__label sci-contact__label--desc">Комментарий для курьера</label>
+                            <textarea data-prop="ORDER_PROP_24"
+                                      data-prop-alt="ORDER_PROP_31"
+                                      name="sci-delivery__comment"
+                                      id="sci-delivery__comment"
+                                      class="sci-contact__input sci-delivery__area"
+                                      placeholder="Ваш комментарий"
+                                      rows="3"></textarea>
+                        </div>
+                        <!-- <span class="sci-delivery__price pickup_summ_alt">
+                            Стоимость доставки: <span>не известно</span>
+                        </span> -->
+                    </section>
                 </li>
                 <li class="sci-delivery-tab">
                   <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab2" type="radio" name="delivery-tabs">
-                  <label data-prop="ID_DELIVERY_ID_6" class="sci-delivery__tab rb_so" for="sci-delivery-tab2">
-                    Курьером СДЭК
-                    <span>1-2 дня, от 350 ₽</span>
-                  </label>
+                    <label data-prop="ID_DELIVERY_ID_<?= $isMoscow ? "13" : "6" ?>"
+                           class="sci-delivery__tab rb_so" for="sci-delivery-tab2">
+                        Самовывоз
+                        <span>1-2 дня, от 350 ₽</span>
+                    </label>
                   <section class="sci-delivery-content" id="sci-delivery-content2">
                     <!-- <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
                       <label class="sci-contact__label">Город
@@ -707,93 +711,28 @@ global $USER;
                         </script>
                       </label>
                     </div>
-                    <div class="sci-contact__field">
-                      <div class="pickup_address sci-contact__label">
-                        Пункт самовывоза
-                        <span class="sci-delivery__text">
-                          Не выбран
-                        </span>
+                      <div class="delivery-pickup-type" data-pickup-type="pvz">
+                          <div class="sci-contact__field">
+                              <div class="pickup_address sci-contact__label">
+                                  Пункт самовывоза
+                                  <span class="sci-delivery__text" id="pvz_address">Не выбран</span>
+                              </div>
+                          </div>
+
+                          <button class="sci-delivery__choice shopcart-sidebar__back-shopping" id="soDelivPopUp"
+                                  type="button">
+                              Выбрать пункт самовывоза
+                          </button>
                       </div>
-                    </div>
-
-                    <button class="sci-delivery__choice shopcart-sidebar__back-shopping" id="soDelivPopUp" type="button">
-                      Выбрать пункт самовывоза
-                    </button>
-                  </section>
-                </li>
-                <!-- <li class="sci-delivery-tab">
-                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab3" type="radio" name="delivery-tabs">
-                  <label class="sci-delivery__tab rb_so" for="sci-delivery-tab3">
-                    Самовывоз СДЭК
-                    <span>1-2 дня, от 350 ₽</span>
-                  </label>
-                  <section class="sci-delivery-content" id="sci-delivery-content3">
-                    <div class="sci-contact__field sci-contact__field--icon sci-contact__field--location">
-                      <label class="sci-contact__label">Город
-                        <input data-city-prop-alt="ORDER_PROP_25"
-                               data-city-prop-val-alt="ORDER_PROP_25_val"
-                               data-city-prop="ORDER_PROP_18"
-                               data-city-prop-val="ORDER_PROP_18_val"
-                               name="so_city_alt_val"
-                               id="so_city_alt_val"
-                               value=""
-                               class="sci-contact__input"
-                               type="text"
-                               autocomplete="off"
-                               placeholder="Введите город"
-                               onfocus="loc_sug_CheckThisAltAlt(this, this.id);">
-                        <input type="hidden" name="so_city_alt" id="so_city_alt" value="">
-                        <script type="text/javascript">
-
-                          if (typeof oObject != "object") {
-                            window.oObject = {};
-                          }
-
-                          document.loc_sug_CheckThisAltAlt = function(oObj, id) {
-                            try {
-                              if (SuggestLoadedSale) {
-                                window.oObject[oObj.id] = new JsSuggestSale(oObj, 'siteId:s1', '', '', '');
-                                return;
-                              }
-                              else {
-                                setTimeout(loc_sug_CheckThis(oObj, id), 10);
-                              }
-                            }
-                            catch (e) {
-                              setTimeout(loc_sug_CheckThis(oObj, id), 10);
-                            }
-                          }
-
-                          clearLocInput = function() {
-                            var inp = BX("so_city_val_alt");
-                            if (inp) {
-                              inp.value = "";
-                              inp.focus();
-                            }
-                          }
-                        </script>
-                      </label>
-                    </div>
-                    <div class="sci-contact__field">
-                      <div class="pickup_address sci-contact__label">
-                        Пункт самовывоза
-                        <span class="sci-delivery__text">
-                          Не выбран
+                      <div class="delivery-pickup-type" data-pickup-type="shop">
+                          <div class="sci-contact__label">
+                              Адрес: <span class="js-shop-address"></span>
+                              <span class="sci-delivery__text">
+                                  Часы работы: <span class="js-shop-schedule"></span>
                         </span>
+                          </div>
                       </div>
-                    </div>
-
-                    <button class="sci-delivery__choice shopcart-sidebar__back-shopping" id="soDelivPopUp" type="button">
-                      Выбрать пункт самовывоза
-                    </button>
                   </section>
-                </li> -->
-                <li class="sci-delivery-tab">
-                  <input class="sci-delivery__radio visually-hidden" id="sci-delivery-tab3" type="radio" name="delivery-tabs">
-                  <label data-prop="ID_DELIVERY_ID_13" class="sci-delivery__tab rb_so" for="sci-delivery-tab3">
-                    Самовывоз из магазина
-                    <span>1-2 дня, от 350 ₽</span>
-                  </label>
                 </li>
               </ul>
             </div>
