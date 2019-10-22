@@ -197,7 +197,8 @@ if ($_POST['change_favorite_list'] == "Y") {
       false
     );
 endif;
-} elseif ($_POST['change_compare_list'] == "Y") {
+}
+elseif ($_POST['change_compare_list'] == "Y") {
   if ($_POST['product_id']) {
     $retByAddFunc = changeValProp('UF_COMPARE_ID', (int)$_POST['product_id']);
   } elseif ($_POST['clear_all']) {
@@ -363,7 +364,20 @@ endif;
       false
     );
 endif;
-} elseif ($type === "makeOrder") {
+}
+elseif ($type === "makeOrder") {
+    //Roistat integration begin
+    require_once $_SERVER['DOCUMENT_ROOT'].'/roistat/autoload.php';
+    $roistatText = 'Страница: '.$_SERVER['HTTP_REFERER'].'. Ид продукта: '.$request->get('productId');
+
+    $roistatData = array(
+            'name'=>$request->get('name'),
+            'phone'=>$request->get('phone'),
+            'email'=>$request->get('email'),
+            'text'=>$roistatText,
+    );
+    \Roistat\RoistatSender::processQuickOrder($roistatData);
+    //Roistat integration end
     $result = [
         "success" => false
     ];

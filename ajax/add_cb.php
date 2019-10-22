@@ -20,6 +20,17 @@ if ($_REQUEST['name'] and $_REQUEST['phone'] and $_REQUEST['form_id']){
       'user_phone' => $_REQUEST['phone'],
       'dop_info' => ''
     );
+
+    //Roistat integration begin
+      require_once $_SERVER['DOCUMENT_ROOT'].'/roistat/autoload.php';
+      $roistatText = 'Страница: '.$_SERVER['HTTP_REFERER'].'. Ид продукта: '.$request->get('productId');
+
+      $roistatData = array(
+          'name'=>$_REQUEST['name'],
+          'phone'=>$_REQUEST['phone'],
+      );
+      \Roistat\RoistatSender::processCallback($roistatData);
+    //Roistat integration end
   }
   if ($_REQUEST['form_id'] == '2') {
     $form_id = 2;
