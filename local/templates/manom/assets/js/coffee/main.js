@@ -132,6 +132,8 @@ function setDeliveryDescription($delivery) {
             'пт',
             'сб'
         ],
+        currentDay: currentDay,
+        currentHour: currentHour,
         calcDiffDay: function (startDay, endDay) {
             var sumDays = 0;
             var roundNum = 0;
@@ -159,6 +161,73 @@ function setDeliveryDescription($delivery) {
 
             }
             return sumDays;
+        },
+        getTextPeriod: function (deliveryObj) {
+            var textNearestDate = "";
+            if (deliveryObj.isSdek) {
+                var newCurPeriod = "";
+                for (i = 0; i < deliveryObj.currentPeriod.length; i++) {
+                    if (!isNaN(parseInt(deliveryObj.currentPeriod[i])) || deliveryObj.currentPeriod[i] === "-") {
+                        newCurPeriod += deliveryObj.currentPeriod[i];
+                    }
+                }
+                deliveryObj.currentPeriod = newCurPeriod;
+
+                var period = deliveryObj.currentPeriod.split("-");
+                if (period.length <= 0) {
+                    return "";
+                }
+                var periodStart = period.shift(),
+                    periodEnd = period.shift(),
+                    offset = 0;
+                if (periodStart) {
+                    if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
+                        offset = 0;
+                    } else {
+                        offset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+                    }
+
+                    textNearestDate = String(offset + parseInt(periodStart));
+                }
+                if (periodEnd) {
+                    textNearestDate += "-" + String(offset + parseInt(periodEnd));
+                }
+                if (textNearestDate.length > 0) {
+                    textNearestDate += " дня";
+                }
+                return textNearestDate;
+            }
+
+            if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
+                if (this.currentHour < deliveryObj.time.end - 1) {
+                    textNearestDate = deliveryObj.exist ?
+                        "Сегодня до " + String(deliveryObj.time.end) + ":00" : "Сегодня";
+                } else {
+                    if (this.currentDay === deliveryObj.dates.end) {
+                        textNearestDate = "Через 2 дня"
+                    } else {
+                        textNearestDate = "Завтра"
+                    }
+                }
+            } else {
+                var dayOffset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+                switch (dayOffset) {
+                    case 0:
+                        textNearestDate = "Сегодня";
+                        break;
+                    case 1:
+                        textNearestDate = "Завтра";
+                        break;
+                    case 2:
+                        textNearestDate = "Послезавтра";
+                        break;
+                    default:
+                        textNearestDate = "Через " + deliveryPeriod + " дня";
+                        break;
+                }
+            }
+
+            return textNearestDate;
         }
     };
 
@@ -189,36 +258,37 @@ function setDeliveryDescription($delivery) {
         shop.dates.end = week.days.indexOf(days.shift());
     }
 
-    if (shop.exist) {
-        if (currentDay >= shop.dates.start && currentDay <= shop.dates.end) {
-            if (currentHour < shop.time.end) {
-                deliveryPeriod = "Сегодня";
-            } else {
-                if (currentDay === shop.dates.end) {
-                    deliveryPeriod = "Через 2 дня"
-                } else {
-                    deliveryPeriod = "Завтра"
-                }
-            }
-        } else if (currentDay > shop.time.end || currentDay < shop.time.start) {
-            var dayOffset = week.calcDiffDay(currentDay, shop.dates.start);
-            switch (dayOffset) {
-                case 0:
-                    deliveryPeriod = "Сегодня";
-                    break;
-                case 1:
-                    deliveryPeriod = "Завтра";
-                    break;
-                case 2:
-                    deliveryPeriod = "Послезавтра";
-                    break;
-                default:
-                    deliveryPeriod = "Через " + deliveryPeriod + " дня";
-                    break;
-            }
-        }
 
-    }else {
+    if (shop.exist && deliveryId === 13) {
+        deliveryPeriod = week.getTextPeriod(shop);
+    } else if (deliveryId === 8) {
+        var $deliveryTimes = $(document).find("#sci-delivery-time option"),
+            courier = {
+                time: {
+                    start: $deliveryTimes.first().data("start"),
+                    end: $deliveryTimes.last().data("start"),
+                },
+                dates: {
+                    start: 1,
+                    end: 5,
+                },
+            };
+        deliveryPeriod = week.getTextPeriod(courier);
+    } else if ([5, 6].indexOf(deliveryId) >= 0) {
+        var sdek = {
+            isSdek: true,
+            currentPeriod: $delivery.find('.so_delivery_period').html(),
+            time: {
+                start: 0,
+                end: 0,
+            },
+            dates: {
+                start: 1,
+                end: 5,
+            },
+        };
+        deliveryPeriod = week.getTextPeriod(sdek);
+    } else {
         deliveryPeriod = $delivery.find('.so_delivery_period').html();
     }
 
@@ -231,6 +301,10 @@ function setDeliveryDescription($delivery) {
 
 
     var deliveryPrice = $delivery.find('.prs_soa').html();
+
+    if (parseInt(deliveryPrice.replace(/\D+/g,""))<=0){
+        deliveryPrice = "Бесплатно"
+    }
     return (deliveryPeriod ? deliveryPeriod + ', ' : '') + deliveryPrice;
 }
 
@@ -1760,7 +1834,7 @@ $(document).ready(function() {
             language: 'ru',
             startDate: startDate,
             beforeShowDay: function (date) {
-                return [0, 6, 5].indexOf(date.getDay()) <= -1;
+                return [0, 6].indexOf(date.getDay()) <= -1;
             }
         });
 
@@ -2242,11 +2316,9 @@ $.fn.updateDateSaleOrder = function() {
 
     var cityName = soCity.val() ? soCity.val().split(', ')[0] : '';
 
-    if (soModule.find("[name='isChangeLocation']").length) {
-        $(".sci-delivery__tab").each(function () {
-            setDeliveryByLocation($(this));
-        });
-    }
+    $(".sci-delivery__tab").each(function () {
+        setDeliveryByLocation($(this));
+    });
 
     var selectDeliveryVal = getDeliveryByCity($soBlockSelectedDelivery.val(), soCityID.val());
 

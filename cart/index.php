@@ -509,19 +509,35 @@ $isMoscow = (int)$userLocationInfo["ID"] === 84; ?>
                                             id="sci-delivery-time"
                                             class="sci-contact__input sci-contact__input--appearance"
                                             required>
-                                        <option selected value="1">
+                                        <option selected
+                                                value="1"
+                                                data-start="6"
+                                                data-end="9"
+                                        >
                                             c 6:00 до 9:00
                                         </option>
-                                        <option value="2">
+                                        <option value="2"
+                                                data-start="9"
+                                                data-end="12"
+                                        >
                                             c 9:00 до 12:00
                                         </option>
-                                        <option value="3">
+                                        <option value="3"
+                                                data-start="12"
+                                                data-end="15"
+                                        >
                                             c 12:00 до 15:00
                                         </option>
-                                        <option value="4">
+                                        <option value="4"
+                                                data-start="15"
+                                                data-end="18"
+                                        >
                                             c 15:00 до 18:00
                                         </option>
-                                        <option value="5">
+                                        <option value="5"
+                                                data-start="18"
+                                                data-end="21"
+                                        >
                                             c 18:00 до 21:00
                                         </option>
                                     </select>
