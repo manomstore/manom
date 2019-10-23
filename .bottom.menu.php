@@ -1,4 +1,5 @@
 <?
+#Убрал раздел новости из футера
 $aMenuLinks = Array(
 	Array(
 		"", 
@@ -15,7 +16,7 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Новости", 
+		"", 
 		"/articles/", 
 		Array(), 
 		Array(), 
