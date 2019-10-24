@@ -54,7 +54,35 @@ AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
 
+//Roistat integration begin
+AddEventHandler('sale', 'OnSaleOrderBeforeSaved', 'rsOnAddOrder');
+function rsOnAddOrder(Event $event) {
+    if(!$event->getParameter('IS_NEW')) return;
+    /** @var Sale\Order $order */
+    $order              = $event->getParameter('ENTITY');
 
+    $propertyCollection = $order->getPropertyCollection();
+
+    $visit = "no_cookie";
+    if (isset($_COOKIE['roistat_visit'])){
+        $visit = $_COOKIE['roistat_visit'];
+    }
+
+    /** @var \Bitrix\Sale\PropertyValue $obProp */
+    foreach ($propertyCollection as $obProp) {
+        $arProp = $obProp->getProperty();
+
+        // нас интересуют только свойства с кодами "EXPORT_DO", "EXPORT_DO_UR"
+        if($arProp["CODE"] == "ROISTAT") {
+            $obProp->setValue($visit);
+        }
+        if($arProp["CODE"] == "ROISTAT_TYPE	") {
+            $obProp->setValue("Корзина");
+        }
+    }
+}
+
+//Roistat integration end
 
 
 // AddEventHandler("iblock", "OnBeforeIBlockElementAdd", Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler"));
