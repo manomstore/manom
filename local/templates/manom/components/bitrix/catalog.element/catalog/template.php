@@ -78,6 +78,7 @@ if (!$_REQUEST['offer']){
 				<span class="credential-rostest"><?=$arResult['PROPERTIES'][$arParams['TOP_FIELD_3_CODE']]['VALUE']?></span> &nbsp;
 			<?}?>
 		</div>
+		<!--Изменяю вывод рейтинга и отзывов в этом месте-->
 
 		<div class="product-rating">
 			<?for ($i=0; $i < 5; $i++) {
@@ -87,7 +88,7 @@ if (!$_REQUEST['offer']){
 					?> ★ <?
 				}
 			}?>
-		</div>
+		<!--</div>-->
 		<?
 			$numberof = count($arResult['REVIEWS']);
 			$value = 'отзыв';
@@ -100,13 +101,17 @@ if (!$_REQUEST['offer']){
 
 				return $value . $suffix[$suffix_key];
 			}
-		?>
-		<div class="product-comments">
-			<span><?=count($arResult['REVIEWS']);?></span>
-			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
-		</div>
+			#Если количество отзывов = 0 ничего не выводим
+		if(count($arResult['REVIEWS'])==0){}
+			{ ?>
 
-	</div>
+<label for="tab3"><?=count($arResult['REVIEWS']);?>
+
+
+			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
+		</label>
+<? } ?>
+	</div></div>
 	<div class="product-main row">
 		<div class="product-photo">
 	<!-- 			<div class="product-photo__left col-1">
