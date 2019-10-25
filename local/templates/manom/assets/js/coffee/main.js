@@ -63,6 +63,251 @@ app.utils = {
   };
 })();
 
+function showDeliveryPickUpContent(deliveryButton) {
+    var deliveryId = parseInt(deliveryButton.data("prop").replace("ID_DELIVERY_ID_", ""));
+
+    var pickupType;
+
+    switch (deliveryId) {
+        case 6:
+            pickupType = "pvz";
+            break;
+        case 13:
+            pickupType = "shop";
+            break;
+        default:
+            return;
+    }
+    $(".delivery-pickup-type[data-pickup-type='" + pickupType + "']").addClass("current-type");
+    $(".delivery-pickup-type").not("[data-pickup-type='" + pickupType + "']").removeClass("current-type");
+}
+
+function setDeliveryByLocation($deliveryTab, refresh = false) {
+    refresh = Boolean(refresh);
+    var cityId = parseInt($(document).find('#so_main_block').find('#so_city').val());
+    var deliveryId = parseInt($deliveryTab.data("prop").replace("ID_DELIVERY_ID_", ""));
+    var newDeliveryId;
+    newDeliveryId = getDeliveryByCity(deliveryId, cityId);
+    refresh = refresh && newDeliveryId !== deliveryId ? refresh : false;
+
+    $deliveryTab.data("prop", "ID_DELIVERY_ID_" + newDeliveryId)
+        .attr("data-prop", "ID_DELIVERY_ID_" + newDeliveryId);
+
+    return refresh ? $deliveryTab.click() : null;
+}
+
+function getDeliveryByCity(deliveryId, cityId) {
+    deliveryId = parseInt(deliveryId);
+    cityId = parseInt(cityId);
+    var newDeliveryId;
+    var isMoscow = cityId === 84;
+
+    switch (deliveryId) {
+        case 5:
+        case 8:
+            newDeliveryId = isMoscow ? 8 : 5;
+            break;
+        case 6:
+        case 13:
+            newDeliveryId = isMoscow ? 13 : 6;
+            break;
+    }
+    return newDeliveryId;
+}
+
+function setDeliveryDescription($delivery) {
+    var deliveryId, cntDays;
+    var currentDate = new Date();
+    var currentDay = window.curDay !== undefined ? window.curDay : currentDate.getDay();
+    var currentHour = window.curHour !== undefined ? window.curHour : currentDate.getHours();
+    var deliveryPeriod;
+
+    var week = {
+        days: [
+            'вс',
+            'пн',
+            'вт',
+            'ср',
+            'чт',
+            'пт',
+            'сб'
+        ],
+        currentDay: currentDay,
+        currentHour: currentHour,
+        calcDiffDay: function (startDay, endDay) {
+            var sumDays = 0;
+            var roundNum = 0;
+            if (endDay > this.days.length) {
+                return sumDays;
+            }
+            var i = startDay;
+            while (i < this.days.length) {
+                if (roundNum <= 0) {
+                    roundNum = 1;
+                }
+                if (i > startDay || roundNum > 1) {
+                    sumDays++;
+                }
+
+                if (i === endDay) {
+                    break;
+                }
+                if (i === (this.days.length - 1)) {
+                    i = 0;
+                    roundNum++;
+                } else {
+                    i++;
+                }
+
+            }
+            return sumDays;
+        },
+        getTextPeriod: function (deliveryObj) {
+            var textNearestDate = "";
+            if (deliveryObj.isSdek) {
+                var newCurPeriod = "";
+                for (i = 0; i < deliveryObj.currentPeriod.length; i++) {
+                    if (!isNaN(parseInt(deliveryObj.currentPeriod[i])) || deliveryObj.currentPeriod[i] === "-") {
+                        newCurPeriod += deliveryObj.currentPeriod[i];
+                    }
+                }
+                deliveryObj.currentPeriod = newCurPeriod;
+
+                var period = deliveryObj.currentPeriod.split("-");
+                if (period.length <= 0) {
+                    return "";
+                }
+                var periodStart = period.shift(),
+                    periodEnd = period.shift(),
+                    offset = 0;
+                if (periodStart) {
+                    if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
+                        offset = 0;
+                    } else {
+                        offset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+                    }
+
+                    textNearestDate = String(offset + parseInt(periodStart));
+                }
+                if (periodEnd) {
+                    textNearestDate += "-" + String(offset + parseInt(periodEnd));
+                }
+                if (textNearestDate.length > 0) {
+                    textNearestDate += " дня";
+                }
+                return textNearestDate;
+            }
+
+            if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
+                if (this.currentHour < deliveryObj.time.end - 1) {
+                    textNearestDate = deliveryObj.exist ?
+                        "Сегодня до " + String(deliveryObj.time.end) + ":00" : "Сегодня";
+                } else {
+                    if (this.currentDay === deliveryObj.dates.end) {
+                        textNearestDate = "Через 2 дня"
+                    } else {
+                        textNearestDate = "Завтра"
+                    }
+                }
+            } else {
+                var dayOffset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+                switch (dayOffset) {
+                    case 0:
+                        textNearestDate = "Сегодня";
+                        break;
+                    case 1:
+                        textNearestDate = "Завтра";
+                        break;
+                    case 2:
+                        textNearestDate = "Послезавтра";
+                        break;
+                    default:
+                        textNearestDate = "Через " + deliveryPeriod + " дня";
+                        break;
+                }
+            }
+
+            return textNearestDate;
+        }
+    };
+
+    var shop = {
+        exist: false,
+        time: {
+            start: 0,
+            end: 0,
+        },
+        dates: {
+            start: 0,
+            end: 0,
+        },
+    };
+
+    deliveryId = parseInt($delivery.attr("for").replace("ID_DELIVERY_ID_", ""));
+    shop.exist = $delivery.hasClass("is-shop");
+    if (shop.exist && (deliveryId === 13)) {
+        var days, time, schedule = $delivery.find(".schedule_soa").text().split(" ");
+        schedule = Array.isArray(schedule) ? schedule : [];
+        time = schedule.pop();
+        time = time.split("-");
+        shop.time.start = parseInt(time.shift());
+        shop.time.end = parseInt(time.shift());
+        days = schedule.pop();
+        days = days.split("-");
+        shop.dates.start = week.days.indexOf(days.shift());
+        shop.dates.end = week.days.indexOf(days.shift());
+    }
+
+
+    if (shop.exist && deliveryId === 13) {
+        deliveryPeriod = week.getTextPeriod(shop);
+    } else if (deliveryId === 8) {
+        var $deliveryTimes = $(document).find("#sci-delivery-time option"),
+            courier = {
+                time: {
+                    start: $deliveryTimes.first().data("start"),
+                    end: $deliveryTimes.last().data("start"),
+                },
+                dates: {
+                    start: 1,
+                    end: 5,
+                },
+            };
+        deliveryPeriod = week.getTextPeriod(courier);
+    } else if ([5, 6].indexOf(deliveryId) >= 0) {
+        var sdek = {
+            isSdek: true,
+            currentPeriod: $delivery.find('.so_delivery_period').html(),
+            time: {
+                start: 0,
+                end: 0,
+            },
+            dates: {
+                start: 1,
+                end: 5,
+            },
+        };
+        deliveryPeriod = week.getTextPeriod(sdek);
+    } else {
+        deliveryPeriod = $delivery.find('.so_delivery_period').html();
+    }
+
+
+    // if (deliveryId)
+
+    // if (deliveryId === 8){
+    //     cntDays = 0;
+    // }
+
+
+    var deliveryPrice = $delivery.find('.prs_soa').html();
+
+    if (parseInt(deliveryPrice.replace(/\D+/g,""))<=0){
+        deliveryPrice = "Бесплатно"
+    }
+    return (deliveryPeriod ? deliveryPeriod + ', ' : '') + deliveryPrice;
+}
+
 $(document).ready(function() {
 
   $('.js-search-field .popup-block__input-clear').on('click', function(){
@@ -1124,17 +1369,39 @@ $(document).ready(function() {
       }
     });
   });
+
+  $(document).on('change', '.sci-delivery__radio', function(){
+      var $this = $(this);
+      var $thisParent = $this.closest('.sci-delivery-tab');
+
+      if (
+          (
+              $this.next('[data-prop="ID_DELIVERY_ID_5"]').length > 0
+              || $this.next('[data-prop="ID_DELIVERY_ID_8"]').length > 0
+              || $this.next('[data-prop="ID_DELIVERY_ID_9"]').length > 0
+              || $this.next('[data-prop="ID_DELIVERY_ID_10"]').length > 0
+              || $this.next('[data-prop="ID_DELIVERY_ID_11"]').length > 0
+          )
+          && $this.prop('checked')
+      ) {
+          $thisParent.append($('#sci-delivery-content1'));
+      }
+
+      $('#sci-delivery-street').val('');
+
+      $.fn.toggleDeliveryPriceInfoVisibility();
+  });
+
   $.fn.updateDateSaleOrder();
   $(document).on('click', '#soDelivPopUp', function() {
     return $(document).find('.SDEK_selectPVZ').click();
   });
   $(document).on('click', '.rb_so', function() {
 
-    if ($(this).siblings("input[name='delivery-tabs']").length > 0) {
-        $(document).find('#module_so').find("[name='isChangeLocation']").remove()
-    }
-
     if ($(this).attr('data-prop')) {
+        if ($(this).closest(".sci-delivery").length) {
+            $(document).find('#module_so').find("[name='isChangeLocation']").remove()
+        }
       return $.fn.changeRadioButtonSaleOrder($(this).attr('data-prop'));
     }
   });
@@ -1225,6 +1492,12 @@ $(document).ready(function() {
         soModule.find('[name="' + $this.attr('data-city-prop-val-alt') + '"]').val($this.val());
         soCityAltID.val(soCityID.val());
         soCityAlt.val($this.val());
+
+        var orderForm = soModule.find("#ORDER_FORM");
+
+        if (orderForm.find("[name='isChangeLocation']").length <= 0) {
+            orderForm.prepend("<input type='hidden' name='isChangeLocation' value='Y'>");
+        }
         soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
         return submitForm();
       }
@@ -1399,27 +1672,6 @@ $(document).ready(function() {
       }
     }
   })
-  $(document).on('change', '.sci-delivery__radio', function(){
-    var $this = $(this);
-    var $thisParent = $this.closest('.sci-delivery-tab');
-
-    if (
-      (
-        $this.next('[data-prop="ID_DELIVERY_ID_5"]').length > 0
-        || $this.next('[data-prop="ID_DELIVERY_ID_8"]').length > 0
-        || $this.next('[data-prop="ID_DELIVERY_ID_9"]').length > 0
-        || $this.next('[data-prop="ID_DELIVERY_ID_10"]').length > 0
-        || $this.next('[data-prop="ID_DELIVERY_ID_11"]').length > 0
-      )
-      && $this.prop('checked')
-    ) {
-      $thisParent.append($('#sci-delivery-content1'));
-    }
-
-    $('#sci-delivery-street').val('');
-
-    $.fn.toggleDeliveryPriceInfoVisibility();
-  });
   $(document).on('click', '#btnSubmitOrder', function() {
     if (!document.querySelector('.js-shopcart-agree').checked) {
       $.fn.setPushUp('Ошибка', 'Чтобы оформить заказ необходимо активировать чекбокс согласия', false, 'message', false, 5000);
@@ -1434,9 +1686,11 @@ $(document).ready(function() {
     if ($(document).find('#sci-contact-tab2').prop('checked')) {
       firstBlock = '#shopcart-item2 #sci-contact-content2';
     }
-    if ($(document).find('#sci-delivery-tab2').prop('checked')) {
-      secondBlock = '#shopcart-item3 #sci-delivery-content2';
-    }
+      if ($(document).find('#sci-delivery-tab2').prop('checked')) {
+          var deliveryTabSiblings = $("#sci-delivery-tab2").siblings(".sci-delivery__tab.rb_so");
+          // deliveryTabSiblings.data("prop","ID_DELIVERY_ID_13");
+          secondBlock = '#shopcart-item3 #sci-delivery-content2';
+      }
     if ($(document).find('#sci-delivery-tab3').prop('checked')) {
       secondBlock = '';
     }
@@ -1578,8 +1832,12 @@ $(document).ready(function() {
         }
         $('.js-shopcart-datepicker').datepicker({
             language: 'ru',
-            startDate: startDate
+            startDate: startDate,
+            beforeShowDay: function (date) {
+                return [0, 6].indexOf(date.getDay()) <= -1;
+            }
         });
+
         checkDeliveryTime()
     })();
 
@@ -1690,6 +1948,8 @@ $(document).ready(function() {
   });
 
   restorePersistData();
+
+    $.fn.updateSideInfo();
 
     function setZipCode(zip) {
         zip = Number(zip) > 0 ? zip : "000000";
@@ -1881,9 +2141,10 @@ $.fn.updateSideInfo = function() {
     uCity = '';
     uAddress = $(document).find('label[for="ID_DELIVERY_ID_13"] .dsc_soa').html();
     deliveryPrice = $(document).find('label[for="ID_DELIVERY_ID_13"] .prs_soa').html().replace('руб.', '');
-    uDeliveryPeriod = $(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html();
-    soBlock.find('.sv_address').html($(document).find('label[for="ID_DELIVERY_ID_13"] .dsc_soa').html());
-    soBlock.find('.sv_price span').html($(document).find('label[for="ID_DELIVERY_ID_13"] .prs_soa').html().replace('руб.', '') + '₽');
+      uDeliveryPeriod = $(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html();
+      soBlock.find('.js-shop-address').html($(document).find('label[for="ID_DELIVERY_ID_13"] .address_soa').html());
+      soBlock.find('.js-shop-schedule').html($(document).find('label[for="ID_DELIVERY_ID_13"] .schedule_soa').html());
+      soBlock.find('.sv_price span').html($(document).find('label[for="ID_DELIVERY_ID_13"] .prs_soa').html().replace('руб.', '') + '₽');
     soBlock.find('.sv_time span').html($(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html());
   }
   soBlock.find('.pickup_summ_alt span').html(deliveryPrice + '₽');
@@ -1991,10 +2252,11 @@ var getPaymentIcon = function(id){
       tmplSelector = '#tmpl-payment-icon-cashless';
       break;
     }
-    case 8: {
-      tmplSelector = '#tmpl-payment-icon-card';
-      break;
-    }
+      case 8:
+      case 10: {
+          tmplSelector = '#tmpl-payment-icon-card';
+          break;
+      }
   }
 
 
@@ -2016,155 +2278,15 @@ $.fn.updateDateSaleOrder = function() {
   var soBlock = $(document).find('#so_main_block');
   var soModule = $(document).find('#module_so');
   var $radioButton = soBlock.find('.rb_so');
+    var $soBlockSelectedDelivery = soModule.find(".sale_order_full_table.delivery-block input[type='radio']:checked");
 
-  if (soModule.find("[name='isChangeLocation']").length > 0) {
-      soModule.find("[name='isChangeLocation']").remove()
-  }
+    $(".delivery-pickup-type").removeClass("current-type");
 
   // Обновляем количество товаров в корзине на чекауте
   $.fn.updateShopcartAmount();
   // Обновляем товары в сайдбаре на чекауте
   $.fn.updateShopcartSidebarProducts();
 
-  $radioButton.each(function() {
-    var $this = $(this);
-    var $thisParent = $this.closest('.sci-delivery-tab');
-    var id = $this.attr('data-prop');
-
-    $this.addClass('rb_so_disbled');
-
-    if ($this.hasClass('sci-delivery__tab')) {
-      if (id) {
-        if (soModule.find('#' + id + '').is('input')) {
-          var $soModuleDelivery = soModule.find('label[for="' + id + '"]');
-          var deliveryTitle = $soModuleDelivery.find('>b').eq(0).html();
-          var deliveryPeriod = $soModuleDelivery.find('.so_delivery_period').html();
-          var deliveryPrice = $soModuleDelivery.find('.prs_soa').html();
-
-          $this.html(deliveryTitle + '<span>' + (deliveryPeriod ? deliveryPeriod + ', ' : '') + deliveryPrice + '</span>');
-          $thisParent.removeClass('rb_so__hide');
-
-          if (soModule.find('#' + id + '').prop('checked')) {
-            $this.click();
-          }
-        } else {
-          $thisParent.addClass('rb_so__hide');
-        }
-      }
-    } else if ($this.hasClass('sci-payment__tab')) {
-      if (id) {
-        if (soModule.find('#' + id + '').is('input')) {
-          var $soModulePayment = soModule.find('label[for="' + id + '"]');
-          var paymentTitle = $soModulePayment.find('>b').eq(0).html();
-
-          $this.html(
-            paymentTitle +
-            getPaymentIcon(parseInt(id.replace('ID_PAY_SYSTEM_ID_', '')))
-          );
-          $thisParent.removeClass('rb_so__hide');
-
-          if (soModule.find('#' + id + '').prop('checked')) {
-            $this.click();
-          }
-        } else {
-          $thisParent.addClass('rb_so__hide');
-        }
-      }
-    } else {
-      if (id) {
-        if (soModule.find('#' + id + '').is('input')) {
-          if (soModule.find('#' + id + '').prop('checked')) {
-            $this.click();
-          }
-        }
-      }
-    }
-
-    $this.removeClass('rb_so_disbled');
-  });
-
-  soModule.find('.sale_order_full_table input[name="DELIVERY_ID"]').each(function() {
-    var delivID = $(this).attr('id');
-
-    if (!soBlock.find('.sci-delivery-tabs .rb_so[data-prop="' + delivID + '"]').is('label')) {
-      var indLav = parseInt(soBlock.find('.sci-delivery-tabs .sci-delivery-tab').length) + 1;
-      var $soModuleDelivery = soModule.find('label[for="' + delivID + '"]');
-      var deliveryTitle = $soModuleDelivery.find('>b').eq(0).html();
-      var deliveryPeriod = $soModuleDelivery.find('.so_delivery_period').html();
-      var deliveryPrice = $soModuleDelivery.find('.prs_soa').html();
-
-      htmlNewEl = $('<li class="sci-delivery-tab">');
-      htmlNewEl.append('<input id="sci-delivery-tab' + indLav + '" type="radio" name="delivery-tabs" class="sci-delivery__radio visually-hidden">');
-      htmlNewEl.append('' +
-        '<label class="sci-delivery__tab rb_so" data-prop="' + delivID + '" for="sci-delivery-tab' + indLav + '">' +
-          deliveryTitle +
-          '<span>' + (deliveryPeriod ? deliveryPeriod + ', ' : '') + deliveryPrice + '</span>' +
-        '</label>'
-      );
-      soBlock.find('.sci-delivery-tabs').prepend(htmlNewEl);
-      if ($(this).prop('checked')) {
-        soBlock.find('.rb_so[data-prop="' + delivID + '"]').click();
-      }
-    }
-
-    if ($(this).prop('checked') || $(this).attr('checked')) {
-      $(this).click();
-    }
-  });
-
-  soModule.find('.sale_order_full_table input[name="PAY_SYSTEM_ID"]').each(function() {
-    var paymentID, htmlNewEl, indLav, titleDeliv;
-    paymentID = $(this).attr('id');
-    if (!soBlock.find('.sci-payment-tabs .rb_so[data-prop="' + paymentID + '"]').is('label')) {
-      indLav = parseInt(soBlock.find('.sci-payment-tabs .sci-payment-tab').length) + 1;
-      titleDeliv = soModule.find('label[for="' + paymentID + '"]>b').eq(0).html();
-      htmlNewEl = $('<li class="sci-payment-tab">');
-      htmlNewEl.append('<input id="sci-payment-tab' + indLav + '" type="radio" name="payment-tabs" class="sci-payment__radio visually-hidden" value="' + indLav + '">');
-      htmlNewEl.append('' +
-        '<label class="sci-payment__tab rb_so" data-prop="' + paymentID + '" for="sci-payment-tab' + indLav + '">' +
-          titleDeliv +
-          getPaymentIcon(parseInt(paymentID.replace('ID_PAY_SYSTEM_ID_', ''))) +
-        '</label>'
-      );
-      soBlock.find('.sci-payment-tabs').prepend(htmlNewEl);
-      if ($(this).prop('checked')) {
-        soBlock.find('.rb_so[data-prop="' + paymentID + '"]').click();
-      }
-    }
-  });
-
-    var fizPerson = soModule.find('#PERSON_TYPE_1').prop('checked');
-
-    $(document).find('#so_main_block')
-        .find("[data-prop=ORDER_PROP_19],[data-prop=ORDER_PROP_21]")
-        .each(function () {
-            var curProp = fizPerson ? $(this).attr('data-prop') : $(this).attr('data-prop-alt');
-            if (soModule.find("[name='" + curProp + "']").length > 0) {
-                $(this).closest(".sci-contact__field").show();
-            } else {
-                $(this).closest(".sci-contact__field").hide();
-            }
-        })
-
-  soBlock.find('input, textarea, select').each(function() {
-    if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
-      if (!$(this).is('select')) {
-        if (soModule.find('[name="' + $(this).attr('data-prop') + '"]').is('input')) {
-          $(this).val(soModule.find('[name="' + $(this).attr('data-prop') + '"]').val());
-          $(this).attr('data-change', 'Y');
-        }
-        if (soModule.find('[name="' + $(this).attr('data-prop-alt') + '"]').is('input')) {
-          $(this).val(soModule.find('[name="' + $(this).attr('data-prop-alt') + '"]').val());
-          return $(this).attr('data-change', 'Y');
-        }
-      } else {
-        if (soModule.find('[name="' + $(this).attr('data-prop') + '"]').is('select')) {
-          $(this).find('option[value="' + soModule.find('[name="' + $(this).attr('data-prop') + '"]').val() + '"]').prop('selected', true);
-          return $(this).attr('data-change', 'Y');
-        }
-      }
-    }
-  });
   soCity = soBlock.find('#so_city_val');
   soCityID = soBlock.find('#so_city');
   soCityAlt = soBlock.find('#so_city_alt_val');
@@ -2192,7 +2314,142 @@ $.fn.updateDateSaleOrder = function() {
     }
   }
 
-  var cityName = soCity.val() ? soCity.val().split(', ')[0] : ''
+    var cityName = soCity.val() ? soCity.val().split(', ')[0] : '';
+
+    $(".sci-delivery__tab").each(function () {
+        setDeliveryByLocation($(this));
+    });
+
+    var selectDeliveryVal = getDeliveryByCity($soBlockSelectedDelivery.val(), soCityID.val());
+
+    var deliveryTabType = getDeliveryTabType(selectDeliveryVal);
+
+    if (deliveryTabType) {
+        var deliveryTab = soBlock.find("#".concat(deliveryTabType))
+            .siblings("label.sci-delivery__tab.rb_so");
+        var selectDelivery = deliveryTab
+            .data("prop", "ID_DELIVERY_ID_" + selectDeliveryVal)
+            .attr("data-prop", "ID_DELIVERY_ID_" + selectDeliveryVal);
+
+        if (deliveryTabType === "sci-delivery-tab2") {
+            showDeliveryPickUpContent(selectDelivery);
+        }
+
+        setDeliveryByLocation(deliveryTab, true)
+    }
+
+    $radioButton.each(function() {
+        var $this = $(this);
+        var $thisParent = $this.closest('.sci-delivery-tab');
+        var id = $this.data('prop');
+
+        $this.addClass('rb_so_disbled');
+
+        if ($this.hasClass('sci-delivery__tab')) {
+            if (id) {
+                if (soModule.find('#' + id + '').is('input')) {
+                    var $soModuleDelivery = soModule.find('label[for="' + id + '"]');
+
+                    $this.find("span").text(setDeliveryDescription($soModuleDelivery));
+                    $thisParent.removeClass('rb_so__hide');
+
+                    if (soModule.find('#' + id + '').prop('checked')) {
+                        $(document).find('#module_so').find("[name='isChangeLocation']").remove()
+                        $this.click();
+                    }
+                } else {
+                    $thisParent.addClass('rb_so__hide');
+                }
+            }
+        } else if ($this.hasClass('sci-payment__tab')) {
+            $thisParent = $this.closest('.sci-payment-tab');
+            if (id) {
+                if (soModule.find('#' + id + '').is('input')) {
+                    var $soModulePayment = soModule.find('label[for="' + id + '"]');
+                    var paymentTitle = $soModulePayment.find('>b').eq(0).html();
+
+                    $this.html(
+                        paymentTitle +
+                        getPaymentIcon(parseInt(id.replace('ID_PAY_SYSTEM_ID_', '')))
+                    );
+                    $thisParent.removeClass('rb_so__hide');
+
+                    if (soModule.find('#' + id + '').prop('checked')) {
+                        $this.click();
+                    }
+                } else {
+                    $thisParent.addClass('rb_so__hide');
+                }
+            }
+        } else {
+            if (id) {
+                if (soModule.find('#' + id + '').is('input')) {
+                    if (soModule.find('#' + id + '').prop('checked')) {
+                        $this.click();
+                    }
+                }
+            }
+        }
+
+        $this.removeClass('rb_so_disbled');
+    });
+
+    soModule.find('.sale_order_full_table input[name="PAY_SYSTEM_ID"]').each(function() {
+        var paymentID, htmlNewEl, indLav, titleDeliv;
+        paymentID = $(this).attr('id');
+        if (!paymentID) {
+            return;
+        }
+        if (!soBlock.find('.sci-payment-tabs .rb_so[data-prop="' + paymentID + '"]').is('label')) {
+            indLav = parseInt(soBlock.find('.sci-payment-tabs .sci-payment-tab').length) + 1;
+            titleDeliv = soModule.find('label[for="' + paymentID + '"]>b').eq(0).html();
+            htmlNewEl = $('<li class="sci-payment-tab">');
+            htmlNewEl.append('<input id="sci-payment-tab' + indLav + '" type="radio" name="payment-tabs" class="sci-payment__radio visually-hidden" value="' + indLav + '">');
+            htmlNewEl.append('' +
+                '<label class="sci-payment__tab rb_so" data-prop="' + paymentID + '" for="sci-payment-tab' + indLav + '">' +
+                titleDeliv +
+                getPaymentIcon(parseInt(paymentID.replace('ID_PAY_SYSTEM_ID_', ''))) +
+                '</label>'
+            );
+            soBlock.find('.sci-payment-tabs').append(htmlNewEl);
+            if ($(this).prop('checked')) {
+                soBlock.find('.rb_so[data-prop="' + paymentID + '"]').click();
+            }
+        }
+    });
+
+    var fizPerson = soModule.find('#PERSON_TYPE_1').prop('checked');
+
+    $(document).find('#so_main_block')
+        .find("[data-prop=ORDER_PROP_19],[data-prop=ORDER_PROP_21]")
+        .each(function () {
+            var curProp = fizPerson ? $(this).attr('data-prop') : $(this).attr('data-prop-alt');
+            if (soModule.find("[name='" + curProp + "']").length > 0) {
+                $(this).closest(".sci-contact__field").show();
+            } else {
+                $(this).closest(".sci-contact__field").hide();
+            }
+        })
+
+    soBlock.find('input, textarea, select').each(function() {
+        if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
+            if (!$(this).is('select')) {
+                if (soModule.find('[name="' + $(this).attr('data-prop') + '"]').is('input')) {
+                    $(this).val(soModule.find('[name="' + $(this).attr('data-prop') + '"]').val());
+                    $(this).attr('data-change', 'Y');
+                }
+                if (soModule.find('[name="' + $(this).attr('data-prop-alt') + '"]').is('input')) {
+                    $(this).val(soModule.find('[name="' + $(this).attr('data-prop-alt') + '"]').val());
+                    return $(this).attr('data-change', 'Y');
+                }
+            } else {
+                if (soModule.find('[name="' + $(this).attr('data-prop') + '"]').is('select')) {
+                    $(this).find('option[value="' + soModule.find('[name="' + $(this).attr('data-prop') + '"]').val() + '"]').prop('selected', true);
+                    return $(this).attr('data-change', 'Y');
+                }
+            }
+        }
+    });
 
   $('#sci-delivery-street')
     .suggestions('setOptions', {
@@ -2223,6 +2480,12 @@ $.fn.updateDateSaleOrder = function() {
   soModule.find('.errortext').each(function() {
     return $.fn.setPushUp("Ошибка", $(this).text(), false, "message", false, 5000);
   });
+
+    // Обновляем маску телефона
+    soBlock.find(fizPerson ? 'input[name="sci-contact__tel"]' : 'input[name="sci-contact__ur-phone"]')
+        .unmask()
+        .mask("+7 (999) 999-99-99");
+
   return soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
 };
 
@@ -2369,6 +2632,9 @@ $.fn.updGlobalCityInCart = function(cityID) {
       }
     soModule.find('input[name="DELIVERY_ID"]:checked').prop('checked', false);
     soBlock.find('.sci-delivery__radio:checked').prop('checked', false);
+      if ($(document).find(".shopcart-nav1__radio:checked").data("num") > 3) {
+          $(document).find('.shopcart-nav1 label[for="shopcart-tab3"]').click();
+      }
     return $.fn.updateCart();
   }
 };
@@ -2652,4 +2918,19 @@ function isUserExists(email) {
 
 
     return existUser;
+}
+
+function getDeliveryTabType(deliveryId) {
+    var deliveryTabType = null;
+    deliveryId = parseInt(deliveryId);
+
+    if ([5, 8].indexOf(deliveryId) >= 0) {
+        deliveryTabType = "sci-delivery-tab1";
+    }
+
+    if ([13, 6].indexOf(deliveryId) >= 0) {
+        deliveryTabType = "sci-delivery-tab2";
+    }
+
+    return deliveryTabType;
 }

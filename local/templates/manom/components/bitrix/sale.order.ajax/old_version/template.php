@@ -65,8 +65,12 @@ else
 		<?if($_POST["is_ajax_post"] != "Y")
 		{
 			?>
-			<form action="" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
-			<?=bitrix_sessid_post()?>
+        <form action="" method="POST" name="ORDER_FORM" id="ORDER_FORM" enctype="multipart/form-data">
+            <?
+            if ((\Bitrix\Main\Context::getCurrent()->getRequest())->get("isChangeLocation") === "Y"):?>
+                <input type='hidden' name='isChangeLocation' value='Y'>
+            <? endif; ?>
+            <?= bitrix_sessid_post() ?>
 			<div id="order_form_content">
 			<?
 		}
