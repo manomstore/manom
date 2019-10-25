@@ -1470,8 +1470,12 @@ a.top-submenu2__item:hover .top-submenu2__title {
 
 body div.search-popup {
   min-width: 200px;
+  max-height: 272px;
   padding: 4px 0;
   margin: 5px 0 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid #e1e1e1;
   border-radius: 3px;
   box-shadow: 0px 14px 14px rgba(0, 0, 0, 0.1);

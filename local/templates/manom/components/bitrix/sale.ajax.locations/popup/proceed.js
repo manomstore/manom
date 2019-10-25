@@ -163,9 +163,10 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 
 		t.aDiv = t.Print(result);
 		var pos = TCJsUtils.GetRealPos(t.oObj);
-		//t.oDiv.style.width = parseInt(pos["width"]) + "px";
-		t.oDiv.style.width = cityFieldProp.width;
-		TCJsUtils.show(t.oDiv, cityFieldProp.left, pos["bottom"]);
+		t.oDiv.style.width = parseInt(pos["width"]) + "px";
+		// t.oDiv.style.width = cityFieldProp.width;
+		// TCJsUtils.show(t.oDiv, cityFieldProp.left, pos["bottom"]);
+		TCJsUtils.show(t.oDiv, pos['left'], pos["bottom"]);
 		TCJsUtils.addEvent(document, "click", t.CheckMouse);
 		TCJsUtils.addEvent(document, "keydown", t.CheckKeyword);
 	},
