@@ -1161,11 +1161,11 @@ a.top-submenu2__item:hover .top-submenu2__title {
     width: 100%;
   }
 }
-.tab-content__column.left-block {
+/* .tab-content__column.left-block {
   font-family: 'Montserrat', sans-serif!important;
   font-size: 14px;
   text-align: justify;
-}
+} */
 
 .dnd-location-line{
   display: none;

@@ -52,6 +52,37 @@ AddEventHandler("sale", "OnBeforeEventAdd", Array("MyHandlerClass","OnBeforeEven
 AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass","OnSaleComponentOrderPropertiesHandler"));
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","reIndexSku"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
+AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
+
+//Roistat integration begin
+AddEventHandler('sale', 'OnSaleOrderBeforeSaved', 'rsOnAddOrder');
+function rsOnAddOrder(Event $event) {
+    if(!$event->getParameter('IS_NEW')) return;
+    /** @var Sale\Order $order */
+    $order              = $event->getParameter('ENTITY');
+
+    $propertyCollection = $order->getPropertyCollection();
+
+    $visit = "no_cookie";
+    if (isset($_COOKIE['roistat_visit'])){
+        $visit = $_COOKIE['roistat_visit'];
+    }
+
+    /** @var \Bitrix\Sale\PropertyValue $obProp */
+    foreach ($propertyCollection as $obProp) {
+        $arProp = $obProp->getProperty();
+
+        // нас интересуют только свойства с кодами "EXPORT_DO", "EXPORT_DO_UR"
+        if($arProp["CODE"] == "ROISTAT") {
+            $obProp->setValue($visit);
+        }
+        if($arProp["CODE"] == "ROISTAT_TYPE	") {
+            $obProp->setValue("Корзина");
+        }
+    }
+}
+
+//Roistat integration end
 AddEventHandler("sale", "OnSaleComponentOrderUserResult", Array("MyHandlerClass","OnSaleComponentOrderUserResultHandler"));
 
 
@@ -379,6 +410,47 @@ class MyHandlerClass
                 if ($propertyValue["CODE"] === "TIME_DELIVERY") {
                     $property->setValue("");
                 }
+            }
+        }
+    }
+
+    function OnSaleOrderBeforeSavedHandler($arFields)
+    {
+        \Bitrix\Main\Loader::includeModule("sale");
+        $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
+
+        if (!method_exists($registry, "getPropertyClassName")) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\PropertyBase $propertyClassName */
+        $propertyClassName = $registry->getPropertyClassName();
+
+        if (!class_exists($propertyClassName)) {
+            return true;
+        }
+
+        $orderProperties = $arFields->getPropertyCollection()->getArray()["properties"];
+
+        $properties = $propertyClassName::getList([
+            'select' => ['ID', "CODE"],
+            'filter' => [
+                '=PERSON_TYPE_ID' => $arFields->getPersonTypeId(),
+                'CODE' => [
+                    "COMMENT"
+                ]
+            ]
+        ])->fetchAll();
+
+        foreach ($properties as $property) {
+            if ($property["CODE"] === "COMMENT") {
+                foreach ($orderProperties as $orderProperty) {
+                    if ($orderProperty["ID"] === $property["ID"]) {
+                        $arFields->setField("COMMENTS", $orderProperty["VALUE"][0]);
+                        break;
+                    }
+                }
+                break;
             }
         }
     }

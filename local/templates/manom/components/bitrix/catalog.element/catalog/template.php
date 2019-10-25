@@ -78,7 +78,7 @@ if (!$_REQUEST['offer']){
 				<span class="credential-rostest"><?=$arResult['PROPERTIES'][$arParams['TOP_FIELD_3_CODE']]['VALUE']?></span> &nbsp;
 			<?}?>
 		</div>
-		<?/*
+
 		<div class="product-rating">
 			<?for ($i=0; $i < 5; $i++) {
 				if ($i >= $arResult['PRODUCT_RATING']) {
@@ -105,7 +105,7 @@ if (!$_REQUEST['offer']){
 			<span><?=count($arResult['REVIEWS']);?></span>
 			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
 		</div>
-		*/?>
+
 	</div>
 	<div class="product-main row">
 		<div class="product-photo">
@@ -506,133 +506,134 @@ if (!$_REQUEST['offer']){
 
 
 		<section id="content2">
-			<div class="tab-content row">
-                <?if($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {?>
-                    <div class="tab-content__column right-block">
-                        <div class="bundle-text">Комплект поставки</div>
-                        <p class="tab-content__text1 bundle-border">
-                            <?=$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']?>
-                        </p>
-                    </div>
-                <?}?>
-				<div class="tab-content__column <?=$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']? 'left-block' : ''?>">
-					<p class="tab-content__text1">
-						<?=$arResult['DETAIL_TEXT']?>
-					</p>
+			<div class="tab-content">
+				<div class="tab-content__row">
+					<?if($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {?>
+						<div class="tab-content__column right-block">
+							<div class="tab-content__title">Комплект поставки</div>
+							<p class="tab-content__text1 bundle-border">
+								<?=$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']?>
+							</p>
+						</div>
+					<?}?>
+					<div class="tab-content__column <?=$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']? 'left-block' : ''?>">
+						<p class="tab-content__text1">
+							<?=$arResult['DETAIL_TEXT']?>
+						</p>
+					</div>
 				</div>
-
 			</div>
 		</section>
 		<section id="content1">
-			<div class="tab-content row">
-				<!-- <div class="tab-content__column col-6"> -->
-                <div class="instruction-wrapper col-4">
-                <?
-                if($arResult['PROPERTIES'][$arParams['FILES_CODE']]['VALUE']){
-                    ?><strong class="name-properties col-12">Инструкции и сертификаты:</strong><br><?
-                    foreach ($arResult['PROPERTIES'][$arParams['FILES_CODE']]['VALUE'] as $key => $value) {
-                        $rsFile = CFile::GetByID($value);
-                        $arFile = $rsFile->Fetch();
-                        $fileHref = CFile::GetPath($value);
-                        $splitFileName = explode('.', $arFile['ORIGINAL_NAME']);
-                        $fileType = array_pop($splitFileName);
-                        $fileName = implode(' ', $splitFileName);
-                        ?>
-                        <div class="tab-content__column" style="padding-bottom: 10px;">
-                            <div class="row">
-                                <div class="col-1" style="text-align: center;">
-                                    <a href="<?=$fileHref?>" target="_blank"><img src="/upload/pdfs-512.png" alt=""></i></a>
-                                </div>
-                                <div class="col-9">
-                                    <a href="<?=$fileHref?>" target="_blank" style="color: #000; font-weight: 700;"><?=$fileName?></a><br>
-                                    <a href="<?=$fileHref?>" target="_blank" style="color: #000;">(<?=formatBytes($arFile['FILE_SIZE'])?>)</a>
-                                </div>
-                            </div>
-                        </div>
-                        <?
-                        // echo "<pre style='text-align:left;'>";print_r($arFile);echo "</pre>";
-                    }
-                }
-                function formatBytes($size, $precision = 2)
-                {
-                    $base = log($size, 1024);
-                    $suffixes = array('', 'кб.', 'мб.', 'гб.', 'тб.');
+			<div class="tab-content">
+				<div class="tab-content__row tab-content__row--reverse">
+					<!-- <div class="tab-content__column col-6"> -->
+					<div class="instruction-wrapper tab-content__column col-4">
+					<?
+					if($arResult['PROPERTIES'][$arParams['FILES_CODE']]['VALUE']){
+						?><strong class="name-properties col-12">Инструкции и сертификаты:</strong><?
+						foreach ($arResult['PROPERTIES'][$arParams['FILES_CODE']]['VALUE'] as $key => $value) {
+							$rsFile = CFile::GetByID($value);
+							$arFile = $rsFile->Fetch();
+							$fileHref = CFile::GetPath($value);
+							$splitFileName = explode('.', $arFile['ORIGINAL_NAME']);
+							$fileType = array_pop($splitFileName);
+							$fileName = implode(' ', $splitFileName);
+							?>
+							<a class="files-item" href="<?=$fileHref?>" target="_blank">
+								<div class="files-item__icon">
+									<img src="/upload/pdfs-512.png" alt="" />
+								</div>
+								<div class="files-item__content">
+									<?=$fileName?>
+									<div class="files-item__size"><?=formatBytes($arFile['FILE_SIZE'])?></div>
+								</div>
+							</a>
+							<?
+							// echo "<pre style='text-align:left;'>";print_r($arFile);echo "</pre>";
+						}
+					}
+					function formatBytes($size, $precision = 2)
+					{
+						$base = log($size, 1024);
+						$suffixes = array('', 'кб.', 'мб.', 'гб.', 'тб.');
 
-                    return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
-                }
-                ?>
-                </div>
-                <div class="characteristics-wrapper col-8">
-					<?$APPLICATION->IncludeComponent("redsign:grupper.list", "catalog_element",
-						Array(
-							"DISPLAY_PROPERTIES" => $arResult["DISPLAY_PROPERTIES"],	// Свойства
-							"CACHE_TIME" => "36000",	// Время кеширования (сек.)
-						),
-						false
-					);?>
-                </div>
-						<?/*$count = 0;$secondCol = false;?>
-						<?foreach($arResult['DISPLAY_PROPERTIES'] as $i => $prop):
-							$count++?>
-							<p class="tab-content__item">
-								<span class="tab-content__title"><?=$prop['NAME']?>: </span>
-								<span class="tab-content__text"><?=$prop['DISPLAY_VALUE']?></span>
-							</p>
-							<?if(((count($arResult['DISPLAY_PROPERTIES'])/2) <= $count) and $secondCol == false){
-								$secondCol = true;
-								?></div><div class="tab-content__column col-6"><?
-							}?>
-						<?endforeach;*/?>
-					<!-- <p class="tab-content__item">
-						<span class="tab-content__title">Экран ноутбука: </span>
-						<span class="tab-content__text">Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Конфигурация ноутбука: </span>
-						<span class="tab-content__text">Процессор	Intel Celeron 1000M,	двухъядерный, оперативная память	2048 Мб, графический контроллер	Intel HD Graphics HD 4000</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Устройства хранения данных: </span>
-						<span class="tab-content__text">Объем HDD	500 Гб, дисковод DVD-RW</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">Корпус ноутбука: </span>
-						<span class="tab-content__text">Пластик, цвет на выбор:	черный, белый, серебристый</span>
-					</p>
-				</div>
-				<div class="tab-content__column col-6">
-					<p class="tab-content__item">
-						<span class="tab-content__text">Коммуникации ноутбука: </span>
-						<span class="tab-content__text">Wi-Fiб Bluetooth v2.0</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__text">Операционная система ноутбука: </span>
-						<span class="tab-content__text">Windows 8</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__text">Мультимедийные особенности: </span>
-						<span class="tab-content__text">Веб-камера	встроенная</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__text">Батарея ноутбука: </span>
-						<span class="tab-content__text">Количество ячеек батареи 6 cell</span>
-					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__text">Гарантия:	</span>
-						<span class="tab-content__text">12 месяцев</span>
-					</p> -->
-				<!-- </div> -->
+						return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+					}
+					?>
+					</div>
+					<div class="characteristics-wrapper tab-content__column col-8">
+						<?$APPLICATION->IncludeComponent("redsign:grupper.list", "catalog_element",
+							Array(
+								"DISPLAY_PROPERTIES" => $arResult["DISPLAY_PROPERTIES"],	// Свойства
+								"CACHE_TIME" => "36000",	// Время кеширования (сек.)
+							),
+							false
+						);?>
+					</div>
+							<?/*$count = 0;$secondCol = false;?>
+							<?foreach($arResult['DISPLAY_PROPERTIES'] as $i => $prop):
+								$count++?>
+								<p class="tab-content__item">
+									<span class="tab-content__title"><?=$prop['NAME']?>: </span>
+									<span class="tab-content__text"><?=$prop['DISPLAY_VALUE']?></span>
+								</p>
+								<?if(((count($arResult['DISPLAY_PROPERTIES'])/2) <= $count) and $secondCol == false){
+									$secondCol = true;
+									?></div><div class="tab-content__column col-6"><?
+								}?>
+							<?endforeach;*/?>
+						<!-- <p class="tab-content__item">
+							<span class="tab-content__title">Экран ноутбука: </span>
+							<span class="tab-content__text">Диагональ экрана в дюймах	15.6", разрешение экрана 1366×768</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__title">Конфигурация ноутбука: </span>
+							<span class="tab-content__text">Процессор	Intel Celeron 1000M,	двухъядерный, оперативная память	2048 Мб, графический контроллер	Intel HD Graphics HD 4000</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__title">Устройства хранения данных: </span>
+							<span class="tab-content__text">Объем HDD	500 Гб, дисковод DVD-RW</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__title">Корпус ноутбука: </span>
+							<span class="tab-content__text">Пластик, цвет на выбор:	черный, белый, серебристый</span>
+						</p>
+					</div>
+					<div class="tab-content__column col-6">
+						<p class="tab-content__item">
+							<span class="tab-content__text">Коммуникации ноутбука: </span>
+							<span class="tab-content__text">Wi-Fiб Bluetooth v2.0</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__text">Операционная система ноутбука: </span>
+							<span class="tab-content__text">Windows 8</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__text">Мультимедийные особенности: </span>
+							<span class="tab-content__text">Веб-камера	встроенная</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__text">Батарея ноутбука: </span>
+							<span class="tab-content__text">Количество ячеек батареи 6 cell</span>
+						</p>
+						<p class="tab-content__item">
+							<span class="tab-content__text">Гарантия:	</span>
+							<span class="tab-content__text">12 месяцев</span>
+						</p> -->
+					<!-- </div> -->
 
-				<?//echo "<pre style='text-align:left;'>";print_r($arResult['PROPERTIES'][$arParams['FILES_CODE']]);echo "</pre>";?>
+					<?//echo "<pre style='text-align:left;'>";print_r($arResult['PROPERTIES'][$arParams['FILES_CODE']]);echo "</pre>";?>
 
-				<div class="tab-content__column col">
-					<!-- <p class="tab-content__item">
-						<span class="tab-content__title">Комплектация:</span>
-						<span class="tab-content__text">ноутбук Lenovo IdeaPad 320-15ISK, блок питания 220В, руководство пользователя, гарантийная сервисная книжка, коробка.</span>
-					</p> -->
-					<?/*<p class="tab-content__text1">
-						<?=$arResult['DETAIL_TEXT']?>
-					</p>*/?>
+					<div class="tab-content__column col">
+						<!-- <p class="tab-content__item">
+							<span class="tab-content__title">Комплектация:</span>
+							<span class="tab-content__text">ноутбук Lenovo IdeaPad 320-15ISK, блок питания 220В, руководство пользователя, гарантийная сервисная книжка, коробка.</span>
+						</p> -->
+						<?/*<p class="tab-content__text1">
+							<?=$arResult['DETAIL_TEXT']?>
+						</p>*/?>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -655,7 +656,7 @@ if (!$_REQUEST['offer']){
 		</section>*/?>
 
 		<section id="content3">
-			<div class="tab-content row">
+			<div class="tab-content">
 				<div class="reviews">
                     <? foreach ($arResult['REVIEWS'] as $key => $value) { ?>
                         <div class="reviews-item">
@@ -669,7 +670,16 @@ if (!$_REQUEST['offer']){
                                     <span class="reviews-item__rating">
                                         <span class="reviews-item__rating-fill"
                                               style="width: <?= $value["rating"] * 20 ?>%;"></span>
-                                    </span>
+									</span>
+									<? if ($value["recommend"]): ?>
+										<span class="reviews-item__recommend reviews-item__recommend--yes">
+											Рекомендую
+										</span>
+									<? else: ?>
+										<span class="reviews-item__recommend reviews-item__recommend--no">
+											Не рекомендую
+										</span>
+									<? endif; ?>
                                 </div>
                             </div>
 							<div class="reviews-item__content">
@@ -720,63 +730,61 @@ if (!$_REQUEST['offer']){
 		</section>
         <? if (!empty($arResult['QNA_VALUES'])): ?>
             <section id="content4">
-                <div class="tab-content row">
-                    <div class="tab-content__column col">
-                        <? foreach ($arResult['QNA_VALUES'] as $key => $value) {
-                            ?>
-                            <p class="tab-content__item">
-                                <span class="tab-content__title"><?= $value['title'] ?></span>
-                                <span class="tab-content__text1"><?= $value['answer'] ?></span>
-                            </p>
-                            <?
-                        } ?>
-                    </div>
+                <div class="tab-content">
+					<? foreach ($arResult['QNA_VALUES'] as $key => $value) {
+						?>
+						<p class="tab-content__item">
+							<span class="tab-content__title"><?= $value['title'] ?></span>
+							<span class="tab-content__text1"><?= $value['answer'] ?></span>
+						</p>
+						<?
+					} ?>
                 </div>
             </section>
         <? endif; ?>
 		<section id="content5">
-			<div class="tab-content row">
-				<div class="tab-content__column col">
-					<?foreach ($arResult['DELIV'] as $key => $value) {?>
-						<p class="tab-content__item">
-							<span class="tab-content__title"><?=$value['title']?></span>
-							<span class="tab-content__text1"><?=$value['text']?></span>
-						</p>
-					<?}?>
-					<!-- <p class="tab-content__item">
-						<span class="tab-content__title">По Москве и Петербургу мы доставляем собственной курьерской службой.</span>
-						<span class="tab-content__text1">Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
-					</p>
+			<div class="tab-content">
+				<?foreach ($arResult['DELIV'] as $key => $value) {?>
 					<p class="tab-content__item">
-						<span class="tab-content__title">В Москве и Петербурге есть пункты самовывоза.</span>
-						<span class="tab-content__text1">Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
+						<span class="tab-content__title"><?=$value['title']?></span>
+						<span class="tab-content__text1"><?=$value['text']?></span>
 					</p>
-					<p class="tab-content__item">
-						<span class="tab-content__title">В регионы мы отправляем транспортными компаниями.</span>
-						<span class="tab-content__text1">Стоимость доставки варьируется в зависимости от транспортной компании и города доставки. После заполнения данных в корзине вы сможете выбрать лучшую транспортную компанию. </span>
-					</p> -->
-				</div>
+				<?}?>
+				<!-- <p class="tab-content__item">
+					<span class="tab-content__title">По Москве и Петербургу мы доставляем собственной курьерской службой.</span>
+					<span class="tab-content__text1">Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
+				</p>
+				<p class="tab-content__item">
+					<span class="tab-content__title">В Москве и Петербурге есть пункты самовывоза.</span>
+					<span class="tab-content__text1">Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Правилами взобравшись, реторический сих ipsum обеспечивает, рыбными не наш за послушавшись большой пустился вершину дал текста речью рекламных назад. Проектах.</span>
+				</p>
+				<p class="tab-content__item">
+					<span class="tab-content__title">В регионы мы отправляем транспортными компаниями.</span>
+					<span class="tab-content__text1">Стоимость доставки варьируется в зависимости от транспортной компании и города доставки. После заполнения данных в корзине вы сможете выбрать лучшую транспортную компанию. </span>
+				</p> -->
 			</div>
 		</section>
 		<section id="content6">
-			<div class="tab-content row">
-				<?foreach ($arResult['PROPERTIES'][$arParams['YOUTUBE_CODE']]['VALUE'] as $key => $value) {?>
-					<div class="tab-content__column col-6">
+			<div class="tab-content">
+				<div class="tab-content__row">
+					<?foreach ($arResult['PROPERTIES'][$arParams['YOUTUBE_CODE']]['VALUE'] as $key => $value) {?>
+						<div class="tab-content__column col-6">
+							<div class="video-container">
+								<iframe width="100%" height="100%" src="<?=$value?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+							</div>
+						</div>
+					<?}?>
+					<!-- <div class="tab-content__column col-6">
 						<div class="video-container">
-							<iframe width="100%" height="100%" src="<?=$value?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+							<iframe width="100%" height="100%" src="https://www.youtube.com/embed/60VYXd9RVJ0?autohide=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 						</div>
 					</div>
-				<?}?>
-				<!-- <div class="tab-content__column col-6">
-					<div class="video-container">
-						<iframe width="100%" height="100%" src="https://www.youtube.com/embed/60VYXd9RVJ0?autohide=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-					</div>
+					<div class="tab-content__column col-6">
+						<div class="video-container">
+							<iframe width="100%" height="100%" src="https://www.youtube.com/embed/HisL83eANwM?autohide=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+						</div>
+					</div> -->
 				</div>
-				<div class="tab-content__column col-6">
-					<div class="video-container">
-						<iframe width="100%" height="100%" src="https://www.youtube.com/embed/HisL83eANwM?autohide=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-					</div>
-				</div> -->
 			</div>
 		</section>
 		<section id="content7">
