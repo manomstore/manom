@@ -238,27 +238,27 @@ $userCityByGeoIP = $userLocationInfo;
 	<? else: ?>
   <header class="header">
     <!-- Рекламная полоса -->
-    <!--			<div class="top-ad-line">
-				<div class="container">
-					<div class="top-ad-line__block">
-						<? /* $APPLICATION->IncludeComponent(
-							"bitrix:main.include",
-							".default",
-							[
-								"PATH"               => "/include/header-line.php",
-								"COMPONENT_TEMPLATE" => ".default",
-								"AREA_FILE_SHOW"     => "file",
-								"EDIT_TEMPLATE"      => "",
-							],
-							false
-						); */ ?>
+    <div class="top-ad-line">
+		<div class="container">
+			<div class="top-ad-line__block">
+				<? $APPLICATION->IncludeComponent(
+					"bitrix:main.include",
+					".default",
+					[
+						"PATH"               => "/include/header-line.php",
+						"COMPONENT_TEMPLATE" => ".default",
+						"AREA_FILE_SHOW"     => "file",
+						"EDIT_TEMPLATE"      => "",
+					],
+					false
+				); ?>
 
-						<a href="" class="top-ad-line__close">
-							<img src="<? /*= SITE_TEMPLATE_PATH */ ?>/assets/img/top-close.svg" alt="">
-						</a>
-					</div>
-				</div>
-			</div>-->
+				<a href="" class="top-ad-line__close">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/top-close.svg" alt="">
+				</a>
+			</div>
+		</div>
+	</div>
 
     <div class="header__wrapper">
       <!-- Верхняя навигация -->
