@@ -55,8 +55,8 @@ AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkT
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
 
 //Roistat integration begin
-AddEventHandler('sale', 'OnSaleOrderBeforeSaved', 'rsOnAddOrder');
-function rsOnAddOrder(Event $event) {
+\Bitrix\Main\EventManager::getInstance()->addEventHandler('sale', 'OnSaleOrderBeforeSaved', 'rsOnAddOrder');
+function rsOnAddOrder(\Bitrix\Main\Event $event) {
     if(!$event->getParameter('IS_NEW')) return;
     /** @var Sale\Order $order */
     $order              = $event->getParameter('ENTITY');
