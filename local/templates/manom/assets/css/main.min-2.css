@@ -388,7 +388,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .top-ad-line {
+  position: relative;
   background-color: #79B700;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .top-ad-line__block {
@@ -405,11 +409,13 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   color: #FFFFFF;
   height: 30px;
+  padding-right: 15px;
+  padding-left: 15px;
   position: relative;
 }
 
 .top-ad-line__text {
-  font-size: 12px;
+  font-size: 14px;
   color: #FFFFFF;
 }
 
@@ -417,13 +423,27 @@ h1, h2, h3, h4, h5, h6 {
   vertical-align: middle;
   line-height: 1;
   position: absolute;
-  right: 0;
+  right: 5px;
   top: 50%;
   transform: translateY(-50%);
+  color: inherit;
+}
+
+.top-ad-line__close svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  vertical-align: top;
 }
 
 .top-nav {
   background-color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .top-ad-line__close {
+    right: 10px;
+  }
 }
 
 
