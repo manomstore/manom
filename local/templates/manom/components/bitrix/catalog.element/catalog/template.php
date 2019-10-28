@@ -25,6 +25,7 @@ use \Bitrix\Main\Localization\Loc;
 // unset($arResult['DISPLAY_OFFERS']);
 // echo "<pre style='text-align:left;'>";print_r($arResult);echo "</pre>";
 // echo "<pre style='text-align:left;'>";print_r($arResult['PROPERTIES']);echo "</pre>";
+?><style>.product-rating {min-width: 300px;margin-right: 0px;margin-left: 0px;color: #79B700;font-weight: 700;font-size: 15px;position: relative;}.product-rating label {font-size: 11px; font-weight: normal; color: black; position: absolute; top: 5px; left: 120px;}</style><?
 if (!$_REQUEST['offer']){
 	$actualOffer = $arResult['OFFERS_BY_DISPLAY_PROP'][0];
 	if (!$actualOffer['props']) {
@@ -87,7 +88,7 @@ if (!$_REQUEST['offer']){
 					?> ★ <?
 				}
 			}?>
-		</div>
+		<!--</div>-->
 		<?
 			$numberof = count($arResult['REVIEWS']);
 			$value = 'отзыв';
@@ -101,11 +102,12 @@ if (!$_REQUEST['offer']){
 				return $value . $suffix[$suffix_key];
 			}
 		?>
-		<div class="product-comments">
-			<span><?=count($arResult['REVIEWS']);?></span>
-			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
-		</div>
+		<?if(count($arResult['REVIEWS'])==0){}else{?><label for="tab3"><?=count($arResult['REVIEWS']);?>
 
+			
+			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
+		</label>
+<?}?>
 	</div>
 	<div class="product-main row">
 		<div class="product-photo">
