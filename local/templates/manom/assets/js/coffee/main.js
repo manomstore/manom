@@ -2070,18 +2070,6 @@ $.fn.updateSideInfo = function() {
   soBlock.find('.shopcart-sidebar__buyer-tel').html(soBlock.find(uPhone).val());
   soBlock.find('.shopcart-sidebar__buyer-email').html(soBlock.find(uEmail).val())
 
-    // var cityId = soModule.find('#so_city');
-    // cityId = parseInt(cityId);
-    // var basketRestrictions = {
-    //     pickup:false,
-    //     cash:false,
-    //     prepayment:false
-    // };
-    //
-    // $(".sale_order_full ")
-
-
-
   uCity = soBlock.find('[name="so_city_val"]').val();
   uAddress = "";
   if (soBlock.find('[name="sci-delivery-street"]').val()) {
@@ -2217,8 +2205,8 @@ $.fn.updateShopcartSidebarProducts = function(){
     var cityId = parseInt($(document).find('#so_main_block #so_city').val());
     var currentDelivery = $(document).find(".sale_order_full_table.delivery-block input[type='radio']:checked");
     var currentPaySystem = $(document).find(".sale_order_full_table.paySystem-block input[type='radio']:checked");
-    currentDelivery = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
-    currentPaySystem = currentPaySystem.length > 0 ? parseInt(currentPaySystem.val()) : 0;
+    var currentDeliveryId = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
+    var currentPaySystemId = currentPaySystem.length > 0 ? parseInt(currentPaySystem.val()) : 0;
   Mustache.parse(tmplHtml);
   $sidebarProductList.empty();
 
@@ -2235,9 +2223,11 @@ $.fn.updateShopcartSidebarProducts = function(){
           }
       }
 
+      var existDeliveryInLoc = $(".sci-delivery__tab[data-prop='" + currentDelivery.attr("id") + "']").length;
+
       props.onlyCash = props.onlyCash && cityId !== 84;
-      props.onlyPickup = props.onlyPickup && currentDelivery && [13, 6].indexOf(currentDelivery) <= -1;
-      props.onlyPrepayment = props.onlyPrepayment && currentPaySystem && [4, 9].indexOf(currentPaySystem) <= -1;
+      props.onlyPickup = props.onlyPickup && existDeliveryInLoc && currentDeliveryId && [13, 6].indexOf(currentDeliveryId) <= -1;
+      props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId && [4, 9].indexOf(currentPaySystemId) <= -1;
 
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
@@ -2336,11 +2326,6 @@ $.fn.updateDateSaleOrder = function() {
         setDeliveryByLocation($(this));
     });
 
-    // Обновляем количество товаров в корзине на чекауте
-    $.fn.updateShopcartAmount();
-    // Обновляем товары в сайдбаре на чекауте
-    $.fn.updateShopcartSidebarProducts();
-
     var selectDeliveryVal = getDeliveryByCity($soBlockSelectedDelivery.val(), soCityID.val());
 
     var deliveryTabType = getDeliveryTabType(selectDeliveryVal);
@@ -2358,6 +2343,11 @@ $.fn.updateDateSaleOrder = function() {
 
         setDeliveryByLocation(deliveryTab, true)
     }
+
+    // Обновляем количество товаров в корзине на чекауте
+    $.fn.updateShopcartAmount();
+    // Обновляем товары в сайдбаре на чекауте
+    $.fn.updateShopcartSidebarProducts();
 
     $radioButton.each(function() {
         var $this = $(this);
