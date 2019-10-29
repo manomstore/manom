@@ -53,6 +53,7 @@ AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass"
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","reIndexSku"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
+AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyHandlerClass", "OnBeforeProductUpdateHandler"));
 
 //Roistat integration begin
 \Bitrix\Main\EventManager::getInstance()->addEventHandler('sale', 'OnSaleOrderBeforeSaved', 'rsOnAddOrder');
@@ -98,6 +99,42 @@ class MyHandlerClass
     unset($arFields["IBLOCK_SECTION_ID"]);
     unset($arFields["IBLOCK_SECTION"]);
   }
+
+    function OnBeforeProductUpdateHandler(&$arFields)
+    {
+        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+            return true;
+        }
+
+        $properties = \Bitrix\Iblock\PropertyTable::getList([
+            "filter" => [
+                "IBLOCK_ID" => 6,
+                "CODE" => [
+                    "ONLY_CASH",
+                    "ONLY_PICKUP",
+                    "ONLY_PREPAYMENT",
+                ],
+            ]
+        ]);
+
+        $arProps = [];
+
+        while ($prop = $properties->fetch()) {
+            $arProps[$prop["CODE"]] = $prop["ID"];
+        }
+
+        if (empty($arProps)) {
+            return true;
+        }
+
+        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
+            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
+            global $APPLICATION;
+            $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
+            return false;
+        }
+
+    }
 
     function OnSaleComponentOrderUserResultHandler(&$arUserResult, $request, &$arParams)
     {
@@ -416,8 +453,84 @@ class MyHandlerClass
 
     function OnSaleOrderBeforeSavedHandler($arFields)
     {
-        \Bitrix\Main\Loader::includeModule("sale");
+        \Bitrix\Main\Loader::includeModule("catalog");
         $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
+
+        $productsId = [];
+        foreach ($arFields->getBasket() as $basketItem) {
+            $productsId[] = $basketItem->getProductId();
+        }
+
+
+        $fieldValues = $arFields->getFieldValues();
+        $currentPaySystem = (int)$fieldValues["PAY_SYSTEM_ID"];
+        $currentDelivery = (int)$fieldValues["DELIVERY_ID"];
+        $products = [];
+
+        if (!empty($productsId)) {
+            $productList = \CCatalogSKU::getProductList($productsId);
+            $productList = array_map(
+                function ($item) {
+                    return $item["ID"];
+                },
+                $productList
+            );
+
+            $productList = array_unique(array_values($productList));
+
+            $rsProducts = \CIBlockElement::GetList(
+                [],
+                [
+                    "ID" => $productList,
+                    "IBLOCK_ID" => 6,
+                ],
+                false,
+                false, [
+                "ID",
+                "IBLOCK_ID",
+                "PROPERTY_ONLY_CASH",
+                "PROPERTY_ONLY_PICKUP",
+                "PROPERTY_ONLY_PREPAYMENT"
+            ]);
+
+            while ($arProduct = $rsProducts->GetNext()) {
+                $products[] = $arProduct;
+            }
+
+        }
+
+        foreach ($products as $product) {
+            if (
+                $product["PROPERTY_ONLY_PREPAYMENT_VALUE"] === "Y"
+                && !in_array($currentPaySystem, [4, 9])) {
+                return new Bitrix\Main\EventResult(
+                    Bitrix\Main\EventResult::ERROR,
+                    new Bitrix\Sale\ResultError("В корзине присутствует товар доступный только по предоплате"),
+                    'sale'
+                );
+            }
+
+            if (
+                $product["PROPERTY_ONLY_PICKUP_VALUE"] === "Y"
+                && !in_array($currentDelivery, [13, 6])) {
+                return new Bitrix\Main\EventResult(
+                    Bitrix\Main\EventResult::ERROR,
+                    new Bitrix\Sale\ResultError("В корзине присутствует товар доступный только самовывозом"),
+                    'sale'
+                );
+            }
+
+            if (
+                $product["PROPERTY_ONLY_CASH_VALUE"] === "Y"
+                && $currentPaySystem !== 7) {
+                return new Bitrix\Main\EventResult(
+                    Bitrix\Main\EventResult::ERROR,
+                    new Bitrix\Sale\ResultError("В корзине присутствует товар доступный для оплаты только наличными"),
+                    'sale'
+                );
+            }
+        }
+
 
         if (!method_exists($registry, "getPropertyClassName")) {
             return true;

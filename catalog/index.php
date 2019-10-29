@@ -255,7 +255,7 @@ $APPLICATION->SetTitle("Каталог");
 				97 => "TEXT_UNDER_PHOTO	",
 				98 => "playvideo_time_batttery	",
 				99 => "material_type	",
-				100 => "",
+				100 => "ONLY_CASH",
 			),
 			"DETAIL_META_KEYWORDS" => "PROCESSOR",
 			"DETAIL_META_DESCRIPTION" => "-",

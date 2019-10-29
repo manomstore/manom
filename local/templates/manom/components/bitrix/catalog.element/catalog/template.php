@@ -302,14 +302,27 @@ if (!$_REQUEST['offer']){
 				    $arBasketItems[md5($arItems["PRODUCT_ID"])] = $arItems["PRODUCT_ID"];
 				}
 				?>
-				<a class="product-sidebar__button addToCartBtn addToCartBtn_mainPage<?=$arBasketItems[md5($actualOffer['id_offer'])] ? ' dsb-hidden' : '';?>" data-id="<?=$actualOffer['id_offer']?>"><?=GetMessage("CT_BCE_CATALOG_BUY");?></a>
-				<?foreach ($arBasketItems as $s => $v) {?>
-					<a class="product-sidebar__button goToFcnCart<?=$actualOffer['id_offer'] != $v ? ' dsb-hidden' : '';?>" href="/cart/" data-id="<?=$v?>">В корзину</a>
-				<?}?>
-				<div class="product-sidebar__buttons">
-					<div class="product-sidebar__cheaper<?=!$arResult['CHEAPER'] ? ' product-sidebar__cheaper__disbled' : '' ;?>">Купить дешевле</div>
-					<div class="product-sidebar__one-click BOC_btn" data-id="<?=$actualOffer['id_offer']?>" data-fancybox data-src="#popap-buy-one-click" href="javascript:;" >Купить в один клик</div>
-				</div>
+                <? if ($arResult["ONLY_CASH"]): ?>
+                    <div class="js-disallow_loc_buy <?= $arResult["LOCATION_DISALLOW_BUY"] ? '' : 'dnd-hide' ?>">
+                        Доступен для заказа в Москве
+                    </div>
+                <? endif; ?>
+                <div class="js-allow_loc_buy <?= $arResult["LOCATION_DISALLOW_BUY"] ? 'dnd-hide' : '' ?>">
+                    <a class="product-sidebar__button addToCartBtn addToCartBtn_mainPage<?= $arBasketItems[md5($actualOffer['id_offer'])] ? ' dsb-hidden' : ''; ?>"
+                       data-id="<?= $actualOffer['id_offer'] ?>"><?= GetMessage("CT_BCE_CATALOG_BUY"); ?></a>
+                    <? foreach ($arBasketItems as $s => $v) { ?>
+                        <a class="product-sidebar__button goToFcnCart<?= $actualOffer['id_offer'] != $v ? ' dsb-hidden' : ''; ?>"
+                           href="/cart/" data-id="<?= $v ?>">В корзину</a>
+                    <? } ?>
+                    <div class="product-sidebar__buttons">
+                        <div class="product-sidebar__cheaper<?= !$arResult['CHEAPER'] ? ' product-sidebar__cheaper__disbled' : ''; ?>">
+                            Купить дешевле
+                        </div>
+                        <div class="product-sidebar__one-click BOC_btn" data-id="<?= $actualOffer['id_offer'] ?>"
+                             data-fancybox data-src="#popap-buy-one-click" href="javascript:;">Купить в один клик
+                        </div>
+                    </div>
+                </div>
 				<div id="popap-buy-one-click" class="popap-login">
 					<h3 class="sci-login__title">Купить в один клик</h3>
 					<form class="sci-login__form js-one-click-order">

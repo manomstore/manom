@@ -1,6 +1,6 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <b><?=GetMessage("SOA_TEMPL_PAY_SYSTEM")?></b>
-<table class="sale_order_full_table">
+<table class="sale_order_full_table paySystem-block">
 	<?
 	if ($arResult["PAY_FROM_ACCOUNT"]=="Y")
 	{

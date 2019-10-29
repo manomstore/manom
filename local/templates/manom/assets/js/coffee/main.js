@@ -2069,6 +2069,19 @@ $.fn.updateSideInfo = function() {
   soBlock.find('.shopcart-sidebar__buyer-fio').html(soBlock.find(uName).val());
   soBlock.find('.shopcart-sidebar__buyer-tel').html(soBlock.find(uPhone).val());
   soBlock.find('.shopcart-sidebar__buyer-email').html(soBlock.find(uEmail).val())
+
+    // var cityId = soModule.find('#so_city');
+    // cityId = parseInt(cityId);
+    // var basketRestrictions = {
+    //     pickup:false,
+    //     cash:false,
+    //     prepayment:false
+    // };
+    //
+    // $(".sale_order_full ")
+
+
+
   uCity = soBlock.find('[name="so_city_val"]').val();
   uAddress = "";
   if (soBlock.find('[name="sci-delivery-street"]').val()) {
@@ -2201,7 +2214,11 @@ $.fn.updateShopcartAmount = function(){
 $.fn.updateShopcartSidebarProducts = function(){
   var tmplHtml = $('#tmpl-shopcart-sidebar-product').html(),
     $sidebarProductList = $('.js-shopcart-sidebar-product-list');
-
+    var cityId = parseInt($(document).find('#so_main_block #so_city').val());
+    var currentDelivery = $(document).find(".sale_order_full_table.delivery-block input[type='radio']:checked");
+    var currentPaySystem = $(document).find(".sale_order_full_table.paySystem-block input[type='radio']:checked");
+    currentDelivery = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
+    currentPaySystem = currentPaySystem.length > 0 ? parseInt(currentPaySystem.val()) : 0;
   Mustache.parse(tmplHtml);
   $sidebarProductList.empty();
 
@@ -2217,6 +2234,10 @@ $.fn.updateShopcartSidebarProducts = function(){
                   .replace(/&gt;/g, '>');
           }
       }
+
+      props.onlyCash = props.onlyCash && cityId !== 84;
+      props.onlyPickup = props.onlyPickup && currentDelivery && [13, 6].indexOf(currentDelivery) <= -1;
+      props.onlyPrepayment = props.onlyPrepayment && currentPaySystem && [4, 9].indexOf(currentPaySystem) <= -1;
 
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
@@ -2282,11 +2303,6 @@ $.fn.updateDateSaleOrder = function() {
 
     $(".delivery-pickup-type").removeClass("current-type");
 
-  // Обновляем количество товаров в корзине на чекауте
-  $.fn.updateShopcartAmount();
-  // Обновляем товары в сайдбаре на чекауте
-  $.fn.updateShopcartSidebarProducts();
-
   soCity = soBlock.find('#so_city_val');
   soCityID = soBlock.find('#so_city');
   soCityAlt = soBlock.find('#so_city_alt_val');
@@ -2319,6 +2335,11 @@ $.fn.updateDateSaleOrder = function() {
     $(".sci-delivery__tab").each(function () {
         setDeliveryByLocation($(this));
     });
+
+    // Обновляем количество товаров в корзине на чекауте
+    $.fn.updateShopcartAmount();
+    // Обновляем товары в сайдбаре на чекауте
+    $.fn.updateShopcartSidebarProducts();
 
     var selectDeliveryVal = getDeliveryByCity($soBlockSelectedDelivery.val(), soCityID.val());
 
