@@ -103,17 +103,31 @@ locationDND = new Vue({
 
       this.listOfCity = [];
       this.listOfCity = this.listOfCityDefault;
+      var cityChanged = cityItem.id !== this.currentCityID;
       this.currentCity = cityItem.title;
       this.currentCityID = cityItem.id;
       if (needSubmitForm) {
           $.fn.updGlobalCityInCart(cityItem.id);
       }
-      return axios.get('/ajax/location.php', {
-        params: {
-          location_code: 'changeCity',
-          cityID: cityItem.id
+
+
+        var result = axios.get('/ajax/location.php', {
+            params: {
+                location_code: 'changeCity',
+                cityID: cityItem.id
+            }
+        });
+
+        if (
+            typeof window.IPOLSDEK_pvz !== 'undefined'
+            && window.IPOLSDEK_pvz.pvzId
+            && cityChanged
+        ) {
+            window.IPOLSDEK_pvz.pvzId = false;
+            document.getElementById("pvz_address").innerText = "Не выбран"
         }
-      });
+
+        return result;
     }
   },
   watch: {

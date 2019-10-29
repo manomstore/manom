@@ -83,6 +83,7 @@ function rsOnAddOrder(Event $event) {
 }
 
 //Roistat integration end
+AddEventHandler("sale", "OnSaleComponentOrderUserResult", Array("MyHandlerClass","OnSaleComponentOrderUserResultHandler"));
 
 
 // AddEventHandler("iblock", "OnBeforeIBlockElementAdd", Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler"));
@@ -97,7 +98,102 @@ class MyHandlerClass
     unset($arFields["IBLOCK_SECTION_ID"]);
     unset($arFields["IBLOCK_SECTION"]);
   }
-  function OnBeforeIBlockElementAddHandler(&$arFields) {
+
+    function OnSaleComponentOrderUserResultHandler(&$arUserResult, $request, &$arParams)
+    {
+        $orderProps = $request->toArray();
+        \Bitrix\Main\Loader::includeModule("sale");
+        $registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
+
+        if (!method_exists($registry, "getPropertyClassName")) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\PropertyBase $propertyClassName */
+        $propertyClassName = $registry->getPropertyClassName();
+
+        if (!class_exists($propertyClassName)) {
+            return true;
+        }
+
+        $locationProp = $propertyClassName::getList([
+            'select' => ['ID'],
+            'filter' => [
+                '=PERSON_TYPE_ID' => $arUserResult["PERSON_TYPE_ID"],
+                'TYPE' => "LOCATION"
+            ]
+        ])->fetch();
+
+        $orderLocationProp = $orderProps["ORDER_PROP_" . $locationProp["ID"]];
+        $locationId = 0;
+
+        if ((int)$orderLocationProp) {
+            $locationId = (int)$orderLocationProp;
+        }
+
+        if (empty($locationId)) {
+            $userLocation = (new UserLocation)->getUserLocationInfo();
+            $locationId = (int)$userLocation["ID"];
+        }
+
+        if (!$locationId) {
+            $locationId = 84;
+        }
+
+        $isMoscow = $locationId === 84;
+
+        if (in_array($arUserResult["DELIVERY_ID"], [5, 8])) {
+            $arUserResult["DELIVERY_ID"] = $isMoscow ? 8 : 5;
+        }
+
+        if (in_array($arUserResult["DELIVERY_ID"], [6, 13])) {
+            $arUserResult["DELIVERY_ID"] = $isMoscow ? 13 : 6;
+        }
+
+        $profileId = $request->get('PROFILE_ID');
+
+        if ($profileId !== null) {
+            $arUserResult['PROFILE_ID'] = (int)$profileId;
+        }
+
+        $paySystemId = $request->get('PAY_SYSTEM_ID');
+        if (!empty($paySystemId)) {
+            $arUserResult["PAY_SYSTEM_ID"] = intval($paySystemId);
+        }
+
+        $deliveryId = $request->get('DELIVERY_ID');
+        if (!empty($deliveryId)) {
+            $arUserResult["DELIVERY_ID"] = $deliveryId;
+        }
+
+        $buyerStore = $request->get('BUYER_STORE');
+        if (!empty($buyerStore)) {
+            $arUserResult["BUYER_STORE"] = intval($buyerStore);
+        }
+
+        $deliveryExtraServices = $request->get('DELIVERY_EXTRA_SERVICES');
+        if (!empty($deliveryExtraServices)) {
+            $arUserResult["DELIVERY_EXTRA_SERVICES"] = $deliveryExtraServices;
+        }
+
+        if (strlen($request->get('ORDER_DESCRIPTION')) > 0) {
+            $arUserResult["~ORDER_DESCRIPTION"] = $request->get('ORDER_DESCRIPTION');
+            $arUserResult["ORDER_DESCRIPTION"] = htmlspecialcharsbx($request->get('ORDER_DESCRIPTION'));
+        }
+
+        if ($request->get('PAY_CURRENT_ACCOUNT') == "Y") {
+            $arUserResult["PAY_CURRENT_ACCOUNT"] = "Y";
+        }
+
+        if ($request->get('confirmorder') == "Y") {
+            $arUserResult["CONFIRM_ORDER"] = "Y";
+            $arUserResult["FINAL_STEP"] = "Y";
+        }
+
+        $arUserResult["PROFILE_CHANGE"] = $request->get('profile_change') == "Y" ? "Y" : "N";
+    }
+
+    function OnBeforeIBlockElementAddHandler(&$arFields) {
     unset($arFields["IBLOCK_SECTION_ID"]);
     unset($arFields["SECTION_ID"]);
     unset($arFields["IBLOCK_SECTION"]);

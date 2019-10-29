@@ -10,6 +10,7 @@ if ((!$USER->IsAuthorized() && $request->get("is_ajax_post") !== "Y") || $reques
 }
 
 $isMoscowLocations = false;
+$pickUpShop = (int)$arResult["ORDER_DATA"]["DELIVERY_ID"] === 13;
 
 foreach ($arResult["ORDER_PROP"]["USER_PROPS_Y"] as $property) {
     if ($property["CODE"] === "LOCATION") {
@@ -18,7 +19,7 @@ foreach ($arResult["ORDER_PROP"]["USER_PROPS_Y"] as $property) {
     }
 }
 
-if (!$isMoscowLocations) {
+if (!$isMoscowLocations || $pickUpShop) {
     foreach ($arResult["ORDER_PROP"]["USER_PROPS_Y"] as &$property) {
         if (in_array($property["CODE"], ["DATE_DELIVERY", "TIME_DELIVERY"])) {
             $property = null;

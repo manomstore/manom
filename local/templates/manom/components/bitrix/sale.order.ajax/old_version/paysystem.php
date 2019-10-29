@@ -21,56 +21,31 @@
 		<?
 	}
 
-	foreach($arResult["PAY_SYSTEM"] as $arPaySystem)
-	{
-		if(count($arResult["PAY_SYSTEM"]) == 1)
-		{
-			?>
-			<tr>
-			<td colspan="2">
-			<input type="hidden" name="PAY_SYSTEM_ID" value="<?=$arPaySystem["ID"]?>">
-			<b><?=$arPaySystem["NAME"];?></b>
-			<?
-			if (strlen($arPaySystem["DESCRIPTION"])>0)
-			{
-				?>
-				<?=$arPaySystem["DESCRIPTION"]?>
-				<br />
-				<?
-			}
-			?>
-			</td>
-			</tr>
-			<?
-		}
-		else
-		{
-			//if (!isset($_POST['PAY_CURRENT_ACCOUNT']) OR $_POST['PAY_CURRENT_ACCOUNT'] == "N") {
-			?>
-			<tr>
-				<td width="0%" class="radio">
-					<input type="radio" id="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>" name="PAY_SYSTEM_ID" value="<?= $arPaySystem["ID"] ?>"<?if ($arPaySystem["CHECKED"]=="Y") echo " checked=\"checked\"";?> onclick="submitForm();" />
-				</td>
-				<td width="100%">
-					<label for="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>">
-							<b><?= $arPaySystem["PSA_NAME"] ?></b><br />
-							<?
-							if (intval($arPaySystem["PRICE"]) > 0)
-								echo str_replace("#PAYSYSTEM_PRICE#", SaleFormatCurrency(roundEx($arPaySystem["PRICE"], SALE_VALUE_PRECISION), $arResult["BASE_LANG_CURRENCY"]), GetMessage("SOA_TEMPL_PAYSYSTEM_PRICE"));
-							elseif (strlen($arPaySystem["DESCRIPTION"])>0)
-							{
-								?>
-								<?=$arPaySystem["DESCRIPTION"]?>
-								<br />
-								<?
-							}
-							?>
-					</label>
-				</td>
-			</tr>
-			<?
-			//}
-		}
-	}
-	?>
+    foreach ($arResult["PAY_SYSTEM"] as $arPaySystem):?>
+        <tr>
+            <td width="0%" class="radio">
+                <input type="radio" id="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>" name="PAY_SYSTEM_ID"
+                       value="<?= $arPaySystem["ID"] ?>"<? if ($arPaySystem["CHECKED"] == "Y") {
+                    echo " checked=\"checked\"";
+                } ?> onclick="submitForm();"/>
+            </td>
+            <td width="100%">
+                <label for="ID_PAY_SYSTEM_ID_<?= $arPaySystem["ID"] ?>">
+                    <b><?= $arPaySystem["PSA_NAME"] ?></b><br/>
+                    <?
+                    if (intval($arPaySystem["PRICE"]) > 0) {
+                        echo str_replace("#PAYSYSTEM_PRICE#",
+                            SaleFormatCurrency(roundEx($arPaySystem["PRICE"], SALE_VALUE_PRECISION),
+                                $arResult["BASE_LANG_CURRENCY"]), GetMessage("SOA_TEMPL_PAYSYSTEM_PRICE"));
+                    } elseif (strlen($arPaySystem["DESCRIPTION"]) > 0) {
+                        ?>
+                        <?= $arPaySystem["DESCRIPTION"] ?>
+                        <br/>
+                        <?
+                    }
+                    ?>
+                </label>
+            </td>
+        </tr>
+    <? endforeach; ?>
 </table>
