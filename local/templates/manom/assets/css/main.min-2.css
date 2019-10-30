@@ -2572,6 +2572,10 @@ p.price-slider {
   right: 0;
 }
 
+.product .p-nav-middle__sale.active + .p-nav-top.active {
+  top: 36px;
+}
+
 .product-main {
   display: -webkit-box;
   display: -webkit-flex;
