@@ -767,8 +767,8 @@ $(document).ready(function() {
                 data: formData,
                 success: function (result) {
                     if (result.success === true) {
-                        var dataLayer = dataLayer || [];
-                        dataLayer.push(
+                        window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push(
                             {
                                 'event': 'fb-action-event',
                                 'fb-action': 'Purchase',
@@ -981,8 +981,8 @@ $(document).ready(function() {
             AJAX_MIN_CART: 'Y'
           },
           success: function(data) {
-              var dataLayer = dataLayer || [];
-              dataLayer.push(
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push(
                   {
                       'event': 'fb-action-event',
                       'fb-action': 'AddToCart',
