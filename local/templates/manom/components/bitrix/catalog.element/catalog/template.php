@@ -303,7 +303,7 @@ if (!$_REQUEST['offer']){
 				}
 				?>
                 <? if ($arResult["ONLY_CASH"]): ?>
-                    <div class="js-disallow_loc_buy <?= $arResult["LOCATION_DISALLOW_BUY"] ? '' : 'dnd-hide' ?>">
+                    <div class="product-sidebar__note product-sidebar__note--positive js-disallow_loc_buy <?= $arResult["LOCATION_DISALLOW_BUY"] ? '' : 'dnd-hide' ?>">
                         Доступен для заказа в Москве
                     </div>
                 <? endif; ?>

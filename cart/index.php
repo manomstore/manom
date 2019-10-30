@@ -1214,19 +1214,13 @@ if ($_REQUEST['ORDER_ID']) {
         </div>
         {{/model}}
         {{#onlyCash}}
-        <div class="sci-product__count-block">
-          <span class="sci-product__name">Не доступен для оплаты картой</span>
-        </div>
+          <div class="sci-product__note sci-product__note--red">Не доступен для оплаты картой</div>
         {{/onlyCash}}
         {{#onlyPickup}}
-        <div class="sci-product__count-block">
-          <span class="sci-product__name">Не доступен для доставки курьерской службой</span>
-        </div>
+          <div class="sci-product__note sci-product__note--red">Не доступен для доставки курьерской службой</div>
         {{/onlyPickup}}
         {{#onlyPrepayment}}
-        <div class="sci-product__count-block">
-          <span class="sci-product__name">Не доступен для оплаты наличными</span>
-        </div>
+          <div class="sci-product__note sci-product__note--red">Не доступен для оплаты наличными</div>
         {{/onlyPrepayment}}
         <div class="sci-product__count-block">
           <span class="sci-product__name">{{quantity}} шт.</span>
