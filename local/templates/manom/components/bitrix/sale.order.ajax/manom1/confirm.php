@@ -53,7 +53,15 @@ if ($arParams["SET_TITLE"] == "Y")
 						{
 							?>
 							<br /><br />
-
+                            <script>
+                                var dataLayer = dataLayer || [];
+                                dataLayer.push(
+                                    {
+                                        'event': 'fb-action-event',
+                                        'fb-action': 'Purchase',
+                                    }
+                                );
+                            </script>
 							<table class="sale_order_full_table">
 								<tr>
 									<td class="ps_logo">
