@@ -6005,6 +6005,14 @@ p.price-slider {
   margin: 0 0 14px;
 }
 
+.sci-product__model {
+  margin: 0 0 10px;
+  order: 4;
+  width: 100%;
+  color: gray;
+  font-size: 12px;
+}
+
 .sci-product__counter-wrapper {
   display: flex;
   align-items: center;

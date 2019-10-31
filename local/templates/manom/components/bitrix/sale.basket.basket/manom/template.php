@@ -22,19 +22,9 @@ use Bitrix\Main\Localization\Loc;
 <? if (count($arResult['GRID']['ROWS']) <= 0): ?>
     <script type="text/javascript">
         location.href = '/';
-/*Выполняю запрос к таблице b_iblock_element_property для выборки данных о дополнительных характеристиках товара*/
-$arr=$arResult['BASKET_ITEM_RENDER_DATA'][$i]['PRODUCT_ID'];$results=$DB->Query("SELECT * FROM `b_iblock_element_property` WHERE `IBLOCK_ELEMENT_ID`='$arr'"); while ($raw=$results->Fetch()) {$res=$DB->Query("SELECT * FROM `b_iblock_property` WHERE `ID`='$raw[IBLOCK_PROPERTY_ID]'"); $ro=$res->Fetch(); if($ro['NAME']=='Модель'){echo 'Модель : '.$raw['VALUE'];}else{}}?>
     </script>
 <? endif ?>
-<? 
-	#foreach ($arResult['GRID']['ROWS'] as $key => $row): 
-#Заменил цикл foreach на цикл for
-for($i=0;$i<count($arResult['GRID']['ROWS']);$i++) : 
-#Получаю ID товаров добавленных в корзину
-$ids=$arResult['BASKET_ITEM_RENDER_DATA'][$i]['ID'];
-$row=$arResult['GRID']['ROWS'][$ids]; 
-
-?>
+<? foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
     <article class="sci-product<?= !$row['has_prod'] ? ' sci-product--off' : ''; ?>"
              data-id="<?= $row['ID'] ?>">
         <div class="sci-product__wrapper">
@@ -69,28 +59,9 @@ $row=$arResult['GRID']['ROWS'][$ids];
                         <?= $row['NAME'] ?>
                     </h3>
 		    </a>
-		    <?
-	/*Выполняю запрос к таблице b_iblock_element_property для выборки данных о дополнительных характеристиках товара*/
-$arr=$arResult['BASKET_ITEM_RENDER_DATA'][$i]['PRODUCT_ID'];
-			    $results=$DB->Query("SELECT * FROM `b_iblock_element_property` WHERE `IBLOCK_ELEMENT_ID`='$arr'"); 
-			    while ($raw=$results->Fetch())
-			    {
-			    /*Выполняю запрос к таблице b_iblock_property для выборки значения характеристик*/
-
-				$res=$DB->Query("SELECT * FROM `b_iblock_property` WHERE `ID`='$raw[IBLOCK_PROPERTY_ID]'"); 
-				    $ro=$res->Fetch(); 
-			/*Если значение названия характеристики == Модель то вывожу знаечение*/
-
-				    if($ro['NAME']=='Модель')
-				    {
-					    echo 'Модель : '.$raw['VALUE'];
-				    }
-				    else
-				    {
-				    }
-			    }
-		    ?>
-
+                <? if (!empty($row["MODEL"])): ?>
+                    <p class="sci-product__model"><?= $row["MODEL"] ?></p>
+                <? endif; ?>
                 <p class="sci-product__status">
                     <? if ($row['has_prod']) { ?>
                         Есть в наличии
@@ -215,7 +186,7 @@ $arr=$arResult['BASKET_ITEM_RENDER_DATA'][$i]['PRODUCT_ID'];
             </div>
         <? endif; ?>
     </article>
-<? endfor; ?>
+<? endforeach; ?>
 <? if (!empty($arResult['GRID']['ROWS'])): ?>
     <button class="button-del button-del--bottom js-basket-clear" type="button">Очистить корзину</button>
 <? endif; ?>
