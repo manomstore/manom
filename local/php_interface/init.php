@@ -53,37 +53,8 @@ AddEventHandler("sale", "OnSaleComponentOrderProperties", Array("MyHandlerClass"
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","reIndexSku"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
-AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("MyHandlerClass", "OnBeforeProductUpdateHandler"));
+AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "roistatOnSaleOrderBeforeSaved"));
 
-//Roistat integration begin
-\Bitrix\Main\EventManager::getInstance()->addEventHandler('sale', 'OnSaleOrderBeforeSaved', 'rsOnAddOrder');
-function rsOnAddOrder(\Bitrix\Main\Event $event) {
-    if(!$event->getParameter('IS_NEW')) return;
-    /** @var Sale\Order $order */
-    $order              = $event->getParameter('ENTITY');
-
-    $propertyCollection = $order->getPropertyCollection();
-
-    $visit = "no_cookie";
-    if (isset($_COOKIE['roistat_visit'])){
-        $visit = $_COOKIE['roistat_visit'];
-    }
-
-    /** @var \Bitrix\Sale\PropertyValue $obProp */
-    foreach ($propertyCollection as $obProp) {
-        $arProp = $obProp->getProperty();
-
-        // нас интересуют только свойства с кодами "EXPORT_DO", "EXPORT_DO_UR"
-        if($arProp["CODE"] == "ROISTAT") {
-            $obProp->setValue($visit);
-        }
-        if($arProp["CODE"] == "ROISTAT_TYPE	") {
-            $obProp->setValue("Корзина");
-        }
-    }
-}
-
-//Roistat integration end
 AddEventHandler("sale", "OnSaleComponentOrderUserResult", Array("MyHandlerClass","OnSaleComponentOrderUserResultHandler"));
 
 
@@ -372,6 +343,35 @@ class MyHandlerClass
             }
         }
     }
+
+    //Roistat integration begin
+    function roistatOnSaleOrderBeforeSaved($entity)
+    {
+        $visit = "no_cookie";
+        if (isset($_COOKIE['roistat_visit'])) {
+            $visit = $_COOKIE['roistat_visit'];
+        }
+        foreach ($entity->getPropertyCollection() as $property) {
+            {
+                $propertyValue = $property->getFieldValues();
+
+                if ($propertyValue["CODE"] === "ROISTAT") {
+                    $currentVisit = $property->getValue();
+                    if (!empty($currentVisit)) {
+                        $property->setValue($visit);
+                    }
+                }
+                if ($propertyValue["CODE"] === "ROISTAT_TYPE") {
+                    $currentType = $property->getValue();
+                    if (!empty($currentType)) {
+                        $property->setValue("Корзина");
+                    }
+                }
+            }
+        }
+    }
+
+        //Roistat integration end
 
     function checkTimeDelivery($entity) {
         //Тут ещё обрабатывается пустой почтовый индекс

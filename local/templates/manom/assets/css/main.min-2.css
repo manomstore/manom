@@ -2572,6 +2572,10 @@ p.price-slider {
   right: 0;
 }
 
+.product .p-nav-middle__sale.active + .p-nav-top.active {
+  top: 36px;
+}
+
 .product-main {
   display: -webkit-box;
   display: -webkit-flex;
@@ -6054,6 +6058,14 @@ p.price-slider {
 
 .sci-product__note--green {
   color: #83BB26;
+}
+
+.sci-product__model {
+  margin: 0 0 10px;
+  order: 4;
+  width: 100%;
+  color: gray;
+  font-size: 12px;
 }
 
 .sci-product__counter-wrapper {
