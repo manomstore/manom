@@ -41,6 +41,9 @@ foreach ($arResult["GRID"]["ROWS"] as &$row) {
     $dataAttrs["oldSum"] = $row["data"]["SUM_BASE_FORMATED"];
     $dataAttrs["quantity"] = $row["data"]["QUANTITY"];
     $dataAttrs["existDiscount"] = $row["data"]["DISCOUNT_PRICE_PERCENT"] > 0;
+    $dataAttrs["onlyCash"] = $row["data"]["PROPERTY_ONLY_CASH_VALUE"] === "Y";
+    $dataAttrs["onlyPrepayment"] = $row["data"]["PROPERTY_ONLY_PREPAYMENT_VALUE"] === "Y";
+    $dataAttrs["onlyPickup"] = $row["data"]["PROPERTY_ONLY_PICKUP_VALUE"] === "Y";
     $dataAttrs["model"] = $row["data"]["PROPERTY_this_prod_model_VALUE"];
     $row["DATA_ATTRS"] = htmlspecialchars(json_encode($dataAttrs));
     $totalQuantity += (int)$row["data"]["QUANTITY"];

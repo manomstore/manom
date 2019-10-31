@@ -25,6 +25,9 @@ $APPLICATION->IncludeComponent(
 	),
 	false
 );
+
+global $userCityByGeoIP;
+
 $this->setFrameMode(true);
 		$componentElementParams = array(
 			'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
@@ -191,6 +194,7 @@ $this->setFrameMode(true);
 			'FILES_CODE' => 'FILES',
 			'TOP_MODEL_CODE' => 'this_prod_model',
 			'TOP_CODE_PRODE_CODE' => 'item_code',
+			'LOCATION_ID'=>$userCityByGeoIP["ID"],
 		);
 
 		$elementId = $APPLICATION->IncludeComponent(

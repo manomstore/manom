@@ -400,3 +400,7 @@ if ($USER->IsAuthorized()) {
     $arResult["CURRENT_USER"]["PHONE"] = strlen($currentUser["PERSONAL_PHONE"]) > 10 ?
         substr($currentUser["PERSONAL_PHONE"], -10) : $currentUser["PERSONAL_PHONE"];
 }
+
+global $userCityByGeoIP;
+$arResult["ONLY_CASH"] = $arResult["DISPLAY_PROPERTIES"]["ONLY_CASH"]["DISPLAY_VALUE"] === "Y";
+$arResult["LOCATION_DISALLOW_BUY"] = $arResult["ONLY_CASH"] && ((int)$userCityByGeoIP["ID"] !== 84);

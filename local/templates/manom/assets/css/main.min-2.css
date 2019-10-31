@@ -2940,6 +2940,21 @@ p.price-slider {
   color: #FFFFFF;
 }
 
+.product-sidebar__note {
+  padding-left: 22px;
+  margin: 5px 0;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.product-sidebar__note--positive {
+  background-position: 0px 3px;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNDQ4LjhweCIgaGVpZ2h0PSI0NDguOHB4IiB2aWV3Qm94PSIwIDAgNDQ4LjggNDQ4LjgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ0OC44IDQ0OC44OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSINCgk+DQoJCTxwb2x5Z29uIHBvaW50cz0iMTQyLjgsMzIzLjg1IDM1LjcsMjE2Ljc1IDAsMjUyLjQ1IDE0Mi44LDM5NS4yNSA0NDguOCw4OS4yNSA0MTMuMSw1My41NSIgZmlsbD0iIzgzQkIyNiIgLz4NCjwvc3ZnPg0K);
+  background-size: 14px;
+}
+
 .product-sidebar__details {
   display: inline-block;
   width: 100%;
@@ -6027,6 +6042,22 @@ p.price-slider {
   color: #83BB26;
 
   margin: 0 0 14px;
+}
+
+.sci-product__note {
+  margin: 0 0 2px;
+  color: rgba(115, 115, 126, 0.6);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.sci-product__note--red {
+  color: #ff7171;
+}
+
+.sci-product__note--green {
+  color: #83BB26;
 }
 
 .sci-product__model {

@@ -127,6 +127,18 @@ locationDND = new Vue({
             document.getElementById("pvz_address").innerText = "Не выбран"
         }
 
+        var disallowLocBuy = document.querySelector(".js-disallow_loc_buy");
+        var allowLocBuy = document.querySelector(".js-allow_loc_buy");
+        if (disallowLocBuy) {
+            if (parseInt(this.currentCityID) === 84) {
+                disallowLocBuy.classList.add("dnd-hide");
+                allowLocBuy.classList.remove("dnd-hide");
+            } else {
+                allowLocBuy.classList.add("dnd-hide");
+                disallowLocBuy.classList.remove("dnd-hide");
+            }
+        }
+
         return result;
     }
   },

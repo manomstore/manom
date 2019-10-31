@@ -1069,6 +1069,9 @@ if ($_REQUEST['ORDER_ID']) {
 				0 => "PREVIEW_PICTURE",
 				1 => "PROPS",
                 2 => "PROPERTY_this_prod_model",
+                3 => "PROPERTY_ONLY_CASH",
+                4 => "PROPERTY_ONLY_PREPAYMENT",
+                5 => "PROPERTY_ONLY_PICKUP",
 			],
 			"PROPS_FADE_LIST_1"              => [
 				0 => "19",
@@ -1210,6 +1213,15 @@ if ($_REQUEST['ORDER_ID']) {
           <span class="sci-product__name">{{model}}</span>
         </div>
         {{/model}}
+        {{#onlyCash}}
+          <div class="sci-product__note sci-product__note--red">Не доступен для оплаты картой</div>
+        {{/onlyCash}}
+        {{#onlyPickup}}
+          <div class="sci-product__note sci-product__note--red">Не доступен для доставки курьерской службой</div>
+        {{/onlyPickup}}
+        {{#onlyPrepayment}}
+          <div class="sci-product__note sci-product__note--red">Не доступен для оплаты наличными</div>
+        {{/onlyPrepayment}}
         <div class="sci-product__count-block">
           <span class="sci-product__name">{{quantity}} шт.</span>
         </div>

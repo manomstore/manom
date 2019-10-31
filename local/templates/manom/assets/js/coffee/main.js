@@ -2083,6 +2083,7 @@ $.fn.updateSideInfo = function() {
   soBlock.find('.shopcart-sidebar__buyer-fio').html(soBlock.find(uName).val());
   soBlock.find('.shopcart-sidebar__buyer-tel').html(soBlock.find(uPhone).val());
   soBlock.find('.shopcart-sidebar__buyer-email').html(soBlock.find(uEmail).val())
+
   uCity = soBlock.find('[name="so_city_val"]').val();
   uAddress = "";
   if (soBlock.find('[name="sci-delivery-street"]').val()) {
@@ -2215,7 +2216,11 @@ $.fn.updateShopcartAmount = function(){
 $.fn.updateShopcartSidebarProducts = function(){
   var tmplHtml = $('#tmpl-shopcart-sidebar-product').html(),
     $sidebarProductList = $('.js-shopcart-sidebar-product-list');
-
+    var cityId = parseInt($(document).find('#so_main_block #so_city').val());
+    var currentDelivery = $(document).find(".sale_order_full_table.delivery-block input[type='radio']:checked");
+    var currentPaySystem = $(document).find(".sale_order_full_table.paySystem-block input[type='radio']:checked");
+    var currentDeliveryId = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
+    var currentPaySystemId = currentPaySystem.length > 0 ? parseInt(currentPaySystem.val()) : 0;
   Mustache.parse(tmplHtml);
   $sidebarProductList.empty();
 
@@ -2231,6 +2236,12 @@ $.fn.updateShopcartSidebarProducts = function(){
                   .replace(/&gt;/g, '>');
           }
       }
+
+      var existDeliveryInLoc = $(".sci-delivery__tab[data-prop='" + currentDelivery.attr("id") + "']").length;
+
+      props.onlyCash = props.onlyCash && cityId !== 84;
+      props.onlyPickup = props.onlyPickup && existDeliveryInLoc && currentDeliveryId && [13, 6].indexOf(currentDeliveryId) <= -1;
+      props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId && [4, 9].indexOf(currentPaySystemId) <= -1;
 
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
@@ -2296,11 +2307,6 @@ $.fn.updateDateSaleOrder = function() {
 
     $(".delivery-pickup-type").removeClass("current-type");
 
-  // Обновляем количество товаров в корзине на чекауте
-  $.fn.updateShopcartAmount();
-  // Обновляем товары в сайдбаре на чекауте
-  $.fn.updateShopcartSidebarProducts();
-
   soCity = soBlock.find('#so_city_val');
   soCityID = soBlock.find('#so_city');
   soCityAlt = soBlock.find('#so_city_alt_val');
@@ -2351,6 +2357,11 @@ $.fn.updateDateSaleOrder = function() {
 
         setDeliveryByLocation(deliveryTab, true)
     }
+
+    // Обновляем количество товаров в корзине на чекауте
+    $.fn.updateShopcartAmount();
+    // Обновляем товары в сайдбаре на чекауте
+    $.fn.updateShopcartSidebarProducts();
 
     $radioButton.each(function() {
         var $this = $(this);
