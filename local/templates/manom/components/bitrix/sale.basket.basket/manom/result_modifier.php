@@ -11,6 +11,8 @@ $prodIDs = array();
 $cmlProdIDs = array();
 $acessAndServIDs = array();
 $rlateCmlProds = array();
+$allOffersId = [];
+$models = [];
 foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     if (!$item['PICTURE_SRC'] and !$item['DETAIL_PICTURE']) {
         $prodIDs[] = $item['PRODUCT_ID'];
@@ -40,6 +42,7 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
             false
         );
     }
+    $allOffersId[] = (int)$item['PRODUCT_ID'];
 }
 $getProd = CIBlockElement::GetList(
   array(),
@@ -165,5 +168,34 @@ if ($acessAndServIDs):
     }
   }
 endif;
+
+if (!empty($allOffersId)) {
+    $rsProducts = \CIBlockElement::GetList(
+        [
+        ],
+        [
+            "IBLOCK_ID" => $offersIblockID,
+            "ID" => $allOffersId
+        ],
+        false,
+        false,
+        [
+            "ID",
+            "IBLOCK_ID",
+            "PROPERTY_this_prod_model"
+        ]);
+    while ($product = $rsProducts->GetNext()) {
+        if (!empty($product["PROPERTY_THIS_PROD_MODEL_VALUE"])) {
+            $models[$product["ID"]] = $product["PROPERTY_THIS_PROD_MODEL_VALUE"];
+        }
+    }
+}
+
+foreach ($arResult['GRID']['ROWS'] as &$row) {
+    if (!empty($models[$row["PRODUCT_ID"]])){
+        $row["MODEL"] = $models[$row["PRODUCT_ID"]];
+    }
+}
+unset($row);
 
 $arResult['CML_PROD'] = $rlateCmlProds;

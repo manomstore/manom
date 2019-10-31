@@ -58,7 +58,10 @@ use Bitrix\Main\Localization\Loc;
                     <h3 class="sci-product__name">
                         <?= $row['NAME'] ?>
                     </h3>
-                </a>
+		    </a>
+                <? if (!empty($row["MODEL"])): ?>
+                    <p class="sci-product__model"><?= $row["MODEL"] ?></p>
+                <? endif; ?>
                 <p class="sci-product__status">
                     <? if ($row['has_prod']) { ?>
                         Есть в наличии
