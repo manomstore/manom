@@ -852,7 +852,7 @@ $APPLICATION->SetTitle("Каталог");
 			192 => "comp_type_chargebattery",
 			193 => "CML2_BASE_UNIT",
 			194 => "CML2_TRAITS",
-			195 => "",
+			195 => "ONLY_CASH",
 			),
 		"DETAIL_META_KEYWORDS" => "model",
 			"DETAIL_META_DESCRIPTION" => "-",
