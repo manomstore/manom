@@ -767,8 +767,15 @@ $(document).ready(function() {
                 data: formData,
                 success: function (result) {
                     if (result.success === true) {
+                        window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push(
+                            {
+                                'event': 'fb-action-event',
+                                'fb-action': 'Purchase',
+                            }
+                        );
                         $.fn.refreshMiniCart();
-                        $messageField.html('Ваша заявка принятя. Наши менеджеры свяжутся с вами в течении 15 минут.');
+                        $messageField.html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
                         $messageField.show();
                         return $this.find('button, label, input').hide();
                     } else {
@@ -974,6 +981,13 @@ $(document).ready(function() {
             AJAX_MIN_CART: 'Y'
           },
           success: function(data) {
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push(
+                  {
+                      'event': 'fb-action-event',
+                      'fb-action': 'AddToCart',
+                  }
+              );
             $this.removeClass('addToCartBtn_dis');
             var previewCart = $('.preview-shopcart');
             var showCartClass = 'preview-card--show';
