@@ -114,7 +114,7 @@ class RoistatSender
             'email'   => $data['email'], // Email клиента
             'phone'   => $data['phone'], // Номер телефона клиента
             'fields'  => array(
-                'roistat_type'          => $data['type'], // Тип обращения
+                'cf85082f2-f4b8-11e9-0a80-0667002ace2f' => $data['type'], // Тип обращения
             ),
         );
 

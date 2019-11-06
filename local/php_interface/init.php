@@ -3,6 +3,9 @@
 // use Bitrix\Main\Web\Cookie;
 // use Bitrix\Main\Loader,
 //       Rover\GeoIp\Location;
+use Bitrix\Main\Event;
+
+
 function getRatingAndCountReviewForList($prodIDs) {
   $rating = 0;
   $arRev = array();
@@ -344,31 +347,29 @@ class MyHandlerClass
         }
     }
 
-    //Roistat integration begin
-    function roistatOnSaleOrderBeforeSaved($entity)
-    {
+    function roistatOnSaleOrderBeforeSaved(Event $event){
+        if(!$event->getParameter('IS_NEW')) {
+            return;
+        }
+        /** @var \Bitrix\Sale\Order $order */
+        $order = $event->getParameter('ENTITY');
+
         $visit = "no_cookie";
         if (isset($_COOKIE['roistat_visit'])) {
             $visit = $_COOKIE['roistat_visit'];
         }
-        foreach ($entity->getPropertyCollection() as $property) {
-            {
-                $propertyValue = $property->getFieldValues();
-
-                if ($propertyValue["CODE"] === "ROISTAT") {
-                    $currentVisit = $property->getValue();
-                    if (!empty($currentVisit)) {
-                        $property->setValue($visit);
-                    }
-                }
-                if ($propertyValue["CODE"] === "ROISTAT_TYPE") {
-                    $currentType = $property->getValue();
-                    if (!empty($currentType)) {
-                        $property->setValue("Корзина");
-                    }
-                }
+        foreach ($order->getPropertyCollection() as $property) {
+            $code = $property->getField('CODE');
+            switch ($code) {
+                case 'ROISTAT':
+                    $property->setValue($visit);
+                    break;
+                case 'ROISTAT_TYPE':
+                    $property->setValue("Корзина");
+                    break;
             }
         }
+        $order->getPropertyCollection()->save();
     }
 
         //Roistat integration end
