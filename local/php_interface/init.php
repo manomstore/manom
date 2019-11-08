@@ -347,7 +347,7 @@ class MyHandlerClass
     }
 
     function roistatOnSaleOrderBeforeSaved($entity){
-       $propertyCollection = $entity->getPropertyCollection();
+        $propertyCollection = $entity->getPropertyCollection();
 
         $visit = "no_cookie";
         if (isset($_COOKIE['roistat_visit'])) {
@@ -355,13 +355,18 @@ class MyHandlerClass
         }
         foreach ($propertyCollection as $property) {
             $code = $property->getField('CODE');
-            file_get_contents('http://webhook.site/b3fc0e3c-5bc4-45f5-81a6-ff197434ef5b?code='.$code);
             switch ($code) {
                 case 'ROISTAT':
-                    $property->setValue($visit);
+                    $oldValue = $property->getValue();
+                    if (empty($oldValue)) {
+                        $property->setValue($visit);
+                    }
                     break;
                 case 'ROISTAT_TYPE':
-                    $property->setValue("Корзина");
+                    $oldValue = $property->getValue();
+                    if (empty($oldValue)) {
+                        $property->setValue("Корзина");
+                    }
                     break;
             }
         }
