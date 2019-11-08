@@ -347,18 +347,15 @@ class MyHandlerClass
         }
     }
 
-    function roistatOnSaleOrderBeforeSaved(Event $event){
-        if(!$event->getParameter('IS_NEW')) {
-            return;
-        }
-        /** @var \Bitrix\Sale\Order $order */
-        $order = $event->getParameter('ENTITY');
+    function roistatOnSaleOrderBeforeSaved($entity){
+
+        $propertyCollection = $entity->getPropertyCollection();
 
         $visit = "no_cookie";
         if (isset($_COOKIE['roistat_visit'])) {
             $visit = $_COOKIE['roistat_visit'];
         }
-        foreach ($order->getPropertyCollection() as $property) {
+        foreach ($propertyCollection as $property) {
             $code = $property->getField('CODE');
             switch ($code) {
                 case 'ROISTAT':
@@ -369,7 +366,7 @@ class MyHandlerClass
                     break;
             }
         }
-        $order->getPropertyCollection()->save();
+        $propertyCollection->save();
     }
 
         //Roistat integration end
