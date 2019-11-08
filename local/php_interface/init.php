@@ -3,7 +3,6 @@
 // use Bitrix\Main\Web\Cookie;
 // use Bitrix\Main\Loader,
 //       Rover\GeoIp\Location;
-use Bitrix\Main\Event;
 
 
 function getRatingAndCountReviewForList($prodIDs) {
@@ -347,29 +346,31 @@ class MyHandlerClass
         }
     }
 
-    function roistatOnSaleOrderBeforeSaved(Event $event){
-        if(!$event->getParameter('IS_NEW')) {
-            return;
-        }
-        /** @var \Bitrix\Sale\Order $order */
-        $order = $event->getParameter('ENTITY');
+    function roistatOnSaleOrderBeforeSaved($entity){
+        $propertyCollection = $entity->getPropertyCollection();
 
         $visit = "no_cookie";
         if (isset($_COOKIE['roistat_visit'])) {
             $visit = $_COOKIE['roistat_visit'];
         }
-        foreach ($order->getPropertyCollection() as $property) {
+        foreach ($propertyCollection as $property) {
             $code = $property->getField('CODE');
             switch ($code) {
                 case 'ROISTAT':
-                    $property->setValue($visit);
+                    $oldValue = $property->getValue();
+                    if (empty($oldValue)) {
+                        $property->setValue($visit);
+                    }
                     break;
                 case 'ROISTAT_TYPE':
-                    $property->setValue("Корзина");
+                    $oldValue = $property->getValue();
+                    if (empty($oldValue)) {
+                        $property->setValue("Корзина");
+                    }
                     break;
             }
         }
-        $order->getPropertyCollection()->save();
+        //$order->getPropertyCollection()->save();
     }
 
         //Roistat integration end
