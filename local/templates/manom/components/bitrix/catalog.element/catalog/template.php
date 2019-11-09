@@ -79,21 +79,13 @@ if (!$_REQUEST['offer']){
 			<?}?>
 		</div>
 
-		<div class="product-rating">
-			<?for ($i=0; $i < 5; $i++) {
-				if ($i >= $arResult['PRODUCT_RATING']) {
-					?> <span> ★ </span> <?
-				}else{
-					?> ★ <?
-				}
-			}?>
-		</div>
 		<?
+			// TODO: вынести declineOfNumber в глобальные функции
 			$numberof = count($arResult['REVIEWS']);
 			$value = 'отзыв';
 			$suffix = array('', 'а', 'ов');
 
-			function numberof($numberof, $value, $suffix) {
+			function declineOfNumber($numberof, $value, $suffix) {
 				$keys = array(2, 0, 1, 1, 1, 2);
 				$mod = $numberof % 100;
 				$suffix_key = $mod > 4 && $mod < 20 ? 2 : $keys[min($mod%10, 5)];
@@ -101,11 +93,23 @@ if (!$_REQUEST['offer']){
 				return $value . $suffix[$suffix_key];
 			}
 		?>
-		<div class="product-comments">
-			<span><?=count($arResult['REVIEWS']);?></span>
-			<?=numberof($numberof, 'отзыв', array('', 'а', 'ов'));?>
-		</div>
-
+		<? if ($numberof > 0) : ?>
+			<div class="product-rating">
+				<?for ($i=0; $i < 5; $i++) {
+					if ($i >= $arResult['PRODUCT_RATING']) {
+						?> <span> ★ </span> <?
+					}else{
+						?> ★ <?
+					}
+				}?>
+			</div>
+			<div class="product-comments">
+				<a href="#product-tabs" data-scroll-to-product-tab="reviews">
+					<span><?=$numberof;?></span>
+					<?=declineOfNumber($numberof, 'отзыв', array('', 'а', 'ов'));?>
+				</a>
+			</div>
+		<? endif; ?>
 	</div>
 	<div class="product-main row">
 		<div class="product-photo">
@@ -493,7 +497,7 @@ if (!$_REQUEST['offer']){
 		<input id="tab1" type="radio" name="tabs" >
 		<label for="tab1"><span>Характеристики</span></label>
 		<?if ($arResult['REVIEWS']){?>
-			<input id="tab3" type="radio" name="tabs">
+			<input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
 			<label for="tab3"><span>Отзывы<br>покупателей</span></label>
 		<?}?>
         <? if (!empty($arResult['QNA_VALUES'])): ?>
