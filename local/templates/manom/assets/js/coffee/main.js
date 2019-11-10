@@ -2696,15 +2696,18 @@ $.fn.checkPropParams = function() {
           function(_this) {
             return function(item) {
               var ind, resBool;
-              if (item.props.length <= 0) {
+              if (Object.keys(item.props).length <= 0) {
                 return false;
               }
               resBool = true;
+              var match = false;
               for (ind in $activePropObj) {
                 if (ind !== propCodeAlt) {
                   if (item.props[ind]) {
-                    if (item.props[ind].id !== $activePropObj[ind]) {
+                    if (item.props[ind].id !== $activePropObj[ind] && !match) {
                       resBool = false;
+                    }else if ($(".offers_prop").length > 2) {
+                        match = true;
                     }
                   } else {
                     resBool = false;
@@ -2718,6 +2721,15 @@ $.fn.checkPropParams = function() {
               } else {
                 resBool = false;
               }
+
+              // if (resBool){
+              //     for (ind in $activePropObj) {
+              //         if (item.props[ind].id !== $activePropObj[ind]){
+              //             resBool = false;
+              //         }
+              //     }
+              // }
+
               return resBool;
             };
           }
@@ -2726,22 +2738,76 @@ $.fn.checkPropParams = function() {
           return $(this).addClass('propDisabled');
         }
       });
+        $(document).find('.offers_prop .offer_prop_item.active.propDisabled').each(function (index,elem) {
+            $(elem).removeClass("active");
+            $(elem).siblings(".offer_prop_item").not(".propDisabled").first().addClass("active");
+        });
+        $activePropObj = {};
+        $(document).find('.offers_prop .offer_prop_item.active').not(".propDisabled").each(function() {
+            propCode = $(this).attr('data-prop-code');
+            itemID = $(this).attr('data-id');
+            $activePropObj[propCode] = itemID;
+        });
+
+        var allOffers = $.fn.offersByPropData;
+        var cntMatch = new Array(allOffers.length);
+        var maxMatchIdx = 0;
+        cntMatch.fill(0);
+        for (ind in $activePropObj) {
+            for (var offerIdx = 0; offerIdx < allOffers.length; offerIdx++) {
+                if (allOffers[offerIdx].props[ind].id === $activePropObj[ind]) {
+                    cntMatch[offerIdx] = parseInt(cntMatch[offerIdx]) + 1;
+                } else if (typeof cntMatch[offerIdx] === "undefined") {
+                    cntMatch[offerIdx] = 0;
+                }
+            }
+        }
+
+
+        maxMatchIdx = cntMatch.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+        var curOffer = $.fn.offersByPropData[maxMatchIdx];
+
+        for (ind in $activePropObj) {
+            propVariants = [];
+            if (curOffer.props[ind].id !== $activePropObj[ind]) {
+                $(document).find(".offers_prop .offer_prop_item[data-prop-code='" +
+                    ind + "'][data-id='" + $activePropObj[ind] + "']").removeClass("active");
+
+                $(document).find(".offers_prop .offer_prop_item[data-prop-code='" +
+                    ind + "'][data-id='" + curOffer.props[ind].id + "']").click();
+
+                $activePropObj[ind] = curOffer.props[ind].id;
+
+            }
+        }
+
       filtResultByProp = $.fn.offersByPropData.filter((
         function(_this) {
           return function(item) {
             var ind, resBool;
-            if (item.props.length <= 0) {
+            if (Object.keys(item.props).length <= 0) {
               return false;
             }
             resBool = true;
+              var match = false;
             for (ind in $activePropObj) {
               if (item.props[ind]) {
-                if (item.props[ind].id !== $activePropObj[ind]) {
+                if (item.props[ind].id !== $activePropObj[ind] && !match) {
                   resBool = false;
+                }else if ($(".offers_prop").length > 2) {
+                    match = true;
                 }
               } else {
                 resBool = false;
               }
+            }
+
+            if (resBool){
+                for (ind in $activePropObj) {
+                    if (item.props[ind].id !== $activePropObj[ind]){
+                        resBool = false;
+                    }
+                }
             }
             return resBool;
           };
