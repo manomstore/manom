@@ -2631,6 +2631,10 @@ p.price-slider {
   opacity: .5;
 }
 
+.product-comments a {
+  color: inherit;
+}
+
 .product-photo {
   width: 50%;
   display: -webkit-box;

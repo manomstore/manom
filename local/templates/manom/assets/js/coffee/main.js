@@ -2959,3 +2959,19 @@ function getDeliveryTabType(deliveryId) {
 
     return deliveryTabType;
 }
+
+// Скролл к отзывам на странице товара
+(function(){
+  $(document).ready(function(){
+    var $reviewsTab = $('[data-product-tab="reviews"]');
+
+    $(document).on('click', '[data-scroll-to-product-tab="reviews"]', function(event){
+      if ($reviewsTab.is(':radio')) {
+        $reviewsTab.trigger('click');
+      }
+
+      $('html, body').animate({scrollTop: $reviewsTab.parent().offset().top - 100}, 300);
+      event.preventDefault();
+    });
+  });
+})();
