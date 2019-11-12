@@ -882,6 +882,12 @@ $(document).ready(function() {
         $(document).find('.offers_prop[data-code="' + propCode + '"] .offer_prop_item').removeClass('active');
         $(document).find('.offers_prop[data-code="' + propCode + '"] .prop_title>span').html(title);
         $(this).addClass('active');
+          if (propCode === "HDD" && $(document).find('.offers_prop[data-code="graphics_mac"]').length > 0) {
+              $(document).find('.offers_prop .offer_prop_item').not($(this)).each(function (index, elem) {
+                  $(elem).removeClass("active");
+                  $(elem).removeClass("propDisabled");
+              });
+          }
       }
       return $.fn.checkPropParams();
     }
@@ -2738,6 +2744,9 @@ $.fn.checkPropParams = function() {
           return $(this).addClass('propDisabled');
         }
       });
+
+        var allOffers = $.fn.offersByPropData;
+
         $(document).find('.offers_prop .offer_prop_item.active.propDisabled').each(function (index,elem) {
             $(elem).removeClass("active");
             $(elem).siblings(".offer_prop_item").not(".propDisabled").first().addClass("active");
@@ -2749,37 +2758,39 @@ $.fn.checkPropParams = function() {
             $activePropObj[propCode] = itemID;
         });
 
-        var allOffers = $.fn.offersByPropData;
-        var cntMatch = new Array(allOffers.length);
-        var maxMatchIdx = 0;
-        cntMatch.fill(0);
-        for (ind in $activePropObj) {
-            for (var offerIdx = 0; offerIdx < allOffers.length; offerIdx++) {
-                if (allOffers[offerIdx].props[ind].id === $activePropObj[ind]) {
-                    cntMatch[offerIdx] = parseInt(cntMatch[offerIdx]) + 1;
-                } else if (typeof cntMatch[offerIdx] === "undefined") {
-                    cntMatch[offerIdx] = 0;
+
+        $(document).find('.offers_prop .offer_prop_item').not(".active").each(
+            function (activePropObj, allOffers, index, elem) {
+                propCode = $(elem).attr('data-prop-code');
+                itemID = $(elem).attr('data-id');
+                var cloneAllOffers = Object.assign({}, allOffers);
+                var cloneActivePropObj = Object.assign({}, activePropObj);
+
+                cloneActivePropObj[propCode] = itemID;
+
+                if (propCode !== "HDD" && $(document).find('.offers_prop[data-code="graphics_mac"]').length > 0) {
+                    for (var activePropCode in cloneActivePropObj) {
+                        for (var allOfferKey in cloneAllOffers) {
+                            if (
+                                cloneAllOffers.hasOwnProperty(allOfferKey)
+                                && cloneAllOffers[allOfferKey].props.hasOwnProperty(activePropCode)
+                                && cloneActivePropObj.hasOwnProperty(activePropCode)
+                            ) {
+                                if (cloneAllOffers[allOfferKey].props[activePropCode].id !== cloneActivePropObj[activePropCode]) {
+                                    delete cloneAllOffers[allOfferKey];
+                                }
+                            }
+                        }
+
+                    }
                 }
-            }
-        }
 
+                if (Object.keys(cloneAllOffers).length <= 0) {
+                    $(elem).removeClass("active").addClass("propDisabled");
+                }
 
-        maxMatchIdx = cntMatch.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-        var curOffer = $.fn.offersByPropData[maxMatchIdx];
-
-        for (ind in $activePropObj) {
-            propVariants = [];
-            if (curOffer.props[ind].id !== $activePropObj[ind]) {
-                $(document).find(".offers_prop .offer_prop_item[data-prop-code='" +
-                    ind + "'][data-id='" + $activePropObj[ind] + "']").removeClass("active");
-
-                $(document).find(".offers_prop .offer_prop_item[data-prop-code='" +
-                    ind + "'][data-id='" + curOffer.props[ind].id + "']").click();
-
-                $activePropObj[ind] = curOffer.props[ind].id;
-
-            }
-        }
+            }.bind(this, $activePropObj, allOffers)
+        );
 
       filtResultByProp = $.fn.offersByPropData.filter((
         function(_this) {
