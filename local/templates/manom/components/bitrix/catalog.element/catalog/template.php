@@ -47,6 +47,12 @@ if (!$_REQUEST['offer']){
 // echo "<pre style='text-align:left;'>";print_r($actualOffer);echo "</pre>";
 ?>
 
+<script>
+    $(function () {
+        $.fn.checkPropParams();
+    });
+</script>
+
 <!-- Каталог -->
 <main class="product container">
 	<div class="product-nav1">
@@ -241,7 +247,6 @@ if (!$_REQUEST['offer']){
 			<div>
                 <div class="offers_by_prop_json" data-json='<?=htmlspecialchars(json_encode($arResult['OFFERS_BY_DISPLAY_PROP']))?>'></div>
             </div>
-			<?if(count($arResult['DISPLAY_OFFERS']) > 1):?>
 				<?foreach ($arResult['DATA_PROP_FOR_CHOICE'] as $key => $item) {
 					?><div class="offers_prop" data-code="<?=$item['CODE']?>" data-id="<?=$item['ID']?>"><p class="product-content__color prop_title"><?=$item['TITLE']?>: <span><?=$actualOffer['props'][$item['CODE']]['title']?></span></p><?
 					foreach ($item['VALUE'] as $k => $val) {
@@ -265,7 +270,6 @@ if (!$_REQUEST['offer']){
 					}
 					?></div><?
 				}?>
-			<?endif;?>
 		</div>
 		<div class="product-sidebar col-3">
 
