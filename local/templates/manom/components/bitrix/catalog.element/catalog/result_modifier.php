@@ -158,6 +158,16 @@ foreach ($arResult['OFFERS'] as $key => $offer) {
     $arResult['OFFERS_BY_DISPLAY_PROP'][] = $offByDP;
   }
 }
+
+if (empty($arResult['OFFERS_BY_DISPLAY_PROP'])) {
+    \Bitrix\Iblock\Component\Tools::process404(
+        'Элемент не найден', //Сообщение
+        true, // Нужно ли определять 404-ю константу
+        true // Устанавливать ли статус
+    );
+    exit;
+}
+
 // echo "<pre style='text-align:left;'>";print_r($arResult['OFFERS_BY_DISPLAY_PROP']);echo "</pre>";
 //Проверка на доступность товара
 if($arResult['DISPLAY_OFFERS']){
