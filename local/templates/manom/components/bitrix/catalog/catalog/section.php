@@ -156,7 +156,10 @@ if (!$hasSubSec) {?>
 			global $glob_allItemsByFilter;
 			global $glob_sectionInfo;
 			$glob_sectionInfo = $secInfo;
-			$new_offer_filter = array('PROPERTY_CML2_LINK' => $allItemsByFilter['for_filter']);
+            $new_offer_filter = [
+                'PROPERTY_CML2_LINK' => $allItemsByFilter['for_filter'],
+                ">CATALOG_PRICE_1" => 0,
+            ];
 			if($_GET['arFilter_P1_MAX'] or $_GET['arFilter_P1_MIN'])
 				$new_offer_filter['catalog_PRICE_1'] = array((int)$_GET['arFilter_P1_MIN'], (int)$_GET['arFilter_P1_MAX']);
 			if ($GLOBALS[$arParams["FILTER_NAME"]]['OFFERS'])
