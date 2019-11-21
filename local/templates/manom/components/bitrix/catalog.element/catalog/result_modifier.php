@@ -24,8 +24,8 @@ if($arResult['PROPERTIES']['BS_STR']['VALUE']) {
 // echo "<pre style='text-align:left;'>";print_r($arResult['OFFERS'][0]);echo "</pre>";
 //Перебераем все предложения, исключаем недоступные, групируем свойства для сортировки
 foreach ($arResult['OFFERS'] as $key => $offer) {
-
-  if ($offer['CAN_BUY'] and $offer['CATALOG_QUANTITY'] > 0) {
+    $price = (float)$offer["CATALOG_PRICE_1"];
+  if ($offer['CAN_BUY'] and $offer['CATALOG_QUANTITY'] > 0 && $price > 0) {
     $arResult['DISPLAY_OFFERS'][] = $offer;
     $priceNow = $offer['MIN_PRICE']['DISCOUNT_VALUE_VAT'];
     $priceOld = $offer['MIN_PRICE']['VALUE_VAT'];
