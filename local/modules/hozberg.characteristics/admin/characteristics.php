@@ -139,7 +139,7 @@ if (!empty($properties)): ?>
         ?>
         <tr class="<?= $checked ? "hozberg_characteristics-checked-row" : "" ?>">
             <td class="hozberg_characteristics-col-l">
-                <label for="<?= $property["CODE"] ?>"><?= $property["NAME"] ?> [<?= $property["CODE"] ?>] [<?=$property["ID"]?>]</label>
+                <label for="<?= $property["CODE"] ?>"><?= $property["NAME"] ?> [<?= $property["CODE"] ?>]</label>
             </td>
             <td class="hozberg_characteristics-col-r">
                 <input type="checkbox"
