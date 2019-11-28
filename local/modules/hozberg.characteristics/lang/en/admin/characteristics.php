@@ -1,0 +1,7 @@
+<?
+$MESS['HOZBERG_CHARACTERISTICS_PAGE_TITLE'] = "Product characteristics";
+$MESS['HOZBERG_CHARACTERISTICS_ADMIN_DATA_SAVED'] = "Characteristics successfully saved";
+$MESS['HOZBERG_CHARACTERISTICS_ADMIN_DATA_ERROR'] = "An error occurred while saving";
+$MESS['HOZBERG_CHARACTERISTICS_ADMIN_PRODUCT_PROPERTY_COL'] = "Product property";
+$MESS['HOZBERG_CHARACTERISTICS_ADMIN_FLAG_COL'] = "Show in characteristics";
+$MESS['HOZBERG_CHARACTERISTICS_ADMIN_PROPERTY_LIST_EMPTY'] = "No product properties";
