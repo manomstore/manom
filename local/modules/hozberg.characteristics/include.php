@@ -1,7 +1,7 @@
 <?
 \Bitrix\Main\Loader::registerAutoLoadClasses(
-	"germen.settings",
-	array(
-		'UniPlug\Settings' => "lib/settings.php",
-	)
+    "hozberg.characteristics",
+    array(
+        'Hozberg\Characteristics' => "lib/Characteristics.php",
+    )
 );

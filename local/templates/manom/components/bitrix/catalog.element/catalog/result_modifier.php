@@ -414,3 +414,14 @@ if ($USER->IsAuthorized()) {
 global $userCityByGeoIP;
 $arResult["ONLY_CASH"] = $arResult["DISPLAY_PROPERTIES"]["ONLY_CASH"]["DISPLAY_VALUE"] === "Y";
 $arResult["LOCATION_DISALLOW_BUY"] = $arResult["ONLY_CASH"] && ((int)$userCityByGeoIP["ID"] !== 84);
+
+if (\Bitrix\Main\Loader::includeModule("hozberg.characteristics")) {
+    $characteristicsIds = \Hozberg\Characteristics::getShowCharacteristics();
+    foreach ($arResult["DISPLAY_PROPERTIES"] as $propertyCode => $property) {
+        if (in_array($property["ID"], $characteristicsIds)) {
+            $arResult["CHARACTERISTICS"][$propertyCode] = $property;
+        }
+    }
+} else {
+    $arResult["CHARACTERISTICS"] = $arResult["DISPLAY_PROPERTIES"];
+}
