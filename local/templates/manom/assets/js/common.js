@@ -538,3 +538,6 @@ $(function() {
       // $("#pb-info__col1-input, #pb-info__col2-input, #pb-info__col3-input").fadeOut(0);
       // $("#pb-info__col1-text, #pb-info__col2-text").fadeIn(200);
       // $(".pb-info__button").text("Редактировать");
+    }
+  });
+});

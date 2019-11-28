@@ -97,6 +97,7 @@ locationDND = new Vue({
       }
     },
     changeCity: function (cityItem, needSubmitForm = true) {
+      var _this = this;
       this.isPopupChangeCityVisible = false;
       this.isInformationStatus = true;
       this.changeCitySearchLine = '';
@@ -110,6 +111,10 @@ locationDND = new Vue({
           $.fn.updGlobalCityInCart(cityItem.id);
       }
 
+      // Меняем текущий город во всех элементах [data-current-city]
+      [].slice.call(document.querySelectorAll('[data-current-city]')).forEach(function(currentCityElement){
+        currentCityElement.textContent = _this.currentCity;
+      });
 
         var result = axios.get('/ajax/location.php', {
             params: {
