@@ -641,7 +641,7 @@ if (!$_REQUEST['offer']){
 					<div class="characteristics-wrapper tab-content__column col-8">
 						<?$APPLICATION->IncludeComponent("redsign:grupper.list", "catalog_element",
 							Array(
-								"DISPLAY_PROPERTIES" => $arResult["DISPLAY_PROPERTIES"],	// Свойства
+								"DISPLAY_PROPERTIES" => $arResult["CHARACTERISTICS"],	// Свойства
 								"CACHE_TIME" => "36000",	// Время кеширования (сек.)
 							),
 							false

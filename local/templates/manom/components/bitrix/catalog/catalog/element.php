@@ -28,11 +28,35 @@ $APPLICATION->IncludeComponent(
 
 global $userCityByGeoIP;
 
+$detailProperties = [];
+
+$detailProperties = \Bitrix\Iblock\PropertyTable::getList(
+    [
+        "filter" => [
+            "IBLOCK_ID" => $arParams['IBLOCK_ID'],
+            "ACTIVE" => "Y",
+        ],
+        "select" => [
+            "ID",
+            "IBLOCK_ID",
+            "CODE",
+        ]
+    ]
+)->fetchAll();
+
+$detailProperties = array_map(
+    function ($item) {
+        return $item["CODE"];
+    },
+    $detailProperties
+);
+
+
 $this->setFrameMode(true);
 		$componentElementParams = array(
 			'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
 			'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-			'PROPERTY_CODE' => $arParams['DETAIL_PROPERTY_CODE'],
+			'PROPERTY_CODE' => $detailProperties,
 			'META_KEYWORDS' => $arParams['DETAIL_META_KEYWORDS'],
 			'META_DESCRIPTION' => $arParams['DETAIL_META_DESCRIPTION'],
 			'BROWSER_TITLE' => $arParams['DETAIL_BROWSER_TITLE'],
