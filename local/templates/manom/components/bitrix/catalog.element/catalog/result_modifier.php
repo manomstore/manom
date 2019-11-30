@@ -452,12 +452,12 @@ if ((int)$arResult["CURRENT_CITY"]["ID"] > 0) {
     $arResult["CURRENT_CITY"]["ZIP"] = (int)$userLocationInfo;
     $arResult["CURRENT_CITY"]["ID"] = (int)$arResult["CURRENT_CITY"]["ID"];
     try {
-        if (!\Bitrix\Main\Loader::includeModule('sneakerhead.nextjs')) {
+        if (!\Bitrix\Main\Loader::includeModule('manom.nextjs')) {
             throw new \Exception();
         }
 
-        $delivery = new \Sneakerhead\Nextjs\Api\Delivery();
-        $paySystem = new \Sneakerhead\Nextjs\Api\PaySystem();
+        $delivery = new \Manom\Nextjs\Api\Delivery();
+        $paySystem = new \Manom\Nextjs\Api\PaySystem();
 
         $deliveries = $delivery->getDeliveries(
             [

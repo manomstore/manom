@@ -3,11 +3,11 @@
 use Bitrix\Main\Localization\Loc;
 
 /**
- * Class sneakerhead_nextjs
+ * Class manom_nextjs
  */
-class sneakerhead_nextjs extends CModule
+class manom_nextjs extends CModule
 {
-    public $MODULE_ID = 'sneakerhead.nextjs';
+    public $MODULE_ID = 'manom.nextjs';
     public $MODULE_VERSION;
     public $MODULE_VERSION_DATE;
     public $MODULE_NAME;
@@ -18,7 +18,7 @@ class sneakerhead_nextjs extends CModule
     protected $modulePath;
 
     /**
-     * sneakerhead_nextjs constructor.
+     * manom_nextjs constructor.
      */
     public function __construct()
     {

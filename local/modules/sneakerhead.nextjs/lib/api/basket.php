@@ -1,6 +1,6 @@
 <?php
 
-namespace Sneakerhead\Nextjs\Api;
+namespace Manom\Nextjs\Api;
 
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\SystemException;
@@ -14,7 +14,7 @@ use Bitrix\Sale\SectionTable;
 
 /**
  * Class Basket
- * @package Sneakerhead\Nextjs\Api
+ * @package Manom\Nextjs\Api
  */
 class Basket
 {

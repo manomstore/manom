@@ -1,15 +1,15 @@
 <?php
 
-namespace Sneakerhead\Nextjs\Api;
+namespace Manom\Nextjs\Api;
 
 use Bitrix\Main\Web\HttpClient;
-use \Sneakerhead\Nextjs\Utils;
+use \Manom\Nextjs\Utils;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\SystemException;
 
 /**
  * Class Profile
- * @package Sneakerhead\Nextjs\Api
+ * @package Manom\Nextjs\Api
  */
 class Profile
 {

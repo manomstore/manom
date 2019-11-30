@@ -1,8 +1,8 @@
 <?php
 
-namespace Sneakerhead\Nextjs\Api;
+namespace Manom\Nextjs\Api;
 
-use \Sneakerhead\Nextjs\Utils;
+use \Manom\Nextjs\Utils;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Sale\Delivery\Restrictions\Manager;
@@ -13,7 +13,7 @@ use \Bitrix\Sale\Delivery\Services\Table as ServicesTable;
 
 /**
  * Class Delivery
- * @package Sneakerhead\Nextjs\Api
+ * @package Manom\Nextjs\Api
  */
 class Delivery
 {

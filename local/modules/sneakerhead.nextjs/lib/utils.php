@@ -1,10 +1,10 @@
 <?php
 
-namespace Sneakerhead\Nextjs;
+namespace Manom\Nextjs;
 
 /**
  * Class Utils
- * @package Sneakerhead\Nextjs
+ * @package Manom\Nextjs
  */
 class Utils
 {

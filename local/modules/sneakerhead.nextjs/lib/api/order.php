@@ -1,6 +1,6 @@
 <?php
 
-namespace Sneakerhead\Nextjs\Api;
+namespace Manom\Nextjs\Api;
 
 use \Bitrix\Main\Loader;
  use Bitrix\Main\Localization\Loc;
@@ -23,7 +23,7 @@ use Sale\Handlers\Delivery\NewpostHandler;
 
 /**
  * Class Order
- * @package Sneakerhead\Nextjs\Api
+ * @package Manom\Nextjs\Api
  */
 class Order
 {

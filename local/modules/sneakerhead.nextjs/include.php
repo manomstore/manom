@@ -4,7 +4,7 @@ use \Bitrix\Main\Loader;
 use \Bitrix\Main\Localization\Loc;
 
 Loader::registerAutoLoadClasses(
-    'sneakerhead.nextjs',
+    'manom.nextjs',
     array()
 );
 

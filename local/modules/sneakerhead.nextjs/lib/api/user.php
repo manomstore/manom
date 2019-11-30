@@ -1,13 +1,13 @@
 <?php
 
-namespace Sneakerhead\Nextjs\Api;
+namespace Manom\Nextjs\Api;
 
-use \Sneakerhead\Nextjs\Utils;
+use \Manom\Nextjs\Utils;
 use \Bitrix\Main\UserTable;
 
 /**
  * Class User
- * @package Sneakerhead\Nextjs\Api
+ * @package Manom\Nextjs\Api
  */
 class User
 {

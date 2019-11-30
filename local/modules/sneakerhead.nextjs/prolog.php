@@ -1,3 +1,3 @@
 <?php
 
-define('ADMIN_MODULE_NAME', 'sneakerhead.nextjs');
+define('ADMIN_MODULE_NAME', 'manom.nextjs');

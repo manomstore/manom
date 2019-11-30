@@ -1,6 +1,6 @@
 <?php
 
-namespace Sneakerhead\Nextjs\Api;
+namespace Manom\Nextjs\Api;
 
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\SystemException;
@@ -8,7 +8,7 @@ use \Bitrix\Sale\DiscountCouponsManager;
 
 /**
  * Class Coupon
- * @package Sneakerhead\Nextjs\Api
+ * @package Manom\Nextjs\Api
  */
 class Coupon
 {
