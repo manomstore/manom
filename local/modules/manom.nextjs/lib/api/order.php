@@ -39,7 +39,7 @@ class Order
     private $personTypeId = 1;
     private $defaultFields = array(
         'deliveryId' => 3, //Самовывоз
-        'paySystemId' => 1, //Оплата при получении
+        'paySystemId' => 7, //Оплата при получении
         'locationId' => 84, //Москва
     );
 
