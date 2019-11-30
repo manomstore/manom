@@ -57,7 +57,7 @@ class sneakerhead_nextjs extends CModule
      */
     public function InstallDB($aParams = array())
     {
-        $this->setOrderProperties();
+//        $this->setOrderProperties();
 
         RegisterModule($this->MODULE_ID);
 

@@ -27,6 +27,7 @@ use Sale\Handlers\Delivery\NewpostHandler;
  */
 class Order
 {
+    /**@var \Bitrix\Sale\Order$order  */
     private $order;
     private $request;
     private $userId;
@@ -387,7 +388,7 @@ class Order
      * @throws \Bitrix\Main\NotSupportedException
      * @throws \Bitrix\Main\ObjectNotFoundException
      */
-    private function makeOrder($request = array())
+    private function makeOrder($request = array(), $productId = 0)
     {
         DiscountCouponsManager::init();
 
@@ -400,7 +401,7 @@ class Order
 
         $this->order->isStartField();
 
-        $basketObject = new Basket;
+        $basketObject = new Basket(0, $productId);
         $this->order->setBasket($basketObject->getBitrixBasket()->getOrderableItems());
 
         $this->order->setPersonTypeId($this->personTypeId);
@@ -557,7 +558,7 @@ class Order
             &$this->paySystemServices,
         );
 
-        require_once $_SERVER['DOCUMENT_ROOT'].'/local/components/sneakerhead/sale.order.ajax/class.php';
+        require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/components/bitrix/sale.order.ajax/class.php';
 
 	    foreach ($events as $event) {
             ExecuteModuleEventEx($event, $eventParameters);
@@ -622,9 +623,9 @@ class Order
      * @throws \Bitrix\Main\NotSupportedException
      * @throws \Bitrix\Main\ObjectNotFoundException
      */
-    public function getDeliveries($request)
+    public function getDeliveries($request, $productId = 0)
     {
-        $this->makeOrder($request);
+        $this->makeOrder($request, $productId);
         $this->calculateDeliveries();
         $this->obtainDelivery();
 

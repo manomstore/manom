@@ -116,12 +116,16 @@ locationDND = new Vue({
         currentCityElement.textContent = _this.currentCity;
       });
 
+        if ($(document).find(".product-sidebar__delivery .js-delivery_block").is("div")) {
+            $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
+        }
+
         var result = axios.get('/ajax/location.php', {
             params: {
                 location_code: 'changeCity',
                 cityID: cityItem.id
             }
-        });
+        }).then(response => ($.fn.updateProductDeliveries()));
 
         if (
             typeof window.IPOLSDEK_pvz !== 'undefined'

@@ -55,6 +55,25 @@ if (!$_REQUEST['offer']){
 
 <!-- Каталог -->
 <main class="product container">
+    <div class="preloaderCatalog">
+        <div class="windows8">
+            <div class="wBall" id="wBall_1">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_2">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_3">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_4">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_5">
+                <div class="wInnerBall"></div>
+            </div>
+        </div>
+    </div>
 	<div class="product-nav1">
 		<h2 class="product-nav1__title isElementName"><?=$actualOffer['name']?></h2>
 		<?if($actualOffer['difference_price']):?>
@@ -403,50 +422,59 @@ if (!$_REQUEST['offer']){
 						<div class="product-delivery__header-cell">
 							<h5 class="product-delivery__title">Доставка</h5>
 						</div>
-						<div class="product-delivery__header-cell">
-							<div class="product-delivery__city" data-city-trigger="">
-								<svg class="svg-icon svg-icon--location">
-									<use xlink:href="#location" />
-								</svg>
-								<span data-current-city="">Санкт-Петербург</span>
-							</div>
-						</div>
+                        <div class="product-delivery__header-cell">
+                            <div class="product-delivery__city" data-city-trigger="">
+                                <svg class="svg-icon svg-icon--location">
+                                    <use xlink:href="#location"/>
+                                </svg>
+                                <span data-current-city=""><?= $arResult["CURRENT_CITY"]["CITY_NAME"] ?></span>
+                            </div>
+                        </div>
 					</div>
-					<div class="product-delivery__item">
-						<div class="product-delivery__item-cell">Курьером</div>
-						<div class="product-delivery__item-cell">1-2 дня, от 350 ₽</div>
-					</div>
-					<div class="product-delivery__item">
-						<div class="product-delivery__item-cell">Самовывоз</div>
-						<div class="product-delivery__item-cell">Ежедневно 11:00—19:00</div>
-					</div>
+                    <div class="js-delivery_block">
+                        <? foreach ($arResult["DELIVERIES"] as $delivery): ?>
+                            <div class="product-delivery__item">
+                                <div class="product-delivery__item-cell"><?= $delivery["NAME"] ?></div>
+                                <div class="product-delivery__item-cell">
+                                    <?= $delivery["DESCRIPTION"] ?>
+                                </div>
+                            </div>
+                        <? endforeach; ?>
+                    </div>
 				</div>
 			</div>
-
-			<div class="product-sidebar__payment-methods">
-				<div class="product-payment-methods">
-					<h5 class="product-payment-methods__title">
-						Мы принимаем
-					</h5>
-				</div>
-				<ul class="product-payment-methods__list">
-					<li class="product-payment-methods__list-item">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/visa.svg" alt="Visa" />
-					</li>
-					<li class="product-payment-methods__list-item">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/mastercard.svg" alt="MasterCard" />
-					</li>
-					<li class="product-payment-methods__list-item">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/mir.svg" alt="Мир" />
-					</li>
-					<li class="product-payment-methods__list-item">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/yamoney.svg" alt="Яндекс.Деньги" />
-					</li>
-					<li class="product-payment-methods__list-item" data-title="Наличные">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/cash.svg" alt="Наличные" />
-					</li>
-				</ul>
-			</div>
+            <?if (!empty($arResult["PAY_SYSTEMS"])):?>
+                <div class="product-sidebar__payment-methods">
+                    <div class="product-payment-methods">
+                        <h5 class="product-payment-methods__title">
+                            Мы принимаем
+                        </h5>
+                    </div>
+                    <ul class="product-payment-methods__list">
+                        <?if (in_array("CARD",$arResult["PAY_SYSTEMS"])):?>
+                            <li class="product-payment-methods__list-item">
+                                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/visa.svg" alt="Visa" />
+                            </li>
+                            <li class="product-payment-methods__list-item">
+                                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/mastercard.svg" alt="MasterCard" />
+                            </li>
+                            <li class="product-payment-methods__list-item">
+                                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/mir.svg" alt="Мир" />
+                            </li>
+                        <?endif;?>
+                        <?/*
+                        <li class="product-payment-methods__list-item">
+                            <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/yamoney.svg" alt="Яндекс.Деньги" />
+                        </li>
+                        */?>
+                        <?if (in_array("CASH",$arResult["PAY_SYSTEMS"])):?>
+                            <li class="product-payment-methods__list-item" data-title="Наличные">
+                                <img src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/cash.svg" alt="Наличные" />
+                            </li>
+                        <?endif;?>
+                    </ul>
+                </div>
+            <?endif;?>
 
 
 			<? /*

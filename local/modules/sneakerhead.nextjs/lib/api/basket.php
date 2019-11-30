@@ -6,6 +6,7 @@ use \Bitrix\Main\Loader;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Sale\Basket as bitrixBasket;
 use Bitrix\Sale\BasketBase;
+use Bitrix\Sale\BasketItem;
 use \Bitrix\Sale\Fuser;
 use \Bitrix\Main\Context;
 use \Bitrix\Sale\BasketItemBase;
@@ -29,7 +30,7 @@ class Basket
      * @throws \Bitrix\Main\LoaderException
      * @throws \Bitrix\Main\ObjectNotFoundException
      */
-    public function __construct($orderId = 0)
+    public function __construct($orderId = 0, $productId = 0)
     {
         if (!Loader::includeModule('sale')) {
             throw new SystemException('Не подключен модуль sale');
@@ -38,7 +39,9 @@ class Basket
             throw new SystemException('Не подключен модуль catalog');
         }
 
-        $this->setBitrixBasket($orderId);
+        $this->setCloneBasket();
+        $this->addBasketItem($productId);
+
         if ($this->basket === null) {
             throw new \Bitrix\Main\ObjectNotFoundException('Корзина не существует');
         }
@@ -71,6 +74,63 @@ class Basket
         }
 
         $this->basket = $basket;
+    }
+
+
+    /**
+     * @param int $orderId
+     * @throws \Bitrix\Main\ArgumentNullException
+     * @throws \Bitrix\Main\NotImplementedException
+     */
+    private function setCloneBasket()
+    {
+        $basket = null;
+
+        $bitrixBasket = bitrixBasket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite())->getOrderableItems();
+        $basket = \Bitrix\Sale\Basket::create(Context::getCurrent()->getSite());
+
+        if ($bitrixBasket->count()) {
+            /** @var BasketItem $basketItem */
+            foreach ($bitrixBasket as $basketItem) {
+                $item = $basket->createItem('catalog', $basketItem->getProductId());
+                $item->setFields(array(
+                    'QUANTITY' => $basketItem->getQuantity(),
+                    'CURRENCY' => $basketItem->getCurrency(),
+                    'LID' => $basketItem->getField("LID"),
+                    'PRODUCT_PROVIDER_CLASS' => $basketItem->getField("PRODUCT_PROVIDER_CLASS"),
+                ));
+            }
+        }
+
+        $this->basket = $basket;
+    }
+
+    /**
+     * @throws \Bitrix\Main\ArgumentNullException
+     * @throws \Bitrix\Main\NotImplementedException
+     * @throws \Bitrix\Main\NotImplementedException
+     */
+    private function addBasketItem($productId)
+    {
+        if ((int)$productId <= 0) {
+            return;
+        }
+
+        if ($this->basket) {
+            if ($item = $this->basket->getExistsItem('catalog', $productId)) {
+                $item->setField('QUANTITY', $item->getQuantity() + 1);
+            } else {
+                $item = $this->basket->createItem('catalog', $productId);
+                $item->setFields(array(
+                    'QUANTITY' => 1,
+                    'CURRENCY' => \Bitrix\Currency\CurrencyManager::getBaseCurrency(),
+                    'LID' => \Bitrix\Main\Context::getCurrent()->getSite(),
+                    'PRODUCT_PROVIDER_CLASS' => 'CCatalogProductProvider',
+                ));
+            }
+//            $this->basket->save();
+
+        }
     }
 
     /**

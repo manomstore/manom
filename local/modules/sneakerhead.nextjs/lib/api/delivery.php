@@ -208,12 +208,12 @@ class Delivery
      * @throws \Bitrix\Main\ObjectNotFoundException
      * @throws \Bitrix\Main\ObjectPropertyException
      */
-    public function getDeliveries($request = array())
+    public function getDeliveries($request = array(), $productId = 0)
     {
         $deliveries = array();
 
         $order = new Order;
-        foreach ($order->getDeliveries($request) as $item) {
+        foreach ($order->getDeliveries($request, $productId) as $item) {
             $restrictions = $this->getRestrictions((int)$item['ID']);
 
             $price = !empty((int)$item['PRICE']) ? (int)$item['PRICE'] : 0;
