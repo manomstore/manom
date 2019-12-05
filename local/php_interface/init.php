@@ -68,7 +68,7 @@ AddEventHandler("sale", "OnSaleComponentOrderUserResult", Array("MyHandlerClass"
 class MyHandlerClass
 {
 
-    function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context)
+    function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context, $elements, $elementPropsList)
     {
         /** @var \Yandex\Market\Result\XmlNode $tagResult */
         /** @var SimpleXMLElement $element */
@@ -76,7 +76,7 @@ class MyHandlerClass
         /** @var SimpleXMLElement $outlet */
 
         foreach ($tagResultList as $offerId => $tagResult) {
-            $quantityOffer = (int)$elementList[$offerId]["CATALOG_QUANTITY"];
+            $quantityOffer = (int)$elementPropsList[$offerId]["catalog_product"]["QUANTITY"];
             $quantityOffer = $quantityOffer >= 0 ? $quantityOffer : 0;
             $element = $tagResult->getXmlElement();
             if (!($element instanceof SimpleXMLElement)) {
