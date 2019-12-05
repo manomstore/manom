@@ -56,6 +56,7 @@ AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("MyHandlerClass","
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass","checkTimeDelivery"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler"));
 AddEventHandler("sale", "OnSaleOrderBeforeSaved", Array("MyHandlerClass", "roistatOnSaleOrderBeforeSaved"));
+AddEventHandler("yandex.market", "onExportOfferWriteData", Array("MyHandlerClass", "onExportOfferWriteDataHandler"));
 
 AddEventHandler("sale", "OnSaleComponentOrderUserResult", Array("MyHandlerClass","OnSaleComponentOrderUserResultHandler"));
 
@@ -66,6 +67,37 @@ AddEventHandler("sale", "OnSaleComponentOrderUserResult", Array("MyHandlerClass"
 
 class MyHandlerClass
 {
+
+    function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context)
+    {
+        /** @var \Yandex\Market\Result\XmlNode $tagResult */
+        /** @var SimpleXMLElement $element */
+        /** @var SimpleXMLElement $outlets */
+        /** @var SimpleXMLElement $outlet */
+
+        foreach ($tagResultList as $offerId => $tagResult) {
+            $quantityOffer = (int)$elementList[$offerId]["CATALOG_QUANTITY"];
+            $quantityOffer = $quantityOffer >= 0 ? $quantityOffer : 0;
+            $element = $tagResult->getXmlElement();
+            if (!($element instanceof SimpleXMLElement)) {
+                continue;
+            }
+            $outlets = $element->addChild("outlets");
+
+            if (!($outlets instanceof SimpleXMLElement)) {
+                continue;
+            }
+            $outlet = $outlets->addChild("outlet");
+
+            if (!($outlet instanceof SimpleXMLElement)) {
+                continue;
+            }
+
+            $outlet->addAttribute("id", 0);
+            $outlet->addAttribute("instock", $quantityOffer);
+        }
+    }
+
 // создаем обработчик события "OnBeforeIBlockElementUpdate"
   function OnBeforeIBlockElementUpdateHandler(&$arFields) {
     unset($arFields["NAME"]);
