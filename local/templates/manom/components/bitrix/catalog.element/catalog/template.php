@@ -2,6 +2,7 @@
 
 use \Bitrix\Main\Localization\Loc;
 
+$this->addExternalJs($templateFolder . '/offers_component.js');
 /**
  * @global CMain $APPLICATION
  * @var array $arParams
@@ -48,8 +49,10 @@ if (!$_REQUEST['offer']){
 ?>
 
 <script>
-    $(function () {
-        $.fn.checkPropParams();
+    BX.OffersComponent.init({
+        availableOffers:<?=\CUtil::PhpToJSObject($arResult['OFFERS_BY_DISPLAY_PROP'])?>,
+        currentOfferId:<?=$actualOffer["id_offer"]?>,
+        offerProperties:<?=\CUtil::PhpToJSObject($arResult['DATA_PROP_FOR_CHOICE'])?>,
     });
 </script>
 
@@ -244,32 +247,34 @@ if (!$_REQUEST['offer']){
 			<a href="#product-tabs"	class="product-content__more">Подробнее...</a>
 			*/ ?>
 <!-- 				<p class="product-content__color">Выберите цвет: <span>Красный</span></p> -->
-			<div>
-                <div class="offers_by_prop_json" data-json='<?=htmlspecialchars(json_encode($arResult['OFFERS_BY_DISPLAY_PROP']))?>'></div>
-            </div>
-				<?foreach ($arResult['DATA_PROP_FOR_CHOICE'] as $key => $item) {
-					?><div class="offers_prop" data-code="<?=$item['CODE']?>" data-id="<?=$item['ID']?>"><p class="product-content__color prop_title"><?=$item['TITLE']?>: <span><?=$actualOffer['props'][$item['CODE']]['title']?></span></p><?
-					foreach ($item['VALUE'] as $k => $val) {
-						if($val['img']){
-							?><div
-							class="offer_prop_item square-color square-black <?if($actualOffer['props'][$item['CODE']]['id'] == $val['id']):?>active<?endif;?>"
-							data-color="<?=$val['hash_offer_color']?>"
-							data-prop-code="<?=$item['CODE']?>"
-							data-prop-id="<?=$item['ID']?>"
-							data-id="<?=$val['id']?>"
-							data-title="<?=$val['title']?>"
-							style="background-image: url('<?=$val['img']?>');"
-							></div><?
-						} else {
-							?><div class="offer_prop_item product-content__memory_item <?if($actualOffer['props'][$item['CODE']]['id'] == $val['id']):?>active<?endif;?>"
-							data-prop-code="<?=$item['CODE']?>"
-							data-prop-id="<?=$item['ID']?>"
-							data-title="<?=$val['title']?>"
-							data-id="<?=$val['id']?>"><?=$val['title']?></div><?
-						}
-					}
-					?></div><?
-				}?>
+
+            <? foreach ($arResult['DATA_PROP_FOR_CHOICE'] as $key => $item): ?>
+                <div class="offers_prop" data-code="<?= $item['CODE'] ?>" data-id="<?= $item['ID'] ?>">
+                    <p class="product-content__color prop_title">
+                        <?= $item['TITLE'] ?>:
+                        <span><?= $actualOffer['props'][$item['CODE']]['title'] ?></span>
+                    </p>
+                    <? foreach ($item['VALUE'] as $k => $val): ?>
+                        <? if ($val['img']): ?>
+                            <div
+                                    class="offer_prop_item square-color square-black <? if ($actualOffer['props'][$item['CODE']]['id'] == $val['id']): ?>active<? endif; ?>"
+                                    data-color="<?= $val['hash_offer_color'] ?>"
+                                    data-prop-code="<?= $item['CODE'] ?>"
+                                    data-prop-id="<?= $item['ID'] ?>"
+                                    data-id="<?= $val['id'] ?>"
+                                    data-title="<?= $val['title'] ?>"
+                                    style="background-image: url('<?= $val['img'] ?>');"
+                            ></div>
+                        <? else: ?>
+                            <div class="offer_prop_item product-content__memory_item <? if ($actualOffer['props'][$item['CODE']]['id'] == $val['id']): ?>active<? endif; ?>"
+                                 data-prop-code="<?= $item['CODE'] ?>"
+                                 data-prop-id="<?= $item['ID'] ?>"
+                                 data-title="<?= $val['title'] ?>"
+                                 data-id="<?= $val['id'] ?>"><?= $val['title'] ?></div>
+                        <? endif; ?>
+                    <? endforeach; ?>
+                </div>
+            <? endforeach; ?>
 		</div>
 		<div class="product-sidebar col-3">
 
