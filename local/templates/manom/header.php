@@ -88,6 +88,16 @@ $userCityByGeoIP = $userLocationInfo;
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<div class="svg-icons" style="position: absolute; top: -9999px; right: 9999px;">
+	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<defs>
+			<symbol viewBox="0 0 13 13" id="location">
+				<path d="M13 0L0 5.41667L6.14405 6.85595L7.58333 13L13 0Z" />
+			</symbol>
+		</defs>
+	</svg>
+</div>
+
 <div class="layout">
 	<? if ($APPLICATION->GetCurPage() === "/cart/"): ?>
     <header class="header header--cart">

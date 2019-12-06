@@ -222,7 +222,7 @@ function setDeliveryDescription($delivery) {
                         textNearestDate = "Послезавтра";
                         break;
                     default:
-                        textNearestDate = "Через " + deliveryPeriod + " дня";
+                        textNearestDate = "Через " + dayOffset + " дня";
                         break;
                 }
             }
@@ -2677,6 +2677,29 @@ $.fn.updateCart = function(data) {
   soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
   $.refreshCartInfo();
   return submitForm();
+};
+
+$.fn.updateProductDeliveries = function () {
+    var $productDeliveryBlock = $(document).find(".product-sidebar__delivery .js-delivery_block");
+    var $productPaySystemsBlock = $(document).find(".product-sidebar__payment-methods");
+
+    if ($productDeliveryBlock.is('div')) {
+        $.ajax({
+            url: "",
+            data: {
+                ajax: "Y",
+            },
+            success: function (result) {
+                $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+                $productDeliveryBlock.html(
+                    $(result).find(".product-sidebar__delivery .js-delivery_block").html()
+                );
+                $productPaySystemsBlock.html(
+                    $(result).find(".product-sidebar__payment-methods").html()
+                );
+            }
+        });
+    }
 };
 
 $.fn.offersByPropData = {};

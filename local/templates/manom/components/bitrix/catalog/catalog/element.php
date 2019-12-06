@@ -51,6 +51,17 @@ $detailProperties = array_map(
     $detailProperties
 );
 
+$basket = [];
+
+$basketItems = \Bitrix\Sale\Basket::loadItemsForFUser(
+    \Bitrix\Sale\Fuser::getId(),
+    \Bitrix\Main\Context::getCurrent()->getSite()
+)->getOrderableItems();
+
+/** @var \Bitrix\Sale\BasketItem $basketItem */
+foreach ($basketItems as $basketItem) {
+    $basket[] = $basketItem->getFieldValues();
+}
 
 $this->setFrameMode(true);
 		$componentElementParams = array(
@@ -219,11 +230,24 @@ $this->setFrameMode(true);
 			'TOP_MODEL_CODE' => 'this_prod_model',
 			'TOP_CODE_PRODE_CODE' => 'item_code',
 			'LOCATION_ID'=>$userCityByGeoIP["ID"],
+			'BASKET'=>$basket,
+			'CURRENT_DAY'=>(int)date("w"),
+			'CURRENT_HOUR'=>(int)date("G"),
 		);
+
+		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+		if ($request->get("ajax") === "Y") {
+			$APPLICATION->RestartBuffer();
+		}
 
 		$elementId = $APPLICATION->IncludeComponent(
 			'bitrix:catalog.element',
 			'catalog',
 			$componentElementParams,
 			$component
-		);?>
+		);
+
+		if ($request->get("ajax") === "Y") {
+			die();
+		}
+		?>

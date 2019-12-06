@@ -272,9 +272,13 @@ if ($arResult['REVIEWS']) {
     else
       $users_id_for_filter .= ' | '.$value;
   }
+
+  $sortBy = "ID";
+  $sortOrder = "ASC";
+
   $getUsersByID = CUser::GetList(
-    ($by='ID'),
-    ($order='ASC'),
+      $sortBy,
+      $sortOrder,
     array(
       'ID' => $users_id_for_filter
     ),
@@ -424,4 +428,310 @@ if (\Bitrix\Main\Loader::includeModule("hozberg.characteristics")) {
     }
 } else {
     $arResult["CHARACTERISTICS"] = $arResult["DISPLAY_PROPERTIES"];
+}
+
+global $userLocationInfo;
+$arResult["CURRENT_CITY"] = $userLocationInfo;
+
+$arResult["DELIVERIES"] = [
+    "COURIER" => [
+        "EXIST" => false,
+        "NAME" => "Курьером",
+    ],
+    "PICKUP" => [
+        "EXIST" => false,
+        "NAME" => "Самовывоз",
+    ],
+];
+
+$arResult["PAY_SYSTEMS"] = [];
+
+
+if ((int)$arResult["CURRENT_CITY"]["ID"] > 0) {
+    $saleLocationData = CSaleLocation::GetLocationZIP($arResult["CURRENT_CITY"]["ID"])->fetch();
+    $arResult["CURRENT_CITY"]["ZIP"] = (int)$userLocationInfo;
+    $arResult["CURRENT_CITY"]["ID"] = (int)$arResult["CURRENT_CITY"]["ID"];
+    try {
+        if (!\Bitrix\Main\Loader::includeModule('manom.nextjs')) {
+            throw new \Exception();
+        }
+
+        $delivery = new \Manom\Nextjs\Api\Delivery();
+        $paySystem = new \Manom\Nextjs\Api\PaySystem();
+
+        $deliveries = $delivery->getDeliveries(
+            [
+                'locationId' => $arResult["CURRENT_CITY"]["ID"],
+                'zip' => $arResult["CURRENT_CITY"]["ZIP"],
+            ],
+            $arResult['OFFERS_BY_DISPLAY_PROP'][0]["id_offer"]
+        );
+
+        $actualDeliveries = [];
+
+        $isMoscow = $arResult["CURRENT_CITY"]["ID"] === 84;
+
+        foreach ($deliveries as $delivery) {
+            if ($isMoscow) {
+                if (in_array($delivery["id"], [8, 13])) {
+                    $actualDeliveries[] = $delivery;
+                }
+            } else {
+                if (in_array($delivery["id"], [5, 6])) {
+                    $actualDeliveries[] = $delivery;
+                }
+            }
+        }
+
+        foreach ($actualDeliveries as $actualDelivery) {
+            if (in_array($actualDelivery["id"], [5, 8])) {
+                $arResult["DELIVERIES"]["COURIER"] = array_merge(
+                    $arResult["DELIVERIES"]["COURIER"],
+                    [
+                        "DESCRIPTION" => getDeliveryDescription($actualDelivery),
+                        "ID" => $actualDelivery["id"],
+                        "EXIST" => true,
+                    ]
+                );
+
+            }
+
+            if (in_array($actualDelivery["id"], [6, 13])) {
+                $arResult["DELIVERIES"]["PICKUP"] = array_merge(
+                    $arResult["DELIVERIES"]["PICKUP"],
+                    [
+                        "DESCRIPTION" => getDeliveryDescription($actualDelivery),
+                        "ID" => $actualDelivery["id"],
+                        "EXIST" => true,
+                    ]
+                );
+            }
+        }
+
+        $arResult["DELIVERIES"] = array_filter($arResult["DELIVERIES"], function ($item) {
+            return $item["EXIST"] === true;
+        });
+
+
+        $allPaySystems = $paySystem->getList(['locationId' => $arResult["CURRENT_CITY"]["ID"]]);
+
+        $deliveriesIds = array_values(array_map(
+            function ($item) {
+                return $item["ID"];
+            },
+            $arResult["DELIVERIES"]
+        ));
+
+        foreach ($allPaySystems as $paySystem) {
+            if (in_array($paySystem["id"], [4, 8, 10])
+                && count(array_intersect($paySystem["deliveries"], $deliveriesIds)) > 0) {
+                $arResult["PAY_SYSTEMS"][] = "CARD";
+            }
+            if (in_array($paySystem["id"], [7])
+                && count(array_intersect($paySystem["deliveries"], $deliveriesIds)) > 0) {
+                $arResult["PAY_SYSTEMS"][] = "CASH";
+            }
+        }
+
+        $arResult["PAY_SYSTEMS"] = array_unique($arResult["PAY_SYSTEMS"]);
+
+    } catch (\Exception $e) {
+    }
+}
+
+function getDeliveryDescription($delivery)
+{
+    $result = null;
+    $deliveryPeriod = $delivery["period"];
+
+    $week = new class
+    {
+        public $currentDay = 0;
+        public $currentHour = 0;
+        public $days = [
+            'вс',
+            'пн',
+            'вт',
+            'ср',
+            'чт',
+            'пт',
+            'сб'
+        ];
+
+        public function __construct()
+        {
+            $this->currentDay = (int)date("w");
+            $this->currentHour = (int)date("G");
+        }
+
+        public function calcDiffDay($startDay, $endDay)
+        {
+            $sumDays = 0;
+            $roundNum = 0;
+
+            if ($endDay > count($this->days)) {
+                return $sumDays;
+            }
+
+            $i = $startDay;
+            while ($i < count($this->days)) {
+                if ($roundNum <= 0) {
+                    $roundNum = 1;
+                }
+                if ($i > $startDay || $roundNum > 1) {
+                    $sumDays++;
+                }
+
+                if ($i === $endDay) {
+                    break;
+                }
+                if ($i === (count($this->days) - 1)) {
+                    $i = 0;
+                    $roundNum++;
+                } else {
+                    $i++;
+                }
+
+            }
+            return $sumDays;
+        }
+
+        public function getTextPeriod($deliveryObj)
+        {
+            $textNearestDate = "";
+            if ($deliveryObj["isSdek"]) {
+                $newCurPeriod = "";
+                for ($i = 0; $i < strlen($deliveryObj["currentPeriod"]); $i++) {
+
+                    if ((int)$deliveryObj["currentPeriod"][$i] > 0 || $deliveryObj["currentPeriod"][$i] === "-") {
+                        $newCurPeriod .= $deliveryObj["currentPeriod"][$i];
+                    }
+                }
+                $deliveryObj["currentPeriod"] = $newCurPeriod;
+
+                $period = explode("-", $deliveryObj["currentPeriod"]);
+                if (count($period) <= 0) {
+                    return "";
+                }
+
+                $periodStart = array_shift($period);
+                $periodEnd = array_shift($period);
+                $offset = 0;
+
+                if ($periodStart) {
+                    if ($this->currentDay >= (int)$deliveryObj["dates"]["start"]
+                        && $this->currentDay <= $deliveryObj["dates"]["end"]) {
+                        $offset = 0;
+                    } else {
+                        $offset = $this->calcDiffDay($this->currentDay, $deliveryObj["dates"]["start"]);
+                    }
+
+                    $textNearestDate = (string)($offset + (int)$periodStart);
+                }
+                if ($periodEnd) {
+                    $textNearestDate .= "-" . (string)($offset + (int)$periodEnd);
+                }
+                if (strlen($textNearestDate) > 0) {
+                    $textNearestDate .= " дня";
+                }
+                return $textNearestDate;
+            }
+
+            if ($this->currentDay >= $deliveryObj["dates"]["start"] && $this->currentDay <= $deliveryObj["dates"]["end"]) {
+                if ($this->currentHour < $deliveryObj["time"]["end"] - 1) {
+                    $textNearestDate = $deliveryObj["exist"] ?
+                        "Сегодня до " . $deliveryObj["time"]["end"] . ":00" : "Сегодня";
+
+                } else {
+                    if ($this->currentDay === $deliveryObj["dates"]["end"]) {
+                        $textNearestDate = "Через 2 дня";
+                    } else {
+                        $textNearestDate = "Завтра";
+                    }
+                }
+            } else {
+                $dayOffset = $this->calcDiffDay($this->currentDay, $deliveryObj["dates"]["start"]);
+
+                switch ($dayOffset) {
+                    case 0:
+                        $textNearestDate = "Сегодня";
+                        break;
+                    case 1:
+                        $textNearestDate = "Завтра";
+                        break;
+                    case 2:
+                        $textNearestDate = "Послезавтра";
+                        break;
+                    default:
+                        $textNearestDate = "Через " . $dayOffset . " дня";
+                        break;
+                }
+            }
+
+            return $textNearestDate;
+        }
+    };
+
+    $shop = [
+        "exist" => false,
+        "time" => [
+            "start" => 0,
+            "end" => 0,
+        ],
+        "dates" => [
+            "start" => 0,
+            "end" => 0,
+        ],
+    ];
+
+    $shop["exist"] = !empty($delivery["selfDeliveryPoints"]);
+
+    if ($shop["exist"] && $delivery["id"] === 13) {
+        $schedule = explode(" ", $delivery["selfDeliveryPoints"][0]["schedule"]);
+        $schedule = is_array($schedule) ? $schedule : [];
+        $time = array_pop($schedule);
+        $time = explode("-", $time);
+        $shop["time"]["start"] = (int)array_shift($time);
+        $shop["time"]["end"] = (int)array_shift($time);
+        $days = array_pop($schedule);
+        $days = explode("-", $days);
+        $shop["dates"]["start"] = array_search(array_shift($days), $week->days);
+        $shop["dates"]["end"] = array_search(array_shift($days), $week->days);
+    }
+
+
+    if ($shop["exist"] && $delivery["id"] === 13) {
+        $deliveryPeriod = $week->getTextPeriod($shop);
+    } elseif ($delivery["id"] === 8) {
+        $courier = [
+            "time" => [
+                "start" => 6,
+                "end" => 18,
+            ],
+            "dates" => [
+                "start" => 1,
+                "end" => 5,
+            ],
+        ];
+        $deliveryPeriod = $week->getTextPeriod($courier);
+    } elseif (in_array($delivery["id"], [5, 6])) {
+        $sdek = [
+            "isSdek" => true,
+            "currentPeriod" => $deliveryPeriod,
+            "time" => [
+                "start" => 0,
+                "end" => 0,
+            ],
+            "dates" => [
+                "start" => 1,
+                "end" => 5,
+            ],
+        ];
+        $deliveryPeriod = $week->getTextPeriod($sdek);
+    }
+
+
+    $delivery["price"] = (int)$delivery["price"] > 0 ? "{$delivery["price"]} ₽" : "Бесплатно";
+
+    return ($deliveryPeriod ? $deliveryPeriod . ', ' : '') . $delivery["price"];
 }
