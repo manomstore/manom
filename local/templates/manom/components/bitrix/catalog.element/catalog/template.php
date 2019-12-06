@@ -48,14 +48,6 @@ if (!$_REQUEST['offer']){
 // echo "<pre style='text-align:left;'>";print_r($actualOffer);echo "</pre>";
 ?>
 
-<script>
-    BX.OffersComponent.init({
-        availableOffers:<?=\CUtil::PhpToJSObject($arResult['OFFERS_BY_DISPLAY_PROP'])?>,
-        currentOfferId:<?=$actualOffer["id_offer"]?>,
-        offerProperties:<?=\CUtil::PhpToJSObject($arResult['DATA_PROP_FOR_CHOICE'])?>,
-    });
-</script>
-
 <!-- Каталог -->
 <main class="product container">
 	<div class="product-nav1">
@@ -1220,6 +1212,15 @@ if (!$_REQUEST['offer']){
 	</div>
 
 </main>
+
+<script>
+    BX.OffersComponent.init({
+        availableOffers:<?=\CUtil::PhpToJSObject($arResult['OFFERS_BY_DISPLAY_PROP'])?>,
+        currentOfferId:<?=$actualOffer["id_offer"]?>,
+        offerProps:<?=\CUtil::PhpToJSObject($arResult['DATA_PROP_FOR_CHOICE'])?>,
+    });
+</script>
+
 <?if ($arResult['PROPERTIES'][$arParams['RECOM_CODE']]['VALUE']):?>
 	<?
 		global $filterAcess;

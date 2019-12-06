@@ -868,30 +868,30 @@ $(document).ready(function() {
       });
     }
   }
-  $(document).on('click', '.offer_prop_item', function() {
-    var itemID, propCode, propID, title;
-    propCode = $(this).attr('data-prop-code');
-    propID = $(this).attr('data-prop-id');
-    title = $(this).attr('data-title');
-    itemID = $(this).attr('data-id');
-    if (!$(this).hasClass('propDisabled')) {
-      if ($(this).hasClass('active')) {
-        $(document).find('.offers_prop[data-code="' + propCode + '"] .offer_prop_item').removeClass('active');
-        $(document).find('.offers_prop[data-code="' + propCode + '"] .prop_title>span').html('Не выбрано');
-      } else {
-        $(document).find('.offers_prop[data-code="' + propCode + '"] .offer_prop_item').removeClass('active');
-        $(document).find('.offers_prop[data-code="' + propCode + '"] .prop_title>span').html(title);
-        $(this).addClass('active');
-          if (propCode === "HDD" && $(document).find('.offers_prop[data-code="graphics_mac"]').length > 0) {
-              $(document).find('.offers_prop .offer_prop_item').not($(this)).each(function (index, elem) {
-                  $(elem).removeClass("active");
-                  $(elem).removeClass("propDisabled");
-              });
-          }
-      }
-      return $.fn.checkPropParams();
-    }
-  });
+  // $(document).on('click', '.offer_prop_item', function() {
+  //   var itemID, propCode, propID, title;
+  //   propCode = $(this).attr('data-prop-code');
+  //   propID = $(this).attr('data-prop-id');
+  //   title = $(this).attr('data-title');
+  //   itemID = $(this).attr('data-id');
+  //   if (!$(this).hasClass('propDisabled')) {
+  //     if ($(this).hasClass('active')) {
+  //       $(document).find('.offers_prop[data-code="' + propCode + '"] .offer_prop_item').removeClass('active');
+  //       $(document).find('.offers_prop[data-code="' + propCode + '"] .prop_title>span').html('Не выбрано');
+  //     } else {
+  //       $(document).find('.offers_prop[data-code="' + propCode + '"] .offer_prop_item').removeClass('active');
+  //       $(document).find('.offers_prop[data-code="' + propCode + '"] .prop_title>span').html(title);
+  //       $(this).addClass('active');
+  //         if (propCode === "HDD" && $(document).find('.offers_prop[data-code="graphics_mac"]').length > 0) {
+  //             $(document).find('.offers_prop .offer_prop_item').not($(this)).each(function (index, elem) {
+  //                 $(elem).removeClass("active");
+  //                 $(elem).removeClass("propDisabled");
+  //             });
+  //         }
+  //     }
+  //     return $.fn.checkPropParams();
+  //   }
+  // });
   $(document).on('change', 'input.catalog-filter__checkbox', function() {
     var dataMaxName, dataMaxValue, dataMinName, dataMinValue, dataName, dataPropTitle, dataValue, dataValueTitle, elementFilter;
     if (!$(this).hasClass('catalogPrice')) {
