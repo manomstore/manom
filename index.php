@@ -5,6 +5,14 @@ $APPLICATION->SetPageProperty("keywords", "Manom");
 $APPLICATION->SetPageProperty("description", "Manom");
 $APPLICATION->SetPageProperty("title", "Manom");
 $APPLICATION->SetTitle("Manom");
+
+global $arrFilter;
+$arrFilter = array_merge(
+	$arrFilter,
+	[
+		">CATALOG_PRICE_1" => 0,
+	]
+);
 ?>
 
 <div class="content content--index">

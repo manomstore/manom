@@ -40,6 +40,12 @@ if ($_POST['change_favorite_list'] == "Y") {
     $favList = $retByAddFunc;
   }
   $customFilt = array('ID' => $favList);
+	$customFilt = array_merge(
+		$customFilt,
+		[
+			">CATALOG_PRICE_1" => 0,
+		]
+	);
   // print_r($customFilt);
   // die();
   ?>
@@ -211,6 +217,12 @@ elseif ($_POST['change_compare_list'] == "Y") {
     $favList = $retByAddFunc;
   }
   $customFilt = array('ID' => $favList);
+	$customFilt = array_merge(
+		$customFilt,
+		[
+			">CATALOG_PRICE_1" => 0,
+		]
+	);
   ?>
   <?if(!$favList):?>
     <a href="/catalog/compare/" class="top-personal__heart" id="mini_compare_header_counter">

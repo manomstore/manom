@@ -695,6 +695,12 @@ $userCityByGeoIP = $userLocationInfo;
 							global $customFilt;
 							$favList = getProdListFavoritAndCompare('UF_COMPARE_ID');
 							$customFilt = ['ID' => $favList];
+							$customFilt = array_merge(
+								$customFilt,
+								[
+									">CATALOG_PRICE_1" => 0,
+								]
+							);
 							?>
 							<? if (!$favList): ?>
 								<? if ($_REQUEST['AJAX_MIN_COMPARE'] == 'Y'): ?>
@@ -861,6 +867,12 @@ $userCityByGeoIP = $userLocationInfo;
 							global $customFilt;
 							$favList = getProdListFavoritAndCompare('UF_FAVORITE_ID');
 							$customFilt = ['ID' => $favList];
+							$customFilt = array_merge(
+								$customFilt,
+								[
+									">CATALOG_PRICE_1" => 0,
+								]
+							);
 							?>
 							<? if (!$favList): ?>
 								<? if ($_REQUEST['AJAX_MIN_FAVORITE'] == 'Y'): ?>

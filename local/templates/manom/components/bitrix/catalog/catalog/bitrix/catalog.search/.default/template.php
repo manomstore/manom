@@ -45,6 +45,12 @@ if (!empty($arElements) && is_array($arElements))
 		$searchFilter = array(
 			"=ID" => $arElements,
 		);
+	$searchFilter = array_merge(
+		$searchFilter,
+		[
+			">CATALOG_PRICE_1" => 0,
+		]
+	);
 		$APPLICATION->IncludeComponent(
 		"bitrix:catalog.section",
 		"header-search",

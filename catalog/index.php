@@ -1,6 +1,14 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Каталог");
+
+global $arFilter;
+$arFilter = array_merge(
+	$arFilter,
+	[
+		">CATALOG_PRICE_1" => 0,
+	]
+);
 ?>
 <div class="content">
 	<?$APPLICATION->IncludeComponent(
