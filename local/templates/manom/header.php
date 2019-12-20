@@ -499,7 +499,7 @@ $userCityByGeoIP = $userLocationInfo;
                     </li>
                   <li>
                     <!-- location -->
-                    <a class="top-nav__link top-nav__link--location" href="#">Город</a>
+                    <a class="top-nav__link top-nav__link--location" href="#" data-city-trigger="">Город</a>
                     <!-- /location -->
                   </li>
                 </ul>
