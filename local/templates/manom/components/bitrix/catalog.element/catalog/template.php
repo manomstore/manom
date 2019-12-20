@@ -580,34 +580,48 @@ if (!$_REQUEST['offer']){
 	<!-- Табы -->
 	<div id="product-tabs" class="product-tabs">
 		<input id="tab2" type="radio" name="tabs" checked>
-		<label for="tab2"><span>Описание</span></label>
 		<input id="tab1" type="radio" name="tabs" >
-		<label for="tab1"><span>Характеристики</span></label>
 		<?if ($arResult['REVIEWS']){?>
 			<input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
-			<label for="tab3"><span>Отзывы<br>покупателей</span></label>
 		<?}?>
-        <? if (!empty($arResult['QNA_VALUES'])): ?>
+		<? if (!empty($arResult['QNA_VALUES'])): ?>
             <input id="tab4" type="radio" name="tabs">
-            <label for="tab4"><span>Вопрос-<br>ответ</span></label>
-        <? endif; ?>
+		<? endif; ?>
 		<?if ($arResult['DELIV']){?>
 			<input id="tab5" type="radio" name="tabs">
-			<label for="tab5"><span>Оплата<br>и доставка</span></label>
 		<?}?>
 		<?if ($arResult['PROPERTIES'][$arParams['YOUTUBE_CODE']]['VALUE']){?>
 			<input id="tab6" type="radio" name="tabs">
-			<label for="tab6"><span>Обзоры<br>на товар</span></label>
 		<?}?>
 		<?if ($arResult['PROPERTIES'][$arParams['ACCESS_PROD_CODE']]['VALUE']){?>
 			<input id="tab7" type="radio" name="tabs">
-			<label for="tab7"><span>Аксессуары</span></label>
 		<?}?>
 		<?if ($arResult['CHEAPER']){?>
 			<input id="tab8" type="radio" name="tabs">
-			<label for="tab8"><span>Купить<br>дешевле</span></label>
 		<?}?>
 
+		<div class="product-tabs__nav">
+			<label for="tab2"><span>Описание</span></label>
+			<label for="tab1"><span>Характеристики</span></label>
+			<?if ($arResult['REVIEWS']){?>
+				<label for="tab3"><span>Отзывы<br>покупателей</span></label>
+			<?}?>
+			<? if (!empty($arResult['QNA_VALUES'])): ?>
+				<label for="tab4"><span>Вопрос-<br>ответ</span></label>
+			<? endif; ?>
+			<?if ($arResult['DELIV']){?>
+				<label for="tab5"><span>Оплата<br>и доставка</span></label>
+			<?}?>
+			<?if ($arResult['PROPERTIES'][$arParams['YOUTUBE_CODE']]['VALUE']){?>
+				<label for="tab6"><span>Обзоры<br>на товар</span></label>
+			<?}?>
+			<?if ($arResult['PROPERTIES'][$arParams['ACCESS_PROD_CODE']]['VALUE']){?>
+				<label for="tab7"><span>Аксессуары</span></label>
+			<?}?>
+			<?if ($arResult['CHEAPER']){?>
+				<label for="tab8"><span>Купить<br>дешевле</span></label>
+			<?}?>
+		</div>
 
 		<section id="content2">
 			<div class="tab-content">
