@@ -927,8 +927,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .top-slide1 {
   background: #FFFFFF url(../img/slide1.jpg) center center no-repeat;
-  -webkit-background-size: cover;
-  background-size: cover;
+  -webkit-background-size: cover !important;
+  background-size: cover !important;
 }
 
 .top-slide1__title {
