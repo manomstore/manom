@@ -909,7 +909,13 @@ if (!$_REQUEST['offer']){
 			<?if ($arResult['PROPERTIES'][$arParams['ACCESS_PROD_CODE']]['VALUE']):?>
 				<?
 					global $filterAcess;
-					$filterAcess = array('ID' => $arResult['PROPERTIES'][$arParams['ACCESS_PROD_CODE']]['VALUE']);
+				$filterAcess = ['ID' => $arResult['PROPERTIES'][$arParams['ACCESS_PROD_CODE']]['VALUE']];
+				$filterAcess = array_merge(
+					$filterAcess,
+					[
+						">CATALOG_PRICE_1" => 0,
+					]
+				);
 				?>
 				<?$APPLICATION->IncludeComponent("bitrix:catalog.section", "access", Array(
 							"ACTION_VARIABLE" => "action",	// Название переменной, в которой передается действие
@@ -1111,7 +1117,13 @@ if (!$_REQUEST['offer']){
 			<?if ($arResult['CHEAPER']):?>
 				<?
 					global $filterCheaper;
-					$filterCheaper = array('ID' => $arResult['CHEAPER']);
+				$filterCheaper = ['ID' => $arResult['CHEAPER']];
+				$filterCheaper = array_merge(
+					$filterCheaper,
+					[
+						">CATALOG_PRICE_1" => 0,
+					]
+				);
 				?>
 				<?$APPLICATION->IncludeComponent("bitrix:catalog.section", "access", Array(
 							"ACTION_VARIABLE" => "action",	// Название переменной, в которой передается действие
@@ -1315,7 +1327,13 @@ if (!$_REQUEST['offer']){
 <?if ($arResult['PROPERTIES'][$arParams['RECOM_CODE']]['VALUE']):?>
 	<?
 		global $filterAcess;
-		$filterAcess = array('ID' => $arResult['PROPERTIES'][$arParams['RECOM_CODE']]['VALUE']);
+	$filterAcess = ['ID' => $arResult['PROPERTIES'][$arParams['RECOM_CODE']]['VALUE']];
+	$filterAcess = array_merge(
+		$filterAcess,
+		[
+			">CATALOG_PRICE_1" => 0,
+		]
+	);
 	?>
 	<?$APPLICATION->IncludeComponent("bitrix:catalog.section", "recom", Array(
 				"ACTION_VARIABLE" => "action",	// Название переменной, в которой передается действие

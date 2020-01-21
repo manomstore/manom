@@ -52,7 +52,13 @@ $APPLICATION->SetTitle("Профиль");
             global $customFilt;
             $favList = getProdListFavoritAndCompare('UF_FAVORITE_ID');
             $customFilt = array('ID' => $favList);
-      			?>
+			      $customFilt = array_merge(
+				      $customFilt,
+				      [
+					      ">CATALOG_PRICE_1" => 0,
+				      ]
+			      );
+			      ?>
             <?if(!$favList):?>
               <?if($_REQUEST['ajaxCal'] == 'Y') $GLOBALS['APPLICATION']->RestartBuffer();?>
                 <section class="catalog-block">

@@ -32,6 +32,12 @@ $prodListForCompare = getProdListFavoritAndCompare('UF_COMPARE_ID');
 	<?
 	global $new_offer_filter;
 	$new_offer_filter = array('ID' => $prodListForCompare);
+	$new_offer_filter = array_merge(
+		$new_offer_filter,
+		[
+			">CATALOG_PRICE_1" => 0,
+		]
+	);
 	?>
 	<?$APPLICATION->IncludeComponent("bitrix:catalog.section", "compare", Array(
 			"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
