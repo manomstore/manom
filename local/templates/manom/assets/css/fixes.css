@@ -1,66 +1,66 @@
 .sc-hidden {
-	display: none !important;
+  display: none !important;
 }
 
 .sci-contact__button-wrapper {
-	width: 100%;
+  width: 100%;
 }
 
 .sci-contact__top--order .shopcart-sidebar__title {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .shopcart-sidebar__prod {
-	padding: 9px;
-	margin: 0 -10px -1px;
-	border: 1px solid transparent;
+  padding: 9px;
+  margin: 0 -10px -1px;
+  border: 1px solid transparent;
 }
 
 .shopcart-sidebar__prod:first-child {
-	margin-top: -10px;
+  margin-top: -10px;
 }
 
 .shopcart-sidebar__prod:last-child {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .shopcart-sidebar__prod--stop {
-	border-color: #E44D3F;
+  border-color: #e44d3f;
 }
 
 .shopcart-sidebar__prod--stop:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .shopcart-sidebar__prod--stop:last-child {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .shopcart-sidebar__prod .shopcart-sidebar__error {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .shopcart-sidebar__button {
-	border: 0;
-	appearance: none;
-	outline: 0;
-	cursor: pointer;
+  border: 0;
+  appearance: none;
+  outline: 0;
+  cursor: pointer;
 }
 
 .shopcart-sidebar__button:disabled {
-	cursor: default;
+  cursor: default;
 }
 
 .shopcart-sidebar__back-shopping:hover {
-	color: #666672;
+  color: #666672;
 }
 
 .shopcart-sidebar__sum-price--total:last-child {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .sci-delivery-tabs input[type="radio"] {
-	display: none;
+  display: none;
 }
 
 .shopcart--step-1 .shopcart-sidebar .sci-contact__top--order,
@@ -68,7 +68,7 @@
 .shopcart--step-1 .shopcart-sidebar__info--delivery,
 .shopcart--step-1 .shopcart-sidebar__sum-price--delivery,
 .shopcart--step-1 .shopcart-sidebar__prods {
-	display: none;
+  display: none;
 }
 
 .shopcart--step-2 .shopcart-sidebar__code,
@@ -77,50 +77,47 @@
 .shopcart--step-2 .shopcart-sidebar__sum-price--delivery,
 .shopcart--step-2 .shopcart-sidebar__button-wrapper,
 .shopcart--step-2 .shopcart-sidebar__back-wrapper {
-	display: none;
+  display: none;
 }
 
 .shopcart--step-3 .shopcart-sidebar__code,
 .shopcart--step-3 .shopcart-sidebar__info--delivery,
 .shopcart--step-3 .shopcart-sidebar__button-wrapper,
 .shopcart--step-3 .shopcart-sidebar__back-wrapper {
-	display: none;
+  display: none;
 }
 
 .shopcart--step-4 .shopcart-sidebar__code,
 .shopcart--step-4 .shopcart-sidebar__button-wrapper,
 .shopcart--step-4 .shopcart-sidebar__back-wrapper {
-	display: none;
+  display: none;
 }
 
 @media (min-width: 1000px) {
-	.sci-add--collapsed .sci-add__products {
-		display: none;
-	}
+  .sci-add--collapsed .sci-add__products {
+    display: none;
+  }
 
-	.sci-add__button-hide {
-		top: 26px;
-	}
+  .sci-add__button-hide {
+    top: 26px;
+  }
 
-	.sci-contact__top--contacts {
-		margin-bottom: 40px;
-	}
+  .sci-contact__top--contacts {
+    margin-bottom: 40px;
+  }
 }
 
-
-
-
 .text-content {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
 }
 
 .text-content h1,
 .text-content h2,
 .text-content h3 {
-	margin-top: 1em;
-	margin-bottom: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .text-content h4,
@@ -129,19 +126,19 @@
 .text-content p,
 .text-content ol,
 .text-content ul {
-	margin-top: 1.25em;
-	margin-bottom: 1.25em;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 }
 
 .text-content ol,
 .text-content ul {
-	margin-left: 1.25em;
+  margin-left: 1.25em;
 }
 
 .text-content ol li,
 .text-content ul li {
-	padding-left: 0.25em;
-	margin: 0.5em 0;
+  padding-left: 0.25em;
+  margin: 0.5em 0;
 }
 
 .text-content h1,
@@ -153,7 +150,7 @@
 .text-content p:first-child,
 .text-content ol:first-child,
 .text-content ul:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .text-content h1,
@@ -165,23 +162,24 @@
 .text-content p:last-child,
 .text-content ol:last-child,
 .text-content ul:last-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .text-content b,
 .text-content strong {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .text-content--container {
-	max-width: 740px;
-	padding-top: 30px;
-	padding-bottom: 30%;
+  max-width: 740px;
+  padding-top: 30px;
+  padding-bottom: 30%;
+  text-align: left;
 }
 
 @media (min-width: 768px) {
-	.text-content--container {
-		padding-top: 40px;
-		padding-bottom: 40%;
-	}
+  .text-content--container {
+    padding-top: 40px;
+    padding-bottom: 40%;
+  }
 }
