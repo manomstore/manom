@@ -3861,6 +3861,27 @@ p.price-slider {
   margin: 7px 0;
 }
 
+.sci-login__input::-webkit-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input::-moz-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input:-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input::-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input::placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+
+.sci-login__input:hover,
+.sci-login__input:focus {
+  border-color: #99989d;
+}
+
 .sci-login__button {
   display: inline-block;
   font-family: "PT Root UI", "Arial", sans-serif;
