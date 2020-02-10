@@ -3859,6 +3859,7 @@ p.price-slider {
   -webkit-border-radius: 2px;
   border-radius: 2px;
   border: 1px solid rgba(153, 152, 157, 0.2);
+  transition: border 0.2s ease;
   margin: 7px 0;
 }
 
