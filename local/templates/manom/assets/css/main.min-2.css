@@ -4995,7 +4995,7 @@ p.price-slider {
   padding: 10px 15px;
   border: 1px solid rgba(153, 152, 157, 0.2);
   border-radius: 3px;
-  transition: all 0.2s ease;
+  transition: border 0.2s ease;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
