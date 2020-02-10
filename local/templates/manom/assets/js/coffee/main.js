@@ -2864,7 +2864,7 @@ $.fn.checkPropParams = function() {
         }
         $(document).find('.BOC_btn').attr('data-id', filtResultByProp[0].id_offer);
         $(document).find('.addToCartBtn').attr('data-id', filtResultByProp[0].id_offer);
-        $(document).find('.mainBlockPrice .product-sidebar__total-price-price').html(filtResultByProp[0].new_price);
+        $(document).find('.mainBlockPrice .product-sidebar__total-price-price').html(formatMoney(filtResultByProp[0].new_price));
         if (filtResultByProp[0].difference_price) {
           $(document).find('.mainBlockPrice .product-sidebar__right-price').css('display', 'block');
         } else {
@@ -3058,6 +3058,10 @@ function getDeliveryTabType(deliveryId) {
     }
 
     return deliveryTabType;
+}
+
+function formatMoney(number) {
+	return Number(number).toLocaleString('ru-RU')
 }
 
 // Скролл к отзывам на странице товара
