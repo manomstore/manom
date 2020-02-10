@@ -1473,13 +1473,18 @@ h1, h2, h3, h4, h5, h6 {
   transition: .1s;
 }
 
+.bread-crumb__link:last-of-type {
+  pointer-events: none;
+  font-weight: 800;
+}
+
 .bread-crumb__link:hover {
   color: #79B700;
 }
 
 .bread-crumb__separator {
   padding: 0 5px;
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .sc-banner {
