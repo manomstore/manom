@@ -3813,7 +3813,7 @@ p.price-slider {
 }
 
 .sci-login__title {
-  text-align: center;
+  text-align: left;
   font-size: 18px;
   font-weight: 600;
 }
@@ -4946,7 +4946,7 @@ p.price-slider {
 
 .popap-login, .popap-reg {
   display: none;
-  width: 340px;
+  width: 540px;
   border: 1px solid #C4C4C4;
   -webkit-border-radius: 3px;
   border-radius: 3px;
