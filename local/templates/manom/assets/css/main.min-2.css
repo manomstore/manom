@@ -3846,6 +3846,7 @@ p.price-slider {
 .sci-login__label {
   font-weight: 500;
   font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .sci-login__input {
@@ -3857,7 +3858,7 @@ p.price-slider {
   width: 250px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  border: 1px solid #C4C4C4;
+  order: 1px solid rgba(153, 152, 157, 0.2);
   margin: 7px 0;
 }
 
@@ -3883,23 +3884,19 @@ p.price-slider {
 }
 
 .sci-login__button {
-  display: inline-block;
-  font-family: "PT Root UI", "Arial", sans-serif;
-  font-size: 13px;
-  line-height: 40px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
   text-align: center;
-  width: 150px;
-  height: 40px;
-  margin: 7px 0;
-  background-color: #79B700;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  border: none;
+
+  flex-shrink: 0;
+  display: block;
+  padding: 15px 10px;
+  border: 1px solid #83BB26;
+  background-color: #83BB26;
+  border-radius: 3px;
+  transition: all 0.2s ease;
   cursor: pointer;
-  -webkit-transition: .2s;
-  -o-transition: .2s;
-  transition: .2s;
 }
 
 .sci-login__button_green {
@@ -4996,6 +4993,8 @@ p.price-slider {
   border-radius: 3px;
   transition: all 0.2s ease;
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .popap-login .sci-login__social, .popap-reg .sci-login__social {
