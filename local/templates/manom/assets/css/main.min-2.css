@@ -1467,7 +1467,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .bread-crumb__link {
   color: #000000;
-  padding: 5px 15px 5px 0;
+  padding: 5px 0;
+  margin-right: 15px;
   -webkit-transition: .1s;
   -o-transition: .1s;
   transition: .1s;
