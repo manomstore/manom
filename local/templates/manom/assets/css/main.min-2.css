@@ -4982,7 +4982,7 @@ p.price-slider {
   text-align: center;
 }
 
-@media screen and (min-width: 540px) {
+@media screen and (min-width: 768px) {
   .popap-login, .popap-reg {
     padding: 30px 40px;
     width: 540px;
