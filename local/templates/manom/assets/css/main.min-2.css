@@ -1483,6 +1483,7 @@ h1, h2, h3, h4, h5, h6 {
   background: url(../img/right-chevron.png) center center no-repeat;
   background-size: 100%;
   right: 0;
+  opacity: 0.2;
 }
 
 .bread-crumb__link:last-of-type {
