@@ -4976,7 +4976,8 @@ p.price-slider {
 
 .popap-login, .popap-reg {
   display: none;
-  width: 540px;
+  width: 100%;
+  height: 100%;
   -webkit-border-radius: 3px;
   border-radius: 3px;
   padding: 25px 20px;
@@ -4986,6 +4987,8 @@ p.price-slider {
 @media screen and (min-width: 992px) {
   .popap-login, .popap-reg {
     padding: 30px 40px;
+    width: 540px;
+    height: auto;
   }
 }
 
