@@ -1475,8 +1475,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .bread-crumb__link:last-of-type {
   pointer-events: none;
-  font-weight: 800;
-  color: #79B700;
+  font-weight: normal;
+  color: #a1a1a1;
 }
 
 .bread-crumb__link:hover {
