@@ -7,7 +7,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 <!-- 					<div class="cb-filter__param">Процессор: Intel Core i5<span>×</span></div>
 		<div class="cb-filter__param">Цвет: Белый<span>×</span></div>
 		<div class="cb-filter__param">Экран: 1920х1080<span>×</span></div> -->
-		<div class="cb-filter__clear">Очистить фильтры</div>
+		<div class="cb-filter__clear">1Очистить фильтры</div>
 	</div>
 	<div class="cb-nav">
 		<div class="cb-nav-sort">

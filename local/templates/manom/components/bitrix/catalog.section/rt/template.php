@@ -9,7 +9,7 @@ global $glob_sectionInfo, $new_offer_filter;
         <!-- 					<div class="cb-filter__param">Процессор: Intel Core i5<span>×</span></div>
                 <div class="cb-filter__param">Цвет: Белый<span>×</span></div>
                 <div class="cb-filter__param">Экран: 1920х1080<span>×</span></div> -->
-        <?if(!$arParams['is_brand']):?><div class="cb-filter__clear dnd-hide">Очистить фильтры</div><?endif;?>
+        <?if(!$arParams['is_brand']):?><div class="cb-filter__clear dnd-hide">2Очистить фильтры</div><?endif;?>
     </div>
     <div class="cb-nav">
         <div class="cb-nav-sort">
