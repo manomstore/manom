@@ -1471,6 +1471,15 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-transition: .1s;
   -o-transition: .1s;
   transition: .1s;
+  position: relative;
+}
+
+.bread-crumb__link:after {
+  color: #79B700;
+  position: absolute;
+  width: 10px;
+  height: 16px;
+  background: url(../img/right-chevron.png) center center no-repeat;
 }
 
 .bread-crumb__link:last-of-type {
@@ -1478,6 +1487,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
   color: #a1a1a1;
 }
+
+.bread-crumb__link:last-of-type:after {
+  display: none;
+}
+
 
 .bread-crumb__link:hover {
   color: #79B700;
@@ -1487,13 +1501,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 5px;
   /* color: rgba(0, 0, 0, 0.2); */
 }
-
-.bread-crumb__separator svg {
-  width: 10px;
-  height: 16px;
-  transform: translateY(4px);
-}
-
 
 .sc-banner {
   font-family: 'Montserrat', sans-serif;
