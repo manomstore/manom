@@ -2276,8 +2276,8 @@ h1, h2, h3, h4, h5, h6 {
   width: 250px;
   text-align: left;
   margin-right: auto;
-  border-left: 1px solid #EBEBEB;
-  border-right: 1px solid #EBEBEB;
+  border-top: 1px solid #EBEBEB;
+  border-bottom: 1px solid #EBEBEB;
 }
 
 .catalog-filter .transition, .catalog-filter p, .catalog-filter ul li i:before, .catalog-filter ul li i:after {
