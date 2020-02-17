@@ -2394,7 +2394,7 @@ h1, h2, h3, h4, h5, h6 {
   -ms-transform: translate(-6px, 0);
   transform: translate(-6px, 0);
   margin-top: 13px;
-  left: 20px;
+  right: 20px;
 }
 
 .catalog-filter ul li i:before, .catalog-filter ul li i:after {
