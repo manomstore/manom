@@ -4982,20 +4982,13 @@ p.price-slider {
   text-align: center;
 }
 
-@media screen and (min-width: 399px) {
-  .popap-login, .popap-reg {
-    padding: 30px 40px;
-    width: 300px;
-    height: auto;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-  }
-}
-
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 540px) {
   .popap-login, .popap-reg {
     padding: 30px 40px;
     width: 540px;
+    height: auto;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
   }
 }
 
