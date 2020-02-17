@@ -1483,7 +1483,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 16px;
   background: url(../img/right-chevron.png) center center no-repeat;
   background-size: 100%;
-  right: 0;
+  right: -14px;
   opacity: 0.2;
 }
 
