@@ -37,7 +37,13 @@ foreach($arResult["ITEMS"] as $key=>$arItem)//prices
 	<?foreach($arResult["HIDDEN"] as $arItem):?>
 	<input type="hidden" name="<?echo $arItem["CONTROL_NAME"]?>" id="<?echo $arItem["CONTROL_ID"]?>" value="<?echo $arItem["HTML_VALUE"]?>" />
 	<?endforeach;?>
-    <div class="catalog-filter__close"></div>
+		<div class="catalog-filter__close"></div>
+	<div class="cb-filter">
+			<!-- 					<div class="cb-filter__param">Процессор: Intel Core i5<span>×</span></div>
+							<div class="cb-filter__param">Цвет: Белый<span>×</span></div>
+							<div class="cb-filter__param">Экран: 1920х1080<span>×</span></div> -->
+			<?if(!$arParams['is_brand']):?><div class="cb-filter__clear dnd-hide">Очистить фильтры</div><?endif;?>
+	</div>
 	<ul class="catalog-filter__ul">
 		<?foreach($arResult["ITEMS"] as $key=>$arItem)//prices
 		{
