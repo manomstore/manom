@@ -28,7 +28,7 @@ for($index = 0; $index < $itemSize; $index++)
 {
 	$title = htmlspecialcharsex($arResult[$index]["TITLE"]);
 	$arrow = ($index > 0? '<span class="bread-crumb__separator">
-		<svg version="1.1" width="10px" height="6px" x="10px" y="6px" fill-opacity="0.2" viewBox="0 0 10 10">
+		<svg version="1.1" width="6px" height="10px" fill-opacity="0.2" viewBox="0 0 6 10">
 			<polygon points="112.814,0 91.566,21.178 273.512,203.718 91.566,386.258 112.814,407.436 315.869,203.718 "/>
 		</svg>
 	</span>' : '');
