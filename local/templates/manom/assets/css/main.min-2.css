@@ -3845,9 +3845,16 @@ p.price-slider {
 
 .sci-login__label {
   font-weight: 500;
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 10px;
 }
+
+@media screen and (min-width: 992px) {
+  .sci-login__label {
+    font-size: 18px;
+  }
+}
+
 
 .sci-login__input {
   font-family: "PT Root UI", "Arial", sans-serif;
@@ -4970,11 +4977,16 @@ p.price-slider {
 .popap-login, .popap-reg {
   display: none;
   width: 540px;
-  border: 1px solid #C4C4C4;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  padding: 25px 30px;
+  padding: 25px 20px;
   text-align: center;
+}
+
+@media screen and (min-width: 992px) {
+  .popap-login, .popap-reg {
+    padding: 30px 40px;
+  }
 }
 
 .popap-login .sci-login__button, .popap-reg .sci-login__button {
@@ -4989,9 +5001,7 @@ p.price-slider {
 
 .popap-login .sci-login__input, .popap-reg .sci-login__input {
   width: 100%;
-  margin-bottom: 40px;
-  font-size: 18px;
-  height: 60px;
+  margin-bottom: 30px;
   font-weight: 500;
   padding: 10px 15px;
   border: 1px solid rgba(153, 152, 157, 0.2);
@@ -5000,6 +5010,16 @@ p.price-slider {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  height: 50px;
+  font-size: 15px;
+}
+
+@media screen and (min-width: 992px) {
+  .popap-login .sci-login__input, .popap-reg .sci-login__input {
+    height: 60px;
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
 }
 
 .popap-login .sci-login__social, .popap-reg .sci-login__social {
@@ -6023,7 +6043,7 @@ p.price-slider {
   }
 
   .sci-login__button {
-    width: 135px;
+    width: 100%;
   }
 }
 
