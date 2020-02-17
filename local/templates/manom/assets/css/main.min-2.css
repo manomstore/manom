@@ -4996,12 +4996,18 @@ p.price-slider {
 .popap-login .sci-login__title, .popap-reg .sci-login__title {
   margin: 10px auto;
   padding: 0 40px 15px 0;
-  font-size: 36px;
+  font-size: 25px;
+}
+
+@media screen and (min-width: 992px) {
+  .popap-login .sci-login__title, .popap-reg .sci-login__title {
+    font-size: 36px;
+  }
 }
 
 .popap-login .sci-login__input, .popap-reg .sci-login__input {
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-weight: 500;
   padding: 10px 15px;
   border: 1px solid rgba(153, 152, 157, 0.2);
@@ -5018,7 +5024,7 @@ p.price-slider {
   .popap-login .sci-login__input, .popap-reg .sci-login__input {
     height: 60px;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 
   }
 }
@@ -9562,12 +9568,11 @@ button.top-nav__link {
 }
 
 .popup-login__input {
+  height: 50px;
+  font-size: 15px;
   font: inherit;
   color: #29282C;
   font-weight: 500;
-  font-size: 18px;
-
-  height: 60px;
   width: 100%;
   padding: 10px 15px;
   background-color: #FEFFFD;
@@ -9579,6 +9584,15 @@ button.top-nav__link {
   -moz-appearance: none;
   appearance: none;
 }
+
+@media screen and (min-width: 992px) {
+  .popup-login__input {
+    height: 60px;
+    font-size: 18px;
+  }
+}
+
+
 
 .popup-login__input::-webkit-input-placeholder {
   color: rgba(153, 152, 157, 0.5);
