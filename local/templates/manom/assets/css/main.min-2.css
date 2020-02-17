@@ -354,6 +354,8 @@ body {
   min-width: 360px;
   height: 100%;
   text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
