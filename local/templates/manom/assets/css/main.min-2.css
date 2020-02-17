@@ -1477,6 +1477,7 @@ h1, h2, h3, h4, h5, h6 {
 .bread-crumb__link:after {
   color: #79B700;
   position: absolute;
+  content: "";
   width: 10px;
   height: 16px;
   background: url(../img/right-chevron.png) center center no-repeat;
