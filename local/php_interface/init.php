@@ -1,9 +1,11 @@
-<?
+<?php
+
 // use Bitrix\Main\Application;
 // use Bitrix\Main\Web\Cookie;
-// use Bitrix\Main\Loader,
-//       Rover\GeoIp\Location;
+// use Bitrix\Main\Loader;
+// use Rover\GeoIp\Location;
 
+require_once __DIR__.'/autoload.php';
 
 function getRatingAndCountReviewForList($prodIDs) {
   $rating = 0;
