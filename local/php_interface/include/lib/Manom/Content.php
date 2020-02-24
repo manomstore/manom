@@ -89,4 +89,54 @@ class Content
 
         return empty($sectionBanner) ? $sectionBannerWithoutCategory : $sectionBanner;
     }
+
+    /**
+     * @param string $id
+     * @param string $callback
+     * @param array $callbackParams
+     * @param int $time
+     * @return array
+     */
+    public static function returnResultCache($id, $callback, $callbackParams = array(), $time = 86400): array
+    {
+        $result = array();
+
+        $cache = new \CPHPCache();
+        if ($cache->InitCache($time, $id, '/'.SITE_ID.'/'.$id)) {
+            $result = $cache->GetVars();
+        } elseif ($cache->StartDataCache()) {
+            $result = $callback($callbackParams);
+            $cache->EndDataCache($result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $arResult
+     * @return array
+     * @throws Exception
+     * @throws LoaderException
+     */
+    public static function setCatalogItemsPrice($arResult): array
+    {
+        $price = new Price;
+        $userGroups = $price->getUserGroups();
+        $price->setPricesIdByName($arResult['ORIGINAL_PARAMETERS']['PRICE_CODE']);
+        $pricesId = $price->getPricesId();
+
+        foreach ($arResult['ITEMS'] as $itemNum => $item) {
+            foreach ($item['OFFERS'] as $iOfferNum => $offer) {
+                $arResult['ITEMS'][$itemNum]['OFFERS'][$iOfferNum]['PRICE'] = $price->getItemPrices(
+                    $offer['ID'], $offer['IBLOCK_ID'], $pricesId, $userGroups
+                );
+            }
+
+            $arResult['ITEMS'][$itemNum]['PRICE'] = $price->getItemPrices(
+                $item['ID'], $arResult['IBLOCK_ID'], $pricesId, $userGroups
+            );
+        }
+
+        return $arResult;
+    }
 }
