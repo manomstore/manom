@@ -36,70 +36,7 @@ foreach ($arResult['ITEMS'] as $item) {
         }
     }
 
-    $images = array();
-    foreach ($item['PROPERTIES']['MORE_PHOTO']['VALUE'] as $id) {
-        $images[] = CFile::ResizeImageGet(
-            $id,
-            array('width' => 350, 'height' => 350),
-            BX_RESIZE_IMAGE_PROPORTIONAL,
-            true
-        );
-    }
-
-    if (empty($images) && !empty($item['OFFERS'])) {
-        foreach ($item['OFFERS'] as $offer) {
-            foreach ($offer['PROPERTIES']['MORE_PHOTO']['VALUE'] as $id) {
-                $images[] = CFile::ResizeImageGet(
-                    $id,
-                    array('width' => 350, 'height' => 350),
-                    BX_RESIZE_IMAGE_PROPORTIONAL,
-                    true
-                );
-            }
-        }
-    }
-
-    if (empty($images)) {
-        if (!empty($item['PREVIEW_PICTURE']['ID'])) {
-            $images[] = CFile::ResizeImageGet(
-                $item['PREVIEW_PICTURE']['ID'],
-                array('width' => 350, 'height' => 350),
-                BX_RESIZE_IMAGE_PROPORTIONAL,
-                true
-            );
-        } elseif (!empty($item['DETAIL_PICTURE']['ID'])) {
-            $images[] = CFile::ResizeImageGet(
-                $item['DETAIL_PICTURE']['ID'],
-                array('width' => 350, 'height' => 350),
-                BX_RESIZE_IMAGE_PROPORTIONAL,
-                true
-            );
-        }
-    }
-
-    if (empty($images) && !empty($item['OFFERS'])) {
-        foreach ($item['OFFERS'] as $offer) {
-            if (!empty($images)) {
-                break;
-            }
-
-            if (!empty($offer['PREVIEW_PICTURE']['ID'])) {
-                $images[] = CFile::ResizeImageGet(
-                    $offer['PREVIEW_PICTURE']['ID'],
-                    array('width' => 350, 'height' => 350),
-                    BX_RESIZE_IMAGE_PROPORTIONAL,
-                    true
-                );
-            } elseif (!empty($offer['DETAIL_PICTURE']['ID'])) {
-                $images[] = CFile::ResizeImageGet(
-                    $offer['DETAIL_PICTURE']['ID'],
-                    array('width' => 350, 'height' => 350),
-                    BX_RESIZE_IMAGE_PROPORTIONAL,
-                    true
-                );
-            }
-        }
-    }
+    $images = Content::getCatalogItemImages($item);
 
     $properties = array();
     foreach ($item['DISPLAY_PROPERTIES'] as $property) {

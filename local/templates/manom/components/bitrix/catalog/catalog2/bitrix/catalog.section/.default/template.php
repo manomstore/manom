@@ -61,7 +61,7 @@ $this->setFrameMode(true);
 
     <div id='PROPDS_BLOCK'>
         <?php if ($arParams['AJAX']) {
-            $GLOBALS['APPLICATION']->RestartBuffer();
+            $APPLICATION->RestartBuffer();
         } ?>
 
         <div class="cb-single no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-single' ? 'style="display: flex;"' : ''?>>

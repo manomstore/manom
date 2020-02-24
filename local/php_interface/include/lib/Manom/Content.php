@@ -128,15 +128,78 @@ class Content
         foreach ($arResult['ITEMS'] as $itemNum => $item) {
             foreach ($item['OFFERS'] as $iOfferNum => $offer) {
                 $arResult['ITEMS'][$itemNum]['OFFERS'][$iOfferNum]['PRICE'] = $price->getItemPrices(
-                    $offer['ID'], $offer['IBLOCK_ID'], $pricesId, $userGroups
+                    $offer['ID'],
+                    $offer['IBLOCK_ID'],
+                    $pricesId,
+                    $userGroups
                 );
             }
 
             $arResult['ITEMS'][$itemNum]['PRICE'] = $price->getItemPrices(
-                $item['ID'], $arResult['IBLOCK_ID'], $pricesId, $userGroups
+                $item['ID'],
+                $arResult['IBLOCK_ID'],
+                $pricesId,
+                $userGroups
             );
         }
 
         return $arResult;
+    }
+
+    /**
+     * @param array $item
+     * @param int $width
+     * @param int $height
+     * @return array
+     */
+    public static function getCatalogItemImages($item, $width = 350, $height = 350): array
+    {
+        $images = array();
+        $imagesId = array();
+
+        foreach ($item['PROPERTIES']['MORE_PHOTO']['VALUE'] as $id) {
+            $imagesId[] = (int)$id;
+        }
+
+        if (empty($imagesId) && !empty($item['OFFERS'])) {
+            foreach ($item['OFFERS'] as $offer) {
+                foreach ($offer['PROPERTIES']['MORE_PHOTO']['VALUE'] as $id) {
+                    $imagesId[] = (int)$id;
+                }
+            }
+        }
+
+        if (empty($imagesId)) {
+            if (!empty((int)$item['PREVIEW_PICTURE']['ID'])) {
+                $imagesId[] = (int)$item['PREVIEW_PICTURE']['ID'];
+            } elseif (!empty($item['DETAIL_PICTURE']['ID'])) {
+                $imagesId[] = (int)$item['DETAIL_PICTURE']['ID'];
+            }
+        }
+
+        if (empty($imagesId) && !empty($item['OFFERS'])) {
+            foreach ($item['OFFERS'] as $offer) {
+                if (!empty($imagesId)) {
+                    break;
+                }
+
+                if (!empty((int)$offer['PREVIEW_PICTURE']['ID'])) {
+                    $imagesId[] = (int)$offer['PREVIEW_PICTURE']['ID'];
+                } elseif (!empty((int)$offer['DETAIL_PICTURE']['ID'])) {
+                    $imagesId[] = (int)$offer['DETAIL_PICTURE']['ID'];
+                }
+            }
+        }
+
+        foreach ($imagesId as $id) {
+            $images[] = \CFile::ResizeImageGet(
+                $id,
+                array('width' => $width, 'height' => $height),
+                BX_RESIZE_IMAGE_PROPORTIONAL,
+                true
+            );
+        }
+
+        return $images;
     }
 }
