@@ -1,30 +1,20 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+<?php
 
-/**
- * @var CBitrixComponentTemplate $this
- * @var CatalogSectionComponent $component
- */
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 
-$component = $this->getComponent();
-$arParams = $component->applyTemplateModifications();
-global $glob_allItemsByFilter;
+use Manom\Content;
 
-$ids = array();
-foreach ($arResult['ITEMS'] as $key => $item) {
-  $this_element = $glob_allItemsByFilter['stack'][$item['PROPERTIES']['CML2_LINK']['VALUE']];
-  $arResult['ITEMS'][$key]['DETAIL_PAGE_URL'] = $this_element['URL'].'?offer='.$item['ID'];
-  if (!$item['PROPERTIES']['MORE_PHOTO']['VALUE']){
-    if ($item['PREVIEW_PICTURE']['ID']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($item['PREVIEW_PICTURE']['ID']);
-    } elseif ($item['DETAIL_PICTURE']['ID']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($item['DETAIL_PICTURE']['ID']);
-    } elseif ($this_element['PREVIEW_PICTURE']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = $this_element['PIC'];
-    } elseif ($this_element['PREVIEW_PICTURE']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($this_element['PREVIEW_PICTURE']);
-    } elseif ($this_element['DETAIL_PICTURE']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($this_element['DETAIL_PICTURE']);
+$arResult = Content::setCatalogItemsPrice($arResult);
+
+foreach ($arResult['ITEMS'] as $i => $item) {
+    $images = Content::getCatalogItemImages($item);
+
+    $item['image'] = array('src' => '');
+    if (!empty($images)) {
+        $item['image'] = current($images);
     }
-  }
-  $ids[] = $item['PROPERTIES']['CML2_LINK']['VALUE'];
+
+    $arResult['ITEMS'][$i] = $item;
 }
