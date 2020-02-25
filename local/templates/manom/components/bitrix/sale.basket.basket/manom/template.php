@@ -1,73 +1,60 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+<?php
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
-
-use Bitrix\Main;
-use Bitrix\Main\Localization\Loc;
-
-/**
- * @var array $arParams
- * @var array $arResult
- * @var string $templateFolder
- * @var string $templateName
- * @var CMain $APPLICATION
- * @var CBitrixBasketComponent $component
- * @var CBitrixComponentTemplate $this
- * @var array $giftParameters
- */
 ?>
-<? if ($_REQUEST['AJAX_CART'] == 'Y'): ?>
-    <? $APPLICATION->RestartBuffer(); ?>
-<? endif; ?>
-<? if (count($arResult['GRID']['ROWS']) <= 0): ?>
+<?php if ($arParams['AJAX_CART']) {
+    $APPLICATION->RestartBuffer();
+} ?>
+<?php if (count($arResult['GRID']['ROWS']) <= 0): ?>
     <script type="text/javascript">
-        location.href = '/';
+      location.href = '/';
     </script>
-<? endif ?>
-<? foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
-    <article class="sci-product<?= !$row['has_prod'] ? ' sci-product--off' : ''; ?>"
-             data-id="<?= $row['ID'] ?>">
+<?php endif; ?>
+<?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
+    <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
         <div class="sci-product__wrapper">
             <div class="sci-product__picture">
-                <img src="<?= $row['PIC'] ?>" alt="">
+                <img src="<?=$row['PIC']['src']?>" alt="<?=$row['NAME']?>">
             </div>
             <div class="sci-product__info">
                 <div class="sci-product__sum-price">
                     <div class="product-price">
-                        <? if ($row["DISCOUNT_PRICE_PERCENT"] > 0): ?>
+                        <?php if ($row['DISCOUNT_PRICE_PERCENT'] > 0): ?>
                             <span class="product-price__value product-price__value--new">
-              <?= $row['SUM'] ?> ₽
-            </span>
+                                <?=$row['SUM']?> ₽
+                            </span>
                             <span class="product-price__value product-price__value--sale">
-              <?= $row['SUM_FULL_PRICE_FORMATED'] ?> ₽
-            </span>
-                        <? else: ?>
+                                <?=$row['SUM_FULL_PRICE_FORMATED']?> ₽
+                            </span>
+                        <?php else: ?>
                             <span class="product-price__value">
-              <?= $row['SUM'] ?> ₽
-            </span>
-                        <? endif; ?>
+                                <?=$row['SUM']?> ₽
+                            </span>
+                        <?php endif; ?>
                     </div>
                     <button
                             class="sci-product__delete sci-top__remove"
                             type="button" aria-label="Удалить товар"
-                            data-id="<?= $row['ID'] ?>"
+                            data-id="<?=$row['ID']?>"
                     >
                     </button>
                 </div>
-                <a class="sci-product__name-link" href="<?= $row['DETAIL_PAGE_URL'] ?>">
+                <a class="sci-product__name-link" href="<?=$row['DETAIL_PAGE_URL']?>">
                     <h3 class="sci-product__name">
-                        <?= $row['NAME'] ?>
+                        <?=$row['NAME']?>
                     </h3>
-		    </a>
-                <? if (!empty($row["MODEL"])): ?>
-                    <p class="sci-product__model"><?= $row["MODEL"] ?></p>
-                <? endif; ?>
+                </a>
+                <?php if (!empty($row['MODEL'])): ?>
+                    <p class="sci-product__model"><?=$row['MODEL']?></p>
+                <?php endif; ?>
                 <p class="sci-product__status">
-                    <? if ($row['has_prod']) { ?>
+                    <?php if ($row['CAN_BUY'] === 'Y'): ?>
                         Есть в наличии
-                    <? } else { ?>
+                    <?php else: ?>
                         Товар закончился
-                    <? } ?>
+                    <?php endif; ?>
                 </p>
                 <div class="sci-product__counter-wrapper">
                     <div class="sci-product__counter">
@@ -75,7 +62,7 @@ use Bitrix\Main\Localization\Loc;
                                 class="sci-top__count-down"
                                 type="button"
                                 aria-label="Уменьшить количество"
-                                data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
+                                data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
                         >
                             <svg width="8" height="8">
                                 <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
@@ -84,14 +71,14 @@ use Bitrix\Main\Localization\Loc;
                         <input
                                 type="text"
                                 readonly
-                                value="<?= $row['QUANTITY'] ?>"
+                                value="<?=$row['QUANTITY']?>"
                                 name="QUANTITY"
                         >
                         <button
                                 class="sci-top__count-up"
                                 type="button"
                                 aria-label="Увеличить количество"
-                                data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
+                                data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
                         >
                             <svg width="8" height="8">
                                 <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
@@ -100,96 +87,101 @@ use Bitrix\Main\Localization\Loc;
                         </button>
                     </div>
                     <span class="sci-product__price">
-						<?= $row['PRICE_FORMATED'] ?> ₽
-          </span>
+                        <?=$row['PRICE_FORMATED']?> ₽
+                    </span>
                 </div>
             </div>
         </div>
-        <?
-        $acessForThisElement = [];
-        $dopProdForThisElement = [];
-        foreach ($arResult['CML_PROD'] as $t => $el) {
-            if ($el['OFFERS'][md5($row['PRODUCT_ID'])]) {
-                $acessForThisElement = $el['ACESS_OBJ'];
-                $dopProdForThisElement = $el['DOP_SERV_OBJ'];
-            }
-        }
-        ?>
-        <? if ($acessForThisElement or $dopProdForThisElement): ?>
+        <?php if (!empty($row['ACCESSORIES']) || !empty($row['ADDITIONAL_SERVICES'])): ?>
             <div class="sci-add">
-                <? if ($acessForThisElement) { ?>
-                <div class="sci-add__block">
-                    <h2 class="sci-add__title">Рекомендуем добавить в заказ</h2>
-
-                    <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
-                    <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
-                    <div class="sci-add__products">
-                        <? foreach ($acessForThisElement as $r => $p) { ?>
-                            <article class="sci-add__prod" data-id="<?= $p['id'] ?>">
-                                <div class="sci-add__picture">
-                                    <img src="<?= $p['img'] ?>" alt="">
-                                </div>
-                                <div class="sci-add__prices">
-                                    <div class="sci-add__price">
-                                        <span><?= number_format($p['price'], 0, '', ' ') ?></span> ₽
-                                    </div>
-                                </div>
-                                <a class="sci-add__name-link" href="<?= $p['url'] ?>">
-                                    <h3 class="sci-add__name">
-                                        <?= $p['name'] ?>
-                                    </h3>
-                                </a>
-                                <button
-                                        class="sci-add__button addToCartBtn addToCartBtn_inCart"
-                                        data-id="<?= $p['id'] ?>"
-                                        type="button"
-                                >
-                                    Добавить
-                                </button>
-                            </article>
-                        <? } ?>
-                    </div>
-                </div>
-                <? } ?>
-                <? if ($dopProdForThisElement) { ?>
-                    <div class="sci-add__services sci-add__block">
-                        <h2 class="sci-add__title">Не забудьте еще</h2>
+                <?php if (!empty($row['ACCESSORIES'])): ?>
+                    <div class="sci-add__block">
+                        <h2 class="sci-add__title">Рекомендуем добавить в заказ</h2>
+                        <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
-                            <? foreach ($dopProdForThisElement as $r => $p) { ?>
-                                <div class="sci-add__prod">
+                            <?php foreach ($row['ACCESSORIES'] as $item): ?>
+                                <article class="sci-add__prod" data-id="<?=$item['id']?>">
                                     <div class="sci-add__picture">
-                                        <img src="<?= $p['img'] ?>" alt="">
+                                        <img src="<?=$item['img']?>" alt="<?=$item['name']?>">
                                     </div>
                                     <div class="sci-add__prices">
                                         <div class="sci-add__price">
-                                            <span><?= number_format($p['price'], 0, '', ' ') ?></span> ₽
+                                            <span>
+                                                <?=number_format(
+                                                    $item['prices']['PRICES'][0],
+                                                    0,
+                                                    '',
+                                                    ' '
+                                                )?>
+                                            </span>
+                                            ₽
                                         </div>
                                     </div>
-                                    <a href="<?= $p['url'] ?>">
+                                    <a class="sci-add__name-link" href="<?=$item['url']?>">
                                         <h3 class="sci-add__name">
-                                            <?= $p['name'] ?>
+                                            <?=$item['name']?>
                                         </h3>
                                     </a>
                                     <button
                                             class="sci-add__button addToCartBtn addToCartBtn_inCart"
-                                            data-id="<?= $p['id'] ?>"
+                                            data-id="<?=$item['id']?>"
+                                            type="button"
+                                    >
+                                        Добавить
+                                    </button>
+                                </article>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($row['ADDITIONAL_SERVICES'])): ?>
+                    <div class="sci-add__services sci-add__block">
+                        <h2 class="sci-add__title">Не забудьте еще</h2>
+                        <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
+                        <div class="sci-add__products">
+                            <?php foreach ($row['ADDITIONAL_SERVICES'] as $item): ?>
+                                <div class="sci-add__prod">
+                                    <div class="sci-add__picture">
+                                        <img src="<?=$item['img']?>" alt="<?=$item['name']?>">
+                                    </div>
+                                    <div class="sci-add__prices">
+                                        <div class="sci-add__price">
+                                            <span>
+                                                <?=number_format(
+                                                    $item['prices']['PRICES'][0],
+                                                    0,
+                                                    '',
+                                                    ' '
+                                                )?>
+                                            </span>
+                                            ₽
+                                        </div>
+                                    </div>
+                                    <a href="<?=$item['url']?>">
+                                        <h3 class="sci-add__name">
+                                            <?=$item['name']?>
+                                        </h3>
+                                    </a>
+                                    <button
+                                            class="sci-add__button addToCartBtn addToCartBtn_inCart"
+                                            data-id="<?=$item['id']?>"
                                             type="button"
                                     >
                                         Добавить
                                     </button>
                                 </div>
-                            <? } ?>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                <? } ?>
+                <?php endif; ?>
             </div>
-        <? endif; ?>
+        <?php endif; ?>
     </article>
-<? endforeach; ?>
-<? if (!empty($arResult['GRID']['ROWS'])): ?>
+<?php endforeach; ?>
+<?php if (!empty($arResult['GRID']['ROWS'])): ?>
     <button class="button-del button-del--bottom js-basket-clear" type="button">Очистить корзину</button>
-<? endif; ?>
-<? if ($_REQUEST['AJAX_CART'] == 'Y'): ?>
-    <? die(); ?>
-<? endif; ?>
+<?php endif; ?>
+<?php if ($arParams['AJAX_CART']) {
+    die();
+} ?>

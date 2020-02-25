@@ -18,6 +18,7 @@ foreach ($arResult['CATEGORIES'] as $categoryNum => $category) {
             $imageId = (int)current(explode(', ', $item['PROPERTY_MORE_PHOTO_VALUE']));
         }
 
+        $item['PIC'] = array('src' => '');
         if (!empty($imageId)) {
             $item['PIC'] = CFile::ResizeImageGet(
                 $imageId,
