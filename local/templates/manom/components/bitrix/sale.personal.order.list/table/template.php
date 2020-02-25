@@ -28,9 +28,9 @@ $bNoOrder = true;
                 <a href="/user/history.php" id="personal-nav__item2" class="personal-nav__item">История покупок</a>
                 <a href="/user/favorite/" id="personal-nav__item4" class="personal-nav__item">Товары в избранном</a>
                 <a href="/catalog/compare/" id="personal-nav__item4" class="personal-nav__item">Сравнение товаров</a>
-                <p class="personal-nav__name">Моя активность:</p>
 
                 <?php /*
+                <p class="personal-nav__name">Моя активность:</p>
                 <a href="/user/review/add-list/" id="personal-nav__item4" class="personal-nav__item">Добавить отзыв товару</a>
                 <a href="/user/review/" id="personal-nav__item4" class="personal-nav__item">Мои отзывы</a>
                 */ ?>
