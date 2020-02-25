@@ -1112,7 +1112,7 @@ $catalogFilter = array_merge($catalogFilter, array('>CATALOG_PRICE_1' => 0));
             'SEF_FOLDER' => '/catalog2/',
             'SEF_MODE' => 'Y',
             'SEF_URL_TEMPLATES' => Array(
-                'compare' => '',
+                'compare' => 'compare/',
                 'element' => '#SECTION_CODE_PATH#/#ELEMENT_CODE#/',
                 'section' => '#SECTION_CODE#/',
                 'sections' => '',
