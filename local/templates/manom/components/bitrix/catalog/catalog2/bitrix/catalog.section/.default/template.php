@@ -168,7 +168,7 @@ $this->setFrameMode(true);
             <?php endforeach; ?>
         </div>
 
-        <div class="cb-block no-gutters"<?=$arParams['BLOCK_STYLE'] === 'v-block' ? 'style="display: flex;"' : ''?>>
+        <div class="cb-block no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-block' ? 'style="display: flex;"' : ''?>>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
@@ -267,7 +267,7 @@ $this->setFrameMode(true);
             <?php endforeach; ?>
         </div>
 
-        <div class="cb-line no-gutters"<?=$arParams['BLOCK_STYLE'] === 'v-line' ? 'style="display: flex;"' : ''?>>
+        <div class="cb-line no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-line' ? 'style="display: flex;"' : ''?>>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
