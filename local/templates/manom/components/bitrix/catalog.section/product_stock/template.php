@@ -1,120 +1,121 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+<?php
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
-} ?>
-<? if (!empty($arResult['ITEMS'])): ?>
+}
+
+$this->setFrameMode(true);
+?>
+<?php if (!empty($arResult['ITEMS'])): ?>
     <section class="promotion">
         <div class="container">
             <h2 class="promotion-h2 promotion-h2--no-bt">Товары по акции</h2>
             <div class="row promotion__block arrow-fix">
-                <? foreach ($arResult['ITEMS'] as $key => $arItems): ?>
-                    <? $arCanBuy = CCatalogSKU::IsExistOffers($arItems['ID'], $arResult['IBLOCK_ID']); ?>
-                    <?
-                    $arPrice = CCatalogProduct::GetOptimalPrice($arItems['ID'], 1, $USER->GetUserGroupArray(), 'N');
-                    if (!$arPrice || count($arPrice) <= 0) {
-                        if ($nearestQuantity = CCatalogProduct::GetNearestQuantityPrice($arItems['ID'], $key,
-                            $USER->GetUserGroupArray())) {
-                            $quantity = $nearestQuantity;
-                            $arPrice = CCatalogProduct::GetOptimalPrice($productID, $quantity,
-                                $USER->GetUserGroupArray(), $renewal);
-                        }
+                <?php foreach ($arResult['ITEMS'] as $item): ?>
+                    <?php
+                    if (!$item['canBuy']) {
+                        continue;
                     }
+
+                    $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
+                    $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
+
+                    [$price, $oldPrice] = $item['price']['PRICES'];
                     ?>
                     <div class="col-3">
-                        <div class="product-card border  <?= $arItems['CATALOG_QUANTITY'] > 0 || $arCanBuy == 1 ? 'enable' : 'disable' ?>">
+                        <div class="product-card border <?=$item['canBuy'] ? 'enable' : 'disable'?>">
                             <div class="product-card__img">
-                                <? foreach ($arItems['PROPERTIES']['MORE_PHOTO']['VALUE'] as $val => $img) { ?>
-                                    <? if ($arItems['PROPERTIES']['MORE_PHOTO']['VALUE']) {
-                                        $file = CFile::ResizeImageGet($img, array('width' => 200, 'height' => 200),
-                                            BX_RESIZE_IMAGE_PROPORTIONAL, true);
-                                    } ?>
+                                <?php foreach ($item['images'] as $image): ?>
                                     <div class="product-card__slide">
-                                        <img src="<?= $file['src'] ?>" alt=""
-                                             onclick="location.href = '<?= $arItems['~DETAIL_PAGE_URL'] ?>'">
+                                        <img
+                                                src="<?=$image['src']?>"
+                                                alt="<?=$item['name']?>"
+                                                onclick="location.href = '<?=$item['url']?>'"
+                                        >
                                     </div>
-                                <? } ?>
+                                <?php endforeach; ?>
                             </div>
                             <p class="p-label-top active">
-                                <? if ($arItems['PROPERTIES']['PRODUCT_DAY']['VALUE'] == 'YES') { ?>
+                                <?php if ($item['productOfTheDay']): ?>
                                     Товар дня
-                                <? } ?>
+                                <?php endif; ?>
                             </p>
                             <div class="p-nav-top">
                                 <label>
-                                    <input class="p-nav-top__checkbox"
-                                           type="checkbox" <?= checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'],
-                                        'UF_FAVORITE_ID') ? 'checked' : ''; ?>>
-                                    <div class="p-nav-top__favorite addToFavoriteList <?= !checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'],
-                                        'UF_FAVORITE_ID') ? 'notActive' : ''; ?>"
-                                         data-id='<?= $arPrice['PRODUCT_ID'] ?>' title="в избранное"></div>
+                                    <input
+                                            class="p-nav-top__checkbox"
+                                            type="checkbox"
+                                        <?=$item['inFavoriteAndCompare'] ? 'checked' : ''?>
+                                    >
+                                    <div
+                                            class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
+                                            data-id='<?=$item['id']?>'
+                                            title="в избранное"
+                                    ></div>
                                 </label>
-                                <div class="p-nav-top__list addToCompareList <?= !checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'],
-                                    'UF_COMPARE_ID') ? 'notActive' : 'alt-img'; ?>"
-                                     data-id='<?= $arPrice['PRODUCT_ID'] ?>'></div>
+                                <div
+                                        class="p-nav-top__list addToCompareList <?=$class2?>"
+                                        data-id='<?=$item['id']?>'
+                                ></div>
                             </div>
                             <div class="p-nav-middle">
-                                <? if ($arItems['CATALOG_QUANTITY'] < 1 and $arCanBuy == 0) { ?>
+                                <?php if (!$item['canBuy']): ?>
                                     <div class="p-nav-middle__sale active">
-                                        <?= $arResult['ORIGINAL_PARAMETERS']['MESS_NOT_AVAILABLE'] ?>
+                                        <?=$arResult['ORIGINAL_PARAMETERS']['MESS_NOT_AVAILABLE']?>
                                     </div>
-                                <? } ?>
-                                <? if ($arPrice['RESULT_PRICE']['DISCOUNT'] > 0) { ?>
-                                    <div class="p-nav-middle__sale active">
-                                        Распродажа
-                                    </div>
-                                <? } ?>
-                                <!--                            <div class="p-nav-middle__rating">-->
-                                <!--                                --><? //for ($i=0; $i < 5; $i++) {
-                                //                                    if ($i >= $arResult['REVIEW'][$arItems['ID']]['rating']) {
-                                //                                        ?><!-- <span> ★ </span> --><? //
-                                //                                    }else{
-                                //                                        ?><!-- ★ --><? //
-                                //                                    }
-                                //                                }?><!--</div>-->
-                                <!--                            <div class="p-nav-middle__comments"><span>-->
-                                <? //=$arResult['REVIEW'][$arItems['ID']]['count']?><!--</span></div>-->
+                                <?php endif; ?>
+                                <?php if ($item['sale']): ?>
+                                    <div class="p-nav-middle__sale active">Распродажа</div>
+                                <?php endif; ?>
+
+                                <?php /*
+                                <div class="p-nav-middle__rating">
+                                    <?php for ($i = 0; $i < 5; $i++): ?>
+                                        <?php if ($i >= $item['rating']['rating']): ?>
+                                            <span> ★</span>
+                                        <?php else: ?>
+                                            ★
+                                        <?php endif; ?>
+                                    <?php endfor; ?>
+                                </div>
+                                <div class="p-nav-middle__comments">
+                                    <span><?=$item['rating']['count']?></span>
+                                </div>
+                                */ ?>
                             </div>
                             <h3 class="p-name">
-                                <a href="<?= $arItems['~DETAIL_PAGE_URL'] ?>"><?= $arItems['NAME'] ?></a>
+                                <a href="<?=$item['url']?>"><?=$item['name']?></a>
                             </h3>
                             <div class="p-nav-bottom">
                                 <div class="p-nav-bottom__price">
-                                    <? if (!$arItems['OFFERS']) { ?>
-                                        <? if ($arPrice['RESULT_PRICE']['DISCOUNT'] > 0) { ?>
-                                            <div class="p-nav-bottom__price">
-                                                <?= $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']; ?>
-                                                <span> ₽</span>
-                                                <div class="p-nav-bottom__oldprice"><?= $arPrice['RESULT_PRICE']['BASE_PRICE'] ?></div>
+                                    <?php if (
+                                        !empty((int)$oldPrice) &&
+                                        (int)$price !== (int)$oldPrice
+                                    ): ?>
+                                        <div class="p-nav-bottom__price">
+                                            <?=number_format($price, 0, '', ' ')?>
+                                            <span> ₽</span>
+                                            <div class="p-nav-bottom__oldprice">
+                                                <?=number_format($oldPrice, 0, '', ' ')?>
                                             </div>
-                                        <? } else { ?>
-                                            <div class="p-nav-bottom__price">
-                                                <?= $arPrice['RESULT_PRICE']['BASE_PRICE']; ?>
-                                                <span> ₽</span>
-                                            </div>
-                                        <? } ?>
-                                    <? } else { ?>
-                                        <? if ($arPrice['RESULT_PRICE']['DISCOUNT_PRICE'] != $arPrice['RESULT_PRICE']['BASE_PRICE']) { ?>
-                                            <div class="p-nav-bottom__price">
-                                                <?= $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']; ?>
-                                                <span> ₽</span>
-                                                <div class="p-nav-bottom__oldprice"><?= $arPrice['RESULT_PRICE']['BASE_PRICE'] ?>
-                                                    руб.
-                                                </div>
-                                            </div>
-                                        <? } else { ?>
-                                            <div class="p-nav-bottom__price">
-                                                <?= $arPrice['RESULT_PRICE']['BASE_PRICE']; ?>
-                                                <span> ₽</span>
-                                            </div>
-                                        <? } ?>
-                                    <? } ?>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="p-nav-bottom__price">
+                                            <?=number_format($price, 0, '', ' ')?>
+                                            <span> ₽</span>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                                <div class="p-nav-bottom__shopcart <?= $arItems['CATALOG_QUANTITY'] > 0 || $arCanBuy == 1 ? 'addToCartBtn' : '' ?>"
-                                     data-id='<?= $arPrice['PRODUCT_ID'] ?>' <?= $arItems['CATALOG_QUANTITY'] > 0 || $arCanBuy == 1 ? 'enable' : 'disable' ?>></div>
+                                <div
+                                        class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
+                                        data-id='<?=$item['productId']?>'
+                                    <?=$item['canBuy'] ? 'enable' : 'disable'?>
+                                ></div>
                             </div>
                         </div>
                     </div>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
-<? endif; ?>
+<?php endif; ?>
