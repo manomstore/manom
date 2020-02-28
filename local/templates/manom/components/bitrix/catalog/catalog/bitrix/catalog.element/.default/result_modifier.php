@@ -21,7 +21,20 @@ $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 $arResult['inFavoriteAndCompare'] = checkProdInFavoriteAndCompareList((int)$arResult['ID'], 'UF_FAVORITE_ID');
 $rating = getRatingAndCountReviewForList(array((int)$arResult['ID']));
 $arResult['rating'] = $rating[$arResult['ID']];
-$arResult['images'] = Content::getCatalogItemImages($arResult, 2230, 1696);
+$images = Content::getCatalogItemImages($arResult, false);
+foreach ($images as $imageId) {
+    $arResult['smallImages'][] = CFile::ResizeImageGet(
+        $imageId,
+        array('width' => 60, 'height' => 50),
+        BX_RESIZE_IMAGE_PROPORTIONAL
+    );
+    $arResult['images'][] = CFile::ResizeImageGet(
+        $imageId,
+        array('width' => 1920, 'height' => 1080),
+        BX_RESIZE_IMAGE_PROPORTIONAL
+    );
+}
+
 $arResult['price'] = $price->getItemPrices($arResult['ID'], $arResult['IBLOCK_ID'], $pricesId, $userGroups);
 $arResult['onlyCash'] = $arResult['PROPERTIES']['ONLY_CASH']['VALUE'] === 'Y';
 $arResult['locationDisallowBuy'] = $arResult['onlyCash'] && !$isMoscow;

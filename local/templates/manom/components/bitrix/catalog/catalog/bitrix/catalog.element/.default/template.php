@@ -124,7 +124,7 @@ function formatBytes($size, $precision = 2)
         <div class="product-photo">
             <div class="product-photo__left col-1">
                 <?php $first = true;?>
-                <?php foreach ($arResult['images'] as $i => $image): ?>
+                <?php foreach ($arResult['smallImages'] as $i => $image): ?>
                     <img
                         src="<?=$image['src']?>"
                         data-color=""

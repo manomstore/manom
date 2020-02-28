@@ -178,11 +178,12 @@ class Content
 
     /**
      * @param array $item
+     * @param bool $resize
      * @param int $width
      * @param int $height
      * @return array
      */
-    public static function getCatalogItemImages($item, $width = 350, $height = 350): array
+    public static function getCatalogItemImages($item, $resize = true, $width = 350, $height = 350): array
     {
         $images = array();
         $imagesId = array();
@@ -221,13 +222,17 @@ class Content
             }
         }
 
-        foreach ($imagesId as $id) {
-            $images[] = \CFile::ResizeImageGet(
-                $id,
-                array('width' => $width, 'height' => $height),
-                BX_RESIZE_IMAGE_PROPORTIONAL,
-                true
-            );
+        if ($resize) {
+            foreach ($imagesId as $id) {
+                $images[] = \CFile::ResizeImageGet(
+                    $id,
+                    array('width' => $width, 'height' => $height),
+                    BX_RESIZE_IMAGE_PROPORTIONAL,
+                    true
+                );
+            }
+        } else {
+            $images = $imagesId;
         }
 
         return $images;
