@@ -44,7 +44,6 @@
   <link rel="icon" href="<?= SITE_TEMPLATE_PATH ?>/assets/img/favicon/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="<?= SITE_TEMPLATE_PATH ?>/assets/img/favicon/apple-touch-icon-180x180.png">
   <meta property="og:image" content="<?= SITE_TEMPLATE_PATH ?>/assets/img/banner.jpg">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Open+Sans:400,600,700&amp;subset=cyrillic-ext" rel="stylesheet">
   <!-- Add fancyBox -->
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery-ui.css">
   <link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/jquery.fancybox.min.css"/>

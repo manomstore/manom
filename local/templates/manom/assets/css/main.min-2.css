@@ -354,6 +354,8 @@ body {
   min-width: 360px;
   height: 100%;
   text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -3846,7 +3848,7 @@ p.price-slider {
 }
 
 .sci-login__title {
-  text-align: center;
+  text-align: left;
   font-size: 18px;
   font-weight: 600;
 }
@@ -3877,8 +3879,17 @@ p.price-slider {
 }
 
 .sci-login__label {
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
+
+@media screen and (min-width: 992px) {
+  .sci-login__label {
+    font-size: 18px;
+  }
+}
+
 
 .sci-login__input {
   font-family: "PT Root UI", "Arial", sans-serif;
@@ -3889,28 +3900,50 @@ p.price-slider {
   width: 250px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid rgba(153, 152, 157, 0.2);
+  transition: border 0.2s ease;
   margin: 7px 0;
 }
 
+.sci-login__input::-webkit-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input::-moz-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input:-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input::-ms-input-placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+.sci-login__input::placeholder {
+  color: rgba(153, 152, 157, 0.5);
+}
+
+.sci-login__input:hover,
+.sci-login__input:focus {
+  border-color: #99989d;
+}
+
 .sci-login__button {
-  display: inline-block;
-  font-family: "PT Root UI", "Arial", sans-serif;
-  font-size: 13px;
-  line-height: 40px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
   text-align: center;
-  width: 150px;
-  height: 40px;
-  margin: 7px 0;
-  background-color: #79B700;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  border: none;
+
+  flex-shrink: 0;
+  display: block;
+  border: 1px solid #83BB26;
+  background-color: #83BB26;
+  border-radius: 3px;
+  transition: all 0.2s ease;
   cursor: pointer;
-  -webkit-transition: .2s;
-  -o-transition: .2s;
-  transition: .2s;
+
+  width: 100%;
+
+  font-size: 18px;
+  padding: 18px 10px;
 }
 
 .sci-login__button_green {
@@ -4978,12 +5011,20 @@ p.price-slider {
 
 .popap-login, .popap-reg {
   display: none;
-  width: 340px;
-  border: 1px solid #C4C4C4;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  padding: 25px 30px;
+  width: 100%;
+  height: 100%;
+  padding: 25px 20px;
   text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .popap-login, .popap-reg {
+    padding: 30px 40px;
+    width: 540px;
+    height: auto;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+  }
 }
 
 .popap-login .sci-login__button, .popap-reg .sci-login__button {
@@ -4992,10 +5033,38 @@ p.price-slider {
 
 .popap-login .sci-login__title, .popap-reg .sci-login__title {
   margin: 10px auto;
+  padding: 0 40px 15px 0;
+  font-size: 25px;
+}
+
+@media screen and (min-width: 992px) {
+  .popap-login .sci-login__title, .popap-reg .sci-login__title {
+    font-size: 36px;
+  }
 }
 
 .popap-login .sci-login__input, .popap-reg .sci-login__input {
   width: 100%;
+  margin-bottom: 20px;
+  font-weight: 500;
+  padding: 10px 15px;
+  border: 1px solid rgba(153, 152, 157, 0.2);
+  border-radius: 3px;
+  transition: border 0.2s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 50px;
+  font-size: 15px;
+}
+
+@media screen and (min-width: 992px) {
+  .popap-login .sci-login__input, .popap-reg .sci-login__input {
+    height: 60px;
+    font-size: 18px;
+    margin-bottom: 40px;
+
+  }
 }
 
 .popap-login .sci-login__social, .popap-reg .sci-login__social {
@@ -6019,7 +6088,7 @@ p.price-slider {
   }
 
   .sci-login__button {
-    width: 135px;
+    width: 100%;
   }
 }
 
@@ -9537,12 +9606,11 @@ button.top-nav__link {
 }
 
 .popup-login__input {
+  height: 50px;
+  font-size: 15px;
   font: inherit;
   color: #29282C;
   font-weight: 500;
-  font-size: 16px;
-
-  height: 50px;
   width: 100%;
   padding: 10px 15px;
   background-color: #FEFFFD;
@@ -9554,6 +9622,15 @@ button.top-nav__link {
   -moz-appearance: none;
   appearance: none;
 }
+
+@media screen and (min-width: 992px) {
+  .popup-login__input {
+    height: 60px;
+    font-size: 18px;
+  }
+}
+
+
 
 .popup-login__input::-webkit-input-placeholder {
   color: rgba(153, 152, 157, 0.5);
