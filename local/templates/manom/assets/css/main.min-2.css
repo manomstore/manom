@@ -1466,20 +1466,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bread-crumb__link {
+  display: inline-block;
   color: #000000;
   padding: 5px 0;
+  margin-right: 15px;
   -webkit-transition: .1s;
   -o-transition: .1s;
   transition: .1s;
+  position: relative;
 }
+
+.bread-crumb__link:after {
+  position: absolute;
+  content: "";
+  width: 6px;
+  height: 14px;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3IDguNTcxNDI4NiIgd2lkdGg9IjciIGhlaWdodD0iMTAiIHZlcnNpb249IjEuMSI+CiAgPHBhdGggZD0iTSAxLjc2NTYyNSwtMC4yNDQ1NTkyOSAwLjcwNTA3ODExLDAuODE1OTg3NTkgNC4xNzU3ODEyLDQuMjg0NzM3NiAwLjcwNTA3ODExLDcuNzU1NDQwNyAxLjc2NTYyNSw4LjgxNTk4NzYgNi4yOTQ5MjE5LDQuMjg0NzM3NiAxLjc2NTYyNSwtMC4yNDQ1NTkyOSBaIiAvPgo8L3N2Zz4=) center center no-repeat;
+  background-size: 100%;
+  right: -12px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.bread-crumb__link:last-of-type {
+  pointer-events: none;
+  font-weight: normal;
+  color: #a1a1a1;
+}
+
+.bread-crumb__link:last-of-type:after {
+  display: none;
+}
+
 
 .bread-crumb__link:hover {
   color: #79B700;
-}
-
-.bread-crumb__separator {
-  padding: 0 5px;
-  color: rgba(0, 0, 0, 0.3);
 }
 
 .sc-banner {
