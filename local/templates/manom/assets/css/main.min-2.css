@@ -1613,10 +1613,10 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-  -ms-flex-align: start;
+  justify-content: flex-end;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
   align-items: flex-start;
 }
 
@@ -1644,7 +1644,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "PT Root UI", "Arial", sans-serif;
   color: #000000;
   text-align: left;
+  margin-left: 30px;
 }
+
+
 
 .cb-title {
   font-weight: 600;
@@ -1707,14 +1710,15 @@ h1, h2, h3, h4, h5, h6 {
 .cb-filter {
   margin: 10px 0;
   font-size: 12px;
+  padding-left: 30px;
 }
 
 .cb-filter__param {
   display: inline-block;
   background-color: #EEEEEE;
-  padding: 0 20px 0 10px;
+  padding: 4px 20px 4px 10px;
   margin: 4px 0;
-  margin-right: 30px;
+  margin-right: 8px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
   position: relative;
@@ -1724,7 +1728,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 24px;
   line-height: 1;
   position: absolute;
-  top: -11px;
+  top: 0;
   right: 3px;
   cursor: pointer;
 }
@@ -1734,6 +1738,8 @@ h1, h2, h3, h4, h5, h6 {
   color: #79B700;
   cursor: pointer;
   opacity: .8;
+  padding-left: 0;
+  margin: 10px 0 5px;
 }
 
 .cb-filter__clear:hover {
@@ -1759,6 +1765,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
   text-align: left;
   padding: 12px 0 10px;
+  margin-top: 10px;
   border-top: 1px solid #EBEBEB;
   border-bottom: 1px solid #EBEBEB;
 }
@@ -2272,10 +2279,11 @@ h1, h2, h3, h4, h5, h6 {
 .catalog-filter {
   font-family: "PT Root UI", "Arial", sans-serif;
   color: #000000;
-  width: 270px;
+  width: 250px;
   text-align: left;
-  margin-right: 30px;
-  border: 1px solid #EBEBEB;
+  margin-right: auto;
+  border-top: 1px solid #EBEBEB;
+  border-bottom: 1px solid #EBEBEB;
 }
 
 .catalog-filter .transition, .catalog-filter p, .catalog-filter ul li i:before, .catalog-filter ul li i:after {
@@ -2301,7 +2309,7 @@ h1, h2, h3, h4, h5, h6 {
 .catalog-filter h3 {
   font-size: 14px;
   line-height: 2.5;
-  font-weight: 700;
+  font-weight: 600;
   display: block;
   padding-left: 30px;
   cursor: pointer;
@@ -2315,7 +2323,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.8;
   height: 25px;
   width: 100%;
-  padding-left: 15px;
   position: relative;
   max-height: 270px;
   opacity: .8;
@@ -2323,6 +2330,11 @@ h1, h2, h3, h4, h5, h6 {
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
   z-index: 2;
+}
+
+.catalog-filter .cb-filter {
+  padding: 10px 0;
+  margin: 0;
 }
 
 .catalog-filter p:hover {
@@ -2392,7 +2404,7 @@ h1, h2, h3, h4, h5, h6 {
   -ms-transform: translate(-6px, 0);
   transform: translate(-6px, 0);
   margin-top: 13px;
-  left: 20px;
+  right: 20px;
 }
 
 .catalog-filter ul li i:before, .catalog-filter ul li i:after {
