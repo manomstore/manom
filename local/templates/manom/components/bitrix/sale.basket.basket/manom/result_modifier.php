@@ -1,201 +1,259 @@
-<?if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true) die();
-/** @var CBitrixComponentTemplate $this */
-/** @var array $arParams */
-/** @var array $arResult */
-use Bitrix\Main;
+<?php
 
-$prodIblockID = 6;
-$offersIblockID = 7;
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 
-$prodIDs = array();
-$cmlProdIDs = array();
-$acessAndServIDs = array();
-$rlateCmlProds = array();
-$allOffersId = [];
-$models = [];
+use Manom\Price;
+
+$productsIblockId = 6;
+$offersIblockId = 7;
+
+$productsId = array();
+$offersId = array();
+$productsImage = array();
+$offersImage = array();
+$productsModel = array();
+$offersModel = array();
+$productsAccessoriesId = array();
+$productsAdditionalServicesId = array();
+$offersProductId = array();
+$accessoriesAndAdditionalServicesId = array();
+$accessoriesAndAdditionalServices = array();
+
+$price = new Price;
+$userGroups = $price->getUserGroups();
+$price->setPricesIdByName('Розничная');
+$pricesId = $price->getPricesId();
+
 foreach ($arResult['GRID']['ROWS'] as $i => $item) {
-    if (!$item['PICTURE_SRC'] and !$item['DETAIL_PICTURE']) {
-        $prodIDs[] = $item['PRODUCT_ID'];
-    } elseif ($item['PICTURE_SRC']) {
-        $arResult['GRID']['ROWS'][$i]['PIC'] = $item['PICTURE_SRC'];
-    } else {
-        $arResult['GRID']['ROWS'][$i]['PIC'] = $item['DETAIL_PICTURE'];
+    if (empty($item['IBLOCK_ID'])) {
+        $productsId[] = (int)$item['PRODUCT_ID'];
     }
-    if ($item['PICTURE_SRC'] or $item['DETAIL_PICTURE']) {
-        $arResult['GRID']['ROWS'][$i]['has_prod'] = true;
+
+    if ((int)$item['IBLOCK_ID'] === $offersIblockId) {
+        $offersId[] = (int)$item['PRODUCT_ID'];
     }
-    $arResult['GRID']['ROWS'][$i]['SUM'] = \CCurrencyLang::CurrencyFormat(
+
+    $imageId = 0;
+    if (!empty((int)$item['PREVIEW_PICTURE'])) {
+        $imageId = (int)$item['PREVIEW_PICTURE'];
+    } elseif (!empty((int)$item['DETAIL_PICTURE'])) {
+        $imageId = (int)$item['DETAIL_PICTURE'];
+    }
+
+    $item['PIC'] = array('src' => '');
+    if (!empty($imageId)) {
+        $item['PIC'] = CFile::ResizeImageGet(
+            $imageId,
+            array('width' => 350, 'height' => 350),
+            BX_RESIZE_IMAGE_PROPORTIONAL,
+            true
+        );
+    }
+
+    $item['SUM'] = \CCurrencyLang::CurrencyFormat(
         $item['SUM_VALUE'],
         $item['CURRENCY'],
         false
     );
-    $arResult['GRID']['ROWS'][$i]['PRICE_FORMATED'] = \CCurrencyLang::CurrencyFormat(
+
+    $item['PRICE_FORMATED'] = \CCurrencyLang::CurrencyFormat(
         $item['PRICE'],
         $item['CURRENCY'],
         false
     );
 
-    if ($item["DISCOUNT_PRICE_PERCENT"] > 0) {
-        $arResult['GRID']['ROWS'][$i]["SUM_FULL_PRICE_FORMATED"] = \CCurrencyLang::CurrencyFormat(
+    if ($item['DISCOUNT_PRICE_PERCENT'] > 0) {
+        $item['SUM_FULL_PRICE_FORMATED'] = \CCurrencyLang::CurrencyFormat(
             $item['SUM_FULL_PRICE'],
             $item['CURRENCY'],
             false
         );
     }
-    $allOffersId[] = (int)$item['PRODUCT_ID'];
-}
-$getProd = CIBlockElement::GetList(
-  array(),
-  array(
-    'IBLOCK_ID' => $offersIblockID,
-    'ID' => $prodIDs
-  ),
-  false,
-  false,
-  array('ID', 'PROPERTY_MORE_PHOTO', 'PROPERTY_CML2_LINK', 'IBLOCK_ID')
-);
-while ($resProd = $getProd->Fetch()) {
-  $cmlProdIDs[md5($resProd['PROPERTY_CML2_LINK_VALUE'])] = $resProd['PROPERTY_CML2_LINK_VALUE'];
-  if(!$rlateCmlProds[md5($resProd['PROPERTY_CML2_LINK_VALUE'])]) {
-    $rlateCmlProds[md5($resProd['PROPERTY_CML2_LINK_VALUE'])] = array(
-      "ID" => $resProd['PROPERTY_CML2_LINK_VALUE'],
-      "OFFERS" => array(),
-      "ACESS" => array(),
-      "DOP_SERV" => array(),
-      "ACESS_OBJ" => array(),
-      "DOP_SERV_OBJ" => array()
-    );
-    $getRec = CIBlockElement::GetProperty(
-      $prodIblockID,
-      $resProd['PROPERTY_CML2_LINK_VALUE'],
-      "sort", "asc",
-      array(
-        "CODE" => 'ACESS'
-      )
-    );
-    while ($resRec = $getRec->Fetch()) {
-      $acessAndServIDs[md5($resRec['VALUE'])] = $resRec['VALUE'];
-      $rlateCmlProds[md5($resProd['PROPERTY_CML2_LINK_VALUE'])]['ACESS'][md5($resRec['VALUE'])] = $resRec['VALUE'];
-    }
-    $getRec = CIBlockElement::GetProperty(
-      $prodIblockID,
-      $resProd['PROPERTY_CML2_LINK_VALUE'],
-      "sort", "asc",
-      array(
-        "CODE" => 'DOP_SERV'
-      )
-    );
-    while ($resRec = $getRec->Fetch()) {
-      $acessAndServIDs[md5($resRec['VALUE'])] = $resRec['VALUE'];
-      $rlateCmlProds[md5($resProd['PROPERTY_CML2_LINK_VALUE'])]['DOP_SERV'][md5($resRec['VALUE'])] = $resRec['VALUE'];
-    }
-  }
-  $rlateCmlProds[md5($resProd['PROPERTY_CML2_LINK_VALUE'])]['OFFERS'][md5($resProd['ID'])] = $resProd['ID'];
-  foreach ($arResult['GRID']['ROWS'] as $i => $item) {
-     if ($item['PRODUCT_ID'] == $resProd['ID']) {
-       $arResult['GRID']['ROWS'][$i]['has_prod'] = true;
-       $picProp = CIBlockElement::GetProperty($resProd['IBLOCK_ID'], $resProd['ID'], array("id" => "asc"), Array("CODE"=>"MORE_PHOTO"));
-       if ($resPicProp = $picProp->Fetch()) {
-         $arResult['GRID']['ROWS'][$i]['PIC'] = CFile::GetPath($resPicProp['VALUE']);
-       }
-       // if ($resProd['PROPERTY_MORE_PHOTO_VALUE']) {
-       //   $arResult['GRID']['ROWS'][$i]['PIC'] = CFile::GetPath($resProd['PROPERTY_MORE_PHOTO_VALUE']);
-       // }
-     }
-   }
-}
-// echo "<pre>".print_r($arResult['GRID']['ROWS'][149])."</pre>";
 
-foreach ($arResult['CATEGORIES'] as $key => $cat) {
-  foreach ($cat as $i => $item) {
-    if(!$item['has_prod']) {
-      echo $item['ID'];
-      if (CSaleBasket::Delete($item['ID'])) {
-        unset($arResult['GRID']['ROWS'][$i]);
-      }
-    }
-  }
+    $arResult['GRID']['ROWS'][$i] = $item;
 }
 
-if ($acessAndServIDs):
-  $getEl = CIBlockElement::GetList(
-    array(),
-    array(
-      'IBLOCK_ID' => $offersIblockID,
-      'ACTIVE' => 'Y',
-      'PROPERTY_CML2_LINK' => $acessAndServIDs
-    ),
-    false,
-    false,
-    array('ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE',
-    'PROPERTY_MORE_PHOTO', 'NAME', 'DETAIL_PAGE_URL', 'PROPERTY_CML2_LINK',
-    'CATALOG_QUANTITY')
-  );
-  $offersList = array();
-  while ($resEl = $getEl->GetNext()) {
-    if ($offersList[md5($resEl['PROPERTY_CML2_LINK_VALUE'])]) continue;
-    $ar_res = CPrice::GetBasePrice($resEl['ID']);
-    if ($ar_res){
-      if ($ar_res['PRICE'] > 0 and $resEl['CATALOG_QUANTITY'] > 0){
-        $imgSrc = '';
-        if ($resEl['PREVIEW_PICTURE']) {
-          $imgSrc = CFile::GetPath($resEl['PREVIEW_PICTURE']);
-        } elseif ($resEl['DETAIL_PICTURE']) {
-          $imgSrc = CFile::GetPath($resEl['DETAIL_PICTURE']);
-        } elseif ($resEl['PROPERTY_MORE_PHOTO_VALUE']) {
-          $imgSrc = CFile::GetPath($resEl['PROPERTY_MORE_PHOTO_VALUE']);
+if (!empty($offersId)) {
+    $properties = array('CML2_LINK', 'MORE_PHOTO', 'this_prod_model');
+    $filter = array('IBLOCK_ID' => $offersIblockId, 'ID' => $offersId);
+    $select = array('IBLOCK_ID', 'ID');
+    $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+    while ($rowResult = $result->getNextElement(true, false)) {
+        $row = $rowResult->getFields();
+        foreach ($properties as $code) {
+            $row['PROPERTIES'][$code] = $rowResult->getProperty($code);
         }
-        $offerElem = array(
-          'id' => $resEl['ID'],
-          'name' => $resEl['NAME'],
-          'img' => $imgSrc,
-          'price' => $ar_res['PRICE'],
-          'url' => $resEl['DETAIL_PAGE_URL'],
-          'prod_id' => $resEl['PROPERTY_CML2_LINK_VALUE'],
+
+        $productsId[] = (int)$row['PROPERTIES']['CML2_LINK']['VALUE'];
+        $offersProductId[(int)$row['ID']] = (int)$row['PROPERTIES']['CML2_LINK']['VALUE'];
+
+        if (!empty($row['PROPERTIES']['MORE_PHOTO']['VALUE'])) {
+            $offersImage[(int)$row['ID']] = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
+        }
+
+        if (!empty($row['PROPERTIES']['this_prod_model']['VALUE'])) {
+            $offersModel[(int)$row['ID']] = $row['PROPERTIES']['this_prod_model']['VALUE'];
+        }
+    }
+}
+
+if (!empty($productsId)) {
+    $properties = array('MORE_PHOTO', 'ACESS', 'DOP_SERV', 'model');
+    $filter = array('IBLOCK_ID' => $productsIblockId, 'ID' => $productsId);
+    $select = array('IBLOCK_ID', 'ID');
+    $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+    while ($rowResult = $result->getNextElement(true, false)) {
+        $row = $rowResult->getFields();
+        foreach ($properties as $code) {
+            $row['PROPERTIES'][$code] = $rowResult->getProperty($code);
+        }
+
+        if (!empty($row['PROPERTIES']['MORE_PHOTO']['VALUE'])) {
+            $productsImage[(int)$row['ID']] = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
+        }
+
+        if (!empty($row['PROPERTIES']['ACESS']['VALUE'])) {
+            $productsAccessoriesId[(int)$row['ID']] = $row['PROPERTIES']['ACESS']['VALUE'];
+        }
+
+        if (!empty($row['PROPERTIES']['DOP_SERV']['VALUE'])) {
+            $productsAdditionalServicesId[(int)$row['ID']] = $row['PROPERTIES']['DOP_SERV']['VALUE'];
+        }
+
+        if (!empty($row['PROPERTIES']['model']['VALUE'])) {
+            $productsModel[(int)$row['ID']] = $row['PROPERTIES']['model']['VALUE'];
+        }
+    }
+}
+
+foreach ($productsAccessoriesId as $productAccessoriesId) {
+    foreach ($productAccessoriesId as $id) {
+        if (!in_array((int)$id, $accessoriesAndAdditionalServicesId, true)) {
+            $accessoriesAndAdditionalServicesId[] = (int)$id;
+        }
+    }
+}
+
+foreach ($productsAdditionalServicesId as $productAdditionalServicesId) {
+    foreach ($productAdditionalServicesId as $id) {
+        if (!in_array((int)$id, $accessoriesAndAdditionalServicesId, true)) {
+            $accessoriesAndAdditionalServicesId[] = (int)$id;
+        }
+    }
+}
+
+if (!empty($accessoriesAndAdditionalServicesId)) {
+    $properties = array('MORE_PHOTO');
+    $filter = array(
+        'IBLOCK_ID' => $productsIblockId,
+        'ID' => $accessoriesAndAdditionalServicesId,
+        '!ID' => $productsId,
+        'ACTIVE' => 'Y',
+        'CATALOG_AVAILABLE' => 'Y',
+    );
+    $select = array(
+        'IBLOCK_ID',
+        'ID',
+        'NAME',
+        'DETAIL_PAGE_URL',
+        'PREVIEW_PICTURE',
+        'DETAIL_PICTURE',
+    );
+    $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+    while ($rowResult = $result->getNextElement(true, false)) {
+        $row = $rowResult->getFields();
+        foreach ($properties as $code) {
+            $row['PROPERTIES'][$code] = $rowResult->getProperty($code);
+        }
+
+        $imageId = 0;
+        if (!empty((int)$row['PREVIEW_PICTURE'])) {
+            $imageId = (int)$row['PREVIEW_PICTURE'];
+        } elseif (!empty((int)$row['DETAIL_PICTURE'])) {
+            $imageId = (int)$row['DETAIL_PICTURE'];
+        } elseif (!empty($row['PROPERTIES']['MORE_PHOTO']['VALUE'])) {
+            $imageId = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
+        }
+
+        $image = array('src' => '');
+        if (!empty($imageId)) {
+            $image = CFile::ResizeImageGet(
+                $imageId,
+                array('width' => 350, 'height' => 350),
+                BX_RESIZE_IMAGE_PROPORTIONAL,
+                true
+            );
+        }
+
+        $accessoriesAndAdditionalServices[(int)$row['ID']] = array(
+            'id' => (int)$row['ID'],
+            'name' => $row['NAME'],
+            'url' => $row['DETAIL_PAGE_URL'],
+            'img' => $image['src'],
+            'prices' => $price->getItemPrices((int)$row['ID'], $productsIblockId, $pricesId, $userGroups),
+
         );
-        $offersList[md5($resEl['PROPERTY_CML2_LINK_VALUE'])] = $offerElem;
-        if (!$rlateCmlProds[md5($resEl['PROPERTY_CML2_LINK_VALUE'])]['OFFERS'][md5($resEl['ID'])]) {
-          foreach ($rlateCmlProds as $i => $prod) {
-            if ($prod['ACESS'][md5($resEl['PROPERTY_CML2_LINK_VALUE'])]) {
-              $rlateCmlProds[$i]['ACESS_OBJ'][] = $offerElem;
-            }
-            if ($prod['DOP_SERV'][md5($resEl['PROPERTY_CML2_LINK_VALUE'])]) {
-              $rlateCmlProds[$i]['DOP_SERV_OBJ'][] = $offerElem;
-            }
-          }
-        }
-      }
-    }
-  }
-endif;
-
-if (!empty($allOffersId)) {
-    $rsProducts = \CIBlockElement::GetList(
-        [
-        ],
-        [
-            "IBLOCK_ID" => $offersIblockID,
-            "ID" => $allOffersId
-        ],
-        false,
-        false,
-        [
-            "ID",
-            "IBLOCK_ID",
-            "PROPERTY_this_prod_model"
-        ]);
-    while ($product = $rsProducts->GetNext()) {
-        if (!empty($product["PROPERTY_THIS_PROD_MODEL_VALUE"])) {
-            $models[$product["ID"]] = $product["PROPERTY_THIS_PROD_MODEL_VALUE"];
-        }
     }
 }
 
-foreach ($arResult['GRID']['ROWS'] as &$row) {
-    if (!empty($models[$row["PRODUCT_ID"]])){
-        $row["MODEL"] = $models[$row["PRODUCT_ID"]];
-    }
-}
-unset($row);
+foreach ($arResult['GRID']['ROWS'] as $i => $item) {
+    $item['MODEL'] = '';
 
-$arResult['CML_PROD'] = $rlateCmlProds;
+    $productId = $item['PRODUCT_ID'];
+    $offerId = 0;
+    if (!empty($item['IBLOCK_ID'])) {
+        $productId = $offersProductId[$item['PRODUCT_ID']];
+        $offerId = $item['PRODUCT_ID'];
+    }
+
+    if (!empty($item['IBLOCK_ID'])) {
+        if (!empty($productsImage[$productId])) {
+            $imageId = $productsImage[$productId];
+        } elseif (!empty($offersImage[$offerId])) {
+            $imageId = $offersImage[$offerId];
+        }
+
+        if (!empty($productsModel[$productId])) {
+            $item['MODEL'] = $productsModel[$productId];
+        } elseif (!empty($offersModel[$offerId])) {
+            $item['MODEL'] = $offersModel[$offerId];
+        }
+    } else {
+        if (!empty($productsImage[$productId])) {
+            $imageId = $productsImage[$productId];
+        }
+
+        if (!empty($productsModel[$productId])) {
+            $item['MODEL'] = $productsModel[$productId];
+        }
+    }
+
+    if (empty($item['PIC']['src']) && !empty($imageId)) {
+        $item['PIC'] = CFile::ResizeImageGet(
+            $imageId,
+            array('width' => 350, 'height' => 350),
+            BX_RESIZE_IMAGE_PROPORTIONAL,
+            true
+        );
+    }
+
+    foreach ($productsAccessoriesId[$productId] as $id) {
+        if (empty($accessoriesAndAdditionalServices[$id])) {
+            continue;
+        }
+
+        $item['ACCESSORIES'][] = $accessoriesAndAdditionalServices[$id];
+    }
+
+    foreach ($productsAdditionalServicesId[$productId] as $id) {
+        if (empty($accessoriesAndAdditionalServices[$id])) {
+            continue;
+        }
+
+        $item['ADDITIONAL_SERVICES'][] = $accessoriesAndAdditionalServices[$id];
+    }
+
+    $arResult['GRID']['ROWS'][$i] = $item;
+}

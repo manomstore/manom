@@ -1,39 +1,78 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+<?php
 
-/**
- * @var CBitrixComponentTemplate $this
- * @var CatalogSectionComponent $component
- */
-
-$component = $this->getComponent();
-$arParams = $component->applyTemplateModifications();
-global $glob_allItemsByFilter;
-
-$ids = array();
-foreach ($arResult['ITEMS'] as $key => $item) {
-  $this_element = $glob_allItemsByFilter['stack'][$item['PROPERTIES']['CML2_LINK']['VALUE']];
-//  $arResult['ITEMS'][$key]['DETAIL_PAGE_URL'] = $this_element['URL'].'?offer='.$item['ID'];
-  if (!$item['PROPERTIES']['MORE_PHOTO']['VALUE']){
-    if ($item['PREVIEW_PICTURE']['ID']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($item['PREVIEW_PICTURE']['ID']);
-    } elseif ($item['DETAIL_PICTURE']['ID']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($item['DETAIL_PICTURE']['ID']);
-    } elseif ($this_element['PREVIEW_PICTURE']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = $this_element['PIC'];
-    } elseif ($this_element['PREVIEW_PICTURE']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($this_element['PREVIEW_PICTURE']);
-    } elseif ($this_element['DETAIL_PICTURE']) {
-      $item['PROPERTIES']['MORE_PHOTO']['VALUE'] = array($this_element['DETAIL_PICTURE']);
-    }
-  }
-  $ids[] = $item['PROPERTIES']['CML2_LINK']['VALUE'];
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
 }
-$rev = getRatingAndCountReviewForList($ids);
-$arResult['REVIEW'] = array();
-foreach ($rev as $key => $value) {
-  foreach ($arResult['ITEMS'] as $item) {
-    if ($item['PROPERTIES']['CML2_LINK']['VALUE'] == $key){
-      $arResult['REVIEW'][$item['ID']] = $value;
+
+use Manom\Content;
+
+$arResult = Content::setCatalogItemsPrice($arResult);
+
+$itemsId = array();
+foreach ($arResult['ITEMS'] as $item) {
+    if (!in_array((int)$item['ID'], $itemsId, true)) {
+        $itemsId[] = (int)$item['ID'];
     }
-  }
 }
+
+$rating = array();
+if (!empty($itemsId)) {
+    $rating = getRatingAndCountReviewForList($itemsId);
+}
+
+$items = array();
+foreach ($arResult['ITEMS'] as $item) {
+    $productId = (int)$item['ID'];
+    $canBuy = (bool)$item['CAN_BUY'];
+    if (!empty($item['OFFERS'])) {
+        $productId = (int)$item['PRICE']['OFFER_ID'];
+
+        foreach ($item['OFFERS'] as $offer) {
+            if ((int)$offer['ID'] !== $productId) {
+                continue;
+            }
+
+            $canBuy = (bool)$offer['CAN_BUY'];
+        }
+    }
+
+    $images = Content::getCatalogItemImages($item);
+
+    $properties = array();
+    foreach ($item['DISPLAY_PROPERTIES'] as $property) {
+        if (is_array($property['VALUE'])) {
+            continue;
+        }
+
+        $properties[] = $property;
+    }
+
+    if (empty($properties) && !empty($item['OFFERS'])) {
+        foreach ($item['OFFERS'] as $offer) {
+            foreach ($offer['DISPLAY_PROPERTIES'] as $property) {
+                if (is_array($property['DISPLAY_VALUE'])) {
+                    $property['DISPLAY_VALUE'] = implode(',', $property['DISPLAY_VALUE']);
+                }
+
+                $properties[] = $property;
+            }
+        }
+    }
+
+    $items[] = array(
+        'id' => (int)$item['ID'],
+        'productId' => $productId,
+        'name' => $item['NAME'],
+        'url' => $item['DETAIL_PAGE_URL'],
+        'images' => $images,
+        'properties' => $properties,
+        'price' => $item['PRICE'],
+        'canBuy' => $canBuy,
+        'productOfTheDay' => $item['PROPERTIES']['PRODUCT_OF_THE_DAY']['VALUE'] === 'Да',
+        'sale' => $item['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да',
+        'inFavoriteAndCompare' => checkProdInFavoriteAndCompareList((int)$item['ID'], 'UF_FAVORITE_ID'),
+        'rating' => $rating[(int)$item['ID']],
+    );
+}
+
+$arResult['ITEMS'] = $items;

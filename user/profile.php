@@ -1,6 +1,12 @@
-<?
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Профиль");
+<?php
+
+require $_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php';
+
+$APPLICATION->SetTitle('Профиль');
+
+if (!$USER->IsAuthorized()) {
+    LocalRedirect('/');
+}
 ?>
 <div class="content">
     <?if ($USER->IsAuthorized()){?>
@@ -19,27 +25,30 @@ $APPLICATION->SetTitle("Профиль");
                     <a href="/user/history.php" id="personal-nav__item2" class="personal-nav__item">История покупок</a>
                     <a href="/user/favorite/" id="personal-nav__item4" class="personal-nav__item">Товары в избранном</a>
                     <a href="/catalog/compare/" id="personal-nav__item4" class="personal-nav__item">Сравнение товаров</a>
-                    <p class="personal-nav__name">Моя активность:</p>
-    <!--                <a href="/user/review/add-list/" id="personal-nav__item4" class="personal-nav__item">Добавить отзыв товару</a>-->
-    <!--                <a href="/user/review/" id="personal-nav__item4" class="personal-nav__item">Мои отзывы</a>-->
-                </aside>
 
+                    <?php /*
+                    <p class="personal-nav__name">Моя активность:</p>
+                    <a href="/user/review/add-list/" id="personal-nav__item4" class="personal-nav__item">Добавить отзыв товару</a>
+                    <a href="/user/review/" id="personal-nav__item4" class="personal-nav__item">Мои отзывы</a>
+                    */ ?>
+                </aside>
+                
                 <!-- Личный кабинет - основной блок -->
                 <main class="personal-block">
-                    <?if($USER->IsAuthorized()){
-                        $APPLICATION->IncludeComponent(
-                            "bitrix:main.profile",
-                            "profile",
-                            Array(
-                                "CHECK_RIGHTS" => "N",
-                                "SEND_INFO" => "N",
-                                "SET_TITLE" => "Y",
-                                "USER_PROPERTY" => array(),
-                                "USER_PROPERTY_NAME" => ""
-                            )
-                        );
-                    }?>
+                    <?php $APPLICATION->IncludeComponent(
+                        'bitrix:main.profile',
+                        'profile',
+                        Array(
+                            'CHECK_RIGHTS' => 'N',
+                            'SEND_INFO' => 'N',
+                            'SET_TITLE' => 'Y',
+                            'USER_PROPERTY' => array(),
+                            'USER_PROPERTY_NAME' => '',
+                        )
+                    ); ?>
+
                     <!-- Избранные товары  -->
+                    <?php /*
                     <section id="pb-favour" class="personal-block__section">
                         <h2 class="pb-info__title">Избранные товары:</h2>
                         <div class="cb-nav cb-nav-personal">
@@ -470,7 +479,10 @@ $APPLICATION->SetTitle("Профиль");
                             </div>
                         </div>
                     </section>
+                    */ ?>
+
                     <!-- Мои отзывы  -->
+                    <?php /*
                     <section id="pb-comments" class="personal-block__section">
                         <?$APPLICATION->IncludeComponent(
                             "bitrix:news.list",
@@ -637,149 +649,133 @@ $APPLICATION->SetTitle("Профиль");
                             </div>
                         </div>
                     </section>
-                    <!-- Последние просмотренные товары -->
-                </main>
-                <?$APPLICATION->IncludeComponent(
-                    "bitrix:catalog.products.viewed",
-                    "cart-product",
-                    array(
-                        "ACTION_VARIABLE" => "action_cpv",
-                        "ADDITIONAL_PICT_PROP_2" => "MORE_PHOTO",
-                        "ADDITIONAL_PICT_PROP_3" => "-",
-                        "ADD_PROPERTIES_TO_BASKET" => "Y",
-                        "ADD_TO_BASKET_ACTION" => "BUY",
-                        "BASKET_URL" => "/personal/basket.php",
-                        "CACHE_GROUPS" => "Y",
-                        "CACHE_TIME" => "3600",
-                        "CACHE_TYPE" => "A",
-                        "CART_PROPERTIES_2" => array(
-                            0 => "NEWPRODUCT",
-                            1 => "NEWPRODUCT,SALELEADER",
-                            2 => "",
-                        ),
-                        "CART_PROPERTIES_3" => array(
-                            0 => "COLOR_REF",
-                            1 => "SIZES_SHOES",
-                            2 => "",
-                        ),
-                        "CONVERT_CURRENCY" => "Y",
-                        "CURRENCY_ID" => "RUB",
-                        "DATA_LAYER_NAME" => "dataLayer",
-                        "DEPTH" => "",
-                        "DISCOUNT_PERCENT_POSITION" => "top-right",
-                        "ENLARGE_PRODUCT" => "STRICT",
-                        "ENLARGE_PROP_2" => "NEWPRODUCT",
-                        "HIDE_NOT_AVAILABLE" => "N",
-                        "HIDE_NOT_AVAILABLE_OFFERS" => "N",
-                        "IBLOCK_ID" => "6",
-                        "IBLOCK_MODE" => "single",
-                        "IBLOCK_TYPE" => "catalog",
-                        "LABEL_PROP_2" => array(
-                            0 => "NEWPRODUCT",
-                        ),
-                        "LABEL_PROP_MOBILE_2" => "",
-                        "LABEL_PROP_POSITION" => "top-left",
-                        "MESS_BTN_ADD_TO_BASKET" => "В корзину",
-                        "MESS_BTN_BUY" => "Купить",
-                        "MESS_BTN_DETAIL" => "Подробнее",
-                        "MESS_BTN_SUBSCRIBE" => "Подписаться",
-                        "MESS_NOT_AVAILABLE" => "Нет в наличии",
-                        "MESS_RELATIVE_QUANTITY_FEW" => "мало",
-                        "MESS_RELATIVE_QUANTITY_MANY" => "много",
-                        "MESS_SHOW_MAX_QUANTITY" => "Наличие",
-                        "OFFER_TREE_PROPS_3" => array(
-                            0 => "COLOR_REF",
-                            1 => "SIZES_SHOES",
-                            2 => "SIZES_CLOTHES",
-                        ),
-                        "PAGE_ELEMENT_COUNT" => "8",
-                        "PARTIAL_PRODUCT_PROPERTIES" => "N",
-                        "PRICE_CODE" => array(
-                            0 => "Цена продажи",
-                        ),
-                        "PRICE_VAT_INCLUDE" => "Y",
-                        "PRODUCT_BLOCKS_ORDER" => "price,props,quantityLimit,sku,quantity,buttons,compare",
-                        "PRODUCT_ID_VARIABLE" => "id",
-                        "PRODUCT_PROPS_VARIABLE" => "prop",
-                        "PRODUCT_QUANTITY_VARIABLE" => "",
-                        "PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'3','BIG_DATA':false},{'VARIANT':'3','BIG_DATA':false}]",
-                        "PRODUCT_SUBSCRIPTION" => "N",
-                        "PROPERTY_CODE_2" => array(
-                            0 => "NEWPRODUCT",
-                            1 => "SALELEADER",
-                            2 => "SPECIALOFFER",
-                            3 => "MANUFACTURER",
-                            4 => "MATERIAL",
-                            5 => "COLOR",
-                            6 => "SALELEADER,SPECIALOFFER,MATERIAL,COLOR,KEYWORDS,BRAND_REF",
-                            7 => "",
-                        ),
-                        "PROPERTY_CODE_3" => array(
-                            0 => "ARTNUMBER",
-                            1 => "COLOR_REF",
-                            2 => "SIZES_SHOES",
-                            3 => "SIZES_CLOTHES",
-                            4 => "",
-                        ),
-                        "PROPERTY_CODE_MOBILE_2" => "",
-                        "RELATIVE_QUANTITY_FACTOR" => "5",
-                        "SECTION_CODE" => "",
-                        "SECTION_ELEMENT_CODE" => "",
-                        "SECTION_ELEMENT_ID" => "",
-                        "SECTION_ID" => "",
-                        "SHOW_CLOSE_POPUP" => "N",
-                        "SHOW_DISCOUNT_PERCENT" => "Y",
-                        "SHOW_FROM_SECTION" => "N",
-                        "SHOW_MAX_QUANTITY" => "N",
-                        "SHOW_OLD_PRICE" => "Y",
-                        "SHOW_PRICE_COUNT" => "1",
-                        "SHOW_PRODUCTS_2" => "N",
-                        "SHOW_SLIDER" => "Y",
-                        "SLIDER_INTERVAL" => "3000",
-                        "SLIDER_PROGRESS" => "Y",
-                        "TEMPLATE_THEME" => "",
-                        "USE_ENHANCED_ECOMMERCE" => "N",
-                        "USE_PRICE_COUNT" => "N",
-                        "USE_PRODUCT_QUANTITY" => "Y",
-                        "COMPONENT_TEMPLATE" => "cart-product",
-                        "DISPLAY_COMPARE" => "Y",
-                        "PROPERTY_CODE_6" => array(
-                            0 => "",
-                            1 => "",
-                        ),
-                        "PROPERTY_CODE_MOBILE_6" => array(
-                        ),
-                        "CART_PROPERTIES_6" => array(
-                            0 => "",
-                            1 => "",
-                        ),
-                        "ADDITIONAL_PICT_PROP_6" => "-",
-                        "LABEL_PROP_6" => array(
-                        ),
-                        "PROPERTY_CODE_7" => array(
-                            0 => "MORE_PHOTO",
-                            1 => "",
-                        ),
-                        "CART_PROPERTIES_7" => array(
-                            0 => "",
-                            1 => "",
-                        ),
-                        "ADDITIONAL_PICT_PROP_7" => "-",
-                        "OFFER_TREE_PROPS_7" => array(
-                        ),
-                        "SHOW_PRODUCTS_6" => "N",
-                        "LABEL_PROP_MOBILE_6" => "",
-                        "COMPARE_PATH" => "",
-                        "MESS_BTN_COMPARE" => "Сравнить",
-                        "COMPARE_NAME" => "CATALOG_COMPARE_LIST"
-                    ),
-                    false
-                );?>
-            </div>
+                    */ ?>
 
+                    <!-- Последние просмотренные товары -->
+                    <?php /*$APPLICATION->IncludeComponent(
+                        'bitrix:catalog.products.viewed',
+                        'cart-product',
+                        array(
+                            'ACTION_VARIABLE' => 'action_cpv',
+                            'ADDITIONAL_PICT_PROP_2' => 'MORE_PHOTO',
+                            'ADDITIONAL_PICT_PROP_3' => '-',
+                            'ADD_PROPERTIES_TO_BASKET' => 'Y',
+                            'ADD_TO_BASKET_ACTION' => 'BUY',
+                            'BASKET_URL' => '/personal/basket.php',
+                            'CACHE_GROUPS' => 'Y',
+                            'CACHE_TIME' => '3600',
+                            'CACHE_TYPE' => 'A',
+                            'CART_PROPERTIES_2' => array(
+                                0 => 'NEWPRODUCT',
+                                1 => 'NEWPRODUCT,SALELEADER',
+                            ),
+                            'CART_PROPERTIES_3' => array(
+                                0 => 'COLOR_REF',
+                                1 => 'SIZES_SHOES',
+                            ),
+                            'CONVERT_CURRENCY' => 'Y',
+                            'CURRENCY_ID' => 'RUB',
+                            'DATA_LAYER_NAME' => 'dataLayer',
+                            'DEPTH' => '',
+                            'DISCOUNT_PERCENT_POSITION' => 'top-right',
+                            'ENLARGE_PRODUCT' => 'STRICT',
+                            'ENLARGE_PROP_2' => 'NEWPRODUCT',
+                            'HIDE_NOT_AVAILABLE' => 'N',
+                            'HIDE_NOT_AVAILABLE_OFFERS' => 'N',
+                            'IBLOCK_ID' => 6,
+                            'IBLOCK_MODE' => 'single',
+                            'IBLOCK_TYPE' => 'catalog',
+                            'LABEL_PROP_2' => array(
+                                0 => 'NEWPRODUCT',
+                            ),
+                            'LABEL_PROP_MOBILE_2' => '',
+                            'LABEL_PROP_POSITION' => 'top-left',
+                            'MESS_BTN_ADD_TO_BASKET' => 'В корзину',
+                            'MESS_BTN_BUY' => 'Купить',
+                            'MESS_BTN_DETAIL' => 'Подробнее',
+                            'MESS_BTN_SUBSCRIBE' => 'Подписаться',
+                            'MESS_NOT_AVAILABLE' => 'Нет в наличии',
+                            'MESS_RELATIVE_QUANTITY_FEW' => 'мало',
+                            'MESS_RELATIVE_QUANTITY_MANY' => 'много',
+                            'MESS_SHOW_MAX_QUANTITY' => 'Наличие',
+                            'OFFER_TREE_PROPS_3' => array(
+                                0 => 'COLOR_REF',
+                                1 => 'SIZES_SHOES',
+                                2 => 'SIZES_CLOTHES',
+                            ),
+                            'PAGE_ELEMENT_COUNT' => '8',
+                            'PARTIAL_PRODUCT_PROPERTIES' => 'N',
+                            'PRICE_CODE' => array(
+                                0 => 'Цена продажи',
+                            ),
+                            'PRICE_VAT_INCLUDE' => 'Y',
+                            'PRODUCT_BLOCKS_ORDER' => 'price,props,quantityLimit,sku,quantity,buttons,compare',
+                            'PRODUCT_ID_VARIABLE' => 'id',
+                            'PRODUCT_PROPS_VARIABLE' => 'prop',
+                            'PRODUCT_QUANTITY_VARIABLE' => '',
+                            'PRODUCT_ROW_VARIANTS' => "[{'VARIANT':'3','BIG_DATA':false},{'VARIANT':'3','BIG_DATA':false}]",
+                            'PRODUCT_SUBSCRIPTION' => 'N',
+                            'PROPERTY_CODE_2' => array(
+                                0 => 'NEWPRODUCT',
+                                1 => 'SALELEADER',
+                                2 => 'SPECIALOFFER',
+                                3 => 'MANUFACTURER',
+                                4 => 'MATERIAL',
+                                5 => 'COLOR',
+                                6 => 'SALELEADER,SPECIALOFFER,MATERIAL,COLOR,KEYWORDS,BRAND_REF',
+                            ),
+                            'PROPERTY_CODE_3' => array(
+                                0 => 'ARTNUMBER',
+                                1 => 'COLOR_REF',
+                                2 => 'SIZES_SHOES',
+                                3 => 'SIZES_CLOTHES',
+                            ),
+                            'PROPERTY_CODE_MOBILE_2' => '',
+                            'RELATIVE_QUANTITY_FACTOR' => '5',
+                            'SECTION_CODE' => '',
+                            'SECTION_ELEMENT_CODE' => '',
+                            'SECTION_ELEMENT_ID' => '',
+                            'SECTION_ID' => '',
+                            'SHOW_CLOSE_POPUP' => 'N',
+                            'SHOW_DISCOUNT_PERCENT' => 'Y',
+                            'SHOW_FROM_SECTION' => 'N',
+                            'SHOW_MAX_QUANTITY' => 'N',
+                            'SHOW_OLD_PRICE' => 'Y',
+                            'SHOW_PRICE_COUNT' => '1',
+                            'SHOW_PRODUCTS_2' => 'N',
+                            'SHOW_SLIDER' => 'Y',
+                            'SLIDER_INTERVAL' => '3000',
+                            'SLIDER_PROGRESS' => 'Y',
+                            'TEMPLATE_THEME' => '',
+                            'USE_ENHANCED_ECOMMERCE' => 'N',
+                            'USE_PRICE_COUNT' => 'N',
+                            'USE_PRODUCT_QUANTITY' => 'Y',
+                            'COMPONENT_TEMPLATE' => 'cart-product',
+                            'DISPLAY_COMPARE' => 'Y',
+                            'PROPERTY_CODE_6' => array(),
+                            'PROPERTY_CODE_MOBILE_6' => array(),
+                            'CART_PROPERTIES_6' => array(),
+                            'ADDITIONAL_PICT_PROP_6' => '-',
+                            'LABEL_PROP_6' => array(),
+                            'PROPERTY_CODE_7' => array(
+                                0 => 'MORE_PHOTO',
+                            ),
+                            'CART_PROPERTIES_7' => array(),
+                            'ADDITIONAL_PICT_PROP_7' => '-',
+                            'OFFER_TREE_PROPS_7' => array(),
+                            'SHOW_PRODUCTS_6' => 'N',
+                            'LABEL_PROP_MOBILE_6' => '',
+                            'COMPARE_PATH' => '',
+                            'MESS_BTN_COMPARE' => 'Сравнить',
+                            'COMPARE_NAME' => 'CATALOG_COMPARE_LIST',
+                        ),
+                        false
+                    ); */?>
+                </main>
+            </div>
         </div>
-    <?}else{
-        LocalRedirect("/");
-    }?>
+    <?}?>
 </div>
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<?php
+require $_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php';
+?>
