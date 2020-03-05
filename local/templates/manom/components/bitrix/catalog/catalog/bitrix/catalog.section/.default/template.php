@@ -399,3 +399,8 @@ $this->setFrameMode(true);
     </div>
     */ ?>
 </section>
+<script>
+    $(function() {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("category")?>);
+    });
+</script>

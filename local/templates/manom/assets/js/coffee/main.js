@@ -468,6 +468,7 @@ $(document).ready(function() {
             $(document).find('#btnSubmitOrder').removeClass('hidden');
             $(document).find('#btnNextSlide').addClass('hidden');
           }
+            window.gtmActions.setCheckoutStep("contacts");
         } else if (parseInt(slideNum) === 2) {
           if ($(document).find('#sci-contact-tab1').prop('checked')) {
             sBlock = $(document).find('#sci-contact-content1');
@@ -535,6 +536,7 @@ $(document).ready(function() {
               }
             }
           });
+            window.gtmActions.setCheckoutStep("delivery");
         } else if (parseInt(slideNum) === 3) {
           $formIsValid = true;
 
@@ -646,6 +648,7 @@ $(document).ready(function() {
               $.fn.setPushUp("Не заполнены поля", "Поля обязательные к заполнению небыли заполнены", false, "message", false, 5000);
             }
           }
+            window.gtmActions.setCheckoutStep("payment");
         }
       }
       if (parseInt(slideNum) === 2) {
@@ -3079,3 +3082,40 @@ function formatMoney(number) {
     });
   });
 })();
+
+window.gtmActions = {
+    initCommonData: function (data) {
+        if (typeof data !== "object" || Object(data).length <= 0) {
+            return false;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push(data);
+    },
+
+    setCheckoutStep: function (step) {
+        var steps = {
+            contacts: {
+                step: 1,
+                option: "Contacts",
+            },
+            delivery: {
+                step: 2,
+                option: "Delivery",
+            },
+            payment: {
+                step: 3,
+                option: "Payment",
+            },
+        };
+
+        if (!steps.hasOwnProperty(step)) {
+            return false;
+        }
+
+        var gtmData = steps[step];
+        gtmData.event = "update";
+
+        this.initCommonData(gtmData);
+    },
+};

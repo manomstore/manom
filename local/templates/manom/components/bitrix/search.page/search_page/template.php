@@ -171,3 +171,8 @@ global $USER;
         <?php endif; ?>
     </section>
 </div>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("searchresults")?>);
+    });
+</script>

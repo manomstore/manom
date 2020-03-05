@@ -776,6 +776,11 @@ if (!$USER->IsAuthorized()) {
         </div>
     <?}?>
 </div>
+    <script>
+        $(function () {
+            window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+        });
+    </script>
 <?php
 require $_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php';
 ?>

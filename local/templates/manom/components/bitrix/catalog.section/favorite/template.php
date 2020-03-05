@@ -393,3 +393,8 @@ $this->setFrameMode(true);
         */ ?>
     <?php endif; ?>
 </section>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+    });
+</script>

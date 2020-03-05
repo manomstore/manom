@@ -39,6 +39,11 @@ if (!$USER->IsAuthorized()) {
                 ),
                 false
             ); ?>
+            <script>
+                $(function () {
+                    window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+                });
+            </script>
         </div>
     <?php endif; ?>
 </div>

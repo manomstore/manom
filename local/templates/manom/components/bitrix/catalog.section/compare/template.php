@@ -140,3 +140,8 @@ $this->setFrameMode(true);
         <?php endif; ?>
     </div>
 </section>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+    });
+</script>

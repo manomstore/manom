@@ -33,12 +33,22 @@ if ($arParams["SET_TITLE"] == "Y")
 			</td>
 		</tr>
 	</table>
-
 	<?
 	if ($arResult["ORDER"]["IS_ALLOW_PAY"] === 'Y')
 	{
 		if (!empty($arResult["PAYMENT"]))
 		{
+            ?>
+            <script>
+                $(function () {
+                    window.gtmActions.initCommonData(<?=GTM::getDataJS("purchase",
+                        [
+                            "payment" => reset($arResult["PAYMENT"])
+                        ]
+                    )?>);
+                });
+            </script>
+            <?
 			foreach ($arResult["PAYMENT"] as $payment)
 			{
 				if ($payment["PAID"] != 'Y')

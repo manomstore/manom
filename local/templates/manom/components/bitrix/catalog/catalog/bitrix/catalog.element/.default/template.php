@@ -1040,3 +1040,8 @@ function formatBytes($size, $precision = 2)
         false
     ); ?>
 <?php endif; ?>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("product")?>);
+    });
+</script>

@@ -342,6 +342,353 @@ function cssAutoVersion($file)
     return $file."?m={$modifyTime}";
 }
 
+class Helper
+{
+    const CATALOG_IB_ID = 6;
+    const OFFERS_IB_ID = 7;
+}
+
+class GTM
+{
+    private static $resultDataJS = [];
+    private static $additionalData = [];
+    private static $basketItems = [];
+
+    static function getDataJS($pageType, $additional = [])
+    {
+        $pageType = (string)$pageType;
+        if (empty($pageType)) {
+            return self::$resultDataJS;
+        }
+
+        self::setAdditionalData($additional);
+        self::setPageType($pageType);
+        self::setCommonData();
+        self::setDataForType();
+
+        return \CUtil::PhpToJSObject(self::$resultDataJS);
+    }
+
+    private static function setCommonData()
+    {
+        global $USER;
+        self::$resultDataJS["user"]["visitorId"] = session_id();
+
+        if ($USER->IsAuthorized()) {
+            self::$resultDataJS["user"]["userId"] = $USER->GetID();
+            if (!empty($USER->GetEmail())) {
+                self::$resultDataJS["user"]["email"] = $USER->GetEmail();
+            }
+
+            self::$resultDataJS["user"]["userType"] = $USER->IsAdmin() ? "worker" : "user";
+        } else {
+            self::$resultDataJS["user"]["userType"] = "guest";
+        }
+
+        $userLoc = new UserLocation();
+        $userLoc = $userLoc->getUserLocationInfo();
+        self::$resultDataJS["geo"] = [
+            "country" => $userLoc["COUNTRY_NAME"],
+            "countryId" => $userLoc["COUNTRY_ID"],
+            "region" => $userLoc["REGION_NAME"],
+            "regionId" => $userLoc["REGION_ID"],
+            "city" => $userLoc["CITY_NAME"],
+            "cityId" => $userLoc["CITY_ID"],
+        ];
+
+        if (self::getPageType() !== "purchase") {
+            $basket = \Bitrix\Sale\Basket::loadItemsForFUser(
+                \Bitrix\Sale\Fuser::getId(),
+                \Bitrix\Main\Context::getCurrent()->getSite()
+            );
+
+            self::setBasketItems($basket->getBasketItems());
+            $basketProductsId = array_map("self::getProductIdCallback", $basket->getBasketItems());
+
+            $currency = !empty($basketItems) ? reset($basketItems)->getCurrency() : "";
+            $currency = !empty($currency) ? $currency :
+                \COption::GetOptionString("sale", "default_currency", "RUB");
+
+            self::$resultDataJS["cart"] = [
+                "currency" => $currency,
+                "total" => $basket->getPrice(),
+                "count" => $basket->count(),
+                "items" => self::getProductObjects($basketProductsId),
+                "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
+                "cartId" => $basket->getFUserId(),
+            ];
+        }
+
+        self::$resultDataJS["geo"] = array_filter(self::$resultDataJS["geo"], function ($item) {
+            return !empty($item);
+        });
+    }
+
+    private static function setDataForType()
+    {
+        switch (self::getPageType()) {
+            case "home":
+                self::setHomeData();
+                break;
+            case "product":
+                self::setProductData();
+                break;
+            case "checkout":
+                self::setCheckoutData();
+                break;
+            case "purchase":
+                self::setPurchaseData();
+                break;
+            case "searchresults":
+                self::setSearchResultsData();
+                break;
+        }
+    }
+
+    private static function setBasketItems($basketItems = [])
+    {
+        self::$basketItems = $basketItems;
+    }
+
+    private static function setPageType($pageType)
+    {
+        self::$resultDataJS["pageType"] = $pageType;
+    }
+
+    private static function setAdditionalData($additionalData)
+    {
+        self::$additionalData = $additionalData;
+    }
+
+    private static function getPageType()
+    {
+        return self::$resultDataJS["pageType"];
+    }
+
+    private static function setPurchaseData()
+    {
+    	$payment = self::$additionalData["payment"];
+    	$order = \Bitrix\Sale\Order::load($payment["ORDER_ID"]);
+    	if (empty($order)){
+    		return false;
+	    }
+        $basket = $order->getBasket();
+        self::setBasketItems($basket->getBasketItems());
+        $basketProductsId = array_map("self::getProductIdCallback", $basket->getBasketItems());
+
+	    self::$resultDataJS["transaction"] = [
+		    "currency"     => $payment["CURRENCY"],
+		    "id"           => (int) $payment["ID"],
+		    "affiliation"  => "shop",
+		    "revenue"      => (int) $payment["SUM"],
+		    "shipping"     => (int) $order->getDeliveryPrice(),
+		    "items" => self::getProductObjects($basketProductsId),
+		    "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
+		    "shippingType" => $order->getShipmentCollection()->current()->getDeliveryName(),
+		    "paymentType"  => $payment["PAY_SYSTEM_NAME"],
+		    "tax"          => $order->getTaxValue(),
+	    ];
+    }
+
+		private static function getProductIdCallback($item) {
+			/** @var \Bitrix\Sale\BasketItem $item */
+			return (int) $item->getProductId();
+		}
+
+    private static function setHomeData()
+    {
+        return self::$resultDataJS["transaction"] = [
+
+        ];
+    }
+
+    private static function setProductData()
+    {
+        return self::$resultDataJS["transaction"] = [
+
+        ];
+    }
+    private static function setCheckoutData()
+    {
+        return self::$resultDataJS["checkout"] = [
+
+        ];
+    }
+
+    private static function setSearchResultsData()
+    {
+        return self::$resultDataJS["transaction"] = [
+
+        ];
+    }
+
+    static function getProductObjects(Array $itemsId)
+    {
+
+        $arResultProducts = [];
+
+        if (empty($itemsId)) {
+            return $arResultProducts;
+        }
+
+        $recommendedProducts = self::getRecommendedIds($itemsId, true);
+
+        $products = \CIBlockElement::GetList(
+            [],
+            [
+                "ID" => $itemsId,
+            ],
+            false,
+            false,
+            [
+                "ID",
+                "IBLOCK_ID",
+                "CML2_ARTICLE",
+                "TOP_FIELD_2",
+                "model",
+                "PREVIEW_PICTURE",
+                "DETAIL_PICTURE",
+                "PROPERTY_MORE_PHOTO",
+                "NAME",
+                "IBLOCK_SECTION_ID",
+                "DETAIL_PAGE_URL",
+            ]
+        );
+
+        while ($product = $products->GetNext()) {
+            if (!empty($arProducts[$product["ID"]])) {
+                continue;
+            }
+            if (!empty($product["PREVIEW_PICTURE"])) {
+                $product["PREVIEW_PICTURE"] = ["ID" => $product["PREVIEW_PICTURE"]];
+            }
+
+            if (!empty($product["DETAIL_PICTURE"])) {
+                $product["DETAIL_PICTURE"] = ["ID" => $product["DETAIL_PICTURE"]];
+            }
+
+            if (!empty($product["PROPERTY_MORE_PHOTO_VALUE"])) {
+                $product["PROPERTIES"]["MORE_PHOTO"]["VALUE"] = [
+                    $product["PROPERTY_MORE_PHOTO_VALUE"]
+                ];
+            }
+
+            $arProducts["ITEMS"][$product["ID"]] = $product;
+        }
+
+        $arProducts["ITEMS"] = array_values($arProducts["ITEMS"]);
+
+        $arProducts = \Manom\Content::setCatalogItemsPrice($arProducts);
+        $arProducts = $arProducts["ITEMS"];
+
+        $domain = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+
+        foreach ($arProducts as $idx => $arProduct) {
+            $image = reset(\Manom\Content::getCatalogItemImages($arProduct));
+
+            [$price, $oldPrice] = $arProduct["PRICE"]["PRICES"];
+            $productObject = [
+                "id" => $arProduct["ID"],
+                "price" => (float)$price,
+                "position" => $idx + 1,
+//                "list" => "",
+                "sku" => "",
+                "name" => $arProduct["NAME"],
+                "category" => "",
+                "categoryId" => "",
+                "url" => $domain . $arProduct["DETAIL_PAGE_URL"],
+//                "color" => "",
+//                "size" => "",
+                "variant" => "",
+            ];
+
+            if ((float)$oldPrice > 0) {
+                $productObject["priceOld"] = $oldPrice;
+            }
+
+            if (!empty($image)) {
+                $productObject = array_merge($productObject, [
+                    "imageUrl" => $domain . $image["src"],
+                    "thumbnailUrl" => $domain . $image["src"],
+                ]);
+            }
+
+            if (!empty($recommendedProducts[$arProduct["ID"]])) {
+                $productObject["crossSell"] = $recommendedProducts[$arProduct["ID"]];
+            }
+
+            self::setQuantityProduct($productObject);
+
+            $arResultProducts[] = $productObject;
+        }
+
+        return $arResultProducts;
+    }
+
+    private static function setQuantityProduct(&$productObject)
+    {
+        if (
+            !in_array(self::getPageType(), ["cart", "purchase"])
+            || !is_array(self::$basketItems)
+            || empty(self::$basketItems)
+        ) {
+            return false;
+        }
+
+        $productBasket = array_filter(self::$basketItems, function ($item) use ($productObject) {
+            return $item["PRODUCT_ID"] === $productObject["id"];
+        });
+
+        if ((int)$productBasket["QUANTITY"] <= 0) {
+            return false;
+        }
+
+        $productObject["quantity"] = (int)$productBasket["QUANTITY"];
+        return true;
+    }
+
+    static function getRecommendedIds($productsId, $grouped = false)
+    {
+        $commonRecommend = [];
+
+        if (empty($productsId)) {
+            return [];
+        }
+
+        $basketProducts = CIBlockElement::GetList(
+            [],
+            [
+                "IBLOCK_ID" => Helper::CATALOG_IB_ID,
+                "=ID" => $productsId,
+            ],
+            false,
+            false,
+            [
+                "ID",
+                "IBLOCK_ID",
+                "IBLOCK_ID",
+                "PROPERTY_ACESS",
+            ]
+        );
+
+        while ($basketProduct = $basketProducts->GetNext()) {
+            if ((int)$basketProduct["PROPERTY_ACESS_VALUE"] > 0) {
+                if ($grouped) {
+                    $commonRecommend[$basketProduct["ID"]][] = (int)$basketProduct["PROPERTY_ACESS_VALUE"];
+                } else {
+                    $commonRecommend[] = (int)$basketProduct["PROPERTY_ACESS_VALUE"];
+                }
+            }
+        }
+
+        if (empty($commonRecommend)) {
+            return [];
+        }
+
+        return $commonRecommend;
+    }
+}
+
 class MyHandlerClass
 {
     function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context, $elements, $elementPropsList)

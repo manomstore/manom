@@ -53,4 +53,9 @@ $hasSubSec = false;
             </div>
         </div>
     </section>
+    <script>
+        $(function () {
+            window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+        });
+    </script>
 <?php endif; ?>

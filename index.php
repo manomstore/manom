@@ -661,6 +661,11 @@ $newFilter = array(
         </div>
     </section>
 </div>
+<script>
+	$(function() {
+		window.gtmActions.initCommonData(<?=GTM::getDataJS("home")?>);
+	});
+</script>
 <?php
 require $_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php';
 ?>
