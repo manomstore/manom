@@ -3115,6 +3115,7 @@ window.gtmActions = {
 
         var gtmData = steps[step];
         gtmData.event = "update";
+        gtmData.pageType = "checkout";
 
         this.initCommonData(gtmData);
     },

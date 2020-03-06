@@ -537,21 +537,25 @@ class GTM
             [],
             [
                 "ID" => $itemsId,
+                "IBLOCK_ID" => Helper::CATALOG_IB_ID,
             ],
             false,
             false,
             [
                 "ID",
                 "IBLOCK_ID",
-                "CML2_ARTICLE",
-                "TOP_FIELD_2",
-                "model",
+                "PROPERTY_CML2_ARTICLE",
+                "PROPERTY_TOP_FIELD_2",
+                "PROPERTY_model",
                 "PREVIEW_PICTURE",
                 "DETAIL_PICTURE",
                 "PROPERTY_MORE_PHOTO",
                 "NAME",
                 "IBLOCK_SECTION_ID",
                 "DETAIL_PAGE_URL",
+                "PROPERTY_STOCK_PRODUCT",
+                "PROPERTY_NEW_PRODUCT",
+                "PROPERTY_PRODUCT_OF_THE_DAY",
             ]
         );
 
@@ -586,25 +590,13 @@ class GTM
         foreach ($arProducts as $idx => $arProduct) {
             $image = reset(\Manom\Content::getCatalogItemImages($arProduct));
 
-            [$price, $oldPrice] = $arProduct["PRICE"]["PRICES"];
             $productObject = [
                 "id" => $arProduct["ID"],
-                "price" => (float)$price,
                 "position" => $idx + 1,
 //                "list" => "",
-                "sku" => "",
                 "name" => $arProduct["NAME"],
-                "category" => "",
-                "categoryId" => "",
                 "url" => $domain . $arProduct["DETAIL_PAGE_URL"],
-//                "color" => "",
-//                "size" => "",
-                "variant" => "",
             ];
-
-            if ((float)$oldPrice > 0) {
-                $productObject["priceOld"] = $oldPrice;
-            }
 
             if (!empty($image)) {
                 $productObject = array_merge($productObject, [
@@ -617,7 +609,11 @@ class GTM
                 $productObject["crossSell"] = $recommendedProducts[$arProduct["ID"]];
             }
 
+            self::setPriceProduct($productObject, $arProduct);
             self::setQuantityProduct($productObject);
+            self::setCategory($productObject, $arProduct);
+            self::setSku($productObject, $arProduct);
+            self::setVariant($productObject, $arProduct);
 
             $arResultProducts[] = $productObject;
         }
@@ -636,15 +632,73 @@ class GTM
         }
 
         $productBasket = array_filter(self::$basketItems, function ($item) use ($productObject) {
-            return $item["PRODUCT_ID"] === $productObject["id"];
+            return (int)$item->getProductId() === (int)$productObject["id"];
         });
 
-        if ((int)$productBasket["QUANTITY"] <= 0) {
+        $productBasket = reset($productBasket);
+
+        if (!$productBasket) {
             return false;
         }
 
-        $productObject["quantity"] = (int)$productBasket["QUANTITY"];
+        $productObject["quantity"] = (int)$productBasket->getQuantity();
         return true;
+    }
+
+    private static function setPriceProduct(&$productObject, $arProduct)
+    {
+        [$price, $oldPrice] = $arProduct["PRICE"]["PRICES"];
+        $productObject["price"] = (float)$price;
+
+        if ((float)$oldPrice > 0) {
+            $productObject["priceOld"] = $oldPrice;
+        }
+    }
+
+    private static function setCategory(&$productObject, $arProduct)
+    {
+        if (self::getPageType() !== "category") {
+            return false;
+        }
+
+        $arSections = CIBlockSection::GetNavChain(false, $arProduct["IBLOCK_SECTION_ID"], ['ID', 'NAME', 'DEPTH_LEVEL'], true);
+
+        foreach ($arSections as $arSection) {
+            $productObject["category"][] = $arSection["NAME"];
+            $productObject["categoryId"][] = $arSection["ID"];
+        }
+
+        return true;
+    }
+
+    private static function setVariant(&$productObject, $arProduct)
+    {
+        if ($arProduct["PROPERTY_STOCK_PRODUCT_VALUE"] === "Да") {
+            $productObject["variant"][] = "Акция";
+        }
+        if ($arProduct["PROPERTY_NEW_PRODUCT_VALUE"] === "Да") {
+            $productObject["variant"][] = "Новинка";
+        }
+        if ($arProduct["PROPERTY_PRODUCT_OF_THE_DAY_VALUE"] === "Да") {
+            $productObject["variant"][] = "Товар дня";
+        }
+    }
+
+    private static function setSku(&$productObject, $arProduct)
+    {
+        $sku = $arProduct["PROPERTY_CML2_ARTICLE_VALUE"];
+
+        if (empty($sku)) {
+            $sku = $arProduct["PROPERTY_TOP_FIELD_2_VALUE"];
+        }
+
+        if (empty($sku)) {
+            $sku = $arProduct["PROPERTY_MODEL_VALUE"];
+        }
+
+        if (!empty($sku)) {
+            $productObject["sku"] = $sku;
+        }
     }
 
     static function getRecommendedIds($productsId, $grouped = false)
