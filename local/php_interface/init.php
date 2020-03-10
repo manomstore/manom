@@ -438,10 +438,7 @@ class GTM
                 self::setListingData();
                 break;
             case "product":
-                self::setProductData();
-                break;
-            case "checkout":
-                self::setCheckoutData();
+                self::setDetailData();
                 break;
             case "purchase":
                 self::setPurchaseData();
@@ -516,18 +513,17 @@ class GTM
         return (int)$item->getProductId();
     }
 
-    private static function setProductData()
+    private static function setDetailData()
     {
-        return self::$resultDataJS["transaction"] = [
-
+        $detailObject = [
+            "currency" => self::getCurrency(),
+            "items" => self::getProductObjects(self::$additionalData["items"]),
+            "recommend" => self::getProductObjects(self::getRecommendedIds(self::$additionalData["items"])),
         ];
-    }
 
-    private static function setCheckoutData()
-    {
-        return self::$resultDataJS["checkout"] = [
+        self::setCategory($detailObject, self::$additionalData["categoryId"]);
 
-        ];
+        self::$resultDataJS["detail"] = $detailObject;
     }
 
     private static function setListingData()
@@ -692,7 +688,7 @@ class GTM
 
     private static function setCategory(&$productObject, $categoryId)
     {
-        if (self::getPageType() !== "category" || (int)$categoryId <= 0) {
+        if (!in_array(self::getPageType(), ["category", "product"]) || (int)$categoryId <= 0) {
             return false;
         }
 

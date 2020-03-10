@@ -1039,9 +1039,16 @@ function formatBytes($size, $precision = 2)
         ),
         false
     ); ?>
-<?php endif; ?>
+<?php endif;
+
+count();?>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("product")?>);
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("product", [
+            "items" => [
+                $arResult["ID"]
+            ],
+            "categoryId" => $arResult["SECTION"]["ID"],
+        ])?>);
     });
 </script>
