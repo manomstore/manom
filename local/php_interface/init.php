@@ -394,6 +394,7 @@ class GTM
 
         $userLoc = new UserLocation();
         $userLoc = $userLoc->getUserLocationInfo();
+        self::$resultDataJS["pageVersion"] = 0;
         self::$resultDataJS["geo"] = [
             "country" => $userLoc["COUNTRY_NAME"],
             "countryId" => $userLoc["COUNTRY_ID"],
