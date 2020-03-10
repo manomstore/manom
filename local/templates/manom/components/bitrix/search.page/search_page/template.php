@@ -158,6 +158,7 @@ global $USER;
                             </div>
                         </div>
                     <?php endforeach; ?>
+                    <span style="display:none" data-gtm-data='<?= GTM::getDataJS("searchresults", $arResult['GTM_DATA'], true) ?>'>
                 </div>
                 <?=$arResult['NAV_STRING']?>
             </div>
@@ -173,6 +174,6 @@ global $USER;
 </div>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("searchresults")?>);
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("searchresults", $arResult['GTM_DATA'])?>);
     });
 </script>

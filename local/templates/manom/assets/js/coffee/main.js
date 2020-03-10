@@ -2935,18 +2935,24 @@ $.fn.ajaxLoadCatalog = function() {
     $data['set_filter'] = 'Y';
     return $data[$(this).attr('name')] = $(this).val();
   });
-  if (urlForSend) {
-    return $.ajax({
-      url: urlForSend,
-      type: 'GET',
-      data: $data,
-      success: function(data) {
-        $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
-        $(document).find('#PROPDS_BLOCK').html(data);
-        return $(document).find('.catTopCount .catTopCountValue').html($(document).find('#PROPDS_BLOCK .catTopCountValue').html());
-      }
-    });
-  }
+    if (urlForSend) {
+        return $.ajax({
+            url: urlForSend,
+            type: 'GET',
+            data: $data,
+            success: function (data) {
+                $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+                $(document).find('#PROPDS_BLOCK').html(data);
+                try {
+                    var gtmData = $(data).find("[data-gtm-data]").data("gtm-data");
+                    gtmData.event = "update";
+                    gtmActions.initCommonData(gtmData);
+                } catch (e) {
+                }
+                return $(document).find('.catTopCount .catTopCountValue').html($(document).find('#PROPDS_BLOCK .catTopCountValue').html());
+            }
+        });
+    }
 };
 
 $.fn.checkCartSlide = function(numSlide) {

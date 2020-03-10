@@ -117,5 +117,8 @@ $this->setFrameMode(true);
                 <?php endforeach; ?>
             </div>
         </div>
+        <?
+        GTM::addListsItems("new_items", $arResult["ELEMENTS"]);
+        ?>
     </section>
 <?php endif; ?>

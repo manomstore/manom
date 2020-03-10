@@ -76,3 +76,10 @@ foreach ($arResult['ITEMS'] as $item) {
 }
 
 $arResult['ITEMS'] = $items;
+$arResult['GTM_DATA'] = [
+    "items" => $arResult['ELEMENTS'],
+    "resultCount" => (int)$arResult["NAV_RESULT"]->NavRecordCount,
+    "pageCount" => (int)$arResult["NAV_RESULT"]->NavPageCount,
+    "currentPage" => (int)$arResult["NAV_RESULT"]->NavPageNomer,
+    "categoryId" => (int)$arResult["ID"],
+];

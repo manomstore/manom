@@ -353,8 +353,11 @@ class GTM
     private static $resultDataJS = [];
     private static $additionalData = [];
     private static $basketItems = [];
+    private static $currency = [];
+    private static $listsItems = [];
+    private static $isListItems = false;
 
-    static function getDataJS($pageType, $additional = [])
+    static function getDataJS($pageType, $additional = [], $returnJson = false)
     {
         $pageType = (string)$pageType;
         if (empty($pageType)) {
@@ -366,7 +369,11 @@ class GTM
         self::setCommonData();
         self::setDataForType();
 
-        return \CUtil::PhpToJSObject(self::$resultDataJS);
+        if ($returnJson) {
+            return json_encode(self::$resultDataJS);
+        } else {
+            return \CUtil::PhpToJSObject(self::$resultDataJS);
+        }
     }
 
     private static function setCommonData()
@@ -405,16 +412,14 @@ class GTM
             self::setBasketItems($basket->getBasketItems());
             $basketProductsId = array_map("self::getProductIdCallback", $basket->getBasketItems());
 
-            $currency = !empty($basketItems) ? reset($basketItems)->getCurrency() : "";
-            $currency = !empty($currency) ? $currency :
-                \COption::GetOptionString("sale", "default_currency", "RUB");
+            $items = self::getProductObjects(self::getRecommendedIds($basketProductsId));
 
             self::$resultDataJS["cart"] = [
-                "currency" => $currency,
+                "currency" => self::getCurrency(),
                 "total" => $basket->getPrice(),
                 "count" => $basket->count(),
                 "items" => self::getProductObjects($basketProductsId),
-                "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
+                "recommend" => !empty($items) ? $items : null,
                 "cartId" => $basket->getFUserId(),
             ];
         }
@@ -428,7 +433,9 @@ class GTM
     {
         switch (self::getPageType()) {
             case "home":
-                self::setHomeData();
+            case "category":
+            case "searchresults":
+                self::setListingData();
                 break;
             case "product":
                 self::setProductData();
@@ -438,9 +445,6 @@ class GTM
                 break;
             case "purchase":
                 self::setPurchaseData();
-                break;
-            case "searchresults":
-                self::setSearchResultsData();
                 break;
         }
     }
@@ -465,41 +469,51 @@ class GTM
         return self::$resultDataJS["pageType"];
     }
 
+    private static function getCurrency()
+    {
+        if (!empty(self::$currency)) {
+            return self::$currency;
+        }
+
+        self::$currency = !empty(self::$basketItems) ? reset(self::$basketItems)->getCurrency() : "";
+        self::$currency = !empty(self::$currency) ? self::$currency :
+            \COption::GetOptionString("sale", "default_currency", "RUB");
+
+        return self::$currency;
+    }
+
     private static function setPurchaseData()
     {
-    	$payment = self::$additionalData["payment"];
-    	$order = \Bitrix\Sale\Order::load($payment["ORDER_ID"]);
-    	if (empty($order)){
-    		return false;
-	    }
+        $payment = self::$additionalData["payment"];
+        $order = \Bitrix\Sale\Order::load($payment["ORDER_ID"]);
+        if (empty($order)) {
+            return false;
+        }
+
         $basket = $order->getBasket();
         self::setBasketItems($basket->getBasketItems());
         $basketProductsId = array_map("self::getProductIdCallback", $basket->getBasketItems());
 
-	    self::$resultDataJS["transaction"] = [
-		    "currency"     => $payment["CURRENCY"],
-		    "id"           => (int) $payment["ID"],
-		    "affiliation"  => "shop",
-		    "revenue"      => (int) $payment["SUM"],
-		    "shipping"     => (int) $order->getDeliveryPrice(),
-		    "items" => self::getProductObjects($basketProductsId),
-		    "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
-		    "shippingType" => $order->getShipmentCollection()->current()->getDeliveryName(),
-		    "paymentType"  => $payment["PAY_SYSTEM_NAME"],
-		    "tax"          => $order->getTaxValue(),
-	    ];
+        self::$resultDataJS["transaction"] = [
+            "currency" => $payment["CURRENCY"],
+            "id" => (int)$payment["ID"],
+            "affiliation" => "shop",
+            "revenue" => (int)$payment["SUM"],
+            "shipping" => (int)$order->getDeliveryPrice(),
+            "items" => self::getProductObjects($basketProductsId),
+            "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
+            "shippingType" => $order->getShipmentCollection()->current()->getDeliveryName(),
+            "paymentType" => $payment["PAY_SYSTEM_NAME"],
+            "tax" => $order->getTaxValue(),
+        ];
+
+        return true;
     }
 
-		private static function getProductIdCallback($item) {
-			/** @var \Bitrix\Sale\BasketItem $item */
-			return (int) $item->getProductId();
-		}
-
-    private static function setHomeData()
+    private static function getProductIdCallback($item)
     {
-        return self::$resultDataJS["transaction"] = [
-
-        ];
+        /** @var \Bitrix\Sale\BasketItem $item */
+        return (int)$item->getProductId();
     }
 
     private static function setProductData()
@@ -508,6 +522,7 @@ class GTM
 
         ];
     }
+
     private static function setCheckoutData()
     {
         return self::$resultDataJS["checkout"] = [
@@ -515,11 +530,26 @@ class GTM
         ];
     }
 
-    private static function setSearchResultsData()
+    private static function setListingData()
     {
-        return self::$resultDataJS["transaction"] = [
+        if (empty(self::$additionalData["items"]) && !empty(self::getListsItems())){
+            self::$additionalData["items"] = self::getListsItems();
+            self::$isListItems = true;
+        }
 
+        $listing = [
+            "currency" => self::getCurrency(),
+            "items" => self::getProductObjects(self::$additionalData["items"]),
+            "resultCount" => self::$additionalData["resultCount"],
+            "pageCount" => self::$additionalData["pageCount"],
+            "currentPage" => self::$additionalData["currentPage"],
         ];
+
+        self::setCategory($listing, self::$additionalData["categoryId"]);
+        self::setSearchQuery($listing, self::$additionalData["searchQuery"]);
+
+        self::$resultDataJS["listing"] = $listing;
+        self::$isListItems = false;
     }
 
     static function getProductObjects(Array $itemsId)
@@ -580,6 +610,8 @@ class GTM
             $arProducts["ITEMS"][$product["ID"]] = $product;
         }
 
+        self::setListItemsData($arProducts["ITEMS"]);
+
         $arProducts["ITEMS"] = array_values($arProducts["ITEMS"]);
 
         $arProducts = \Manom\Content::setCatalogItemsPrice($arProducts);
@@ -592,11 +624,14 @@ class GTM
 
             $productObject = [
                 "id" => $arProduct["ID"],
-                "position" => $idx + 1,
-//                "list" => "",
+                "position" => $arProduct["position"] ?? $idx + 1,
                 "name" => $arProduct["NAME"],
                 "url" => $domain . $arProduct["DETAIL_PAGE_URL"],
             ];
+
+            if (!empty($arProduct["list"])) {
+                $productObject["list"] = $arProduct["list"];
+            }
 
             if (!empty($image)) {
                 $productObject = array_merge($productObject, [
@@ -611,7 +646,7 @@ class GTM
 
             self::setPriceProduct($productObject, $arProduct);
             self::setQuantityProduct($productObject);
-            self::setCategory($productObject, $arProduct);
+            self::setCategory($productObject, $arProduct["IBLOCK_SECTION_ID"]);
             self::setSku($productObject, $arProduct);
             self::setVariant($productObject, $arProduct);
 
@@ -655,19 +690,29 @@ class GTM
         }
     }
 
-    private static function setCategory(&$productObject, $arProduct)
+    private static function setCategory(&$productObject, $categoryId)
     {
-        if (self::getPageType() !== "category") {
+        if (self::getPageType() !== "category" || (int)$categoryId <= 0) {
             return false;
         }
 
-        $arSections = CIBlockSection::GetNavChain(false, $arProduct["IBLOCK_SECTION_ID"], ['ID', 'NAME', 'DEPTH_LEVEL'], true);
+        $arSections = CIBlockSection::GetNavChain(false, $categoryId, ['ID', 'NAME', 'DEPTH_LEVEL'], true);
 
         foreach ($arSections as $arSection) {
             $productObject["category"][] = $arSection["NAME"];
             $productObject["categoryId"][] = $arSection["ID"];
         }
 
+        return true;
+    }
+
+    private static function setSearchQuery(&$listingObject, $searchQuery)
+    {
+        if (self::getPageType() !== "searchresults" || empty($searchQuery)) {
+            return false;
+        }
+
+        $listingObject["query"] = $searchQuery;
         return true;
     }
 
@@ -699,6 +744,49 @@ class GTM
         if (!empty($sku)) {
             $productObject["sku"] = $sku;
         }
+    }
+
+    public static function addListsItems($type, $items)
+    {
+        self::$listsItems[$type] = $items;
+    }
+
+    private static function getLists()
+    {
+        return self::$listsItems;
+    }
+
+    private static function getListsItems()
+    {
+        $items = [];
+        array_map(function ($list) use (&$items) {
+            $items = array_merge($items, array_values($list));
+        }, self::getLists());
+
+        return $items;
+    }
+
+    private static function setListItemsData(&$products)
+    {
+        if (!self::$isListItems) {
+            return;
+        }
+
+        $resultItems = [];
+        foreach (self::getLists() as $listType => $items) {
+            $position = 0;
+            if (!is_array($items)) {
+                continue;
+            }
+
+            foreach ($items as $item) {
+                $position++;
+                $products[$item]["position"] = $position;
+                $products[$item]["list"] = $listType;
+                $resultItems[] = $products[$item];
+            }
+        }
+        $products = $resultItems;
     }
 
     static function getRecommendedIds($productsId, $grouped = false)

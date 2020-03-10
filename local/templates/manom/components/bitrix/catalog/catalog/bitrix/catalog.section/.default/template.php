@@ -376,8 +376,8 @@ $this->setFrameMode(true);
                     </div>
                 </div>
             <?php endforeach; ?>
+            <span style="display:none" data-gtm-data='<?= GTM::getDataJS("category", $arResult['GTM_DATA'], true) ?>'>
         </div>
-
         <?=$arResult['NAV_STRING']?>
         <?php if ($arParams['AJAX']) {
             die();
@@ -400,7 +400,7 @@ $this->setFrameMode(true);
     */ ?>
 </section>
 <script>
-    $(function() {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("category")?>);
+    $(function () {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("category", $arResult['GTM_DATA'])?>);
     });
 </script>

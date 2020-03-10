@@ -118,4 +118,7 @@ $this->setFrameMode(true);
             </div>
         </div>
     </section>
+    <?
+    GTM::addListsItems("stock", $arResult["ELEMENTS"]);
+    ?>
 <?php endif; ?>

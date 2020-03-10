@@ -69,6 +69,8 @@ if (!empty($itemsId)) {
     }
 }
 
+
+$arElements = [];
 foreach ($arResult['SEARCH'] as $i => $item) {
     $images = array();
     $imagesId = array();
@@ -101,6 +103,7 @@ foreach ($arResult['SEARCH'] as $i => $item) {
     }
 
     $item['PRODUCT_ID'] = $productId;
+    $arElements[] = $productId;
     $item['RATING'] = $rating[$item['ITEM_ID']];
     $item['CAN_BUY'] = $items[$item['ITEM_ID']]['canBuy'];
     $item['PRODUCT_OF_THE_DAY'] = $items[$item['ITEM_ID']]['productOfTheDay'];
@@ -110,3 +113,11 @@ foreach ($arResult['SEARCH'] as $i => $item) {
 
     $arResult['SEARCH'][$i] = $item;
 }
+
+$arResult['GTM_DATA'] = [
+    "items" => $arElements,
+    "resultCount" => (int)$arResult["NAV_RESULT"]->NavRecordCount,
+    "pageCount" => (int)$arResult["NAV_RESULT"]->NavPageCount,
+    "currentPage" => (int)$arResult["NAV_RESULT"]->NavPageNomer,
+    "searchQuery" => $_REQUEST['q'],
+];

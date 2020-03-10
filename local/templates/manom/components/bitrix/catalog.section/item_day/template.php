@@ -110,4 +110,9 @@ $start = 0;
             ></div>
         </div>
     </div>
+    <?
+    GTM::addListsItems("product_day", [
+        $item["id"]
+    ]);
+    ?>
 <?php endforeach; ?>
