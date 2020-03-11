@@ -43,3 +43,8 @@ $this->setFrameMode(true);
 	<?endif;?>
 
 </main>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=GTM::getDataJS("content")?>);
+    });
+</script>

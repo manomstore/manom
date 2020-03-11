@@ -413,14 +413,12 @@ class GTM
             self::setBasketItems($basket->getBasketItems());
             $basketProductsId = array_map("self::getProductIdCallback", $basket->getBasketItems());
 
-            $items = self::getProductObjects(self::getRecommendedIds($basketProductsId));
-
             self::$resultDataJS["cart"] = [
                 "currency" => self::getCurrency(),
                 "total" => $basket->getPrice(),
                 "count" => $basket->count(),
                 "items" => self::getProductObjects($basketProductsId),
-                "recommend" => !empty($items) ? $items : null,
+                "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
                 "cartId" => $basket->getFUserId(),
             ];
         }
@@ -580,7 +578,7 @@ class GTM
                 "NAME",
                 "IBLOCK_SECTION_ID",
                 "DETAIL_PAGE_URL",
-                "PROPERTY_STOCK_PRODUCT",
+                "PROPERTY_SELL_PROD",
                 "PROPERTY_NEW_PRODUCT",
                 "PROPERTY_PRODUCT_OF_THE_DAY",
             ]
@@ -715,7 +713,7 @@ class GTM
 
     private static function setVariant(&$productObject, $arProduct)
     {
-        if ($arProduct["PROPERTY_STOCK_PRODUCT_VALUE"] === "Да") {
+        if ($arProduct["PROPERTY_SELL_PROD_VALUE"] === "Да") {
             $productObject["variant"][] = "Акция";
         }
         if ($arProduct["PROPERTY_NEW_PRODUCT_VALUE"] === "Да") {
