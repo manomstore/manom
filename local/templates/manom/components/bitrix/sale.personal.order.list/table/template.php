@@ -44,6 +44,21 @@ $bNoOrder = true;
         </td>
         <td width="5%" class="helper-history-order" rowspan="3">&nbsp;</td>
         <td width="70%">
+            <?
+            $products = [];
+            foreach ($arResult['ORDER_BY_STATUS'] as $statusOrders) {
+                foreach ($statusOrders as $order) {
+                    foreach ($order["BASKET_ITEMS"] as $basketItem) {
+                        if ((int)$basketItem["PRODUCT_ID"] > 0) {
+                            $products[] = $basketItem["PRODUCT_ID"];
+                        }
+                    }
+                }
+            }
+            ?>
+            <?
+            GTM::setProductsOnPage($products)
+            ?>
             <?php foreach ($arResult['ORDER_BY_STATUS'] as $status => $statusOrders): ?>
                 <?php
                 $bShowStatus = true;
@@ -130,6 +145,8 @@ $bNoOrder = true;
                                                 <?php if (strlen($item['DETAIL_PAGE_URL']) > 0): ?>
                                                     <a
                                                             class="link-sale_personal_order_list-alt"
+                                                            data-product-list="order"
+                                                            data-product-id="<?=$item["PRODUCT_ID"]?>"
                                                             href="<?=$item['DETAIL_PAGE_URL']?>"
                                                     >
                                                 <?php endif; ?>

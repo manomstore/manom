@@ -35,6 +35,9 @@ global $USER;
             </ul>
         </aside>
     <?php endif; ?>
+    <?
+    GTM::setProductsOnPage($arResult['SEARCH'], true, "PRODUCT_ID");
+    ?>
     <section class="catalog-block ">
         <?php if ($arResult['SEARCH']): ?>
             <div id='PROPDS_BLOCK'>
@@ -81,7 +84,10 @@ global $USER;
                                     </div>
                                     <div class="cb-line-card__text">
                                         <h3 class="p-name cb-line-name">
-                                            <a href="<?=$item['URL']?>"><?=$item['TITLE']?></a>
+                                            <a data-product-list="search"
+                                               data-product-id="<?= $item["PRODUCT_ID"] ?>"
+                                               href="<?= $item['URL'] ?>"
+                                            ><?=$item['TITLE']?></a>
                                         </h3>
                                         <div class="p-cart-properties cb-line-properties">
                                             <?php foreach ($item['DISPLAY_PROPERTIES'] as $property): ?>
@@ -158,7 +164,8 @@ global $USER;
                             </div>
                         </div>
                     <?php endforeach; ?>
-                    <span style="display:none" data-gtm-data='<?= GTM::getDataJS("searchresults", $arResult['GTM_DATA'], true) ?>'>
+                    <span style="display:none" data-gtm-data='<?= GTM::getDataJS("searchresults", $arResult['GTM_DATA'], true) ?>'></span>
+                    <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
                 </div>
                 <?=$arResult['NAV_STRING']?>
             </div>

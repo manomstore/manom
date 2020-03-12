@@ -5,10 +5,11 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $quantityAll = 0;
+$productIds = [];
 foreach ($arResult['CATEGORIES'] as $categoryNum => $category) {
     foreach ($category as $itemNum => $item) {
         $quantityAll += (int)$item['QUANTITY'];
-
+        $productIds[] = (int)$item["PRODUCT_ID"];
         $imageId = 0;
         if (!empty((int)$item['PREVIEW_PICTURE'])) {
             $imageId = (int)$item['PREVIEW_PICTURE'];
@@ -40,3 +41,4 @@ foreach ($arResult['CATEGORIES'] as $categoryNum => $category) {
 }
 
 $arResult['NUM_PRODUCTS'] = $quantityAll;
+$arResult['PRODUCT_IDS'] = $productIds;

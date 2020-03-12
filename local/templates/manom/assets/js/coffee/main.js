@@ -1970,6 +1970,27 @@ $(document).ready(function() {
     localStorage.setItem('checkout:contacts', JSON.stringify(persistData));
   });
 
+    $(document).on('click', '[data-product-list]', window.gtmActions.productClickHandler);
+
+    $(document).on('click', '[data-product-list]', function () {
+        if ($(this).data("href")) {
+            location.href = $(this).data("href");
+        }
+    });
+
+    var searchPageBlock = $(document).find(".catalog-main.catalog-main-sr").parent();
+    //TODO search page pagination
+    //observation on change pagination on search page
+    if (searchPageBlock.length) {
+        (new MutationObserver(function (mutationsList) {
+            var searchBlock = $(document).find(".catalog-main.catalog-main-sr").parent();
+            window.gtmActions.setProducts(searchBlock.find("[data-gtm-products]").data("gtm-products"));
+        })).observe(
+            searchPageBlock[0],
+            {childList: true}
+        );
+    }
+
   restorePersistData();
 
     $.fn.updateSideInfo();
@@ -2604,7 +2625,8 @@ $.fn.updateMiniCompare = function(data) {
     }
 
   $miniCompareCounter.html($ft.find('#mini_compare_header_counter').html());
-  return $miniCompare.html($ft.find('#mini_compare_header').html());
+    window.gtmActions.setProducts($(data).find("[data-gtm-products]").data("gtm-products"));
+    return $miniCompare.html($ft.find('#mini_compare_header').html());
 };
 
 $.fn.updateMiniFavorite = function(data) {
@@ -2624,6 +2646,7 @@ $.fn.updateMiniFavorite = function(data) {
     }
 
   $miniFavoriteCounter.html($ft.find('#mini_favorite_header_counter').html());
+  window.gtmActions.setProducts($(data).find("[data-gtm-products]").data("gtm-products"));
   return $miniFavorite.html($ft.find('#mini_favorite_header').html());
 };
 
@@ -2644,6 +2667,7 @@ $.fn.updateMiniCart = function(data) {
     }
 
   $miniCartCounter.html($ft.find('#mini_cart_header_counter').html());
+  window.gtmActions.setProducts($(data).find("[data-gtm-products]").data("gtm-products"));
   return $miniCart.html($ft.find('#mini_cart_header').html());
 };
 
@@ -2944,6 +2968,7 @@ $.fn.ajaxLoadCatalog = function() {
                 $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
                 $(document).find('#PROPDS_BLOCK').html(data);
                 try {
+                    window.gtmActions.setProducts($(data).find("[data-gtm-products]").data("gtm-products"));
                     var gtmData = $(data).find("[data-gtm-data]").data("gtm-data");
                     gtmData.event = "update";
                     gtmActions.initCommonData(gtmData);
@@ -3090,6 +3115,52 @@ function formatMoney(number) {
 })();
 
 window.gtmActions = {
+    currency: "",
+    products: [],
+    setCurrency: function (currency = "") {
+        this.currency = currency || "";
+    },
+    getCurrency: function () {
+        return this.currency;
+    },
+    setProducts: function (products) {
+        if (!Array.isArray(products)) {
+            products = [];
+        }
+
+        products = products.filter(function (item) {
+                var exist = this.products.findIndex(function (existItem) {
+                    return Number(existItem.id) === Number(item.id);
+                }) + 1;
+
+                return exist <= 0;
+            }, this
+        );
+
+        this.products = this.products.concat(products);
+    },
+    getProducts: function (productId) {
+        return this.products.find(function (item) {
+            return Number(item.id) === productId;
+        })
+    },
+    productClickHandler: function () {
+        var items = [];
+        var product = gtmActions.getProducts(Number($(this).data("product-id")));
+        if (product) {
+            items.push(product);
+        }
+        var eventObj = {
+            event: 'productClick',
+            eventData: {
+                currency: gtmActions.getCurrency(),
+                source: $(this).data("product-list"),
+                items: items,
+            },
+        };
+
+        gtmActions.initCommonData(eventObj);
+    },
     initCommonData: function (data) {
         if (typeof data !== "object" || Object(data).length <= 0) {
             return false;
@@ -3120,9 +3191,11 @@ window.gtmActions = {
         }
 
         var gtmData = steps[step];
-        gtmData.event = "update";
-        gtmData.pageType = "checkout";
+        var eventObj = {};
 
-        this.initCommonData(gtmData);
+        eventObj.event = "update";
+        eventObj.pageType = "checkout";
+        eventObj.checkout = gtmData;
+        this.initCommonData(eventObj);
     },
 };

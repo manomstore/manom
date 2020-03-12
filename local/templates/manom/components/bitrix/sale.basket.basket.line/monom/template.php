@@ -28,6 +28,9 @@ $count = 0;
             )
         <?php endif; ?>
     </a>
+    <?
+    GTM::setProductsOnPage($arResult["PRODUCT_IDS"]);
+    ?>
     <div class="personal-preview preview-shopcart <?=$class2?>" id="mini_cart_header">
         <div class="personal-preview__wrapper">
             <div class="personal-preview__top">
@@ -85,8 +88,11 @@ $count = 0;
                                     */ ?>
                                 </div>
                                 <h3 class="preview-prod__name">
-                                    <a href="<?=$item['DETAIL_PAGE_URL']?>">
-                                        <?=$item['NAME']?> (<?=$item['QUANTITY']?>шт.)
+                                    <a href="<?= $item['DETAIL_PAGE_URL'] ?>"
+                                       data-product-list="cart"
+                                       data-product-id="<?= $item['PRODUCT_ID'] ?>"
+                                    >
+                                        <?= $item['NAME'] ?> (<?= $item['QUANTITY'] ?>шт.)
                                     </a>
                                 </h3>
                             </div>
@@ -103,6 +109,7 @@ $count = 0;
                         <span> ₽</span>
                     </div>
                     */ ?>
+                    <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
                     <a href="/cart/" class="preview-bottom__button">В корзину</a>
                 </div>
             <?php endif; ?>

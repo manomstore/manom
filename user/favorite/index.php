@@ -220,7 +220,7 @@ $favoriteFilter = array('ID' => $favoritesId, '>CATALOG_PRICE_1' => 0);
                         'PAGER_SHOW_ALWAYS' => 'N',
                         'PAGER_TEMPLATE' => 'catalog_section',
                         'PAGER_TITLE' => 'Товары',
-                        'PAGE_ELEMENT_COUNT' => $_REQUEST['countOnPage'] ?: 12,
+                        'PAGE_ELEMENT_COUNT' => 3,
                         'PARTIAL_PRODUCT_PROPERTIES' => 'N',
                         'PRICE_CODE' => array('Розничная'),
                         'PRICE_VAT_INCLUDE' => 'Y',

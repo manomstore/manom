@@ -1039,9 +1039,7 @@ function formatBytes($size, $precision = 2)
         ),
         false
     ); ?>
-<?php endif;
-
-count();?>
+<?php endif; ?>
 <script>
     $(function () {
         window.gtmActions.initCommonData(<?=GTM::getDataJS("product", [

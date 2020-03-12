@@ -122,6 +122,7 @@ if ($_REQUEST['ORDER_ID']) {
                                     'USE_GIFTS' => 'Y',
                                     'USE_PREPAYMENT' => 'N',
                                     'AJAX_CART' => $_REQUEST['AJAX_CART'] === 'Y',
+                                    'MAIN_CART' => "Y",
                                 ],
                                 false
                             );?>
@@ -1278,9 +1279,6 @@ if ($_REQUEST['ORDER_ID']) {
 </script>
 <script>
   var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
-  $(function() {
-	  window.gtmActions.initCommonData(<?=GTM::getDataJS("cart")?>);
-  });
 </script>
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');

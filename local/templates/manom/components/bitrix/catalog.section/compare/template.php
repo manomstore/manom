@@ -27,7 +27,9 @@ $this->setFrameMode(true);
             </a>
         </aside>
         */ ?>
-
+        <?
+        GTM::setProductsOnPage($arResult['ITEMS'], true);
+        ?>
         <?php if (empty($arResult['ITEMS'])): ?>
             <p class="notetext">Нет товаров для сравнения</p>
         <?php else: ?>
@@ -94,7 +96,11 @@ $this->setFrameMode(true);
                                     */ ?>
                                 </div>
                                 <h3 class="p-name">
-                                    <a href="<?=$item['url']?>"><?=$item['name']?></a>
+                                    <a
+                                            data-product-list="compare"
+                                            data-product-id="<?= $item['id'] ?>"
+                                            href="<?=$item['url']?>"
+                                    ><?=$item['name']?></a>
                                 </h3>
                                 <div class="p-nav-bottom">
                                     <div class="p-nav-bottom__price">

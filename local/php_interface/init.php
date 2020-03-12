@@ -356,6 +356,7 @@ class GTM
     private static $currency = [];
     private static $listsItems = [];
     private static $isListItems = false;
+    private static $productsOnPage = [];
 
     static function getDataJS($pageType, $additional = [], $returnJson = false)
     {
@@ -465,7 +466,7 @@ class GTM
         return self::$resultDataJS["pageType"];
     }
 
-    private static function getCurrency()
+    public static function getCurrency()
     {
         if (!empty(self::$currency)) {
             return self::$currency;
@@ -510,6 +511,42 @@ class GTM
     {
         /** @var \Bitrix\Sale\BasketItem $item */
         return (int)$item->getProductId();
+    }
+
+    public static function setProductsOnPage($itemsId, $byItemsArray = false, $idKey = "id")
+    {
+        if (!is_array($itemsId)) {
+            $itemsId = [];
+        }
+
+        if ($byItemsArray && empty($idKey)) {
+            $itemsId = [];
+        }
+
+        if ($byItemsArray) {
+            $itemsId = array_map(function ($item) use ($idKey) {
+                return $item[$idKey];
+            }, $itemsId);
+        }
+
+        self::$productsOnPage = array_merge(self::$productsOnPage, $itemsId);
+    }
+
+    public static function getProductsOnPageJS($returnJson = false)
+    {
+        self::$productsOnPage = array_filter(
+            self::$productsOnPage,
+            function ($item) {
+                return (int)$item >= 0;
+            });
+
+        $productsObj = self::getProductObjects(self::$productsOnPage);
+
+        if ($returnJson) {
+            return json_encode($productsObj);
+        } else {
+            return \CUtil::PhpToJSObject($productsObj);
+        }
     }
 
     private static function setDetailData()
@@ -691,7 +728,7 @@ class GTM
             return false;
         }
 
-        $arSections = CIBlockSection::GetNavChain(false, $categoryId, ['ID', 'NAME', 'DEPTH_LEVEL'], true);
+        $arSections = \CIBlockSection::GetNavChain(false, $categoryId, ['ID', 'NAME', 'DEPTH_LEVEL'], true);
 
         foreach ($arSections as $arSection) {
             $productObject["category"][] = $arSection["NAME"];
@@ -714,7 +751,7 @@ class GTM
     private static function setVariant(&$productObject, $arProduct)
     {
         if ($arProduct["PROPERTY_SELL_PROD_VALUE"] === "Да") {
-            $productObject["variant"][] = "Акция";
+            $productObject["variant"][] = "Распродажа";
         }
         if ($arProduct["PROPERTY_NEW_PRODUCT_VALUE"] === "Да") {
             $productObject["variant"][] = "Новинка";
@@ -744,6 +781,7 @@ class GTM
     public static function addListsItems($type, $items)
     {
         self::$listsItems[$type] = $items;
+        self::setProductsOnPage($items);
     }
 
     private static function getLists()
@@ -792,7 +830,7 @@ class GTM
             return [];
         }
 
-        $basketProducts = CIBlockElement::GetList(
+        $basketProducts = \CIBlockElement::GetList(
             [],
             [
                 "IBLOCK_ID" => Helper::CATALOG_IB_ID,
