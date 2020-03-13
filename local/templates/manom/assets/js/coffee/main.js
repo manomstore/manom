@@ -777,6 +777,7 @@ $(document).ready(function() {
                                 'fb-action': 'Purchase',
                             }
                         );
+                        window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
                         $.fn.refreshMiniCart();
                         $messageField.html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
                         $messageField.show();
@@ -3191,6 +3192,14 @@ window.gtmActions = {
         if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
             alert(eventObj.eventData.items[0].name);
         }
+        gtmActions.initCommonData(eventObj);
+    },
+    purchaseHandler: function (transaction) {
+        var eventObj = {
+            event: 'purchase',
+            transaction: transaction
+        };
+
         gtmActions.initCommonData(eventObj);
     },
     initCommonData: function (data) {

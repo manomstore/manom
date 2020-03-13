@@ -481,8 +481,8 @@ class GTM
 
     private static function setPurchaseData()
     {
-        $payment = self::$additionalData["payment"];
-        $order = \Bitrix\Sale\Order::load($payment["ORDER_ID"]);
+        $orderId = self::$additionalData["order"];
+        $order = \Bitrix\Sale\Order::load($orderId);
         if (empty($order)) {
             return false;
         }
@@ -490,17 +490,19 @@ class GTM
         $basket = $order->getBasket();
         self::setBasketItems($basket->getBasketItems());
         $basketProductsId = array_map("self::getProductIdCallback", $basket->getBasketItems());
+        $delivery = $order->getShipmentCollection()->current();
+        $payment = $order->getPaymentCollection()->current();
 
         self::$resultDataJS["transaction"] = [
-            "currency" => $payment["CURRENCY"],
-            "id" => (int)$payment["ID"],
+            "currency" => $order->getCurrency(),
+            "id" => (int)$order->getId(),
             "affiliation" => "shop",
-            "revenue" => (int)$payment["SUM"],
+            "revenue" => (int)$order->getPrice(),
             "shipping" => (int)$order->getDeliveryPrice(),
             "items" => self::getProductObjects($basketProductsId),
             "recommend" => self::getProductObjects(self::getRecommendedIds($basketProductsId)),
-            "shippingType" => $order->getShipmentCollection()->current()->getDeliveryName(),
-            "paymentType" => $payment["PAY_SYSTEM_NAME"],
+            "shippingType" => $delivery ? (string)$delivery->getDeliveryName() : "",
+            "paymentType" => $payment ? (string)$payment->getField("PAY_SYSTEM_NAME") : "",
             "tax" => $order->getTaxValue(),
         ];
 
@@ -820,6 +822,14 @@ class GTM
             }
         }
         $products = $resultItems;
+    }
+
+    public static function getTransaction($orderId)
+    {
+        $gtmData = GTM::getDataJS("purchase", ["order" => $orderId], true);
+        $gtmData = json_decode($gtmData, true);
+
+        return $gtmData["transaction"];
     }
 
     static function getRecommendedIds($productsId, $grouped = false)
