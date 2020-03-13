@@ -981,6 +981,7 @@ $(document).ready(function() {
       $(this).addClass('addToCartBtn_dis');
       productID = $(this).attr('data-id');
       if (productID) {
+          window.gtmActions.addToCartHandler(productID, "cart");
         return $.ajax({
           url: '/ajax/add_to_cart.php',
           type: 'POST',
@@ -1193,6 +1194,7 @@ $(document).ready(function() {
       });
   });
   $(document).on('click', '.sci-top__count-up, .sci-top__count-down', function() {
+    var that = this;
     var cartItemID = $(this).attr('data-id');
     var countProd = parseInt($(this).attr('data-q'));
     var soBlock = $('#so_main_block');
@@ -1218,6 +1220,10 @@ $(document).ready(function() {
         },
         success: function(data) {
           // soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+            if ($(that).hasClass('sci-top__count-up')) {
+                var productId = $(that).closest(".sci-product__info").find("[data-product-list]").data("product-id")
+                window.gtmActions.addToCartHandler(productId, "cart");
+            }
           $.fn.updateCart(data);
           return $.fn.refreshMiniCart();
         },
@@ -1976,6 +1982,10 @@ $(document).ready(function() {
         if ($(this).data("href")) {
             location.href = $(this).data("href");
         }
+    });
+
+    $(document).on('click', '[data-src="#popap-buy-one-click"]', function () {
+        window.gtmActions.addToCartHandler($(this).data("id"), "oneClick");
     });
 
     var searchPageBlock = $(document).find(".catalog-main.catalog-main-sr").parent();
@@ -3158,7 +3168,29 @@ window.gtmActions = {
                 items: items,
             },
         };
+        if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
+            alert(eventObj.eventData.items[0].name);
+        }
+        gtmActions.initCommonData(eventObj);
+    },
+    addToCartHandler: function (productId, source) {
+        var items = [];
+        var product = gtmActions.getProducts(Number(productId));
+        if (product) {
+            items.push(product);
+        }
 
+        var eventObj = {
+            event: 'addToCart',
+            eventData: {
+                currency: gtmActions.getCurrency(),
+                source: source,
+                items: items,
+            },
+        };
+        if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
+            alert(eventObj.eventData.items[0].name);
+        }
         gtmActions.initCommonData(eventObj);
     },
     initCommonData: function (data) {

@@ -20,6 +20,8 @@ function formatBytes($size, $precision = 2)
 
     return round(1024 ** ($base - floor($base)), $precision).' '.$suffixes[floor($base)];
 }
+
+GTM::setProductsOnPage([$arResult['PRODUCT_ID']]);
 ?>
 <main class="product container">
     <div class="preloaderCatalog">
