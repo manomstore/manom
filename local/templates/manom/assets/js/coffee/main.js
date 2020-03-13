@@ -1125,6 +1125,7 @@ $(document).ready(function() {
           AJAX_MIN_FAVORITE: 'Y'
         },
         success: function(data) {
+          window.gtmActions.changeWishListHandler($cartItemID, data);
           $('.addToFavoriteList[data-id="' + $cartItemID + '"]')
             .addClass('notActive')
             .prev('input:checkbox')
@@ -1144,6 +1145,10 @@ $(document).ready(function() {
   });
 
     $(document).on('click', '.js-clear-favorite', function () {
+        var favoriteList = $(this).closest("#mini_favorite_header").find(".preview-prod").map(function () {
+            return Number($(this).data("cart-item"));
+        }).get();
+
         return $.ajax({
             type: 'POST',
             url: '/ajax/ajax_func.php',
@@ -1153,6 +1158,7 @@ $(document).ready(function() {
                 AJAX_MIN_FAVORITE: 'Y'
             },
             success: function (data) {
+                window.gtmActions.changeWishListHandler(favoriteList, data, true);
                 $.fn.updateMiniFavorite(data);
             }
         });
@@ -1343,6 +1349,7 @@ $(document).ready(function() {
         AJAX_MIN_FAVORITE: 'Y'
       },
       success: function(data) {
+        window.gtmActions.changeWishListHandler(prodID, data);
         var $miniFavorite = $('#mini_favorite_header');
         var showMiniFavoriteClass = 'preview-heart--show';
 
@@ -3153,6 +3160,11 @@ window.gtmActions = {
             products = [];
         }
 
+        products = products.map(function (item) {
+            item.id = Number(item.id);
+            return item;
+        });
+
         products = products.filter(function (item) {
                 var exist = this.products.findIndex(function (existItem) {
                     return Number(existItem.id) === Number(item.id);
@@ -3170,8 +3182,12 @@ window.gtmActions = {
         })
     },
     getProducts: function (productsId) {
+        productsId = productsId.map(function (item) {
+            return Number(item);
+        });
+
         return this.products.filter(function (item) {
-            return productsId.indexOf(Number(item.id)) + 1 > 0;
+            return productsId.indexOf(item.id) + 1 > 0;
         })
     },
     productClickHandler: function () {
@@ -3238,6 +3254,59 @@ window.gtmActions = {
         };
 
         gtmActions.initCommonData(eventObj);
+    },
+    changeWishListHandler: function (productsId, miniFavorite, clearAll = false) {
+        var eventType = this.getWishListEvent(productsId, miniFavorite, clearAll);
+
+        if (eventType === false) {
+            return;
+        }
+
+        if (!Array.isArray(productsId)) {
+            productsId = [productsId];
+        }
+
+        var products = gtmActions.getProducts(productsId);
+
+        var eventObj = {
+            event: eventType,
+            eventData: {
+                currency: gtmActions.getCurrency(),
+                source: "favorite",
+                items: products,
+            },
+        };
+
+        if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
+            alert((eventType === "addToWishList" ? "Добавлено в избранное" : "удалено из избранного") + "\n" + products.map(function (item) {
+                return item.name;
+            }).join("\n"));
+        }
+
+        gtmActions.initCommonData(eventObj);
+    },
+    getWishListEvent: function (productsId, miniFavorite, clearAll) {
+        if (clearAll) {
+            return "removeFromWishList";
+        } else {
+            var favoriteList = $(miniFavorite).find(".preview-prod-bottom__button-favorite")
+                .map(function () {
+                    return Number($(this).data("cart-item"));
+                }).get();
+
+            if (Array.isArray(productsId)) {
+                if (!productsId.length) {
+                    return false;
+                }
+                productsId = productsId[0];
+            }
+
+            if (favoriteList.indexOf(Number(productsId)) + 1 > 0) {
+                return "addToWishList";
+            } else {
+                return "removeFromWishList";
+            }
+        }
     },
     initCommonData: function (data) {
         if (typeof data !== "object" || Object(data).length <= 0) {
