@@ -41,6 +41,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
                             class="sci-product__delete sci-top__remove"
                             type="button" aria-label="Удалить товар"
                             data-id="<?=$row['ID']?>"
+                            data-product-id="<?=$row['PRODUCT_ID']?>"
                     >
                     </button>
                 </div>

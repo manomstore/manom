@@ -9,7 +9,6 @@ CModule::IncludeModule("sale");
 if ($_REQUEST['METHOD_CART'] and (int)$_REQUEST['PRODUCT_ID'] > 0) {
   if ($_REQUEST['METHOD_CART'] == 'CHANGE_COUNT' and (int)$_REQUEST['COUNT'] >= 0) {
     $res = CSaleBasket::Update($_REQUEST['PRODUCT_ID'], array('QUANTITY' => $_REQUEST['COUNT']));
-    echo "res: ".$res;
     if ($_REQUEST['AJAX_CART'] == 'Y') {
       $APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "manom", Array(
         "ACTION_VARIABLE" => "action",	// Название переменной действия

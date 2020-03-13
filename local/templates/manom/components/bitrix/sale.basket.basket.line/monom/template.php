@@ -75,7 +75,8 @@ $count = 0;
                                             class="preview-prod-bottom__del preview-prod-bottom__button-cart"
                                             type="button"
                                             aria-label="Удалить товар"
-                                            data-cart-item="<?=$item['ID']?>"
+                                            data-cart-item="<?= $item['ID'] ?>"
+                                            data-product-id="<?= $item['PRODUCT_ID'] ?>"
                                     ></button>
                                     <?php /*
                                     <label>

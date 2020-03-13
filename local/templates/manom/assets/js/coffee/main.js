@@ -1077,7 +1077,8 @@ $(document).ready(function() {
 
   $(document).on('click', '.preview-prod-bottom__button-cart', function() {
     var $cartItemID;
-    $cartItemID = $(this).attr('data-cart-item');
+      $cartItemID = $(this).attr('data-cart-item');
+      var productId = $(this).data('product-id');
     if ($cartItemID) {
       $(document).find('#mini_cart_header .preview-prod[data-cart-item="' + $cartItemID + '"]').remove();
       return $.ajax({
@@ -1089,6 +1090,7 @@ $(document).ready(function() {
           AJAX_MIN_CART: 'Y'
         },
         success: function(data) {
+          window.gtmActions.removeFromCartHandler(productId);
           return $.fn.updateMiniCart(data);
         }
       });
@@ -1221,9 +1223,14 @@ $(document).ready(function() {
         },
         success: function(data) {
           // soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+            var productId = $(that).closest(".sci-product__info").find("[data-product-list]").data("product-id");
+
             if ($(that).hasClass('sci-top__count-up')) {
-                var productId = $(that).closest(".sci-product__info").find("[data-product-list]").data("product-id")
                 window.gtmActions.addToCartHandler(productId, "cart");
+            }
+
+            if ($(that).hasClass('sci-top__count-down')) {
+                window.gtmActions.removeFromCartHandler(productId);
             }
           $.fn.updateCart(data);
           return $.fn.refreshMiniCart();
@@ -1251,6 +1258,7 @@ $(document).ready(function() {
   $(document).on('click', '.sci-top__remove', function() {
     var $cartItemID;
     $cartItemID = $(this).attr('data-id');
+    var productId = $(this).data('product-id');
     if ($cartItemID) {
       $(document).find('#shopcart-item1 .sci-product[data-id="' + $cartItemID + '"]').remove();
         if ($(document).find('#shopcart-item1 .sci-product').length <= 0) {
@@ -1265,6 +1273,7 @@ $(document).ready(function() {
           AJAX_CART: 'Y'
         },
         success: function(data) {
+          window.gtmActions.removeFromCartHandler(productId);
           $.fn.updateCart(data);
         }
       });
@@ -1272,6 +1281,10 @@ $(document).ready(function() {
   });
 
     $(document).on('click', '.js-basket-clear', function () {
+        var productIds = $(document).find('#shopcart-item1 .sci-top__remove').map(function () {
+            return Number($(this).data("product-id"));
+        }).get();
+
         $(document).find('#shopcart-item1 .sci-product').remove();
         $(document).find('.js-basket-clear').remove();
         return $.ajax({
@@ -1282,6 +1295,7 @@ $(document).ready(function() {
                 AJAX_CART: 'Y'
             },
             success: function (data) {
+                window.gtmActions.removeFromCartHandler(productIds)
                 $.fn.updateCart(data);
             }
         });
@@ -3150,14 +3164,19 @@ window.gtmActions = {
 
         this.products = this.products.concat(products);
     },
-    getProducts: function (productId) {
+    getProduct: function (productId) {
         return this.products.find(function (item) {
             return Number(item.id) === productId;
         })
     },
+    getProducts: function (productsId) {
+        return this.products.filter(function (item) {
+            return productsId.indexOf(Number(item.id)) + 1 > 0;
+        })
+    },
     productClickHandler: function () {
         var items = [];
-        var product = gtmActions.getProducts(Number($(this).data("product-id")));
+        var product = gtmActions.getProduct(Number($(this).data("product-id")));
         if (product) {
             items.push(product);
         }
@@ -3176,7 +3195,7 @@ window.gtmActions = {
     },
     addToCartHandler: function (productId, source) {
         var items = [];
-        var product = gtmActions.getProducts(Number(productId));
+        var product = gtmActions.getProduct(Number(productId));
         if (product) {
             items.push(product);
         }
@@ -3198,6 +3217,24 @@ window.gtmActions = {
         var eventObj = {
             event: 'purchase',
             transaction: transaction
+        };
+
+        gtmActions.initCommonData(eventObj);
+    },
+    removeFromCartHandler: function (productsId) {
+        if (!Array.isArray(productsId)) {
+            productsId = [productsId];
+        }
+
+        var products = gtmActions.getProducts(productsId);
+
+        var eventObj = {
+            event: 'removeFromCart',
+            eventData: {
+                currency: gtmActions.getCurrency(),
+                source: "cart",
+                items: products,
+            },
         };
 
         gtmActions.initCommonData(eventObj);
