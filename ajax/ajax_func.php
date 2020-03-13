@@ -423,7 +423,7 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
         }
 
 
-        $result["transaction"] = json_encode(GTM::getTransaction($orderResult->getId()));
+        $result["transaction"] = json_encode(\Manom\GTM::getTransaction($orderResult->getId()));
         $result["success"] = $success;
     } catch (\Exception $e) {
     }

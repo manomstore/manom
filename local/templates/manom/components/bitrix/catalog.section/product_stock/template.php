@@ -124,6 +124,6 @@ $this->setFrameMode(true);
         </div>
     </section>
     <?
-    GTM::addListsItems("stock", $arResult["ELEMENTS"]);
+    \Manom\GTM::addListsItems("stock", $arResult["ELEMENTS"]);
     ?>
 <?php endif; ?>

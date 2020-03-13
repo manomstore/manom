@@ -663,7 +663,7 @@ $newFilter = array(
 </div>
 <script>
 	$(function() {
-		window.gtmActions.initCommonData(<?=GTM::getDataJS("home")?>);
+		window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("home")?>);
 	});
 </script>
 <?php

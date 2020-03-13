@@ -11,7 +11,7 @@ $APPLICATION->SetTitle("Регистрация");
         );?>
         <script>
             $(function () {
-                window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+                window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
             });
         </script>
     </div>

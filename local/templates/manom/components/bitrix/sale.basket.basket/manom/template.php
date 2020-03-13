@@ -13,7 +13,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     </script>
 <?php endif; ?>
 <?
-GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
+\Manom\GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
 ?>
 <?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
     <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
@@ -109,7 +109,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
                             <?
-                            GTM::setProductsOnPage($row['ACCESSORIES'], true);
+                            \Manom\GTM::setProductsOnPage($row['ACCESSORIES'], true);
                             ?>
                             <?php foreach ($row['ACCESSORIES'] as $item): ?>
                                 <article class="sci-add__prod" data-id="<?=$item['id']?>">
@@ -156,7 +156,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
                             <?
-                            GTM::setProductsOnPage($row['ADDITIONAL_SERVICES'], true);
+                            \Manom\GTM::setProductsOnPage($row['ADDITIONAL_SERVICES'], true);
                             ?>
                             <?php foreach ($row['ADDITIONAL_SERVICES'] as $item): ?>
                                 <div class="sci-add__prod">
@@ -210,7 +210,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
 <? if ($arResult["MAIN_CART"]) : ?>
     <script>
         $(function () {
-            window.gtmActions.initCommonData(<?=GTM::getDataJS("cart")?>);
+            window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("cart")?>);
         });
     </script>
 <? endif; ?>

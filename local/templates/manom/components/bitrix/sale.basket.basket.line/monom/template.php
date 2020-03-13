@@ -29,7 +29,7 @@ $count = 0;
         <?php endif; ?>
     </a>
     <?
-    GTM::setProductsOnPage($arResult["PRODUCT_IDS"]);
+    \Manom\GTM::setProductsOnPage($arResult["PRODUCT_IDS"]);
     ?>
     <div class="personal-preview preview-shopcart <?=$class2?>" id="mini_cart_header">
         <div class="personal-preview__wrapper">
@@ -110,7 +110,7 @@ $count = 0;
                         <span> ₽</span>
                     </div>
                     */ ?>
-                    <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
+                    <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
                     <a href="/cart/" class="preview-bottom__button">В корзину</a>
                 </div>
             <?php endif; ?>

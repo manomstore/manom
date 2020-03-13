@@ -18,6 +18,6 @@ $this->setFrameMode(true);
 </div>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("content")?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("content")?>);
     });
 </script>

@@ -57,7 +57,7 @@ $this->setFrameMode(true);
                 $GLOBALS['APPLICATION']->RestartBuffer();
             } ?>
             <?
-            GTM::setProductsOnPage($arResult['ITEMS'], true, "productId");
+            \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true, "productId");
             ?>
             <div class="cb-single no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-single' ? 'style="display: flex;"' : ''?>>
                 <?php foreach ($arResult['ITEMS'] as $item): ?>
@@ -386,7 +386,7 @@ $this->setFrameMode(true);
                         </div>
                     </div>
                 <?php endforeach; ?>
-                <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
+                <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
             </div>
             <?=$arResult['NAV_STRING']?>
             <?php if ($arParams['AJAX']) {
@@ -412,6 +412,6 @@ $this->setFrameMode(true);
 </section>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
     });
 </script>

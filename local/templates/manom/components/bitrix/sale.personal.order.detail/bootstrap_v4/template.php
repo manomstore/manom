@@ -740,7 +740,7 @@ else
 											</thead>
 											<tbody>
                                             <?
-                                            GTM::setProductsOnPage($arResult['BASKET'], true, "PRODUCT_ID")
+                                            \Manom\GTM::setProductsOnPage($arResult['BASKET'], true, "PRODUCT_ID")
                                             ?>
 											<?foreach ($arResult['BASKET'] as $basketItem)
 											{

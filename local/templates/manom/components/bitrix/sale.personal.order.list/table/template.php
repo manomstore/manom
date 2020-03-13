@@ -57,7 +57,7 @@ $bNoOrder = true;
             }
             ?>
             <?
-            GTM::setProductsOnPage($products)
+            \Manom\GTM::setProductsOnPage($products)
             ?>
             <?php foreach ($arResult['ORDER_BY_STATUS'] as $status => $statusOrders): ?>
                 <?php

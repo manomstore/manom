@@ -35,7 +35,7 @@ $APPLICATION->SetTitle("Авторизация");
         <!--        <p><a href="--><?//=SITE_DIR?><!--">Вернуться на главную страницу</a></p>-->
         <script>
             $(function () {
-                window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+                window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
             });
         </script>
     </div>

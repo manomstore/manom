@@ -10,7 +10,7 @@ $this->setFrameMode(true);
     <div class="tab-content">
         <div class="cb-block">
             <?
-            GTM::setProductsOnPage($arResult['ITEMS'], true);
+            \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
             ?>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php

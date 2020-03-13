@@ -29,7 +29,7 @@ $count = 0;
                 <button class="personal-preview__link js-clear-favorite" type="button">Очистить</button>
             </div>
             <?
-            GTM::setProductsOnPage($arResult['ITEMS'], true, "ID");
+            \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true, "ID");
             ?>
             <?php if (!empty($arResult['ITEMS'])): ?>
                 <?php foreach ($arResult['ITEMS'] as $item): ?>
@@ -91,7 +91,7 @@ $count = 0;
                 <?php if (count($arResult['ITEMS']) > 5): ?>
                     <p style="text-align: left;padding: 5px 10px;">Товаров: <?=count($arResult['ITEMS'])?></p>
                 <?php endif; ?>
-                <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
+                <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
                 <div class="preview-bottom">
                     <a href="/user/favorite/" class="preview-bottom__button preview-bottom__compare">В избранное</a>
                 </div>
@@ -103,7 +103,7 @@ $count = 0;
     ?>
     <script>
         $(function () {
-            window.gtmActions.setProducts(<?=GTM::getProductsOnPageJS()?>);
+            window.gtmActions.setProducts(<?=\Manom\GTM::getProductsOnPageJS()?>);
         });
     </script>
 <?

@@ -59,7 +59,7 @@ $this->setFrameMode(true);
         </div>
     </div>
     <?
-    GTM::setProductsOnPage($arResult['ITEMS'], true);
+    \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
     ?>
     <div id='PROPDS_BLOCK'>
         <?php if ($arParams['AJAX']) {
@@ -393,8 +393,8 @@ $this->setFrameMode(true);
                     </div>
                 </div>
             <?php endforeach; ?>
-            <span style="display:none" data-gtm-data='<?= GTM::getDataJS("category", $arResult['GTM_DATA'], true) ?>'></span>
-            <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
+            <span style="display:none" data-gtm-data='<?= \Manom\GTM::getDataJS("category", $arResult['GTM_DATA']) ?>'></span>
+            <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
         </div>
         <?=$arResult['NAV_STRING']?>
         <?php if ($arParams['AJAX']) {
@@ -419,6 +419,6 @@ $this->setFrameMode(true);
 </section>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("category", $arResult['GTM_DATA'])?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("category", $arResult['GTM_DATA'])?>);
     });
 </script>

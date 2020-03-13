@@ -778,7 +778,7 @@ if (!$USER->IsAuthorized()) {
 </div>
     <script>
         $(function () {
-            window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+            window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
         });
     </script>
 <?php

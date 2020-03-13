@@ -123,7 +123,7 @@ $this->setFrameMode(true);
             </div>
         </div>
         <?
-        GTM::addListsItems("new_items", $arResult["ELEMENTS"]);
+        \Manom\GTM::addListsItems("new_items", $arResult["ELEMENTS"]);
         ?>
     </section>
 <?php endif; ?>

@@ -36,7 +36,7 @@ global $USER;
         </aside>
     <?php endif; ?>
     <?
-    GTM::setProductsOnPage($arResult['SEARCH'], true, "PRODUCT_ID");
+    \Manom\GTM::setProductsOnPage($arResult['SEARCH'], true, "PRODUCT_ID");
     ?>
     <section class="catalog-block ">
         <?php if ($arResult['SEARCH']): ?>
@@ -164,8 +164,8 @@ global $USER;
                             </div>
                         </div>
                     <?php endforeach; ?>
-                    <span style="display:none" data-gtm-data='<?= GTM::getDataJS("searchresults", $arResult['GTM_DATA'], true) ?>'></span>
-                    <span style="display:none" data-gtm-products='<?= GTM::getProductsOnPageJS(true) ?>'></span>
+                    <span style="display:none" data-gtm-data='<?= \Manom\GTM::getDataJS("searchresults", $arResult['GTM_DATA']) ?>'></span>
+                    <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
                 </div>
                 <?=$arResult['NAV_STRING']?>
             </div>
@@ -181,6 +181,6 @@ global $USER;
 </div>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("searchresults", $arResult['GTM_DATA'])?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("searchresults", $arResult['GTM_DATA'])?>);
     });
 </script>

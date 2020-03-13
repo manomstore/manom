@@ -28,7 +28,7 @@ $this->setFrameMode(true);
         </aside>
         */ ?>
         <?
-        GTM::setProductsOnPage($arResult['ITEMS'], true);
+        \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
         ?>
         <?php if (empty($arResult['ITEMS'])): ?>
             <p class="notetext">Нет товаров для сравнения</p>
@@ -148,6 +148,6 @@ $this->setFrameMode(true);
 </section>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("other")?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
     });
 </script>

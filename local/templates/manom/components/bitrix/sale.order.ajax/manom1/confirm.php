@@ -39,7 +39,7 @@ if ($arParams["SET_TITLE"] == "Y")
         ?>
         <script>
             $(function () {
-                window.gtmActions.initCommonData(<?=GTM::getDataJS("purchase",
+                window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("purchase",
                     [
                         "order" => $arResult["ORDER"]["ID"]
                     ]

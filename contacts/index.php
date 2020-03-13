@@ -24,7 +24,7 @@ $APPLICATION->SetTitle("Контакты");
 </div>
 <script>
     $(function() {
-        window.gtmActions.initCommonData(<?=GTM::getDataJS("info")?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("info")?>);
     });
 </script>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
