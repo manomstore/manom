@@ -1097,6 +1097,10 @@ $(document).ready(function() {
     }
   });
     $(document).on('click', '.js-clear-cart', function () {
+        var productIds = $(document).find('#mini_cart_header .preview-prod-bottom__button-cart').map(function () {
+            return Number($(this).data("product-id"));
+        }).get();
+
         return $.ajax({
             url: '/ajax/add_to_cart.php',
             type: 'POST',
@@ -1107,6 +1111,7 @@ $(document).ready(function() {
                 AJAX_MIN_CART: 'Y'
             },
             success: function (data) {
+                window.gtmActions.removeFromCartHandler(productIds)
                 return $.fn.updateMiniCart(data);
             }
         });
@@ -3204,9 +3209,7 @@ window.gtmActions = {
                 items: items,
             },
         };
-        if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
-            alert(eventObj.eventData.items[0].name);
-        }
+
         gtmActions.initCommonData(eventObj);
     },
     addToCartHandler: function (productId, source) {
@@ -3224,9 +3227,7 @@ window.gtmActions = {
                 items: items,
             },
         };
-        if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
-            alert(eventObj.eventData.items[0].name);
-        }
+
         gtmActions.initCommonData(eventObj);
     },
     purchaseHandler: function (transaction) {
@@ -3276,12 +3277,6 @@ window.gtmActions = {
                 items: products,
             },
         };
-
-        if (window.hasOwnProperty("isDebug") && window.isDebug === true) {
-            alert((eventType === "addToWishList" ? "Добавлено в избранное" : "удалено из избранного") + "\n" + products.map(function (item) {
-                return item.name;
-            }).join("\n"));
-        }
 
         gtmActions.initCommonData(eventObj);
     },
