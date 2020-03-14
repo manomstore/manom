@@ -114,9 +114,9 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
-                                            <tr class="js-add-section-input-tr">
+                                            <tr class="js-airtable-add-section-input-tr">
                                                 <td>
-                                                    <a href="#" class="js-add-section-input">Добавить</a>
+                                                    <a href="#" class="js-airtable-add-section-input">Добавить</a>
                                                 </td>
                                             </tr>
                                         </tbody>
