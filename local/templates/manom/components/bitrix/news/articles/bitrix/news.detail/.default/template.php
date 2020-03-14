@@ -16,3 +16,8 @@ $this->setFrameMode(true);
 	<h1 class="p-article__title"><?=$arResult['NAME']?></h1>
 	<?=$arResult['DETAIL_TEXT']?>
 </div>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("content")?>);
+    });
+</script>

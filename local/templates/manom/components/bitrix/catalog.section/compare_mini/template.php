@@ -28,6 +28,9 @@ $count = 0;
                 <h2 class="personal-preview__title">Сравнение</h2>
                 <button class="personal-preview__link js-clear-compare" type="button">Очистить</button>
             </div>
+            <?
+            \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true, "ID");
+            ?>
             <?php if (!empty($arResult['ITEMS'])): ?>
                 <?php foreach ($arResult['ITEMS'] as $item): ?>
                     <?php
@@ -75,7 +78,12 @@ $count = 0;
                                 */ ?>
                             </div>
                             <h3 class="preview-prod__name">
-                                <a href="<?=$item['DETAIL_PAGE_URL']?>"><?=$item['NAME']?></a>
+                                <a href="<?= $item['DETAIL_PAGE_URL'] ?>"
+                                   data-product-list="compare"
+                                   data-product-id="<?= $item['ID'] ?>"
+                                >
+                                    <?= $item['NAME'] ?>
+                                </a>
                             </h3>
                         </div>
                     </div>
@@ -83,6 +91,7 @@ $count = 0;
                 <?php if (count($arResult['ITEMS']) > 5): ?>
                     <p style="text-align: left;padding: 5px 10px;">Товаров: <?=count($arResult['ITEMS'])?></p>
                 <?php endif; ?>
+                <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
                 <div class="preview-bottom">
                     <a href="/catalog/compare/" class="preview-bottom__button preview-bottom__compare">В сравнение</a>
                 </div>

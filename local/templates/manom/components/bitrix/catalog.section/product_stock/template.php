@@ -30,7 +30,9 @@ $this->setFrameMode(true);
                                         <img
                                                 src="<?=$image['src']?>"
                                                 alt="<?=$item['name']?>"
-                                                onclick="location.href = '<?=$item['url']?>'"
+                                                data-product-list="stock"
+                                                data-product-id="<?= $item['id'] ?>"
+                                                data-href="<?=$item['url']?>"
                                         >
                                     </div>
                                 <?php endforeach; ?>
@@ -84,7 +86,10 @@ $this->setFrameMode(true);
                                 */ ?>
                             </div>
                             <h3 class="p-name">
-                                <a href="<?=$item['url']?>"><?=$item['name']?></a>
+                                <a href="<?= $item['url'] ?>"
+                                   data-product-list="stock"
+                                   data-product-id="<?= $item['id'] ?>"
+                                ><?= $item['name'] ?></a>
                             </h3>
                             <div class="p-nav-bottom">
                                 <div class="p-nav-bottom__price">
@@ -118,4 +123,7 @@ $this->setFrameMode(true);
             </div>
         </div>
     </section>
+    <?
+    \Manom\GTM::addListsItems("stock", $arResult["ELEMENTS"]);
+    ?>
 <?php endif; ?>

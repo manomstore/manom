@@ -58,7 +58,9 @@ $this->setFrameMode(true);
             </div>
         </div>
     </div>
-
+    <?
+    \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
+    ?>
     <div id='PROPDS_BLOCK'>
         <?php if ($arParams['AJAX']) {
             $APPLICATION->RestartBuffer();
@@ -80,7 +82,9 @@ $this->setFrameMode(true);
                                     <img
                                             src="<?=$image['src']?>"
                                             alt="<?=$item['name']?>"
-                                            onclick="location.href = '<?=$item['url']?>'"
+                                            data-product-list="section"
+                                            data-product-id="<?= $item['id'] ?>"
+                                            data-href="<?=$item['url']?>"
                                     >
                                 </div>
                             <?php endforeach; ?>
@@ -129,7 +133,10 @@ $this->setFrameMode(true);
                             */ ?>
                         </div>
                         <h3 class="p-name cb-single-name">
-                            <a href="<?=$item['url']?>"><?=$item['name']?></a>
+                            <a href="<?=$item['url']?>"
+                               data-product-list="section"
+                               data-product-id="<?= $item['id'] ?>"
+                            ><?=$item['name']?></a>
                         </h3>
                         <div class="p-cart-properties">
                             <?php foreach ($item['properties'] as $property): ?>
@@ -184,7 +191,9 @@ $this->setFrameMode(true);
                                     <img
                                             src="<?=$image['src']?>"
                                             alt="<?=$item['name']?>"
-                                            onclick="location.href = '<?=$item['url']?>'"
+                                            data-product-list="section"
+                                            data-product-id="<?= $item['id'] ?>"
+                                            data-href="<?=$item['url']?>"
                                     >
                                 </div>
                             <?php endforeach; ?>
@@ -236,7 +245,10 @@ $this->setFrameMode(true);
                             */ ?>
                         </div>
                         <h3 class="p-name">
-                            <a href="<?=$item['url']?>"><?=$item['name']?></a>
+                            <a href="<?=$item['url']?>"
+                               data-product-list="section"
+                               data-product-id="<?= $item['id'] ?>"
+                            ><?=$item['name']?></a>
                         </h3>
                         <div class="p-nav-bottom">
                             <?php if (
@@ -283,7 +295,9 @@ $this->setFrameMode(true);
                                     <img
                                             src="<?=$image['src']?>"
                                             alt="<?=$item['name']?>"
-                                            onclick="location.href = '<?=$item['url']?>'"
+                                            data-product-list="section"
+                                            data-product-id="<?= $item['id'] ?>"
+                                            data-href="<?=$item['url']?>"
                                     >
                                 </div>
                             <?php endforeach; ?>
@@ -309,7 +323,10 @@ $this->setFrameMode(true);
                             </div>
                             <div class="cb-line-card__text">
                                 <h3 class="p-name cb-line-name">
-                                    <a href="<?=$item['url']?>"><?=$item['name']?></a>
+                                    <a href="<?=$item['url']?>"
+                                       data-product-list="section"
+                                       data-product-id="<?= $item['id'] ?>"
+                                    ><?=$item['name']?></a>
                                 </h3>
                                 <div class="p-cart-properties cb-line-properties">
                                     <?php foreach ($item['properties'] as $property): ?>
@@ -376,8 +393,9 @@ $this->setFrameMode(true);
                     </div>
                 </div>
             <?php endforeach; ?>
+            <span style="display:none" data-gtm-data='<?= \Manom\GTM::getDataJS("category", $arResult['GTM_DATA']) ?>'></span>
+            <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
         </div>
-
         <?=$arResult['NAV_STRING']?>
         <?php if ($arParams['AJAX']) {
             die();
@@ -399,3 +417,8 @@ $this->setFrameMode(true);
     </div>
     */ ?>
 </section>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("category", $arResult['GTM_DATA'])?>);
+    });
+</script>

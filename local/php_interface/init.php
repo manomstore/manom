@@ -342,6 +342,12 @@ function cssAutoVersion($file)
     return $file."?m={$modifyTime}";
 }
 
+class Helper
+{
+    const CATALOG_IB_ID = 6;
+    const OFFERS_IB_ID = 7;
+}
+
 class MyHandlerClass
 {
     function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context, $elements, $elementPropsList)

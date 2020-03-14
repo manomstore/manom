@@ -19,4 +19,9 @@ $APPLICATION->SetTitle("Договор публичной оферты");
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("info")?>);
+    });
+</script>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

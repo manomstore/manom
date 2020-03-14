@@ -296,6 +296,9 @@
             $('#sci-login__tel_alt').mask('+7 (999) 999-99-99');
             $('#sci-contact__tel').mask('+7 (999) 999-99-99');
             $('#sci-contact__ur-phone').mask('+7 (999) 999-99-99');
+
+              window.gtmActions.setCurrency("<?=\Manom\GTM::getCurrency()?>");
+              window.gtmActions.setProducts(<?=\Manom\GTM::getProductsOnPageJS()?>);
           });
         </script>
 

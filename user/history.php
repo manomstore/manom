@@ -58,6 +58,11 @@ if (!$USER->IsAuthorized()) {
         </div>
     <?php endif; ?>
 </div>
+    <script>
+        $(function () {
+            window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
+        });
+    </script>
 <?php
 require $_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php';
 ?>

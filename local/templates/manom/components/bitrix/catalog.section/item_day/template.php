@@ -32,7 +32,9 @@ $start = 0;
                     <img
                             src="<?=$image['src']?>"
                             alt="<?=$item['name']?>"
-                            onclick="location.href = '<?=$item['url']?>'"
+                            data-product-list="product_day"
+                            data-product-id="<?= $item['id'] ?>"
+                            data-href="<?=$item['url']?>"
                     >
                 </div>
             <?php endforeach; ?>
@@ -81,7 +83,10 @@ $start = 0;
             */ ?>
         </div>
         <h3 class="p-name">
-            <a href="<?=$item['url']?>"><?=$item['name']?></a>
+            <a href="<?= $item['url'] ?>"
+               data-product-list="product_day"
+               data-product-id="<?= $item['id'] ?>"
+            ><?= $item['name'] ?></a>
         </h3>
         <div class="p-nav-bottom">
             <div class="p-nav-bottom__price">
@@ -110,4 +115,9 @@ $start = 0;
             ></div>
         </div>
     </div>
+    <?
+    \Manom\GTM::addListsItems("product_day", [
+        $item["id"]
+    ]);
+    ?>
 <?php endforeach; ?>

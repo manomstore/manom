@@ -20,6 +20,8 @@ function formatBytes($size, $precision = 2)
 
     return round(1024 ** ($base - floor($base)), $precision).' '.$suffixes[floor($base)];
 }
+
+\Manom\GTM::setProductsOnPage([$arResult['PRODUCT_ID']]);
 ?>
 <main class="product container">
     <div class="preloaderCatalog">
@@ -1040,3 +1042,13 @@ function formatBytes($size, $precision = 2)
         false
     ); ?>
 <?php endif; ?>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("product", [
+            "items" => [
+                $arResult["ID"]
+            ],
+            "categoryId" => $arResult["SECTION"]["ID"],
+        ])?>);
+    });
+</script>

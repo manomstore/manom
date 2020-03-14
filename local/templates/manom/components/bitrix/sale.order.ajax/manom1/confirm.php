@@ -33,10 +33,20 @@ if ($arParams["SET_TITLE"] == "Y")
 			</td>
 		</tr>
 	</table>
-
 	<?
 	if ($arResult["ORDER"]["IS_ALLOW_PAY"] === 'Y')
 	{
+        ?>
+        <script>
+            $(function () {
+                window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("purchase",
+                    [
+                        "order" => $arResult["ORDER"]["ID"]
+                    ]
+                )?>);
+            });
+        </script>
+        <?
 		if (!empty($arResult["PAYMENT"]))
 		{
 			foreach ($arResult["PAYMENT"] as $payment)

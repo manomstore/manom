@@ -9,6 +9,9 @@ $this->setFrameMode(true);
 <?php if ($arResult['ITEMS']): ?>
     <div class="tab-content">
         <div class="cb-block">
+            <?
+            \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
+            ?>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
@@ -22,7 +25,10 @@ $this->setFrameMode(true);
                             <img src="<?=$item['images'][0]['src']?>" alt="<?=$item['name']?>">
                         </div>
                         <h3 class="p-name">
-                            <a href="<?=$item['url']?>"><?=$item['name']?></a>
+                            <a href="<?= $item['url'] ?>"
+                               data-product-list="recommend"
+                               data-product-id="<?= $item['id'] ?>"
+                            ><?=$item['name']?></a>
                         </h3>
                         <?php if ($value['PROPERTIES']['ACESS_STR']['VALUE']): ?>
                             <div class="preview-prod1__text">

@@ -33,6 +33,11 @@ $APPLICATION->SetTitle("Авторизация");
         <!--        <p>Вы зарегистрированны и успешно авторизовались.</p>-->
         <!--        <p>Текст</p>-->
         <!--        <p><a href="--><?//=SITE_DIR?><!--">Вернуться на главную страницу</a></p>-->
+        <script>
+            $(function () {
+                window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
+            });
+        </script>
     </div>
 </div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

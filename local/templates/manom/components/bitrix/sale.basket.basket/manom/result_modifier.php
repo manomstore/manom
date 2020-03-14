@@ -257,3 +257,5 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
 
     $arResult['GRID']['ROWS'][$i] = $item;
 }
+
+$arResult["MAIN_CART"] = $arParams["MAIN_CART"] === "Y";

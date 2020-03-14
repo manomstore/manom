@@ -122,6 +122,7 @@ if ($_REQUEST['ORDER_ID']) {
                                     'USE_GIFTS' => 'Y',
                                     'USE_PREPAYMENT' => 'N',
                                     'AJAX_CART' => $_REQUEST['AJAX_CART'] === 'Y',
+                                    'MAIN_CART' => "Y",
                                 ],
                                 false
                             );?>

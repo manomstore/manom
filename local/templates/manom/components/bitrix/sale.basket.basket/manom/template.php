@@ -12,6 +12,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
       location.href = '/';
     </script>
 <?php endif; ?>
+<?
+\Manom\GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
+?>
 <?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
     <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
         <div class="sci-product__wrapper">
@@ -38,10 +41,15 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                             class="sci-product__delete sci-top__remove"
                             type="button" aria-label="Удалить товар"
                             data-id="<?=$row['ID']?>"
+                            data-product-id="<?=$row['PRODUCT_ID']?>"
                     >
                     </button>
                 </div>
-                <a class="sci-product__name-link" href="<?=$row['DETAIL_PAGE_URL']?>">
+                <a class="sci-product__name-link"
+                   data-product-list="cart"
+                   data-product-id="<?= $row['PRODUCT_ID'] ?>"
+                   href="<?=$row['DETAIL_PAGE_URL']?>"
+                >
                     <h3 class="sci-product__name">
                         <?=$row['NAME']?>
                     </h3>
@@ -100,6 +108,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                         <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
+                            <?
+                            \Manom\GTM::setProductsOnPage($row['ACCESSORIES'], true);
+                            ?>
                             <?php foreach ($row['ACCESSORIES'] as $item): ?>
                                 <article class="sci-add__prod" data-id="<?=$item['id']?>">
                                     <div class="sci-add__picture">
@@ -118,9 +129,13 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                                             ₽
                                         </div>
                                     </div>
-                                    <a class="sci-add__name-link" href="<?=$item['url']?>">
+                                    <a class="sci-add__name-link"
+                                       data-product-list="recommend"
+                                       data-product-id="<?= $item['id'] ?>"
+                                       href="<?= $item['url'] ?>"
+                                    >
                                         <h3 class="sci-add__name">
-                                            <?=$item['name']?>
+                                            <?= $item['name'] ?>
                                         </h3>
                                     </a>
                                     <button
@@ -140,6 +155,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                         <h2 class="sci-add__title">Не забудьте еще</h2>
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
+                            <?
+                            \Manom\GTM::setProductsOnPage($row['ADDITIONAL_SERVICES'], true);
+                            ?>
                             <?php foreach ($row['ADDITIONAL_SERVICES'] as $item): ?>
                                 <div class="sci-add__prod">
                                     <div class="sci-add__picture">
@@ -158,7 +176,10 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                                             ₽
                                         </div>
                                     </div>
-                                    <a href="<?=$item['url']?>">
+                                    <a href="<?=$item['url']?>"
+                                       data-product-list="recommend"
+                                       data-product-id="<?= $item['id'] ?>"
+                                    >
                                         <h3 class="sci-add__name">
                                             <?=$item['name']?>
                                         </h3>
@@ -185,3 +206,11 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 <?php if ($arParams['AJAX_CART']) {
     die();
 } ?>
+
+<? if ($arResult["MAIN_CART"]) : ?>
+    <script>
+        $(function () {
+            window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("cart")?>);
+        });
+    </script>
+<? endif; ?>

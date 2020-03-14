@@ -69,3 +69,8 @@ $this->setFrameMode(true);
         </div>
     </main>
 <?php endif; ?>
+<script>
+    $(function () {
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
+    });
+</script>

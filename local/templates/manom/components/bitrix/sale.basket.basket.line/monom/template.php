@@ -28,6 +28,9 @@ $count = 0;
             )
         <?php endif; ?>
     </a>
+    <?
+    \Manom\GTM::setProductsOnPage($arResult["PRODUCT_IDS"]);
+    ?>
     <div class="personal-preview preview-shopcart <?=$class2?>" id="mini_cart_header">
         <div class="personal-preview__wrapper">
             <div class="personal-preview__top">
@@ -72,7 +75,8 @@ $count = 0;
                                             class="preview-prod-bottom__del preview-prod-bottom__button-cart"
                                             type="button"
                                             aria-label="Удалить товар"
-                                            data-cart-item="<?=$item['ID']?>"
+                                            data-cart-item="<?= $item['ID'] ?>"
+                                            data-product-id="<?= $item['PRODUCT_ID'] ?>"
                                     ></button>
                                     <?php /*
                                     <label>
@@ -85,8 +89,11 @@ $count = 0;
                                     */ ?>
                                 </div>
                                 <h3 class="preview-prod__name">
-                                    <a href="<?=$item['DETAIL_PAGE_URL']?>">
-                                        <?=$item['NAME']?> (<?=$item['QUANTITY']?>шт.)
+                                    <a href="<?= $item['DETAIL_PAGE_URL'] ?>"
+                                       data-product-list="cart"
+                                       data-product-id="<?= $item['PRODUCT_ID'] ?>"
+                                    >
+                                        <?= $item['NAME'] ?> (<?= $item['QUANTITY'] ?>шт.)
                                     </a>
                                 </h3>
                             </div>
@@ -103,6 +110,7 @@ $count = 0;
                         <span> ₽</span>
                     </div>
                     */ ?>
+                    <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
                     <a href="/cart/" class="preview-bottom__button">В корзину</a>
                 </div>
             <?php endif; ?>

@@ -34,6 +34,11 @@ $APPLICATION->SetTitle("Регистрация");
 		),
 		false
 	);?>
+        <script>
+            $(function () {
+                window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("other")?>);
+            });
+        </script>
 	</div>
 </div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
