@@ -6,6 +6,7 @@ if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH
 
 use \Bitrix\Main\Application;
 use \Bitrix\Main\Loader;
+use Manom\Airtable\Import;
 
 define('NO_KEEP_STATISTIC', true);
 define('NO_AGENT_CHECK', true);
@@ -29,6 +30,15 @@ if (!Loader::includeModule('manom.airtable')) {
 $post = $request->getPostList()->toArray();
 
 if ($post['action'] === 'all') {
+    try {
+        $import = new Import();
+
+        if (!$import->process()) {
+            die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
+        }
+    } catch (Exception $e) {
+        die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
+    }
 }
 
 if ($post['action'] === 'sections') {
@@ -36,6 +46,16 @@ if ($post['action'] === 'sections') {
 
     if (empty($post['sections'])) {
         die(json_encode(array('error' => true, 'message' => 'Не выбраны разделы')));
+    }
+
+    try {
+        $import = new Import();
+
+        if (!$import->process($post['sections'])) {
+            die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
+        }
+    } catch (Exception $e) {
+        die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
     }
 }
 
