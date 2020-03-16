@@ -8,3 +8,5 @@ Loader::registerAutoLoadClasses(
         'eventHandlers' => 'classes/general/eventHandlers.php',
     )
 );
+
+require_once 'vendor/autoload.php';
