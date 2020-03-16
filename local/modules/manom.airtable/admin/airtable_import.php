@@ -29,8 +29,7 @@ require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_aft
 
 $request = Application::getInstance()->getContext()->getRequest();
 
-$sections = Option::get($moduleId, 'sections');
-$sections = explode('|', $sections);
+$sections = $tools->getSections();
 ?>
 <form name="airtable-import" action="<?=$modulePath?>/admin/ajax/handler.php" method="post">
     <?=bitrix_sessid_post()?>

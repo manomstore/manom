@@ -65,4 +65,14 @@ class Tools
     {
         return Option::get($this->moduleId, 'apiKey');
     }
+
+    /**
+     * @return array
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     */
+    public function getSections(): array
+    {
+        return explode('|', Option::get($this->moduleId, 'sections'));
+    }
 }
