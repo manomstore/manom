@@ -79,14 +79,19 @@ class Api
      */
     public function getFromSection($section): array
     {
+        $data = array();
+
         $params = array(
             'filterByFormula' => "AND({Статус 1} = 'ОДОБРЕНО', {Статус 2} = 'ОДОБРЕНО', {Внешний код} != '')",
         );
 
-        $request = $this->airtable->getContent(urlencode($section), $params);
+        $request = $this->airtable->getContent(rawurlencode($section), $params);
         do {
             $response = $request->getResponse();
-            $data = json_decode(json_encode($response['records']), true);
+
+            if ($response['records'] !== null) {
+                $data = json_decode(json_encode($response['records']), true);
+            }
         } while ($request = $response->next());
 
         return $data;
