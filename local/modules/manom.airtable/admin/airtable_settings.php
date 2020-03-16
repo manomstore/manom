@@ -36,6 +36,7 @@ $options = array(
     'airtableId' => '',
     'apiKey' => '',
     'sections' => array(),
+    'changeStatus' => '',
 );
 
 foreach ($options as $key => $value) {
@@ -53,13 +54,17 @@ if ($request->isPost() && check_bitrix_sessid()) {
     $post = $request->getPostList()->toArray();
 
     foreach ($post as $key => $value) {
-        if ($key === 'airtableId' || $key === 'apiKey') {
+        if ($key === 'airtableId' || $key === 'apiKey' || $key === 'changeStatus') {
             Option::set($moduleId, $key, $value);
         }
 
         if ($key === 'sections') {
             Option::set($moduleId, $key, implode('|', array_filter($value)));
         }
+    }
+
+    if (empty($post['changeStatus'])) {
+        Option::set($moduleId, 'changeStatus', '');
     }
 
     LocalRedirect($APPLICATION->GetCurPage());
@@ -120,6 +125,17 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                             </tr>
                                         </tbody>
                                     </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adm-detail-content-cell-l">Устанавливать статус "Выгружено в Битрикс":</td>
+                                <td class="adm-detail-content-cell-r">
+                                    <input
+                                            type="checkbox"
+                                            name="changeStatus"
+                                            value="Y"
+                                        <?=$options['changeStatus'] === 'Y' ? 'checked' : ''?>
+                                    >
                                 </td>
                             </tr>
                         </tbody>

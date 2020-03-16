@@ -16,12 +16,16 @@ use \Bitrix\Main\SystemException;
 class Import
 {
     private $iblockId = 6;
+    private $changeStatus;
 
     /**
      * Import constructor.
      */
     public function __construct()
     {
+        $tools = new Tools;
+
+        $this->changeStatus = $tools->getChangeStatus() === 'Y';
     }
 
     /**
@@ -79,14 +83,23 @@ class Import
             }
         }
 
-        foreach ($updated as $section => $itemsId) {
-//            $api->setStatus($section, $itemsId);
+        if ($this->changeStatus) {
+            foreach ($updated as $section => $itemsId) {
+                $api->setStatus($section, $itemsId);
+            }
         }
 
         return true;
     }
 
-    private function prepareFields($airtableItem, $bitrixItem, $map, $sections)
+    /**
+     * @param array $airtableItem
+     * @param array $bitrixItem
+     * @param array $map
+     * @param array $sections
+     * @return array
+     */
+    private function prepareFields($airtableItem, $bitrixItem, $map, $sections): array
     {
         $fields = array(
             'ID' => $bitrixItem['id'],

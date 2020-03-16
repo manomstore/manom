@@ -75,4 +75,14 @@ class Tools
     {
         return explode('|', Option::get($this->moduleId, 'sections'));
     }
+
+    /**
+     * @return string
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     */
+    public function getChangeStatus(): string
+    {
+        return Option::get($this->moduleId, 'changeStatus');
+    }
 }
