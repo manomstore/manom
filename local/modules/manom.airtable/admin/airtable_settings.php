@@ -6,8 +6,6 @@ use \Bitrix\Main\Application;
 use \Bitrix\Main\Config\Option;
 use \Manom\Airtable\Tools;
 
-$moduleId = 'manom.airtable';
-
 require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_before.php';
 
 $modulePermissions = $APPLICATION::GetGroupRight('main');
@@ -18,6 +16,7 @@ if ($modulePermissions < 'W') {
 Loader::includeModule('manom.airtable');
 
 $tools = new Tools;
+$moduleId = $tools->getModuleId();
 $modulePath = $tools->getModulePath(false);
 
 Asset::getInstance()->addJs($modulePath.'/admin/js/jquery-3-4-1.min.js');

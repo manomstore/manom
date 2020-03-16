@@ -2,19 +2,31 @@
 
 namespace Manom\Airtable;
 
+use \Bitrix\Main\Config\Option;
+use \Bitrix\Main\ArgumentNullException;
+use \Bitrix\Main\ArgumentOutOfRangeException;
+
 /**
  * Class Tools
  * @package Manom\Airtable
  */
 class Tools
 {
-    public $MODULE_ID = 'manom.airtable';
+    private $moduleId = 'manom.airtable';
 
     /**
      * Tools constructor.
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @return string
+     */
+    public function getModuleId(): string
+    {
+        return $this->moduleId;
     }
 
     /**
@@ -25,12 +37,32 @@ class Tools
     {
         $modulePath = '';
 
-        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/'.$this->MODULE_ID)) {
-            $modulePath = ($absolutePath ? $_SERVER['DOCUMENT_ROOT'] : '').'/bitrix/modules/'.$this->MODULE_ID;
-        } elseif (file_exists($_SERVER['DOCUMENT_ROOT'].'/local/modules/'.$this->MODULE_ID)) {
-            $modulePath = ($absolutePath ? $_SERVER['DOCUMENT_ROOT'] : '').'/local/modules/'.$this->MODULE_ID;
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/'.$this->moduleId)) {
+            $modulePath = ($absolutePath ? $_SERVER['DOCUMENT_ROOT'] : '').'/bitrix/modules/'.$this->moduleId;
+        } elseif (file_exists($_SERVER['DOCUMENT_ROOT'].'/local/modules/'.$this->moduleId)) {
+            $modulePath = ($absolutePath ? $_SERVER['DOCUMENT_ROOT'] : '').'/local/modules/'.$this->moduleId;
         }
 
         return $modulePath;
+    }
+
+    /**
+     * @return string
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     */
+    public function getAirtableId(): string
+    {
+        return Option::get($this->moduleId, 'airtableId');
+    }
+
+    /**
+     * @return string
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     */
+    public function getApiKey(): string
+    {
+        return Option::get($this->moduleId, 'apiKey');
     }
 }
