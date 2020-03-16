@@ -84,6 +84,7 @@ $sections = explode('|', $sections);
                                     </td>
                                 </tr>
                             <?php endif; ?>
+                            <?php /*
                             <tr class="heading">
                                 <td colspan="2">
                                     <b>Выгрузка элементов</b>
@@ -99,6 +100,7 @@ $sections = explode('|', $sections);
                                     <input type="submit" name="submit" value="Запустить" class="js-airtable-import-element">
                                 </td>
                             </tr>
+                            */ ?>
                         </tbody>
                     </table>
                 </div>
