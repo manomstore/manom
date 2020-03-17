@@ -123,6 +123,7 @@ class FieldsMap
             'color' => 'Цвет',
             'memory_size' => 'Объём памяти',
             'brand' => 'Бренд',
+            'SCREEN_SiZE' => 'Диагональ экрана',
         );
 
         return array('fields' => $fields, 'properties' => $properties);
