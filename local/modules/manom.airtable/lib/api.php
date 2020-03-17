@@ -106,22 +106,40 @@ class Api
     {
         $items = array();
 
+        $i = 0;
+        $tmpItems = array();
         foreach ($itemsId as $id) {
             if (empty($id)) {
                 continue;
             }
 
-            $items[] = array(
+            $i++;
+
+            $tmpItems[] = array(
                 'id' => $id,
                 'fields' => array(
                     'Статус 1' => 'ВЫГРУЖЕНО В БИТРИКС',
                     'Статус 2' => 'ВЫГРУЖЕНО В БИТРИКС',
                 ),
             );
+
+            if ($i === 10) {
+                $items[] = $tmpItems;
+                $i = 0;
+                $tmpItems = array();
+            }
         }
 
-        $response = $this->airtable->updateContent(urlencode($section), $items);
+        if (!empty($tmpItems)) {
+            $items[] = $tmpItems;
+        }
 
-        return !empty($response['records']);
+        $result = true;
+        foreach ($items as $stepItems) {
+            $response = $this->airtable->updateContent(rawurlencode($section), $stepItems);
+            $result = !empty($response['records']);
+        }
+
+        return $result;
     }
 }
