@@ -70,6 +70,41 @@ if (Loader::includeModule('hozberg.characteristics')) {
     $arResult['CHARACTERISTICS'] = $arResult['DISPLAY_PROPERTIES'];
 }
 
+$hideProperties = array(
+    'MORE_PHOTO',
+    'CML2_ARTICLE',
+    'BLOG_POST_ID',
+    'BLOG_COMMENTS_CNT',
+    'TEXT_UNDER_PHOTO',
+    'BS_STR',
+    'A_N_Q',
+    'RECOM',
+    'SELLOUT',
+    'DOP_SERV',
+    'brand_rs',
+    'PRODUCT_OF_THE_DAY',
+    'SELL_PROD',
+    'NEW_PRODUCT',
+    'STOCK_PRODUCT',
+    'ONLY_PREPAYMENT',
+    'ONLY_PICKUP',
+    'ONLY_CASH',
+    'YOUTUBE',
+    'TOP_FIELD_2',
+    'ACESS_STR',
+    'CML2_BAR_CODE',
+    'CML2_ATTRIBUTES',
+    'CML2_TRAITS',
+    'CML2_BASE_UNIT',
+    'CML2_TAXES',
+    'DELIVERY_DETAIL_CART',
+);
+foreach ($hideProperties as $code) {
+    if (isset($arResult['CHARACTERISTICS'][$code])) {
+        unset($arResult['CHARACTERISTICS'][$code]);
+    }
+}
+
 $arResult['DELIVERIES'] = array(
     'COURIER' => array('EXIST' => false, 'NAME' => 'Курьером'),
     'PICKUP' => array('EXIST' => false, 'NAME' => 'Самовывоз'),
