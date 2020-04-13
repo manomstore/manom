@@ -1,0 +1,6 @@
+<?php
+
+$MESS['MOYSKLAD_MODULE_NAME'] = 'Интеграция с МойСклад';
+$MESS['MOYSKLAD_MODULE_DESCRIPTION'] = '';
+$MESS['MOYSKLAD_PARTNER'] = '';
+$MESS['MOYSKLAD_PARTNER_URI'] = '';
