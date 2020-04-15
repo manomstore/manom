@@ -117,6 +117,12 @@ function formatBytes($size, $precision = 2)
                     отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
                 </a>
             </div>
+            <div class="product-article">
+				<span>Артикул:MWLT2RU/A</span>
+			</div>
+			<div class="product-code">
+				<span>Код: 0000102323</span>
+			</div>
         <?php endif; ?>
     </div>
 

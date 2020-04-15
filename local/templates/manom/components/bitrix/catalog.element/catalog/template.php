@@ -192,16 +192,18 @@ if (!$_REQUEST['offer']){
 						}
 					}
 					?>
-						<img
-						src="<?=$photo['src']?>"
-						data-color="<?=$photo['hash_offer_color']?>"
-						data-photo-id="<?=$photo['id']?>"
-						class="
-						<?=$photo['is_main_photo'] ? "active" : ""?>
-						<?=$photo['is_offer'] ? "pp__is_offer" : "pp__is_prod no-display-img-detail"?>
-						<?=($photo['is_offer'] && $actualOffer['photo_hash'] != $photo['hash_offer_color']) ? "pp__is_offer__disable" : ""?>
-						"
-						>
+					  <div class="product-photo__left-cover">
+							<img
+							src="<?=$photo['src']?>"
+							data-color="<?=$photo['hash_offer_color']?>"
+							data-photo-id="<?=$photo['id']?>"
+							class="
+							<?=$photo['is_main_photo'] ? "active" : ""?>
+							<?=$photo['is_offer'] ? "pp__is_offer" : "pp__is_prod no-display-img-detail"?>
+							<?=($photo['is_offer'] && $actualOffer['photo_hash'] != $photo['hash_offer_color']) ? "pp__is_offer__disable" : ""?>
+							"
+							>
+				    </div>
 					<?}?>
 			</div>
 			<div class="product-photo__right col-5">
