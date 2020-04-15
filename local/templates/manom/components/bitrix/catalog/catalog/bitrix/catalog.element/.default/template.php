@@ -68,6 +68,7 @@ function formatBytes($size, $precision = 2)
     </div>
 
     <div class="product-nav2">
+        1111
         <div class="product-credential">
             <?php if ($arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']): ?>
                 <span
