@@ -68,7 +68,6 @@ function formatBytes($size, $precision = 2)
     </div>
 
     <div class="product-nav2">
-        1111
         <div class="product-credential">
             <?php if ($arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']): ?>
                 <span
@@ -115,23 +114,10 @@ function formatBytes($size, $precision = 2)
             <div class="product-comments">
                 <a href="#product-tabs" data-scroll-to-product-tab="reviews">
                     <span><?=$arResult['rating']['count']?></span>
-                    отзыв1111<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
+                    отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
                 </a>
             </div>
-            <div class="product-article">
-				<span>Артикул:MWLT2RU/A 2222</span>
-			</div>
-			<div class="product-code">
-				<span>Код: 0000102323</span>
-			</div>
         <?php endif; ?>
-
-        <div class="product-article">
-				<span>Артикул:MWLT2RU/A 2222</span>
-			</div>
-			<div class="product-code">
-				<span>Код: 0000102323</span>
-			</div>
     </div>
 
     <div class="product-main row">
