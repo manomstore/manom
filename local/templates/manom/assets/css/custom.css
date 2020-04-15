@@ -1634,7 +1634,7 @@ body div.search-popup-row-active {
 
 .product-payment-methods__list {
   padding: 0;
-  margin: 0 0 8px -20px;
+  margin: 0 0 8px -18px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1643,7 +1643,7 @@ body div.search-popup-row-active {
 
 .product-payment-methods__list-item {
   min-height: 25px;
-  margin: 0 0 8px 20px;
+  margin: 0 0 8px 17px;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
