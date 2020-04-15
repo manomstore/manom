@@ -211,12 +211,17 @@ function formatBytes($size, $precision = 2)
                 </ul>
             </div>
             <div class="product-content__size">
-                <h3>Цвет</h3>
+                <h3>Объем памяти</h3>
                 <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
+                    <li>
+                        <button>64 ГБ</button>
+                    </li>
+                    <li>
+                        <button>128 ГБ</button>
+                    </li>
+                    <li>
+                        <button>256 ГБ</button>
+                    </li>
                 </ul>
             </div>
         </div>
