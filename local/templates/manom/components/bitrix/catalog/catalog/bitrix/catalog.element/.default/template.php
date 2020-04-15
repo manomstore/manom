@@ -185,7 +185,7 @@ function formatBytes($size, $precision = 2)
                 <div class="product-content__available">Нет в наличии</div>
             <?php endif; ?>
             <p class="product-content__text"><?=$arResult['~PREVIEW_TEXT']?></p>
-            <ul class="product-content__text">
+            <ul class="product-content__info">
                 <li>Первая в мире система трёх камер</li>
                 <li>Самое прочное стекло и защита от воды</li>
                 <li>Рекордный ресурс аккумулятора</li>
@@ -227,216 +227,218 @@ function formatBytes($size, $precision = 2)
         </div>
 
         <div class="product-sidebar col-3">
-            <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
-                <div class="product-sidebar__total mainBlockPrice">
-                    <div class="product-sidebar__total_price">
-                        <span
-                            class="product-sidebar__total-price-price addToCartBtn"
-                            data-id='<?=$arResult['PRODUCT_ID']?>'
-                        >
-                            <?=number_format($arResult['price'], 0, '', ' ')?>
-                        </span>
-                        <span id="ruble"> ₽</span>
-                    </div>
-                    <div
-                        class="product-sidebar__right-price"
-                        style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
-                    >
-                        <p class="product-sidebar__profit">
-                            Выгода
-                            <span>
-                                <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
+            <div class="product-sidebar-cover">
+                <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
+                    <div class="product-sidebar__total mainBlockPrice">
+                        <div class="product-sidebar__total_price">
+                            <span
+                                class="product-sidebar__total-price-price addToCartBtn"
+                                data-id='<?=$arResult['PRODUCT_ID']?>'
+                            >
+                                <?=number_format($arResult['price'], 0, '', ' ')?>
                             </span>
-                            ₽
-                        </p>
-                        <p class="product-sidebar__old-price">
-                            Было
-                            <span>
-                                <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
-                            </span>
-                            ₽
-                        </p>
-                    </div>
-                </div>
-
-                <?php if ($arResult['onlyCash']): ?>
-                    <?php
-                    $class = 'product-sidebar__note product-sidebar__note--positive js-disallow_loc_buy';
-                    if($arResult['locationDisallowBuy']) {
-                        $class .= ' dnd-hide';
-                    }
-                    ?>
-                    <div class="<?=$class?>">Доступен для заказа в Москве</div>
-                <?php endif; ?>
-
-                <div class="js-allow_loc_buy <?=$arResult['locationDisallowBuy'] ? 'dnd-hide' : ''?>">
-                    <?php
-                    $class = 'product-sidebar__button addToCartBtn addToCartBtn_mainPage';
-                    if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])) {
-                        $class .= ' dsb-hidden';
-                    }
-                    ?>
-                    <a class="<?=$class?>" data-id="<?=$arResult['PRODUCT_ID']?>">
-                        Купить
-                    </a>
-
-                    <?php if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])): ?>
-                        <a
-                            class="product-sidebar__button goToFcnCart"
-                            href="/cart/"
-                            data-id="<?=$arResult['PRODUCT_ID']?>"
-                        >
-                            В корзину
-                        </a>
-                    <?php endif; ?>
-
-                    <div class="product-sidebar__buttons">
-                        <?php
-                        $class = 'product-sidebar__cheaper';
-                        if (empty($arResult['CHEAPER'])) {
-                            $class .= ' product-sidebar__cheaper__disbled';
-                        }
-                        ?>
-                        <div class="<?=$class?>">
-                            Купить дешевле
+                            <span id="ruble"> ₽</span>
                         </div>
                         <div
-                            class="product-sidebar__one-click BOC_btn"
-                            data-id="<?=$arResult['PRODUCT_ID']?>"
-                            data-fancybox
-                            data-src="#popap-buy-one-click"
-                            href="javascript:;"
+                            class="product-sidebar__right-price"
+                            style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
                         >
-                            Купить в один клик
+                            <p class="product-sidebar__profit">
+                                Выгода
+                                <span>
+                                    <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
+                                </span>
+                                ₽
+                            </p>
+                            <p class="product-sidebar__old-price">
+                                Было
+                                <span>
+                                    <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
+                                </span>
+                                ₽
+                            </p>
                         </div>
                     </div>
-                </div>
 
-                <div id="popap-buy-one-click" class="popap-login">
-                    <h3 class="sci-login__title">Купить в один клик</h3>
-                    <form class="sci-login__form js-one-click-order">
-                        <div class="form_msg js-message-field"></div>
-                        <input
-                            type="hidden"
-                            name="productId"
-                            class="js-product-id"
-                            value="<?=$arResult['PRODUCT_ID']?>"
-                        >
-                        <label class="sci-login__label" for="sci-login__name_alt">Имя</label>
-                        <input
-                                type="text"
-                                name="name"
-                                value="<?=$arResult['CURRENT_USER']['NAME']?>"
-                                id="sci-login__name_alt"
-                                class="sci-login__input"
-                                placeholder="Ваше имя"
-                                required
-                        >
-                        <label class="sci-login__label" for="sci-login__tel_alt">Телефон</label>
-                        <input
-                                type="tel"
-                                name="phone"
-                                value="<?=$arResult['CURRENT_USER']['PHONE']?>"
-                                id="sci-login__tel_alt"
-                                class="sci-login__input"
-                                placeholder="+7 (___) ___-__-__"
-                                required
-                        >
-                        <?php if (empty($arResult['CURRENT_USER'])): ?>
-                            <label class="sci-login__label" for="sci-login__tel">E-mail</label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="sci-login__tel"
-                                class="sci-login__input"
-                                placeholder="E-mail"
-                                required
+                    <?php if ($arResult['onlyCash']): ?>
+                        <?php
+                        $class = 'product-sidebar__note product-sidebar__note--positive js-disallow_loc_buy';
+                        if($arResult['locationDisallowBuy']) {
+                            $class .= ' dnd-hide';
+                        }
+                        ?>
+                        <div class="<?=$class?>">Доступен для заказа в Москве</div>
+                    <?php endif; ?>
+
+                    <div class="js-allow_loc_buy <?=$arResult['locationDisallowBuy'] ? 'dnd-hide' : ''?>">
+                        <?php
+                        $class = 'product-sidebar__button addToCartBtn addToCartBtn_mainPage';
+                        if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])) {
+                            $class .= ' dsb-hidden';
+                        }
+                        ?>
+                        <a class="<?=$class?>" data-id="<?=$arResult['PRODUCT_ID']?>">
+                            Купить
+                        </a>
+
+                        <?php if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])): ?>
+                            <a
+                                class="product-sidebar__button goToFcnCart"
+                                href="/cart/"
+                                data-id="<?=$arResult['PRODUCT_ID']?>"
                             >
+                                В корзину
+                            </a>
                         <?php endif; ?>
-                        <button class="sci-login__button">Купить</button>
-                    </form>
-                </div>
-            <?php endif; ?>
 
-            <div class="product-sidebar__delivery">
-                <div class="product-delivery">
-                    <div class="product-delivery__header">
-                        <div class="product-delivery__header-cell">
-                            <h5 class="product-delivery__title">Доставка</h5>
-                        </div>
-                        <div class="product-delivery__header-cell">
-                            <div class="product-delivery__city" data-city-trigger="">
-                                <svg class="svg-icon svg-icon--location">
-                                    <use xlink:href="#location"/>
-                                </svg>
-                                <span data-current-city=""><?=$arParams['LOCATION']['CITY_NAME']?></span>
+                        <div class="product-sidebar__buttons">
+                            <?php
+                            $class = 'product-sidebar__cheaper';
+                            if (empty($arResult['CHEAPER'])) {
+                                $class .= ' product-sidebar__cheaper__disbled';
+                            }
+                            ?>
+                            <div class="<?=$class?>">
+                                Купить дешевле
+                            </div>
+                            <div
+                                class="product-sidebar__one-click BOC_btn"
+                                data-id="<?=$arResult['PRODUCT_ID']?>"
+                                data-fancybox
+                                data-src="#popap-buy-one-click"
+                                href="javascript:;"
+                            >
+                                Купить в один клик
                             </div>
                         </div>
                     </div>
-                    <div class="js-delivery_block">
-                        <?php foreach ($arResult['DELIVERIES'] as $delivery): ?>
-                            <div class="product-delivery__item">
-                                <div class="product-delivery__item-cell">
-                                    <?=$delivery['NAME']?>
-                                </div>
-                                <div class="product-delivery__item-cell">
-                                    <?=$delivery['DESCRIPTION']?>
+
+                    <div id="popap-buy-one-click" class="popap-login">
+                        <h3 class="sci-login__title">Купить в один клик</h3>
+                        <form class="sci-login__form js-one-click-order">
+                            <div class="form_msg js-message-field"></div>
+                            <input
+                                type="hidden"
+                                name="productId"
+                                class="js-product-id"
+                                value="<?=$arResult['PRODUCT_ID']?>"
+                            >
+                            <label class="sci-login__label" for="sci-login__name_alt">Имя</label>
+                            <input
+                                    type="text"
+                                    name="name"
+                                    value="<?=$arResult['CURRENT_USER']['NAME']?>"
+                                    id="sci-login__name_alt"
+                                    class="sci-login__input"
+                                    placeholder="Ваше имя"
+                                    required
+                            >
+                            <label class="sci-login__label" for="sci-login__tel_alt">Телефон</label>
+                            <input
+                                    type="tel"
+                                    name="phone"
+                                    value="<?=$arResult['CURRENT_USER']['PHONE']?>"
+                                    id="sci-login__tel_alt"
+                                    class="sci-login__input"
+                                    placeholder="+7 (___) ___-__-__"
+                                    required
+                            >
+                            <?php if (empty($arResult['CURRENT_USER'])): ?>
+                                <label class="sci-login__label" for="sci-login__tel">E-mail</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="sci-login__tel"
+                                    class="sci-login__input"
+                                    placeholder="E-mail"
+                                    required
+                                >
+                            <?php endif; ?>
+                            <button class="sci-login__button">Купить</button>
+                        </form>
+                    </div>
+                <?php endif; ?>
+
+                <div class="product-sidebar__delivery">
+                    <div class="product-delivery">
+                        <div class="product-delivery__header">
+                            <div class="product-delivery__header-cell">
+                                <h5 class="product-delivery__title">Доставка</h5>
+                            </div>
+                            <div class="product-delivery__header-cell">
+                                <div class="product-delivery__city" data-city-trigger="">
+                                    <svg class="svg-icon svg-icon--location">
+                                        <use xlink:href="#location"/>
+                                    </svg>
+                                    <span data-current-city=""><?=$arParams['LOCATION']['CITY_NAME']?></span>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
+                        </div>
+                        <div class="js-delivery_block">
+                            <?php foreach ($arResult['DELIVERIES'] as $delivery): ?>
+                                <div class="product-delivery__item">
+                                    <div class="product-delivery__item-cell">
+                                        <?=$delivery['NAME']?>
+                                    </div>
+                                    <div class="product-delivery__item-cell">
+                                        <?=$delivery['DESCRIPTION']?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
+
+                <?php if (!empty($arResult['PAY_SYSTEMS'])): ?>
+                    <div class="product-sidebar__payment-methods">
+                        <div class="product-payment-methods">
+                            <h5 class="product-payment-methods__title">
+                                Мы принимаем
+                            </h5>
+                        </div>
+                        <ul class="product-payment-methods__list">
+                            <?php if (in_array('CARD', $arResult['PAY_SYSTEMS'], true)): ?>
+                                <li class="product-payment-methods__list-item">
+                                    <img
+                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/visa.svg"
+                                            alt="Visa"
+                                    />
+                                </li>
+                                <li class="product-payment-methods__list-item">
+                                    <img
+                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/mastercard.svg"
+                                            alt="MasterCard"
+                                    />
+                                </li>
+                                <li class="product-payment-methods__list-item">
+                                    <img
+                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/mir.svg"
+                                            alt="Мир"
+                                    />
+                                </li>
+                            <?php endif; ?>
+
+                            <?php /*
+                            <li class="product-payment-methods__list-item">
+                                <img
+                                        src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/yamoney.svg"
+                                        alt="Яндекс.Деньги"
+                                />
+                            </li>
+                            */ ?>
+
+                            <?php if (in_array('CASH', $arResult['PAY_SYSTEMS'], true)): ?>
+                                <li class="product-payment-methods__list-item" data-title="Наличные">
+                                    <img
+                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/cash.svg"
+                                            alt="Наличные"
+                                    />
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
             </div>
-
-            <?php if (!empty($arResult['PAY_SYSTEMS'])): ?>
-                <div class="product-sidebar__payment-methods">
-                    <div class="product-payment-methods">
-                        <h5 class="product-payment-methods__title">
-                            Мы принимаем
-                        </h5>
-                    </div>
-                    <ul class="product-payment-methods__list">
-                        <?php if (in_array('CARD', $arResult['PAY_SYSTEMS'], true)): ?>
-                            <li class="product-payment-methods__list-item">
-                                <img
-                                        src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/visa.svg"
-                                        alt="Visa"
-                                />
-                            </li>
-                            <li class="product-payment-methods__list-item">
-                                <img
-                                        src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/mastercard.svg"
-                                        alt="MasterCard"
-                                />
-                            </li>
-                            <li class="product-payment-methods__list-item">
-                                <img
-                                        src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/mir.svg"
-                                        alt="Мир"
-                                />
-                            </li>
-                        <?php endif; ?>
-
-                        <?php /*
-                        <li class="product-payment-methods__list-item">
-                            <img
-                                    src="<?= SITE_TEMPLATE_PATH ?>/assets/img/payment-methods/yamoney.svg"
-                                    alt="Яндекс.Деньги"
-                            />
-                        </li>
-                        */ ?>
-
-                        <?php if (in_array('CASH', $arResult['PAY_SYSTEMS'], true)): ?>
-                            <li class="product-payment-methods__list-item" data-title="Наличные">
-                                <img
-                                        src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/cash.svg"
-                                        alt="Наличные"
-                                />
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 
