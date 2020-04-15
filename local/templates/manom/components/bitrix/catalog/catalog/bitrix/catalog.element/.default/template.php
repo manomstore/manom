@@ -436,6 +436,12 @@ function formatBytes($size, $precision = 2)
                                             alt="Мир"
                                     />
                                 </li>
+                                <li class="product-payment-methods__list-item">
+                                    <img
+                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/payment-methods/wallet.svg"
+                                            alt="wallet"
+                                    />
+                                </li>
                             <?php endif; ?>
 
                             <?php /*
