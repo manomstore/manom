@@ -1556,8 +1556,7 @@ body div.search-popup-row-active {
 
 
 @media only screen and (max-width: 767px) {
-  .product-warrenty__header-cell,
-  .product-delivery__header-cell:last-child {
+  .product-delivery__header-cell {
     width: 50%;
   }
 }
