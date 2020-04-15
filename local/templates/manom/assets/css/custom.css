@@ -1554,6 +1554,14 @@ body div.search-popup-row-active {
     width: 62%;
 }
 
+
+@media only screen and (max-width: 767px) {
+  .product-warrenty__header-cell,
+  .product-delivery__header-cell:last-child {
+    width: 50%;
+  }
+}
+
 .product-delivery__title {
   margin: 0;
   color: #29282c;
