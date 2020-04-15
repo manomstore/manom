@@ -226,7 +226,7 @@ function formatBytes($size, $precision = 2)
         </div>
 
         <div class="product-sidebar col-3">
-            <!-- <div class="product-sidebar-cover"> -->
+            <div class="product-sidebar-cover">
                 <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
                     <div class="product-sidebar__total mainBlockPrice">
                         <div class="product-sidebar__total_price">
@@ -358,7 +358,7 @@ function formatBytes($size, $precision = 2)
                     </div>
                 <?php endif; ?>
 
-                <div class="product-sidebar__warrenty">
+                <!-- <div class="product-sidebar__warrenty">
                     <div class="product-warrenty">
                             <div class="product-warrenty__cell">
                                 <h5 class="product-warrenty__title">Гарантия</h5>
@@ -370,7 +370,7 @@ function formatBytes($size, $precision = 2)
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="product-sidebar__delivery">
                     <div class="product-delivery">
@@ -451,7 +451,7 @@ function formatBytes($size, $precision = 2)
                         </ul>
                     </div>
                 <?php endif; ?>
-            <!-- </div> -->
+            </div>
         </div>
     </div>
 
