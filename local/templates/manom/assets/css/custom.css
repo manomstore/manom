@@ -1509,7 +1509,7 @@ body div.search-popup-row-active {
 }
 
 .product-sidebar__buttons {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .product-sidebar__delivery {
@@ -1542,10 +1542,16 @@ body div.search-popup-row-active {
 
 .product-delivery__header-cell {
   padding-right: 20px;
+  width: 38%;
+  font-size: 15px;
+    line-height: 24px;
 }
 
 .product-delivery__header-cell:last-child {
   padding-right: 0;
+  font-size: 15px;
+    line-height: 24px;
+    width: 62%;
 }
 
 .product-delivery__title {
@@ -1598,11 +1604,17 @@ body div.search-popup-row-active {
 
 .product-delivery__item-cell {
   padding-right: 20px;
+  width: 38%;
+  font-size: 15px;
+    line-height: 24px;
 }
 
 .product-delivery__item-cell:last-child {
   padding-right: 0;
-  text-align: right;
+  text-align: left;
+  font-size: 15px;
+    line-height: 24px;
+    width: 62%;
 }
 
 .product-payment-methods {
