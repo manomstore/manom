@@ -114,7 +114,7 @@ function formatBytes($size, $precision = 2)
             <div class="product-comments">
                 <a href="#product-tabs" data-scroll-to-product-tab="reviews">
                     <span><?=$arResult['rating']['count']?></span>
-                    отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
+                    отзыв1111<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
                 </a>
             </div>
             <div class="product-article">
