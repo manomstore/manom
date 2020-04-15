@@ -134,7 +134,9 @@ if (!$_REQUEST['offer']){
 					<?=declineOfNumber($numberof, 'отзыв', array('', 'а', 'ов'));?>
 				</a>
 			</div>
-			<div class="product-article">
+
+		<? endif; ?>
+		<div class="product-article">
 				<span>Артикул:MWLT2RU/A 1111</span>
 			</div>
 			<div class="product-code">
@@ -145,7 +147,6 @@ if (!$_REQUEST['offer']){
           <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
         </svg>
 			</div>
-		<? endif; ?>
 	</div>
 	<div class="product-main row">
 		<div class="product-photo">
