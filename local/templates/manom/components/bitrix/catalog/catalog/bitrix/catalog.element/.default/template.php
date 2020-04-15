@@ -397,6 +397,14 @@ function formatBytes($size, $precision = 2)
                                         <?=$delivery['DESCRIPTION']?>
                                     </div>
                                 </div>
+                                <div class="product-delivery__item">
+                                    <div class="product-delivery__item-cell">
+                                      Самовывоз
+                                    </div>
+                                    <div class="product-delivery__item-cell">
+                                      Ежедневно 11:00—19:00
+                                    </div>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
