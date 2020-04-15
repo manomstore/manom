@@ -184,7 +184,6 @@ function formatBytes($size, $precision = 2)
             <?php else: ?>
                 <div class="product-content__available">Нет в наличии</div>
             <?php endif; ?>
-            <!-- <p class="product-content__text"><?=$arResult['~PREVIEW_TEXT']?></p> -->
             <ul class="product-content__info">
                 <li>Первая в мире система трёх камер</li>
                 <li>Самое прочное стекло и защита от воды</li>
