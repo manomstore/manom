@@ -78,7 +78,7 @@ function formatBytes($size, $precision = 2)
                     <span class="credential-code">
                         <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?>
                     </span>
-                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
             <?php endif; ?>
             <?php if ($arResult['PROPERTIES']['model']['VALUE']): ?>
@@ -90,7 +90,7 @@ function formatBytes($size, $precision = 2)
                     <span class="credential-code article_code_field">
                         <?=$arResult['PROPERTIES']['model']['VALUE']?>
                     </span>
-                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
             <?php endif; ?>
             <?php if ($arResult['PROPERTIES']['TOP_FIELD_3']['VALUE']): ?>
