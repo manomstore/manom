@@ -1535,7 +1535,6 @@ body div.search-popup-row-active {
   display: flex;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
-  justify-content: space-between;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
   border-bottom: 1px solid #f2f2f2;
@@ -1593,7 +1592,6 @@ body div.search-popup-row-active {
   display: flex;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
-  justify-content: space-between;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
 }
