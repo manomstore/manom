@@ -504,8 +504,6 @@ function formatBytes($size, $precision = 2)
                 <label for="tab3">
                     <span>
                         Отзывы
-                        <br>
-                        покупателей
                     </span>
                 </label>
             <?php endif; ?>
