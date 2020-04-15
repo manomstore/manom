@@ -196,7 +196,7 @@ function formatBytes($size, $precision = 2)
                         <button></button>
                     </li>
                     <li class="product-content__color-green">
-                        <button></button>
+                        <button class="active"></button>
                     </li>
                     <li class="product-content__color-white">
                         <button></button>
@@ -213,7 +213,7 @@ function formatBytes($size, $precision = 2)
                 <h3>Объем памяти</h3>
                 <ul>
                     <li>
-                        <button>64 ГБ</button>
+                        <button  class="active">64 ГБ</button>
                     </li>
                     <li>
                         <button>128 ГБ</button>
@@ -236,7 +236,7 @@ function formatBytes($size, $precision = 2)
                             >
                                 <?=number_format($arResult['price'], 0, '', ' ')?>
                             </span>
-                            <span id="ruble"> ₽</span>
+                            <span id="ruble">₽</span>
                         </div>
                         <div
                             class="product-sidebar__right-price"
@@ -286,7 +286,7 @@ function formatBytes($size, $precision = 2)
                                 href="/cart/"
                                 data-id="<?=$arResult['PRODUCT_ID']?>"
                             >
-                                В корзину
+                            Купить
                             </a>
                         <?php endif; ?>
 
@@ -357,6 +357,20 @@ function formatBytes($size, $precision = 2)
                         </form>
                     </div>
                 <?php endif; ?>
+
+                <div class="product-sidebar__warrenty">
+                    <div class="product-warrenty">
+                            <div class="product-warrenty__cell">
+                                <h5 class="product-warrenty__title">Гарантия</h5>
+                            </div>
+                            <div class="product-warrenty__cell">
+                                <div class="product-warrenty__duration">
+                                    <span>1 год</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="product-sidebar__delivery">
                     <div class="product-delivery">
