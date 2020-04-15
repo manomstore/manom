@@ -198,8 +198,8 @@ function formatBytes($size, $precision = 2)
                     <li class="product-content__color-black">
                         <button></button>
                     </li>
-                    <li class="product-content__color-green">
-                        <button class="active"></button>
+                    <li class="product-content__color-green active">
+                        <button></button>
                     </li>
                     <li class="product-content__color-white">
                         <button></button>

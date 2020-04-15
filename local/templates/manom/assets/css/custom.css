@@ -1606,15 +1606,23 @@ body div.search-popup-row-active {
   padding-right: 20px;
   width: 38%;
   font-size: 15px;
-    line-height: 24px;
+  line-height: 24px;
 }
 
 .product-delivery__item-cell:last-child {
   padding-right: 0;
   text-align: left;
   font-size: 15px;
-    line-height: 24px;
-    width: 62%;
+  line-height: 24px;
+  width: 62%;
+}
+
+@media only screen and (max-width: 767px) {
+  .product-delivery__item-cell,
+  .product-delivery__item-cell:last-child {
+
+    width: 50%;
+  }
 }
 
 .product-payment-methods {
