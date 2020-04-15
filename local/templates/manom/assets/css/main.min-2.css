@@ -3289,11 +3289,6 @@ border-color: #EBEBEB;
   }
 }
 
-.product-sidebar-cover {
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.12);
-border-radius: 10px;
-}
-
 .product-sidebar__total {
   display: -webkit-box;
   display: -webkit-flex;
