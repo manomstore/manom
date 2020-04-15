@@ -180,11 +180,45 @@ function formatBytes($size, $precision = 2)
                 <?php endif; ?>
             <?php endif; ?>
             <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
-                <div class="product-content__available">Товар в наличии</div>
+                <div class="product-content__available">В наличии</div>
             <?php else: ?>
-                <div class="product-content__available">Товар нет в наличии</div>
+                <div class="product-content__available">Нет в наличии</div>
             <?php endif; ?>
             <p class="product-content__text"><?=$arResult['~PREVIEW_TEXT']?></p>
+            <ul class="product-content__text">
+                <li>Первая в мире система трёх камер</li>
+                <li>Самое прочное стекло и защита от воды</li>
+                <li>Рекордный ресурс аккумулятора</li>
+            </ul>
+            <div class="product-content__color">
+                <h3>Цвет</h3>
+                <ul>
+                    <li class="product-content__color-black">
+                        <button></button>
+                    </li>
+                    <li class="product-content__color-green">
+                        <button></button>
+                    </li>
+                    <li class="product-content__color-white">
+                        <button></button>
+                    </li>
+                    <li class="product-content__color-red">
+                        <button></button>
+                    </li>
+                    <li class="product-content__color-yellow">
+                        <button></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="product-content__size">
+                <h3>Цвет</h3>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
         </div>
 
         <div class="product-sidebar col-3">
