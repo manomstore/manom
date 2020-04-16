@@ -195,7 +195,7 @@ function formatBytes($size, $precision = 2)
             <div class="product-content__color">
                 <form action="#">
                     <h3>Цвет</h3>
-                    <input class="visually-hidden" type="radio" id="black" name="color" value="black">
+                    <input class="visually-hidden" type="radio" id="black" name="color" value="black" checked>
                     <label for="black" class="product-content__color-black"></label>
                     <input class="visually-hidden" type="radio" id="green" name="color" value="green">
                     <label for="green" class="product-content__color-green"></label>
@@ -230,7 +230,7 @@ function formatBytes($size, $precision = 2)
                     <h3>Объем памяти</h3>
                     <input class="visually-hidden" type="radio" id="64" name="size" value="64">
                     <label for="64">64 ГБ</label>
-                    <input class="visually-hidden" type="radio" id="128" name="size" value="128">
+                    <input class="visually-hidden" type="radio" id="128" name="size" value="128" checked>
                     <label for="128">128 ГБ</label>
                     <input class="visually-hidden" type="radio" id="256" name="size" value="256">
                     <label for="256">256 ГБ</label>
