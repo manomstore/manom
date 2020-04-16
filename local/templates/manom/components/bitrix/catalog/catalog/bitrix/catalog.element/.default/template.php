@@ -118,7 +118,7 @@ function formatBytes($size, $precision = 2)
                 </a>
             </div>
             <div class="product-article">
-				<span>Артикул:MWLT2RU/A 2222</span>
+				<span>Артикул:MWLT2RU/A</span>
 			</div>
 			<div class="product-code">
 				<span>Код: 0000102323</span>
