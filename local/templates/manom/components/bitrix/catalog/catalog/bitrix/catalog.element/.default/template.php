@@ -47,7 +47,7 @@ function formatBytes($size, $precision = 2)
         <?php if ($arResult['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да'): ?>
             <div class="p-nav-middle__sale active">Распродажа</div>
         <?php endif; ?>
-        <div class="p-nav-top active">
+        <!-- <div class="p-nav-top active">
             <label>
                 <input
                         class="p-nav-top__checkbox"
@@ -64,7 +64,7 @@ function formatBytes($size, $precision = 2)
                     class="p-nav-top__list addToCompareList <?=$class2?>"
                     data-id='<?=$arResult['ID']?>'
             ></div>
-        </div>
+        </div> -->
     </div>
 
     <div class="product-nav2">
@@ -259,6 +259,24 @@ function formatBytes($size, $precision = 2)
                                 </span>
                                 ₽
                             </p>
+                        </div>
+                        <div class="p-nav-top active">
+                            <label>
+                                <input
+                                        class="p-nav-top__checkbox"
+                                        type="checkbox"
+                                    <?=$arResult['inFavoriteAndCompare'] ? 'checked' : ''?>
+                                >
+                                <div
+                                        class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
+                                        data-id='<?=$arResult['ID']?>'
+                                        title="в избранное"
+                                ></div>
+                            </label>
+                            <div
+                                    class="p-nav-top__list addToCompareList <?=$class2?>"
+                                    data-id='<?=$arResult['ID']?>'
+                            ></div>
                         </div>
                     </div>
 
