@@ -2894,11 +2894,6 @@ p.price-slider {
   flex-wrap: wrap;
 }
 
-.product-content__color form {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 /* .product-content__color ul {
   list-style: none;
   display: flex;
