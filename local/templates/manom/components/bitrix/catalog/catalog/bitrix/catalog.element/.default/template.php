@@ -581,6 +581,27 @@ function formatBytes($size, $precision = 2)
                     <span>Аксессуары</span>
                 </label>
             <?php endif; ?>
+            <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+                <label for="tab7">
+                    <span>Аксессуары</span>
+                </label>
+            <?php endif; ?>
+
+            <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+                <label for="tab7">
+                    <span>Аксессуары</span>
+                </label>
+            <?php endif; ?>
+            <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+                <label for="tab7">
+                    <span>Аксессуары</span>
+                </label>
+            <?php endif; ?>
+            <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+                <label for="tab7">
+                    <span>Аксессуары</span>
+                </label>
+            <?php endif; ?>
         </div>
 
         <section id="content2">

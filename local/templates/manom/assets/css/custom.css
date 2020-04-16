@@ -1528,7 +1528,7 @@ body div.search-popup-row-active {
 }
 
 .product-delivery__header {
-  padding-bottom: 3px;
+  padding-bottom: 7px;
   margin-bottom: 7px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1570,10 +1570,6 @@ body div.search-popup-row-active {
 }
 
 .product-delivery__city {
-  padding-top: 2px;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
   color: #73737e;
