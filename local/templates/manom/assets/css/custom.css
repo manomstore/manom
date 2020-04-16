@@ -771,7 +771,7 @@ h4.p-article__sidebar_title {
   background-size: cover !important;
 }
 .p-nav-top__favorite:hover {
-  background: url(../img/top-heart.svg) center center no-repeat;
+  opacity: 1;
 }
 .preview-prod1__name a {
   -webkit-transition: 0.2s;
