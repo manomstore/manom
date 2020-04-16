@@ -957,7 +957,7 @@ h4.p-article__sidebar_title {
   background-size: contain;
 }
 .addToCompareList.notActive {
-  background: url("../img/top-sheets.svg") center center no-repeat;
+  background: url("../img/icons/compare.svg") center center no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
 }
