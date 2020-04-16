@@ -821,7 +821,7 @@ h4.p-article__sidebar_title {
   transition: 0.1s;
 }
 .addToCompareList.notActive.alt-img {
-  background: url(../img/top-sheets.svg) center center no-repeat;
+  background: url(./../img/icons/compare.svg) center center no-repeat;
   display: inline-block;
   height: 22px;
   width: 22px;
