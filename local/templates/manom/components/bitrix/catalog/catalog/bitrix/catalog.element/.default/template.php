@@ -195,15 +195,15 @@ function formatBytes($size, $precision = 2)
             <div class="product-content__color">
                 <form action="#">
                     <h3>Цвет</h3>
-                    <input type="radio" id="black" name="color" value="black">
+                    <input class="visually-hidden" type="radio" id="black" name="color" value="black">
                     <label for="black" class="product-content__color-black"></label>
-                    <input type="radio" id="green" name="color" value="green">
+                    <input class="visually-hidden" type="radio" id="green" name="color" value="green">
                     <label for="green" class="product-content__color-green"></label>
-                    <input type="radio" id="white" name="color" value="white">
+                    <input class="visually-hidden" type="radio" id="white" name="color" value="white">
                     <label for="white" class="product-content__color-white"></label>
-                    <input type="radio" id="red" name="color" value="red">
+                    <input class="visually-hidden" type="radio" id="red" name="color" value="red">
                     <label for="red" class="product-content__color-red"></label>
-                    <input type="radio" id="yellow" name="color" value="yellow">
+                    <input class="visually-hidden" type="radio" id="yellow" name="color" value="yellow">
                     <label for="yellow" class="product-content__color-yellow"></label>
                 </form>
 

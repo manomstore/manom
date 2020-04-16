@@ -2913,10 +2913,6 @@ p.price-slider {
   visibility: hidden;
 }
 
-.product-content__color input {
-  visibility: hidden;
-}
-
 .product-content__color label {
   width: 32px;
   height: 32px;
@@ -2954,16 +2950,10 @@ p.price-slider {
 }
 .product-content__color-white {
   background-color: #FEFFFD;
-<<<<<<< HEAD
   -webkit-box-shadow:  0px 0px 0px 1px rgba(235,235,235,1);
 -moz-box-shadow:  0px 0px 0px 1px rgba(235,235,235,1);
 box-shadow:  0px 0px 0px 1px rgba(235,235,235,1);
 border-color: #EBEBEB;
-=======
-  -webkit-box-shadow: inset 0px 0px 0px 1px rgba(235,235,235,1);
--moz-box-shadow: inset 0px 0px 0px 1px rgba(235,235,235,1);
-box-shadow: inset 0px 0px 0px 1px rgba(235,235,235,1);
->>>>>>> white label
 }
 
 .product-content__color-red {
