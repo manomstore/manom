@@ -226,18 +226,15 @@ function formatBytes($size, $precision = 2)
                 </ul> -->
             </div>
             <div class="product-content__size">
-                <h3>Объем памяти</h3>
-                <ul>
-                    <li>
-                        <button  class="active">64 ГБ</button>
-                    </li>
-                    <li>
-                        <button>128 ГБ</button>
-                    </li>
-                    <li>
-                        <button>256 ГБ</button>
-                    </li>
-                </ul>
+                <form action="#">
+                    <h3>Объем памяти</h3>
+                    <input class="visually-hidden" type="radio" id="64" name="size" value="64">
+                    <label for="64">64 ГБ</label>
+                    <input class="visually-hidden" type="radio" id="128" name="size" value="128">
+                    <label for="128">128 ГБ</label>
+                    <input class="visually-hidden" type="radio" id="256" name="size" value="256">
+                    <label for="256">256 ГБ</label>
+                </form>
             </div>
         </div>
 
