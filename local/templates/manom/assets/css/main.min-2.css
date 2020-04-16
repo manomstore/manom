@@ -1280,7 +1280,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-size: contain;
   background-size: contain;
   cursor: pointer;
-  opacity: .7;
+  opacity: .5;
   -webkit-transition: opacity .1s;
   -o-transition: opacity .1s;
   transition: opacity .1s;
@@ -1295,7 +1295,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .p-nav-top__favorite:hover, .cb-single-nav-top__favorite:hover {
-  background: url(../img/p-favorite.svg) center center no-repeat;
+  background: url(../img/icons/heart.svg) center center no-repeat;
   -webkit-filter: grayscale(0);
   filter: grayscale(0);
   opacity: 1;
