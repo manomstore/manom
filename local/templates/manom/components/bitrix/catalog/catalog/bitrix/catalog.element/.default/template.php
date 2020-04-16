@@ -207,7 +207,7 @@ function formatBytes($size, $precision = 2)
                     <label for="yellow" class="product-content__color-yellow"></label>
                 </form>
 
-                <ul>
+                <!-- <ul>
                     <li class="product-content__color-black">
                         <button></button>
                     </li>
@@ -223,7 +223,7 @@ function formatBytes($size, $precision = 2)
                     <li class="product-content__color-yellow">
                         <button></button>
                     </li>
-                </ul>
+                </ul> -->
             </div>
             <div class="product-content__size">
                 <h3>Объем памяти</h3>
