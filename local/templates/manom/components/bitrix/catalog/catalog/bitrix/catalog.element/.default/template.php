@@ -515,8 +515,9 @@ function formatBytes($size, $precision = 2)
         <?php endif; ?>
         <?php
         // if (!empty($arResult['QNA_VALUES'])): ?>
-            <input id="tab4" type="radio" name="tabs"  data-product-tab="questions">>
-        <?php endif; ?>
+            <input id="tab4" type="radio" name="tabs"  data-product-tab="questions">
+        <?php
+    // endif; ?>
         <?php if ($arResult['DELIV']): ?>
             <input id="tab5" type="radio" name="tabs">
         <?php endif; ?>
