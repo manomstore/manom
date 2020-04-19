@@ -131,7 +131,12 @@ function formatBytes($size, $precision = 2)
                     отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
                 </a>
             </div>
-
+            <div class="product-questions">
+                <a href="#product-tabs" data-scroll-to-product-tab="questions">
+                    <span><?=$arResult['rating']['count']?></span>
+                    отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
+                </a>
+            </div>
         <?php endif; ?>
 
     </div>
@@ -510,7 +515,7 @@ function formatBytes($size, $precision = 2)
             <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
         <?php endif; ?>
         <?php if (!empty($arResult['QNA_VALUES'])): ?>
-            <input id="tab4" type="radio" name="tabs">
+            <input id="tab4" type="radio" name="tabs"  data-product-tab="reviews">>
         <?php endif; ?>
         <?php if ($arResult['DELIV']): ?>
             <input id="tab5" type="radio" name="tabs">
