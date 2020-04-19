@@ -598,7 +598,7 @@ function formatBytes($size, $precision = 2)
                      ?>
                         <div class="tab-content__column right-block">
                             <div class="tab-content__title--right">Комплектация</div>
-                            <p class="tab-content__text1">
+                            <p class="">
                                 <?
                                 // =$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']
                                 ?>
@@ -608,7 +608,6 @@ function formatBytes($size, $precision = 2)
                                     <li>Кабель USB Type-C 1 м</li>
                                     <li>Гарантийный талон</li>
                                 </ul>
-
                             </p>
                         </div>
                     <?php
@@ -621,7 +620,10 @@ function formatBytes($size, $precision = 2)
                     }
                     ?>
                     <div class=" <?=$class?>">
-                        <p class="tab-content__text1">
+                        <p class="">
+                            <?
+                            // =$arResult['DETAIL_TEXT']
+                            ?>
                             <h2>Описание</h2>
                             <p>Смартфоны Apple всегда имели одну из лучших камер на рынке. И iPhone 11 не стал исключением. Теперь можно делать фото с широким и сверхшироким углом обзора, что обеспечивается сверхширокоугольной камерой, которая позволяет увидеть и снять то, что происходит за пределами кадра. Кроме того, на все камеры iPhone 11 можно снимать невероятно чёткое видео 4K с частотой 60 кадров/﻿с.</p>
                             <h3>Отличительные особенности</h3>
