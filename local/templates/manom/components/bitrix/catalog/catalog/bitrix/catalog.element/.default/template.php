@@ -593,11 +593,18 @@ function formatBytes($size, $precision = 2)
                     //  if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']):
                      ?>
                         <div class="tab-content__column right-block">
-                            <div class="tab-content__title">Комплект поставки</div>
-                            <p class="tab-content__text1 bundle-border">
+                            <div class="tab-content__title">Комплектация</div>
+                            <p class="tab-content__text1">
                                 <?
                                 // =$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']
                                 ?>
+                                <ul>
+                                    <li>Apple iPhone 11</li>
+                                    <li>Зарядное устройство 18 Вт USB Type-C</li>
+                                    <li>Кабель USB Type-C 1 м</li>
+                                    <li>Гарантийный талон</li>
+                                </ul>
+
                             </p>
                         </div>
                     <?php
