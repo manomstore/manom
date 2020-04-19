@@ -1,6 +1,6 @@
 'use strict';
 $(".js-ui-accordion").accordion({
-  active: 2
+  active: 2;
 });
 // var $uiAccordion = $('.js-ui-accordion');
 
