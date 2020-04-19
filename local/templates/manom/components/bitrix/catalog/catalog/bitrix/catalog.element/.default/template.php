@@ -543,7 +543,9 @@ function formatBytes($size, $precision = 2)
                     </span>
                 </label>
             <?php endif; ?>
-            <?php if (!empty($arResult['QNA_VALUES'])): ?>
+            <?php
+            // if (!empty($arResult['QNA_VALUES'])):
+            ?>
                 <label for="tab4">
                     <span>
                         Вопрос-
@@ -551,7 +553,9 @@ function formatBytes($size, $precision = 2)
                         ответ
                     </span>
                 </label>
-            <?php endif; ?>
+            <?php
+        // endif;
+        ?>
             <?php if ($arResult['DELIV']): ?>
                 <label for="tab5">
                     <span>
