@@ -757,14 +757,14 @@ function formatBytes($size, $precision = 2)
                     <?php
                     // foreach ($arResult['QNA_VALUES'] as $value): ?>
                         <div class="js-ui-accordion tab-content__accord"  id="accordion">
-                            <h3 class="tab-content__title">Есть ли Face ID?</h3>
+                            <h3>Есть ли Face ID?</h3>
                             <div class="">
                                 <p>Face ID представляет собой интуитивный и надежный метод аутентификации, в основе которого лежит создание структурной карты лица с помощью инновационной системы камер TrueDepth и передовых технологий. Достаточно одного взгляда, чтобы технология Face ID безопасно разблокировала iPhone или iPad Pro. Ее можно использовать для авторизации покупок в iTunes Store, App Store и Apple Books, а также платежей через Apple Pay. Разработчики также могут разрешить авторизацию в своих программах с помощью Face ID. Если программа поддерживает Touch ID, значит, она поддерживает и Face ID. Технология Face ID доступна на iPhone X и более поздних моделях и iPad Pro с процессором A12X Bionic.</p></div>
-                            <h3 class="tab-content__title">Какой объём аккумулятора?</h3>
+                            <h3>Какой объём аккумулятора?</h3>
                             <div class=""><p>222</p></div>
-                            <h3 class="tab-content__title">Совместимость с Apple Watch</h3>
+                            <h3>Совместимость с Apple Watch</h3>
                             <div class=""><p>333</p></div>
-                            <h3 class="tab-content__title">Поддержка 2 SIM</h3>
+                            <h3>Поддержка 2 SIM</h3>
                             <div class=""><p>444</p></div>
                         </div>
                     <?php
