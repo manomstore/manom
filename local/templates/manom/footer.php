@@ -289,6 +289,7 @@
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/main.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/vue-main.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/ui-accord.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery-ui.js"></script>
 
         <script>
           //Маска для ввода телефона
