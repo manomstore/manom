@@ -69,10 +69,10 @@ function formatBytes($size, $precision = 2)
 
     <div class="product-data">
         <div class="product-article">
-            <span>Артикул:MWLT2RU/A</span>
+            <span>Модель: MWLT2RU/A</span>
         </div>
         <div class="product-code">
-            <span>Код: 0000102323</span>
+            <span>Артикул: 0987523</span>
         </div>
         <div class="">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,8 +133,7 @@ function formatBytes($size, $precision = 2)
             </div>
             <div class="product-questions">
                 <a href="#product-tabs" data-scroll-to-product-tab="questions">
-                    <span><?=$arResult['rating']['count']?></span>
-                    отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
+                  Вопросы и ответы
                 </a>
             </div>
         <?php endif; ?>
@@ -515,7 +514,7 @@ function formatBytes($size, $precision = 2)
             <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
         <?php endif; ?>
         <?php if (!empty($arResult['QNA_VALUES'])): ?>
-            <input id="tab4" type="radio" name="tabs"  data-product-tab="reviews">>
+            <input id="tab4" type="radio" name="tabs"  data-product-tab="questions">>
         <?php endif; ?>
         <?php if ($arResult['DELIV']): ?>
             <input id="tab5" type="radio" name="tabs">
