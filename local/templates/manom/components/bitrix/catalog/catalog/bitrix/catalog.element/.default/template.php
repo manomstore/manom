@@ -589,7 +589,6 @@ function formatBytes($size, $precision = 2)
         <section id="content2">
             <div class="tab-content">
                 <div class="tab-content__row">
-
                         <div class="tab-content__column right-block">
                             <div class="tab-content__title">Комплект поставки</div>
                             <p class="tab-content__text1 bundle-border">
@@ -597,8 +596,7 @@ function formatBytes($size, $precision = 2)
                                 лопккопкуопукпо
                             </p>
                         </div>
-
-
+                    <?php
                     $class = 'tab-content__column';
                     if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {
                         $class .= ' left-block';
