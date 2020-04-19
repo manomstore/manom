@@ -20,9 +20,9 @@ for (i = 0; i < acc.length; i++) {
     /* Toggle between hiding and showing the active panel */
     var panel = this.nextElementSibling;
     if (panel.style.hight === "100%") {
-      panel.style.display = "0";
+      panel.style.height = "0";
     } else {
-      panel.style.display = "100%";
+      panel.style.height = "100%";
     }
   });
 }
