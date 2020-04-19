@@ -2,7 +2,8 @@
 
 $(function () {
   $(".tab-content__accord").accordion({
-    active: 2,
+    animate: 200,
+    active: 1
   });
 })
 

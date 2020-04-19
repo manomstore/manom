@@ -11536,8 +11536,13 @@ a.files-item:hover {
 
 .ui-accordion-header {
   background-color: #FFFFFF;
+  border: none;
+  color: #000000;
 }
-.ui-accordion-header {
+
+.ui-widget-content {
+  border: none;
+}.ui-accordion-header {
   background-color: #FFFFFF;
   border: none;
   color: #000000;
