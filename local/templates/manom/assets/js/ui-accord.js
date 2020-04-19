@@ -1,7 +1,11 @@
 'use strict';
-$(".tab-content__accord").accordion({
-  active: 2,
-});
+
+$(function () {
+  $(".tab-content__accord").accordion({
+    active: 2,
+  });
+})
+
 // var $uiAccordion = $('.js-ui-accordion');
 
 // $uiAccordion.accordion({
