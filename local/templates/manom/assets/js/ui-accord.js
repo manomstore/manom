@@ -1,5 +1,5 @@
 'use strict';
-$(".js-ui-accordion").accordion({
+$(".tab-content__accord").accordion({
   active: 2,
 });
 // var $uiAccordion = $('.js-ui-accordion');
