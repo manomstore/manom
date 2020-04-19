@@ -758,14 +758,14 @@ function formatBytes($size, $precision = 2)
                     // foreach ($arResult['QNA_VALUES'] as $value): ?>
                         <div class="js-ui-accordion tab-content__accord">
                             <h3 class="tab-content__title">Есть ли Face ID?<?=$value['title']?></h3>
-                            <div class="tab-content__text1">
+                            <div class="">
                                 <p>Face ID представляет собой интуитивный и надежный метод аутентификации, в основе которого лежит создание структурной карты лица с помощью инновационной системы камер TrueDepth и передовых технологий. Достаточно одного взгляда, чтобы технология Face ID безопасно разблокировала iPhone или iPad Pro. Ее можно использовать для авторизации покупок в iTunes Store, App Store и Apple Books, а также платежей через Apple Pay. Разработчики также могут разрешить авторизацию в своих программах с помощью Face ID. Если программа поддерживает Touch ID, значит, она поддерживает и Face ID. Технология Face ID доступна на iPhone X и более поздних моделях и iPad Pro с процессором A12X Bionic.</p><?=$value['answer']?></div>
                             <h3 class="tab-content__title">Какой объём аккумулятора?<?=$value['title']?></h3>
-                            <div class="tab-content__text1"><p>222</p><?=$value['answer']?></div>
+                            <div class=""><p>222</p><?=$value['answer']?></div>
                             <h3 class="tab-content__title">Совместимость с Apple Watch<?=$value['title']?></h3>
-                            <div class="tab-content__text1"><p>333</p><?=$value['answer']?></div>
+                            <div class=""><p>333</p><?=$value['answer']?></div>
                             <h3 class="tab-content__title">Поддержка 2 SIM<?=$value['title']?></h3>
-                            <div class="tab-content__text1"><p>444</p><?=$value['answer']?></div>
+                            <div class=""><p>444</p><?=$value['answer']?></div>
                         </div>
                     <?php
                 // endforeach; ?>
