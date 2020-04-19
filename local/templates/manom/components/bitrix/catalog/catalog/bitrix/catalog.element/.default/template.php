@@ -171,7 +171,7 @@ function formatBytes($size, $precision = 2)
                 <?php endforeach; ?>
             </div>
             <div class="product-photo__info">
-              <p>Теперь можно делать фото со сверхшироким углом обзора, камера позволяет увидеть и снять то, что происходит за пределами кадра.</p>
+              <p>Мощный процессор качественный дисплей, быстрая память, передовая графика, и все это для того чтобы вы воплощали ваши идеи в жизнь.</p>
             </div>
             <?php if ($arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['VALUE']): ?>
                 <div class="interesting-fact">
