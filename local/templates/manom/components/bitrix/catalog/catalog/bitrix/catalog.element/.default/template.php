@@ -101,6 +101,20 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
         </div>
 
+        <div class="produxt-data">
+            <div class="product-article">
+				<span>Артикул:MWLT2RU/A</span>
+			</div>
+			<div class="product-code">
+				<span>Код: 0000102323</span>
+            </div>
+            <div class="">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
+                </svg>
+			</div>
+        </div>
+
         <?php if (!empty($arResult['rating']['count'])) : ?>
             <div class="product-rating">
                 <?php for ($i = 0; $i < 5; $i++): ?>
@@ -117,17 +131,7 @@ function formatBytes($size, $precision = 2)
                     отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
                 </a>
             </div>
-            <div class="product-article">
-				<span>Артикул:MWLT2RU/A</span>
-			</div>
-			<div class="product-code">
-				<span>Код: 0000102323</span>
-            </div>
-            <div class="product-code">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
-            </svg>
-			</div>
+
         <?php endif; ?>
 
     </div>
