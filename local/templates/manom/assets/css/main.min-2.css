@@ -11706,3 +11706,16 @@ a.files-item:hover {
   }
 }
 
+
+.ui-accordion .ui-accordion-header {
+  font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 23px;
+    margin-bottom: 25px;
+    padding: 0;
+}
+
+.ui-accordion .ui-accordion-content {
+  padding: 0;
+}
