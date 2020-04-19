@@ -11705,3 +11705,10 @@ a.files-item:hover {
     padding: 0;
   }
 }
+
+.accordion-block {
+  /* padding: 0 18px; */
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
