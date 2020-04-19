@@ -1,5 +1,8 @@
 'use strict';
 
 $(function () {
-  $("#accordion").accordion();
+  $("#accordion").accordion({
+    active: 1;
+  });
+
 });
