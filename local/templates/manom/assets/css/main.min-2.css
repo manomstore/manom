@@ -11536,6 +11536,9 @@ a.files-item:hover {
 
 .ui-accordion-header {
   background-color: #FFFFFF;
+}
+.ui-accordion-header {
+  background-color: #FFFFFF;
   border: none;
   color: #000000;
   padding-left: 0;
