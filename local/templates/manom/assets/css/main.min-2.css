@@ -4137,21 +4137,6 @@ border-radius: 5px;
   left: -11px;
 }
 
-.tab-content__column li {
-  position: relative;
-}
-
-.tab-content__column li:before {
-  position: absolute;
-  content: "";
-  width: 1px;
-  height: 1px;
-  border-radius: 50%;
-  background-color: #000000;
-  top: 50%;
-  left: 0;
-}
-
 .tab-content__column2 {
   width: 50%;
   padding: 0 15px;

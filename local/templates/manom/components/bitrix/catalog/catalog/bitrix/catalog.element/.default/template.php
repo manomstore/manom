@@ -588,7 +588,7 @@ function formatBytes($size, $precision = 2)
 
         <section id="content2">
             <div class="tab-content">
-                <div class="tab-content__row">
+                <div class="tab-content__row tab-content__row--reverse">
                     <?php
                     //  if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']):
                      ?>
