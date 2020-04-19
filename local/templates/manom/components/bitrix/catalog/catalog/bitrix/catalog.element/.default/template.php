@@ -550,9 +550,7 @@ function formatBytes($size, $precision = 2)
             ?>
                 <label for="tab4">
                     <span>
-                        Вопрос-
-                        <br>
-                        ответ
+                        Вопросы и ответы
                     </span>
                 </label>
             <?php
@@ -755,8 +753,17 @@ function formatBytes($size, $precision = 2)
         // if (!empty($arResult['QNA_VALUES'])): ?>
             <section id="content4">
                 <div class="tab-content">
+                    <h3>Вопросы и ответы</h3>
                     <?php
                     // foreach ($arResult['QNA_VALUES'] as $value): ?>
+                        <p class="tab-content__item">
+                            <span class="tab-content__title">111<?=$value['title']?></span>
+                            <span class="tab-content__text1">222<?=$value['answer']?></span>
+                        </p>
+                        <p class="tab-content__item">
+                            <span class="tab-content__title">111<?=$value['title']?></span>
+                            <span class="tab-content__text1">222<?=$value['answer']?></span>
+                        </p>
                         <p class="tab-content__item">
                             <span class="tab-content__title">111<?=$value['title']?></span>
                             <span class="tab-content__text1">222<?=$value['answer']?></span>
