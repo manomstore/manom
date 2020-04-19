@@ -11709,6 +11709,7 @@ a.files-item:hover {
 .accordion-block {
   /* padding: 0 18px; */
   background-color: white;
-  display: none;
+  height: 0;
   overflow: hidden;
+  transition: height 0.5s;
 }
