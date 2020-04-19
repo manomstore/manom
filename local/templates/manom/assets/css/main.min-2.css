@@ -2815,9 +2815,13 @@ p.price-slider {
   display: inline-block;
   max-height: 325px;
   max-width: 420px;
+<<<<<<< HEAD
   width: 90%;
   height: 90%;
   object-fit: contain;
+=======
+  width: 100%;
+>>>>>>> wip
 }
 
 .product-photo__info {
