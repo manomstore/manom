@@ -589,16 +589,16 @@ function formatBytes($size, $precision = 2)
         <section id="content2">
             <div class="tab-content">
                 <div class="tab-content__row">
-                    <!-- <?php if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']): ?> -->
+
                         <div class="tab-content__column right-block">
                             <div class="tab-content__title">Комплект поставки</div>
                             <p class="tab-content__text1 bundle-border">
-                                <!-- <?=$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']?> -->
+
                                 лопккопкуопукпо
                             </p>
                         </div>
-                    <!-- <?php endif; ?> -->
-                    <?php
+
+
                     $class = 'tab-content__column';
                     if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {
                         $class .= ' left-block';
