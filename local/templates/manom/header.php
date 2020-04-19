@@ -60,7 +60,7 @@
         <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.css">
         <link rel="stylesheet" href="<?=cssAutoVersion(SITE_TEMPLATE_PATH."/assets/css/custom.css")?>">
         <link rel="stylesheet" href="<?=cssAutoVersion(SITE_TEMPLATE_PATH."/assets/css/fixes.css")?>">
-        <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/css/ui-accord.css"/>
+        <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/css/ui-style.css"/>
         <link rel="stylesheet"
               href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
               integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
