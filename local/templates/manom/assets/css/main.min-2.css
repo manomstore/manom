@@ -11538,14 +11538,6 @@ a.files-item:hover {
   background-color: #FFFFFF;
   border: none;
   color: #000000;
-}
-
-.ui-widget-content {
-  border: none;
-}.ui-accordion-header {
-  background-color: #FFFFFF;
-  border: none;
-  color: #000000;
   padding-left: 0;
   margin-top: 21px;
   letter-spacing: -0.6px;
