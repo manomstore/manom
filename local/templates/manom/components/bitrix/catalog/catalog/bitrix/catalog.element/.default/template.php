@@ -600,7 +600,9 @@ function formatBytes($size, $precision = 2)
                                 ?>
                             </p>
                         </div>
-                    <?php endif; ?>
+                    <?php
+                //  endif;
+                 ?>
                     <?php
                     $class = 'tab-content__column';
                     if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {
