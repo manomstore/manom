@@ -749,7 +749,8 @@ function formatBytes($size, $precision = 2)
             </div>
         </section>
 
-        <?php if (!empty($arResult['QNA_VALUES'])): ?>
+        <?php
+        // if (!empty($arResult['QNA_VALUES'])): ?>
             <section id="content4">
                 <div class="tab-content">
                     <?php
@@ -762,7 +763,8 @@ function formatBytes($size, $precision = 2)
                 // endforeach; ?>
                 </div>
             </section>
-        <?php endif; ?>
+        <?php
+    //  endif; ?>
 
         <section id="content5">
             <div class="tab-content">
