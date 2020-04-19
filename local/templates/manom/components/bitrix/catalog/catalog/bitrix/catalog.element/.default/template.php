@@ -597,7 +597,7 @@ function formatBytes($size, $precision = 2)
                     //  if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']):
                      ?>
                         <div class="tab-content__column right-block">
-                            <div class="tab-content__title">Комплектация</div>
+                            <div class="tab-content__title--right">Комплектация</div>
                             <p class="tab-content__text1">
                                 <?
                                 // =$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']
