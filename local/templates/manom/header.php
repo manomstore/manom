@@ -60,6 +60,7 @@
         <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.css">
         <link rel="stylesheet" href="<?=cssAutoVersion(SITE_TEMPLATE_PATH."/assets/css/custom.css")?>">
         <link rel="stylesheet" href="<?=cssAutoVersion(SITE_TEMPLATE_PATH."/assets/css/fixes.css")?>">
+        <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/assets/css/ui-accord.css"/>
         <link rel="stylesheet"
               href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
               integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -165,16 +166,16 @@
                                 <div class="top-location-line">
                                     <div id="dnd-location">
                                         <div class="dnd-location-line" :class="doShowPanel()">
-                                            <a 
-                                                    class="dnd-location-curent user-nav__link user-nav__link--location" 
-                                                    @click.stop="doChangeCity()" 
+                                            <a
+                                                    class="dnd-location-curent user-nav__link user-nav__link--location"
+                                                    @click.stop="doChangeCity()"
                                                     href="#"
                                             >
                                                 <span>{{currentCity}}</span>
                                             </a>
                                             <transition name="fade">
-                                                <div 
-                                                        class="dnd-location-specify popup-block popup-block--location" 
+                                                <div
+                                                        class="dnd-location-specify popup-block popup-block--location"
                                                         v-if="!isInformationStatus"
                                                 >
                                                     <div class="popup-block__overlay"
@@ -308,16 +309,16 @@
                                     <div class="top-location-line">
                                         <div id="dnd-location">
                                             <div class="dnd-location-line" :class="doShowPanel()">
-                                                <a 
-                                                        class="dnd-location-curent user-nav__link user-nav__link--location" 
-                                                        @click.stop="doChangeCity()" 
+                                                <a
+                                                        class="dnd-location-curent user-nav__link user-nav__link--location"
+                                                        @click.stop="doChangeCity()"
                                                         href="#"
                                                 >
                                                     <span>{{currentCity}}</span>
                                                 </a>
                                                 <transition name="fade">
-                                                    <div 
-                                                            class="dnd-location-specify popup-block popup-block--location" 
+                                                    <div
+                                                            class="dnd-location-specify popup-block popup-block--location"
                                                             v-if="!isInformationStatus"
                                                     >
                                                         <div class="popup-block__overlay"
@@ -514,10 +515,10 @@
                                         <div class="top-nav__layout"></div>
                                         <nav class="top-nav__menu">
                                             <a href="/" class="top-nav__logo">
-                                                <img 
-                                                        src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo.svg" 
-                                                        alt="Логотип интернет магазина Manom.ru" 
-                                                        width="129" 
+                                                <img
+                                                        src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo.svg"
+                                                        alt="Логотип интернет магазина Manom.ru"
+                                                        width="129"
                                                         height="23"
                                                 >
                                             </a>
@@ -621,21 +622,21 @@
                                         <h3 class="sci-login__title">Войти в существующий аккаунт</h3>
                                         <form class="sci-login__form">
                                             <label class="sci-login__label" for="sci-login__email">E-mail</label>
-                                            <input 
-                                                    type="email" 
-                                                    name="email" 
-                                                    id="sci-login__email" 
-                                                    class="sci-login__input" 
-                                                    placeholder="Ваш e-mail" 
+                                            <input
+                                                    type="email"
+                                                    name="email"
+                                                    id="sci-login__email"
+                                                    class="sci-login__input"
+                                                    placeholder="Ваш e-mail"
                                                     required
                                             >
                                             <label class="sci-login__label" for="sci-login__password">Пароль</label>
-                                            <input 
-                                                    type="password" 
-                                                    name="password" 
-                                                    id="sci-login__password" 
-                                                    class="sci-login__input" 
-                                                    placeholder="Ваш пароль" 
+                                            <input
+                                                    type="password"
+                                                    name="password"
+                                                    id="sci-login__password"
+                                                    class="sci-login__input"
+                                                    placeholder="Ваш пароль"
                                                     required
                                             >
                                             <div class="sci-login__social">
@@ -658,7 +659,7 @@
                                         </form>
                                     </div>
                                     */ ?>
-                                    
+
                                     <?php $APPLICATION->IncludeComponent(
                                         'bitrix:menu',
                                         'menu_sections',
@@ -678,10 +679,10 @@
                                     <div class="top-personal">
                                         <a class="top-personal__link top-personal__link--search"
                                            href="#">
-                                            <img 
-                                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/search.svg" 
-                                                    alt="Иконка поиска" 
-                                                    width="15" 
+                                            <img
+                                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/search.svg"
+                                                    alt="Иконка поиска"
+                                                    width="15"
                                                     height="15"
                                             >
                                         </a>
@@ -691,9 +692,9 @@
                                                 <div class="container">
                                                     <div class="popup-block__top">
                                                         <h2 class="popup-block__title">Поиск</h2>
-                                                        <button 
-                                                                class="popup-block__close" 
-                                                                type="button" 
+                                                        <button
+                                                                class="popup-block__close"
+                                                                type="button"
                                                                 aria-label="Закрыть окно"
                                                         ></button>
                                                     </div>
@@ -735,8 +736,8 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a 
-                                                                    class="top-personal__user-link top-personal__user-link--history" 
+                                                            <a
+                                                                    class="top-personal__user-link top-personal__user-link--history"
                                                                     href="/user/history.php"
                                                             >
                                                                 История заказов
@@ -790,20 +791,20 @@
                                                 <?php $APPLICATION->RestartBuffer(); ?>
                                             <?php endif; ?>
                                             <div class="top-personal__block top-personal__block--compare">
-                                                <a 
-                                                        class="top-personal__link top-personal__link--compare" 
+                                                <a
+                                                        class="top-personal__link top-personal__link--compare"
                                                         id="mini_compare_header_counter"
                                                 >
-                                                    <img 
-                                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/compare.svg" 
-                                                            alt="Иконка сравнения" 
-                                                            width="16" 
+                                                    <img
+                                                            src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/compare.svg"
+                                                            alt="Иконка сравнения"
+                                                            width="16"
                                                             height="15"
                                                     >
                                                     <!--<span class="top-count">0</span>-->
                                                 </a>
-                                                <div 
-                                                        class="preview-heart preview-heart--empty personal-preview" 
+                                                <div
+                                                        class="preview-heart preview-heart--empty personal-preview"
                                                         id="mini_compare_header"
                                                 >
                                                     <p class="preview-heart-not-text">Нет товара</p>
@@ -1140,7 +1141,7 @@
                                 ); ?>
                             </div>
                         </div>
-                        
+
                         <?php /*
                         <!-- Верхняя навигация 1 -->
                         <div class="top-nav1">
@@ -1231,21 +1232,21 @@
                             <h3 class="sci-login__title">Регистрация аккаунта</h3>
                             <form class="sci-login__form">
                                 <label class="sci-login__label" for="sci-reg__email">E-mail</label>
-                                <input 
-                                        type="email" 
-                                        name="email" 
-                                        id="sci-reg__email" 
-                                        class="sci-login__input" 
-                                        placeholder="Ваш e-mail" 
+                                <input
+                                        type="email"
+                                        name="email"
+                                        id="sci-reg__email"
+                                        class="sci-login__input"
+                                        placeholder="Ваш e-mail"
                                         required
                                 >
                                 <label class="sci-login__label" for="sci-reg__password">Пароль</label>
-                                <input 
-                                        type="password" 
-                                        name="password" 
-                                        id="sci-reg__password" 
-                                        class="sci-login__input" 
-                                        placeholder="Ваш пароль" 
+                                <input
+                                        type="password"
+                                        name="password"
+                                        id="sci-reg__password"
+                                        class="sci-login__input"
+                                        placeholder="Ваш пароль"
                                         required
                                 >
                                 <div class="sci-login__social">
@@ -1268,7 +1269,7 @@
                         </div>
                         <!-- /Всплывающее окно Регистрация -->
                         */ ?>
-                        
+
                         <!-- Всплывающее окно Логин -->
                         <?php $APPLICATION->IncludeComponent(
                             'bitrix:system.auth.form',

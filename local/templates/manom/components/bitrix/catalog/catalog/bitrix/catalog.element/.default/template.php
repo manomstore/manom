@@ -753,21 +753,15 @@ function formatBytes($size, $precision = 2)
         // if (!empty($arResult['QNA_VALUES'])): ?>
             <section id="content4">
                 <div class="tab-content">
-                    <h3>Вопросы и ответы</h3>
+                    <h2>Вопросы и ответы</h2>
                     <?php
                     // foreach ($arResult['QNA_VALUES'] as $value): ?>
-                        <p class="tab-content__item">
-                            <span class="tab-content__title">111<?=$value['title']?></span>
-                            <span class="tab-content__text1">222<?=$value['answer']?></span>
-                        </p>
-                        <p class="tab-content__item">
-                            <span class="tab-content__title">111<?=$value['title']?></span>
-                            <span class="tab-content__text1">222<?=$value['answer']?></span>
-                        </p>
-                        <p class="tab-content__item">
-                            <span class="tab-content__title">111<?=$value['title']?></span>
-                            <span class="tab-content__text1">222<?=$value['answer']?></span>
-                        </p>
+                        <div class="js-ui-accordion">
+                            <h3 class="tab-content__title">111<?=$value['title']?></h3>
+                            <div class="tab-content__text1">222<?=$value['answer']?></div>
+                            <h3 class="tab-content__title">111<?=$value['title']?></h3>
+                            <div class="tab-content__text1">222<?=$value['answer']?></div>
+                        </div>
                     <?php
                 // endforeach; ?>
                 </div>
