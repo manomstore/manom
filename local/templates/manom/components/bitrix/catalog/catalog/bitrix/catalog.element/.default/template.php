@@ -599,8 +599,8 @@ function formatBytes($size, $precision = 2)
                     <span>Описание</span>
                 </label>
             </h3>
-            <div>
-                <section id="content2">
+            <div id="content2">
+                <section>
                     <div class="tab-content">
                         <div class="tab-content__row tab-content__row--reverse">
                             <?php
@@ -669,8 +669,8 @@ function formatBytes($size, $precision = 2)
                     <span>Характеристики</span>
                 </label>
             </h3>
-            <div>
-                <section id="content1">
+            <div id="content1">
+                <section>
                     <div class="tab-content">
                         <div class="tab-content__row tab-content__row--reverse">
                             <div class="tab-content__column col-6">
@@ -724,8 +724,8 @@ function formatBytes($size, $precision = 2)
                     </label>
                 <?php endif; ?>
             </h3>
-            <div>
-                <section id="content3">
+            <div id="content3">
+                <section>
                     <div class="tab-content">
                         <div class="reviews">
                             <?php foreach ($arResult['REVIEWS'] as $value): ?>
@@ -788,10 +788,10 @@ function formatBytes($size, $precision = 2)
         // endif;
             ?>
             </h3>
-            <div>
+            <div id="content4">
                 <?php
                 // if (!empty($arResult['QNA_VALUES'])): ?>
-                    <section id="content4">
+                    <section>
                         <div class="tab-content">
                             <h2>Вопросы и ответы</h2>
                             <?php
@@ -828,8 +828,8 @@ function formatBytes($size, $precision = 2)
                     </label>
                 <?php endif; ?>
             </h3>
-            <div>
-                <section id="content5">
+            <div id="content5">
+                <section>
                     <div class="tab-content">
                         <?php foreach ($arResult['DELIV'] as $value): ?>
                             <p class="tab-content__item">
@@ -851,8 +851,8 @@ function formatBytes($size, $precision = 2)
                     </label>
                 <?php endif; ?>
             </h3>
-            <div>
-                <section id="content6">
+            <div id="content6">
+                <section>
                     <div class="tab-content">
                         <div class="tab-content__row">
                             <?php foreach ($arResult['PROPERTIES']['YOUTUBE']['VALUE'] as $value): ?>
@@ -880,8 +880,8 @@ function formatBytes($size, $precision = 2)
                     </label>
                 <?php endif; ?>
             </h3>
-            <div>
-                <section id="content7">
+            <div id="content7">
+                <section>
                     <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
                         <?php
                         global $accessoryFilter;
@@ -1028,8 +1028,8 @@ function formatBytes($size, $precision = 2)
                     </label>
                 <?php endif; ?>
             </h3>
-            <div>
-                <section id="content8">
+            <div id="content8">
+                <section>
                     <?php if (!empty($arResult['CHEAPER'])): ?>
                         <?php
                         global $cheaperFilter;
