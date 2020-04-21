@@ -249,104 +249,106 @@ function formatBytes($size, $precision = 2)
         <div class="product-sidebar col-3">
             <div class="product-sidebar-cover">
                 <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
-                    <div class="product-sidebar__total mainBlockPrice">
-                        <div class="product-sidebar__total_price">
-                            <span
-                                class="product-sidebar__total-price-price addToCartBtn"
-                                data-id='<?=$arResult['PRODUCT_ID']?>'
-                            >
-                                <?=number_format($arResult['price'], 0, '', ' ')?>
-                            </span>
-                            <span id="ruble">₽</span>
-                        </div>
-                        <div
-                            class="product-sidebar__right-price"
-                            style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
-                        >
-                            <p class="product-sidebar__profit">
-                                Выгода
-                                <span>
-                                    <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
-                                </span>
-                                ₽
-                            </p>
-                            <p class="product-sidebar__old-price">
-                                Было
-                                <span>
-                                    <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
-                                </span>
-                                ₽
-                            </p>
-                        </div>
-                        <div class="p-nav-top active">
-                            <label>
-                                <input
-                                        class="p-nav-top__checkbox"
-                                        type="checkbox"
-                                    <?=$arResult['inFavoriteAndCompare'] ? 'checked' : ''?>
+                    <div class="product-sidebar--fixed">
+                        <div class="product-sidebar__total mainBlockPrice">
+                            <div class="product-sidebar__total_price">
+                                <span
+                                    class="product-sidebar__total-price-price addToCartBtn"
+                                    data-id='<?=$arResult['PRODUCT_ID']?>'
                                 >
-                                <div
-                                        class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
-                                        data-id='<?=$arResult['ID']?>'
-                                        title="в избранное"
-                                ></div>
-                            </label>
-                            <div
-                                    class="p-nav-top__list addToCompareList <?=$class2?>"
-                                    data-id='<?=$arResult['ID']?>'
-                            ></div>
-                        </div>
-                    </div>
-
-                    <?php if ($arResult['onlyCash']): ?>
-                        <?php
-                        $class = 'product-sidebar__note product-sidebar__note--positive js-disallow_loc_buy';
-                        if($arResult['locationDisallowBuy']) {
-                            $class .= ' dnd-hide';
-                        }
-                        ?>
-                        <div class="<?=$class?>">Доступен для заказа в Москве</div>
-                    <?php endif; ?>
-
-                    <div class="js-allow_loc_buy <?=$arResult['locationDisallowBuy'] ? 'dnd-hide' : ''?>">
-                        <?php
-                        $class = 'product-sidebar__button addToCartBtn addToCartBtn_mainPage';
-                        if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])) {
-                            $class .= ' dsb-hidden';
-                        }
-                        ?>
-                        <a class="<?=$class?>" data-id="<?=$arResult['PRODUCT_ID']?>">
-                            Купить
-                        </a>
-
-                        <?php if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])): ?>
-                            <a
-                                class="product-sidebar__button goToFcnCart"
-                                href="/cart/"
-                                data-id="<?=$arResult['PRODUCT_ID']?>"
-                            >
-                            Купить
-                            </a>
-                        <?php endif; ?>
-
-                        <div class="product-sidebar__buttons">
-                            <?php
-                            $class = 'product-sidebar__cheaper';
-                            if (empty($arResult['CHEAPER'])) {
-                                $class .= ' product-sidebar__cheaper__disbled';
-                            }
-                            ?>
-                            <div class="<?=$class?>">
-                                Купить дешевле
+                                    <?=number_format($arResult['price'], 0, '', ' ')?>
+                                </span>
+                                <span id="ruble">₽</span>
                             </div>
                             <div
-                                class="product-sidebar__one-click BOC_btn"
-                                data-id="<?=$arResult['PRODUCT_ID']?>"
-                                data-fancybox
-                                data-src="#popap-buy-one-click"
-                                href="javascript:;"
+                                class="product-sidebar__right-price"
+                                style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
                             >
-                                Купить в один клик
+                                <p class="product-sidebar__profit">
+                                    Выгода
+                                    <span>
+                                        <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
+                                    </span>
+                                    ₽
+                                </p>
+                                <p class="product-sidebar__old-price">
+                                    Было
+                                    <span>
+                                        <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
+                                    </span>
+                                    ₽
+                                </p>
+                            </div>
+                            <div class="p-nav-top active">
+                                <label>
+                                    <input
+                                            class="p-nav-top__checkbox"
+                                            type="checkbox"
+                                        <?=$arResult['inFavoriteAndCompare'] ? 'checked' : ''?>
+                                    >
+                                    <div
+                                            class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
+                                            data-id='<?=$arResult['ID']?>'
+                                            title="в избранное"
+                                    ></div>
+                                </label>
+                                <div
+                                        class="p-nav-top__list addToCompareList <?=$class2?>"
+                                        data-id='<?=$arResult['ID']?>'
+                                ></div>
+                            </div>
+                        </div>
+
+                        <?php if ($arResult['onlyCash']): ?>
+                            <?php
+                            $class = 'product-sidebar__note product-sidebar__note--positive js-disallow_loc_buy';
+                            if($arResult['locationDisallowBuy']) {
+                                $class .= ' dnd-hide';
+                            }
+                            ?>
+                            <div class="<?=$class?>">Доступен для заказа в Москве</div>
+                        <?php endif; ?>
+
+                        <div class="js-allow_loc_buy <?=$arResult['locationDisallowBuy'] ? 'dnd-hide' : ''?>">
+                            <?php
+                            $class = 'product-sidebar__button addToCartBtn addToCartBtn_mainPage';
+                            if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])) {
+                                $class .= ' dsb-hidden';
+                            }
+                            ?>
+                            <a class="<?=$class?>" data-id="<?=$arResult['PRODUCT_ID']?>">
+                                Купить
+                            </a>
+
+                            <?php if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])): ?>
+                                <a
+                                    class="product-sidebar__button goToFcnCart"
+                                    href="/cart/"
+                                    data-id="<?=$arResult['PRODUCT_ID']?>"
+                                >
+                                Купить
+                                </a>
+                            <?php endif; ?>
+
+                            <div class="product-sidebar__buttons">
+                                <?php
+                                $class = 'product-sidebar__cheaper';
+                                if (empty($arResult['CHEAPER'])) {
+                                    $class .= ' product-sidebar__cheaper__disbled';
+                                }
+                                ?>
+                                <div class="<?=$class?>">
+                                    Купить дешевле
+                                </div>
+                                <div
+                                    class="product-sidebar__one-click BOC_btn"
+                                    data-id="<?=$arResult['PRODUCT_ID']?>"
+                                    data-fancybox
+                                    data-src="#popap-buy-one-click"
+                                    href="javascript:;"
+                                >
+                                    Купить в один клик
+                                </div>
                             </div>
                         </div>
                     </div>
