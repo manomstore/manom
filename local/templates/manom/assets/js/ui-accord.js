@@ -6,7 +6,7 @@ $(function () {
     collapsible: true
   });
 
-  if (isMobile()) {
+  if (window.isMobile()) {
     $("#accord-mobile").accordion({
       heightStyle: "content",
       collapsible: true
