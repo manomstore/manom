@@ -3852,6 +3852,10 @@ border-color: #EBEBEB;
   .product-tabs .tab-content {
     font-size: 14px;
   }
+
+  .product-tabs__nav {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 969px) {
