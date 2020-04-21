@@ -4180,11 +4180,7 @@ border-radius: 5px;
 }
 
 .tab-content__accord p {
-<<<<<<< HEAD
   margin-bottom: 12px;
-=======
-  margin-bottom: 5px;
->>>>>>> accordion
 }
 
 .video-container {
@@ -11627,7 +11623,6 @@ a.files-item:hover {
 #accordion {
   width: 70%;
 }
-<<<<<<< HEAD
 
 @media screen and (max-width: 969px) {
   #accordion {
@@ -11710,5 +11705,3 @@ a.files-item:hover {
     padding: 0;
   }
 }
-=======
->>>>>>> accordion
