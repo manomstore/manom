@@ -3854,12 +3854,6 @@ border-color: #EBEBEB;
   }
 }
 
-@media screen and (max-width: 767px) {
-  .product-tabs__nav {
-    display: none;
-  }
-}
-
 @media screen and (max-width: 969px) {
   .product-tabs__nav {
     display: none;
