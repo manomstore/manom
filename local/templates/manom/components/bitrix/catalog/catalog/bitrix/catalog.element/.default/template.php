@@ -330,7 +330,11 @@ function formatBytes($size, $precision = 2)
                                 </a>
                             <?php endif; ?>
 
-                            <div class="product-sidebar__buttons">
+
+                        </div>
+                    </div>
+
+                    <div class="product-sidebar__buttons">
                                 <?php
                                 $class = 'product-sidebar__cheaper';
                                 if (empty($arResult['CHEAPER'])) {
@@ -350,8 +354,6 @@ function formatBytes($size, $precision = 2)
                                     Купить в один клик
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
                         <h3 class="sci-login__title">Купить в один клик</h3>
