@@ -872,8 +872,8 @@ function formatBytes($size, $precision = 2)
                         </div>
                     </div>
                 </section>
-            <div>
-            <h3>
+            </div>
+            <h3 class="accord-mobile__header">
                 <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
                     <label for="tab7">
                         <span>Аксессуары</span>
