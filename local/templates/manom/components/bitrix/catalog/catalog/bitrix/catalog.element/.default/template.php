@@ -593,496 +593,515 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
         </div>
-
-        <section id="content2">
-            <div class="tab-content">
-                <div class="tab-content__row tab-content__row--reverse">
-                    <?php
-                    //  if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']):
-                     ?>
-                        <div class="tab-content__column right-block">
-                            <div class="tab-content__title--right">Комплектация</div>
-                            <p class="">
-                                <?
-                                // =$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']
-                                ?>
-                                <ul>
-                                    <li>Apple iPhone 11</li>
-                                    <li>Зарядное устройство 18 Вт USB Type-C</li>
-                                    <li>Кабель USB Type-C 1 м</li>
-                                    <li>Гарантийный талон</li>
-                                </ul>
-                            </p>
-                        </div>
-                    <?php
-                //  endif;
-                 ?>
-                    <?php
-                    $class = 'tab-content__column';
-                    if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {
-                        $class .= ' left-block';
-                    }
-                    ?>
-                    <div class=" <?=$class?>">
-                        <p class="">
-                            <?
-                            // =$arResult['DETAIL_TEXT']
+        <div>
+            <h3>1</h3>
+            <div>
+                <section id="content2">
+                    <div class="tab-content">
+                        <div class="tab-content__row tab-content__row--reverse">
+                            <?php
+                            //  if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']):
                             ?>
-                            <h2>Описание</h2>
-                            <p>Смартфоны Apple всегда имели одну из лучших камер на рынке. И iPhone 11 не стал исключением. Теперь можно делать фото с широким и сверхшироким углом обзора, что обеспечивается сверхширокоугольной камерой, которая позволяет увидеть и снять то, что происходит за пределами кадра. Кроме того, на все камеры iPhone 11 можно снимать невероятно чёткое видео 4K с частотой 60 кадров/﻿с.</p>
-                            <h3>Отличительные особенности</h3>
-                            <div>
-                                <h4>Аккумулятор</h4>
-                                <p>Ёмкий аккумулятор на 3110 мАч совместно с аппаратным и программное обеспечением слаженно работают над максимальной эффективностью работы батареи. А возможность быстрой зарядки позволяет быстро вернуть разряженный телефон в строй.</p>
-                            </div>
-                            <div>
-                                <h4>Процессор</h4>
-                                <p>Самый мощный процессор на рынке позволит вам выполнять любые задачи в течении нескольких лет. По сути, технологии A13 Bionic, а именно так и называется новый процессор, настолько продвинуты, что их можно назвать технологиями будущего.</p>
-                            </div>
-                            <div>
-                                <h4>Безопасность</h4>
-                                <p>За разблокировку устройства отвечает продвинутая система Face ID, которая является самой безопасной на сегодняшний день. Face ID не хранит изображение вашего лица и никуда его не передаёт. А данные, хранящиеся на устройстве не сможет получить ни один злоумышленник.</p>
-                            </div>
-                            <div>
-                                <h4>Другие важные нововведения</h4>
-                                <ul>
-                                    <li>Возможность быстрой зарядки</li>
-                                    <li>Более скоростной Wi‑Fi</li>
-                                    <li>Совместное прослушивание (К одному iPhone можно подключить сразу две пары наушников AirPods или Beats.)</li>
-                                    <li>Поддержка двух SIM‑карт: обычной и eSIM</li>
-                                </ul>
-                            </div>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="content1">
-            <div class="tab-content">
-                <div class="tab-content__row tab-content__row--reverse">
-                    <div class="tab-content__column col-6">
-                        <div class="instruction-wrapper tab-content__column col-4">
-                            <?php if ($arResult['PROPERTIES']['FILES']['VALUE']): ?>
-                                <strong class="name-properties col-12">Инструкции и сертификаты:</strong>
-                                <?php foreach ($arResult['PROPERTIES']['FILES']['VALUE'] as $value): ?>
-                                    <?php
-                                    $file = CFile::GetByID($value)->Fetch();
-                                    $splitFileName = explode('.', $file['ORIGINAL_NAME']);
-                                    $fileType = array_pop($splitFileName);
-                                    $fileName = implode(' ', $splitFileName);
-                                    ?>
-                                    <a class="files-item" href="<?=CFile::GetPath($value)?>" target="_blank">
-                                        <div class="files-item__icon">
-                                            <img src="/upload/pdfs-512.png" alt=""/>
-                                        </div>
-                                        <div class="files-item__content">
-                                            <?=$fileName?>
-                                            <div class="files-item__size">
-                                                <?=formatBytes($file['FILE_SIZE'])?>
-                                            </div>
-                                        </div>
-                                    </a>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                        <div class="characteristics-wrapper tab-content__column col-8">
-                            <?php $APPLICATION->IncludeComponent(
-                                'redsign:grupper.list',
-                                'catalog_element',
-                                Array(
-                                    'DISPLAY_PROPERTIES' => $arResult['CHARACTERISTICS'],
-                                    'CACHE_TIME' => 36000,
-                                ),
-                                false
-                            ); ?>
-                        </div>
-                        <div class="tab-content__column col"></div>
-                    </div>
-                </div>
-        </section>
-
-        <section id="content3">
-            <div class="tab-content">
-                <div class="reviews">
-                    <?php foreach ($arResult['REVIEWS'] as $value): ?>
-                        <div class="reviews-item">
-                            <div class="reviews-item__header">
-                                <div class="reviews-item__header-line">
-                                    <span class="reviews-item__username"><?=$value['author']?></span>
-                                    <span class="reviews-item__date"><?=$value['date']?></span>
-                                    <span class="reviews-item__source"><?=$value['source']?></span>
+                                <div class="tab-content__column right-block">
+                                    <div class="tab-content__title--right">Комплектация</div>
+                                    <p class="">
+                                        <?
+                                        // =$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']
+                                        ?>
+                                        <ul>
+                                            <li>Apple iPhone 11</li>
+                                            <li>Зарядное устройство 18 Вт USB Type-C</li>
+                                            <li>Кабель USB Type-C 1 м</li>
+                                            <li>Гарантийный талон</li>
+                                        </ul>
+                                    </p>
                                 </div>
-                                <div class="reviews-item__header-line">
-                                    <span class="reviews-item__rating">
-                                        <span
-                                                class="reviews-item__rating-fill"
-                                                style="width: <?=$value['rating'] * 20?>%;"
-                                        ></span>
-                                    </span>
-                                    <?php if ($value['recommend']): ?>
-                                        <span class="reviews-item__recommend reviews-item__recommend--yes">
-                                            Рекомендую
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="reviews-item__recommend reviews-item__recommend--no">
-                                            Не рекомендую
-                                        </span>
+                            <?php
+                        //  endif;
+                        ?>
+                            <?php
+                            $class = 'tab-content__column';
+                            if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {
+                                $class .= ' left-block';
+                            }
+                            ?>
+                            <div class=" <?=$class?>">
+                                <p class="">
+                                    <?
+                                    // =$arResult['DETAIL_TEXT']
+                                    ?>
+                                    <h2>Описание</h2>
+                                    <p>Смартфоны Apple всегда имели одну из лучших камер на рынке. И iPhone 11 не стал исключением. Теперь можно делать фото с широким и сверхшироким углом обзора, что обеспечивается сверхширокоугольной камерой, которая позволяет увидеть и снять то, что происходит за пределами кадра. Кроме того, на все камеры iPhone 11 можно снимать невероятно чёткое видео 4K с частотой 60 кадров/﻿с.</p>
+                                    <h3>Отличительные особенности</h3>
+                                    <div>
+                                        <h4>Аккумулятор</h4>
+                                        <p>Ёмкий аккумулятор на 3110 мАч совместно с аппаратным и программное обеспечением слаженно работают над максимальной эффективностью работы батареи. А возможность быстрой зарядки позволяет быстро вернуть разряженный телефон в строй.</p>
+                                    </div>
+                                    <div>
+                                        <h4>Процессор</h4>
+                                        <p>Самый мощный процессор на рынке позволит вам выполнять любые задачи в течении нескольких лет. По сути, технологии A13 Bionic, а именно так и называется новый процессор, настолько продвинуты, что их можно назвать технологиями будущего.</p>
+                                    </div>
+                                    <div>
+                                        <h4>Безопасность</h4>
+                                        <p>За разблокировку устройства отвечает продвинутая система Face ID, которая является самой безопасной на сегодняшний день. Face ID не хранит изображение вашего лица и никуда его не передаёт. А данные, хранящиеся на устройстве не сможет получить ни один злоумышленник.</p>
+                                    </div>
+                                    <div>
+                                        <h4>Другие важные нововведения</h4>
+                                        <ul>
+                                            <li>Возможность быстрой зарядки</li>
+                                            <li>Более скоростной Wi‑Fi</li>
+                                            <li>Совместное прослушивание (К одному iPhone можно подключить сразу две пары наушников AirPods или Beats.)</li>
+                                            <li>Поддержка двух SIM‑карт: обычной и eSIM</li>
+                                        </ul>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <h3>2</h3>
+            <div>
+                <section id="content1">
+                    <div class="tab-content">
+                        <div class="tab-content__row tab-content__row--reverse">
+                            <div class="tab-content__column col-6">
+                                <div class="instruction-wrapper tab-content__column col-4">
+                                    <?php if ($arResult['PROPERTIES']['FILES']['VALUE']): ?>
+                                        <strong class="name-properties col-12">Инструкции и сертификаты:</strong>
+                                        <?php foreach ($arResult['PROPERTIES']['FILES']['VALUE'] as $value): ?>
+                                            <?php
+                                            $file = CFile::GetByID($value)->Fetch();
+                                            $splitFileName = explode('.', $file['ORIGINAL_NAME']);
+                                            $fileType = array_pop($splitFileName);
+                                            $fileName = implode(' ', $splitFileName);
+                                            ?>
+                                            <a class="files-item" href="<?=CFile::GetPath($value)?>" target="_blank">
+                                                <div class="files-item__icon">
+                                                    <img src="/upload/pdfs-512.png" alt=""/>
+                                                </div>
+                                                <div class="files-item__content">
+                                                    <?=$fileName?>
+                                                    <div class="files-item__size">
+                                                        <?=formatBytes($file['FILE_SIZE'])?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                            </div>
-                            <div class="reviews-item__content">
-                                <div class="reviews-item__desc">
-                                    <p class="reviews-item__text"><?=$value['review_text']?></p>
+                                <div class="characteristics-wrapper tab-content__column col-8">
+                                    <?php $APPLICATION->IncludeComponent(
+                                        'redsign:grupper.list',
+                                        'catalog_element',
+                                        Array(
+                                            'DISPLAY_PROPERTIES' => $arResult['CHARACTERISTICS'],
+                                            'CACHE_TIME' => 36000,
+                                        ),
+                                        false
+                                    ); ?>
                                 </div>
-                                <?php if (!empty($value['merits'])): ?>
-                                    <div class="reviews-item__summary reviews-item__summary--plus">
-                                        <p class="reviews-item__text"><?=$value['merits']?></p>
+                                <div class="tab-content__column col"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <h3>3</h3>
+            <div>
+                <section id="content3">
+                    <div class="tab-content">
+                        <div class="reviews">
+                            <?php foreach ($arResult['REVIEWS'] as $value): ?>
+                                <div class="reviews-item">
+                                    <div class="reviews-item__header">
+                                        <div class="reviews-item__header-line">
+                                            <span class="reviews-item__username"><?=$value['author']?></span>
+                                            <span class="reviews-item__date"><?=$value['date']?></span>
+                                            <span class="reviews-item__source"><?=$value['source']?></span>
+                                        </div>
+                                        <div class="reviews-item__header-line">
+                                            <span class="reviews-item__rating">
+                                                <span
+                                                        class="reviews-item__rating-fill"
+                                                        style="width: <?=$value['rating'] * 20?>%;"
+                                                ></span>
+                                            </span>
+                                            <?php if ($value['recommend']): ?>
+                                                <span class="reviews-item__recommend reviews-item__recommend--yes">
+                                                    Рекомендую
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="reviews-item__recommend reviews-item__recommend--no">
+                                                    Не рекомендую
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
-                                <?php endif; ?>
-                                <?php if (!empty($value['disadvantages'])): ?>
-                                    <div class="reviews-item__summary reviews-item__summary--minus">
-                                        <p class="reviews-item__text"><?=$value['disadvantages']?></p>
+                                    <div class="reviews-item__content">
+                                        <div class="reviews-item__desc">
+                                            <p class="reviews-item__text"><?=$value['review_text']?></p>
+                                        </div>
+                                        <?php if (!empty($value['merits'])): ?>
+                                            <div class="reviews-item__summary reviews-item__summary--plus">
+                                                <p class="reviews-item__text"><?=$value['merits']?></p>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($value['disadvantages'])): ?>
+                                            <div class="reviews-item__summary reviews-item__summary--minus">
+                                                <p class="reviews-item__text"><?=$value['disadvantages']?></p>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
-                                <?php endif; ?>
-                            </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                    </div>
+                </section>
             </div>
-        </section>
-
-        <?php
-        // if (!empty($arResult['QNA_VALUES'])): ?>
-            <section id="content4">
-                <div class="tab-content">
-                    <h2>Вопросы и ответы</h2>
-                    <?php
-                    // foreach ($arResult['QNA_VALUES'] as $value): ?>
-                        <div class="js-ui-accordion tab-content__accord"  id="accordion">
-                            <h3>Есть ли Face ID?</h3>
-                            <div class="">
-                                <p>Face ID представляет собой интуитивный и надежный метод аутентификации, в основе которого лежит создание структурной карты лица с помощью инновационной системы камер TrueDepth и передовых технологий.</p>
-                                <p> Достаточно одного взгляда, чтобы технология Face ID безопасно разблокировала iPhone или iPad Pro. Ее можно использовать для авторизации покупок в iTunes Store, App Store и Apple Books, а также платежей через Apple Pay. Разработчики также могут разрешить авторизацию в своих программах с помощью Face ID. Если программа поддерживает Touch ID, значит, она поддерживает и Face ID.</p>
-                                <p> Технология Face ID доступна на iPhone X и более поздних моделях и iPad Pro с процессором A12X Bionic.</p>
-                            </div>
-                            <h3>Какой объём аккумулятора?</h3>
-                            <div class=""><p>222</p></div>
-                            <h3>Совместимость с Apple Watch</h3>
-                            <div class=""><p>333</p></div>
-                            <h3>Поддержка 2 SIM</h3>
-                            <div class=""><p>444</p></div>
-                        </div>
-                    <?php
-                // endforeach; ?>
-                </div>
-            </section>
-        <?php
-    //  endif; ?>
-
-        <section id="content5">
-            <div class="tab-content">
-                <?php foreach ($arResult['DELIV'] as $value): ?>
-                    <p class="tab-content__item">
-                        <span class="tab-content__title"><?=$value['title']?></span>
-                        <span class="tab-content__text1"><?=$value['text']?></span>
-                    </p>
-                <?php endforeach; ?>
-            </div>
-        </section>
-
-        <section id="content6">
-            <div class="tab-content">
-                <div class="tab-content__row">
-                    <?php foreach ($arResult['PROPERTIES']['YOUTUBE']['VALUE'] as $value): ?>
-                        <div class="tab-content__column col-6">
-                            <div class="video-container">
-                                <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src="<?=$value?>"
-                                    frameborder="0"
-                                    allow="autoplay; encrypted-media"
-                                    allowfullscreen
-                                ></iframe>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </section>
-
-        <section id="content7">
-            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+            <h3>4</h3>
+            <div>
                 <?php
-                global $accessoryFilter;
-                $accessoryFilter = array(
-                    'ID' => $arResult['PROPERTIES']['ACESS']['VALUE'],
-                    '>CATALOG_PRICE_1' => 0,
-                );
-                ?>
-                <?php $APPLICATION->IncludeComponent(
-                    'bitrix:catalog.section',
-                    'access',
-                    Array(
-                        'ACTION_VARIABLE' => '',
-                        'ADD_PICT_PROP' => '',
-                        'ADD_PROPERTIES_TO_BASKET' => 'N',
-                        'ADD_SECTIONS_CHAIN' => 'N',
-                        'ADD_TO_BASKET_ACTION' => '',
-                        'AJAX_MODE' => 'N',
-                        'AJAX_OPTION_ADDITIONAL' => '',
-                        'AJAX_OPTION_HISTORY' => 'N',
-                        'AJAX_OPTION_JUMP' => 'N',
-                        'AJAX_OPTION_STYLE' => 'N',
-                        'BACKGROUND_IMAGE' => '',
-                        'BASKET_URL' => '',
-                        'BRAND_PROPERTY' => '',
-                        'BROWSER_TITLE' => '',
-                        'CACHE_FILTER' => 'N',
-                        'CACHE_GROUPS' => 'N',
-                        'CACHE_TIME' => 36000000,
-                        'CACHE_TYPE' => 'A',
-                        'COMPATIBLE_MODE' => 'Y',
-                        'CONVERT_CURRENCY' => 'Y',
-                        'CURRENCY_ID' => 'RUB',
-                        'CUSTOM_FILTER' => '',
-                        'DATA_LAYER_NAME' => '',
-                        'DETAIL_URL' => '',
-                        'DISABLE_INIT_JS_IN_COMPONENT' => 'N',
-                        'DISCOUNT_PERCENT_POSITION' => '',
-                        'DISPLAY_BOTTOM_PAGER' => 'N',
-                        'DISPLAY_TOP_PAGER' => 'N',
-                        'ELEMENT_SORT_FIELD' => 'sort',
-                        'ELEMENT_SORT_FIELD2' => 'id',
-                        'ELEMENT_SORT_ORDER' => 'asc',
-                        'ELEMENT_SORT_ORDER2' => 'desc',
-                        'ENLARGE_PRODUCT' => '',
-                        'ENLARGE_PROP' => '',
-                        'FILTER_NAME' => 'accessoryFilter',
-                        'HIDE_NOT_AVAILABLE' => 'Y',
-                        'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
-                        'IBLOCK_ID' => 6,
-                        'IBLOCK_TYPE' => 'catalog',
-                        'INCLUDE_SUBSECTIONS' => 'Y',
-                        'LABEL_PROP' => '',
-                        'LABEL_PROP_MOBILE' => '',
-                        'LABEL_PROP_POSITION' => '',
-                        'LAZY_LOAD' => 'N',
-                        'LINE_ELEMENT_COUNT' => 0,
-                        'LOAD_ON_SCROLL' => 'N',
-                        'MESSAGE_404' => '',
-                        'MESS_BTN_ADD_TO_BASKET' => '',
-                        'MESS_BTN_BUY' => '',
-                        'MESS_BTN_DETAIL' => '',
-                        'MESS_BTN_LAZY_LOAD' => '',
-                        'MESS_BTN_SUBSCRIBE' => '',
-                        'MESS_NOT_AVAILABLE' => '',
-                        'META_DESCRIPTION' => '',
-                        'META_KEYWORDS' => '',
-                        'OFFERS_CART_PROPERTIES' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'OFFERS_FIELD_CODE' => array(),
-                        'OFFERS_LIMIT' => 0,
-                        'OFFERS_PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'OFFERS_SORT_FIELD' => 'sort',
-                        'OFFERS_SORT_FIELD2' => 'id',
-                        'OFFERS_SORT_ORDER' => 'asc',
-                        'OFFERS_SORT_ORDER2' => 'desc',
-                        'OFFER_ADD_PICT_PROP' => '',
-                        'OFFER_TREE_PROPS' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'PAGER_BASE_LINK_ENABLE' => 'N',
-                        'PAGER_DESC_NUMBERING' => 'N',
-                        'PAGER_DESC_NUMBERING_CACHE_TIME' => 36000,
-                        'PAGER_SHOW_ALL' => 'N',
-                        'PAGER_SHOW_ALWAYS' => 'N',
-                        'PAGER_TEMPLATE' => '',
-                        'PAGER_TITLE' => '',
-                        'PAGE_ELEMENT_COUNT' => 6,
-                        'PARTIAL_PRODUCT_PROPERTIES' => 'N',
-                        'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
-                        'PRICE_VAT_INCLUDE' => 'Y',
-                        'PRODUCT_BLOCKS_ORDER' => '',
-                        'PRODUCT_DISPLAY_MODE' => '',
-                        'PRODUCT_ID_VARIABLE' => '',
-                        'PRODUCT_PROPERTIES' => '',
-                        'PRODUCT_PROPS_VARIABLE' => '',
-                        'PRODUCT_QUANTITY_VARIABLE' => '',
-                        'PRODUCT_ROW_VARIANTS' => '',
-                        'PRODUCT_SUBSCRIPTION' => 'N',
-                        'PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'PROPERTY_CODE_MOBILE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'RCM_PROD_ID' => '',
-                        'RCM_TYPE' => '',
-                        'SECTION_CODE' => '',
-                        'SECTION_ID' => '',
-                        'SECTION_ID_VARIABLE' => '',
-                        'SECTION_URL' => '',
-                        'SECTION_USER_FIELDS' => array(),
-                        'SEF_MODE' => 'N',
-                        'SET_BROWSER_TITLE' => 'N',
-                        'SET_LAST_MODIFIED' => 'N',
-                        'SET_META_DESCRIPTION' => 'N',
-                        'SET_META_KEYWORDS' => 'N',
-                        'SET_STATUS_404' => 'N',
-                        'SET_TITLE' => 'N',
-                        'SHOW_404' => 'N',
-                        'SHOW_ALL_WO_SECTION' => 'Y',
-                        'SHOW_CLOSE_POPUP' => 'N',
-                        'SHOW_DISCOUNT_PERCENT' => 'N',
-                        'SHOW_FROM_SECTION' => 'N',
-                        'SHOW_MAX_QUANTITY' => 'N',
-                        'SHOW_OLD_PRICE' => 'N',
-                        'SHOW_PRICE_COUNT' => 1,
-                        'SHOW_SLIDER' => 'N',
-                        'SLIDER_INTERVAL' => 3000,
-                        'SLIDER_PROGRESS' => 'N',
-                        'TEMPLATE_THEME' => '',
-                        'USE_ENHANCED_ECOMMERCE' => 'N',
-                        'USE_MAIN_ELEMENT_SECTION' => 'N',
-                        'USE_PRICE_COUNT' => 'N',
-                        'USE_PRODUCT_QUANTITY' => 'N',
-                        'DISPLAY_COMPARE' => 'N',
-                    ),
-                    false
-                ); ?>
-            <?php endif; ?>
-        </section>
-
-        <section id="content8">
-            <?php if (!empty($arResult['CHEAPER'])): ?>
+                // if (!empty($arResult['QNA_VALUES'])): ?>
+                    <section id="content4">
+                        <div class="tab-content">
+                            <h2>Вопросы и ответы</h2>
+                            <?php
+                            // foreach ($arResult['QNA_VALUES'] as $value): ?>
+                                <div class="js-ui-accordion tab-content__accord"  id="accordion">
+                                    <h3>Есть ли Face ID?</h3>
+                                    <div class="">
+                                        <p>Face ID представляет собой интуитивный и надежный метод аутентификации, в основе которого лежит создание структурной карты лица с помощью инновационной системы камер TrueDepth и передовых технологий.</p>
+                                        <p> Достаточно одного взгляда, чтобы технология Face ID безопасно разблокировала iPhone или iPad Pro. Ее можно использовать для авторизации покупок в iTunes Store, App Store и Apple Books, а также платежей через Apple Pay. Разработчики также могут разрешить авторизацию в своих программах с помощью Face ID. Если программа поддерживает Touch ID, значит, она поддерживает и Face ID.</p>
+                                        <p> Технология Face ID доступна на iPhone X и более поздних моделях и iPad Pro с процессором A12X Bionic.</p>
+                                    </div>
+                                    <h3>Какой объём аккумулятора?</h3>
+                                    <div class=""><p>222</p></div>
+                                    <h3>Совместимость с Apple Watch</h3>
+                                    <div class=""><p>333</p></div>
+                                    <h3>Поддержка 2 SIM</h3>
+                                    <div class=""><p>444</p></div>
+                                </div>
+                            <?php
+                        // endforeach; ?>
+                        </div>
+                    </section>
                 <?php
-                global $cheaperFilter;
-                $cheaperFilter = array(
-                    'ID' => $arResult['CHEAPER'],
-                    '>CATALOG_PRICE_1' => 0,
-                );
-                ?>
-                <?php $APPLICATION->IncludeComponent(
-                    'bitrix:catalog.section',
-                    'access',
-                    Array(
-                        'ACTION_VARIABLE' => '',
-                        'ADD_PICT_PROP' => '',
-                        'ADD_PROPERTIES_TO_BASKET' => 'N',
-                        'ADD_SECTIONS_CHAIN' => 'N',
-                        'ADD_TO_BASKET_ACTION' => '',
-                        'AJAX_MODE' => 'N',
-                        'AJAX_OPTION_ADDITIONAL' => '',
-                        'AJAX_OPTION_HISTORY' => 'N',
-                        'AJAX_OPTION_JUMP' => 'N',
-                        'AJAX_OPTION_STYLE' => 'N',
-                        'BACKGROUND_IMAGE' => '',
-                        'BASKET_URL' => '',
-                        'BRAND_PROPERTY' => '',
-                        'BROWSER_TITLE' => '',
-                        'CACHE_FILTER' => 'N',
-                        'CACHE_GROUPS' => 'N',
-                        'CACHE_TIME' => 36000000,
-                        'CACHE_TYPE' => 'A',
-                        'COMPATIBLE_MODE' => 'Y',
-                        'CONVERT_CURRENCY' => 'Y',
-                        'CURRENCY_ID' => 'RUB',
-                        'CUSTOM_FILTER' => '',
-                        'DATA_LAYER_NAME' => '',
-                        'DETAIL_URL' => '',
-                        'DISABLE_INIT_JS_IN_COMPONENT' => 'N',
-                        'DISCOUNT_PERCENT_POSITION' => '',
-                        'DISPLAY_BOTTOM_PAGER' => 'N',
-                        'DISPLAY_TOP_PAGER' => 'N',
-                        'ELEMENT_SORT_FIELD' => 'sort',
-                        'ELEMENT_SORT_FIELD2' => 'id',
-                        'ELEMENT_SORT_ORDER' => 'asc',
-                        'ELEMENT_SORT_ORDER2' => 'desc',
-                        'ENLARGE_PRODUCT' => '',
-                        'ENLARGE_PROP' => '',
-                        'FILTER_NAME' => 'cheaperFilter',
-                        'HIDE_NOT_AVAILABLE' => 'Y',
-                        'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
-                        'IBLOCK_ID' => 6,
-                        'IBLOCK_TYPE' => 'catalog',
-                        'INCLUDE_SUBSECTIONS' => 'Y',
-                        'LABEL_PROP' => '',
-                        'LABEL_PROP_MOBILE' => '',
-                        'LABEL_PROP_POSITION' => '',
-                        'LAZY_LOAD' => 'N',
-                        'LINE_ELEMENT_COUNT' => 0,
-                        'LOAD_ON_SCROLL' => 'N',
-                        'MESSAGE_404' => '',
-                        'MESS_BTN_ADD_TO_BASKET' => '',
-                        'MESS_BTN_BUY' => '',
-                        'MESS_BTN_DETAIL' => '',
-                        'MESS_BTN_LAZY_LOAD' => '',
-                        'MESS_BTN_SUBSCRIBE' => '',
-                        'MESS_NOT_AVAILABLE' => '',
-                        'META_DESCRIPTION' => '',
-                        'META_KEYWORDS' => '',
-                        'OFFERS_CART_PROPERTIES' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'OFFERS_FIELD_CODE' => array(),
-                        'OFFERS_LIMIT' => 0,
-                        'OFFERS_PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'OFFERS_SORT_FIELD' => 'sort',
-                        'OFFERS_SORT_FIELD2' => 'id',
-                        'OFFERS_SORT_ORDER' => 'asc',
-                        'OFFERS_SORT_ORDER2' => 'desc',
-                        'OFFER_ADD_PICT_PROP' => '',
-                        'OFFER_TREE_PROPS' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'PAGER_BASE_LINK_ENABLE' => 'N',
-                        'PAGER_DESC_NUMBERING' => 'N',
-                        'PAGER_DESC_NUMBERING_CACHE_TIME' => 36000,
-                        'PAGER_SHOW_ALL' => 'N',
-                        'PAGER_SHOW_ALWAYS' => 'N',
-                        'PAGER_TEMPLATE' => '',
-                        'PAGER_TITLE' => '',
-                        'PAGE_ELEMENT_COUNT' => 6,
-                        'PARTIAL_PRODUCT_PROPERTIES' => 'N',
-                        'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
-                        'PRICE_VAT_INCLUDE' => 'Y',
-                        'PRODUCT_BLOCKS_ORDER' => '',
-                        'PRODUCT_DISPLAY_MODE' => '',
-                        'PRODUCT_ID_VARIABLE' => '',
-                        'PRODUCT_PROPERTIES' => '',
-                        'PRODUCT_PROPS_VARIABLE' => '',
-                        'PRODUCT_QUANTITY_VARIABLE' => '',
-                        'PRODUCT_ROW_VARIANTS' => '',
-                        'PRODUCT_SUBSCRIPTION' => 'N',
-                        'PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'PROPERTY_CODE_MOBILE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-                        'RCM_PROD_ID' => '',
-                        'RCM_TYPE' => '',
-                        'SECTION_CODE' => '',
-                        'SECTION_ID' => '',
-                        'SECTION_ID_VARIABLE' => '',
-                        'SECTION_URL' => '',
-                        'SECTION_USER_FIELDS' => array(),
-                        'SEF_MODE' => 'N',
-                        'SET_BROWSER_TITLE' => 'N',
-                        'SET_LAST_MODIFIED' => 'N',
-                        'SET_META_DESCRIPTION' => 'N',
-                        'SET_META_KEYWORDS' => 'N',
-                        'SET_STATUS_404' => 'N',
-                        'SET_TITLE' => 'N',
-                        'SHOW_404' => 'N',
-                        'SHOW_ALL_WO_SECTION' => 'Y',
-                        'SHOW_CLOSE_POPUP' => 'N',
-                        'SHOW_DISCOUNT_PERCENT' => 'N',
-                        'SHOW_FROM_SECTION' => 'N',
-                        'SHOW_MAX_QUANTITY' => 'N',
-                        'SHOW_OLD_PRICE' => 'N',
-                        'SHOW_PRICE_COUNT' => 1,
-                        'SHOW_SLIDER' => 'N',
-                        'SLIDER_INTERVAL' => 3000,
-                        'SLIDER_PROGRESS' => 'N',
-                        'TEMPLATE_THEME' => '',
-                        'USE_ENHANCED_ECOMMERCE' => 'N',
-                        'USE_MAIN_ELEMENT_SECTION' => 'N',
-                        'USE_PRICE_COUNT' => 'N',
-                        'USE_PRODUCT_QUANTITY' => 'N',
-                        'DISPLAY_COMPARE' => 'N',
-                    ),
-                    false
-                ); ?>
-            <?php endif; ?>
-        </section>
+            //  endif; ?>
+            </div>
+            <h3>5</h3>
+            <div>
+                <section id="content5">
+                    <div class="tab-content">
+                        <?php foreach ($arResult['DELIV'] as $value): ?>
+                            <p class="tab-content__item">
+                                <span class="tab-content__title"><?=$value['title']?></span>
+                                <span class="tab-content__text1"><?=$value['text']?></span>
+                            </p>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            </div>
+            <h3>6</h3>
+            <div>
+                <section id="content6">
+                    <div class="tab-content">
+                        <div class="tab-content__row">
+                            <?php foreach ($arResult['PROPERTIES']['YOUTUBE']['VALUE'] as $value): ?>
+                                <div class="tab-content__column col-6">
+                                    <div class="video-container">
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            src="<?=$value?>"
+                                            frameborder="0"
+                                            allow="autoplay; encrypted-media"
+                                            allowfullscreen
+                                        ></iframe>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </section>
+            <div>
+            <h3>7</h3>
+            <div>
+                <section id="content7">
+                    <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+                        <?php
+                        global $accessoryFilter;
+                        $accessoryFilter = array(
+                            'ID' => $arResult['PROPERTIES']['ACESS']['VALUE'],
+                            '>CATALOG_PRICE_1' => 0,
+                        );
+                        ?>
+                        <?php $APPLICATION->IncludeComponent(
+                            'bitrix:catalog.section',
+                            'access',
+                            Array(
+                                'ACTION_VARIABLE' => '',
+                                'ADD_PICT_PROP' => '',
+                                'ADD_PROPERTIES_TO_BASKET' => 'N',
+                                'ADD_SECTIONS_CHAIN' => 'N',
+                                'ADD_TO_BASKET_ACTION' => '',
+                                'AJAX_MODE' => 'N',
+                                'AJAX_OPTION_ADDITIONAL' => '',
+                                'AJAX_OPTION_HISTORY' => 'N',
+                                'AJAX_OPTION_JUMP' => 'N',
+                                'AJAX_OPTION_STYLE' => 'N',
+                                'BACKGROUND_IMAGE' => '',
+                                'BASKET_URL' => '',
+                                'BRAND_PROPERTY' => '',
+                                'BROWSER_TITLE' => '',
+                                'CACHE_FILTER' => 'N',
+                                'CACHE_GROUPS' => 'N',
+                                'CACHE_TIME' => 36000000,
+                                'CACHE_TYPE' => 'A',
+                                'COMPATIBLE_MODE' => 'Y',
+                                'CONVERT_CURRENCY' => 'Y',
+                                'CURRENCY_ID' => 'RUB',
+                                'CUSTOM_FILTER' => '',
+                                'DATA_LAYER_NAME' => '',
+                                'DETAIL_URL' => '',
+                                'DISABLE_INIT_JS_IN_COMPONENT' => 'N',
+                                'DISCOUNT_PERCENT_POSITION' => '',
+                                'DISPLAY_BOTTOM_PAGER' => 'N',
+                                'DISPLAY_TOP_PAGER' => 'N',
+                                'ELEMENT_SORT_FIELD' => 'sort',
+                                'ELEMENT_SORT_FIELD2' => 'id',
+                                'ELEMENT_SORT_ORDER' => 'asc',
+                                'ELEMENT_SORT_ORDER2' => 'desc',
+                                'ENLARGE_PRODUCT' => '',
+                                'ENLARGE_PROP' => '',
+                                'FILTER_NAME' => 'accessoryFilter',
+                                'HIDE_NOT_AVAILABLE' => 'Y',
+                                'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
+                                'IBLOCK_ID' => 6,
+                                'IBLOCK_TYPE' => 'catalog',
+                                'INCLUDE_SUBSECTIONS' => 'Y',
+                                'LABEL_PROP' => '',
+                                'LABEL_PROP_MOBILE' => '',
+                                'LABEL_PROP_POSITION' => '',
+                                'LAZY_LOAD' => 'N',
+                                'LINE_ELEMENT_COUNT' => 0,
+                                'LOAD_ON_SCROLL' => 'N',
+                                'MESSAGE_404' => '',
+                                'MESS_BTN_ADD_TO_BASKET' => '',
+                                'MESS_BTN_BUY' => '',
+                                'MESS_BTN_DETAIL' => '',
+                                'MESS_BTN_LAZY_LOAD' => '',
+                                'MESS_BTN_SUBSCRIBE' => '',
+                                'MESS_NOT_AVAILABLE' => '',
+                                'META_DESCRIPTION' => '',
+                                'META_KEYWORDS' => '',
+                                'OFFERS_CART_PROPERTIES' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'OFFERS_FIELD_CODE' => array(),
+                                'OFFERS_LIMIT' => 0,
+                                'OFFERS_PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'OFFERS_SORT_FIELD' => 'sort',
+                                'OFFERS_SORT_FIELD2' => 'id',
+                                'OFFERS_SORT_ORDER' => 'asc',
+                                'OFFERS_SORT_ORDER2' => 'desc',
+                                'OFFER_ADD_PICT_PROP' => '',
+                                'OFFER_TREE_PROPS' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'PAGER_BASE_LINK_ENABLE' => 'N',
+                                'PAGER_DESC_NUMBERING' => 'N',
+                                'PAGER_DESC_NUMBERING_CACHE_TIME' => 36000,
+                                'PAGER_SHOW_ALL' => 'N',
+                                'PAGER_SHOW_ALWAYS' => 'N',
+                                'PAGER_TEMPLATE' => '',
+                                'PAGER_TITLE' => '',
+                                'PAGE_ELEMENT_COUNT' => 6,
+                                'PARTIAL_PRODUCT_PROPERTIES' => 'N',
+                                'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
+                                'PRICE_VAT_INCLUDE' => 'Y',
+                                'PRODUCT_BLOCKS_ORDER' => '',
+                                'PRODUCT_DISPLAY_MODE' => '',
+                                'PRODUCT_ID_VARIABLE' => '',
+                                'PRODUCT_PROPERTIES' => '',
+                                'PRODUCT_PROPS_VARIABLE' => '',
+                                'PRODUCT_QUANTITY_VARIABLE' => '',
+                                'PRODUCT_ROW_VARIANTS' => '',
+                                'PRODUCT_SUBSCRIPTION' => 'N',
+                                'PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'PROPERTY_CODE_MOBILE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'RCM_PROD_ID' => '',
+                                'RCM_TYPE' => '',
+                                'SECTION_CODE' => '',
+                                'SECTION_ID' => '',
+                                'SECTION_ID_VARIABLE' => '',
+                                'SECTION_URL' => '',
+                                'SECTION_USER_FIELDS' => array(),
+                                'SEF_MODE' => 'N',
+                                'SET_BROWSER_TITLE' => 'N',
+                                'SET_LAST_MODIFIED' => 'N',
+                                'SET_META_DESCRIPTION' => 'N',
+                                'SET_META_KEYWORDS' => 'N',
+                                'SET_STATUS_404' => 'N',
+                                'SET_TITLE' => 'N',
+                                'SHOW_404' => 'N',
+                                'SHOW_ALL_WO_SECTION' => 'Y',
+                                'SHOW_CLOSE_POPUP' => 'N',
+                                'SHOW_DISCOUNT_PERCENT' => 'N',
+                                'SHOW_FROM_SECTION' => 'N',
+                                'SHOW_MAX_QUANTITY' => 'N',
+                                'SHOW_OLD_PRICE' => 'N',
+                                'SHOW_PRICE_COUNT' => 1,
+                                'SHOW_SLIDER' => 'N',
+                                'SLIDER_INTERVAL' => 3000,
+                                'SLIDER_PROGRESS' => 'N',
+                                'TEMPLATE_THEME' => '',
+                                'USE_ENHANCED_ECOMMERCE' => 'N',
+                                'USE_MAIN_ELEMENT_SECTION' => 'N',
+                                'USE_PRICE_COUNT' => 'N',
+                                'USE_PRODUCT_QUANTITY' => 'N',
+                                'DISPLAY_COMPARE' => 'N',
+                            ),
+                            false
+                        ); ?>
+                    <?php endif; ?>
+                </section>
+            </div>
+            <h3>8</h3>
+            <div>
+                <section id="content8">
+                    <?php if (!empty($arResult['CHEAPER'])): ?>
+                        <?php
+                        global $cheaperFilter;
+                        $cheaperFilter = array(
+                            'ID' => $arResult['CHEAPER'],
+                            '>CATALOG_PRICE_1' => 0,
+                        );
+                        ?>
+                        <?php $APPLICATION->IncludeComponent(
+                            'bitrix:catalog.section',
+                            'access',
+                            Array(
+                                'ACTION_VARIABLE' => '',
+                                'ADD_PICT_PROP' => '',
+                                'ADD_PROPERTIES_TO_BASKET' => 'N',
+                                'ADD_SECTIONS_CHAIN' => 'N',
+                                'ADD_TO_BASKET_ACTION' => '',
+                                'AJAX_MODE' => 'N',
+                                'AJAX_OPTION_ADDITIONAL' => '',
+                                'AJAX_OPTION_HISTORY' => 'N',
+                                'AJAX_OPTION_JUMP' => 'N',
+                                'AJAX_OPTION_STYLE' => 'N',
+                                'BACKGROUND_IMAGE' => '',
+                                'BASKET_URL' => '',
+                                'BRAND_PROPERTY' => '',
+                                'BROWSER_TITLE' => '',
+                                'CACHE_FILTER' => 'N',
+                                'CACHE_GROUPS' => 'N',
+                                'CACHE_TIME' => 36000000,
+                                'CACHE_TYPE' => 'A',
+                                'COMPATIBLE_MODE' => 'Y',
+                                'CONVERT_CURRENCY' => 'Y',
+                                'CURRENCY_ID' => 'RUB',
+                                'CUSTOM_FILTER' => '',
+                                'DATA_LAYER_NAME' => '',
+                                'DETAIL_URL' => '',
+                                'DISABLE_INIT_JS_IN_COMPONENT' => 'N',
+                                'DISCOUNT_PERCENT_POSITION' => '',
+                                'DISPLAY_BOTTOM_PAGER' => 'N',
+                                'DISPLAY_TOP_PAGER' => 'N',
+                                'ELEMENT_SORT_FIELD' => 'sort',
+                                'ELEMENT_SORT_FIELD2' => 'id',
+                                'ELEMENT_SORT_ORDER' => 'asc',
+                                'ELEMENT_SORT_ORDER2' => 'desc',
+                                'ENLARGE_PRODUCT' => '',
+                                'ENLARGE_PROP' => '',
+                                'FILTER_NAME' => 'cheaperFilter',
+                                'HIDE_NOT_AVAILABLE' => 'Y',
+                                'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
+                                'IBLOCK_ID' => 6,
+                                'IBLOCK_TYPE' => 'catalog',
+                                'INCLUDE_SUBSECTIONS' => 'Y',
+                                'LABEL_PROP' => '',
+                                'LABEL_PROP_MOBILE' => '',
+                                'LABEL_PROP_POSITION' => '',
+                                'LAZY_LOAD' => 'N',
+                                'LINE_ELEMENT_COUNT' => 0,
+                                'LOAD_ON_SCROLL' => 'N',
+                                'MESSAGE_404' => '',
+                                'MESS_BTN_ADD_TO_BASKET' => '',
+                                'MESS_BTN_BUY' => '',
+                                'MESS_BTN_DETAIL' => '',
+                                'MESS_BTN_LAZY_LOAD' => '',
+                                'MESS_BTN_SUBSCRIBE' => '',
+                                'MESS_NOT_AVAILABLE' => '',
+                                'META_DESCRIPTION' => '',
+                                'META_KEYWORDS' => '',
+                                'OFFERS_CART_PROPERTIES' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'OFFERS_FIELD_CODE' => array(),
+                                'OFFERS_LIMIT' => 0,
+                                'OFFERS_PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'OFFERS_SORT_FIELD' => 'sort',
+                                'OFFERS_SORT_FIELD2' => 'id',
+                                'OFFERS_SORT_ORDER' => 'asc',
+                                'OFFERS_SORT_ORDER2' => 'desc',
+                                'OFFER_ADD_PICT_PROP' => '',
+                                'OFFER_TREE_PROPS' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'PAGER_BASE_LINK_ENABLE' => 'N',
+                                'PAGER_DESC_NUMBERING' => 'N',
+                                'PAGER_DESC_NUMBERING_CACHE_TIME' => 36000,
+                                'PAGER_SHOW_ALL' => 'N',
+                                'PAGER_SHOW_ALWAYS' => 'N',
+                                'PAGER_TEMPLATE' => '',
+                                'PAGER_TITLE' => '',
+                                'PAGE_ELEMENT_COUNT' => 6,
+                                'PARTIAL_PRODUCT_PROPERTIES' => 'N',
+                                'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
+                                'PRICE_VAT_INCLUDE' => 'Y',
+                                'PRODUCT_BLOCKS_ORDER' => '',
+                                'PRODUCT_DISPLAY_MODE' => '',
+                                'PRODUCT_ID_VARIABLE' => '',
+                                'PRODUCT_PROPERTIES' => '',
+                                'PRODUCT_PROPS_VARIABLE' => '',
+                                'PRODUCT_QUANTITY_VARIABLE' => '',
+                                'PRODUCT_ROW_VARIANTS' => '',
+                                'PRODUCT_SUBSCRIPTION' => 'N',
+                                'PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'PROPERTY_CODE_MOBILE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'RCM_PROD_ID' => '',
+                                'RCM_TYPE' => '',
+                                'SECTION_CODE' => '',
+                                'SECTION_ID' => '',
+                                'SECTION_ID_VARIABLE' => '',
+                                'SECTION_URL' => '',
+                                'SECTION_USER_FIELDS' => array(),
+                                'SEF_MODE' => 'N',
+                                'SET_BROWSER_TITLE' => 'N',
+                                'SET_LAST_MODIFIED' => 'N',
+                                'SET_META_DESCRIPTION' => 'N',
+                                'SET_META_KEYWORDS' => 'N',
+                                'SET_STATUS_404' => 'N',
+                                'SET_TITLE' => 'N',
+                                'SHOW_404' => 'N',
+                                'SHOW_ALL_WO_SECTION' => 'Y',
+                                'SHOW_CLOSE_POPUP' => 'N',
+                                'SHOW_DISCOUNT_PERCENT' => 'N',
+                                'SHOW_FROM_SECTION' => 'N',
+                                'SHOW_MAX_QUANTITY' => 'N',
+                                'SHOW_OLD_PRICE' => 'N',
+                                'SHOW_PRICE_COUNT' => 1,
+                                'SHOW_SLIDER' => 'N',
+                                'SLIDER_INTERVAL' => 3000,
+                                'SLIDER_PROGRESS' => 'N',
+                                'TEMPLATE_THEME' => '',
+                                'USE_ENHANCED_ECOMMERCE' => 'N',
+                                'USE_MAIN_ELEMENT_SECTION' => 'N',
+                                'USE_PRICE_COUNT' => 'N',
+                                'USE_PRODUCT_QUANTITY' => 'N',
+                                'DISPLAY_COMPARE' => 'N',
+                            ),
+                            false
+                        ); ?>
+                    <?php endif; ?>
+                </section>
+            </div>
+        </div>
     </div>
 </main>
 
