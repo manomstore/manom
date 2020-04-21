@@ -594,9 +594,11 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
         </div>
         <div class="accord-mobile">
-            <h3><label for="tab2">
-                <span>Описание</span>
-            </label></h3>
+            <h3>
+                <label for="tab2">
+                    <span>Описание</span>
+                </label>
+            </h3>
             <div>
                 <section id="content2">
                     <div class="tab-content">
@@ -662,9 +664,11 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3><label for="tab1">
-                <span>Характеристики</span>
-            </label></h3>
+            <h3>
+                <label for="tab1">
+                    <span>Характеристики</span>
+                </label>
+            </h3>
             <div>
                 <section id="content1">
                     <div class="tab-content">
@@ -711,13 +715,15 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3><?php if ($arResult['REVIEWS']): ?>
-                <label for="tab3">
-                    <span>
-                        Отзывы
-                    </span>
-                </label>
-            <?php endif; ?></h3>
+            <h3>
+                <?php if ($arResult['REVIEWS']): ?>
+                    <label for="tab3">
+                        <span>
+                            Отзывы
+                        </span>
+                    </label>
+                <?php endif; ?>
+            </h3>
             <div>
                 <section id="content3">
                     <div class="tab-content">
@@ -780,7 +786,8 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php
         // endif;
-        ?></h3>
+            ?>
+            </h3>
             <div>
                 <?php
                 // if (!empty($arResult['QNA_VALUES'])): ?>
@@ -810,15 +817,17 @@ function formatBytes($size, $precision = 2)
                 <?php
             //  endif; ?>
             </div>
-            <h3> <?php if ($arResult['DELIV']): ?>
-                <label for="tab5">
-                    <span>
-                        Оплата
-                        <br>
-                        и доставка
-                    </span>
-                </label>
-            <?php endif; ?></h3>
+            <h3>
+                <?php if ($arResult['DELIV']): ?>
+                    <label for="tab5">
+                        <span>
+                            Оплата
+                            <br>
+                            и доставка
+                        </span>
+                    </label>
+                <?php endif; ?>
+            </h3>
             <div>
                 <section id="content5">
                     <div class="tab-content">
@@ -831,15 +840,17 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3><?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
-                <label for="tab6">
-                    <span>
-                        Обзоры
-                        <br>
-                        на товар
-                    </span>
-                </label>
-            <?php endif; ?></h3>
+            <h3>
+                <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
+                    <label for="tab6">
+                        <span>
+                            Обзоры
+                            <br>
+                            на товар
+                        </span>
+                    </label>
+                <?php endif; ?>
+            </h3>
             <div>
                 <section id="content6">
                     <div class="tab-content">
@@ -862,11 +873,13 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             <div>
-            <h3><?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
-                <label for="tab7">
-                    <span>Аксессуары</span>
-                </label>
-            <?php endif; ?></h3>
+            <h3>
+                <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+                    <label for="tab7">
+                        <span>Аксессуары</span>
+                    </label>
+                <?php endif; ?>
+            </h3>
             <div>
                 <section id="content7">
                     <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
@@ -1004,15 +1017,17 @@ function formatBytes($size, $precision = 2)
                     <?php endif; ?>
                 </section>
             </div>
-            <h3><?php if ($arResult['CHEAPER']): ?>
-                <label for="tab8">
-                    <span>
-                        Купить
-                        <br>
-                        дешевле
-                    </span>
-                </label>
-            <?php endif; ?></h3>
+            <h3>
+                <?php if ($arResult['CHEAPER']): ?>
+                    <label for="tab8">
+                        <span>
+                            Купить
+                            <br>
+                            дешевле
+                        </span>
+                    </label>
+                <?php endif; ?>
+            </h3>
             <div>
                 <section id="content8">
                     <?php if (!empty($arResult['CHEAPER'])): ?>
