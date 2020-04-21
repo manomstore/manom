@@ -6,10 +6,13 @@ $(function () {
     collapsible: true
   });
 
-  $("#accord-mobile").accordion({
-    heightStyle: "content",
-    collapsible: true
-  });
+  if (isMobile()) {
+    $("#accord-mobile").accordion({
+      heightStyle: "content",
+      collapsible: true
+    });
+  }
+
 });
 
 
