@@ -329,6 +329,29 @@ function formatBytes($size, $precision = 2)
                                 Купить
                                 </a>
                             <?php endif; ?>
+
+
+                        </div>
+                    </div>
+
+                    <div class="product-sidebar__buttons">
+                        <?php
+                        $class = 'product-sidebar__cheaper';
+                        if (empty($arResult['CHEAPER'])) {
+                            $class .= ' product-sidebar__cheaper__disbled';
+                        }
+                        ?>
+                        <div class="<?=$class?>">
+                            Купить дешевле
+                        </div>
+                        <div
+                            class="product-sidebar__one-click BOC_btn"
+                            data-id="<?=$arResult['PRODUCT_ID']?>"
+                            data-fancybox
+                            data-src="#popap-buy-one-click"
+                            href="javascript:;"
+                        >
+                            Купить в один клик
                         </div>
                     </div>
 
