@@ -3852,7 +3852,9 @@ border-color: #EBEBEB;
   .product-tabs .tab-content {
     font-size: 14px;
   }
+}
 
+@media screen and (max-width: 767px) {
   .product-tabs__nav {
     display: none;
   }

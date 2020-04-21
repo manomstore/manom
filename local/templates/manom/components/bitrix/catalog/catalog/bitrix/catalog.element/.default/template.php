@@ -593,7 +593,7 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
         </div>
-        <div class="accord-mobile">
+        <div id="accord-mobile">
             <h3>
                 <label for="tab2">
                     <span>Описание</span>
