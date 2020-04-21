@@ -335,25 +335,25 @@ function formatBytes($size, $precision = 2)
                     </div>
 
                     <div class="product-sidebar__buttons">
-                                <?php
-                                $class = 'product-sidebar__cheaper';
-                                if (empty($arResult['CHEAPER'])) {
-                                    $class .= ' product-sidebar__cheaper__disbled';
-                                }
-                                ?>
-                                <div class="<?=$class?>">
-                                    Купить дешевле
-                                </div>
-                                <div
-                                    class="product-sidebar__one-click BOC_btn"
-                                    data-id="<?=$arResult['PRODUCT_ID']?>"
-                                    data-fancybox
-                                    data-src="#popap-buy-one-click"
-                                    href="javascript:;"
-                                >
-                                    Купить в один клик
-                                </div>
-                            </div>
+                        <?php
+                        $class = 'product-sidebar__cheaper';
+                        if (empty($arResult['CHEAPER'])) {
+                            $class .= ' product-sidebar__cheaper__disbled';
+                        }
+                        ?>
+                        <div class="<?=$class?>">
+                            Купить дешевле
+                        </div>
+                        <div
+                            class="product-sidebar__one-click BOC_btn"
+                            data-id="<?=$arResult['PRODUCT_ID']?>"
+                            data-fancybox
+                            data-src="#popap-buy-one-click"
+                            href="javascript:;"
+                        >
+                            Купить в один клик
+                        </div>
+                    </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
                         <h3 class="sci-login__title">Купить в один клик</h3>
