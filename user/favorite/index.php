@@ -222,7 +222,7 @@ $favoriteFilter = array('ID' => $favoritesId, '>CATALOG_PRICE_1' => 0);
                         'PAGER_TITLE' => 'Товары',
                         'PAGE_ELEMENT_COUNT' => 3,
                         'PARTIAL_PRODUCT_PROPERTIES' => 'N',
-                        'PRICE_CODE' => array('Розничная'),
+                        'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
                         'PRICE_VAT_INCLUDE' => 'Y',
                         'PRODUCT_BLOCKS_ORDER' => '',
                         'PRODUCT_DISPLAY_MODE' => 'N',

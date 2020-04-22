@@ -38,8 +38,6 @@ $count = 0;
                     if ($count > 5) {
                         break;
                     }
-
-                    [$price, $oldPrice] = $item['PRICE']['PRICES'];
                     ?>
                     <div class="preview-prod" data-cart-item="<?=$item['ID']?>">
                         <div class="preview-prod__picture">
@@ -48,16 +46,16 @@ $count = 0;
                         <div class="preview-prod__descr">
                             <div class="preview-prod-bottom">
                                 <div class="preview-prod-bottom__price">
-                                    <?php if (!empty((int)$oldPrice) && (int)$price !== (int)$oldPrice): ?>
+                                    <?php if (!empty((int)$item['oldPrice']) && (int)$item['price'] !== (int)$item['oldPrice']): ?>
                                         <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
-                                            <?=number_format($price, 0, '.', ' ')?> ₽
+                                            <?=number_format($item['price'], 0, '.', ' ')?> ₽
                                         </span>
                                         <span class="preview-prod-bottom__value preview-prod-bottom__value--sale">
-                                            <?=number_format($oldPrice, 0, '.', ' ')?> ₽
+                                            <?=number_format($item['oldPrice'], 0, '.', ' ')?> ₽
                                         </span>
                                     <?php else: ?>
                                         <span class="preview-prod-bottom__value">
-                                            <?=number_format($price, 0, '.', ' ')?> ₽
+                                            <?=number_format($item['price'], 0, '.', ' ')?> ₽
                                         </span>
                                     <?php endif; ?>
                                 </div>
