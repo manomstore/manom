@@ -11704,8 +11704,4 @@ a.files-item:hover {
   .ui-accordion:not(.accord-mobile) .ui-accordion-header {
     padding: 0;
   }
-
-  .ui-accordion:not(.accord-mobile) .ui-accordion-header {
-    padding: 0;
-  }
 }
