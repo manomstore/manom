@@ -19,8 +19,6 @@ $this->setFrameMode(true);
 
                     $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
                     $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
-
-                    [$price, $oldPrice] = $item['price']['PRICES'];
                     ?>
                     <div class="col-3">
                         <div class="product-card border <?=$item['canBuy'] ? 'enable' : 'disable'?>">
@@ -94,19 +92,19 @@ $this->setFrameMode(true);
                             <div class="p-nav-bottom">
                                 <div class="p-nav-bottom__price">
                                     <?php if (
-                                        !empty((int)$oldPrice) &&
-                                        (int)$price !== (int)$oldPrice
+                                        !empty((int)$item['oldPrice']) &&
+                                        (int)$item['price'] !== (int)$item['oldPrice']
                                     ): ?>
                                         <div class="p-nav-bottom__price">
-                                            <?=number_format($price, 0, '', ' ')?>
+                                            <?=number_format($item['price'], 0, '', ' ')?>
                                             <span> ₽</span>
                                             <div class="p-nav-bottom__oldprice">
-                                                <?=number_format($oldPrice, 0, '', ' ')?>
+                                                <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                             </div>
                                         </div>
                                     <?php else: ?>
                                         <div class="p-nav-bottom__price">
-                                            <?=number_format($price, 0, '', ' ')?>
+                                            <?=number_format($item['price'], 0, '', ' ')?>
                                             <span> ₽</span>
                                         </div>
                                     <?php endif; ?>
