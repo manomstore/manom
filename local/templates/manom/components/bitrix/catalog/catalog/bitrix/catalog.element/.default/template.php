@@ -564,7 +564,6 @@ function formatBytes($size, $precision = 2)
                 <label for="tab5">
                     <span>
                         Оплата
-                        <br>
                         и доставка
                     </span>
                 </label>
@@ -573,7 +572,6 @@ function formatBytes($size, $precision = 2)
                 <label for="tab6">
                     <span>
                         Обзоры
-                        <br>
                         на товар
                     </span>
                 </label>
@@ -587,7 +585,6 @@ function formatBytes($size, $precision = 2)
                 <label for="tab8">
                     <span>
                         Купить
-                        <br>
                         дешевле
                     </span>
                 </label>
@@ -873,6 +870,7 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
+
             <h3 class="accord-mobile__header">
                 <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
                     <label for="tab7">
