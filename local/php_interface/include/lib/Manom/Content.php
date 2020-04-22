@@ -2,8 +2,11 @@
 
 namespace Manom;
 
+use Bitrix\Main\ArgumentException;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
+use Bitrix\Main\ObjectPropertyException;
+use Bitrix\Main\SystemException;
 
 /**
  * Class Content
@@ -147,30 +150,112 @@ class Content
      * @return array
      * @throws Exception
      * @throws LoaderException
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
      */
     public static function setCatalogItemsPrice($arResult): array
     {
-        $price = new Price;
-        $userGroups = $price->getUserGroups();
-        $price->setPricesIdByName($arResult['ORIGINAL_PARAMETERS']['PRICE_CODE']);
-        $pricesId = $price->getPricesId();
+//        $price = new Price;
+//        $userGroups = $price->getUserGroups();
+//        $price->setPricesIdByName($arResult['ORIGINAL_PARAMETERS']['PRICE_CODE']);
+//        $pricesId = $price->getPricesId();
+//
+//        foreach ($arResult['ITEMS'] as $itemNum => $item) {
+//            foreach ($item['OFFERS'] as $iOfferNum => $offer) {
+//                $arResult['ITEMS'][$itemNum]['OFFERS'][$iOfferNum]['PRICE'] = $price->getItemPrices(
+//                    $offer['ID'],
+//                    $offer['IBLOCK_ID'],
+//                    $pricesId,
+//                    $userGroups
+//                );
+//            }
+//
+//            $arResult['ITEMS'][$itemNum]['PRICE'] = $price->getItemPrices(
+//                $item['ID'],
+//                $arResult['IBLOCK_ID'],
+//                $pricesId,
+//                $userGroups
+//            );
+//        }
+
+        return $arResult;
+    }
+
+    /**
+     * @param array $arResult
+     * @return array
+     * @throws ArgumentException
+     * @throws Exception
+     * @throws LoaderException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    public static function setCatalogItemsEcommerceData($arResult): array
+    {
+        $productsId = array();
+        foreach ($arResult['ITEMS'] as $itemNum => $item) {
+            if (in_array((int)$item['ID'], $productsId, true)) {
+                continue;
+            }
+            $productsId[] = (int)$item['ID'];
+        }
+
+        if (!empty($productsId)) {
+            $product = new Product;
+            $ecommerceData = $product->getEcommerceData($productsId, $arResult['IBLOCK_ID']);
+        }
 
         foreach ($arResult['ITEMS'] as $itemNum => $item) {
-            foreach ($item['OFFERS'] as $iOfferNum => $offer) {
-                $arResult['ITEMS'][$itemNum]['OFFERS'][$iOfferNum]['PRICE'] = $price->getItemPrices(
-                    $offer['ID'],
-                    $offer['IBLOCK_ID'],
-                    $pricesId,
-                    $userGroups
-                );
+            if (empty($ecommerceData[$item['ID']])) {
+                continue;
             }
 
-            $arResult['ITEMS'][$itemNum]['PRICE'] = $price->getItemPrices(
-                $item['ID'],
-                $arResult['IBLOCK_ID'],
-                $pricesId,
-                $userGroups
-            );
+            $mainStoreData = $ecommerceData[$item['ID']]['storeData']['main'];
+            $secondStoreData = $ecommerceData[$item['ID']]['storeData']['second'];
+
+            $item['price'] = 0;
+            $item['oldPrice'] = 0;
+
+            if (
+                !empty($mainStoreData['price']['DISCOUNT_PRICE']) &&
+                $mainStoreData['price']['DISCOUNT_PRICE'] !== $mainStoreData['price']['PRICE']
+            ) {
+                $mainPrice = $mainStoreData['price']['DISCOUNT_PRICE'];
+            } else {
+                $mainPrice = $mainStoreData['price']['PRICE'];
+            }
+
+            if (
+                !empty($secondStoreData['price']['DISCOUNT_PRICE']) &&
+                $secondStoreData['price']['DISCOUNT_PRICE'] !== $secondStoreData['price']['PRICE']
+            ) {
+                $secondPrice = $secondStoreData['price']['DISCOUNT_PRICE'];
+            } else {
+                $secondPrice = $secondStoreData['price']['PRICE'];
+            }
+
+            if (!empty($mainStoreData['amount']) && !empty($secondStoreData['amount'])) {
+                $item['price'] = $mainPrice;
+                $item['oldPrice'] = $secondPrice;
+            } elseif (!empty($mainStoreData['amount'])) {
+                $item['price'] = $mainPrice;
+            } elseif (!empty($secondStoreData['amount'])) {
+                $item['price'] = $secondPrice;
+            }
+
+            if ($item['price'] === $item['oldPrice']) {
+                $item['oldPrice'] = 0;
+            }
+
+            if (
+                empty($ecommerceData[$item['ID']]['amounts']['main']) &&
+                empty($ecommerceData[$item['ID']]['amounts']['second'])
+            ) {
+                $item['CAN_BUY'] = false;
+            }
+
+            $arResult['ITEMS'][$itemNum] = $item;
         }
 
         return $arResult;
