@@ -1,6 +1,6 @@
 
 (function () {
-  var MOBILE = 767;
+  var MOBILE = 969;
   var TABLET = 1023;
 
   window.isMobile = function () {
