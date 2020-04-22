@@ -1414,6 +1414,12 @@ a.top-submenu2__item:hover .top-submenu2__title {
   border-top: 1px solid #f2f2f2;
 }
 
+@media screen and (max-width: 969px) {
+  .footer {
+    margin-bottom: 140px;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .push_up_item.is-added-to-cart {
     display: none !important;
