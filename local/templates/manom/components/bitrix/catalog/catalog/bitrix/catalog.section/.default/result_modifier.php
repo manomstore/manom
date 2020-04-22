@@ -6,7 +6,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 use Manom\Content;
 
-$arResult = Content::setCatalogItemsPrice($arResult);
+$arResult = Content::setCatalogItemsEcommerceData($arResult);
 
 $itemsId = array();
 foreach ($arResult['ITEMS'] as $item) {
@@ -66,7 +66,8 @@ foreach ($arResult['ITEMS'] as $item) {
         'url' => $item['DETAIL_PAGE_URL'],
         'images' => $images,
         'properties' => $properties,
-        'price' => $item['PRICE'],
+        'price' => $item['price'],
+        'oldPrice' => $item['oldPrice'],
         'canBuy' => $canBuy,
         'productOfTheDay' => $item['PROPERTIES']['PRODUCT_OF_THE_DAY']['VALUE'] === 'Да',
         'sale' => $item['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да',

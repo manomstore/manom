@@ -211,6 +211,8 @@ class Content
                 continue;
             }
 
+            $item['ecommerceData'] = $ecommerceData[$item['ID']];
+
             $mainStoreData = $ecommerceData[$item['ID']]['storeData']['main'];
             $secondStoreData = $ecommerceData[$item['ID']]['storeData']['second'];
 
@@ -241,6 +243,10 @@ class Content
             } elseif (!empty($mainStoreData['amount'])) {
                 $item['price'] = $mainPrice;
             } elseif (!empty($secondStoreData['amount'])) {
+                $item['price'] = $secondPrice;
+            } elseif($mainPrice > $secondPrice) {
+                $item['price'] = $mainPrice;
+            } else {
                 $item['price'] = $secondPrice;
             }
 
