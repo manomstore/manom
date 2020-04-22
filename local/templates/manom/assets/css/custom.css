@@ -1565,7 +1565,7 @@ body div.search-popup-row-active {
 }
 
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 539px) {
   .product-delivery__header-cell {
     width: 50%;
   }
