@@ -1554,14 +1554,19 @@ body div.search-popup-row-active {
 .product-delivery__header-cell:last-child {
   padding-right: 0;
   font-size: 15px;
-    line-height: 24px;
-    width: 62%;
+  line-height: 24px;
+  width: 62%;
 }
 
 
 @media only screen and (max-width: 767px) {
   .product-delivery__header-cell {
     width: 50%;
+  }
+
+  .product-delivery__header-cell:last-child {
+    width: 50%;
+    padding-left: 4px;
   }
 }
 
@@ -1624,10 +1629,10 @@ body div.search-popup-row-active {
   width: 62%;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 969px) {
   .product-delivery__item-cell,
   .product-delivery__item-cell:last-child {
-
+    padding-left: 5px;
     width: 50%;
   }
 }
