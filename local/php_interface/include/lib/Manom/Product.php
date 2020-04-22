@@ -78,13 +78,13 @@ class Product
             $priceCodes[] = $storeSetting['priceCode'];
         }
 
-        $price = new Price;
-        $userGroups = $price->getUserGroups();
-        $price->setPricesIdByName($priceCodes);
-        $pricesId = $price->getPricesId();
+        $priceObject = new Price;
+        $userGroups = $priceObject->getUserGroups();
+        $priceObject->setPricesIdByName($priceCodes);
+        $pricesId = $priceObject->getPricesId();
 
         foreach ($productsId as $productId) {
-            $prices = $price->getItemPrices($productId, $iblockId, $pricesId, $userGroups);
+            $prices = $priceObject->getItemPrices($productId, $iblockId, $pricesId, $userGroups);
 
             $storeData = array();
 
