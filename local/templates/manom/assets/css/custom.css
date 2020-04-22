@@ -1635,7 +1635,7 @@ body div.search-popup-row-active {
   width: 62%;
 }
 
-@media only screen and (max-width: 969px) {
+@media only screen and (max-width: 539px) {
   .product-delivery__item-cell,
   .product-delivery__item-cell:last-child {
     padding-left: 5px;
