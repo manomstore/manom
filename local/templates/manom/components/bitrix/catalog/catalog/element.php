@@ -10,6 +10,7 @@ use Bitrix\Iblock\PropertyTable;
 use Bitrix\Main\Context;
 use Bitrix\Sale\Basket;
 use Bitrix\Sale\Fuser;
+use Manom\Product;
 
 $request = Context::getCurrent()->getRequest();
 
@@ -34,6 +35,21 @@ $basketItems = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->
 foreach ($basketItems as $basketItem) {
     $basket[$basketItem->getProductId()] = $basketItem->getFieldValues();
 }
+
+if (empty($arResult['VARIABLES']['ELEMENT_ID'])) {
+    $filter = array('IBLOCK_ID' => $arParams['IBLOCK_ID'], 'CODE' => $arResult['VARIABLES']['ELEMENT_CODE']);
+    $select = array('IBLOCK_ID', 'ID');
+    $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+    if ($row = $result->Fetch()) {
+        $id = $row['ID'];
+    }
+} else {
+    $id = $arResult['VARIABLES']['ELEMENT_ID'];
+}
+
+$product = new Product;
+$ecommerceData = $product->getEcommerceData(array($id), $arResult['IBLOCK_ID']);
+$ecommerceData = $ecommerceData[$id];
 ?>
 <?php $APPLICATION->IncludeComponent(
     'bitrix:breadcrumb',
@@ -199,6 +215,7 @@ foreach ($basketItems as $basketItem) {
         'LOCATION' => $userCityByGeoIP,
         'BASKET' => $basket,
         'CURRENT_DIR' => $APPLICATION->GetCurDir(),
+        'ECOMMERCE_DATA' => $ecommerceData,
     ),
     $component
 ); ?>

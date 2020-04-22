@@ -11,8 +11,6 @@ use Manom\Content;
 $class1 = $arResult['inFavoriteAndCompare'] ? '' : 'notActive';
 $class2 = $arResult['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
 
-[$price, $oldPrice] = $arResult['price']['PRICES'];
-
 function formatBytes($size, $precision = 2)
 {
     $base = log($size, 1024);
@@ -185,24 +183,26 @@ function formatBytes($size, $precision = 2)
                             class="product-sidebar__total-price-price addToCartBtn"
                             data-id='<?=$arResult['PRODUCT_ID']?>'
                         >
-                            <?=number_format($price, 0, '', ' ')?>
+                            <?=number_format($arResult['price'], 0, '', ' ')?>
                         </span>
                         <span id="ruble"> ₽</span>
                     </div>
                     <div
                         class="product-sidebar__right-price"
-                        style="display:<?=empty($oldPrice) ? 'none' : 'block'?>"
+                        style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
                     >
                         <p class="product-sidebar__profit">
                             Выгода
                             <span>
-                                <?=number_format($oldPrice - $price, 0, '', ' ')?>
+                                <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
                             </span>
                             ₽
                         </p>
                         <p class="product-sidebar__old-price">
                             Было
-                            <span><?=number_format($oldPrice, 0, '', ' ')?></span>
+                            <span>
+                                <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
+                            </span>
                             ₽
                         </p>
                     </div>

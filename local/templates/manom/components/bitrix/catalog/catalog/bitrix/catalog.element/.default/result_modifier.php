@@ -6,15 +6,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 use Bitrix\Main\Loader;
 use Manom\Content;
-use Manom\Price;
 use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
-
-$price = new Price;
-$userGroups = $price->getUserGroups();
-$price->setPricesIdByName($arResult['ORIGINAL_PARAMETERS']['PRICE_CODE']);
-$pricesId = $price->getPricesId();
 
 $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 
@@ -35,7 +29,50 @@ foreach ($images as $imageId) {
     );
 }
 
-$arResult['price'] = $price->getItemPrices($arResult['ID'], $arResult['IBLOCK_ID'], $pricesId, $userGroups);
+$mainStoreData = $arParams['ECOMMERCE_DATA']['storeData']['main'];
+$secondStoreData = $arParams['ECOMMERCE_DATA']['storeData']['second'];
+
+$arResult['price'] = 0;
+$arResult['oldPrice'] = 0;
+
+if (
+    !empty($mainStoreData['price']['DISCOUNT_PRICE']) &&
+    $mainStoreData['price']['DISCOUNT_PRICE'] !== $mainStoreData['price']['PRICE']
+) {
+    $mainPrice = $mainStoreData['price']['DISCOUNT_PRICE'];
+} else {
+    $mainPrice = $mainStoreData['price']['PRICE'];
+}
+
+if (
+    !empty($secondStoreData['price']['DISCOUNT_PRICE']) &&
+    $secondStoreData['price']['DISCOUNT_PRICE'] !== $secondStoreData['price']['PRICE']
+) {
+    $secondPrice = $secondStoreData['price']['DISCOUNT_PRICE'];
+} else {
+    $secondPrice = $secondStoreData['price']['PRICE'];
+}
+
+if (!empty($mainStoreData['amount']) && !empty($secondStoreData['amount'])) {
+    $arResult['price'] = $mainPrice;
+    $arResult['oldPrice'] = $secondPrice;
+} elseif (!empty($mainStoreData['amount'])) {
+    $arResult['price'] = $mainPrice;
+} elseif (!empty($secondStoreData['amount'])) {
+    $arResult['price'] = $secondPrice;
+}
+
+if ($arResult['price'] === $arResult['oldPrice']) {
+    $arResult['oldPrice'] = 0;
+}
+
+if (
+    empty($arParams['ECOMMERCE_DATA']['amounts']['main']) &&
+    empty($arParams['ECOMMERCE_DATA']['amounts']['second'])
+) {
+    $arResult['CATALOG_AVAILABLE'] = 'N';
+}
+
 $arResult['onlyCash'] = $arResult['PROPERTIES']['ONLY_CASH']['VALUE'] === 'Y';
 $arResult['locationDisallowBuy'] = $arResult['onlyCash'] && !$isMoscow;
 $arResult['CHEAPER'] = getCheaper($arResult['ID'], $arParams['IBLOCK_ID']);
