@@ -22,7 +22,10 @@ $offersProductId = array();
 $accessoriesAndAdditionalServicesId = array();
 $accessoriesAndAdditionalServices = array();
 
+$arResult['PRODUCTS_ID'] = array();
 foreach ($arResult['GRID']['ROWS'] as $i => $item) {
+    $arResult['PRODUCTS_ID'][] = (int)$item['PRODUCT_ID'];
+
     if (empty($item['IBLOCK_ID'])) {
         $productsId[] = (int)$item['PRODUCT_ID'];
     }
@@ -48,28 +51,11 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
         );
     }
 
-    $item['SUM'] = \CCurrencyLang::CurrencyFormat(
-        $item['SUM_VALUE'],
-        $item['CURRENCY'],
-        false
-    );
-
-    $item['PRICE_FORMATED'] = \CCurrencyLang::CurrencyFormat(
-        $item['PRICE'],
-        $item['CURRENCY'],
-        false
-    );
-
-    if ($item['DISCOUNT_PRICE_PERCENT'] > 0) {
-        $item['SUM_FULL_PRICE_FORMATED'] = \CCurrencyLang::CurrencyFormat(
-            $item['SUM_FULL_PRICE'],
-            $item['CURRENCY'],
-            false
-        );
-    }
-
     $arResult['GRID']['ROWS'][$i] = $item;
 }
+
+$product = new Product;
+$basketEcommerceData = $product->getEcommerceData($arResult['PRODUCTS_ID'], 6);
 
 if (!empty($offersId)) {
     $properties = array('CML2_LINK', 'MORE_PHOTO', 'this_prod_model');
@@ -255,6 +241,21 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
 
         $item['ADDITIONAL_SERVICES'][] = $accessoriesAndAdditionalServices[$id];
     }
+
+    $toreData = $basketEcommerceData[$productId]['storeData'];
+
+    $item['price'] = $item['PRICE'];
+    $item['oldPrice'] = 0;
+
+    if ((int)$toreData['main']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $toreData['main']['price']['PRICE'];
+        $item['oldPrice'] = $toreData['second']['price']['PRICE'];
+    } elseif ((int)$toreData['second']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $toreData['second']['price']['PRICE'];
+    }
+
+    $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
+    $item['oldSum'] = (int)$item['QUANTITY'] * $item['oldPrice'];
 
     $arResult['GRID']['ROWS'][$i] = $item;
 }

@@ -26,16 +26,19 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
             <div class="sci-product__info">
                 <div class="sci-product__sum-price">
                     <div class="product-price">
-                        <?php if ($row['DISCOUNT_PRICE_PERCENT'] > 0): ?>
+                        <?php if (
+                            !empty((int)$row['oldSum']) &&
+                            (int)$row['sum'] !== (int)$row['oldSum']
+                        ): ?>
                             <span class="product-price__value product-price__value--new">
-                                <?=$row['SUM']?> ₽
+                                <?=number_format($row['sum'], 0, '', ' ')?> ₽
                             </span>
                             <span class="product-price__value product-price__value--sale">
-                                <?=$row['SUM_FULL_PRICE_FORMATED']?> ₽
+                                <?=number_format($row['oldSum'], 0, '', ' ')?> ₽
                             </span>
                         <?php else: ?>
                             <span class="product-price__value">
-                                <?=$row['SUM']?> ₽
+                                <?=number_format($row['sum'], 0, '', ' ')?> ₽
                             </span>
                         <?php endif; ?>
                     </div>
@@ -97,7 +100,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                         </button>
                     </div>
                     <span class="sci-product__price">
-                        <?=$row['PRICE_FORMATED']?> ₽
+                        <?=number_format($row['price'], 0, '', ' ')?> ₽
                     </span>
                 </div>
             </div>

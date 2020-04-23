@@ -36,16 +36,16 @@ $product = new Product;
 $ecommerceData = $product->getEcommerceData($arResult['PRODUCTS_ID'], 6);
 
 foreach ($arResult['ITEMS']['AnDelCanBuy'] as $i => $item) {
+    $toreData = $ecommerceData[$item['PRODUCT_ID']]['storeData'];
+
     $item['price'] = $item['PRICE'];
     $item['oldPrice'] = 0;
 
-    foreach ($ecommerceData[$item['PRODUCT_ID']]['prices'] as $priceVariant) {
-        if ((int)$priceVariant['CATALOG_GROUP_ID'] !== (int)$item['PRICE_TYPE_ID']) {
-            continue;
-        }
-
-        $item['price'] = $priceVariant['DISCOUNT_PRICE'];
-        $item['oldPrice'] = $priceVariant['PRICE'];
+    if ((int)$toreData['main']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $toreData['main']['price']['PRICE'];
+        $item['oldPrice'] = $toreData['second']['price']['PRICE'];
+    } elseif ((int)$toreData['second']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $toreData['second']['price']['PRICE'];
     }
 
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
