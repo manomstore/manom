@@ -4,12 +4,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
-global $APPLICATION;
-$APPLICATION->RestartBuffer();
-echo '<pre>'.print_r($arResult['GRID']['ROWS'], true).'</pre>';
-die();
-
-use Manom\Price;
+use Manom\Product;
+use Manom\Content;
 
 $productsIblockId = 6;
 $offersIblockId = 7;
@@ -25,11 +21,6 @@ $productsAdditionalServicesId = array();
 $offersProductId = array();
 $accessoriesAndAdditionalServicesId = array();
 $accessoriesAndAdditionalServices = array();
-
-$price = new Price;
-$userGroups = $price->getUserGroups();
-$price->setPricesIdByName('Розничная');
-$pricesId = $price->getPricesId();
 
 foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     if (empty($item['IBLOCK_ID'])) {
@@ -150,6 +141,9 @@ foreach ($productsAdditionalServicesId as $productAdditionalServicesId) {
 }
 
 if (!empty($accessoriesAndAdditionalServicesId)) {
+    $product = new Product;
+    $ecommerceData = $product->getEcommerceData($accessoriesAndAdditionalServicesId, $productsIblockId);
+
     $properties = array('MORE_PHOTO');
     $filter = array(
         'IBLOCK_ID' => $productsIblockId,
@@ -192,12 +186,14 @@ if (!empty($accessoriesAndAdditionalServicesId)) {
             );
         }
 
+        $prices = Content::getPricesFromStoreData($ecommerceData[(int)$row['ID']]['storeData']);
+
         $accessoriesAndAdditionalServices[(int)$row['ID']] = array(
             'id' => (int)$row['ID'],
             'name' => $row['NAME'],
             'url' => $row['DETAIL_PAGE_URL'],
             'img' => $image['src'],
-            'prices' => $price->getItemPrices((int)$row['ID'], $productsIblockId, $pricesId, $userGroups),
+            'prices' => $prices,
 
         );
     }
