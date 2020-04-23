@@ -1,6 +1,5 @@
 <?php
 
-
 use Bitrix\Currency\CurrencyManager;
 use Bitrix\Main\Context;
 use Bitrix\Sale\Basket;
@@ -23,31 +22,75 @@ if (!$_REQUEST['METHOD_CART']) {
 }
 
 if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
+    $productId = (int)$_REQUEST['PRODUCT_ID'];
+
     if ($_REQUEST['METHOD_CART'] === 'CHANGE_COUNT' && (int)$_REQUEST['COUNT'] >= 0) {
-        $res = CSaleBasket::Update($_REQUEST['PRODUCT_ID'], array('QUANTITY' => $_REQUEST['COUNT']));
+        $flag = false;
+        $count = (int)$_REQUEST['COUNT'];
+        
+        $basketProduct = array();
+        $filter = array('ID' => $productId);
+        $select = array('ID', 'PRODUCT_ID', 'PRODUCT_PRICE_ID', 'PRICE_TYPE_ID', 'QUANTITY');
+        $result = CSaleBasket::GetList(array(), $filter, false, false, $select);
+        if ($row = $result->Fetch()) {
+            $basketProduct = array(
+                'productId' => (int)$row['PRODUCT_ID'],
+                'priceId' => (int)$row['PRODUCT_PRICE_ID'],
+                'priceTypeId' => (int)$row['PRICE_TYPE_ID'],
+                'quantity' => (int)$row['QUANTITY'],
+            );
+        }
+
+        if (!empty($basketProduct['productId'])) {
+            if ($basketProduct['quantity'] >= $count) {
+                $flag = true;
+            } else {
+                $count -= $basketProduct['quantity'];
+
+                $product = new Product;
+                $ecommerceData = $product->getEcommerceData(array($basketProduct['productId']), 6);
+                $ecommerceData = $ecommerceData[$basketProduct['productId']];
+
+                if (
+                    $basketProduct['priceId'] === $ecommerceData['storeData']['main']['price']['ID'] &&
+                    $ecommerceData['storeData']['main']['amount'] >= $count
+                ) {
+                    $flag = true;
+                } elseif (
+                    $basketProduct['priceId'] === $ecommerceData['storeData']['second']['price']['ID'] &&
+                    $ecommerceData['storeData']['second']['amount'] >= $count
+                ) {
+                    $flag = true;
+                }
+            }
+        }
+
+        if ($flag) {
+            $res = CSaleBasket::Update($productId, array('QUANTITY' => $_REQUEST['COUNT']));
+        }
 
         if ($_REQUEST['AJAX_CART'] === 'Y') {
             ajaxShowBasket();
         }
     } elseif ($_REQUEST['METHOD_CART'] === 'add') {
-        $productId = (int)$_REQUEST['PRODUCT_ID'];
-
         $data = $product->getEcommerceData(array($productId), 6);
         $data = $data[$productId];
 
-        if(empty($data['amounts']['main']) && empty($data['amounts']['second'])) {
+        if (empty($data['amounts']['main']) && empty($data['amounts']['second'])) {
             exit;
         }
 
         $basket = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite());
         if (!$basket->getExistsItem('catalog', $productId)) {
             $item = $basket->createItem('catalog', $productId);
-            $item->setFields(array(
-                 'QUANTITY' => 1,
-                 'CURRENCY' => CurrencyManager::getBaseCurrency(),
-                 'LID' => Context::getCurrent()->getSite(),
-                 'PRODUCT_PROVIDER_CLASS' => CatalogProvider::class,
-             ));
+            $item->setFields(
+                array(
+                    'QUANTITY' => 1,
+                    'CURRENCY' => CurrencyManager::getBaseCurrency(),
+                    'LID' => Context::getCurrent()->getSite(),
+                    'PRODUCT_PROVIDER_CLASS' => CatalogProvider::class,
+                )
+            );
             $basket->save();
         }
 
@@ -61,7 +104,7 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
         if ($_REQUEST['clear_all'] === 'Y') {
             \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
         } else {
-            CSaleBasket::Delete((int)$_REQUEST['PRODUCT_ID']);
+            CSaleBasket::Delete($productId);
         }
 
         if ($_REQUEST['AJAX_CART'] === 'Y') {
