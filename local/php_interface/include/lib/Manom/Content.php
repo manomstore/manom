@@ -213,50 +213,14 @@ class Content
 
             $item['ecommerceData'] = $ecommerceData[$item['ID']];
 
-            $mainStoreData = $ecommerceData[$item['ID']]['storeData']['main'];
-            $secondStoreData = $ecommerceData[$item['ID']]['storeData']['second'];
+            $prices = self::getPricesFromStoreData($item['ecommerceData']['storeData']);
 
-            $item['price'] = 0;
-            $item['oldPrice'] = 0;
-
-            if (
-                !empty($mainStoreData['price']['DISCOUNT_PRICE']) &&
-                $mainStoreData['price']['DISCOUNT_PRICE'] !== $mainStoreData['price']['PRICE']
-            ) {
-                $mainPrice = $mainStoreData['price']['DISCOUNT_PRICE'];
-            } else {
-                $mainPrice = $mainStoreData['price']['PRICE'];
-            }
+            $item['price'] = $prices['price'];
+            $item['oldPrice'] = $prices['oldPrice'];
 
             if (
-                !empty($secondStoreData['price']['DISCOUNT_PRICE']) &&
-                $secondStoreData['price']['DISCOUNT_PRICE'] !== $secondStoreData['price']['PRICE']
-            ) {
-                $secondPrice = $secondStoreData['price']['DISCOUNT_PRICE'];
-            } else {
-                $secondPrice = $secondStoreData['price']['PRICE'];
-            }
-
-            if (!empty($mainStoreData['amount']) && !empty($secondStoreData['amount'])) {
-                $item['price'] = $mainPrice;
-                $item['oldPrice'] = $secondPrice;
-            } elseif (!empty($mainStoreData['amount'])) {
-                $item['price'] = $mainPrice;
-            } elseif (!empty($secondStoreData['amount'])) {
-                $item['price'] = $secondPrice;
-            } elseif($mainPrice > $secondPrice) {
-                $item['price'] = $mainPrice;
-            } else {
-                $item['price'] = $secondPrice;
-            }
-
-            if ($item['price'] === $item['oldPrice']) {
-                $item['oldPrice'] = 0;
-            }
-
-            if (
-                empty($ecommerceData[$item['ID']]['amounts']['main']) &&
-                empty($ecommerceData[$item['ID']]['amounts']['second'])
+                empty($item['ecommerceData']['amounts']['main']) &&
+                empty($item['ecommerceData']['amounts']['second'])
             ) {
                 $item['CAN_BUY'] = false;
             }
@@ -265,6 +229,58 @@ class Content
         }
 
         return $arResult;
+    }
+
+    /**
+     * @param array $storeData
+     * @return array
+     */
+    public static function getPricesFromStoreData($storeData): array
+    {
+        $return = array(
+            'price' => 0,
+            'oldPrice' => 0,
+        );
+
+        $mainStoreData = $storeData['main'];
+        $secondStoreData = $storeData['second'];
+
+        if (
+            !empty($mainStoreData['price']['DISCOUNT_PRICE']) &&
+            $mainStoreData['price']['DISCOUNT_PRICE'] !== $mainStoreData['price']['PRICE']
+        ) {
+            $mainPrice = $mainStoreData['price']['DISCOUNT_PRICE'];
+        } else {
+            $mainPrice = $mainStoreData['price']['PRICE'];
+        }
+
+        if (
+            !empty($secondStoreData['price']['DISCOUNT_PRICE']) &&
+            $secondStoreData['price']['DISCOUNT_PRICE'] !== $secondStoreData['price']['PRICE']
+        ) {
+            $secondPrice = $secondStoreData['price']['DISCOUNT_PRICE'];
+        } else {
+            $secondPrice = $secondStoreData['price']['PRICE'];
+        }
+
+        if (!empty($mainStoreData['amount']) && !empty($secondStoreData['amount'])) {
+            $return['price'] = $mainPrice;
+            $return['oldPrice'] = $secondPrice;
+        } elseif (!empty($mainStoreData['amount'])) {
+            $return['price'] = $mainPrice;
+        } elseif (!empty($secondStoreData['amount'])) {
+            $return['price'] = $secondPrice;
+        } elseif ($mainPrice > $secondPrice) {
+            $return['price'] = $mainPrice;
+        } else {
+            $return['price'] = $secondPrice;
+        }
+
+        if ($return['price'] === $return['oldPrice']) {
+            $return['oldPrice'] = 0;
+        }
+
+        return $return;
     }
 
     /**

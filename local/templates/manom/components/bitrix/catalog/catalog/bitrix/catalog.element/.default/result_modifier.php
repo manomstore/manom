@@ -29,42 +29,10 @@ foreach ($images as $imageId) {
     );
 }
 
-$mainStoreData = $arParams['ECOMMERCE_DATA']['storeData']['main'];
-$secondStoreData = $arParams['ECOMMERCE_DATA']['storeData']['second'];
+$prices = Content::getPricesFromStoreData($arParams['ECOMMERCE_DATA']['storeData']);
 
-$arResult['price'] = 0;
-$arResult['oldPrice'] = 0;
-
-if (
-    !empty($mainStoreData['price']['DISCOUNT_PRICE']) &&
-    $mainStoreData['price']['DISCOUNT_PRICE'] !== $mainStoreData['price']['PRICE']
-) {
-    $mainPrice = $mainStoreData['price']['DISCOUNT_PRICE'];
-} else {
-    $mainPrice = $mainStoreData['price']['PRICE'];
-}
-
-if (
-    !empty($secondStoreData['price']['DISCOUNT_PRICE']) &&
-    $secondStoreData['price']['DISCOUNT_PRICE'] !== $secondStoreData['price']['PRICE']
-) {
-    $secondPrice = $secondStoreData['price']['DISCOUNT_PRICE'];
-} else {
-    $secondPrice = $secondStoreData['price']['PRICE'];
-}
-
-if (!empty($mainStoreData['amount']) && !empty($secondStoreData['amount'])) {
-    $arResult['price'] = $mainPrice;
-    $arResult['oldPrice'] = $secondPrice;
-} elseif (!empty($mainStoreData['amount'])) {
-    $arResult['price'] = $mainPrice;
-} elseif (!empty($secondStoreData['amount'])) {
-    $arResult['price'] = $secondPrice;
-}
-
-if ($arResult['price'] === $arResult['oldPrice']) {
-    $arResult['oldPrice'] = 0;
-}
+$arResult['price'] = $prices['price'];
+$arResult['oldPrice'] = $prices['oldPrice'];
 
 if (
     empty($arParams['ECOMMERCE_DATA']['amounts']['main']) &&

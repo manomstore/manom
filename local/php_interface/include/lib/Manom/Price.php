@@ -225,8 +225,6 @@ class Price
             $price['DISCOUNT_NAME'] = $optimalPrice['DISCOUNT']['NAME'];
         }
 
-        unset($price['ELEMENT_IBLOCK_ID']);
-
         return $price;
     }
 

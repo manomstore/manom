@@ -4,6 +4,11 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
+global $APPLICATION;
+$APPLICATION->RestartBuffer();
+echo '<pre>'.print_r($arResult['GRID']['ROWS'], true).'</pre>';
+die();
+
 use Manom\Price;
 
 $productsIblockId = 6;
