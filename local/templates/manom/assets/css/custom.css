@@ -1564,6 +1564,13 @@ body div.search-popup-row-active {
   width: 62%;
 }
 
+.product-delivery__title {
+  margin: 0;
+  color: #29282c;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+}
 
 @media only screen and (max-width: 539px) {
   .product-delivery__header-cell {
@@ -1574,15 +1581,13 @@ body div.search-popup-row-active {
     width: 50%;
     padding-left: 4px;
   }
+
+  .product-delivery__title {
+    padding-left: 5px;
+  }
 }
 
-.product-delivery__title {
-  margin: 0;
-  color: #29282c;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
-}
+
 
 .product-delivery__city {
   -ms-flex-wrap: nowrap;
