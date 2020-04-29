@@ -2,7 +2,7 @@
   const slider = document.querySelector(`.product-photo__right .swiper-container`);
 
   if (slider) {
-    if (window.isMobile()) {
+    if (window.isMobileSwiper()) {
       new Swiper(slider, {
         slidesPerView: 1,
         slidesPerColumn: 1,
