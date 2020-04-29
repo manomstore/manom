@@ -272,17 +272,13 @@ function formatBytes($size, $precision = 2)
                                 class="product-sidebar__right-price"
                                 style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
                             >
-                                <p class="product-sidebar__profit">
-                                    Выгода
-                                    <span>
-                                        <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
-                                    </span>
+                                <p class="product-sidebar__old-price">
+                                    <span><?=number_format($arResult['oldPrice'], 0, '', ' ')?></span>
                                     ₽
                                 </p>
-                                <p class="product-sidebar__old-price">
-                                    Было
+                                <p class="product-sidebar__profit">
                                     <span>
-                                        <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
+                                        <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
                                     </span>
                                     ₽
                                 </p>
