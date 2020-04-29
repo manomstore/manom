@@ -156,19 +156,25 @@ function formatBytes($size, $precision = 2)
                 <?php endforeach; ?>
             </div>
             <div class="product-photo__right col-5">
-                <?php $first = true;?>
-                <?php foreach ($arResult['images'] as $i => $image): ?>
-                    <a
-                        data-fancybox="gallery-prod"
-                        href="<?=$image['src']?>"
-                        data-color=""
-                        data-photo-id="<?=$i?>"
-                        class="pp__big_photo <?=$first ? 'active' : ''?>"
-                    >
-                        <img src="<?=$image['src']?>" alt="">
-                    </a>
-                    <?php $first = false;?>
-                <?php endforeach; ?>
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <?php $first = true;?>
+                        <div class="swiper-slide">
+                            <?php foreach ($arResult['images'] as $i => $image): ?>
+                                <a
+                                    data-fancybox="gallery-prod"
+                                    href="<?=$image['src']?>"
+                                    data-color=""
+                                    data-photo-id="<?=$i?>"
+                                    class="pp__big_photo <?=$first ? 'active' : ''?>"
+                                >
+                                    <img src="<?=$image['src']?>" alt="">
+                                </a>
+                                <?php $first = false;?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="product-photo__info">
               <p>Мощный процессор качественный дисплей, быстрая память, передовая графика, и все это для того чтобы вы воплощали ваши идеи в жизнь.</p>
