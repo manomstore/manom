@@ -6347,6 +6347,10 @@ border-radius: 5px;
     background: #88BC37;
   }
 
+  .product-photo__right .swiper-container {
+    flex-wrap: nowrap;
+  }
+
   .product-photo .interesting-fact {
     padding-bottom: 15px;
     margin: 20px 15px;
