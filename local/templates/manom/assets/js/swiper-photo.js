@@ -7,7 +7,10 @@
         slidesPerView: 1,
         slidesPerColumn: 1,
         spaceBetween: 0,
-        loop: false
+        loop: false,
+        pagination: {
+          el: '.swiper-pagination',
+        }
       });
     } else {
       return;
