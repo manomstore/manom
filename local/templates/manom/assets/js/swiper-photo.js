@@ -3,7 +3,7 @@
 
   if (slider) {
     if (window.isMobile()) {
-      new Swiper(giftSlider, {
+      new Swiper(slider, {
         slidesPerView: 1,
         slidesPerColumn: 1,
         spaceBetween: 0,
