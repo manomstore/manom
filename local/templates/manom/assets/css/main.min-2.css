@@ -2851,12 +2851,6 @@ p.price-slider {
   }
 }
 
-@media screen and (max-width: 767px) {
-  .product-photo__info {
-    display: none;
-  }
-}
-
 .product-content {
   font-family: "PT Root UI", "Arial", sans-serif;
   font-weight: 400;
