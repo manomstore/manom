@@ -175,6 +175,7 @@ function formatBytes($size, $precision = 2)
                             </div>
                         <?php endforeach; ?>
                     </div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
             <div class="product-photo__info">
