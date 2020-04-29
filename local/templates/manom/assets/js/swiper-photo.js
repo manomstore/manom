@@ -1,8 +1,8 @@
 (() => {
-  const giftSlider = document.querySelector(`.product-photo__right swiper-container`);
+  const slider = document.querySelector(`.product-photo__right swiper-container`);
 
-  if (giftSlider) {
-    if (!window.isDesktop()) {
+  if (slider) {
+    if (window.isMobile()) {
       new Swiper(giftSlider, {
         slidesPerView: 1,
         slidesPerColumn: 1,
