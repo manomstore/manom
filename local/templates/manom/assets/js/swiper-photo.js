@@ -1,5 +1,5 @@
 (() => {
-  const slider = document.querySelector(`.product-photo__right swiper-container`);
+  const slider = document.querySelector(`.product-photo__right .swiper-container`);
 
   if (slider) {
     if (window.isMobile()) {
