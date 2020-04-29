@@ -159,8 +159,9 @@ function formatBytes($size, $precision = 2)
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <?php $first = true;?>
-                        <div class="swiper-slide">
-                            <?php foreach ($arResult['images'] as $i => $image): ?>
+
+                        <?php foreach ($arResult['images'] as $i => $image): ?>
+                            <div class="swiper-slide">
                                 <a
                                     data-fancybox="gallery-prod"
                                     href="<?=$image['src']?>"
@@ -171,8 +172,8 @@ function formatBytes($size, $precision = 2)
                                     <img src="<?=$image['src']?>" alt="">
                                 </a>
                                 <?php $first = false;?>
-                            <?php endforeach; ?>
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
