@@ -47,6 +47,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                             type="button" aria-label="Удалить товар"
                             data-id="<?=$row['ID']?>"
                             data-product-id="<?=$row['PRODUCT_ID']?>"
+                            data-out-of-stock="<?=(int)in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?>"
                     >
                     </button>
                 </div>
@@ -63,7 +64,9 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                     <p class="sci-product__model"><?=$row['MODEL']?></p>
                 <?php endif; ?>
                 <p class="sci-product__status">
-                    <?php if ($row['CAN_BUY'] === 'Y'): ?>
+                    <?php if(in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])): ?>
+                        <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
+                    <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
                         Есть в наличии
                     <?php else: ?>
                         Товар закончился
@@ -92,6 +95,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                 type="button"
                                 aria-label="Увеличить количество"
                                 data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
+                                <?=in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?'disabled':''?>
                         >
                             <svg width="8" height="8">
                                 <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>

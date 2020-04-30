@@ -30,6 +30,34 @@ class Product
      * @throws ObjectPropertyException
      * @throws SystemException
      */
+    public function getProductsQuantity($productsId): array
+    {
+        $items = array();
+
+        foreach ($productsId as $id) {
+            $items[$id] = 0;
+        }
+
+        $result = ProductTable::getList(
+            array(
+                'filter' => array('ID' => $productsId),
+                'select' => array('ID', 'QUANTITY'),
+            )
+        );
+        while ($row = $result->Fetch()) {
+            $items[$row['ID']] = $row['QUANTITY'];
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param array|int $productsId
+     * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
     public function getProductsReservedQuantity($productsId): array
     {
         $items = array();

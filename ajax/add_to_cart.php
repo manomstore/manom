@@ -17,6 +17,8 @@ CModule::IncludeModule('sale');
 
 $product = new Product;
 
+$productsOutOfStock = explode('|', $_COOKIE['productsOutOfStock']);
+
 if (!$_REQUEST['METHOD_CART']) {
     exit;
 }
@@ -27,7 +29,7 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
     if ($_REQUEST['METHOD_CART'] === 'CHANGE_COUNT' && (int)$_REQUEST['COUNT'] >= 0) {
         $flag = false;
         $count = (int)$_REQUEST['COUNT'];
-        
+
         $basketProduct = array();
         $filter = array('ID' => $productId);
         $select = array('ID', 'PRODUCT_ID', 'PRODUCT_PRICE_ID', 'PRICE_TYPE_ID', 'QUANTITY');
@@ -105,6 +107,13 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
             \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
         } else {
             CSaleBasket::Delete($productId);
+
+            if ((int)$_REQUEST['outOfStock'] === 1) {
+                $array = array_flip($productsOutOfStock);
+                unset($array[$_REQUEST['productId']]);
+                $productsOutOfStock = array_flip($array);
+                setcookie("productsOutOfStock", implode('|', $productsOutOfStock), time() + 3600 * 24 * 30, '/');
+            }
         }
 
         if ($_REQUEST['AJAX_CART'] === 'Y') {
@@ -175,6 +184,7 @@ function ajaxShowBasket()
             'SET_TITLE' => 'N',
             'USE_GIFTS' => 'N',
             'USE_PREPAYMENT' => 'N',
+            'productsOutOfStock' => $productsOutOfStock,
         ),
         false
     );

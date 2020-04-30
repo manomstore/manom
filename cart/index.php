@@ -1,5 +1,7 @@
 <?php
 
+use Manom\Basket;
+
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 
 $APPLICATION->SetTitle('Корзина');
@@ -30,6 +32,16 @@ if ($_REQUEST['ORDER_ID']) {
     while ($row = $result->Fetch()) {
         $quantity += $row['QUANTITY'];
     }
+}
+
+$productsOutOfStock = array();
+if (!empty($_COOKIE['productsOutOfStock'])) {
+    $productsOutOfStock = explode('|', $_COOKIE['productsOutOfStock']);
+}
+
+if (empty($productsOutOfStock)) {
+    $basket = new Basket;
+    $productsOutOfStock = $basket->getUserOutOfStockProducts();
 }
 ?>
 <div class="content">
@@ -123,6 +135,7 @@ if ($_REQUEST['ORDER_ID']) {
                                     'USE_PREPAYMENT' => 'N',
                                     'AJAX_CART' => $_REQUEST['AJAX_CART'] === 'Y',
                                     'MAIN_CART' => "Y",
+                                    'productsOutOfStock' => $productsOutOfStock,
                                 ],
                                 false
                             );?>
@@ -904,7 +917,11 @@ if ($_REQUEST['ORDER_ID']) {
                                     -->
                                 </ul>
                                 <div class="sci-payment__button">
-                                    <button id="btnSubmitOrder" class="shopcart-sidebar__button" type="button">
+                                    <button
+                                            id="<?=(empty($productsOutOfStock))?'btnSubmitOrder':''?>"
+                                            class="shopcart-sidebar__button"
+                                            type="button"
+                                    >
                                         Оформить заказ
                                     </button>
                                 </div>
@@ -1049,7 +1066,11 @@ if ($_REQUEST['ORDER_ID']) {
                                 </div>
                             </div>
                             <div class="shopcart-sidebar__button-wrapper">
-                                <a class="shopcart-sidebar__button js-shopcart-next" href="#" title="Оформить заказ">
+                                <a
+                                        class="shopcart-sidebar__button <?=(empty($productsOutOfStock))?'js-shopcart-next':''?>"
+                                        href="#"
+                                        title="Оформить заказ"
+                                >
                                     Оформить заказ
                                 </a>
 

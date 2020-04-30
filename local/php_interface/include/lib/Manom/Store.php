@@ -47,27 +47,31 @@ class Store
 
     /**
      * @param array|int $productsId
+     * @param bool $checkInBasket
      * @return array
+     * @throws ArgumentException
      * @throws Exception
      * @throws LoaderException
-     * @throws ArgumentException
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    private function getReservedCount($productsId): array
+    private function getReservedCount($productsId, $checkInBasket = false): array
     {
         $basket = new Basket;
         $product = new Product;
 
-        $items = $basket->getInBasketCount($productsId);
-        $productQuantity = $product->getProductsReservedQuantity($productsId);
+        $items = $product->getProductsReservedQuantity($productsId);
 
-        foreach ($items as $productId => $count) {
-            if (empty($productQuantity[$productId])) {
-                continue;
+        if ($checkInBasket) {
+            $itemsInBasket = $basket->getInBasketCount($productsId);
+
+            foreach ($items as $productId => $count) {
+                if (empty($itemsInBasket[$productId])) {
+                    continue;
+                }
+
+                $items[$productId] += $itemsInBasket[$productId];
             }
-
-            $items[$productId] += $productQuantity[$productId];
         }
 
         return $items;
@@ -83,6 +87,7 @@ class Store
 
     /**
      * @param array|int $productsId
+     * @param bool $checkInBasket
      * @return array
      * @throws ArgumentException
      * @throws Exception
@@ -90,7 +95,7 @@ class Store
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    public function getAmounts($productsId): array
+    public function getAmounts($productsId, $checkInBasket = false): array
     {
         $amounts = array();
 
@@ -112,7 +117,7 @@ class Store
             }
         }
 
-        $count = $this->getReservedCount($productsId);
+        $count = $this->getReservedCount($productsId, $checkInBasket);
 
         foreach ($amounts as $productId => $storesAmount) {
             if (empty($count[$productId])) {
