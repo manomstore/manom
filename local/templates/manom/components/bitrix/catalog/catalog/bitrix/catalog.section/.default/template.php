@@ -71,8 +71,6 @@ $this->setFrameMode(true);
                 <?php
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
-
-                [$price, $oldPrice] = $item['price']['PRICES'];
                 ?>
                 <div class="cb-single__item col-6">
                     <div class="product-card cb-single-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
@@ -148,19 +146,19 @@ $this->setFrameMode(true);
                         </div>
                         <div class="p-nav-bottom">
                             <?php if (
-                                !empty((int)$oldPrice) &&
-                                (int)$price !== (int)$oldPrice
+                                !empty((int)$item['oldPrice']) &&
+                                (int)$item['price'] !== (int)$item['oldPrice']
                             ): ?>
                                 <div class="p-nav-bottom__price">
-                                    <?=number_format($price, 0, '', ' ')?>
+                                    <?=number_format($item['price'], 0, '', ' ')?>
                                     <span> ₽</span>
                                     <div class="p-nav-bottom__oldprice">
-                                        <?=number_format($oldPrice, 0, '', ' ')?>
+                                        <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                     </div>
                                 </div>
                             <?php else: ?>
                                 <div class="p-nav-bottom__price">
-                                    <?=number_format($price, 0, '', ' ')?>
+                                    <?=number_format($item['price'], 0, '', ' ')?>
                                     <span> ₽</span>
                                 </div>
                             <?php endif; ?>
@@ -180,8 +178,6 @@ $this->setFrameMode(true);
                 <?php
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
-
-                [$price, $oldPrice] = $item['price']['PRICES'];
                 ?>
                 <div class="cb-block__item col-3<?=$arParams['IS_BRAND'] ? ' block__item__brand' : ''?>">
                     <div class="product-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
@@ -252,19 +248,19 @@ $this->setFrameMode(true);
                         </h3>
                         <div class="p-nav-bottom">
                             <?php if (
-                                !empty((int)$oldPrice) &&
-                                (int)$price !== (int)$oldPrice
+                                !empty((int)$item['oldPrice']) &&
+                                (int)$item['price'] !== (int)$item['oldPrice']
                             ): ?>
                                 <div class="p-nav-bottom__price">
-                                    <?=number_format($price, 0, '', ' ')?>
+                                    <?=number_format($item['price'], 0, '', ' ')?>
                                     <span> ₽</span>
                                     <div class="p-nav-bottom__oldprice">
-                                        <?=number_format($oldPrice, 0, '', ' ')?>
+                                        <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                     </div>
                                 </div>
                             <?php else: ?>
                                 <div class="p-nav-bottom__price">
-                                    <?=number_format($price, 0, '', ' ')?>
+                                    <?=number_format($item['price'], 0, '', ' ')?>
                                     <span> ₽</span>
                                 </div>
                             <?php endif; ?>
@@ -284,8 +280,6 @@ $this->setFrameMode(true);
                 <?php
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
-
-                [$price, $oldPrice] = $item['price']['PRICES'];
                 ?>
                 <div class="cb-line__item col-12">
                     <div class="product-card cb-line-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
@@ -365,19 +359,19 @@ $this->setFrameMode(true);
                         <div class="p-nav-bottom cb-line-bottom">
                             <div class="p-nav-bottom">
                                 <?php if (
-                                    !empty((int)$oldPrice) &&
-                                    (int)$price !== (int)$oldPrice
+                                    !empty((int)$item['oldPrice']) &&
+                                    (int)$item['price'] !== (int)$item['oldPrice']
                                 ): ?>
                                     <div class="p-nav-bottom__price">
-                                        <?=number_format($price, 0, '', ' ')?>
+                                        <?=number_format($item['price'], 0, '', ' ')?>
                                         <span> ₽</span>
                                         <div class="p-nav-bottom__oldprice">
-                                            <?=number_format($oldPrice, 0, '', ' ')?>
+                                            <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                         </div>
                                     </div>
                                 <?php else: ?>
                                     <div class="p-nav-bottom__price">
-                                        <?=number_format($price, 0, '', ' ')?>
+                                        <?=number_format($item['price'], 0, '', ' ')?>
                                         <span> ₽</span>
                                     </div>
                                 <?php endif; ?>

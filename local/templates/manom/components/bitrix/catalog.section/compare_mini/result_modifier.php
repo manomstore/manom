@@ -6,7 +6,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 use Manom\Content;
 
-$arResult = Content::setCatalogItemsPrice($arResult);
+$arResult = Content::setCatalogItemsEcommerceData($arResult);
 
 foreach ($arResult['ITEMS'] as $i => $item) {
     $images = Content::getCatalogItemImages($item);

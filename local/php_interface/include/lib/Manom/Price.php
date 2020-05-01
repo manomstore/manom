@@ -2,8 +2,12 @@
 
 namespace Manom;
 
+use \Bitrix\Catalog\PriceTable;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
+use \Bitrix\Main\SystemException;
+use \Bitrix\Main\ArgumentException;
+use \Bitrix\Main\ObjectPropertyException;
 
 /**
  * Class Price
@@ -59,10 +63,10 @@ class Price
     public function setPricesIdByName($pricesName): void
     {
         $aFilter = array('NAME' => $pricesName);
-        $aSelect = array('ID');
+        $aSelect = array('ID', 'NAME');
         $oDbRes = \CCatalogGroup::GetList(array(), $aFilter, false, false, $aSelect);
         while ($aDbRes = $oDbRes->Fetch()) {
-            $this->pricesId[] = $aDbRes['ID'];
+            $this->pricesId[$aDbRes['NAME']] = $aDbRes['ID'];
         }
     }
 
@@ -81,7 +85,7 @@ class Price
      * @param $userGroups
      * @return array
      */
-    public function getItemPrices($iItemId, $iIblockId, $aPricesId, $userGroups): array
+    public function getItemPricesOld($iItemId, $iIblockId, $aPricesId, $userGroups): array
     {
         $aPrices = array(
             'PRICES' => array(),
@@ -166,5 +170,125 @@ class Price
         }
 
         return $aPrices;
+    }
+
+    /**
+     * @param array|int $itemsId
+     * @param array $pricesId
+     * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    private function getItemsPrices($itemsId, $pricesId): array
+    {
+        $prices = array();
+
+        $result = PriceTable::getList(
+            array(
+                'order' => array('PRICE' => 'ASC'),
+                'filter' => array('PRODUCT_ID' => $itemsId, 'CATALOG_GROUP_ID' => $pricesId),
+                'select' => array('ID', 'PRODUCT_ID', 'CATALOG_GROUP_ID', 'PRICE', 'CURRENCY'),
+            )
+        );
+        while ($row = $result->fetch()) {
+            $prices[(int)$row['PRODUCT_ID']][] = array(
+                'ID' => (int)$row['ID'],
+                'CATALOG_GROUP_ID' => (int)$row['CATALOG_GROUP_ID'],
+                'PRICE' => (int)$row['PRICE'],
+                'CURRENCY' => $row['CURRENCY'],
+            );
+        }
+
+        return $prices;
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $iblockId
+     * @param array $userGroups
+     * @param array $price
+     * @return array
+     */
+    private function getItemPriceWithDiscount($itemId, $iblockId, $userGroups, $price): array
+    {
+        $price['ELEMENT_IBLOCK_ID'] = $iblockId;
+
+        $optimalPrice = \CCatalogProduct::GetOptimalPrice($itemId, 1, $userGroups, 'N', array($price));
+        if (empty($optimalPrice['DISCOUNT'])) {
+            $price['DISCOUNT_PRICE'] = $price['PRICE'];
+            $price['DISCOUNT'] = false;
+            $price['DISCOUNT_NAME'] = '';
+        } else {
+            $price['DISCOUNT_PRICE'] = (int)$optimalPrice['DISCOUNT_PRICE'];
+            $price['DISCOUNT'] = true;
+            $price['DISCOUNT_NAME'] = $optimalPrice['DISCOUNT']['NAME'];
+        }
+
+        return $price;
+    }
+
+    /**
+     * @param int $itemId
+     * @param int $iblockId
+     * @param array $pricesId
+     * @param array $userGroups
+     * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    public function getItemPrices($itemId, $iblockId, $pricesId, $userGroups): array
+    {
+        $prices = array();
+
+        $existOffers = \CCatalogSKU::getExistOffers($itemId, $iblockId);
+        if ($existOffers[$itemId]) {
+            $offersId = array();
+            $offersIblockId = 0;
+            $filter = array('CATALOG_AVAILABLE' => 'Y');
+            $select = array('IBLOCK_ID', 'ID');
+            $offers = \CCatalogSKU::getOffersList($itemId, $iblockId, $filter, $select, array());
+            foreach ($offers[$itemId] as $offer) {
+                if (empty($offersIblockId)) {
+                    $offersIblockId = (int)$offer['IBLOCK_ID'];
+                }
+                $offersId[] = (int)$offer['ID'];
+            }
+
+            if (!empty($offersId)) {
+                $prices = $this->getItemsPrices($offersId, $pricesId);
+                foreach ($prices as $offerId => $offersPrices) {
+                    foreach ($offersPrices as $i => $price) {
+                        $prices[$offerId][$i] = $this->getItemPriceWithDiscount(
+                            $offerId,
+                            $offersIblockId,
+                            $userGroups,
+                            $price
+                        );
+                    }
+                }
+
+                $minimumPrice = 999999999;
+                $minimumPrices = array();
+                foreach ($prices as $offerId => $offersPrices) {
+                    foreach ($offersPrices as $i => $price) {
+                        if ($price['DISCOUNT_PRICE'] < $minimumPrice) {
+                            $minimumPrice = $price['DISCOUNT_PRICE'];
+                            $minimumPrices = $offersPrices;
+                        }
+                    }
+                }
+
+                $prices = $minimumPrices;
+            }
+        } else {
+            $prices = current($this->getItemsPrices($itemId, $pricesId));
+            foreach ($prices as $i => $price) {
+                $prices[$i] = $this->getItemPriceWithDiscount($itemId, $iblockId, $userGroups, $price);
+            }
+        }
+
+        return $prices;
     }
 }

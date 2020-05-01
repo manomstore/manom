@@ -6,15 +6,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 use Bitrix\Main\Loader;
 use Manom\Content;
-use Manom\Price;
 use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
-
-$price = new Price;
-$userGroups = $price->getUserGroups();
-$price->setPricesIdByName($arResult['ORIGINAL_PARAMETERS']['PRICE_CODE']);
-$pricesId = $price->getPricesId();
 
 $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 
@@ -35,7 +29,18 @@ foreach ($images as $imageId) {
     );
 }
 
-$arResult['price'] = $price->getItemPrices($arResult['ID'], $arResult['IBLOCK_ID'], $pricesId, $userGroups);
+$prices = Content::getPricesFromStoreData($arParams['ECOMMERCE_DATA']['storeData']);
+
+$arResult['price'] = $prices['price'];
+$arResult['oldPrice'] = $prices['oldPrice'];
+
+if (
+    empty($arParams['ECOMMERCE_DATA']['amounts']['main']) &&
+    empty($arParams['ECOMMERCE_DATA']['amounts']['second'])
+) {
+    $arResult['CATALOG_AVAILABLE'] = 'N';
+}
+
 $arResult['onlyCash'] = $arResult['PROPERTIES']['ONLY_CASH']['VALUE'] === 'Y';
 $arResult['locationDisallowBuy'] = $arResult['onlyCash'] && !$isMoscow;
 $arResult['CHEAPER'] = getCheaper($arResult['ID'], $arParams['IBLOCK_ID']);

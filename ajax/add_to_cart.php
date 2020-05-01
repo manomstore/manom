@@ -1,362 +1,291 @@
 <?php
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-CModule::IncludeModule("main");
-CModule::IncludeModule("iblock");
-CModule::IncludeModule("form");
-CModule::IncludeModule("catalog");
-CModule::IncludeModule("sale");
 
-if ($_REQUEST['METHOD_CART'] and (int)$_REQUEST['PRODUCT_ID'] > 0) {
-  if ($_REQUEST['METHOD_CART'] == 'CHANGE_COUNT' and (int)$_REQUEST['COUNT'] >= 0) {
-    $res = CSaleBasket::Update($_REQUEST['PRODUCT_ID'], array('QUANTITY' => $_REQUEST['COUNT']));
-    if ($_REQUEST['AJAX_CART'] == 'Y') {
-      $APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "manom", Array(
-        "ACTION_VARIABLE" => "action",	// Название переменной действия
-          "AUTO_CALCULATION" => "Y",	// Автопересчет корзины
-          "TEMPLATE_THEME" => "blue",	// Цветовая тема
-          "COLUMNS_LIST" => array(
-            0 => "NAME",
-            1 => "DISCOUNT",
-            2 => "WEIGHT",
-            3 => "DELETE",
-            4 => "DELAY",
-            5 => "TYPE",
-            6 => "PRICE",
-            7 => "QUANTITY",
-          ),
-          "COMPONENT_TEMPLATE" => "header-search",
-          "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-          "GIFTS_BLOCK_TITLE" => "Выберите один из подарков",	// Текст заголовка "Подарки"
-          "GIFTS_CONVERT_CURRENCY" => "Y",	// Показывать цены в одной валюте
-          "GIFTS_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки"
-          "GIFTS_HIDE_NOT_AVAILABLE" => "N",	// Не отображать товары, которых нет на складах
-          "GIFTS_MESS_BTN_BUY" => "Выбрать",	// Текст кнопки "Выбрать"
-          "GIFTS_MESS_BTN_DETAIL" => "Подробнее",	// Текст кнопки "Подробнее"
-          "GIFTS_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в строке
-          "GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",	// Название переменной, в которой передаются характеристики товара
-          "GIFTS_PRODUCT_QUANTITY_VARIABLE" => "",	// Название переменной, в которой передается количество товара
-          "GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",	// Показывать процент скидки
-          "GIFTS_SHOW_IMAGE" => "Y",	// Показывать изображение
-          "GIFTS_SHOW_NAME" => "Y",	// Показывать название
-          "GIFTS_SHOW_OLD_PRICE" => "Y",	// Показывать старую цену
-          "GIFTS_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка"
-          "GIFTS_PLACE" => "BOTTOM",	// Вывод блока "Подарки"
-          "HIDE_COUPON" => "N",	// Спрятать поле ввода купона
-          "OFFERS_PROPS" => array(	// Свойства, влияющие на пересчет корзины
-            0 => "SIZES_SHOES",
-            1 => "SIZES_CLOTHES",
-          ),
-          "PATH_TO_ORDER" => "/personal/order.php",	// Страница оформления заказа
-          "PRICE_VAT_SHOW_VALUE" => "N",	// Отображать значение НДС
-          "QUANTITY_FLOAT" => "N",	// Использовать дробное значение количества
-          "SET_TITLE" => "Y",	// Устанавливать заголовок страницы
-          "USE_GIFTS" => "Y",	// Показывать блок "Подарки"
-          "USE_PREPAYMENT" => "N",	// Использовать предавторизацию для оформления заказа (PayPal Express Checkout)
+use Bitrix\Currency\CurrencyManager;
+use Bitrix\Main\Context;
+use Bitrix\Sale\Basket;
+use BItrix\Sale\Fuser;
+use Manom\Product;
+use Manom\CatalogProvider;
+
+require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php';
+
+CModule::IncludeModule('main');
+CModule::IncludeModule('iblock');
+CModule::IncludeModule('form');
+CModule::IncludeModule('catalog');
+CModule::IncludeModule('sale');
+
+$product = new Product;
+
+$productsOutOfStock = explode('|', $_COOKIE['productsOutOfStock']);
+
+if (!$_REQUEST['METHOD_CART']) {
+    exit;
+}
+
+if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
+    $productId = (int)$_REQUEST['PRODUCT_ID'];
+
+    if ($_REQUEST['METHOD_CART'] === 'CHANGE_COUNT' && (int)$_REQUEST['COUNT'] >= 0) {
+        $flag = false;
+        $count = (int)$_REQUEST['COUNT'];
+
+        $basketProduct = array();
+        $filter = array('ID' => $productId);
+        $select = array('ID', 'PRODUCT_ID', 'PRODUCT_PRICE_ID', 'PRICE_TYPE_ID', 'QUANTITY');
+        $result = CSaleBasket::GetList(array(), $filter, false, false, $select);
+        if ($row = $result->Fetch()) {
+            $basketProduct = array(
+                'productId' => (int)$row['PRODUCT_ID'],
+                'priceId' => (int)$row['PRODUCT_PRICE_ID'],
+                'priceTypeId' => (int)$row['PRICE_TYPE_ID'],
+                'quantity' => (int)$row['QUANTITY'],
+            );
+        }
+
+        if (!empty($basketProduct['productId'])) {
+            if ($basketProduct['quantity'] >= $count) {
+                $flag = true;
+            } else {
+                $count -= $basketProduct['quantity'];
+
+                $product = new Product;
+                $ecommerceData = $product->getEcommerceData(array($basketProduct['productId']), 6);
+                $ecommerceData = $ecommerceData[$basketProduct['productId']];
+
+                if (
+                    $basketProduct['priceId'] === $ecommerceData['storeData']['main']['price']['ID'] &&
+                    $ecommerceData['storeData']['main']['amount'] >= $count
+                ) {
+                    $flag = true;
+                } elseif (
+                    $basketProduct['priceId'] === $ecommerceData['storeData']['second']['price']['ID'] &&
+                    $ecommerceData['storeData']['second']['amount'] >= $count
+                ) {
+                    $flag = true;
+                }
+            }
+        }
+
+        if ($flag) {
+            $res = CSaleBasket::Update($productId, array('QUANTITY' => $_REQUEST['COUNT']));
+        }
+
+        if ($_REQUEST['AJAX_CART'] === 'Y') {
+            ajaxShowBasket();
+        }
+    } elseif ($_REQUEST['METHOD_CART'] === 'add') {
+        $data = $product->getEcommerceData(array($productId), 6);
+        $data = $data[$productId];
+
+        if (empty($data['amounts']['main']) && empty($data['amounts']['second'])) {
+            exit;
+        }
+
+        $basket = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite());
+        if (!$basket->getExistsItem('catalog', $productId)) {
+            $item = $basket->createItem('catalog', $productId);
+            $item->setFields(
+                array(
+                    'QUANTITY' => 1,
+                    'CURRENCY' => CurrencyManager::getBaseCurrency(),
+                    'LID' => Context::getCurrent()->getSite(),
+                    'PRODUCT_PROVIDER_CLASS' => CatalogProvider::class,
+                )
+            );
+            $basket->save();
+        }
+
+        if ($_REQUEST['AJAX_CART'] === 'Y') {
+            ajaxShowBasket();
+        }
+        if ($_REQUEST['AJAX_MIN_CART'] === 'Y') {
+            ajaxShowBasketMin();
+        }
+    } elseif ($_REQUEST['METHOD_CART'] === 'delete') {
+        if ($_REQUEST['clear_all'] === 'Y') {
+            \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
+        } else {
+            CSaleBasket::Delete($productId);
+
+            if ((int)$_REQUEST['outOfStock'] === 1) {
+                $array = array_flip($productsOutOfStock);
+                unset($array[$_REQUEST['productId']]);
+                $productsOutOfStock = array_flip($array);
+                setcookie("productsOutOfStock", implode('|', $productsOutOfStock), time() + 3600 * 24 * 30, '/');
+            }
+        }
+
+        if ($_REQUEST['AJAX_CART'] === 'Y') {
+            ajaxShowBasket();
+        }
+        if ($_REQUEST['AJAX_MIN_CART'] === 'Y') {
+            ajaxShowBasketMin();
+        }
+    }
+} else {
+    if ($_REQUEST['METHOD_CART'] === 'refredh_mini_cart' && $_REQUEST['AJAX_MIN_CART'] === 'Y') {
+        ajaxShowBasketMin();
+    }
+    if ($_REQUEST['METHOD_CART'] === 'refredh_cart_info' && $_REQUEST['AJAX_CART_INFO'] === 'Y') {
+        ajaxShowBasketInfo();
+    }
+    if ($_REQUEST['METHOD_CART'] === 'refredh_cart' && $_REQUEST['AJAX_CART'] === 'Y') {
+        ajaxShowBasket();
+    }
+    if ($_REQUEST['METHOD_CART'] === 'clear' && $_REQUEST['AJAX_CART'] === 'Y') {
+        \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
+        ajaxShowBasket();
+    }
+}
+
+function ajaxShowBasket()
+{
+    global $APPLICATION;
+    $APPLICATION->IncludeComponent(
+        'bitrix:sale.basket.basket',
+        'manom',
+        Array(
+            'ACTION_VARIABLE' => '',
+            'AUTO_CALCULATION' => 'Y',
+            'TEMPLATE_THEME' => '',
+            'COLUMNS_LIST' => array(
+                'NAME',
+                'DISCOUNT',
+                'WEIGHT',
+                'DELETE',
+                'DELAY',
+                'TYPE',
+                'PRICE',
+                'QUANTITY',
+            ),
+            'COMPONENT_TEMPLATE' => '',
+            'COUNT_DISCOUNT_4_ALL_QUANTITY' => 'N',
+            'GIFTS_BLOCK_TITLE' => '',
+            'GIFTS_CONVERT_CURRENCY' => 'Y',
+            'GIFTS_HIDE_BLOCK_TITLE' => 'N',
+            'GIFTS_HIDE_NOT_AVAILABLE' => 'N',
+            'GIFTS_MESS_BTN_BUY' => '',
+            'GIFTS_MESS_BTN_DETAIL' => '',
+            'GIFTS_PAGE_ELEMENT_COUNT' => 0,
+            'GIFTS_PRODUCT_PROPS_VARIABLE' => '',
+            'GIFTS_PRODUCT_QUANTITY_VARIABLE' => '',
+            'GIFTS_SHOW_DISCOUNT_PERCENT' => '',
+            'GIFTS_SHOW_IMAGE' => '',
+            'GIFTS_SHOW_NAME' => '',
+            'GIFTS_SHOW_OLD_PRICE' => '',
+            'GIFTS_TEXT_LABEL_GIFT' => '',
+            'GIFTS_PLACE' => '',
+            'HIDE_COUPON' => 'N',
+            'OFFERS_PROPS' => array(),
+            'PATH_TO_ORDER' => '',
+            'PRICE_VAT_SHOW_VALUE' => 'N',
+            'QUANTITY_FLOAT' => 'N',
+            'SET_TITLE' => 'N',
+            'USE_GIFTS' => 'N',
+            'USE_PREPAYMENT' => 'N',
+            'productsOutOfStock' => $productsOutOfStock,
         ),
         false
-      );
-    }
-  } elseif ($_REQUEST['METHOD_CART'] == 'add') {
-    $res = Add2BasketByProductID((int)$_REQUEST['PRODUCT_ID']);
-    if ($_REQUEST['AJAX_CART'] == 'Y') {
-      $APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "manom", Array(
-        "ACTION_VARIABLE" => "action",	// Название переменной действия
-          "AUTO_CALCULATION" => "Y",	// Автопересчет корзины
-          "TEMPLATE_THEME" => "blue",	// Цветовая тема
-          "COLUMNS_LIST" => array(
-            0 => "NAME",
-            1 => "DISCOUNT",
-            2 => "WEIGHT",
-            3 => "DELETE",
-            4 => "DELAY",
-            5 => "TYPE",
-            6 => "PRICE",
-            7 => "QUANTITY",
-          ),
-          "COMPONENT_TEMPLATE" => "header-search",
-          "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-          "GIFTS_BLOCK_TITLE" => "Выберите один из подарков",	// Текст заголовка "Подарки"
-          "GIFTS_CONVERT_CURRENCY" => "Y",	// Показывать цены в одной валюте
-          "GIFTS_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки"
-          "GIFTS_HIDE_NOT_AVAILABLE" => "N",	// Не отображать товары, которых нет на складах
-          "GIFTS_MESS_BTN_BUY" => "Выбрать",	// Текст кнопки "Выбрать"
-          "GIFTS_MESS_BTN_DETAIL" => "Подробнее",	// Текст кнопки "Подробнее"
-          "GIFTS_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в строке
-          "GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",	// Название переменной, в которой передаются характеристики товара
-          "GIFTS_PRODUCT_QUANTITY_VARIABLE" => "",	// Название переменной, в которой передается количество товара
-          "GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",	// Показывать процент скидки
-          "GIFTS_SHOW_IMAGE" => "Y",	// Показывать изображение
-          "GIFTS_SHOW_NAME" => "Y",	// Показывать название
-          "GIFTS_SHOW_OLD_PRICE" => "Y",	// Показывать старую цену
-          "GIFTS_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка"
-          "GIFTS_PLACE" => "BOTTOM",	// Вывод блока "Подарки"
-          "HIDE_COUPON" => "N",	// Спрятать поле ввода купона
-          "OFFERS_PROPS" => array(	// Свойства, влияющие на пересчет корзины
-            0 => "SIZES_SHOES",
-            1 => "SIZES_CLOTHES",
-          ),
-          "PATH_TO_ORDER" => "/personal/order.php",	// Страница оформления заказа
-          "PRICE_VAT_SHOW_VALUE" => "N",	// Отображать значение НДС
-          "QUANTITY_FLOAT" => "N",	// Использовать дробное значение количества
-          "SET_TITLE" => "Y",	// Устанавливать заголовок страницы
-          "USE_GIFTS" => "Y",	// Показывать блок "Подарки"
-          "USE_PREPAYMENT" => "N",	// Использовать предавторизацию для оформления заказа (PayPal Express Checkout)
-        ),
-        false
-      );
-    }
-    if ($_REQUEST['AJAX_MIN_CART'] == 'Y') {
-      $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "monom", Array(
-          "HIDE_ON_BASKET_PAGES" => "Y",	// Не показывать на страницах корзины и оформления заказа
-          "PATH_TO_BASKET" => SITE_DIR."personal/cart/",	// Страница корзины
-          "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",	// Страница оформления заказа
-          "PATH_TO_PERSONAL" => SITE_DIR."personal/",	// Страница персонального раздела
-          "PATH_TO_PROFILE" => SITE_DIR."personal/",	// Страница профиля
-          "PATH_TO_REGISTER" => SITE_DIR."login/",	// Страница регистрации
-          "POSITION_FIXED" => "Y",	// Отображать корзину поверх шаблона
-          "POSITION_HORIZONTAL" => "right",	// Положение по горизонтали
-          "POSITION_VERTICAL" => "top",	// Положение по вертикали
-          "SHOW_AUTHOR" => "Y",	// Добавить возможность авторизации
-          "SHOW_DELAY" => "N",	// Показывать отложенные товары
-          "SHOW_EMPTY_VALUES" => "Y",	// Выводить нулевые значения в пустой корзине
-          "SHOW_IMAGE" => "Y",	// Выводить картинку товара
-          "SHOW_NOTAVAIL" => "N",	// Показывать товары, недоступные для покупки
-          "SHOW_NUM_PRODUCTS" => "Y",	// Показывать количество товаров
-          "SHOW_PERSONAL_LINK" => "N",	// Отображать персональный раздел
-          "SHOW_PRICE" => "Y",	// Выводить цену товара
-          "SHOW_PRODUCTS" => "Y",	// Показывать список товаров
-          "SHOW_SUMMARY" => "Y",	// Выводить подытог по строке
-          "SHOW_TOTAL_PRICE" => "Y",	// Показывать общую сумму по товарам
-        ),
-        false
-      );
-    }
-  }elseif ($_REQUEST['METHOD_CART'] == 'delete') {
-      if ($_REQUEST['clear_all'] === "Y") {
-          \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
-      } else {
-          CSaleBasket::Delete((int)$_REQUEST['PRODUCT_ID']);
-      }
-    if ($_REQUEST['AJAX_MIN_CART'] == 'Y') {
-      $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "monom", Array(
-          "HIDE_ON_BASKET_PAGES" => "Y",	// Не показывать на страницах корзины и оформления заказа
-          "PATH_TO_BASKET" => SITE_DIR."personal/cart/",	// Страница корзины
-          "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",	// Страница оформления заказа
-          "PATH_TO_PERSONAL" => SITE_DIR."personal/",	// Страница персонального раздела
-          "PATH_TO_PROFILE" => SITE_DIR."personal/",	// Страница профиля
-          "PATH_TO_REGISTER" => SITE_DIR."login/",	// Страница регистрации
-          "POSITION_FIXED" => "Y",	// Отображать корзину поверх шаблона
-          "POSITION_HORIZONTAL" => "right",	// Положение по горизонтали
-          "POSITION_VERTICAL" => "top",	// Положение по вертикали
-          "SHOW_AUTHOR" => "Y",	// Добавить возможность авторизации
-          "SHOW_DELAY" => "N",	// Показывать отложенные товары
-          "SHOW_EMPTY_VALUES" => "Y",	// Выводить нулевые значения в пустой корзине
-          "SHOW_IMAGE" => "Y",	// Выводить картинку товара
-          "SHOW_NOTAVAIL" => "N",	// Показывать товары, недоступные для покупки
-          "SHOW_NUM_PRODUCTS" => "Y",	// Показывать количество товаров
-          "SHOW_PERSONAL_LINK" => "N",	// Отображать персональный раздел
-          "SHOW_PRICE" => "Y",	// Выводить цену товара
-          "SHOW_PRODUCTS" => "Y",	// Показывать список товаров
-          "SHOW_SUMMARY" => "Y",	// Выводить подытог по строке
-          "SHOW_TOTAL_PRICE" => "Y",	// Показывать общую сумму по товарам
-        ),
-        false
-      );
-    }
-    if ($_REQUEST['AJAX_CART'] == 'Y') {
-      $APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "manom", Array(
-        "ACTION_VARIABLE" => "action",	// Название переменной действия
-          "AUTO_CALCULATION" => "Y",	// Автопересчет корзины
-          "TEMPLATE_THEME" => "blue",	// Цветовая тема
-          "COLUMNS_LIST" => array(
-            0 => "NAME",
-            1 => "DISCOUNT",
-            2 => "WEIGHT",
-            3 => "DELETE",
-            4 => "DELAY",
-            5 => "TYPE",
-            6 => "PRICE",
-            7 => "QUANTITY",
-          ),
-          "COMPONENT_TEMPLATE" => "header-search",
-          "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-          "GIFTS_BLOCK_TITLE" => "Выберите один из подарков",	// Текст заголовка "Подарки"
-          "GIFTS_CONVERT_CURRENCY" => "Y",	// Показывать цены в одной валюте
-          "GIFTS_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки"
-          "GIFTS_HIDE_NOT_AVAILABLE" => "N",	// Не отображать товары, которых нет на складах
-          "GIFTS_MESS_BTN_BUY" => "Выбрать",	// Текст кнопки "Выбрать"
-          "GIFTS_MESS_BTN_DETAIL" => "Подробнее",	// Текст кнопки "Подробнее"
-          "GIFTS_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в строке
-          "GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",	// Название переменной, в которой передаются характеристики товара
-          "GIFTS_PRODUCT_QUANTITY_VARIABLE" => "",	// Название переменной, в которой передается количество товара
-          "GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",	// Показывать процент скидки
-          "GIFTS_SHOW_IMAGE" => "Y",	// Показывать изображение
-          "GIFTS_SHOW_NAME" => "Y",	// Показывать название
-          "GIFTS_SHOW_OLD_PRICE" => "Y",	// Показывать старую цену
-          "GIFTS_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка"
-          "GIFTS_PLACE" => "BOTTOM",	// Вывод блока "Подарки"
-          "HIDE_COUPON" => "N",	// Спрятать поле ввода купона
-          "OFFERS_PROPS" => array(	// Свойства, влияющие на пересчет корзины
-            0 => "SIZES_SHOES",
-            1 => "SIZES_CLOTHES",
-          ),
-          "PATH_TO_ORDER" => "/personal/order.php",	// Страница оформления заказа
-          "PRICE_VAT_SHOW_VALUE" => "N",	// Отображать значение НДС
-          "QUANTITY_FLOAT" => "N",	// Использовать дробное значение количества
-          "SET_TITLE" => "Y",	// Устанавливать заголовок страницы
-          "USE_GIFTS" => "Y",	// Показывать блок "Подарки"
-          "USE_PREPAYMENT" => "N",	// Использовать предавторизацию для оформления заказа (PayPal Express Checkout)
-        ),
-        false
-      );
-    }
-  }
-} elseif ($_REQUEST['METHOD_CART']) {
-  if ($_REQUEST['METHOD_CART'] == 'refredh_mini_cart' and $_REQUEST['AJAX_MIN_CART'] == 'Y') {
-    $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "monom", Array(
-        "HIDE_ON_BASKET_PAGES" => "Y",	// Не показывать на страницах корзины и оформления заказа
-        "PATH_TO_BASKET" => SITE_DIR."personal/cart/",	// Страница корзины
-        "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",	// Страница оформления заказа
-        "PATH_TO_PERSONAL" => SITE_DIR."personal/",	// Страница персонального раздела
-        "PATH_TO_PROFILE" => SITE_DIR."personal/",	// Страница профиля
-        "PATH_TO_REGISTER" => SITE_DIR."login/",	// Страница регистрации
-        "POSITION_FIXED" => "Y",	// Отображать корзину поверх шаблона
-        "POSITION_HORIZONTAL" => "right",	// Положение по горизонтали
-        "POSITION_VERTICAL" => "top",	// Положение по вертикали
-        "SHOW_AUTHOR" => "Y",	// Добавить возможность авторизации
-        "SHOW_DELAY" => "N",	// Показывать отложенные товары
-        "SHOW_EMPTY_VALUES" => "Y",	// Выводить нулевые значения в пустой корзине
-        "SHOW_IMAGE" => "Y",	// Выводить картинку товара
-        "SHOW_NOTAVAIL" => "N",	// Показывать товары, недоступные для покупки
-        "SHOW_NUM_PRODUCTS" => "Y",	// Показывать количество товаров
-        "SHOW_PERSONAL_LINK" => "N",	// Отображать персональный раздел
-        "SHOW_PRICE" => "Y",	// Выводить цену товара
-        "SHOW_PRODUCTS" => "Y",	// Показывать список товаров
-        "SHOW_SUMMARY" => "Y",	// Выводить подытог по строке
-        "SHOW_TOTAL_PRICE" => "Y",	// Показывать общую сумму по товарам
-      ),
-      false
     );
-  }
-  if ($_REQUEST['METHOD_CART'] == 'refredh_cart_info' and $_REQUEST['AJAX_CART_INFO'] == 'Y') {
-    $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line", "cart_info", Array(
-        "HIDE_ON_BASKET_PAGES" => "Y",	// Не показывать на страницах корзины и оформления заказа
-        "PATH_TO_BASKET" => SITE_DIR."personal/cart/",	// Страница корзины
-        "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",	// Страница оформления заказа
-        "PATH_TO_PERSONAL" => SITE_DIR."personal/",	// Страница персонального раздела
-        "PATH_TO_PROFILE" => SITE_DIR."personal/",	// Страница профиля
-        "PATH_TO_REGISTER" => SITE_DIR."login/",	// Страница регистрации
-        "POSITION_FIXED" => "Y",	// Отображать корзину поверх шаблона
-        "POSITION_HORIZONTAL" => "right",	// Положение по горизонтали
-        "POSITION_VERTICAL" => "top",	// Положение по вертикали
-        "SHOW_AUTHOR" => "Y",	// Добавить возможность авторизации
-        "SHOW_DELAY" => "N",	// Показывать отложенные товары
-        "SHOW_EMPTY_VALUES" => "Y",	// Выводить нулевые значения в пустой корзине
-        "SHOW_IMAGE" => "Y",	// Выводить картинку товара
-        "SHOW_NOTAVAIL" => "N",	// Показывать товары, недоступные для покупки
-        "SHOW_NUM_PRODUCTS" => "Y",	// Показывать количество товаров
-        "SHOW_PERSONAL_LINK" => "N",	// Отображать персональный раздел
-        "SHOW_PRICE" => "Y",	// Выводить цену товара
-        "SHOW_PRODUCTS" => "Y",	// Показывать список товаров
-        "SHOW_SUMMARY" => "Y",	// Выводить подытог по строке
-        "SHOW_TOTAL_PRICE" => "Y",	// Показывать общую сумму по товарам
-      ),
-      false
-    );
-  }
-  if ($_REQUEST['METHOD_CART'] == 'refredh_cart' and $_REQUEST['AJAX_CART'] == 'Y') {
-    $APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "manom", Array(
-      "ACTION_VARIABLE" => "action",	// Название переменной действия
-        "AUTO_CALCULATION" => "Y",	// Автопересчет корзины
-        "TEMPLATE_THEME" => "blue",	// Цветовая тема
-        "COLUMNS_LIST" => array(
-          0 => "NAME",
-          1 => "DISCOUNT",
-          2 => "WEIGHT",
-          3 => "DELETE",
-          4 => "DELAY",
-          5 => "TYPE",
-          6 => "PRICE",
-          7 => "QUANTITY",
+}
+
+function ajaxShowBasketMin()
+{
+    global $APPLICATION;
+    $APPLICATION->IncludeComponent(
+        'bitrix:sale.basket.basket',
+        'min',
+        Array(
+            'ACTION_VARIABLE' => '',
+            'AUTO_CALCULATION' => 'Y',
+            'TEMPLATE_THEME' => '',
+            'COLUMNS_LIST' => array(
+                'NAME',
+                'DISCOUNT',
+                'WEIGHT',
+                'DELETE',
+                'DELAY',
+                'TYPE',
+                'PRICE',
+                'QUANTITY',
+            ),
+            'COMPONENT_TEMPLATE' => '',
+            'COUNT_DISCOUNT_4_ALL_QUANTITY' => 'N',
+            'GIFTS_BLOCK_TITLE' => '',
+            'GIFTS_CONVERT_CURRENCY' => 'Y',
+            'GIFTS_HIDE_BLOCK_TITLE' => 'N',
+            'GIFTS_HIDE_NOT_AVAILABLE' => 'N',
+            'GIFTS_MESS_BTN_BUY' => '',
+            'GIFTS_MESS_BTN_DETAIL' => '',
+            'GIFTS_PAGE_ELEMENT_COUNT' => 0,
+            'GIFTS_PRODUCT_PROPS_VARIABLE' => '',
+            'GIFTS_PRODUCT_QUANTITY_VARIABLE' => '',
+            'GIFTS_SHOW_DISCOUNT_PERCENT' => '',
+            'GIFTS_SHOW_IMAGE' => '',
+            'GIFTS_SHOW_NAME' => '',
+            'GIFTS_SHOW_OLD_PRICE' => '',
+            'GIFTS_TEXT_LABEL_GIFT' => '',
+            'GIFTS_PLACE' => '',
+            'HIDE_COUPON' => 'N',
+            'OFFERS_PROPS' => array(),
+            'PATH_TO_ORDER' => '',
+            'PRICE_VAT_SHOW_VALUE' => 'N',
+            'QUANTITY_FLOAT' => 'N',
+            'SET_TITLE' => 'N',
+            'USE_GIFTS' => 'N',
+            'USE_PREPAYMENT' => 'N',
         ),
-        "COMPONENT_TEMPLATE" => "header-search",
-        "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-        "GIFTS_BLOCK_TITLE" => "Выберите один из подарков",	// Текст заголовка "Подарки"
-        "GIFTS_CONVERT_CURRENCY" => "Y",	// Показывать цены в одной валюте
-        "GIFTS_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки"
-        "GIFTS_HIDE_NOT_AVAILABLE" => "N",	// Не отображать товары, которых нет на складах
-        "GIFTS_MESS_BTN_BUY" => "Выбрать",	// Текст кнопки "Выбрать"
-        "GIFTS_MESS_BTN_DETAIL" => "Подробнее",	// Текст кнопки "Подробнее"
-        "GIFTS_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в строке
-        "GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",	// Название переменной, в которой передаются характеристики товара
-        "GIFTS_PRODUCT_QUANTITY_VARIABLE" => "",	// Название переменной, в которой передается количество товара
-        "GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",	// Показывать процент скидки
-        "GIFTS_SHOW_IMAGE" => "Y",	// Показывать изображение
-        "GIFTS_SHOW_NAME" => "Y",	// Показывать название
-        "GIFTS_SHOW_OLD_PRICE" => "Y",	// Показывать старую цену
-        "GIFTS_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка"
-        "GIFTS_PLACE" => "BOTTOM",	// Вывод блока "Подарки"
-        "HIDE_COUPON" => "N",	// Спрятать поле ввода купона
-        "OFFERS_PROPS" => array(	// Свойства, влияющие на пересчет корзины
-          0 => "SIZES_SHOES",
-          1 => "SIZES_CLOTHES",
-        ),
-        "PATH_TO_ORDER" => "/personal/order.php",	// Страница оформления заказа
-        "PRICE_VAT_SHOW_VALUE" => "N",	// Отображать значение НДС
-        "QUANTITY_FLOAT" => "N",	// Использовать дробное значение количества
-        "SET_TITLE" => "Y",	// Устанавливать заголовок страницы
-        "USE_GIFTS" => "Y",	// Показывать блок "Подарки"
-        "USE_PREPAYMENT" => "N",	// Использовать предавторизацию для оформления заказа (PayPal Express Checkout)
-      ),
-      false
+        false
     );
-  }
-  if ($_REQUEST['METHOD_CART'] == 'clear' && $_REQUEST['AJAX_CART'] == 'Y') {
-      \CSaleBasket::DeleteAll(\CSaleBasket::GetBasketUserID());
-          $APPLICATION->IncludeComponent("bitrix:sale.basket.basket", "manom", Array(
-              "ACTION_VARIABLE" => "action",	// Название переменной действия
-              "AUTO_CALCULATION" => "Y",	// Автопересчет корзины
-              "TEMPLATE_THEME" => "blue",	// Цветовая тема
-              "COLUMNS_LIST" => array(
-                  0 => "NAME",
-                  1 => "DISCOUNT",
-                  2 => "WEIGHT",
-                  3 => "DELETE",
-                  4 => "DELAY",
-                  5 => "TYPE",
-                  6 => "PRICE",
-                  7 => "QUANTITY",
-              ),
-              "COMPONENT_TEMPLATE" => "header-search",
-              "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-              "GIFTS_BLOCK_TITLE" => "Выберите один из подарков",	// Текст заголовка "Подарки"
-              "GIFTS_CONVERT_CURRENCY" => "Y",	// Показывать цены в одной валюте
-              "GIFTS_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки"
-              "GIFTS_HIDE_NOT_AVAILABLE" => "N",	// Не отображать товары, которых нет на складах
-              "GIFTS_MESS_BTN_BUY" => "Выбрать",	// Текст кнопки "Выбрать"
-              "GIFTS_MESS_BTN_DETAIL" => "Подробнее",	// Текст кнопки "Подробнее"
-              "GIFTS_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в строке
-              "GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",	// Название переменной, в которой передаются характеристики товара
-              "GIFTS_PRODUCT_QUANTITY_VARIABLE" => "",	// Название переменной, в которой передается количество товара
-              "GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",	// Показывать процент скидки
-              "GIFTS_SHOW_IMAGE" => "Y",	// Показывать изображение
-              "GIFTS_SHOW_NAME" => "Y",	// Показывать название
-              "GIFTS_SHOW_OLD_PRICE" => "Y",	// Показывать старую цену
-              "GIFTS_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка"
-              "GIFTS_PLACE" => "BOTTOM",	// Вывод блока "Подарки"
-              "HIDE_COUPON" => "N",	// Спрятать поле ввода купона
-              "OFFERS_PROPS" => array(	// Свойства, влияющие на пересчет корзины
-                  0 => "SIZES_SHOES",
-                  1 => "SIZES_CLOTHES",
-              ),
-              "PATH_TO_ORDER" => "/personal/order.php",	// Страница оформления заказа
-              "PRICE_VAT_SHOW_VALUE" => "N",	// Отображать значение НДС
-              "QUANTITY_FLOAT" => "N",	// Использовать дробное значение количества
-              "SET_TITLE" => "Y",	// Устанавливать заголовок страницы
-              "USE_GIFTS" => "Y",	// Показывать блок "Подарки"
-              "USE_PREPAYMENT" => "N",	// Использовать предавторизацию для оформления заказа (PayPal Express Checkout)
-          ),
-              false
-          );
-  }
+}
+
+function ajaxShowBasketInfo()
+{
+    global $APPLICATION;
+    $APPLICATION->IncludeComponent(
+        'bitrix:sale.basket.basket',
+        'info',
+        Array(
+            'ACTION_VARIABLE' => '',
+            'AUTO_CALCULATION' => 'Y',
+            'TEMPLATE_THEME' => '',
+            'COLUMNS_LIST' => array(
+                'NAME',
+                'DISCOUNT',
+                'WEIGHT',
+                'DELETE',
+                'DELAY',
+                'TYPE',
+                'PRICE',
+                'QUANTITY',
+            ),
+            'COMPONENT_TEMPLATE' => '',
+            'COUNT_DISCOUNT_4_ALL_QUANTITY' => 'N',
+            'GIFTS_BLOCK_TITLE' => '',
+            'GIFTS_CONVERT_CURRENCY' => 'Y',
+            'GIFTS_HIDE_BLOCK_TITLE' => 'N',
+            'GIFTS_HIDE_NOT_AVAILABLE' => 'N',
+            'GIFTS_MESS_BTN_BUY' => '',
+            'GIFTS_MESS_BTN_DETAIL' => '',
+            'GIFTS_PAGE_ELEMENT_COUNT' => 0,
+            'GIFTS_PRODUCT_PROPS_VARIABLE' => '',
+            'GIFTS_PRODUCT_QUANTITY_VARIABLE' => '',
+            'GIFTS_SHOW_DISCOUNT_PERCENT' => '',
+            'GIFTS_SHOW_IMAGE' => '',
+            'GIFTS_SHOW_NAME' => '',
+            'GIFTS_SHOW_OLD_PRICE' => '',
+            'GIFTS_TEXT_LABEL_GIFT' => '',
+            'GIFTS_PLACE' => '',
+            'HIDE_COUPON' => 'N',
+            'OFFERS_PROPS' => array(),
+            'PATH_TO_ORDER' => '',
+            'PRICE_VAT_SHOW_VALUE' => 'N',
+            'QUANTITY_FLOAT' => 'N',
+            'SET_TITLE' => 'N',
+            'USE_GIFTS' => 'N',
+            'USE_PREPAYMENT' => 'N',
+        ),
+        false
+    );
 }

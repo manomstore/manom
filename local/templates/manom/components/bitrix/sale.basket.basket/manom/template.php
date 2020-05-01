@@ -1,5 +1,7 @@
 <?php
 
+use Manom\GTM;
+
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
@@ -12,8 +14,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
       location.href = '/';
     </script>
 <?php endif; ?>
-<?
-\Manom\GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, "PRODUCT_ID");
+<?php
+GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
 ?>
 <?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
     <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
@@ -24,16 +26,19 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
             <div class="sci-product__info">
                 <div class="sci-product__sum-price">
                     <div class="product-price">
-                        <?php if ($row['DISCOUNT_PRICE_PERCENT'] > 0): ?>
+                        <?php if (
+                            !empty((int)$row['oldSum']) &&
+                            (int)$row['sum'] !== (int)$row['oldSum']
+                        ): ?>
                             <span class="product-price__value product-price__value--new">
-                                <?=$row['SUM']?> ₽
+                                <?=number_format($row['sum'], 0, '', ' ')?> ₽
                             </span>
                             <span class="product-price__value product-price__value--sale">
-                                <?=$row['SUM_FULL_PRICE_FORMATED']?> ₽
+                                <?=number_format($row['oldSum'], 0, '', ' ')?> ₽
                             </span>
                         <?php else: ?>
                             <span class="product-price__value">
-                                <?=$row['SUM']?> ₽
+                                <?=number_format($row['sum'], 0, '', ' ')?> ₽
                             </span>
                         <?php endif; ?>
                     </div>
@@ -42,6 +47,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                             type="button" aria-label="Удалить товар"
                             data-id="<?=$row['ID']?>"
                             data-product-id="<?=$row['PRODUCT_ID']?>"
+                            data-out-of-stock="<?=(int)in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?>"
                     >
                     </button>
                 </div>
@@ -58,7 +64,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                     <p class="sci-product__model"><?=$row['MODEL']?></p>
                 <?php endif; ?>
                 <p class="sci-product__status">
-                    <?php if ($row['CAN_BUY'] === 'Y'): ?>
+                    <?php if(in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])): ?>
+                        <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
+                    <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
                         Есть в наличии
                     <?php else: ?>
                         Товар закончился
@@ -87,6 +95,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                                 type="button"
                                 aria-label="Увеличить количество"
                                 data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
+                                <?=in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?'disabled':''?>
                         >
                             <svg width="8" height="8">
                                 <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
@@ -95,7 +104,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                         </button>
                     </div>
                     <span class="sci-product__price">
-                        <?=$row['PRICE_FORMATED']?> ₽
+                        <?=number_format($row['price'], 0, '', ' ')?> ₽
                     </span>
                 </div>
             </div>
@@ -108,8 +117,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                         <!-- При нажатии добавлять/удалять класс sci-add__button-hide--on, чтобы перевернуть стрелку -->
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
-                            <?
-                            \Manom\GTM::setProductsOnPage($row['ACCESSORIES'], true);
+                            <?php
+                            GTM::setProductsOnPage($row['ACCESSORIES'], true);
                             ?>
                             <?php foreach ($row['ACCESSORIES'] as $item): ?>
                                 <article class="sci-add__prod" data-id="<?=$item['id']?>">
@@ -120,7 +129,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                                         <div class="sci-add__price">
                                             <span>
                                                 <?=number_format(
-                                                    $item['prices']['PRICES'][0],
+                                                    $item['prices']['price'],
                                                     0,
                                                     '',
                                                     ' '
@@ -155,8 +164,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                         <h2 class="sci-add__title">Не забудьте еще</h2>
                         <button class="sci-add__button-hide" type="button" aria-label="Скрыть данные"></button>
                         <div class="sci-add__products">
-                            <?
-                            \Manom\GTM::setProductsOnPage($row['ADDITIONAL_SERVICES'], true);
+                            <?php
+                            GTM::setProductsOnPage($row['ADDITIONAL_SERVICES'], true);
                             ?>
                             <?php foreach ($row['ADDITIONAL_SERVICES'] as $item): ?>
                                 <div class="sci-add__prod">
@@ -167,7 +176,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                                         <div class="sci-add__price">
                                             <span>
                                                 <?=number_format(
-                                                    $item['prices']['PRICES'][0],
+                                                    $item['prices']['price'],
                                                     0,
                                                     '',
                                                     ' '
@@ -206,11 +215,10 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 <?php if ($arParams['AJAX_CART']) {
     die();
 } ?>
-
-<? if ($arResult["MAIN_CART"]) : ?>
+<?php if ($arResult['MAIN_CART']) : ?>
     <script>
         $(function () {
-            window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("cart")?>);
+            window.gtmActions.initCommonData(<?=GTM::getDataJS('cart')?>);
         });
     </script>
-<? endif; ?>
+<?php endif; ?>

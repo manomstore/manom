@@ -239,7 +239,7 @@ $properties = array(
             'PAGER_PARAMS_NAME' => 'arrPager',
             'PAGE_ELEMENT_COUNT' => 15,
             'PARTIAL_PRODUCT_PROPERTIES' => 'N',
-            'PRICE_CODE' => array('Розничная'),
+            'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
             'PRICE_VAT_INCLUDE' => 'Y',
             'PRICE_VAT_SHOW_VALUE' => 'N',
             'PRODUCT_DISPLAY_MODE' => 'N',
@@ -353,7 +353,7 @@ $properties = array(
                 'USER_NAME',
             ),
             'FILTER_PROPERTY_CODE' => $properties,
-            'FILTER_PRICE_CODE' => array('Розничная'),
+            'FILTER_PRICE_CODE' => array('Цена продажи', 'РРЦ'),
             'FILTER_OFFERS_FIELD_CODE' => array(),
             'FILTER_OFFERS_PROPERTY_CODE' => array(),
         )
