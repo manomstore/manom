@@ -47,9 +47,12 @@ if (empty($arResult['VARIABLES']['ELEMENT_ID'])) {
     $id = $arResult['VARIABLES']['ELEMENT_ID'];
 }
 
-$product = new Product;
-$ecommerceData = $product->getEcommerceData(array($id), $arResult['IBLOCK_ID']);
-$ecommerceData = $ecommerceData[$id];
+$ecommerceData = array();
+if (!empty($id)) {
+    $product = new Product;
+    $ecommerceData = $product->getEcommerceData(array($id), $arParams['IBLOCK_ID']);
+    $ecommerceData = $ecommerceData[$id];
+}
 ?>
 <?php $APPLICATION->IncludeComponent(
     'bitrix:breadcrumb',
