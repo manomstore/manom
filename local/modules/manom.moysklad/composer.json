@@ -1,0 +1,6 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^4.1",
+        "tooyz/moysklad": "^0.4.14"
+    }
+}
