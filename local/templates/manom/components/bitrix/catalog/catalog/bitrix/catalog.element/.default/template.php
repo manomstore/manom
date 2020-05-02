@@ -266,19 +266,19 @@ function formatBytes($size, $precision = 2)
                                 >
                                     <?=number_format($arResult['price'], 0, '', ' ')?>
                                 </span>
-                                <span id="ruble">&ensp;₽</span>
+                                <span id="ruble"> ₽</span>
                             </div>
                             <p class="product-sidebar__old-price">
 
                                     <span><?=number_format($oldPrice, 0, '', ' ')?></span>
-                                    &ensp;₽
+                                     ₽
                                 </p>
                                 <p class="product-sidebar__profit">
 
                                     <span>
                                         <?=number_format($oldPrice - $price, 0, '', ' ')?>
                                     </span>
-                                    &ensp;₽
+                                     ₽
                                 </p>
                             <div
                                 class="product-sidebar__right-price"
