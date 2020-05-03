@@ -1590,7 +1590,6 @@ body div.search-popup-row-active {
   }
 
   .product-delivery__title {
-    padding-left: 5px;
   }
 }
 
@@ -1650,7 +1649,6 @@ body div.search-popup-row-active {
 @media only screen and (max-width: 539px) {
   .product-delivery__item-cell,
   .product-delivery__item-cell:last-child {
-    padding-left: 5px;
     width: 50%;
   }
 }
