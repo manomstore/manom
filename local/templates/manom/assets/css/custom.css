@@ -1427,7 +1427,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 .footer {
   width: 100%;
   padding-top: 10px;
-  margin-top: 20px;
+  margin-top: 71px;
   flex-shrink: 0;
   border-top: 1px solid #f2f2f2;
 }
@@ -1435,6 +1435,8 @@ a.top-submenu2__item:hover .top-submenu2__title {
 @media screen and (max-width: 969px) {
   .footer {
     margin-bottom: 140px;
+    margin-top: 13px;
+
   }
 }
 
@@ -1537,7 +1539,7 @@ body div.search-popup-row-active {
 }
 
 .product-sidebar__buttons {
-  margin-bottom: 17px;
+  margin-bottom: 13px;
 }
 
 .product-sidebar__delivery {
