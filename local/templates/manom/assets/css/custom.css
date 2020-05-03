@@ -1183,11 +1183,11 @@ a.top-submenu2__item:hover .top-submenu2__title {
 }
 
 @media screen and (max-width: 797px) {
-  .tab-content.right-block .tab-content__column div.tab-content__title--right {
+  .tab-content__column.right-block div.tab-content__title--right {
     margin-bottom: 7px;
   }
 
-  .tab-content.right-block .tab-content__column ul {
+  .tab-content__column.right-block ul {
     padding-left: 16px;
     padding-right: 72px;
   }
