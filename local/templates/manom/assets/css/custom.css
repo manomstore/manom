@@ -815,9 +815,10 @@ h4.p-article__sidebar_title {
 .addToCompareList.alt-img {
   background: url(./../img/icons/compare.svg) center center no-repeat;
   display: inline-block;
-  height: 22px;
-  width: 22px;
-  margin-right: 5px;
+  height: 16px;
+  width: 17px;
+  margin-right: 0px;
+  margin-left: 6px;
   -webkit-background-size: contain;
   background-size: contain;
   cursor: pointer;
@@ -1525,7 +1526,7 @@ body div.search-popup-row-active {
 }
 
 .product-sidebar__buttons {
-  margin-bottom: 14px;
+  margin-bottom: 11px;
 }
 
 .product-sidebar__delivery {
@@ -1662,7 +1663,7 @@ body div.search-popup-row-active {
 }
 
 .product-payment-methods__title {
-  margin: 0 0 10px;
+  margin: 0 0 4px;
   color: #29282c;
   font-weight: 500;
   font-size: 16px;
@@ -1676,11 +1677,13 @@ body div.search-popup-row-active {
   display: -ms-flexbox;
   display: flex;
   list-style-type: none;
+  -webkit-box-align: baseline;-ms-flex-align: baseline;
+  align-items: baseline;
 }
 
 .product-payment-methods__list-item {
   min-height: 25px;
-  margin: 0 0 8px 17px;
+  margin: 0 0 8px 16px;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
