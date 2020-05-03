@@ -1526,7 +1526,7 @@ body div.search-popup-row-active {
 }
 
 .product-sidebar__buttons {
-  margin-bottom: 11px;
+  margin-bottom: 14px;
 }
 
 .product-sidebar__delivery {
@@ -1647,9 +1647,13 @@ body div.search-popup-row-active {
 }
 
 @media only screen and (max-width: 539px) {
-  .product-delivery__item-cell,
+  .product-delivery__item-cell {
+    width: 50%;
+  }
+
   .product-delivery__item-cell:last-child {
     width: 50%;
+    padding-left: 6px;
   }
 }
 
