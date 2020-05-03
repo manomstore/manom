@@ -1542,6 +1542,12 @@ body div.search-popup-row-active {
   margin-bottom: 13px;
 }
 
+@media screen and (max-width: 767px) {
+  .product-sidebar__buttons {
+    margin-bottom: 17px;
+  }
+}
+
 .product-sidebar__delivery {
   margin-bottom: 16px;
 }
