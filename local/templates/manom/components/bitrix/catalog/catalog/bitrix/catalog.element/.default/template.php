@@ -276,7 +276,7 @@ function formatBytes($size, $precision = 2)
                                 <p class="product-sidebar__profit">
 
                                     <span>
-                                        Скидка
+                                        <span class="discount">Скидка</span>
                                         <?=number_format($oldPrice - $price, 0, '', ' ')?>
                                     </span>
                                      ₽
