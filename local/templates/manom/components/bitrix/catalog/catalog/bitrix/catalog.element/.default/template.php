@@ -68,13 +68,17 @@ function formatBytes($size, $precision = 2)
     </div>
 
     <div class="product-data">
-        <div class="product-article">
-            <span>Модель: MWLT2RU/A</span>
-        </div>
-        <div class="product-code">
-            <span>Артикул: 0987523</span>
-        </div>
-        <div class="">
+        <?php if ($arResult['PROPERTIES']['model']['VALUE']): ?>
+            <div class="product-article">
+                <span>Модель: <?=$arResult['PROPERTIES']['model']['VALUE']?></span>
+            </div>
+        <?php endif; ?>
+        <?php if ($arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']): ?>
+            <div class="product-code">
+                <span>Артикул: <?=$arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']?></span>
+            </div>
+        <?php endif; ?>
+        <div>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
             </svg>
@@ -91,18 +95,6 @@ function formatBytes($size, $precision = 2)
                     Код товара:
                     <span class="credential-code">
                         <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?>
-                    </span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>
-            <?php endif; ?>
-            <?php if ($arResult['PROPERTIES']['model']['VALUE']): ?>
-                <span
-                        id="top_prop_model_prod"
-                        class="<?=$arResult['PROPERTIES']['model']['VALUE'] ? '' : 'hidden_top_prop'?>"
-                >
-                    Модель:
-                    <span class="credential-code article_code_field">
-                        <?=$arResult['PROPERTIES']['model']['VALUE']?>
                     </span>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
@@ -131,13 +123,13 @@ function formatBytes($size, $precision = 2)
                     отзыв<?=Content::getNumEnding($arResult['rating']['count'], array('', 'а', 'ов'))?>
                 </a>
             </div>
-            <div class="product-questions">
-                <a href="#product-tabs" data-scroll-to-product-tab="questions">
-                  Вопросы и ответы
-                </a>
-            </div>
         <?php endif; ?>
 
+        <div class="product-questions">
+            <a href="#product-tabs" data-scroll-to-product-tab="questions">
+                Вопросы и ответы
+            </a>
+        </div>
     </div>
 
     <div class="product-main row">
@@ -159,7 +151,6 @@ function formatBytes($size, $precision = 2)
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <?php $first = true;?>
-
                         <?php foreach ($arResult['images'] as $i => $image): ?>
                             <div class="swiper-slide">
                                 <a
@@ -268,25 +259,31 @@ function formatBytes($size, $precision = 2)
                                 </span>
                                 <span id="ruble"> ₽</span>
                             </div>
-                            <p class="product-sidebar__old-price">
 
-                                    <span><?=number_format($oldPrice, 0, '', ' ')?></span>
-                                     ₽
+                            <?php if (!empty($arResult['oldPrice']) && $arResult['price'] !== $arResult['oldPrice']): ?>
+                                <p class="product-sidebar__old-price">
+                                    <span>
+                                        <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
+                                    </span>
+                                    ₽
                                 </p>
                                 <p class="product-sidebar__profit">
-
                                     <span>
                                         <span class="discount">Скидка</span>
-                                        <?=number_format($oldPrice - $price, 0, '', ' ')?>
+                                        <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
                                     </span>
-                                     ₽
+                                    ₽
                                 </p>
+                            <?php endif; ?>
+
                             <div
                                 class="product-sidebar__right-price"
                                 style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
                             >
                                 <p class="product-sidebar__old-price">
-                                    <span><?=number_format($arResult['oldPrice'], 0, '', ' ')?></span>
+                                    <span>
+                                        <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
+                                    </span>
                                     ₽
                                 </p>
                                 <p class="product-sidebar__profit">
@@ -296,6 +293,7 @@ function formatBytes($size, $precision = 2)
                                     ₽
                                 </p>
                             </div>
+
                             <div class="p-nav-top active">
                                 <label>
                                     <input
@@ -346,8 +344,6 @@ function formatBytes($size, $precision = 2)
                                 Купить
                                 </a>
                             <?php endif; ?>
-
-
                         </div>
                     </div>
 
@@ -425,7 +421,7 @@ function formatBytes($size, $precision = 2)
                         </div>
                         <div class="product-warrenty__cell">
                             <div class="product-warrenty__duration">
-                                <span>1 год</span>
+                                <span><?=$arResult['PROPERTIES']['GARANTY']['VALUE']?></span>
                             </div>
                         </div>
                     </div>
@@ -534,11 +530,9 @@ function formatBytes($size, $precision = 2)
         <?php if ($arResult['REVIEWS']): ?>
             <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
         <?php endif; ?>
-        <?php
-        // if (!empty($arResult['QNA_VALUES'])): ?>
+        <?php // if (!empty($arResult['QNA_VALUES'])): ?>
             <input id="tab4" type="radio" name="tabs"  data-product-tab="questions">
-        <?php
-    // endif; ?>
+        <?php // endif; ?>
         <?php if ($arResult['DELIV']): ?>
             <input id="tab5" type="radio" name="tabs">
         <?php endif; ?>
@@ -566,30 +560,24 @@ function formatBytes($size, $precision = 2)
                     </span>
                 </label>
             <?php endif; ?>
-            <?php
-            // if (!empty($arResult['QNA_VALUES'])):
-            ?>
+            <?php // if (!empty($arResult['QNA_VALUES'])):?>
                 <label for="tab4">
                     <span>
                         Вопросы и ответы
                     </span>
                 </label>
-            <?php
-        // endif;
-        ?>
+            <?php // endif;?>
             <?php if ($arResult['DELIV']): ?>
                 <label for="tab5">
                     <span>
-                        Оплата
-                        и доставка
+                        Оплата и доставка
                     </span>
                 </label>
             <?php endif; ?>
             <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
                 <label for="tab6">
                     <span>
-                        Обзоры
-                        на товар
+                        Обзоры на товар
                     </span>
                 </label>
             <?php endif; ?>
@@ -601,8 +589,7 @@ function formatBytes($size, $precision = 2)
             <?php if ($arResult['CHEAPER']): ?>
                 <label for="tab8">
                     <span>
-                        Купить
-                        дешевле
+                        Купить дешевле
                     </span>
                 </label>
             <?php endif; ?>
@@ -625,9 +612,7 @@ function formatBytes($size, $precision = 2)
                             ?>
                             <div class=" <?=$class?>">
                                 <p class="">
-                                    <?
-                                    // =$arResult['DETAIL_TEXT']
-                                    ?>
+                                    <?//=$arResult['DETAIL_TEXT']?>
                                     <h2>Описание</h2>
                                     <p>Смартфоны Apple всегда имели одну из лучших камер на рынке. И iPhone 11 не стал исключением. Теперь можно делать фото с широким и сверхшироким углом обзора, что обеспечивается сверхширокоугольной камерой, которая позволяет увидеть и снять то, что происходит за пределами кадра. Кроме того, на все камеры iPhone 11 можно снимать невероятно чёткое видео 4K с частотой 60 кадров/﻿с.</p>
                                     <h3>Отличительные особенности</h3>
@@ -835,9 +820,7 @@ function formatBytes($size, $precision = 2)
                 <?php if ($arResult['DELIV']): ?>
                     <label for="tab5">
                         <span>
-                            Оплата
-
-                            и доставка
+                            Оплата и доставка
                         </span>
                     </label>
                 <?php endif; ?>
@@ -858,9 +841,7 @@ function formatBytes($size, $precision = 2)
                 <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
                     <label for="tab6">
                         <span>
-                            Обзоры
-
-                            на товар
+                            Обзоры на товар
                         </span>
                     </label>
                 <?php endif; ?>
@@ -1036,9 +1017,7 @@ function formatBytes($size, $precision = 2)
                 <?php if ($arResult['CHEAPER']): ?>
                     <label for="tab8">
                         <span>
-                            Купить
-
-                            дешевле
+                            Купить дешевле
                         </span>
                     </label>
                 <?php endif; ?>
