@@ -172,9 +172,11 @@ function formatBytes($size, $precision = 2)
             <!-- <div class="product-photo__info">
               <p>Мощный процессор качественный дисплей, быстрая память, передовая графика, и все это для того чтобы вы воплощали ваши идеи в жизнь.</p>
             </div> -->
+            <?php if ($arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['VALUE']): ?>
                 <div class="product-photo__info">
                     <?=$arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['~VALUE']['TEXT']?>
                 </div>
+            <?php endif; ?>
         </div>
 
         <div class="product-content col-3">
