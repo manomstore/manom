@@ -580,11 +580,11 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
         </div>
         <div id="accord-mobile" class="accord-mobile">
-            <h3>
+            <!-- <h3>
                 <label for="tab2">
                     <span>Описание</span>
                 </label>
-            </h3>
+            </h3> -->
             <div id="content2">
                 <section>
                     <div class="tab-content">
@@ -647,11 +647,11 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3>
+            <!-- <h3>
                 <label for="tab1">
                     <span>Характеристики</span>
                 </label>
-            </h3>
+            </h3> -->
             <div id="content1">
                 <section>
                     <div class="tab-content">
