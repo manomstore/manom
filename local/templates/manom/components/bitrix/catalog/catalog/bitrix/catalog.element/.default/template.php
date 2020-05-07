@@ -580,11 +580,11 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
         </div>
         <div id="accord-mobile" class="accord-mobile">
-            <!-- <h3>
+            <h3 class="accord-mobile__header">
                 <label for="tab2">
                     <span>Описание</span>
                 </label>
-            </h3> -->
+            </h3>
             <div id="content2">
                 <section>
                     <div class="tab-content">
@@ -647,11 +647,11 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <!-- <h3>
+            <h3 class="accord-mobile__header">
                 <label for="tab1">
                     <span>Характеристики</span>
                 </label>
-            </h3> -->
+            </h3>
             <div id="content1">
                 <section>
                     <div class="tab-content">
@@ -698,7 +698,7 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3>
+            <h3 class="accord-mobile__header">
                 <?php if ($arResult['REVIEWS']): ?>
                     <label for="tab3">
                         <span>
@@ -758,7 +758,7 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3>
+            <h3 class="accord-mobile__header">
                 <?php
             // if (!empty($arResult['QNA_VALUES'])):
             ?>
@@ -800,7 +800,7 @@ function formatBytes($size, $precision = 2)
                 <?php
             //  endif; ?>
             </div>
-            <h3>
+            <h3 class="accord-mobile__header">
                 <?php if ($arResult['DELIV']): ?>
                     <label for="tab5">
                         <span>
@@ -821,7 +821,7 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3>
+            <h3 class="accord-mobile__header">
                 <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
                     <label for="tab6">
                         <span>
@@ -997,7 +997,7 @@ function formatBytes($size, $precision = 2)
                     <?php endif; ?>
                 </section>
             </div>
-            <h3>
+            <h3 class="accord-mobile__header">
                 <?php if ($arResult['CHEAPER']): ?>
                     <label for="tab8">
                         <span>
