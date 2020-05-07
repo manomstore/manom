@@ -1,8 +1,6 @@
 'use strict';
 
 $(function () {
-
-
   if (window.isMobile()) {
     $("#accord-mobile").accordion({
       heightStyle: "content",
@@ -10,15 +8,15 @@ $(function () {
     });
   }
 
-  function scrollTo(element) {
-    jQuery('html, body').animate({
-      scrollTop: jQuery(element).offset().top
-    }, 500);
-  }
+  // function scrollTo(element) {
+  //   jQuery('html, body').animate({
+  //     scrollTop: jQuery(element).offset().top
+  //   }, 500);
+  // }
 
-  jQuery('.accordion').on('accordionactivate', function (event, ui) {
-    scrollTo(jQuery(event.target).find('.ui-accordion-header-active'))
-  });
+  // jQuery('.accordion').on('accordionactivate', function (event, ui) {
+  //   scrollTo(jQuery(event.target).find('.ui-accordion-header-active'))
+  // });
 
 });
 
