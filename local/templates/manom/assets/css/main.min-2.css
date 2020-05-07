@@ -11634,7 +11634,7 @@ a.files-item:hover {
   width: 100%;
 }
 
-.accord-mobile h3 {
+.accord-mobile .accord-mobile__header {
   display: none;
 }
 
