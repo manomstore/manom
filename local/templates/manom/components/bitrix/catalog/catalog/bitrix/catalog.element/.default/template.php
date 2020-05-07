@@ -169,11 +169,11 @@ function formatBytes($size, $precision = 2)
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
-            <div class="product-photo__info">
+            <!-- <div class="product-photo__info">
               <p>Мощный процессор качественный дисплей, быстрая память, передовая графика, и все это для того чтобы вы воплощали ваши идеи в жизнь.</p>
-            </div>
+            </div> -->
             <?php if ($arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['VALUE']): ?>
-                <div class="interesting-fact">
+                <div class="product-photo__info">
                     <?=$arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['~VALUE']['TEXT']?>
                 </div>
             <?php endif; ?>
@@ -214,23 +214,6 @@ function formatBytes($size, $precision = 2)
                     <label for="yellow" class="product-content__color-yellow"></label>
                 </form>
 
-                <!-- <ul>
-                    <li class="product-content__color-black">
-                        <button></button>
-                    </li>
-                    <li class="product-content__color-green active">
-                        <button></button>
-                    </li>
-                    <li class="product-content__color-white">
-                        <button></button>
-                    </li>
-                    <li class="product-content__color-red">
-                        <button></button>
-                    </li>
-                    <li class="product-content__color-yellow">
-                        <button></button>
-                    </li>
-                </ul> -->
             </div>
             <div class="product-content__size">
                 <form action="#">

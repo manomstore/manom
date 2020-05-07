@@ -80,7 +80,7 @@ $hideProperties = array(
     'CML2_ARTICLE',
     'BLOG_POST_ID',
     'BLOG_COMMENTS_CNT',
-    'TEXT_UNDER_PHOTO',
+    // 'TEXT_UNDER_PHOTO',
     'BS_STR',
     'A_N_Q',
     'RECOM',

@@ -11697,8 +11697,7 @@ a.files-item:hover {
   }
 
   .accord-mobile__header .ui-accordion-header-icon.ui-icon-triangle-1-s {
-    transform: rotate(-45deg);
-    top: 28px;
+    transform: rotate(45deg);
   }
 
   .ui-accordion:not(.accord-mobile) .ui-accordion-header {
