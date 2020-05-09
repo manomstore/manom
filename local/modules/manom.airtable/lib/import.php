@@ -41,6 +41,8 @@ class Import
         $fieldsMap = new FieldsMap();
         $map = $fieldsMap->getMap();
 
+        $enumValues = $this->getEnumValues();
+
         $element = new Element($this->iblockId);
         $bitrixElements = $element->getItems();
 
@@ -71,7 +73,8 @@ class Import
                     $airtableItem,
                     $bitrixElements[$airtableItem['fields']['Внешний код']],
                     $map,
-                    $bitrixSections
+                    $bitrixSections,
+                    $enumValues
                 );
             }
         }
@@ -93,13 +96,34 @@ class Import
     }
 
     /**
+     * @return array
+     */
+    private function getEnumValues(): array
+    {
+        $items = array();
+
+        $filter = array('IBLOCK_ID' => $this->iblockId);
+        $result = \CIBlockPropertyEnum::GetList(array(), $filter);
+        while ($row = $result->Fetch()) {
+            $items[$row['PROPERTY_CODE']][(int)$row['ID']] = array(
+                'id' => (int)$row['ID'],
+                'xmlId' => $row['XML_ID'],
+                'value' => $row['VALUE'],
+            );
+        }
+
+        return $items;
+    }
+
+    /**
      * @param array $airtableItem
      * @param array $bitrixItem
      * @param array $map
      * @param array $sections
+     * @param array $enumValues
      * @return array
      */
-    private function prepareFields($airtableItem, $bitrixItem, $map, $sections): array
+    private function prepareFields($airtableItem, $bitrixItem, $map, $sections, $enumValues): array
     {
         $fields = array(
             'ID' => $bitrixItem['id'],
@@ -147,6 +171,38 @@ class Import
                 }
 
                 $airtableItem['fields'][$airtable] = $result['images'];
+            }
+
+            if ($bitrix === 'CERTIFICATES') {
+                if (empty($enumValues['CERTIFICATES'])) {
+                    continue;
+                }
+
+                $values = array();
+                foreach ($airtableItem['fields'][$airtable] as $value) {
+                    foreach ($enumValues['CERTIFICATES'] as $enum) {
+                        if ($enum['value'] === $value) {
+                            $values[] = $enum['id'];
+                            break;
+                        }
+                    }
+                }
+
+                $airtableItem['fields'][$airtable] = $values;
+            }
+
+            if ($bitrix === 'FEATURES2') {
+                $values = explode('/', $airtableItem['fields'][$airtable]);
+                $airtableItem['fields'][$airtable] = $values;
+            }
+
+            if ($bitrix === 'features' || $bitrix === 'contents_of_delivery') {
+                $airtableItem['fields'][$airtable] = array(
+                    'VALUE' => array(
+                        'TYPE' => 'HTML',
+                        'TEXT' => nl2br($airtableItem['fields'][$airtable]),
+                    ),
+                );
             }
 
             $fields['PROPERTIES'][$bitrix] = $airtableItem['fields'][$airtable];

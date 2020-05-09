@@ -47,7 +47,8 @@ function formatBytes($size, $precision = 2)
         <?php if ($arResult['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да'): ?>
             <div class="p-nav-middle__sale active">Распродажа</div>
         <?php endif; ?>
-        <!-- <div class="p-nav-top active">
+        <?php /*
+        <div class="p-nav-top active">
             <label>
                 <input
                         class="p-nav-top__checkbox"
@@ -64,7 +65,8 @@ function formatBytes($size, $precision = 2)
                     class="p-nav-top__list addToCompareList <?=$class2?>"
                     data-id='<?=$arResult['ID']?>'
             ></div>
-        </div> -->
+        </div>
+        */ ?>
     </div>
 
     <div class="product-data">
@@ -78,34 +80,30 @@ function formatBytes($size, $precision = 2)
                 <span>Артикул: <?=$arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']?></span>
             </div>
         <?php endif; ?>
-        <div>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
-            </svg>
-        </div>
+        <?php if ($arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']): ?>
+            <div class="product-code">
+                <span>Код: <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?></span>
+            </div>
+        <?php endif; ?>
+        <?php if (in_array('EAC', $arResult['PROPERTIES']['CERTIFICATES']['VALUE'], true)): ?>
+            <div>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
+                </svg>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="product-nav2">
+        <?php /*
         <div class="product-credential">
-            <?php if ($arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']): ?>
-                <span
-                        id="top_prop_code_prod"
-                        class="<?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE'] ? '' : 'hidden_top_prop'?>"
-                >
-                    Код товара:
-                    <span class="credential-code">
-                        <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?>
-                    </span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>
-            <?php endif; ?>
             <?php if ($arResult['PROPERTIES']['TOP_FIELD_3']['VALUE']): ?>
                 <span class="credential-rostest">
                     <?=$arResult['PROPERTIES']['TOP_FIELD_3']['VALUE']?>
                 </span>
-                &nbsp;
             <?php endif; ?>
         </div>
+        */ ?>
 
         <?php if (!empty($arResult['rating']['count'])) : ?>
             <div class="product-rating">
@@ -125,11 +123,13 @@ function formatBytes($size, $precision = 2)
             </div>
         <?php endif; ?>
 
-        <div class="product-questions">
-            <a href="#product-tabs" data-scroll-to-product-tab="questions">
-                Вопросы и ответы
-            </a>
-        </div>
+        <?php if (!empty($arResult['QNA_VALUES'])): ?>
+            <div class="product-questions">
+                <a href="#product-tabs" data-scroll-to-product-tab="questions">
+                    Вопросы и ответы
+                </a>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="product-main row">
@@ -169,38 +169,38 @@ function formatBytes($size, $precision = 2)
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
-            <?php if ($arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['VALUE']): ?>
-                <div class="product-photo__info">
-                    <?=$arResult['PROPERTIES']['DETAIL_TEXT']['~VALUE']['TEXT']?>
-                </div>
-            <?php endif; ?>
-            <?php if ($arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['VALUE']): ?>
-                <div class="interesting-fact">
-                    <?=$arResult['PROPERTIES']['TEXT_UNDER_PHOTO']['~VALUE']['TEXT']?>
-                </div>
-            <?php endif; ?>
+            <div class="product-photo__info">
+                <?=$arResult['PREVIEW_TEXT']?>
+            </div>
         </div>
 
         <div class="product-content col-3">
-            <?php if (strpos($arParams['CURRENT_DIR'], '/catalog/utsenka/') !== false): ?>
-                <?php if ($arResult['PROPERTIES']['BS_STR']['~VALUE']): ?>
-                    <div class="product-content__discount">
-                        <p class="product-content__discount_text">
-                            <?=$arResult['PROPERTIES']['BS_STR']['~VALUE']['TEXT']?>
-                        </p>
-                    </div>
-                <?php endif; ?>
+            <?php if (
+                !empty($arResult['PROPERTIES']['BS_STR']['~VALUE']) &&
+                strpos($arParams['CURRENT_DIR'], '/catalog/utsenka/') !== false
+            ): ?>
+                <div class="product-content__discount">
+                    <p class="product-content__discount_text">
+                        <?=$arResult['PROPERTIES']['BS_STR']['~VALUE']['TEXT']?>
+                    </p>
+                </div>
             <?php endif; ?>
+
             <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
                 <div class="product-content__available">В наличии</div>
             <?php else: ?>
                 <div class="product-content__available">Нет в наличии</div>
             <?php endif; ?>
-            <ul class="product-content__info">
-                <li>Первая в мире система трёх камер</li>
-                <li>Самое прочное стекло и защита от воды</li>
-                <li>Рекордный ресурс аккумулятора</li>
-            </ul>
+
+            <?php if (!empty($arResult['PROPERTIES']['FEATURES2']['VALUE'])): ?>
+                <ul class="product-content__info">
+                    <?php foreach ($arResult['PROPERTIES']['FEATURES2']['VALUE'] as $value): ?>
+                        <li><?=trim($value)?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+
+            <?php /*
             <div class="product-content__color">
                 <form action="#">
                     <h3>Цвет</h3>
@@ -215,8 +215,8 @@ function formatBytes($size, $precision = 2)
                     <input class="visually-hidden" type="radio" id="yellow" name="color" value="yellow">
                     <label for="yellow" class="product-content__color-yellow"></label>
                 </form>
-
             </div>
+
             <div class="product-content__size">
                 <form action="#">
                     <h3>Объем памяти</h3>
@@ -228,6 +228,7 @@ function formatBytes($size, $precision = 2)
                     <label for="256">256 ГБ</label>
                 </form>
             </div>
+            */ ?>
         </div>
 
         <div class="product-sidebar col-3">
@@ -260,24 +261,6 @@ function formatBytes($size, $precision = 2)
                                     ₽
                                 </p>
                             <?php endif; ?>
-
-                            <div
-                                class="product-sidebar__right-price"
-                                style="display:<?=empty($arResult['oldPrice']) ? 'none' : 'block'?>"
-                            >
-                                <p class="product-sidebar__old-price">
-                                    <span>
-                                        <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
-                                    </span>
-                                    ₽
-                                </p>
-                                <p class="product-sidebar__profit">
-                                    <span>
-                                        <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
-                                    </span>
-                                    ₽
-                                </p>
-                            </div>
 
                             <div class="p-nav-top active">
                                 <label>
@@ -510,143 +493,111 @@ function formatBytes($size, $precision = 2)
     </div>
 
     <div id="product-tabs" class="product-tabs">
-        <input id="tab2" type="radio" name="tabs" checked>
-        <input id="tab1" type="radio" name="tabs">
-        <?php if ($arResult['REVIEWS']): ?>
-            <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
-        <?php endif; ?>
-        <?php // if (!empty($arResult['QNA_VALUES'])): ?>
-            <input id="tab4" type="radio" name="tabs"  data-product-tab="questions">
-        <?php // endif; ?>
-        <?php if ($arResult['DELIV']): ?>
-            <input id="tab5" type="radio" name="tabs">
-        <?php endif; ?>
-        <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
-            <input id="tab6" type="radio" name="tabs">
-        <?php endif; ?>
-        <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
-            <input id="tab7" type="radio" name="tabs">
-        <?php endif; ?>
-        <?php if ($arResult['CHEAPER']): ?>
-            <input id="tab8" type="radio" name="tabs">
-        <?php endif; ?>
+        <?php
+        $checked = (
+            !empty($arResult['DETAIL_TEXT']) ||
+            !empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT']) ||
+            !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
+        );
+        ?>
+        <input id="tab2" type="radio" name="tabs" <?=($checked) ? 'checked' : ''?>>
+        <input id="tab1" type="radio" name="tabs" <?=($checked) ? '' : 'checked'?>>
+        <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
+        <input id="tab4" type="radio" name="tabs" data-product-tab="questions">
+        <input id="tab5" type="radio" name="tabs">
+        <input id="tab6" type="radio" name="tabs">
+        <input id="tab7" type="radio" name="tabs">
+        <input id="tab8" type="radio" name="tabs">
 
         <div class="product-tabs__nav">
-            <label for="tab2">
-                <span>Описание</span>
-            </label>
+            <?php if (
+                !empty($arResult['DETAIL_TEXT']) ||
+                !empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT']) ||
+                !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
+            ): ?>
+                <label for="tab2">
+                    <span>Описание</span>
+                </label>
+            <?php endif; ?>
+
             <label for="tab1">
                 <span>Характеристики</span>
             </label>
-            <?php if ($arResult['REVIEWS']): ?>
+
+            <?php if (!empty($arResult['REVIEWS'])): ?>
                 <label for="tab3">
-                    <span>
-                        Отзывы
-                    </span>
+                    <span>Отзывы</span>
                 </label>
             <?php endif; ?>
-            <?php // if (!empty($arResult['QNA_VALUES'])):?>
+
+            <?php if (!empty($arResult['QNA_VALUES'])): ?>
                 <label for="tab4">
-                    <span>
-                        Вопросы и ответы
-                    </span>
+                    <span>Вопросы и ответы</span>
                 </label>
-            <?php // endif;?>
-            <?php if ($arResult['DELIV']): ?>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['DELIV'])): ?>
                 <label for="tab5">
-                    <span>
-                        Оплата и доставка
-                    </span>
+                    <span>Оплата и доставка</span>
                 </label>
             <?php endif; ?>
-            <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
+
+            <?php if (!empty($arResult['PROPERTIES']['YOUTUBE']['VALUE'])): ?>
                 <label for="tab6">
-                    <span>
-                        Обзоры на товар
-                    </span>
+                    <span>Обзоры на товар</span>
                 </label>
             <?php endif; ?>
-            <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+
+            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
                 <label for="tab7">
                     <span>Аксессуары</span>
                 </label>
             <?php endif; ?>
+
             <?php if ($arResult['CHEAPER']): ?>
                 <label for="tab8">
-                    <span>
-                        Купить дешевле
-                    </span>
+                    <span>Купить дешевле</span>
                 </label>
             <?php endif; ?>
         </div>
+
         <div id="accord-mobile" class="accord-mobile">
-            <h3 class="accord-mobile__header">
-                <label for="tab2">
-                    <span>Описание</span>
-                </label>
-            </h3>
-            <div id="content2">
-                <section>
-                    <div class="tab-content">
-                        <div class="tab-content__row">
-                            <?php
-                            $class = 'tab-content__column';
-                            if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']) {
-                                $class .= ' left-block';
-                            }
-                            ?>
-                            <div class=" <?=$class?>">
-                                <p class="">
-                                    <h2>Описание</h2>
-                                    <?=$arResult['DETAIL_TEXT']?>
-                                    <h3>Отличительные особенности</h3>
-                                    <div>
-                                        <h4>Аккумулятор</h4>
-                                        <p>Ёмкий аккумулятор на 3110 мАч совместно с аппаратным и программное обеспечением слаженно работают над максимальной эффективностью работы батареи. А возможность быстрой зарядки позволяет быстро вернуть разряженный телефон в строй.</p>
-                                    </div>
-                                    <div>
-                                        <h4>Процессор</h4>
-                                        <p>Самый мощный процессор на рынке позволит вам выполнять любые задачи в течении нескольких лет. По сути, технологии A13 Bionic, а именно так и называется новый процессор, настолько продвинуты, что их можно назвать технологиями будущего.</p>
-                                    </div>
-                                    <div>
-                                        <h4>Безопасность</h4>
-                                        <p>За разблокировку устройства отвечает продвинутая система Face ID, которая является самой безопасной на сегодняшний день. Face ID не хранит изображение вашего лица и никуда его не передаёт. А данные, хранящиеся на устройстве не сможет получить ни один злоумышленник.</p>
-                                    </div>
-                                    <div class="list">
-                                        <h4>Другие важные нововведения</h4>
-                                        <ul>
-                                            <li>Возможность быстрой зарядки</li>
-                                            <li>Более скоростной Wi‑Fi</li>
-                                            <li>Совместное прослушивание (К одному iPhone можно подключить сразу две пары наушников AirPods или Beats.)</li>
-                                            <li>Поддержка двух SIM‑карт: обычной и eSIM</li>
-                                        </ul>
-                                    </div>
-                                </p>
-                            </div>
-                            <?php
-                            //  if ($arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']):
-                            ?>
-                                <div class="tab-content__column right-block">
-                                    <div class="tab-content__title--right">Комплектация</div>
-                                    <p class="">
-                                        <?
-                                        // =$arResult['PROPERTIES']['BUNDLE_BOX']['~VALUE']['TEXT']
-                                        ?>
-                                        <ul>
-                                            <li>Apple iPhone 11</li>
-                                            <li>Зарядное устройство 18 Вт USB Type-C</li>
-                                            <li>Кабель USB Type-C 1 м</li>
-                                            <li>Гарантийный талон</li>
-                                        </ul>
-                                    </p>
+            <?php if (
+                !empty($arResult['DETAIL_TEXT']) ||
+                !empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT']) ||
+                !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
+            ): ?>
+                <h3 class="accord-mobile__header">
+                    <label for="tab2">
+                        <span>Описание</span>
+                    </label>
+                </h3>
+                <div id="content2">
+                    <section>
+                        <div class="tab-content">
+                            <div class="tab-content__row">
+                                <div class="tab-content__column">
+                                    <?php if (!empty($arResult['DETAIL_TEXT'])): ?>
+                                        <h2>Описание</h2>
+                                        <?=$arResult['DETAIL_TEXT']?>
+                                    <?php endif; ?>
+                                    <?php if (!empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT'])): ?>
+                                        <h3>Отличительные особенности</h3>
+                                        <?=$arResult['PROPERTIES']['features']['~VALUE']['TEXT']?>
+                                    <?php endif; ?>
                                 </div>
-                            <?php
-                        //  endif;
-                        ?>
+                                <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])): ?>
+                                    <div class="tab-content__column right-block">
+                                        <div class="tab-content__title--right">Комплектация</div>
+                                        <?=$arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT']?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
+                    </section>
+                </div>
+            <?php endif; ?>
+
             <h3 class="accord-mobile__header">
                 <label for="tab1">
                     <span>Характеристики</span>
@@ -698,171 +649,145 @@ function formatBytes($size, $precision = 2)
                     </div>
                 </section>
             </div>
-            <h3 class="accord-mobile__header">
-                <?php if ($arResult['REVIEWS']): ?>
+
+            <?php if (!empty($arResult['REVIEWS'])): ?>
+                <h3 class="accord-mobile__header">
                     <label for="tab3">
-                        <span>
-                            Отзывы
-                        </span>
+                        <span>Отзывы</span>
                     </label>
-                <?php endif; ?>
-            </h3>
-            <div id="content3">
-                <section>
-                    <div class="tab-content">
-                        <div class="reviews">
-                            <?php foreach ($arResult['REVIEWS'] as $value): ?>
-                                <div class="reviews-item">
-                                    <div class="reviews-item__header">
-                                        <div class="reviews-item__header-line">
-                                            <span class="reviews-item__username"><?=$value['author']?></span>
-                                            <span class="reviews-item__date"><?=$value['date']?></span>
-                                            <span class="reviews-item__source"><?=$value['source']?></span>
+                </h3>
+                <div id="content3">
+                    <section>
+                        <div class="tab-content">
+                            <div class="reviews">
+                                <?php foreach ($arResult['REVIEWS'] as $value): ?>
+                                    <div class="reviews-item">
+                                        <div class="reviews-item__header">
+                                            <div class="reviews-item__header-line">
+                                                <span class="reviews-item__username"><?=$value['author']?></span>
+                                                <span class="reviews-item__date"><?=$value['date']?></span>
+                                                <span class="reviews-item__source"><?=$value['source']?></span>
+                                            </div>
+                                            <div class="reviews-item__header-line">
+                                                <span class="reviews-item__rating">
+                                                    <span
+                                                            class="reviews-item__rating-fill"
+                                                            style="width: <?=$value['rating'] * 20?>%;"
+                                                    ></span>
+                                                </span>
+                                                <?php if ($value['recommend']): ?>
+                                                    <span class="reviews-item__recommend reviews-item__recommend--yes">
+                                                        Рекомендую
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="reviews-item__recommend reviews-item__recommend--no">
+                                                        Не рекомендую
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
-                                        <div class="reviews-item__header-line">
-                                            <span class="reviews-item__rating">
-                                                <span
-                                                        class="reviews-item__rating-fill"
-                                                        style="width: <?=$value['rating'] * 20?>%;"
-                                                ></span>
-                                            </span>
-                                            <?php if ($value['recommend']): ?>
-                                                <span class="reviews-item__recommend reviews-item__recommend--yes">
-                                                    Рекомендую
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="reviews-item__recommend reviews-item__recommend--no">
-                                                    Не рекомендую
-                                                </span>
+                                        <div class="reviews-item__content">
+                                            <div class="reviews-item__desc">
+                                                <p class="reviews-item__text"><?=$value['review_text']?></p>
+                                            </div>
+                                            <?php if (!empty($value['merits'])): ?>
+                                                <div class="reviews-item__summary reviews-item__summary--plus">
+                                                    <p class="reviews-item__text"><?=$value['merits']?></p>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($value['disadvantages'])): ?>
+                                                <div class="reviews-item__summary reviews-item__summary--minus">
+                                                    <p class="reviews-item__text"><?=$value['disadvantages']?></p>
+                                                </div>
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                    <div class="reviews-item__content">
-                                        <div class="reviews-item__desc">
-                                            <p class="reviews-item__text"><?=$value['review_text']?></p>
-                                        </div>
-                                        <?php if (!empty($value['merits'])): ?>
-                                            <div class="reviews-item__summary reviews-item__summary--plus">
-                                                <p class="reviews-item__text"><?=$value['merits']?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if (!empty($value['disadvantages'])): ?>
-                                            <div class="reviews-item__summary reviews-item__summary--minus">
-                                                <p class="reviews-item__text"><?=$value['disadvantages']?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <h3 class="accord-mobile__header">
-                <?php
-            // if (!empty($arResult['QNA_VALUES'])):
-            ?>
-                <label for="tab4">
-                    <span>
-                        Вопросы и ответы
-                    </span>
-                </label>
-            <?php
-        // endif;
-            ?>
-            </h3>
-            <div id="content4">
-                <?php
-                // if (!empty($arResult['QNA_VALUES'])): ?>
+                    </section>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['QNA_VALUES'])): ?>
+                <h3 class="accord-mobile__header">
+                    <label for="tab4">
+                        <span>Вопросы и ответы</span>
+                    </label>
+                </h3>
+                <div id="content4">
                     <section>
                         <div class="tab-content">
                             <h2>Вопросы и ответы</h2>
-                            <?php
-                            // foreach ($arResult['QNA_VALUES'] as $value): ?>
-                                <div class="js-ui-accordion tab-content__accord"  id="accordion">
-                                    <h3>Есть ли Face ID?</h3>
-                                    <div class="">
-                                        <p>Face ID представляет собой интуитивный и надежный метод аутентификации, в основе которого лежит создание структурной карты лица с помощью инновационной системы камер TrueDepth и передовых технологий.</p>
-                                        <p> Достаточно одного взгляда, чтобы технология Face ID безопасно разблокировала iPhone или iPad Pro. Ее можно использовать для авторизации покупок в iTunes Store, App Store и Apple Books, а также платежей через Apple Pay. Разработчики также могут разрешить авторизацию в своих программах с помощью Face ID. Если программа поддерживает Touch ID, значит, она поддерживает и Face ID.</p>
-                                        <p> Технология Face ID доступна на iPhone X и более поздних моделях и iPad Pro с процессором A12X Bionic.</p>
-                                    </div>
-                                    <h3>Какой объём аккумулятора?</h3>
-                                    <div class=""><p>222</p></div>
-                                    <h3>Совместимость с Apple Watch</h3>
-                                    <div class=""><p>333</p></div>
-                                    <h3>Поддержка 2 SIM</h3>
-                                    <div class=""><p>444</p></div>
-                                </div>
-                            <?php
-                        // endforeach; ?>
+                            <div class="js-ui-accordion tab-content__accord" id="accordion">
+                                <?php foreach ($arResult['QNA_VALUES'] as $value): ?>
+                                    <h3><?=$value['title']?></h3>
+                                    <div><?=$value['answer']?></div>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </section>
-                <?php
-            //  endif; ?>
-            </div>
-            <h3 class="accord-mobile__header">
-                <?php if ($arResult['DELIV']): ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['DELIV'])): ?>
+                <h3 class="accord-mobile__header">
                     <label for="tab5">
-                        <span>
-                            Оплата и доставка
-                        </span>
+                        <span>Оплата и доставка</span>
                     </label>
-                <?php endif; ?>
-            </h3>
-            <div id="content5">
-                <section>
-                    <div class="tab-content">
-                        <?php foreach ($arResult['DELIV'] as $value): ?>
-                            <p class="tab-content__item">
-                                <span class="tab-content__title"><?=$value['title']?></span>
-                                <span class="tab-content__text1"><?=$value['text']?></span>
-                            </p>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
-            </div>
-            <h3 class="accord-mobile__header">
-                <?php if ($arResult['PROPERTIES']['YOUTUBE']['VALUE']): ?>
-                    <label for="tab6">
-                        <span>
-                            Обзоры на товар
-                        </span>
-                    </label>
-                <?php endif; ?>
-            </h3>
-            <div id="content6">
-                <section>
-                    <div class="tab-content">
-                        <div class="tab-content__row">
-                            <?php foreach ($arResult['PROPERTIES']['YOUTUBE']['VALUE'] as $value): ?>
-                                <div class="tab-content__column col-6">
-                                    <div class="video-container">
-                                        <iframe
-                                            width="100%"
-                                            height="100%"
-                                            src="<?=$value?>"
-                                            frameborder="0"
-                                            allow="autoplay; encrypted-media"
-                                            allowfullscreen
-                                        ></iframe>
-                                    </div>
-                                </div>
+                </h3>
+                <div id="content5">
+                    <section>
+                        <div class="tab-content">
+                            <?php foreach ($arResult['DELIV'] as $value): ?>
+                                <p class="tab-content__item">
+                                    <span class="tab-content__title"><?=$value['title']?></span>
+                                    <span class="tab-content__text1"><?=$value['text']?></span>
+                                </p>
                             <?php endforeach; ?>
                         </div>
-                    </div>
-                </section>
-            </div>
+                    </section>
+                </div>
+            <?php endif; ?>
 
-            <h3 class="accord-mobile__header">
-                <?php if ($arResult['PROPERTIES']['ACESS']['VALUE']): ?>
+            <?php if (!empty($arResult['PROPERTIES']['YOUTUBE']['VALUE'])): ?>
+                <h3 class="accord-mobile__header">
+                    <label for="tab6">
+                        <span>Обзоры на товар</span>
+                    </label>
+                </h3>
+                <div id="content6">
+                    <section>
+                        <div class="tab-content">
+                            <div class="tab-content__row">
+                                <?php foreach ($arResult['PROPERTIES']['YOUTUBE']['VALUE'] as $value): ?>
+                                    <div class="tab-content__column col-6">
+                                        <div class="video-container">
+                                            <iframe
+                                                    width="100%"
+                                                    height="100%"
+                                                    src="<?=$value?>"
+                                                    frameborder="0"
+                                                    allow="autoplay; encrypted-media"
+                                                    allowfullscreen
+                                            ></iframe>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+                <h3 class="accord-mobile__header">
                     <label for="tab7">
                         <span>Аксессуары</span>
                     </label>
-                <?php endif; ?>
-            </h3>
-            <div id="content7">
-                <section>
-                    <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+                </h3>
+                <div id="content7">
+                    <section>
                         <?php
                         global $accessoryFilter;
                         $accessoryFilter = array(
@@ -994,21 +919,18 @@ function formatBytes($size, $precision = 2)
                             ),
                             false
                         ); ?>
-                    <?php endif; ?>
-                </section>
-            </div>
-            <h3 class="accord-mobile__header">
-                <?php if ($arResult['CHEAPER']): ?>
+                    </section>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['CHEAPER'])): ?>
+                <h3 class="accord-mobile__header">
                     <label for="tab8">
-                        <span>
-                            Купить дешевле
-                        </span>
+                        <span>Купить дешевле</span>
                     </label>
-                <?php endif; ?>
-            </h3>
-            <div id="content8">
-                <section>
-                    <?php if (!empty($arResult['CHEAPER'])): ?>
+                </h3>
+                <div id="content8">
+                    <section>
                         <?php
                         global $cheaperFilter;
                         $cheaperFilter = array(
@@ -1140,9 +1062,9 @@ function formatBytes($size, $precision = 2)
                             ),
                             false
                         ); ?>
-                    <?php endif; ?>
-                </section>
-            </div>
+                    </section>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </main>
@@ -1280,6 +1202,7 @@ function formatBytes($size, $precision = 2)
         false
     ); ?>
 <?php endif; ?>
+
 <script>
     $(function () {
         window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("product", [
