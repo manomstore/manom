@@ -1,1 +1,3 @@
-var scroll = new SmoothScroll('a[href*="#"] - 50px');
+var scroll = new SmoothScroll('a[href*="#"]', {
+  header: null
+});
