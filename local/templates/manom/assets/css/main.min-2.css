@@ -2729,6 +2729,11 @@ p.price-slider {
   color: #ABABB2;
 }
 
+.product-article.bold,
+.product-code.bold {
+  font-weight: bold;
+}
+
 .product-rating span {
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
@@ -10847,6 +10852,7 @@ button.top-nav__link {
 
   .main-nav__link {
     font-size: 16px;
+    line-height: 28px;
     font-weight: 500;
     color: #73737E;
 

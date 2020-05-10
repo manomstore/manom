@@ -72,17 +72,17 @@ function formatBytes($size, $precision = 2)
     <div class="product-data">
         <?php if ($arResult['PROPERTIES']['model']['VALUE']): ?>
             <div class="product-article">
-                <span>Модель: <?=$arResult['PROPERTIES']['model']['VALUE']?></span>
+                <span><span class="bold">Модель:</span> <?=$arResult['PROPERTIES']['model']['VALUE']?></span>
             </div>
         <?php endif; ?>
         <?php if ($arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']): ?>
             <div class="product-code">
-                <span>Артикул: <?=$arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']?></span>
+                <span><span class="bold">Артикул:</span> <?=$arResult['PROPERTIES']['CML2_ARTICLE']['VALUE']?></span>
             </div>
         <?php endif; ?>
         <?php if ($arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']): ?>
             <div class="product-code">
-                <span>Код: <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?></span>
+                <span><span class="bold">Код:</span> <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?></span>
             </div>
         <?php endif; ?>
         <?php if (in_array('EAC', $arResult['PROPERTIES']['CERTIFICATES']['VALUE'], true)): ?>
