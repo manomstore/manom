@@ -243,7 +243,7 @@ function formatBytes($size, $precision = 2)
                                 >
                                     <?=number_format($arResult['price'], 0, '', ' ')?>
                                 </span>
-                                <span id="ruble"> ₽</span>
+                                <span id="ruble">&nbsp;₽</span>
                             </div>
 
                             <?php if (!empty($arResult['oldPrice']) && $arResult['price'] !== $arResult['oldPrice']): ?>
