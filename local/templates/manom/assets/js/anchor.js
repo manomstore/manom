@@ -1,1 +1,3 @@
-var scroll = new SmoothScroll('a[href*="#"].offset().top-165');
+$('body').animate({
+  scrollTop: $($(this).attr('href')).offset().top - 165
+}, 1400);
