@@ -500,10 +500,10 @@ function formatBytes($size, $precision = 2)
             !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
         );
         ?>
-        <input id="tab2" type="radio" name="tabs" <?=($checked) ? 'checked' : ''?>>
+        <input id="tab2" type="radio" name="tabs" <?=($checked) ? 'checked' : ''?>  data-product-tab="questions">
         <input id="tab1" type="radio" name="tabs" <?=($checked) ? '' : 'checked'?>>
         <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
-        <input id="tab4" type="radio" name="tabs" data-product-tab="questions">
+        <input id="tab4" type="radio" name="tabs">
         <input id="tab5" type="radio" name="tabs">
         <input id="tab6" type="radio" name="tabs">
         <input id="tab7" type="radio" name="tabs">
