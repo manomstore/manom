@@ -2,7 +2,7 @@ $(function () {
 
 
   $('.scroll').scrollOffset({
-    offset: 60// default: 0
+    offset: 125// default: 0
   });
 
 });
