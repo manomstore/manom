@@ -9,6 +9,7 @@ $(function () {
     });
 
     $(".product-questions").click(function () {
+      $(".accord-mobile__header").removeClass("ui-accordion-header-active")
     });
   }
 
