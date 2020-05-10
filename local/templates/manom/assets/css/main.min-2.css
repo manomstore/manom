@@ -2747,6 +2747,8 @@ p.price-slider {
   -o-transition: color .2s ease;
   transition: color .2s ease;
   padding-right: 16px;
+  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
 .product-comments a:hover,
