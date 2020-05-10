@@ -3472,6 +3472,12 @@ border-color: #EBEBEB;
   transition: .1s;
 }
 
+@media screen and (max-width: 1200px) {
+  .product-sidebar__cheaper, .product-sidebar__one-click {
+    flex-grow: 1;
+  }
+}
+
 @media screen and (max-width: 969px) {
   .product-sidebar__cheaper, .product-sidebar__one-click {
     width: 48.6%;
