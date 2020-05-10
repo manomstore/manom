@@ -2729,8 +2729,8 @@ p.price-slider {
   color: #ABABB2;
 }
 
-.product-article.bold,
-.product-code.bold {
+.product-article .bold,
+.product-code .bold {
   font-weight: bold;
 }
 
