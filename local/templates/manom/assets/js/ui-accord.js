@@ -9,7 +9,7 @@ $(function () {
     });
 
     $(".product-questions").click(function () {
-
+      $("#ui-id-3").trigger("click");
     });
   }
 
