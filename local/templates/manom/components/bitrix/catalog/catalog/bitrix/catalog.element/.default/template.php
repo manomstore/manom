@@ -492,7 +492,7 @@ function formatBytes($size, $precision = 2)
         </div>
     </div>
 
-    <div id="product-tabs" class="product-tabs">
+    <div id="product-tabs" class="product-tabs" data-product-tab="questions">
         <?php
         $checked = (
             !empty($arResult['DETAIL_TEXT']) ||
@@ -500,7 +500,7 @@ function formatBytes($size, $precision = 2)
             !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
         );
         ?>
-        <input id="tab2" type="radio" name="tabs" <?=($checked) ? 'checked' : ''?>  data-product-tab="questions">
+        <input id="tab2" type="radio" name="tabs" <?=($checked) ? 'checked' : ''?>>
         <input id="tab1" type="radio" name="tabs" <?=($checked) ? '' : 'checked'?>>
         <input id="tab3" type="radio" name="tabs" data-product-tab="reviews">
         <input id="tab4" type="radio" name="tabs">
