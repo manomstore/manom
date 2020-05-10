@@ -10,8 +10,8 @@ $(function () {
 
     $(".product-questions").click(function () {
       if ($.each(".accord-mobile__header").hasClass('ui-accordion-header-active')) {
-        $(".accord-mobile__header").removeClass("ui-accordion-header-active")
-        $(".accord-mobile__header").addClass("ui-accordion-header-collapsed")
+        $(this).removeClass("ui-accordion-header-active")
+        $(this).addClass("ui-accordion-header-collapsed")
       }
     });
   }
