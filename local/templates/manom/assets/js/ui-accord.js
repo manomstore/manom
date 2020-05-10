@@ -29,6 +29,7 @@ $(function () {
     $("#tab6").prop('checked', false);
     $("#tab7").prop('checked', false);
     $("#tab2").prop('checked', false);
+    $("#tab8").prop('checked', false);
     $("#tab4").prop('checked', true);
   });
 
