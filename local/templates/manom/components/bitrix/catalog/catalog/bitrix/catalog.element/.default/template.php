@@ -125,7 +125,7 @@ function formatBytes($size, $precision = 2)
 
         <?php if (!empty($arResult['QNA_VALUES'])): ?>
             <div class="product-questions">
-                <a href="#product-tabs" data-scroll-to-product-tab="questions">
+                <a href="#scrollhere" data-scroll-to-product-tab="questions">
                     Вопросы и ответы
                 </a>
             </div>
@@ -434,7 +434,7 @@ function formatBytes($size, $precision = 2)
                 </div>
 
                 <?php if (!empty($arResult['PAY_SYSTEMS'])): ?>
-                    <div class="product-sidebar__payment-methods">
+                    <div class="product-sidebar__payment-methods" id="scrollhere">
                         <div class="product-payment-methods">
                             <h5 class="product-payment-methods__title">
                                 Мы принимаем
