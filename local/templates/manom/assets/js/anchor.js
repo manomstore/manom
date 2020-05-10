@@ -1,7 +1,7 @@
 $(function () {
 
 
-  $('#product-tabs').scrollOffset({
+  $('.product-tabs').scrollOffset({
     offset: 125
   });
 
