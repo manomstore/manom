@@ -23,12 +23,13 @@ $(function () {
   });
 
   $(".product-questions").click(function () {
-    $("#tab1").prop('checked', true);
-    $("#tab3").prop('checked', true);
-    $("#tab5").prop('checked', true);
-    $("#tab6").prop('checked', true);
-    $("#tab7").prop('checked', true);
+    $("#tab1").prop('checked', false);
+    $("#tab3").prop('checked', false);
+    $("#tab5").prop('checked', false);
+    $("#tab6").prop('checked', false);
+    $("#tab7").prop('checked', false);
     $("#tab2").prop('checked', false);
+    $("#tab4").prop('checked', true);
   });
 
 });
