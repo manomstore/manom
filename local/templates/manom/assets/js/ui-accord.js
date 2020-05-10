@@ -17,6 +17,7 @@ $(function () {
 
   $(".product-questions").click(function () {
     $("#tab4").attr('checked');
+    $("#tab2").prop('checked', false);
   });
 
 });
