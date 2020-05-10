@@ -3186,7 +3186,7 @@ border-color: #EBEBEB;
   margin: 0;
   color: #29282c;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 20px;
 }
 
@@ -3327,7 +3327,7 @@ border-color: #EBEBEB;
   font-size: 22px;
   line-height: 28px;
   font-weight: 700;
-  margin-right: 12px;
+  margin-right: 10px;
 }
 
 .product-sidebar__total_price #ruble {
@@ -3402,7 +3402,7 @@ border-color: #EBEBEB;
   color: #FFFFFF;
   font-weight: 700;
   font-size: 15px;
-  line-height: 42px;
+  line-height: 43px;
   text-align: center;
   width: 100%;
   height: 42px;

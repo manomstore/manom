@@ -1600,7 +1600,7 @@ body div.search-popup-row-active {
   margin: 0;
   color: #29282c;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 20px;
 }
 
@@ -1646,7 +1646,7 @@ body div.search-popup-row-active {
 }
 
 .product-delivery__item {
-  margin-bottom: 10px;
+  margin-bottom: 9px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1693,7 +1693,7 @@ body div.search-popup-row-active {
   margin: 0 0 4px;
   color: #29282c;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 20px;
 }
 
@@ -1710,7 +1710,7 @@ body div.search-popup-row-active {
 
 .product-payment-methods__list-item {
   min-height: 25px;
-  margin: 0 0 8px 16px;
+  margin: 0 0 6px 16px;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
