@@ -9,6 +9,12 @@ $(function () {
     });
   }
 
+  $("#accordion").accordion({
+    heightStyle: "content",
+    collapsible: true,
+    active: false
+  });
+
   // function scrollTo(element) {
   //   jQuery('html, body').animate({
   //     scrollTop: jQuery(element).offset().top

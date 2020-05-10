@@ -1305,7 +1305,7 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   height: 16px;
   width: 20px;
-  margin-right: 5px;
+  margin-left: 5px;
   background: url(./../img/icons/compare.svg) center center no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
