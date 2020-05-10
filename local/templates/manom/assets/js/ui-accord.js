@@ -9,10 +9,7 @@ $(function () {
     });
 
     $(".product-questions").click(function () {
-      if ($.each(".accord-mobile__header").hasClass('ui-accordion-header-active')) {
-        $(this).removeClass("ui-accordion-header-active")
-        $(this).addClass("ui-accordion-header-collapsed")
-      }
+
     });
   }
 
@@ -23,14 +20,15 @@ $(function () {
   });
 
   $(".product-questions").click(function () {
+    $("#tab4").prop('checked', true);
+    $("#tab2").prop('checked', false);
     $("#tab1").prop('checked', false);
     $("#tab3").prop('checked', false);
     $("#tab5").prop('checked', false);
     $("#tab6").prop('checked', false);
     $("#tab7").prop('checked', false);
-    $("#tab2").prop('checked', false);
     $("#tab8").prop('checked', false);
-    $("#tab4").prop('checked', true);
+
   });
 
 });
