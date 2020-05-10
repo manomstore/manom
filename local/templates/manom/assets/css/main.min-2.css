@@ -2740,6 +2740,12 @@ p.price-slider {
   opacity: .5;
 }
 
+.product-comments,
+.product-questions {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
 .product-comments a,
 .product-questions a {
   color: #a1a1a1;
@@ -2747,8 +2753,6 @@ p.price-slider {
   -o-transition: color .2s ease;
   transition: color .2s ease;
   padding-right: 16px;
-  margin-top: 6px;
-  margin-bottom: 4px;
 }
 
 .product-comments a:hover,
