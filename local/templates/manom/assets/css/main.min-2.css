@@ -11730,9 +11730,10 @@ a.files-item:hover {
   }
 
   .ui-accordion:not(.accord-mobile) .ui-accordion-header {
-    padding: 0;
+    padding-left: 0;
     padding-right: 35px;
     font-size: 16px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
   }
 }
