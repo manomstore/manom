@@ -17,6 +17,7 @@ $(function () {
 
   $(".product-questions").click(function () {
     $("#content4").css("display", "block");
+    $("#tab1:checked~#accord-mobile #content1").css("display", "none");
   });
 
 });
