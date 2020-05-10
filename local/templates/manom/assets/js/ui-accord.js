@@ -16,7 +16,7 @@ $(function () {
   });
 
   $(".product-questions").click(function () {
-    $("#tab4:checked")
+    $("#tab4:checked").val(this.checked);
   });
 
 });
