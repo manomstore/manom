@@ -9,7 +9,9 @@ $(function () {
     });
 
     $(".product-questions").click(function () {
-      $.each(".accord-mobile__header").removeClass("ui-accordion-header-active")
+      if ($(".accord-mobile__header").hasClass('ui-accordion-header-active')) {
+        $(".accord-mobile__header").removeClass("ui-accordion-header-active")
+      }
     });
   }
 
