@@ -1,10 +1,10 @@
 $(function () {
 
 
-  headerHeight = $(".header__wrapper--fix").height() + 5;
-  $('html,body').animate({
-    scrollTop: target.offset().top - headerHeight
-  }, 500);
+  $('.scroll').scrollOffset({
+    offset: 60// default: 0
+  });
+
 });
 
 var scroll = new SmoothScroll('a[href*="#"]');
