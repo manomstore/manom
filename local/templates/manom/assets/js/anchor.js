@@ -1,10 +1,5 @@
 $(function () {
-
-
-  $('.product-tabs').scrollOffset({
-    offset: 125
-  });
-
+  $(".product-tabs").scrollTop(140);
 });
 
 var scroll = new SmoothScroll('a[href*="#"]');
