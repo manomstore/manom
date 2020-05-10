@@ -1,3 +1,3 @@
 var scroll = new SmoothScroll('a[href*="#"]', {
-  header: null
+  ".header__wrapper--fix": null
 });
