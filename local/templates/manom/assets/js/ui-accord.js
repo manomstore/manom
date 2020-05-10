@@ -16,8 +16,7 @@ $(function () {
   });
 
   $(".product-questions").click(function () {
-    $("#content4").css("display", "block");
-    $("#tab2:checked~#accord-mobile #content2").css("display", "none");
+    $("#tab4:checked")
   });
 
 });
