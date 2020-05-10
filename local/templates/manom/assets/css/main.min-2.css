@@ -3475,6 +3475,14 @@ border-color: #EBEBEB;
 @media screen and (max-width: 1200px) {
   .product-sidebar__cheaper, .product-sidebar__one-click {
     flex-grow: 1;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1069px) {
+  .product-sidebar__cheaper, .product-sidebar__one-click {
+    flex-grow: 0;
+    width: 48.6%;
   }
 }
 
