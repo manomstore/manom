@@ -1,8 +1,8 @@
 $(function () {
 
 
-  $('.scroll').scrollOffset({
-    offset: 125// default: 0
+  $('#product-tabs').scrollOffset({
+    offset: 125
   });
 
 });
