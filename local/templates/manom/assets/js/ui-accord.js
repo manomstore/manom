@@ -5,7 +5,12 @@ $(function () {
     $("#accord-mobile").accordion({
       heightStyle: "content",
       collapsible: true,
-      active: false
+      active: false,
+      activate: function (event, ui) {
+        if (!$.isEmptyObject(ui.newHeader.offset())) {
+          $('html:not(:animated), body:not(:animated)').animate({ scrollTop: ui.newHeader.offset().top }, 'slow');
+        }
+      }
     });
 
     $(".product-questions").click(function () {
