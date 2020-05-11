@@ -1995,6 +1995,12 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 1px solid #EBEBEB;
 }
 
+.cb-block__item:first-child,
+.cb-block__item:nth-child(2),
+.cb-block__item:nth-child(3) {
+  border-bottom: none;
+}
+
 .cb-block__item:last-child, .cb-block__item:nth-child(3n) {
   border-right: 0;
 }

@@ -44,9 +44,7 @@ function formatBytes($size, $precision = 2)
 
     <div class="product-nav1">
         <h2 class="product-nav1__title isElementName"><?=$arResult['NAME']?></h2>
-        <?php if ($arResult['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да'): ?>
-            <div class="p-nav-middle__sale active">Распродажа</div>
-        <?php endif; ?>
+
         <?php /*
         <div class="p-nav-top active">
             <label>
