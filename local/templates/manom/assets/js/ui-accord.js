@@ -8,7 +8,7 @@ $(function () {
       active: false,
       activate: function (event, ui) {
         if (!$.isEmptyObject(ui.newHeader.offset())) {
-          $('html:not(:animated), body:not(:animated)').animate({ scrollTop: ui.newHeader.offset().top }, 'slow');
+          $('html:not(:animated), body:not(:animated)').animate({ scrollTop: ui.newHeader.offset().top - 100 }, 'slow');
         }
       }
     });
