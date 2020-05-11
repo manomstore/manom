@@ -25,11 +25,11 @@ $(function () {
         infinite: true,
         speed: 1000,
       });
-      // $(this).children(".p-nav-top").fadeIn(200);
+      $(this).children(".p-nav-top").fadeIn(200);
     },
     function () {
       $(this).children(".product-card__img").slick('unslick');
-      // $(this).children(".p-nav-top").fadeOut(200);
+      $(this).children(".p-nav-top").fadeOut(200);
     }
   );
 
