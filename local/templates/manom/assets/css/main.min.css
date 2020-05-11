@@ -5530,6 +5530,10 @@ p.price-slider {
   margin-bottom: 40px;
 }
 
+.additionally .slick-dots {
+  display: none!important;
+}
+
 .additionally-h2 {
   border-top: none;
   font-size: 24px;
