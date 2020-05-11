@@ -269,6 +269,11 @@
   color: black;
   opacity: 0.75;
 }
+@media screen and (min-width: 970px) {
+  .additionally__block .slick-dots {
+    display: none!important;
+  }
+}
 
 /*!
  * Bootstrap Grid v4.0.0 (https://getbootstrap.com)
@@ -5528,10 +5533,6 @@ p.price-slider {
 .additionally {
   margin-top: 5px;
   margin-bottom: 40px;
-}
-
-.additionally .slick-dots {
-  display: none!important;
 }
 
 .additionally-h2 {
