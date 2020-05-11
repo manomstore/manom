@@ -4206,6 +4206,14 @@ border-radius: 5px;
   border-bottom: 1px solid #EBEBEB;
 }
 
+@media screen and (max-width: 969px) {
+  .tab-content__accord div:last-of-type {
+    border-bottom: none;
+  }
+}
+
+
+
 .tab-content__accord p {
   margin-bottom: 12px;
 }
