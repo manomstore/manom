@@ -11751,3 +11751,7 @@ a.files-item:hover {
     padding-top: 10px;
   }
 }
+
+.additionally__block .slick-dots {
+  display: none!important;
+}
