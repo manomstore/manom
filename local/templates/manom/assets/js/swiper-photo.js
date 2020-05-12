@@ -3,7 +3,7 @@
   var imglist = document.querySelectorAll(".product-photo__left img");
 
   if (slider) {
-    if (window.isMobileSwiper() && imglist.length > 2) {
+    if (window.isMobileSwiper()) {
       new Swiper(slider, {
         slidesPerView: 1,
         slidesPerColumn: 1,
