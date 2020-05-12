@@ -21,10 +21,12 @@ $this->setFrameMode(true);
                             <div class="product-card__img">
                                 <?php foreach ($item['images'] as $image): ?>
                                     <div class="product-card__slide">
-                                        <img
-                                                src="<?=$image['src']?>"
-                                                alt="<?=$item['name']?>"
-                                        >
+                                        <a href="<?=$item['url']?>">
+                                            <img
+                                                    src="<?=$image['src']?>"
+                                                    alt="<?=$item['name']?>"
+                                            >
+                                        </a>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
