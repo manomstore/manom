@@ -79,7 +79,7 @@ function formatBytes($size, $precision = 2)
             </div>
         <?php endif; ?>
         <?php if ($arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']): ?>
-            <div class="product-code">
+            <div class="product-code hide">
                 <span><span class="bold">Код:</span> <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?></span>
             </div>
         <?php endif; ?>
@@ -253,7 +253,7 @@ function formatBytes($size, $precision = 2)
                                 </p>
                                 <p class="product-sidebar__profit">
                                     <span>
-                                        <span class="discount">Скидка</span>
+                                        <span class="discount">Выгода</span>
                                         <?=number_format($arResult['oldPrice'] - $arResult['price'], 0, '', ' ')?>
                                     </span>
                                     ₽

@@ -2743,6 +2743,10 @@ p.price-slider {
   font-weight: bold;
 }
 
+.product-code.hide {
+  display: none;
+}
+
 .product-rating span {
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
@@ -3298,8 +3302,8 @@ border-color: #EBEBEB;
 
 .product-sidebar-cover {
   padding: 19px 32px;
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.12);
-  border-radius: 10px;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.09);
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 767px) {
@@ -11748,7 +11752,7 @@ a.files-item:hover {
   .ui-accordion:not(.accord-mobile) .ui-accordion-header {
     padding-left: 0;
     padding-right: 35px;
-    font-size: 16px;
+    font-size: 13px;
     padding-bottom: 10px;
     padding-top: 10px;
   }
