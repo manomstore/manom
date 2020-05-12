@@ -737,7 +737,6 @@ function formatBytes($size, $precision = 2)
                 <div id="content5">
                     <section>
                         <div class="tab-content">
-                        <h2>&nbsp;</h2>
                             <?php foreach ($arResult['DELIV'] as $value): ?>
                                 <p class="tab-content__item">
                                     <span class="tab-content__title"><?=$value['title']?></span>

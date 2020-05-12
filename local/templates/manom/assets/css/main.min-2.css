@@ -11797,3 +11797,9 @@ a.files-item:hover {
 .additionally__block .slick-dots {
   display: none!important;
 }
+
+@media screen and (min-width: 970px) {
+  div#content5 {
+    margin-top: 18px;
+  }
+}
