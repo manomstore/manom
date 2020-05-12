@@ -4219,6 +4219,10 @@ h3.tab-content__title--right {
   border-bottom: 1px solid #EBEBEB;
 }
 
+.tab-content__accord div:last-of-type {
+  border-bottom: none;
+}
+
 @media screen and (max-width: 969px) {
   .tab-content__accord div:last-of-type {
     border-bottom: none;
