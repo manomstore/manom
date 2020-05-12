@@ -3375,7 +3375,7 @@ border-color: #EBEBEB;
   color: #88BC37;
   padding-left: 18px;
   width: 100%;
-  margin-top: 1px;
+  margin-top: 3px;
   margin-bottom: 2px;
 }
 
@@ -4104,7 +4104,7 @@ border-radius: 5px;
   margin-top: 24px;
 }
 
-.tab-content__title--right {
+h3.tab-content__title--right {
   font-weight: bold;
   font-size: 18px;
   line-height: 24px;
