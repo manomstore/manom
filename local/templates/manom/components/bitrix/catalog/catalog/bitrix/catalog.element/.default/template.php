@@ -586,7 +586,7 @@ function formatBytes($size, $precision = 2)
                                 </div>
                                 <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])): ?>
                                     <div class="tab-content__column right-block">
-                                        <div class="tab-content__title--right">Комплектация</div>
+                                        <h3 class="tab-content__title--right">Комплектация</h3>
                                         <?=$arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT']?>
                                     </div>
                                 <?php endif; ?>
