@@ -11756,6 +11756,15 @@ a.files-item:hover {
     padding-bottom: 10px;
     padding-top: 10px;
   }
+
+  .ui-accordion-header-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  .ui-accordion-header-icon:before, .ui-accordion-header-icon:after {
+    height: 1px;
+  }
 }
 
 .additionally__block .slick-dots {
