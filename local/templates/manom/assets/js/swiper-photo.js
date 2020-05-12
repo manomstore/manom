@@ -1,8 +1,9 @@
 (() => {
   const slider = document.querySelector(`.product-photo__right .swiper-container`);
+  var imglist = document.querySelectorAll(".product-photo__left img");
 
   if (slider) {
-    if (window.isMobileSwiper()) {
+    if (window.isMobileSwiper() && imglist.length > 2) {
       new Swiper(slider, {
         slidesPerView: 1,
         slidesPerColumn: 1,
