@@ -11656,6 +11656,7 @@ a.files-item:hover {
   padding-bottom: 10px;
   padding-left: 0;
   background-color: #ffffff;
+  padding-right: 40px;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
