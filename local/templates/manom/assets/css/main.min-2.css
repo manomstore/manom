@@ -11702,6 +11702,12 @@ a.files-item:hover {
   font-size: 14px;
 }
 
+.ui-accordion-header-icon {
+  width: 17px;
+  height: 17px;
+  top: 20px;
+}
+
 @media screen and (max-width: 969px) {
   #accord-mobile {
     margin-left: -15px;
