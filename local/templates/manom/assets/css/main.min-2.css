@@ -4150,7 +4150,7 @@ h3.tab-content__title--right {
 
 .tab-content__column ul {
   list-style: none;
-  padding-left: 15px;
+  padding-left: 12px;
 }
 
 @media screen and (max-width: 767px) {
