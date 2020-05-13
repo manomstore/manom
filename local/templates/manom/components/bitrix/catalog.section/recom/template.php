@@ -21,10 +21,12 @@ $this->setFrameMode(true);
                             <div class="product-card__img">
                                 <?php foreach ($item['images'] as $image): ?>
                                     <div class="product-card__slide">
-                                        <img
-                                                src="<?=$image['src']?>"
-                                                alt="<?=$item['name']?>"
-                                        >
+                                        <a href="<?=$item['url']?>">
+                                            <img
+                                                    src="<?=$image['src']?>"
+                                                    alt="<?=$item['name']?>"
+                                            >
+                                        </a>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
@@ -33,28 +35,9 @@ $this->setFrameMode(true);
                                     Товар дня
                                 <?php endif; ?>
                             </p>
-                            <div class="p-nav-top">
-                                <label>
-                                    <input
-                                            class="p-nav-top__checkbox"
-                                            type="checkbox"
-                                        <?=$item['inFavoriteAndCompare'] ? 'checked' : ''?>
-                                    >
-                                    <div
-                                            class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
-                                            data-id='<?=$item['id']?>'
-                                            title="в избранное"
-                                    ></div>
-                                </label>
-                                <div
-                                        class="p-nav-top__list addToCompareList <?=$class2?>"
-                                        data-id='<?=$item['id']?>'
-                                ></div>
-                            </div>
+                            <!--  -->
                             <div class="p-nav-middle">
-                                <?php if ($item['sale']): ?>
-                                    <div class="p-nav-middle__sale active">Распродажа</div>
-                                <?php endif; ?>
+
 
                                 <?php /*
                                 <div class="p-nav-middle__rating">

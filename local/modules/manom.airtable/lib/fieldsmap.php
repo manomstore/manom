@@ -124,6 +124,8 @@ class FieldsMap
             'memory_size' => 'Объём памяти',
             'brand' => 'Бренд',
             'SCREEN_SiZE' => 'Диагональ экрана',
+            'CERTIFICATES' => 'Сертификаты',
+            'FEATURES2' => 'Особенности 2',
         );
 
         return array('fields' => $fields, 'properties' => $properties);

@@ -84,7 +84,7 @@
                             </div>
                         </div>
                          */ ?>
-                        
+
                         <div class="footer-main row">
                             <div class="col-3 footer-main__column">
                                 <h3 class="footer-nav__title">
@@ -222,7 +222,7 @@
                 </footer>
             <?php endif; ?>
         </div>
-    
+
         <?php
         //$GLOBALS["MY_DEBUG"] = $arResult; (Пример принта массива компанента ($arResult))
         function print_my_debug()
@@ -235,7 +235,7 @@
             {
                 return "<span style='color:".$color."'>[".$text."]</span>";
             }
-    
+
             function filter_tilda_keys(&$a)
             {
                 static $level = 0;
@@ -264,7 +264,7 @@
                 $level--;
                 echo "";
             }
-    
+
             filter_tilda_keys($GLOBALS["MY_DEBUG"]);
             //print_r($GLOBALS["MY_DEBUG"]);
             echo "</pre>";
@@ -287,7 +287,16 @@
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/locales/bootstrap-datepicker.ru.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.suggestions.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/main.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/responsive.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/vue-main.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/ui-accord.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scroll.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/anchor.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/limit-img.js"></script>
+        <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/swiper-photo.js"></script>
+
         <script>
           //Маска для ввода телефона
           $(function()
@@ -304,7 +313,7 @@
 
         <meta name="yandex-verification" content="5d0e6370947cc2e9"/>
         <div id="event_push_up"></div>
-    
+
         <!-- <script type="text/javascript">
             $(document).ready(function(){
                 $.fn.setPushUp("Ошибка", "Можно вводить только латинские и кириличисткие символы",false,"message",false,10000);
