@@ -1156,11 +1156,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .slick-prev:before {
-  content: "‹";
+  content: "";
+  width: 9px;
+  height: 15px;
+  background-image: url("../img/arrow-left.svg");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .slick-next:before {
-  content: "›";
+  content: "";
+  width: 9px;
+  height: 15px;
+  background-image: url("../img/arrow-right.svg");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .slick-next:before, .slick-prev:before {
