@@ -786,7 +786,7 @@ function formatBytes($size, $precision = 2)
                 </h3>
                 <div id="content7">
                     <section>
-                        <h2>Аксессуары</h2>
+
                         <?php
                         global $accessoryFilter;
                         $accessoryFilter = array(
@@ -794,6 +794,7 @@ function formatBytes($size, $precision = 2)
                             '>CATALOG_PRICE_1' => 0,
                         );
                         ?>
+                        <h2>Аксессуары</h2>
                         <?php $APPLICATION->IncludeComponent(
                             'bitrix:catalog.section',
                             'access',
