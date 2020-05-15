@@ -1217,6 +1217,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .product-card.border {
   border: 1px solid #EBEBEB;
+  padding: 15px;
 }
 
 .product-card__img {
@@ -1274,6 +1275,13 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
   top: 0;
   right: 0;
+  position: absolute;
+}
+
+.product-card.border .p-nav-top {
+  display: none;
+  top: 15px;
+  right: 15px;
   position: absolute;
 }
 
@@ -1388,6 +1396,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "PT Root UI", "Arial", sans-serif;
   font-weight: 400;
   font-size: 11px;
+  min-height: 17px;
 }
 
 .p-nav-middle__sale {
