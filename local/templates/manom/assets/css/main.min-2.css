@@ -1271,7 +1271,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .product-card .p-nav-top {
-  display: block !important;
+  display: none;
   top: 0;
   right: 0;
   position: absolute;
