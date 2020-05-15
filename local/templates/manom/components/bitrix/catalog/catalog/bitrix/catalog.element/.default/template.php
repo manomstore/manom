@@ -786,6 +786,7 @@ function formatBytes($size, $precision = 2)
                 </h3>
                 <div id="content7">
                     <section>
+                        <h2>Аксессуары</h2>
                         <?php
                         global $accessoryFilter;
                         $accessoryFilter = array(
