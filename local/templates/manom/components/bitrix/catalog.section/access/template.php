@@ -28,6 +28,13 @@ $this->setFrameMode(true);
                                data-product-id="<?= $item['id'] ?>"
                             ><?=$item['name']?></a>
                         </h3>
+                        <div class="p-nav-top">
+                            <label>
+                                <input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
+                                <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$arPrice['PRODUCT_ID']?>' title="в избранное"></div>
+                            </label>
+                            <div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'></div>
+                        </div>
                         <?php if ($value['PROPERTIES']['ACESS_STR']['VALUE']): ?>
                             <div class="preview-prod1__text">
                                 <?php foreach ($value['PROPERTIES']['ACESS_STR']['~VALUE'] as $str): ?>

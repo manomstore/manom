@@ -28,6 +28,7 @@ echo "<pre style='text-align:left;'>";print_r($arResult['ITEMS'][0]);echo "</pre
 					<h3 class="preview-prod1__name">
 						<a href="<?=getLinkForOffer($value)?>"><?=$value['NAME']?></a>
 					</h3>
+
 					<?if($value['PROPERTIES']['BS_STR']['VALUE']){?>
 						<div class="preview-prod1__text">Недостатки:
 							<?foreach ($value['PROPERTIES']['BS_STR']['VALUE'] as $i => $str) {?>
