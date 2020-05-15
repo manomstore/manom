@@ -16,7 +16,7 @@ $(function () {
   });
 
   // слайдер фото в карточке товара
-  $(document).find('.product-card').hover(
+  $(document).find('.product-card')(
     function () {
       console.log('ee');
       $(this).children(".product-card__img").slick({
