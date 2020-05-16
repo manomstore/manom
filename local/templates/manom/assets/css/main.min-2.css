@@ -1283,9 +1283,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .product-card.border .p-nav-top {
   display: none;
-  top: 15px;
-  right: 15px;
   position: absolute;
+}
+
+.product-card .p-nav-top label {
+  padding: 0;
+  display: inline;
+  vertical-align: initial;
 }
 
 .cb-single-nav-top {
