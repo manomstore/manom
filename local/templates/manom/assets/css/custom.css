@@ -1391,6 +1391,8 @@ a.top-submenu2__item:hover .top-submenu2__title {
 }
 .product-card__slide img {
   width: 70% !important;
+  height: 100%;
+  object-fit: contain;
 }
 
 .message-incorrect {
