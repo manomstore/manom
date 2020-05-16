@@ -852,6 +852,7 @@ h4.p-article__sidebar_title {
 }
 .product-card__img img {
   cursor: pointer;
+  object-fit: contain;
 }
 .preview-heart {
   text-align: center;
