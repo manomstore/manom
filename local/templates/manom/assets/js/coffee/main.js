@@ -1011,7 +1011,7 @@ $(document).ready(function () {
     return $(this).children('.p-nav-top').fadeIn(200);
   });
 
-  $(document).on('', '.product-card', function () {
+  $(document).on('mouseleave', '.product-card', function () {
     $(this).children('.product-card__img').slick('unslick');
     $(this).children('.p-nav-top').fadeOut(200);
   });
