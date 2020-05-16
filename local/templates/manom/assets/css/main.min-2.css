@@ -3991,7 +3991,7 @@ border-color: #EBEBEB;
 }
 
 @media screen and (max-width: 767px) {
-  .product-tabs .product-tabs__nav label {
+  .product-tabs label {
     min-height: 50px;
   }
 }
@@ -6293,7 +6293,7 @@ h3.tab-content__title--right {
     width: 50%;
   }
 
-  .product-tabs .product-tabs__nav label {
+  .product-tabs label {
     border: 1px solid #D9D9D9;
     font-size: 13px;
   }
