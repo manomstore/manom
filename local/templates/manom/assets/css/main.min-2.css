@@ -1221,6 +1221,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .product-card.border {
+  border: 1px solid #EBEBEB;
+  padding: 15px;
 }
 
 .product-card__img {
