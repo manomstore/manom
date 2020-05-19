@@ -852,7 +852,7 @@ h4.p-article__sidebar_title {
 }
 .product-card__img img {
   cursor: pointer;
-  height: 100%;
+  /* height: 100%; */
   object-fit: contain;
 }
 .preview-heart {
