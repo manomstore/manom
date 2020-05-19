@@ -3967,7 +3967,7 @@ border-color: #EBEBEB;
   display: none;
 }
 
-.product-tabs .product-tabs__nav label {
+.product-tabs label {
   display: table;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -3992,12 +3992,12 @@ border-color: #EBEBEB;
 }
 
 @media screen and (max-width: 767px) {
-  .product-tabs .product-tabs__nav label {
+  .product-tabs label {
     min-height: 50px;
   }
 }
 
-.product-tabs .product-tabs__nav label span {
+.product-tabs label span {
   display: table-cell;
   text-align: left;
   vertical-align: middle;
@@ -4007,15 +4007,15 @@ font-size: 15px;
 line-height: 19px;
 }
 
-.product-tabs .product-tabs__nav label:first-child {
+.product-tabs label:first-child {
   border-left: none;
 }
 
-.product-tabs .product-tabs__nav label:last-child {
+.product-tabs label:last-child {
   border-right: none;
 }
 
-.product-tabs .product-tabs__nav label:hover {
+.product-tabs label:hover {
   color: #000000;
   cursor: pointer;
 }
@@ -4130,12 +4130,6 @@ border-radius: 5px;
   line-height: 24px;
   /* margin-top: 23px; */
   /* margin-bottom: 25px; */
-}
-
-.tab-content h3.p-name {
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 24px;
 }
 
 .tab-content__column h4 {
@@ -6294,7 +6288,7 @@ h3.tab-content__title--right {
     width: 50%;
   }
 
-  .product-tabs .product-tabs__nav label {
+  .product-tabs label {
     border: 1px solid #D9D9D9;
     font-size: 13px;
   }
