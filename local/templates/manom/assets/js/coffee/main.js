@@ -1001,7 +1001,7 @@ $(document).ready(function () {
     return false;
   });
 
-  $(document).on('', '.product-card', function () {
+  $(document).on('mouseenter', '.product-card', function () {
     $(this).children('.product-card__img').slick({
       arrows: true,
       dots: false,
