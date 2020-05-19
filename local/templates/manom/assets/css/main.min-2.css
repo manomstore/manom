@@ -3968,7 +3968,7 @@ border-color: #EBEBEB;
   display: none;
 }
 
-.product-tabs label {
+.product-tabs .product-tabs__nav label {
   display: table;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
