@@ -3998,7 +3998,7 @@ border-color: #EBEBEB;
   }
 }
 
-.product-tabs label span {
+.product-tabs .product-tabs__nav label span {
   display: table-cell;
   text-align: left;
   vertical-align: middle;
@@ -4008,15 +4008,15 @@ font-size: 15px;
 line-height: 19px;
 }
 
-.product-tabs label:first-child {
+.product-tabs .product-tabs__nav label:first-child {
   border-left: none;
 }
 
-.product-tabs label:last-child {
+.product-tabs .product-tabs__nav label:last-child {
   border-right: none;
 }
 
-.product-tabs label:hover {
+.product-tabs .product-tabs__nav label:hover {
   color: #000000;
   cursor: pointer;
 }
