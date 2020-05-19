@@ -1193,8 +1193,8 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   height: 390px;
-  width: 270px;
-  padding: 15px;
+  width: 272px;
+  padding: 15px 0;
 }
 
 
@@ -1237,7 +1237,7 @@ line-height: 24px;
   line-height: 230px;
   text-align: center;
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   overflow: hidden;
 }
 
@@ -1461,9 +1461,9 @@ line-height: 24px;
 
 .p-name {
   font-size: 14px;
-  line-height: 18px;
+  line-height: 24px;
   font-family: "PT Root UI", "Arial", sans-serif;
-  font-weight: 600;
+  font-weight: normal;
   color: #000000;
   text-align: left;
   margin: 8px 0;
@@ -1488,32 +1488,31 @@ line-height: 24px;
   align-items: center;
   color: #000000;
   font-family: "PT Root UI", "Arial", sans-serif;
-  font-weight: 700;
-  line-height: 1;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
 }
 
 .p-nav-bottom__price {
-  font-size: 22px;
   text-align: left;
+  /* margin-left: 4px; */
+    /* margin-top: 6px; */
 }
 
 .p-nav-bottom__price span {
-  font-size: 22px;
   margin-left: -3px;
 }
 
 .p-nav-bottom__oldprice {
-  font-size: 14px;
-  color: #B3B3B3;
-  text-decoration: line-through;
+  display: none;
 }
 
 .p-nav-bottom__shopcart {
-  height: 36px;
-  width: 40px;
-  background: url(../img/top-shopcart.svg) center center no-repeat;
-  -webkit-background-size: 80% 80%;
-  background-size: 80% 80%;
+  height: 42px;
+  width: 73px;
+  background: url(../img/top-shopcart2.svg) center center no-repeat;
+  -webkit-background-size: 55% 48%;
+  background-size: 55% 48%;
   cursor: pointer;
   opacity: .7;
   -webkit-border-radius: 5px;
@@ -2048,7 +2047,7 @@ line-height: 24px;
 }
 
 .cb-block__item .product-card {
-  margin: 15px auto;
+  margin: 14px auto;
 }
 
 .cb-line {
