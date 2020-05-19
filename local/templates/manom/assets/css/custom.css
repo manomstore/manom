@@ -852,8 +852,13 @@ h4.p-article__sidebar_title {
 }
 .product-card__img img {
   cursor: pointer;
-  /* height: 100%; */
   object-fit: contain;
+}
+
+@media screen and (max-width: 991px) {
+  .product-card__img img {
+    height: 100%;
+  }
 }
 .preview-heart {
   text-align: center;
