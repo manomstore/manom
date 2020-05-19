@@ -1274,13 +1274,6 @@ h1, h2, h3, h4, h5, h6 {
   right: 10px;
 }
 
-.product-card .p-nav-top {
-  display: block !important;
-  top: 0;
-  right: 0;
-  position: absolute;
-}
-
 .cb-single-nav-top {
   display: none;
   position: absolute;
