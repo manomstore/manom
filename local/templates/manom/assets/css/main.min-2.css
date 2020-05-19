@@ -1483,7 +1483,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .p-nav-bottom__price {
   text-align: left;
-  /* margin-left: 4px; */
+  margin-left: 4px;
     /* margin-top: 6px; */
 }
 
@@ -6769,7 +6769,6 @@ h3.tab-content__title--right {
 
   .product-card {
     width: 100%;
-    padding: 15px;
   }
 
   .top-menu2__item {
