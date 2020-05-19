@@ -1495,9 +1495,9 @@ line-height: 24px;
 }
 
 .p-nav-bottom__shopcart {
-  height: 36px;
-  width: 40px;
-  background: url(../img/top-shopcart.svg) center center no-repeat;
+  height: 42px;
+  width: 73px;
+  background: url(../img/new-shopcart.svg) center center no-repeat;
   -webkit-background-size: 80% 80%;
   background-size: 80% 80%;
   cursor: pointer;
