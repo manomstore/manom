@@ -1151,16 +1151,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .slick-next, .slick-prev {
   height: 48px;
-  width: 48px;
+  width: 29px;
   z-index: 100;
 }
 
 .slick-prev:before {
-  content: "‹";
+  content: "";
+  width: 9px;
+  height: 18px;
+  background-image: url("../img/arrow-left.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
+  margin-left: auto;
 }
 
 .slick-next:before {
-  content: "›";
+  content: "";
+  width: 9px;
+  height: 18px;
+  background-image: url("../img/arrow-right.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
+  margin-right: auto;
 }
 
 .slick-next:before, .slick-prev:before {
@@ -1178,9 +1192,16 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   height: 390px;
-  width: 270px;
+  width: 272px;
   padding: 15px;
 }
+
+
+/* .product-card h3 {
+  font-weight: normal;
+font-size: 15px;
+line-height: 24px;
+} */
 
 .product-card.disable {
   -webkit-filter: grayscale(1);
@@ -1258,6 +1279,19 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
   top: 10px;
   right: 10px;
+}
+
+.product-card .p-nav-top {
+  display: none;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+}
+
+.product-card .p-nav-top label {
+  padding: 0;
+  display: inline;
+  vertical-align: initial;
 }
 
 .cb-single-nav-top {
@@ -1371,6 +1405,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "PT Root UI", "Arial", sans-serif;
   font-weight: 400;
   font-size: 11px;
+  height: 17px;
 }
 
 .p-nav-middle__sale {
@@ -1469,9 +1504,9 @@ h1, h2, h3, h4, h5, h6 {
 .p-nav-bottom__shopcart {
   height: 36px;
   width: 40px;
-  background: url(../img/top-shopcart.svg) center center no-repeat;
-  -webkit-background-size: 80% 80%;
-  background-size: 80% 80%;
+  background: url(../img/new-shopcart.svg) center center no-repeat;
+  -webkit-background-size: 60% 60%;
+  background-size: 60% 60%;
   cursor: pointer;
   opacity: .7;
   -webkit-border-radius: 5px;
@@ -6739,7 +6774,7 @@ h3.tab-content__title--right {
   }
 
   .product-card {
-    width: 270px;
+    width: 100%;
   }
 
   .top-menu2__item {
@@ -6938,6 +6973,8 @@ h3.tab-content__title--right {
 
 .sci-product__picture img {
   flex-shrink: 0;
+  height: 100%;
+  object-fit: contain;
 }
 
 .sci-product__info {
@@ -9775,6 +9812,8 @@ button.top-nav__link {
 .preview-prod__picture img {
   flex-grow: 0;
   flex-shrink: 0;
+  height: 100%;
+  object-fit: contain;
 }
 
 .preview-prod-bottom {
@@ -10772,6 +10811,7 @@ button.top-nav__link {
   .top-personal__cart img {
     margin-top: 2px;
     margin-bottom: 1px;
+    margin-right: 6px;
   }
 
   .top-personal__cart--full {

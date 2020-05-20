@@ -744,9 +744,11 @@ input.pb-info__button {
 }
 .slick-prev {
   left: -15px;
+  top: 59%;
 }
 .slick-next {
   right: -15px;
+  top: 59%;
 }
 /* .addToFavoriteList.notActive {
   -webkit-filter: grayscale(1)!important;
@@ -850,6 +852,13 @@ h4.p-article__sidebar_title {
 }
 .product-card__img img {
   cursor: pointer;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 991px) {
+  .product-card__img img {
+    height: 100%;
+  }
 }
 .preview-heart {
   text-align: center;
