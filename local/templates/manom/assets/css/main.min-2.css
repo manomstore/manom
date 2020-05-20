@@ -9810,6 +9810,8 @@ button.top-nav__link {
 .preview-prod__picture img {
   flex-grow: 0;
   flex-shrink: 0;
+  height: 100%;
+  object-fit: contain;
 }
 
 .preview-prod-bottom {
