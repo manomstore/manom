@@ -47,8 +47,8 @@ $count = 0;
                 ?>
                 <div class="preview-prod" data-cart-item="<?=$item['ID']?>">
                     <div class="preview-prod__picture">
-                        <pre><?=var_dump($item)?></pre>
-                        <img src="<?=$item['PREVIEW_PICTURE_SRC']?>" alt="<?=$item['NAME']?>">
+
+                        <img src="<?=$item['PIC']['src']?>" alt="<?=$item['NAME']?>">
                     </div>
                     <div class="preview-prod__descr">
                         <div class="preview-prod-bottom">
