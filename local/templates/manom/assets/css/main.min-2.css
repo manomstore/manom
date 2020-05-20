@@ -10807,6 +10807,7 @@ button.top-nav__link {
   .top-personal__cart img {
     margin-top: 2px;
     margin-bottom: 1px;
+    margin-right: 6px;
   }
 
   .top-personal__cart--full {
