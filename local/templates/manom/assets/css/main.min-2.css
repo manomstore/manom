@@ -6973,6 +6973,8 @@ h3.tab-content__title--right {
 
 .sci-product__picture img {
   flex-shrink: 0;
+  height: 100%;
+  object-fit: contain;
 }
 
 .sci-product__info {
