@@ -48,6 +48,7 @@ $arResult['CURRENT_USER'] = getUser();
 $arResult['REVIEWS'] = getReviews($arResult['ID']);
 $arResult['QNA_VALUES'] = getQna($arResult['PROPERTIES']['A_N_Q']['VALUE']);
 $arResult['DELIV'] = getDelivery();
+$arResult['RELATED'] = getRelated($arResult);
 
 if (empty($arResult['OFFERS'])) {
     $arResult['PRODUCT_ID'] = (int)$arResult['ID'];
@@ -566,4 +567,98 @@ function getDeliveryDescription($delivery)
     $delivery['price'] = (int)$delivery['price'] > 0 ? $delivery['price'].' ₽' : 'Бесплатно';
 
     return ($deliveryPeriod ? $deliveryPeriod.', ' : '').$delivery['price'];
+}
+
+function getRelated($arResult)
+{
+    $related = array(
+        'COLOR' => array(
+            array(
+                'value' => $arResult['PROPERTIES']['color']['VALUE'],
+                'url' => '',
+                'current' => true,
+            ),
+        ),
+        'MEMORY' => array(
+            array(
+                'value' => $arResult['PROPERTIES']['memory_size']['VALUE'],
+                'url' => '',
+                'current' => true,
+            ),
+        ),
+        'CPU' => array(
+            array(
+                'value' => $arResult['PROPERTIES']['PROCESSOR']['VALUE'],
+                'url' => '',
+                'current' => true,
+            ),
+        ),
+        'GPU' => array(
+            array(
+                'value' => $arResult['PROPERTIES']['GPU_NAME']['VALUE'],
+                'url' => '',
+                'current' => true,
+            ),
+        ),
+    );
+
+    $baseFilter = array(
+        '!ID' => $arResult['ID'],
+        'ACTIVE' => 'Y',
+        '=AVAILABLE' => 'Y',
+    );
+
+    if (!empty($arResult['PROPERTIES']['RELATED_COLOR']['VALUE'])) {
+        $filter = array('ID' => $arResult['PROPERTIES']['RELATED_COLOR']['VALUE']);
+        $filter = array_merge($filter, $baseFilter);
+        $select = array('IBLOCK_ID', 'ID', 'DETAIL_PAGE_URL', 'PROPERTY_color');
+        $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+        while ($row = $result->GetNext(false, false)) {
+            $related['COLOR'][] = array(
+                'value' => $row['PROPERTY_COLOR_VALUE'],
+                'url' => $row['DETAIL_PAGE_URL'],
+            );
+        }
+    }
+
+    if (!empty($arResult['PROPERTIES']['RELATED_MEMORY']['VALUE'])) {
+        $filter = array('ID' => $arResult['PROPERTIES']['RELATED_MEMORY']['VALUE']);
+        $filter = array_merge($filter, $baseFilter);
+        $select = array('IBLOCK_ID', 'ID', 'DETAIL_PAGE_URL', 'PROPERTY_memory_size');
+        $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+        while ($row = $result->GetNext(false, false)) {
+            $related['MEMORY'][] = array(
+                'value' => $row['PROPERTY_MEMORY_SIZE_VALUE'],
+                'url' => $row['DETAIL_PAGE_URL'],
+            );
+        }
+    }
+
+    if (!empty($arResult['PROPERTIES']['RELATED_CPU']['VALUE'])) {
+        $filter = array('ID' => $arResult['PROPERTIES']['RELATED_CPU']['VALUE']);
+        $filter = array_merge($filter, $baseFilter);
+        $select = array('IBLOCK_ID', 'ID', 'DETAIL_PAGE_URL', 'PROPERTY_PROCESSOR');
+        $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+        while ($row = $result->GetNext(false, false)) {
+            $related['CPU'][] = array(
+                'value' => $row['PROPERTY_PROCESSOR_VALUE'],
+                'url' => $row['DETAIL_PAGE_URL'],
+            );
+        }
+    }
+
+    if (!empty($arResult['PROPERTIES']['RELATED_GPU']['VALUE'])) {
+        $filter = array('ID' => $arResult['PROPERTIES']['RELATED_GPU']['VALUE']);
+        $filter = array_merge($filter, $baseFilter);
+        $select = array('IBLOCK_ID', 'ID', 'DETAIL_PAGE_URL', 'PROPERTY_GPU_NAME');
+        $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+        while ($row = $result->GetNext(false, false)) {
+            $related['GPU'][] = array(
+                'value' => $row['PROPERTY_GPU_NAME_VALUE'],
+                'url' => $row['DETAIL_PAGE_URL'],
+            );
+        }
+    }
+
+    return $related;
 }

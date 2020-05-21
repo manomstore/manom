@@ -198,6 +198,86 @@ function formatBytes($size, $precision = 2)
                 </ul>
             <?php endif; ?>
 
+            <?php if (!empty($arResult['RELATED']['COLOR'])): ?>
+                <div class="product-content__color">
+                    <form action="#">
+                        <h3>Цвет</h3>
+                        <?php foreach ($arResult['RELATED']['COLOR'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="color"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>" class="product-content__color-<?=$data['value']?>"></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['RELATED']['MEMORY'])): ?>
+                <div class="product-content__size">
+                    <form action="#">
+                        <h3>Объем памяти</h3>
+                        <?php foreach ($arResult['RELATED']['MEMORY'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="size"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>"><?=$data['value']?></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['RELATED']['CPU'])): ?>
+                <div class="product-content__size">
+                    <form action="#">
+                        <h3>Процессор</h3>
+                        <?php foreach ($arResult['RELATED']['CPU'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="size"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>"><?=$data['value']?></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['RELATED']['GPU'])): ?>
+                <div class="product-content__size">
+                    <form action="#">
+                        <h3>Графический процессор</h3>
+                        <?php foreach ($arResult['RELATED']['GPU'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="size"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>"><?=$data['value']?></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
+
             <?php /*
             <div class="product-content__color">
                 <form action="#">
