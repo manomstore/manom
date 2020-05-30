@@ -5,10 +5,12 @@ namespace Manom\Airtable;
 use Manom\Airtable\Bitrix\Element;
 use Manom\Airtable\Bitrix\Section;
 use Manom\Airtable\Bitrix\Property;
-use \Bitrix\Main\ArgumentNullException;
-use \Bitrix\Main\ArgumentOutOfRangeException;
 use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
+use \Bitrix\Main\ArgumentException;
+use \Bitrix\Main\ArgumentNullException;
+use \Bitrix\Main\ArgumentOutOfRangeException;
+use \Bitrix\Main\ObjectPropertyException;
 
 /**
  * Class Import
@@ -18,15 +20,39 @@ class Import
 {
     private $iblockId = 6;
     private $changeStatus;
+    private $map;
+    private $enumValues;
+    private $propertiesData;
+    private $bitrixElements;
+    private $bitrixSections;
 
     /**
      * Import constructor.
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     * @throws LoaderException
+     * @throws SystemException
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
      */
     public function __construct()
     {
         $tools = new Tools;
 
         $this->changeStatus = $tools->getChangeStatus() === 'Y';
+
+        $fieldsMap = new FieldsMap();
+        $this->map = $fieldsMap->getMap();
+
+        $property = new Property($this->iblockId);
+        $this->enumValues = $property->getEnumValues();
+        $this->propertiesData = $property->getPropertiesData(array_keys($this->map['properties']));
+
+        $element = new Element($this->iblockId);
+        $this->bitrixElements = $element->getItems();
+
+        $section = new Section($this->iblockId);
+        $this->bitrixSections = $section->getItems();
     }
 
     /**
@@ -39,19 +65,7 @@ class Import
      */
     public function process($sections = array()): bool
     {
-        $fieldsMap = new FieldsMap();
-        $map = $fieldsMap->getMap();
-
-        $property = new Property($this->iblockId);
-        $enumValues = $property->getEnumValues();
-
-        $propertiesData = $property->getPropertiesData(array_keys($map['properties']));
-
         $element = new Element($this->iblockId);
-        $bitrixElements = $element->getItems();
-
-        $section = new Section($this->iblockId);
-        $bitrixSections = $section->getItems();
 
         $api = new Api();
 
@@ -69,22 +83,13 @@ class Import
         $itemsToUpdate = array();
         foreach ($airtableData as $section => $sectionItems) {
             foreach ($sectionItems as $airtableItem) {
-                if (empty($bitrixElements[$airtableItem['fields']['Внешний код']])) {
+                if (empty($this->bitrixElements[$airtableItem['fields']['Внешний код']])) {
                     continue;
                 }
 
                 $airtableItem['section'] = $section;
 
-                $itemsToUpdate[] = $this->prepareFields(
-                    $airtableItem,
-                    $bitrixElements[$airtableItem['fields']['Внешний код']],
-                    $map,
-                    $bitrixSections,
-                    $enumValues,
-                    $propertiesData,
-                    $airtableIdToXmlId,
-                    $bitrixElements
-                );
+                $itemsToUpdate[] = $this->prepareFields($airtableItem, $airtableIdToXmlId);
             }
         }
 
@@ -106,34 +111,22 @@ class Import
 
     /**
      * @param array $airtableItem
-     * @param array $bitrixItem
-     * @param array $map
-     * @param array $sections
-     * @param array $enumValues
-     * @param array $propertiesData
      * @param array $airtableIdToXmlId
-     * @param array $bitrixElements
      * @return array
      * @throws LoaderException
      * @throws SystemException
      */
-    private function prepareFields(
-        $airtableItem,
-        $bitrixItem,
-        $map,
-        $sections,
-        $enumValues,
-        $propertiesData,
-        $airtableIdToXmlId,
-        $bitrixElements
-    ): array {
+    private function prepareFields($airtableItem, $airtableIdToXmlId): array
+    {
+        $bitrixItem = $this->bitrixElements[$airtableItem['fields']['Внешний код']];
+
         $fields = array(
             'ID' => $bitrixItem['id'],
             'AIRTABLE_ID' => $airtableItem['id'],
             'AIRTABLE_SECTION' => $airtableItem['section'],
         );
 
-        foreach ($map['fields'] as $bitrix => $airtable) {
+        foreach ($this->map['fields'] as $bitrix => $airtable) {
             if (!isset($airtableItem['fields'][$airtable])) {
                 continue;
             }
@@ -143,7 +136,7 @@ class Import
             }
 
             if ($bitrix === 'IBLOCK_SECTION_ID') {
-                $sectionId = $this->getSectionId($airtableItem['fields'][$airtable], $sections);
+                $sectionId = $this->getSectionId($airtableItem['fields'][$airtable]);
                 if (empty($sectionId)) {
                     continue;
                 }
@@ -154,15 +147,33 @@ class Import
             $fields[$bitrix] = $airtableItem['fields'][$airtable];
         }
 
+        $fields['PREVIEW_PICTURE'] = '';
+        $fields['DETAIL_PICTURE'] = '';
         $fields['PROPERTIES'] = array();
 
-        foreach ($map['properties'] as $bitrix => $airtable) {
+        $fields = $this->prepareImages($airtableItem, $fields);
+
+        $properties = $this->prepareProperties($airtableItem, $airtableIdToXmlId);
+
+        $fields['PROPERTIES'] = array_merge($fields['PROPERTIES'], $properties);
+
+        return $fields;
+    }
+
+    /**
+     * @param array $airtableItem
+     * @param array $fields
+     * @return array
+     */
+    private function prepareImages($airtableItem, $fields): array
+    {
+        foreach ($this->map['properties'] as $bitrix => $airtable) {
             if (!isset($airtableItem['fields'][$airtable])) {
                 continue;
             }
 
             if ($bitrix === 'MORE_PHOTO') {
-                $result = $this->prepareImages($airtableItem['fields'][$airtable]);
+                $result = $this->processImages($airtableItem['fields'][$airtable]);
 
                 if (!empty($result['preview'])) {
                     $fields['PREVIEW_PICTURE'] = $result['preview'];
@@ -173,38 +184,6 @@ class Import
                 }
 
                 $airtableItem['fields'][$airtable] = $result['images'];
-            } elseif ($bitrix === 'FEATURES2') {
-                $values = explode('/', $airtableItem['fields'][$airtable]);
-                $airtableItem['fields'][$airtable] = $values;
-            } elseif ($bitrix === 'features' || $bitrix === 'contents_of_delivery') {
-                $airtableItem['fields'][$airtable] = array(
-                    'VALUE' => array(
-                        'TYPE' => 'HTML',
-                        'TEXT' => nl2br($airtableItem['fields'][$airtable]),
-                    ),
-                );
-            } elseif ($propertiesData[$bitrix]['type'] === 'L') {
-                $result = $this->processListProperty(
-                    $enumValues[$bitrix],
-                    $airtableItem['fields'][$airtable],
-                    $propertiesData[$bitrix]['id'],
-                    $propertiesData[$bitrix]['multiple']
-                );
-
-                if (empty($result['result'])) {
-                    continue;
-                }
-
-                $enumValues[$bitrix] = $result['enumValues'];
-
-                $airtableItem['fields'][$airtable] = $result;
-            } elseif ($propertiesData[$bitrix]['type'] === 'E') {
-                $airtableItem['fields'][$airtable] = $this->processElementLinkProperty(
-                    $airtableItem['fields'][$airtable],
-                    $airtableIdToXmlId,
-                    $bitrixElements,
-                    $propertiesData[$bitrix]['multiple']
-                );
             }
 
             $fields['PROPERTIES'][$bitrix] = $airtableItem['fields'][$airtable];
@@ -214,10 +193,76 @@ class Import
     }
 
     /**
+     * @param array $airtableItem
+     * @param array $airtableIdToXmlId
+     * @return array
+     * @throws LoaderException
+     * @throws SystemException
+     */
+    private function prepareProperties($airtableItem, $airtableIdToXmlId): array
+    {
+        $items = array();
+
+        foreach ($this->map['properties'] as $bitrix => $airtable) {
+            if (!isset($airtableItem['fields'][$airtable])) {
+                continue;
+            }
+
+            if ($bitrix === 'FEATURES2') {
+                $values = explode('/', $airtableItem['fields'][$airtable]);
+                $airtableItem['fields'][$airtable] = $values;
+            } elseif ($bitrix === 'features' || $bitrix === 'contents_of_delivery') {
+                $airtableItem['fields'][$airtable] = array(
+                    'VALUE' => array(
+                        'TYPE' => 'HTML',
+                        'TEXT' => nl2br($airtableItem['fields'][$airtable]),
+                    ),
+                );
+            } elseif ($this->propertiesData[$bitrix]['type'] === 'L') {
+                $result = $this->processListProperty($bitrix, $airtableItem['fields'][$airtable]);
+
+                if (empty($result)) {
+                    continue;
+                }
+
+                $airtableItem['fields'][$airtable] = $result;
+            } elseif ($this->propertiesData[$bitrix]['type'] === 'E') {
+                $airtableItem['fields'][$airtable] = $this->processElementLinkProperty(
+                    $airtableItem['fields'][$airtable],
+                    $airtableIdToXmlId,
+                    $this->propertiesData[$bitrix]['multiple']
+                );
+            }
+
+            $items[$bitrix] = $airtableItem['fields'][$airtable];
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param string $name
+     * @return int
+     */
+    private function getSectionId($name): int
+    {
+        $sectionId = 0;
+
+        foreach ($this->bitrixSections as $section) {
+            if ($section['name'] === $name) {
+                $sectionId = $section['id'];
+                break;
+            }
+        }
+
+        return $sectionId;
+    }
+
+    /**
      * @param array $images
      * @return array
      */
-    private function prepareImages($images): array
+    private function processImages($images): array
     {
         $result = array(
             'preview' => '',
@@ -255,44 +300,23 @@ class Import
     }
 
     /**
-     * @param string $name
-     * @param array $sections
-     * @return int
-     */
-    private function getSectionId($name, $sections): int
-    {
-        $sectionId = 0;
-
-        foreach ($sections as $section) {
-            if ($section['name'] === $name) {
-                $sectionId = $section['id'];
-                break;
-            }
-        }
-
-        return $sectionId;
-    }
-
-    /**
-     * @param array $enumValues
+     * @param string $bitrixCode
      * @param string|array $airtableValue
-     * @param int $propertyId
-     * @param bool $multiple
-     * @return array
+     * @return array|int
      * @throws LoaderException
      * @throws SystemException
      */
-    private function processListProperty($enumValues, $airtableValue, $propertyId, $multiple = false): array
+    private function processListProperty($bitrixCode, $airtableValue)
     {
         $property = new Property($this->iblockId);
 
-        if ($multiple) {
+        if ($this->propertiesData[$bitrixCode]['multiple']) {
             $values = array();
 
             foreach ($airtableValue as $value) {
                 $values[$value] = 0;
 
-                foreach ($enumValues as $enumValue) {
+                foreach ($this->enumValues[$bitrixCode] as $enumValue) {
                     if (trim($enumValue['value']) === trim($value)) {
                         $values[$value] = $enumValue['id'];
                     }
@@ -301,7 +325,7 @@ class Import
 
             foreach ($values as $value => $enumId) {
                 if (empty($enumId)) {
-                    $enumId = $property->addEnumValue($propertyId, trim($value));
+                    $enumId = $property->addEnumValue($this->propertiesData[$bitrixCode]['id'], trim($value));
                 }
 
                 if (empty($enumId)) {
@@ -309,7 +333,7 @@ class Import
                 } else {
                     $values[$value] = $enumId;
 
-                    $enumValues[$enumId] = array(
+                    $this->enumValues[$bitrixCode][$enumId] = array(
                         'id' => $enumId,
                         'xmlId' => trim($value),
                         'value' => trim($value),
@@ -321,18 +345,18 @@ class Import
         } else {
             $enumId = 0;
 
-            foreach ($enumValues as $enumValue) {
+            foreach ($this->enumValues[$bitrixCode] as $enumValue) {
                 if (trim($enumValue['value']) === trim($airtableValue)) {
                     $enumId = $enumValue['id'];
                 }
             }
 
             if (empty($enumId)) {
-                $enumId = $property->addEnumValue($propertyId, trim($airtableValue));
+                $enumId = $property->addEnumValue($this->propertiesData[$bitrixCode]['id'], trim($airtableValue));
             }
 
             if (!empty($enumId)) {
-                $enumValues[$enumId] = array(
+                $this->enumValues[$bitrixCode][$enumId] = array(
                     'id' => $enumId,
                     'xmlId' => trim($airtableValue),
                     'value' => trim($airtableValue),
@@ -342,7 +366,7 @@ class Import
             $result = $enumId;
         }
 
-        return array('result' => $result, 'enumValues' => $enumValues);
+        return $result;
     }
 
     /**
@@ -355,7 +379,6 @@ class Import
     private function processElementLinkProperty(
         $airtableValue,
         $airtableIdToXmlId,
-        $bitrixElements,
         $multiple = false
     ): array {
         $result = '';
@@ -367,16 +390,19 @@ class Import
                     continue;
                 }
 
-                if (empty($bitrixElements[$airtableIdToXmlId[$airtableId]]['id'])) {
+                if (empty($this->bitrixElements[$airtableIdToXmlId[$airtableId]]['id'])) {
                     continue;
                 }
 
-                $values[] = $bitrixElements[$airtableIdToXmlId[$airtableId]]['id'];
+                $values[] = $this->bitrixElements[$airtableIdToXmlId[$airtableId]]['id'];
             }
 
             $result = $values;
-        } elseif (!empty($airtableIdToXmlId[$airtableValue]) && !empty($bitrixElements[$airtableIdToXmlId[$airtableValue]]['id'])) {
-            $result = $bitrixElements[$airtableIdToXmlId[$airtableValue]]['id'];
+        } elseif (
+            !empty($airtableIdToXmlId[$airtableValue]) &&
+            !empty($this->bitrixElements[$airtableIdToXmlId[$airtableValue]]['id'])
+        ) {
+            $result = $this->bitrixElements[$airtableIdToXmlId[$airtableValue]]['id'];
         }
 
         return $result;
