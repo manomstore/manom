@@ -4,6 +4,7 @@ namespace Manom\Airtable;
 
 use Manom\Airtable\Bitrix\Element;
 use Manom\Airtable\Bitrix\Section;
+use Manom\Airtable\Bitrix\Property;
 use \Bitrix\Main\ArgumentNullException;
 use \Bitrix\Main\ArgumentOutOfRangeException;
 use \Bitrix\Main\LoaderException;
@@ -41,7 +42,10 @@ class Import
         $fieldsMap = new FieldsMap();
         $map = $fieldsMap->getMap();
 
-        $enumValues = $this->getEnumValues();
+        $property = new Property($this->iblockId);
+        $enumValues = $property->getEnumValues();
+
+        $propertiesData = $property->getPropertiesData(array_keys($map['properties']));
 
         $element = new Element($this->iblockId);
         $bitrixElements = $element->getItems();
@@ -74,7 +78,8 @@ class Import
                     $bitrixElements[$airtableItem['fields']['Внешний код']],
                     $map,
                     $bitrixSections,
-                    $enumValues
+                    $enumValues,
+                    $propertiesData
                 );
             }
         }
@@ -96,34 +101,17 @@ class Import
     }
 
     /**
-     * @return array
-     */
-    private function getEnumValues(): array
-    {
-        $items = array();
-
-        $filter = array('IBLOCK_ID' => $this->iblockId);
-        $result = \CIBlockPropertyEnum::GetList(array(), $filter);
-        while ($row = $result->Fetch()) {
-            $items[$row['PROPERTY_CODE']][(int)$row['ID']] = array(
-                'id' => (int)$row['ID'],
-                'xmlId' => $row['XML_ID'],
-                'value' => $row['VALUE'],
-            );
-        }
-
-        return $items;
-    }
-
-    /**
      * @param array $airtableItem
      * @param array $bitrixItem
      * @param array $map
      * @param array $sections
      * @param array $enumValues
+     * @param array $propertiesData
      * @return array
+     * @throws LoaderException
+     * @throws SystemException
      */
-    private function prepareFields($airtableItem, $bitrixItem, $map, $sections, $enumValues): array
+    private function prepareFields($airtableItem, $bitrixItem, $map, $sections, $enumValues, $propertiesData): array
     {
         $fields = array(
             'ID' => $bitrixItem['id'],
@@ -171,38 +159,29 @@ class Import
                 }
 
                 $airtableItem['fields'][$airtable] = $result['images'];
-            }
-
-            if ($bitrix === 'CERTIFICATES') {
-                if (empty($enumValues['CERTIFICATES'])) {
-                    continue;
-                }
-
-                $values = array();
-                foreach ($airtableItem['fields'][$airtable] as $value) {
-                    foreach ($enumValues['CERTIFICATES'] as $enum) {
-                        if ($enum['value'] === $value) {
-                            $values[] = $enum['id'];
-                            break;
-                        }
-                    }
-                }
-
-                $airtableItem['fields'][$airtable] = $values;
-            }
-
-            if ($bitrix === 'FEATURES2') {
+            } elseif ($bitrix === 'FEATURES2') {
                 $values = explode('/', $airtableItem['fields'][$airtable]);
                 $airtableItem['fields'][$airtable] = $values;
-            }
-
-            if ($bitrix === 'features' || $bitrix === 'contents_of_delivery') {
+            } elseif ($bitrix === 'features' || $bitrix === 'contents_of_delivery') {
                 $airtableItem['fields'][$airtable] = array(
                     'VALUE' => array(
                         'TYPE' => 'HTML',
                         'TEXT' => nl2br($airtableItem['fields'][$airtable]),
                     ),
                 );
+            } elseif ($propertiesData[$bitrix]['type'] === 'L') {
+                $result = $this->processListProperty(
+                    $enumValues[$bitrix],
+                    $airtableItem['fields'][$airtable],
+                    $propertiesData[$bitrix]['id'],
+                    $propertiesData[$bitrix]['multiple']
+                );
+
+                if (empty($result)) {
+                    continue;
+                }
+
+                $airtableItem['fields'][$airtable] = $result;
             }
 
             $fields['PROPERTIES'][$bitrix] = $airtableItem['fields'][$airtable];
@@ -269,5 +248,63 @@ class Import
         }
 
         return $sectionId;
+    }
+
+    /**
+     * @param array $enumValues
+     * @param string|array $airtableValue
+     * @param int $propertyId
+     * @param bool $multiple
+     * @return array|int
+     * @throws LoaderException
+     * @throws SystemException
+     */
+    private function processListProperty($enumValues, $airtableValue, $propertyId, $multiple = false)
+    {
+        $property = new Property($this->iblockId);
+
+        if ($multiple) {
+            $values = array();
+
+            foreach ($airtableValue as $value) {
+                $values[$value] = 0;
+
+                foreach ($enumValues as $enumValue) {
+                    if (trim($enumValue['value']) === trim($value)) {
+                        $values[$value] = $enumValue['id'];
+                    }
+                }
+            }
+
+            foreach ($values as $value => $enumId) {
+                if (empty($enumId)) {
+                    $enumId = $property->addEnumValue($propertyId, trim($value));
+                }
+
+                if (empty($enumId)) {
+                    unset($values[$value]);
+                } else {
+                    $values[$value] = $enumId;
+                }
+            }
+
+            $result = array_values($values);
+        } else {
+            $enumId = 0;
+
+            foreach ($enumValues as $enumValue) {
+                if (trim($enumValue['value']) === trim($airtableValue)) {
+                    $enumId = $enumValue['id'];
+                }
+            }
+
+            if (empty($enumId)) {
+                $enumId = $property->addEnumValue($propertyId, trim($airtableValue));
+            }
+
+            $result = $enumId;
+        }
+
+        return $result;
     }
 }
