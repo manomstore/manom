@@ -198,31 +198,31 @@ function formatBytes($size, $precision = 2)
                 </ul>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['RELATED']['COLOR'])): ?>
+            <?php if (!empty($arResult['RELATED']['RELATED_COLOR'])): ?>
                 <div class="product-content__color">
                     <form action="#">
                         <h3>Цвет</h3>
-                        <?php foreach ($arResult['RELATED']['COLOR'] as $data): ?>
+                        <?php foreach ($arResult['RELATED']['RELATED_COLOR'] as $data): ?>
                             <input
                                     class="visually-hidden js-related"
                                     name="color"
                                     type="radio"
-                                    id="<?=$data['value']?>"
+                                    id="<?=$data['code']?>"
                                     value="<?=$data['value']?>"
                                     data-url="<?=$data['url']?>"
                                 <?=$data['current'] ? 'checked' : ''?>
                             >
-                            <label for="<?=$data['value']?>" class="product-content__color-<?=$data['value']?>"></label>
+                            <label for="<?=$data['code']?>" class="product-content__color-<?=$data['code']?>"></label>
                         <?php endforeach; ?>
                     </form>
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['RELATED']['MEMORY'])): ?>
+            <?php if (!empty($arResult['RELATED']['RELATED_MEMORY'])): ?>
                 <div class="product-content__size">
                     <form action="#">
                         <h3>Объем памяти</h3>
-                        <?php foreach ($arResult['RELATED']['MEMORY'] as $data): ?>
+                        <?php foreach ($arResult['RELATED']['RELATED_MEMORY'] as $data): ?>
                             <input
                                     class="visually-hidden js-related"
                                     name="size"
@@ -238,11 +238,31 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['RELATED']['CPU'])): ?>
+            <?php if (!empty($arResult['RELATED']['RELATED_MEMORY2'])): ?>
+                <div class="product-content__size">
+                    <form action="#">
+                        <h3>Обьем накопителя</h3>
+                        <?php foreach ($arResult['RELATED']['RELATED_MEMORY2'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="size"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>"><?=$data['value']?></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($arResult['RELATED']['RELATED_CPU'])): ?>
                 <div class="product-content__size">
                     <form action="#">
                         <h3>Процессор</h3>
-                        <?php foreach ($arResult['RELATED']['CPU'] as $data): ?>
+                        <?php foreach ($arResult['RELATED']['RELATED_CPU'] as $data): ?>
                             <input
                                     class="visually-hidden js-related"
                                     name="size"
@@ -258,11 +278,11 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['RELATED']['GPU'])): ?>
+            <?php if (!empty($arResult['RELATED']['RELATED_GPU'])): ?>
                 <div class="product-content__size">
                     <form action="#">
                         <h3>Графический процессор</h3>
-                        <?php foreach ($arResult['RELATED']['GPU'] as $data): ?>
+                        <?php foreach ($arResult['RELATED']['RELATED_GPU'] as $data): ?>
                             <input
                                     class="visually-hidden js-related"
                                     name="size"
@@ -278,35 +298,45 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php /*
-            <div class="product-content__color">
-                <form action="#">
-                    <h3>Цвет</h3>
-                    <input class="visually-hidden" type="radio" id="black" name="color" value="black" checked>
-                    <label for="black" class="product-content__color-black"></label>
-                    <input class="visually-hidden" type="radio" id="green" name="color" value="green">
-                    <label for="green" class="product-content__color-green"></label>
-                    <input class="visually-hidden" type="radio" id="white" name="color" value="white">
-                    <label for="white" class="product-content__color-white"></label>
-                    <input class="visually-hidden" type="radio" id="red" name="color" value="red">
-                    <label for="red" class="product-content__color-red"></label>
-                    <input class="visually-hidden" type="radio" id="yellow" name="color" value="yellow">
-                    <label for="yellow" class="product-content__color-yellow"></label>
-                </form>
-            </div>
+            <?php if (!empty($arResult['RELATED']['RELATED_SCREEN'])): ?>
+                <div class="product-content__size">
+                    <form action="#">
+                        <h3>Размер экрана</h3>
+                        <?php foreach ($arResult['RELATED']['RELATED_SCREEN'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="size"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>"><?=$data['value']?></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
 
-            <div class="product-content__size">
-                <form action="#">
-                    <h3>Объем памяти</h3>
-                    <input class="visually-hidden" type="radio" id="64" name="size" value="64">
-                    <label for="64">64 ГБ</label>
-                    <input class="visually-hidden" type="radio" id="128" name="size" value="128" checked>
-                    <label for="128">128 ГБ</label>
-                    <input class="visually-hidden" type="radio" id="256" name="size" value="256">
-                    <label for="256">256 ГБ</label>
-                </form>
-            </div>
-            */ ?>
+            <?php if (!empty($arResult['RELATED']['RELATED_LTE'])): ?>
+                <div class="product-content__size">
+                    <form action="#">
+                        <h3>LTE</h3>
+                        <?php foreach ($arResult['RELATED']['RELATED_LTE'] as $data): ?>
+                            <input
+                                    class="visually-hidden js-related"
+                                    name="size"
+                                    type="radio"
+                                    id="<?=$data['value']?>"
+                                    value="<?=$data['value']?>"
+                                    data-url="<?=$data['url']?>"
+                                <?=$data['current'] ? 'checked' : ''?>
+                            >
+                            <label for="<?=$data['value']?>"><?=$data['value']?></label>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
+            <?php endif; ?>
         </div>
 
         <div class="product-sidebar col-3">
