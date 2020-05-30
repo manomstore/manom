@@ -177,9 +177,11 @@ class Import
                     $propertiesData[$bitrix]['multiple']
                 );
 
-                if (empty($result)) {
+                if (empty($result['result'])) {
                     continue;
                 }
+
+                $enumValues[$bitrix] = $result['enumValues'];
 
                 $airtableItem['fields'][$airtable] = $result;
             }
@@ -255,11 +257,11 @@ class Import
      * @param string|array $airtableValue
      * @param int $propertyId
      * @param bool $multiple
-     * @return array|int
+     * @return array
      * @throws LoaderException
      * @throws SystemException
      */
-    private function processListProperty($enumValues, $airtableValue, $propertyId, $multiple = false)
+    private function processListProperty($enumValues, $airtableValue, $propertyId, $multiple = false): array
     {
         $property = new Property($this->iblockId);
 
@@ -285,6 +287,12 @@ class Import
                     unset($values[$value]);
                 } else {
                     $values[$value] = $enumId;
+
+                    $enumValues[$enumId] = array(
+                        'id' => $enumId,
+                        'xmlId' => trim($value),
+                        'value' => trim($value),
+                    );
                 }
             }
 
@@ -302,9 +310,17 @@ class Import
                 $enumId = $property->addEnumValue($propertyId, trim($airtableValue));
             }
 
+            if (!empty($enumId)) {
+                $enumValues[$enumId] = array(
+                    'id' => $enumId,
+                    'xmlId' => trim($airtableValue),
+                    'value' => trim($airtableValue),
+                );
+            }
+
             $result = $enumId;
         }
 
-        return $result;
+        return array('result' => $result, 'enumValues' => $enumValues);
     }
 }

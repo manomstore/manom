@@ -67,8 +67,9 @@ if ($USER->IsAdmin()) {
         }
     }
 
+    $CIBlockProperty = new CIBlockProperty;
+
     if (!empty($iblockId)) {
-        $CIBlockProperty = new CIBlockProperty;
         $aIblockProperties = array(
             array(
                 "IBLOCK_ID" => $iblockId,
@@ -257,6 +258,38 @@ if ($USER->IsAdmin()) {
                 echo "Не удалось создать элемент \"".$aFields["NAME"]."\"<br>";
                 echo "Error: ".$CIBlockElement->LAST_ERROR."<br>";
             }
+        }
+    }
+
+    $aIblockProperties = array(
+        array(
+            "IBLOCK_ID" => 6,
+            "CODE" => "memory_size",
+            'PROPERTY_TYPE' => 'L',
+        ),
+        array(
+            "IBLOCK_ID" => 6,
+            "CODE" => "PROCESSOR",
+            'PROPERTY_TYPE' => 'L',
+        ),
+        array(
+            "IBLOCK_ID" => 6,
+            "CODE" => "GPU_NAME",
+            'PROPERTY_TYPE' => 'L',
+        ),
+    );
+    foreach ($aIblockProperties as $aFields) {
+        $aFilter = array("IBLOCK_ID" => $aFields["IBLOCK_ID"], "CODE" => $aFields["CODE"]);
+        $oDbRes = CIBlockProperty::GetList(array(), $aFilter);
+        if ($aDbRes = $oDbRes->fetch()) {
+            if ($CIBlockProperty->Update($aDbRes["ID"], $aFields)) {
+                echo 'Успешно обновлено свойство "'.$aFields["CODE"].'"<br>';
+            } else {
+                echo 'Не удалось обновить свойство "'.$aFields["CODE"].'"<br>';
+                echo 'Error: '.$CIBlockProperty->LAST_ERROR.'"<br>';
+            }
+        } else {
+            echo 'Свойство "'.$aFields["CODE"].'" не существует<br>';
         }
     }
 }
