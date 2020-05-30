@@ -126,6 +126,13 @@ class FieldsMap
             'SCREEN_SiZE' => 'Диагональ экрана',
             'CERTIFICATES' => 'Сертификаты',
             'FEATURES2' => 'Особенности 2',
+            'RELATED_COLOR' => 'Связанные товары (Цвет)',
+            'RELATED_MEMORY' => 'Связанные товары (Объём памяти)',
+            'RELATED_MEMORY2' => 'Связанные товары (Объём накопителя)',
+            'RELATED_CPU' => 'Связанные товары (Процессор)',
+            'RELATED_GPU' => 'Связанные товары (Графический процессор)',
+            'RELATED_SCREEN' => 'Связанные товары (Диагональ экрана)',
+            'RELATED_LTE' => 'Связанные товары (Наличие LTE)',
         );
 
         return array('fields' => $fields, 'properties' => $properties);

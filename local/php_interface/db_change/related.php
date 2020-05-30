@@ -260,4 +260,84 @@ if ($USER->IsAdmin()) {
             }
         }
     }
+
+    $iblockId = 6;
+    $aIblockProperties = array(
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Цвет)",
+            "CODE" => "RELATED_COLOR",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Объём памяти)",
+            "CODE" => "RELATED_MEMORY",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Объём накопителя)",
+            "CODE" => "RELATED_MEMORY2",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Процессор)",
+            "CODE" => "RELATED_CPU",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Графический процессор)",
+            "CODE" => "RELATED_GPU",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Диагональ экрана)",
+            "CODE" => "RELATED_SCREEN",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+        array(
+            "IBLOCK_ID" => $iblockId,
+            "NAME" => "Связанные товары (Наличие LTE)",
+            "CODE" => "RELATED_LTE",
+            'PROPERTY_TYPE' => 'E',
+            'LINK_IBLOCK_ID' => $iblockId,
+            'MULTIPLE' => 'Y',
+            'SORT' => 5000,
+        ),
+    );
+
+    foreach ($aIblockProperties as $aFields) {
+        $aFilter = array("IBLOCK_ID" => $aFields["IBLOCK_ID"], "CODE" => $aFields["CODE"]);
+        $oDbRes = CIBlockProperty::GetList(array(), $aFilter);
+        if ($aDbRes = $oDbRes->fetch()) {
+            echo "Свойство \"".$aFields["NAME"]."\" уже существует<br>";
+        } elseif ($CIBlockProperty->Add($aFields)) {
+            echo "Успешно создано свойство \"".$aFields["NAME"]."\"<br>";
+        } else {
+            echo "Не удалось создать свойство \"".$aFields["NAME"]."\"<br>";
+            echo "Error: ".$CIBlockProperty->LAST_ERROR."<br>";
+        }
+    }
 }
