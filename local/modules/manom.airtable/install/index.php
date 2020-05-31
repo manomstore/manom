@@ -2,6 +2,7 @@
 
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\EventManager;
+use Bitrix\Main\Application;
 
 /**
  * Class manom_airtable
@@ -82,9 +83,59 @@ class manom_airtable extends CModule
      */
     public function InstallDB($aParams = array()): bool
     {
+        $connection = Application::getConnection();
+
+        $this->installPropertiesLinkTable($connection);
+
         RegisterModule($this->MODULE_ID);
 
         return true;
+    }
+
+    /**
+     * @param $connection
+     */
+    public function installPropertiesLinkTable($connection): void
+    {
+        $tableName = 'ma_airtable_properties_link';
+        $fields = array(
+            'id' => '`id` int unsigned not null auto_increment',
+            'airtable' => '`airtable` text collate utf8_unicode_ci',
+            'bitrix' => '`bitrix` text collate utf8_unicode_ci',
+        );
+
+        $tableExits = false;
+        $sql = "show tables like '".$tableName."'";
+        $recordset = $connection->query($sql);
+        while ($record = $recordset->fetch()) {
+            $tableExits = true;
+        }
+
+        if ($tableExits) {
+            foreach ($fields as $name => $fieldSql) {
+                $fieldExist = false;
+                $sql = 'show columns from `'.$tableName."` where `Field` = '".$name."'";
+                $recordset = $connection->query($sql);
+                while ($record = $recordset->fetch()) {
+                    $fieldExist = true;
+                }
+
+                if (!$fieldExist) {
+                    $connection->query('alter table `'.$tableName.'` add '.$fieldSql);
+                }
+            }
+        } else {
+            $sql = 'create table if not exists '.$tableName.' (';
+
+            foreach ($fields as $name => $fieldSql) {
+                $sql .= $fieldSql.',';
+            }
+
+            $sql .= 'primary key (id)
+) engine = InnoDB collate utf8_unicode_ci;';
+
+            $connection->query($sql);
+        }
     }
 
     /**
@@ -93,6 +144,11 @@ class manom_airtable extends CModule
      */
     public function UnInstallDB($aParams = array()): bool
     {
+//        $connection = Application::getConnection();
+//
+//        $sql = "drop table if exists ma_airtable_properties_link;";
+//        $connection->query($sql);
+
         UnRegisterModule($this->MODULE_ID);
 
         return true;
