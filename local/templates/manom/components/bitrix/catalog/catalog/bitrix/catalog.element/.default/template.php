@@ -318,7 +318,7 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['RELATED']['RELATED_LTE'])): ?>
+            <?php /*if (!empty($arResult['RELATED']['RELATED_LTE'])): ?>
                 <div class="product-content__size">
                     <form action="#">
                         <h3>LTE</h3>
@@ -336,7 +336,7 @@ function formatBytes($size, $precision = 2)
                         <?php endforeach; ?>
                     </form>
                 </div>
-            <?php endif; ?>
+            <?php endif; */?>
         </div>
 
         <div class="product-sidebar col-3">
