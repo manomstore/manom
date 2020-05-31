@@ -2,6 +2,10 @@
 
 namespace Manom\Airtable;
 
+use Bitrix\Main\ArgumentException;
+use Bitrix\Main\ObjectPropertyException;
+use Bitrix\Main\SystemException;
+
 /**
  * Class FieldsMap
  * @package Manom\Airtable
@@ -17,6 +21,9 @@ class FieldsMap
 
     /**
      * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
      */
     public function getMap(): array
     {
@@ -27,114 +34,34 @@ class FieldsMap
             'IBLOCK_SECTION_ID' => 'Подкатегория',
         );
 
-        $properties = array(
-            'MORE_PHOTO' => 'Изображения',
-            'CML2_ARTICLE' => 'Артикул',
-            'simcard' => 'Тип SIM-карты',
-            'operat_sis' => 'Операционная система',
-            'tip_korpusa' => 'Тип корпуса',
-            'PROCESSOR' => 'Процессор',
-            'SSD_VALUE' => 'Объем накопителя',
-            'size' => 'Диагональ',
-            'SCREEN_RESOLUTION' => 'Разрешение',
-            'display_brightness' => 'Яркость',
-            'display_contrast' => 'Контрастность',
-            'display_density_ppi' => 'Плотность пикселей на дюйм',
-            'SCREEN_TYPE' => 'Тип дисплея',
-            'display_multitouch_option' => 'Multi-Touch',
-            'display_techs' => 'Технологии дисплея',
-            'camera_aperture_size' => 'Диафрагма, основная камера',
-            'camera_image_stabilization' => 'Стабилизация изображения',
-            'vspyshka' => 'Вспышка',
-            'camera_lens' => 'Объектив',
-            'lens_cover_type' => 'Защита объектива',
-            'osobenosti_kamer' => 'Особенности камер',
-            'camera_video_resolution' => 'Разрешение видео',
-            'video_function' => 'Функции видео',
-            'sensors' => 'Датчики',
-            'battery_type' => 'Тип аккумулятора',
-            'charging_type' => 'Зарядка',
-            'audiotime_battery' => 'Воспроизведение аудио',
-            'playvideo_time_batttery' => 'Воспроизведение видео',
-            'material_type' => 'Материал',
-            'length' => 'Длина',
-            'width' => 'Ширина',
-            'thickness' => 'Толщина',
-            'Weight' => 'Вес',
-            'id_verification' => 'Аутентификация',
-            'water_resistance' => 'Уровень защиты от влаги',
-            'GARANTY' => 'Гарантия',
-            'PROC_FREQUENCY' => 'Частота процессора',
-            'PROC_TURBOBOOST' => 'Ускорение Turbo Boost',
-            'PROC_CORE_AMOUNT' => 'Количество ядер процессора',
-            'RAM_TYPE' => 'Тип оперативной памяти',
-            'RAM_FREQUENCY' => 'Частота оперативной памяти',
-            'SSD_TYPE' => 'Тип накопителя',
-            'GPU_TYPE' => 'Тип графического процессора',
-            'GPU_NAME' => 'Графический процессор',
-            'GPU_MEMORY_VALUE' => 'Объем видеопамяти',
-            'interface_dvivga' => 'Поддержка интерфейсов',
-            'monitors_support' => 'Поддержка доп. мониторов',
-            'web_camera' => 'Веб-камера',
-            'audio' => 'Аудио',
-            'charge_socket' => 'Разъем питания',
-            'charge_value' => 'Ёмкость аккумулятора',
-            'charge_adapter_power' => 'Мощность адаптера',
-            'loop_size' => 'Размер ремешка',
-            'wireless_net' => 'Беспроводная сеть',
-            'battery_life' => 'Время автономной работы',
-            'material_loop' => 'Материал ремешка',
-            'proof_level' => 'Уровень защиты',
-            'wireless_connection' => 'Беспроводное подключение',
-            'source_link' => 'Ссылка на источник',
-            'indication' => 'Индикация',
-            'number_ear_pads' => 'Количество сменных амбушюр',
-            'material_ear_pads' => 'Материал амбушюр',
-            'water_protection' => 'Защита от воды',
-            'active_noise_reduction' => 'Активное шумоподавление',
-            'type_emitter' => 'Тип излучателя',
-            'headphone_type' => 'Тип наушников',
-            'navigation' => 'Навигация',
-            'clock_face' => 'Циферблат',
-            'fingerprint_scanner' => 'Сканер отпечатка пальца',
-            'keyboard_backlight' => 'Подсветка клавиш клавиатуры',
-            'bluetooth_technology' => 'Технология Bluetooth',
-            'wi_fi_technology' => 'Технология Wi-Fi',
-            'thunderbolt_number' => 'Количество Thunderbolt 3 (USB‑C)',
-            'display_backlight' => 'Подсветка дисплея',
-            'max_memory_size' => 'Макс. объем памяти',
-            'built_in_acoustics' => 'Встроенная акустика',
-            'headphone_jack' => 'Разъем для наушников',
-            'cpu_features' => 'Особенности процессора',
-            'data_transfer' => 'Передача данных',
-            'country_manufacture' => 'Страна производитель',
-            'add_opportunities' => 'Доп. возможности',
-            'shipping_weight' => 'Вес с упаковкой',
-            'geo_position' => 'Геопозиция',
-            'cellular_and_wireless' => 'Сотовая и беспроводная сеть',
-            'zoom_video' => 'Зум (видео)',
-            'aperture_front_camera' => 'Диафрагма, фронтальная камера',
-            'front_camera' => 'Фронтальная камера',
-            'main_camera' => 'Основная камера',
-            'sim_card_quantity' => 'Количество SIM карт',
-            'release_year' => 'Год релиза',
-            'features' => 'Особенности',
-            'contents_of_delivery' => 'Комплект поставки',
-            'color' => 'Цвет',
-            'memory_size' => 'Объём памяти',
-            'brand' => 'Бренд',
-            'SCREEN_SiZE' => 'Диагональ экрана',
-            'CERTIFICATES' => 'Сертификаты',
-            'FEATURES2' => 'Особенности 2',
-            'RELATED_COLOR' => 'Связанные товары (Цвет)',
-            'RELATED_MEMORY' => 'Связанные товары (Объём памяти)',
-            'RELATED_MEMORY2' => 'Связанные товары (Объём накопителя)',
-            'RELATED_CPU' => 'Связанные товары (Процессор)',
-            'RELATED_GPU' => 'Связанные товары (Графический процессор)',
-            'RELATED_SCREEN' => 'Связанные товары (Диагональ экрана)',
-            'RELATED_LTE' => 'Связанные товары (Наличие LTE)',
-        );
+        $properties = $this->getList();
 
         return array('fields' => $fields, 'properties' => $properties);
+    }
+
+    /**
+     * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    public function getList(): array
+    {
+        $items = array();
+
+        $result = AirtablePropertiesLinkTable::getList(array(
+            'order' => array('id' => 'ASC'),
+            'filter' => array(),
+            'select' => array('id', 'airtable', 'bitrix'),
+        ));
+        while ($row = $result->fetch()) {
+            $items[] = array(
+                'id' => (int)$row['id'],
+                'airtable' => $row['airtable'],
+                'bitrix' => $row['bitrix'],
+            );
+        }
+
+        return $items;
     }
 }
