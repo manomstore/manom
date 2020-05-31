@@ -101,4 +101,33 @@ class Property
 
         return $items;
     }
+
+    /**
+     * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    public function getAllPropertiesData(): array
+    {
+        $items = array();
+
+        $result = PropertyTable::getList(array(
+            "order" => array('SORT' => 'ASC', 'ID' => 'ASC'),
+            "filter" => array('IBLOCK_ID' => $this->iblockId),
+            "select" => array('ID', 'CODE', 'NAME', 'PROPERTY_TYPE', 'MULTIPLE'),
+
+        ));
+        while ($row = $result->fetch()) {
+            $items[$row['CODE']] = array(
+                'id' => (int)$row['ID'],
+                'code' => $row['CODE'],
+                'name' => $row['NAME'],
+                'type' => $row['PROPERTY_TYPE'],
+                'multiple' => $row['MULTIPLE'] === 'Y',
+            );
+        }
+
+        return $items;
+    }
 }

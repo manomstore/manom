@@ -5,6 +5,7 @@ namespace Manom\Airtable;
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
+use Exception;
 
 /**
  * Class FieldsMap
@@ -63,5 +64,59 @@ class FieldsMap
         }
 
         return $items;
+    }
+
+    /**
+     * @param array $fields
+     * @return bool
+     * @throws Exception
+     */
+    public function addLink($fields): bool
+    {
+        if (empty($fields['airtable']) || empty($fields['bitrix'])) {
+            return false;
+        }
+
+        $result = AirtablePropertiesLinkTable::add(array(
+            'airtable' => $fields['airtable'],
+            'bitrix' => $fields['bitrix'],
+        ));
+
+        return $result->isSuccess();
+    }
+
+    /**
+     * @param array $fields
+     * @return bool
+     * @throws Exception
+     */
+    public function updateLink($fields): bool
+    {
+        if (empty($fields['id']) || empty($fields['airtable']) || empty($fields['bitrix'])) {
+            return false;
+        }
+
+        $result = AirtablePropertiesLinkTable::update($fields['id'], array(
+            'airtable' => $fields['airtable'],
+            'bitrix' => $fields['bitrix'],
+        ));
+
+        return $result->isSuccess();
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws Exception
+     */
+    public function deleteLink($id): bool
+    {
+        if (empty($id)) {
+            return false;
+        }
+
+        $result = AirtablePropertiesLinkTable::delete($id);
+
+        return $result->isSuccess();
     }
 }

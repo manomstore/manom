@@ -1,13 +1,13 @@
-.airtable-import-info {
+.airtable-info {
     display: none;
 }
 
-.airtable-import-success {
+.airtable-success {
     display: none;
     color: green;
 }
 
-.airtable-import-error {
+.airtable-error {
     display: none;
     color: red;
 }

@@ -48,6 +48,16 @@ class eventHandlers
                     'items_id' => 'airtable_import',
                     'items' => array(),
                 ),
+                array(
+                    'text' => 'Привязка полей',
+                    'title' => 'Привязка полей',
+                    'url' => 'airtable_fields_link.php',
+                    'icon' => '',
+                    'page_icon' => '',
+                    'module_id' => 'manom.airtable',
+                    'items_id' => 'airtable_fields_link',
+                    'items' => array(),
+                ),
             ),
         );
 
