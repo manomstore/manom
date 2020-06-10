@@ -534,12 +534,6 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['DELIV'])): ?>
-                <label for="tab5">
-                    <span>Оплата и доставка</span>
-                </label>
-            <?php endif; ?>
-
             <?php if (!empty($arResult['PROPERTIES']['YOUTUBE']['VALUE'])): ?>
                 <label for="tab6">
                     <span>Обзоры на товар</span>
@@ -723,26 +717,6 @@ function formatBytes($size, $precision = 2)
                                     <div><?=$value['answer']?></div>
                                 <?php endforeach; ?>
                             </div>
-                        </div>
-                    </section>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!empty($arResult['DELIV'])): ?>
-                <h3 class="accord-mobile__header">
-                    <label for="tab5">
-                        <span>Оплата и доставка</span>
-                    </label>
-                </h3>
-                <div id="content5">
-                    <section>
-                        <div class="tab-content">
-                            <?php foreach ($arResult['DELIV'] as $value): ?>
-                                <p class="tab-content__item">
-                                    <span class="tab-content__title"><?=$value['title']?></span>
-                                    <span class="tab-content__text1"><?=$value['text']?></span>
-                                </p>
-                            <?php endforeach; ?>
                         </div>
                     </section>
                 </div>
