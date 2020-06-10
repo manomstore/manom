@@ -52,6 +52,77 @@ $(document).ready(function()
 
     executeRequest(form, options);
   });
+
+  let linkProperties = {};
+  if ($('input').is('[name=link-properties]')) {
+    linkProperties = jQuery.parseJSON($('input[name=link-properties]').val());
+  }
+
+  $(document).on('click', '.js-airtable-add-link', function(e)
+  {
+    e.preventDefault();
+
+    let html = '<tr class="js-airtable-delete-link-tr"><td width="45%">';
+
+    html += '<input name="airtable[]" type="text" value="" size="50">';
+    html += '</td><td width="45%">';
+    html += '<select name="bitrix[]">';
+    html += '<option value=""></option>';
+
+    $.each(linkProperties, function(index, value)
+    {
+      html += '<option value="' + value.code + '">' + value.name + ' (' + value.code + ')</option>';
+    });
+
+    html += '</select>';
+    html += '</td><td>';
+    html += '<input type="hidden" name="id[]" value="">';
+    html += '<button class="js-airtable-delete-link" data-id="">Удалить</button>';
+    html += '</td></tr>';
+
+    $('.js-airtable-add-link-tr').before(html);
+  });
+
+  $(document).on('click', '.js-airtable-delete-link', function(e)
+  {
+    e.preventDefault();
+
+    let self = $(this),
+      id = self.data('id');
+
+    if (id === '') {
+      self.parents('.js-airtable-delete-link-tr').remove();
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: $('form[name=airtable-link]').data('action'),
+        data: {
+          action: 'deleteLink',
+          id: id,
+        },
+        beforeSend: function()
+        {
+          BX.showWait();
+        },
+        success: function(data)
+        {
+          data = jQuery.parseJSON(data);
+
+          if (data.error) {
+
+          } else {
+            self.parents('.js-airtable-delete-link-tr').remove();
+          }
+
+          BX.closeWait();
+        },
+        error: function(error)
+        {
+          BX.closeWait();
+        },
+      });
+    }
+  });
 });
 
 function executeRequest(form, options)
@@ -63,10 +134,10 @@ function executeRequest(form, options)
     beforeSend: function()
     {
       form.find('input[type=submit]').prop('disabled', true);
-      $('.js-airtable-import-success').hide();
-      $('.js-airtable-import-errors').html('');
-      $('.js-airtable-import-error').hide();
-      $('.js-airtable-import-info').show();
+      $('.js-airtable-success').hide();
+      $('.js-airtable-errors').html('');
+      $('.js-airtable-error').hide();
+      $('.js-airtable-info').show();
       BX.showWait();
     },
     success: function(data)
@@ -74,22 +145,22 @@ function executeRequest(form, options)
       data = jQuery.parseJSON(data);
 
       if (data.error) {
-        $('.js-airtable-import-errors').html('<p>' + data.message + '</p>');
-        $('.js-airtable-import-error').show();
+        $('.js-airtable-errors').html('<p>' + data.message + '</p>');
+        $('.js-airtable-error').show();
       } else {
-        $('.js-airtable-import-success').show();
+        $('.js-airtable-success').show();
       }
 
       form.find('input[type=submit]').prop('disabled', false);
-      $('.js-airtable-import-info').hide();
+      $('.js-airtable-info').hide();
       BX.closeWait();
     },
     error: function(error)
     {
       form.find('input[type=submit]').prop('disabled', false);
-      $('.js-airtable-import-info').hide();
-      $('.js-airtable-import-errors').html('<p>' + error + '</p>');
-      $('.js-airtable-import-error').show();
+      $('.js-airtable-info').hide();
+      $('.js-airtable-errors').html('<p>' + error + '</p>');
+      $('.js-airtable-error').show();
       BX.closeWait();
     },
   });

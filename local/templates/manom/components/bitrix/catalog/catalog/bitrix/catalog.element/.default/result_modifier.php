@@ -9,6 +9,7 @@ use Manom\Content;
 use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
+use Manom\Related;
 
 $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 
@@ -48,6 +49,9 @@ $arResult['CURRENT_USER'] = getUser();
 $arResult['REVIEWS'] = getReviews($arResult['ID']);
 $arResult['QNA_VALUES'] = getQna($arResult['PROPERTIES']['A_N_Q']['VALUE']);
 $arResult['DELIV'] = getDelivery();
+
+$related = new Related();
+$arResult['RELATED'] = $related->getRelated($arResult['ID']);
 
 if (empty($arResult['OFFERS'])) {
     $arResult['PRODUCT_ID'] = (int)$arResult['ID'];

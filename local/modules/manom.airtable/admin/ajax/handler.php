@@ -6,7 +6,8 @@ if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH
 
 use \Bitrix\Main\Application;
 use \Bitrix\Main\Loader;
-use Manom\Airtable\Import;
+use \Manom\Airtable\Import;
+use \Manom\Airtable\FieldsMap;
 
 define('NO_KEEP_STATISTIC', true);
 define('NO_AGENT_CHECK', true);
@@ -62,6 +63,18 @@ if ($post['action'] === 'sections') {
 if ($post['action'] === 'element') {
     if (empty($post['xmlId'])) {
         die(json_encode(array('error' => true, 'message' => 'Не указан внешний код')));
+    }
+}
+
+if ($post['action'] === 'deleteLink') {
+    if (empty((int)$post['id'])) {
+        die(json_encode(array('error' => true, 'message' => 'Не указан ид привязки')));
+    }
+
+    $fieldsMap = new FieldsMap();
+
+    if (!$fieldsMap->deleteLink((int)$post['id'])) {
+        die(json_encode(array('error' => true, 'message' => 'Не удалось удалить привязку')));
     }
 }
 
