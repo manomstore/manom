@@ -37,13 +37,13 @@ $sections = $tools->getSections();
         <div class="adm-detail-tabs-block"></div>
         <div class="adm-detail-content-wrap">
             <div class="adm-detail-content">
-                <div class="airtable-import-info js-airtable-info">
+                <div class="airtable-info js-airtable-info">
                     <p>Выгрузка запущена, не закрывайте вкладку до окончания процесса.</p>
                 </div>
-                <div class="airtable-import-success js-airtable-success">
+                <div class="airtable-success js-airtable-success">
                     <p>Выгрузка успешно выполнена.</p>
                 </div>
-                <div class="airtable-import-error js-airtable-error">
+                <div class="airtable-error js-airtable-error">
                     <p>Не удалось выполнить выгрузку. Errors:</p>
                     <div class="js-airtable-errors"></div>
                 </div>

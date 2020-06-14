@@ -179,6 +179,7 @@ class Import
             }
 
             if ($item['bitrix'] === 'MORE_PHOTO') {
+                $airtableItem['fields'][$item['airtable']] = array_reverse($airtableItem['fields'][$item['airtable']]);
                 $result = $this->processImages($airtableItem['fields'][$item['airtable']]);
 
                 if (!empty($result['preview'])) {
@@ -238,6 +239,8 @@ class Import
                     $airtableIdToXmlId,
                     $this->propertiesData[$item['bitrix']]['multiple']
                 );
+            } elseif ($item['bitrix'] === 'MORE_PHOTO') {
+                continue;
             }
 
             $items[$item['bitrix']] = $airtableItem['fields'][$item['airtable']];
