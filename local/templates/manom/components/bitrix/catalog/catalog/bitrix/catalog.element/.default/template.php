@@ -878,7 +878,7 @@ function formatBytes($size, $precision = 2)
                             '>CATALOG_PRICE_1' => 0,
                         );
                         ?>
-                        <h2>Аксессуары</h2>
+
                         <?php $APPLICATION->IncludeComponent(
                             'bitrix:catalog.section',
                             'access',

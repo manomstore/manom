@@ -18,7 +18,7 @@ $this->setFrameMode(true);
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
                 ?>
                 <div class="cb-block__item col-3">
-                    <h2>test</h2>
+                    <h2>Аксессуары</h2>
                     <div class="product-card">
                         <div class="product-card__img">
                             <img src="<?=$item['images'][0]['src']?>" alt="<?=$item['name']?>">
