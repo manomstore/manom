@@ -86,7 +86,7 @@ foreach ($arResult['ITEMS'] as $item) {
                 <?php endif; ?>
             <?php endforeach; ?>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
-                <?php if (isset($item['PRICE']) || !$item['DISPLAY_TYPE'] || !$item['VALUES']) {
+                <?php if (isset($item['PRICE']) || !$item['DISPLAY_TYPE'] || count((array)$item['VALUES']) <= 1) {
                     continue;
                 } ?>
                 <li class="catalog-filter__li">
