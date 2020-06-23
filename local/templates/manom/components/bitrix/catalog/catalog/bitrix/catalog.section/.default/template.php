@@ -180,6 +180,7 @@ $this->setFrameMode(true);
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
                 ?>
                 <div class="cb-block__item col-3<?=$arParams['IS_BRAND'] ? ' block__item__brand' : ''?>">
+
                     <div class="product-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
                         <div class="product-card__img">
                             <?php foreach ($item['images'] as $image): ?>

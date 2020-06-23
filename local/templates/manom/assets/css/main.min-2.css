@@ -4120,6 +4120,7 @@ border-radius: 5px;
   font-size: 22px;
   line-height: 28px;
   margin-top: 12px;
+  text-align: left;
 }
 
 .tab-content__column h3 {
