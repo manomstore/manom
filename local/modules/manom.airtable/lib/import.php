@@ -216,7 +216,7 @@ class Import
             }
 
             if ($item['bitrix'] === 'FEATURES2') {
-                $values = explode('/', $airtableItem['fields'][$item['airtable']]);
+                $values = explode('–', $airtableItem['fields'][$item['airtable']]);
                 $airtableItem['fields'][$item['airtable']] = $values;
             } elseif ($item['bitrix'] === 'features' || $item['bitrix'] === 'contents_of_delivery') {
                 $airtableItem['fields'][$item['airtable']] = array(
