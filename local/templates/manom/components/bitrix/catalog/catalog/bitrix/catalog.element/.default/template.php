@@ -688,16 +688,14 @@ function formatBytes($size, $precision = 2)
                                         <?=$arResult['PROPERTIES']['features']['~VALUE']['TEXT']?>
                                     <?php endif; ?>
                                 </div>
-                                <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])): ?>
+	                            <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['VALUE'])): ?>
                                     <div class="tab-content__column right-block">
                                         <h3 class="tab-content__title--right">Комплектация</h3>
-	                                    <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['VALUE'])): ?>
 		                                    <ul>
 			                                    <?php foreach ($arResult['PROPERTIES']['contents_of_delivery']['VALUE'] as $value): ?>
 				                                    <li><?= trim($value) ?></li>
 			                                    <?php endforeach; ?>
 		                                    </ul>
-	                                    <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
