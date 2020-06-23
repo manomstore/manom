@@ -215,10 +215,10 @@ class Import
                 continue;
             }
 
-            if ($item['bitrix'] === 'FEATURES2') {
+            if ($item['bitrix'] === 'FEATURES2' || $item['bitrix'] === 'contents_of_delivery') {
                 $values = explode('–', $airtableItem['fields'][$item['airtable']]);
                 $airtableItem['fields'][$item['airtable']] = $values;
-            } elseif ($item['bitrix'] === 'features' || $item['bitrix'] === 'contents_of_delivery') {
+            } elseif ($item['bitrix'] === 'features') {
                 $airtableItem['fields'][$item['airtable']] = array(
                     'VALUE' => array(
                         'TYPE' => 'HTML',
