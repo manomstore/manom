@@ -353,7 +353,7 @@ $properties = array(
                 'USER_NAME',
             ),
             'FILTER_PROPERTY_CODE' => $properties,
-            'FILTER_PRICE_CODE' => array('Цена продажи', 'РРЦ'),
+            'FILTER_PRICE_CODE' => array('Цена продажи'),
             'FILTER_OFFERS_FIELD_CODE' => array(),
             'FILTER_OFFERS_PROPERTY_CODE' => array(),
         )
