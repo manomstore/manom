@@ -2818,6 +2818,7 @@ p.price-slider {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   padding-top: 7px;
+  height: 400px;
 }
 
 .product-photo .product-photo__left {

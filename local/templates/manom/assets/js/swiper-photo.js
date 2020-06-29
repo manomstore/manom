@@ -20,10 +20,10 @@
 })();
 
 (() => {
-  const slider = document.querySelector(`.product-photo__left .swiper-container`);
+  const smallSlider = document.querySelector(`.product-photo__left .swiper-container`);
   var imglist = document.querySelectorAll(".product-photo__left img");
 
-  if (slider) {
+  if (smallSlider) {
     if (imglist.length > 4) {
       new Swiper(slider, {
         direction: 'vertical',
