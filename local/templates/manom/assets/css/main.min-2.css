@@ -2838,6 +2838,7 @@ p.price-slider {
   padding: 17px 15px 9px;
   width: 8.3%;
   height: 300px;
+  overflow: hidden;
 }
 
 .product-photo__left img {
