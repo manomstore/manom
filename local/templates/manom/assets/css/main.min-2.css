@@ -2835,9 +2835,10 @@ p.price-slider {
 
 .product-photo__left {
   text-align: left;
-  margin: 17px 15px 9px;
+  margin-top: 17px;
+  padding: 0 15px 9px;
   width: 8.3%;
-  height: 272px;
+  height: 281px;
   overflow: hidden;
 }
 
