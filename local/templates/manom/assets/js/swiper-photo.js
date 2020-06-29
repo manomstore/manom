@@ -25,7 +25,7 @@
 
   if (smallSlider) {
     if (imglist.length > 4) {
-      new Swiper(slider, {
+      new Swiper(smallSlider, {
         direction: 'vertical',
         slidesPerView: 4,
         slidesPerColumn: 1,

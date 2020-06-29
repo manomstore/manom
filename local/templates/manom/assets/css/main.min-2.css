@@ -2818,7 +2818,6 @@ p.price-slider {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   padding-top: 7px;
-  height: 400px;
 }
 
 .product-photo .product-photo__left {
@@ -2838,6 +2837,7 @@ p.price-slider {
   text-align: left;
   padding: 17px 15px 9px;
   width: 8.3%;
+  height: 300px;
 }
 
 .product-photo__left img {
