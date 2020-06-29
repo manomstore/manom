@@ -28,9 +28,6 @@
       new Swiper(smallSlider, {
         direction: 'vertical',
         slidesPerView: 4,
-        slidesPerColumn: 1,
-        spaceBetween: 0,
-        loop: true,
       });
     } else {
       return;
