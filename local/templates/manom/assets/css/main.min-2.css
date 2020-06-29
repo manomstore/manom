@@ -2920,7 +2920,8 @@ p.price-slider {
 }
 
 .product-content  input.out-of-stock + label {
-  opacity: 0.75;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 767px) {
