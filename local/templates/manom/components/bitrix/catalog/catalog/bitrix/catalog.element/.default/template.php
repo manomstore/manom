@@ -133,19 +133,20 @@ function formatBytes($size, $precision = 2)
     <div class="product-main row">
         <div class="product-photo">
             <div class="product-photo__left col-1">
-                <?php $first = true;?>
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
+                    <?php $first = true;?>
                         <?php foreach ($arResult['smallImages'] as $i => $image): ?>
-                            <img
-                                src="<?=$image['src']?>"
-                                data-color=""
-                                data-photo-id="<?=$i?>"
-                                class="<?=$first ? 'active' : ''?>"
-                                class="swiper-slide"
-                                alt=""
-                            >
-                            <?php $first = false;?>
+                            <div class="swiper-slide">
+                                <img
+                                    src="<?=$image['src']?>"
+                                    data-color=""
+                                    data-photo-id="<?=$i?>"
+                                    class="<?=$first ? 'active' : ''?>"
+                                    alt=""
+                                >
+                                <?php $first = false;?>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
