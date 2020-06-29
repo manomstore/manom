@@ -2033,7 +2033,7 @@ line-height: 24px;
 .cb-block__item:first-child,
 .cb-block__item:nth-child(2),
 .cb-block__item:nth-child(3) {
-  border-bottom: none;
+  /* border-bottom: none; */
 }
 
 .cb-block__item:last-child, .cb-block__item:nth-child(3n) {
