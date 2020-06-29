@@ -2919,6 +2919,10 @@ p.price-slider {
   width: 25%;
 }
 
+.product-content  input.out-of-stock + label {
+  opacity: 0.75;
+}
+
 @media screen and (max-width: 767px) {
   .product-content {
     display: flex;
@@ -6206,6 +6210,8 @@ h3.tab-content__title--right {
     margin-bottom: 25px;
     grid-area: product-sidebar1;
   }
+
+
 
 
   .product .product-sidebar {
