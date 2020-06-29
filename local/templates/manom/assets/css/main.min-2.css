@@ -2841,6 +2841,12 @@ p.price-slider {
   overflow: hidden;
 }
 
+
+
+.product-photo__left .swiper-slide {
+  height: 68px !important;
+}
+
 .product-photo__left img {
   display: block;
   min-width: 68px;
