@@ -2020,7 +2020,7 @@ $(document).ready(function () {
       beforeShowDay: function (date) {
         return [0, 6].indexOf(date.getDay()) <= -1;
       },
-    });
+    }).datepicker("setDate", startDate);
 
     checkDeliveryTime();
   })();
