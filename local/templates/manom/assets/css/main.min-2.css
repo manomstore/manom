@@ -11060,6 +11060,13 @@ button.top-nav__link {
     padding-top: 20px;
   }
 
+  .personal-preview__final-sum {
+    color: #29282C;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: right;
+  }
+
   .popup-login {
     width: 1041px;
   }

@@ -91,7 +91,8 @@ $count = 0;
             <?php endif; ?>
             <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
                 <p class="personal-preview__final-sum">
-                    <?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?>
+                    <span>Итого: </span><?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?><span> ₽</span>
+
                 </p>
             <?php endif; ?>
             <div class="preview-bottom">
