@@ -11065,6 +11065,7 @@ button.top-nav__link {
     font-size: 14px;
     font-weight: 500;
     text-align: right;
+    padding-bottom: 20px;
   }
 
   .popup-login {
