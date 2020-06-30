@@ -90,7 +90,9 @@ $count = 0;
                 <p style="text-align: left;padding: 5px 10px;">Товаров: <?=$count?></p>
             <?php endif; ?>
             <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
-                <?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?>
+                <p class="personal-preview__final-sum">
+                    <?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?>
+                </p>
             <?php endif; ?>
             <div class="preview-bottom">
                 <span style="display:none" data-gtm-products='<?=GTM::getProductsOnPageJS()?>'></span>
