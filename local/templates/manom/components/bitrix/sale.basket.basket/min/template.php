@@ -23,7 +23,7 @@ $count = 0;
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
         <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
 
-            <span class="top-count"><?=$arResult['PRODUCTS_COUNT']?></span>
+            <span class="top-count top-personal__count"><?=$arResult['PRODUCTS_COUNT']?></span>
         <?php endif; ?>
     </a>
     <?php
