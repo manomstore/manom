@@ -10853,18 +10853,8 @@ button.top-nav__link {
   }
 
   .top-personal__count {
-    font-size: 16px;
-    color: #73737E;
-
-    display: inline;
-    width: auto;
-    min-width: 0;
-    height: auto;
-    position: static;
-    border: none;
-    padding: 0;
-    border-radius: 0;
-    background-color: transparent;
+    top: 11px;
+    right: -2px;
   }
 
   .header__wrapper--fix .popup-block--search {
