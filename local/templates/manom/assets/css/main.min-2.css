@@ -7125,6 +7125,11 @@ h3.tab-content__title--right {
   background-color: #D1D1D1;
 }
 
+.sci-product__counter button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .sci-product__counter input {
   font-family: inherit;
   font-size: 12px;
