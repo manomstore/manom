@@ -22,7 +22,6 @@ $count = 0;
     >
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
         <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
-
             <span class="top-count top-personal__count"><?=$arResult['PRODUCTS_COUNT']?></span>
         <?php endif; ?>
     </a>
@@ -89,6 +88,9 @@ $count = 0;
             <?php endforeach; ?>
             <?php if ($count > 5): ?>
                 <p style="text-align: left;padding: 5px 10px;">Товаров: <?=$count?></p>
+            <?php endif; ?>
+            <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
+                <?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?>
             <?php endif; ?>
             <div class="preview-bottom">
                 <span style="display:none" data-gtm-products='<?=GTM::getProductsOnPageJS()?>'></span>
