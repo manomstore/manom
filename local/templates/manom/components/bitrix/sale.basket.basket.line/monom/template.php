@@ -19,7 +19,7 @@ $count = 0;
             class="top-personal__link top-personal__cart <?=$class?>"
             id="mini_cart_header_counter"
     >
-        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="22" height="16">
+        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
         <?php if ($arResult['NUM_PRODUCTS'] !== 0): ?>
             <?=str_replace('руб.', '', $arResult['TOTAL_PRICE'])?>
             &#8381;
