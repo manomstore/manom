@@ -9624,6 +9624,12 @@ button.top-nav__link {
   flex-wrap: nowrap;
 }
 
+@media (max-width: 1129px) {
+  .sub-menu__list {
+    display: none;
+  }
+}
+
 .sub-menu__list {
   flex-shrink: 0;
   overflow-x: auto;
