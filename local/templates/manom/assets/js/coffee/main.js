@@ -2011,7 +2011,7 @@ $(document).ready(function () {
   // Инициализация календаря
   (function () {
     var startDate = new Date();
-    if (startDate.getHours() >= 18) {
+    if (startDate.getHours() >= 17) {
       startDate = new Date(startDate.setDate(startDate.getDate() + 1));
     }
     $('.js-shopcart-datepicker').datepicker({
@@ -2239,14 +2239,10 @@ $(document).ready(function () {
           $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
         }
       }
-      if ($deliveryTime.find('option.sci-hidden').length > 0) {
         $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
-      }
     } else {
-      if ($deliveryTime.find('option.sci-hidden').length > 0) {
         $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
         $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
-      }
     }
 
   }
@@ -2659,6 +2655,10 @@ $.fn.updateDateSaleOrder = function () {
 
   soBlock.find('input, textarea, select').each(function () {
     if ($(this).attr('data-change') !== 'Y' && $(this).attr('data-prop')) {
+      if ($(this).is('#sci-delivery-date') || $(this).is('#sci-delivery-time')) {
+        return true;
+      }
+
       if (!$(this).is('select')) {
         if (soModule.find('[name="' + $(this).attr('data-prop') + '"]').is('input')) {
           $(this).val(soModule.find('[name="' + $(this).attr('data-prop') + '"]').val());
