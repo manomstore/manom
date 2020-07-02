@@ -6,7 +6,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 use Manom\GTM;
 
-$class1 = $arResult['PRODUCTS_COUNT'] !== 0 ? 'top-personal__cart--full' : '';
+// $class1 = $arResult['PRODUCTS_COUNT'] !== 0 ? 'top-personal__cart--full' : '';
 $class2 = $arResult['PRODUCTS_COUNT'] === 0 ? 'preview-shopcart--empty' : '';
 
 $count = 0;

@@ -10830,7 +10830,7 @@ button.top-nav__link {
     margin-right: 6px;
   }
 
-  .top-personal__cart--full {
+  /* .top-personal__cart--full {
     border-radius: 3px;
     padding: 17px 20px;
     display: flex;
@@ -10848,7 +10848,7 @@ button.top-nav__link {
 
   .top-personal__cart--full img {
     margin-right: 10px;
-  }
+  } */
 
   .top-count {
     font-size: 14px;
