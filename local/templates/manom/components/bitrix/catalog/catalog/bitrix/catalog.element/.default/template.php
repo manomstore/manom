@@ -683,10 +683,6 @@ function formatBytes($size, $precision = 2)
                                         <h2>Описание</h2>
                                         <?=$arResult['DETAIL_TEXT']?>
                                     <?php endif; ?>
-                                    <?php if (!empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT'])): ?>
-                                        <h3>Отличительные особенности</h3>
-                                        <?=$arResult['PROPERTIES']['features']['~VALUE']['TEXT']?>
-                                    <?php endif; ?>
                                 </div>
 	                            <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['VALUE'])): ?>
                                     <div class="tab-content__column right-block">
