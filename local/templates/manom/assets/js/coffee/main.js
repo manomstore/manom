@@ -2235,7 +2235,7 @@ $(document).ready(function () {
     if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
       var hour = currentData.getHours();
       for (var key in timeRanges) {
-        if (hour >= timeRanges[key]) {
+        if (hour >= timeRanges[key] - 1) {
           $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
         }
       }
