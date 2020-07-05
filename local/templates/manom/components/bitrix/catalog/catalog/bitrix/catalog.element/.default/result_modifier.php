@@ -210,6 +210,22 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
     }
 }
 
+$arResult["LIMIT_RELATION"] = false;
+
+$rootSection = $arResult["SECTION"]["PATH"][0];
+
+if (!empty($rootSection)) {
+	$arResult["LIMIT_RELATION"] = in_array(
+		$rootSection["CODE"],
+		[
+			"kompyutery",
+			"planshety1",
+			"apple-iphone",
+		]
+	);
+}
+
+
 function getCheaper($productId, $iblockId)
 {
     $cheaper = array();

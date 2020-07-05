@@ -238,6 +238,7 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
+	        <? if (!$arResult["LIMIT_RELATION"]): ?>
             <?php if (!empty($arResult['RELATED']['RELATED_MEMORY2'])): ?>
                 <div class="product-content__size">
                     <form action="#">
@@ -317,6 +318,7 @@ function formatBytes($size, $precision = 2)
                     </form>
                 </div>
             <?php endif; ?>
+	        <? endif; ?>
 
             <?php /*if (!empty($arResult['RELATED']['RELATED_LTE'])): ?>
                 <div class="product-content__size">
