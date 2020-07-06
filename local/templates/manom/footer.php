@@ -283,13 +283,13 @@
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scripts.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.maskedinput.min.js"></script>
-        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/bootstrap-datepicker.js"></script>
-        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/locales/bootstrap-datepicker.ru.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.suggestions.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/main.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/responsive.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/vue-main.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/bootstrap-datepicker.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/locales/bootstrap-datepicker.ru.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/ui-accord.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scroll.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/anchor.js"></script>
