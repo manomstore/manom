@@ -642,7 +642,7 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
                 <label for="tab7">
                     <span>Аксессуары</span>
                 </label>
