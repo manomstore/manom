@@ -11388,6 +11388,12 @@ button.top-nav__link {
   }
 }
 
+@media only screen and (max-width: 1069px) {
+  .tab-content .cb-block__item {
+    width: 33.3%;
+  }
+}
+
 .reviews-item {
   margin-bottom: 35px;
   font-size: 13px;
