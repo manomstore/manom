@@ -11365,16 +11365,16 @@ button.top-nav__link {
   .tab-content .cb-block__item {
     width: 33.3%;
   }
-  .tab-content .cb-block__item:nth-last-child(1),
-  .tab-content .cb-block__item:nth-last-child(2),
-  .tab-content .cb-block__item:nth-last-child(3) {
-    border-bottom: none;
+
+  .tab-content .cb-block__item::nth-child(n+4) {
+    border-bottom: 1px solid #EBEBEB;
   }
 
   .tab-content .cb-block__item:nth-child(1),
   .tab-content .cb-block__item:nth-child(2),
   .tab-content .cb-block__item:nth-child(3) {
-    border-bottom: 1px solid #EBEBEB;
+
+    border-bottom: none;
   }
 
   .tab-content .cb-block__item:nth-child(3n) {
