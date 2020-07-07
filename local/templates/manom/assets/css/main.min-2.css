@@ -11367,10 +11367,6 @@ button.top-nav__link {
     border-bottom: none;
   }
 
-  .tab-content .cb-block__item::nth-child(n+4) {
-    border-top: 1px solid #EBEBEB;
-  }
-
   .tab-content .cb-block__item:nth-child(1),
   .tab-content .cb-block__item:nth-child(2),
   .tab-content .cb-block__item:nth-child(3) {
@@ -11385,6 +11381,10 @@ button.top-nav__link {
   .tab-content .cb-block__item:last-child,
   .tab-content .cb-block__item:nth-child(3n) {
     border-right: 0;
+  }
+
+  .tab-content .cb-block__item:nth-child(n+4) {
+    border-top: 1px solid #EBEBEB;
   }
 }
 
