@@ -11367,7 +11367,7 @@ button.top-nav__link {
   }
 
   .tab-content .cb-block__item::nth-child(n+4) {
-    border-bottom: 1px solid #EBEBEB;
+    border-top: 1px solid #EBEBEB;
   }
 
   .tab-content .cb-block__item:nth-child(1),
