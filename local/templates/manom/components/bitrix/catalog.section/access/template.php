@@ -8,6 +8,7 @@ $this->setFrameMode(true);
 ?>
 <?php if ($arResult['ITEMS']): ?>
     <div class="tab-content">
+        <h2>Аксессуары</h2>
         <div class="cb-block">
             <?
             \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
