@@ -11363,7 +11363,7 @@ button.top-nav__link {
 
 @media screen and (min-width: 992px) {
   .tab-content .cb-block__item {
-    width: 25%;
+    width: 33.3%;
   }
 
   .tab-content .cb-block__item:nth-child(3n) {
