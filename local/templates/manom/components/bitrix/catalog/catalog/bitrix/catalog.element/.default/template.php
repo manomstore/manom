@@ -855,6 +855,11 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
 
             <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+                <h3 class="accord-mobile__header">
+                    <label for="tab7">
+                        <span>Аксессуары</span>
+                    </label>
+                </h3>
                 <div id="content7">
                     <section>
 
