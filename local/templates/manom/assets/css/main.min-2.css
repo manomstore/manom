@@ -11365,13 +11365,13 @@ button.top-nav__link {
   .tab-content .cb-block__item {
     width: 33.3%;
   }
-
+/*
   .tab-content .cb-block__item:nth-child(3n) {
     border-right: 1px solid #EBEBEB;
-  }
+  } */
 
   .tab-content .cb-block__item:last-child,
-  .tab-content .cb-block__item:nth-child(4n) {
+  .tab-content .cb-block__item:nth-child(3n) {
     border-right: 0;
   }
 }
