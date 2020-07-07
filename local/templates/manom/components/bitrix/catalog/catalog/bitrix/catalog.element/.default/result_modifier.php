@@ -210,6 +210,9 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
     }
 }
 
+
+$arResult["ACCESSORIES"] = new \Manom\Accessory($arResult["SECTION"]["ID"]);
+
 function getCheaper($productId, $iblockId)
 {
     $cheaper = array();
