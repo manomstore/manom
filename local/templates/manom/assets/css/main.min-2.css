@@ -11364,6 +11364,7 @@ button.top-nav__link {
 @media screen and (min-width: 992px) {
   .tab-content .cb-block__item {
     width: 33.3%;
+    border-bottom: none;
   }
 
   .tab-content .cb-block__item::nth-child(n+4) {
