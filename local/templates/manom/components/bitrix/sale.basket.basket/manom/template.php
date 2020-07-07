@@ -96,7 +96,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                 type="button"
                                 aria-label="Увеличить количество"
                                 data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
-                                <?=$row['CAN_BUY'] === 'N'?'disabled':''?>
+                                <?=in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?'disabled':''?>
                         >
                             <svg width="8" height="8">
                                 <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
