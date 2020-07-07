@@ -729,7 +729,7 @@ class MyHandlerClass
             }
         }
 
-        if (!$dateDeliveryExist) {
+        if (!$dateDeliveryExist || !$entity->IsNew()) {
             return;
         }
 

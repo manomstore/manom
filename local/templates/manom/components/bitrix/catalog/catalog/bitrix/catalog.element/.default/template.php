@@ -528,14 +528,6 @@ function formatBytes($size, $precision = 2)
                                         <?=$delivery['DESCRIPTION']?>
                                     </div>
                                 </div>
-                                <div class="product-delivery__item">
-                                    <div class="product-delivery__item-cell">
-                                      Самовывоз
-                                    </div>
-                                    <div class="product-delivery__item-cell">
-                                      Ежедневно 11:00—19:00
-                                    </div>
-                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -682,10 +674,6 @@ function formatBytes($size, $precision = 2)
                                     <?php if (!empty($arResult['DETAIL_TEXT'])): ?>
                                         <h2>Описание</h2>
                                         <?=$arResult['DETAIL_TEXT']?>
-                                    <?php endif; ?>
-                                    <?php if (!empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT'])): ?>
-                                        <h3>Отличительные особенности</h3>
-                                        <?=$arResult['PROPERTIES']['features']['~VALUE']['TEXT']?>
                                     <?php endif; ?>
                                 </div>
 	                            <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['VALUE'])): ?>
