@@ -11361,7 +11361,7 @@ button.top-nav__link {
   justify-content: flex-start;
 }
 
-@media screen and (min-width: 992px) {
+/* @media screen and (min-width: 992px) { */
   .tab-content .cb-block__item {
     width: 33.3%;
     border-bottom: none;
@@ -11386,7 +11386,7 @@ button.top-nav__link {
   .tab-content .cb-block__item:nth-child(n+4) {
     border-top: 1px solid #EBEBEB;
   }
-}
+/* } */
 
 @media only screen and (max-width: 1069px) {
   .tab-content .cb-block__item {
