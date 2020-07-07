@@ -11364,15 +11364,11 @@ button.top-nav__link {
 @media screen and (min-width: 992px) {
   .tab-content .cb-block__item {
     width: 33.3%;
-    border-bottom: none;
-    border-top: 1px solid #EBEBEB;
   }
-
-  .tab-content .cb-block__item:nth-child(1),
-  .tab-content .cb-block__item:nth-child(2),
-  .tab-content .cb-block__item:nth-child(3) {
-    border-top: none;
-  }
+/*
+  .tab-content .cb-block__item:nth-child(3n) {
+    border-right: 1px solid #EBEBEB;
+  } */
 
   .tab-content .cb-block__item:last-child,
   .tab-content .cb-block__item:nth-child(3n) {
