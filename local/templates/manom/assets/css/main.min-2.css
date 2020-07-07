@@ -11368,7 +11368,7 @@ button.top-nav__link {
   }
 /* } */
 
-@media only screen and (max-width: 1069px) {
+@media only screen and (max-width: 992px) {
   .tab-content .cb-block__item {
     width: 50%;
   }
