@@ -80,7 +80,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                 aria-label="Уменьшить количество"
 
                                 data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
-                                <?= $row['QUANTITY'] = "1" ? 'disabled' : '' ?>
+                                <?= $row['QUANTITY'] == 1 ? 'disabled' : '' ?>
                         >
                             <svg width="8" height="8">
                                 <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
