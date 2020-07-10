@@ -78,6 +78,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                 class="sci-top__count-down"
                                 type="button"
                                 aria-label="Уменьшить количество"
+                                <?= $row['QUANTITY'] = "1" ? 'disabled' : '' ?>
                                 data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
                         >
                             <svg width="8" height="8">
