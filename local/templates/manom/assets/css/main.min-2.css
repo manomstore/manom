@@ -6106,6 +6106,11 @@ h3.tab-content__title--right {
     -webkit-transition: .3s;
     -o-transition: .3s;
     transition: .3s;
+
+  }
+
+  .catalog-filter {
+    padding-left: 10px;
   }
 
   .catalog-filter__close {
