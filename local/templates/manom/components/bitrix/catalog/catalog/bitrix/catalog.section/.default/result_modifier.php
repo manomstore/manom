@@ -8,6 +8,8 @@ use Manom\Content;
 
 $arResult = Content::setCatalogItemsEcommerceData($arResult);
 
+$arParams["IS_SEARCH"] = $arParams["IS_SEARCH"] === "Y";
+
 $itemsId = array();
 foreach ($arResult['ITEMS'] as $item) {
     if (!in_array((int)$item['ID'], $itemsId, true)) {
@@ -84,3 +86,4 @@ $arResult['GTM_DATA'] = [
     "currentPage" => (int)$arResult["NAV_RESULT"]->NavPageNomer,
     "categoryId" => (int)$arResult["ID"],
 ];
+$arResult['GTM_PAGE_TYPE'] = $arParams["IS_SEARCH"] ? "searchresults" : "category";

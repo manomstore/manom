@@ -4,6 +4,8 @@ require $_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php';
 
 $APPLICATION->SetTitle('Каталог');
 
+Helper::processEmptySearchPage();
+
 global $catalogFilter;
 $catalogFilter = array_merge($catalogFilter, array('>CATALOG_PRICE_1' => 0));
 
