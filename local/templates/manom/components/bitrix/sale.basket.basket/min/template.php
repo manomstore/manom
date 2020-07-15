@@ -6,7 +6,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 use Manom\GTM;
 
-$class1 = $arResult['PRODUCTS_COUNT'] !== 0 ? 'top-personal__cart--full' : '';
+// $class1 = $arResult['PRODUCTS_COUNT'] !== 0 ? 'top-personal__cart--full' : '';
 $class2 = $arResult['PRODUCTS_COUNT'] === 0 ? 'preview-shopcart--empty' : '';
 
 $count = 0;
@@ -22,11 +22,7 @@ $count = 0;
     >
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
         <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
-            <?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?>
-            &#8381;
-            (
             <span class="top-count top-personal__count"><?=$arResult['PRODUCTS_COUNT']?></span>
-            )
         <?php endif; ?>
     </a>
     <?php
@@ -92,6 +88,12 @@ $count = 0;
             <?php endforeach; ?>
             <?php if ($count > 5): ?>
                 <p style="text-align: left;padding: 5px 10px;">Товаров: <?=$count?></p>
+            <?php endif; ?>
+            <?php if ($arResult['PRODUCTS_COUNT'] !== 0): ?>
+                <p class="personal-preview__final-sum">
+                    <span>Итого: </span><?=number_format($arResult['TOTAL_PRICE'], 0, '', ' ')?><span> ₽</span>
+
+                </p>
             <?php endif; ?>
             <div class="preview-bottom">
                 <span style="display:none" data-gtm-products='<?=GTM::getProductsOnPageJS()?>'></span>
