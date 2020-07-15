@@ -44,6 +44,13 @@ $arUrlRewrite = array(
         'SORT' => 100,
     ),
     array(
+        'CONDITION' => '#^(/search|/search/)#',
+        'RULE' => '',
+        'ID' => 'bitrix:catalog',
+        'PATH' => '/catalog/index.php',
+        'SORT' => 100,
+    ),
+    array(
         'CONDITION' => '#^/rest/#',
         'RULE' => '',
         'ID' => null,

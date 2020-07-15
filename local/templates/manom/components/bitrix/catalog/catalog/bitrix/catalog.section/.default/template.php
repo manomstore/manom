@@ -24,7 +24,12 @@ $this->setFrameMode(true);
         <div class="cb-nav-sort">
             <span class="cb-nav__text">Сортировать</span>
             <select required name="sort_by">
-                <option selected value="pop">по популярности</option>
+                <? if ($arParams["IS_SEARCH"]): ?>
+                    <option selected value="relevance">по релевантности</option>
+                    <option value="pop">по популярности</option>
+                <? else: ?>
+                    <option selected value="pop">по популярности</option>
+                <? endif; ?>
                 <option value="price">по цене</option>
                 <option value="name">по названию</option>
             </select>
@@ -388,7 +393,7 @@ $this->setFrameMode(true);
                     </div>
                 </div>
             <?php endforeach; ?>
-            <span style="display:none" data-gtm-data='<?= \Manom\GTM::getDataJS("category", $arResult['GTM_DATA']) ?>'></span>
+            <span style="display:none" data-gtm-data='<?= \Manom\GTM::getDataJS($arResult['GTM_PAGE_TYPE'], $arResult['GTM_DATA']) ?>'></span>
             <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
         </div>
         <?=$arResult['NAV_STRING']?>
@@ -414,6 +419,6 @@ $this->setFrameMode(true);
 </section>
 <script>
     $(function () {
-        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS("category", $arResult['GTM_DATA'])?>);
+        window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS($arResult['GTM_PAGE_TYPE'], $arResult['GTM_DATA'])?>);
     });
 </script>

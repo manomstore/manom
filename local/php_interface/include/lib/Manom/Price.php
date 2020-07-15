@@ -289,10 +289,6 @@ class Price
             }
         }
 
-		    if (!$prices && !is_array($prices)) {
-			    $prices = array();
-		    }
-
         return $prices;
     }
 }

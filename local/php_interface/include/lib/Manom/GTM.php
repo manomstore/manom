@@ -297,7 +297,7 @@ class GTM
 
         $arProducts["ITEMS"] = array_values($arProducts["ITEMS"]);
 
-        $arProducts = \Manom\Content::setCatalogItemsPrice($arProducts);
+        $arProducts = \Manom\Content::setCatalogItemsEcommerceData($arProducts);
         $arProducts = $arProducts["ITEMS"];
 
         $domain = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
@@ -365,11 +365,10 @@ class GTM
 
     private static function setPriceProduct(&$productObject, $arProduct)
     {
-        [$price, $oldPrice] = $arProduct["PRICE"]["PRICES"];
-        $productObject["price"] = (float)$price;
+        $productObject["price"] = (float)$arProduct["price"];
 
-        if ((float)$oldPrice > 0) {
-            $productObject["priceOld"] = $oldPrice;
+        if ((float)$arProduct["oldPrice"] > 0) {
+            $productObject["priceOld"] = (float)$arProduct["oldPrice"];
         }
     }
 
