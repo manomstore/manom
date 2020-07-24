@@ -6304,8 +6304,6 @@ h3.tab-content__title--right {
   }
 
   .product-tabs__nav {
-    display: flex;
-    flex-direction: row;
   }
 
   .shipping__block_courier,
