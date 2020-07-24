@@ -2,6 +2,8 @@
 
 namespace Manom\Airtable;
 
+use Bitrix\Main\Loader;
+use Hozberg\Characteristics;
 use Manom\Airtable\Bitrix\Element;
 use Manom\Airtable\Bitrix\Section;
 use Manom\Airtable\Bitrix\Property;
@@ -11,6 +13,7 @@ use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ArgumentNullException;
 use \Bitrix\Main\ArgumentOutOfRangeException;
 use \Bitrix\Main\ObjectPropertyException;
+use Manom\Exception;
 
 /**
  * Class Import
@@ -25,6 +28,7 @@ class Import
     private $propertiesData;
     private $bitrixElements;
     private $bitrixSections;
+    private $errors = [];
 
     /**
      * Import constructor.
@@ -41,6 +45,25 @@ class Import
 
         $this->changeStatus = $tools->getChangeStatus() === 'Y';
 
+        $this->serviceFields = $tools->getServiceFields();
+        $this->setPropertiesData();
+
+        $element = new Element($this->iblockId);
+        $this->bitrixElements = $element->getItems();
+
+        $section = new Section($this->iblockId);
+        $this->bitrixSections = $section->getItems();
+    }
+
+    /**
+     * @return void
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     * @throws LoaderException
+     * @throws SystemException
+     */
+    public function setPropertiesData(): void
+    {
         $fieldsMap = new FieldsMap();
         $this->map = $fieldsMap->getMap();
 
@@ -53,12 +76,6 @@ class Import
         }
 
         $this->propertiesData = $property->getPropertiesData($propertiesCode);
-
-        $element = new Element($this->iblockId);
-        $this->bitrixElements = $element->getItems();
-
-        $section = new Section($this->iblockId);
-        $this->bitrixSections = $section->getItems();
     }
 
     /**
@@ -68,6 +85,7 @@ class Import
      * @throws ArgumentOutOfRangeException
      * @throws LoaderException
      * @throws SystemException
+     * @throws Exception
      */
     public function process($sections = array()): bool
     {
@@ -99,6 +117,7 @@ class Import
             }
         }
 
+        $this->throwErrors();
         $updated = array();
         foreach ($itemsToUpdate as $fields) {
             if ($element->update($fields)) {
@@ -113,6 +132,41 @@ class Import
         }
 
         return true;
+    }
+
+
+    /**
+     * @return array
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     * @throws LoaderException
+     * @throws SystemException
+     * @throws Exception
+     */
+    public function getMissingPropertiesForAllSections(): array
+    {
+        $api = new Api();
+        $api->scanTables = true;
+        $airtableData = $api->getAll();
+
+        $missingProperties = [];
+        foreach ($airtableData as $section => $sectionItems) {
+            foreach ($sectionItems as $airtableItem) {
+                if (empty($this->bitrixElements[$airtableItem['fields']['Внешний код']])) {
+                    continue;
+                }
+
+                $missingProperties = array_merge(
+                    $missingProperties,
+                    array_keys(
+                        $this->getMissingProperties($airtableItem["fields"])
+                    )
+                );
+                $missingProperties = array_unique($missingProperties);
+            }
+        }
+
+        return $missingProperties;
     }
 
     /**
@@ -210,6 +264,8 @@ class Import
     {
         $items = array();
 
+        $this->createCharacteristics($airtableItem["fields"]);
+
         foreach ($this->map['properties'] as $item) {
             if (!isset($airtableItem['fields'][$item['airtable']])) {
                 continue;
@@ -247,6 +303,65 @@ class Import
         }
 
         return $items;
+    }
+
+    /**
+     * @param array $properties
+     * @return array
+     */
+    public function getMissingProperties($properties): array
+    {
+        $existProperties = array_merge(
+            array_map(function ($field) {
+                return $field["airtable"];
+            }, $this->map['properties']),
+            $this->map['fields'],
+            $this->serviceFields,
+            );
+
+        foreach ($existProperties as $existProperty) {
+            unset($properties[$existProperty]);
+        }
+
+        return $properties;
+    }
+
+    /**
+     * @param array $airtableFields
+     * @return void
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     * @throws LoaderException
+     * @throws SystemException
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws \Exception
+     */
+    private function createCharacteristics($airtableFields): void
+    {
+        $missingProperties = $this->getMissingProperties($airtableFields);
+        $property = new Property($this->iblockId);
+        $fieldsMap = new FieldsMap();
+
+
+        foreach ($missingProperties as $propertyName => $value) {
+            $addedProperty = $property->createProperty($propertyName, $value, $this);
+            if (empty($addedProperty["ID"])) {
+                continue;
+            }
+
+            $fieldsMap->addLink(
+                [
+                    "airtable" => $propertyName,
+                    "bitrix" => $addedProperty["CODE"],
+                ]
+            );
+
+            if (Loader::includeModule("hozberg.characteristics")) {
+                Characteristics::add($addedProperty["ID"]);
+            }
+        }
+        $this->setPropertiesData();
     }
 
     /**
@@ -389,7 +504,8 @@ class Import
         $airtableValue,
         $airtableIdToXmlId,
         $multiple = false
-    ): array {
+    ): array
+    {
         $result = '';
 
         if ($multiple) {
@@ -436,5 +552,28 @@ class Import
         }
 
         return $items;
+    }
+
+    /**
+     * @throws Exception
+     * @return void
+     */
+    private function throwErrors(): void
+    {
+        if (!empty($this->errors)) {
+            $errorString = implode("<br>", $this->errors);
+            throw new Exception($errorString);
+        }
+    }
+
+    /**
+     * @param string $error
+     * @return void
+     */
+    public function addError($error): void
+    {
+        if (!empty($error) && is_string($error)) {
+            $this->errors[] = $error;
+        }
     }
 }

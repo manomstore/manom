@@ -17,6 +17,7 @@ class Api
     private $apiKey;
     private $airtable;
     private $sections;
+    public $scanTables = false;
 
     /**
      * Api constructor.
@@ -84,6 +85,11 @@ class Api
         $params = array(
             'filterByFormula' => "AND({Статус 1} = 'ОДОБРЕНО', {Статус 2} = 'ОДОБРЕНО', {Внешний код} != '')",
         );
+
+        if ($this->scanTables) {
+            unset($params['filterByFormula']);
+            $params['maxRecords'] = 10;
+        }
 
         $request = $this->airtable->getContent(rawurlencode($section), $params);
         do {

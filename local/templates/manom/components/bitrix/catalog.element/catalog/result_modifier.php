@@ -1,5 +1,6 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
+use Hozberg\Characteristics;
 
 $arResult['DISPLAY_OFFERS'] = array();
 $arResult['OFFERS_BY_DISPLAY_PROP'] = array();
@@ -420,14 +421,12 @@ $arResult["ONLY_CASH"] = $arResult["DISPLAY_PROPERTIES"]["ONLY_CASH"]["DISPLAY_V
 $arResult["LOCATION_DISALLOW_BUY"] = $arResult["ONLY_CASH"] && ((int)$userCityByGeoIP["ID"] !== 84);
 
 if (\Bitrix\Main\Loader::includeModule("hozberg.characteristics")) {
-    $characteristicsIds = \Hozberg\Characteristics::getShowCharacteristics();
+    $characteristicsIds = Characteristics::get();
     foreach ($arResult["DISPLAY_PROPERTIES"] as $propertyCode => $property) {
         if (in_array($property["ID"], $characteristicsIds)) {
             $arResult["CHARACTERISTICS"][$propertyCode] = $property;
         }
     }
-} else {
-    $arResult["CHARACTERISTICS"] = $arResult["DISPLAY_PROPERTIES"];
 }
 
 global $userLocationInfo;

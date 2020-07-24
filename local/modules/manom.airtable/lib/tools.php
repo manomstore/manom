@@ -77,6 +77,16 @@ class Tools
     }
 
     /**
+     * @return array
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     */
+    public function getServiceFields(): array
+    {
+        return explode('|', Option::get($this->moduleId, 'service_fields'));
+    }
+
+    /**
      * @return string
      * @throws ArgumentNullException
      * @throws ArgumentOutOfRangeException
