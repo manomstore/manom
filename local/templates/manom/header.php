@@ -705,7 +705,7 @@
                                                             'search',
                                                             [
                                                                 'USE_SUGGEST' => 'N',
-                                                                'PAGE' => '#SITE_DIR#search/index.php',
+                                                                'PAGE' => '#SITE_DIR#search',
                                                                 'COMPONENT_TEMPLATE' => 'search',
                                                             ],
                                                             false

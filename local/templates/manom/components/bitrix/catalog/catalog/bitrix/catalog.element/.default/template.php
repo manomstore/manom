@@ -642,7 +642,7 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
                 <label for="tab7">
                     <span>Аксессуары</span>
                 </label>
@@ -854,7 +854,7 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
                 <h3 class="accord-mobile__header">
                     <label for="tab7">
                         <span>Аксессуары</span>
@@ -866,7 +866,7 @@ function formatBytes($size, $precision = 2)
                         <?php
                         global $accessoryFilter;
                         $accessoryFilter = array(
-                            'ID' => $arResult['PROPERTIES']['ACESS']['VALUE'],
+                            'ID' => $arResult["ACCESSORIES"]->getProductsId(),
                             '>CATALOG_PRICE_1' => 0,
                         );
                         ?>
