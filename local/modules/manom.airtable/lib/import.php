@@ -316,7 +316,7 @@ class Import
                 return $field["airtable"];
             }, $this->map['properties']),
             $this->map['fields'],
-            $this->serviceFields,
+            $this->serviceFields
             );
 
         foreach ($existProperties as $existProperty) {
