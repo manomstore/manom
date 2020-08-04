@@ -152,10 +152,6 @@ class Import
         $missingProperties = [];
         foreach ($airtableData as $section => $sectionItems) {
             foreach ($sectionItems as $airtableItem) {
-                if (empty($this->bitrixElements[$airtableItem['fields']['Внешний код']])) {
-                    continue;
-                }
-
                 $missingProperties = array_merge(
                     $missingProperties,
                     array_keys(
