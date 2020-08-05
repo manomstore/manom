@@ -2,6 +2,7 @@
 
 namespace Manom;
 
+use Bitrix\Iblock\PropertyTable;
 use Bitrix\Main\ArgumentException;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
@@ -343,5 +344,25 @@ class Content
         }
 
         return $images;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPropertyCodes(): array
+    {
+        $items = array();
+
+        $result = PropertyTable::getList(array(
+            "order" => array('SORT' => 'ASC', 'ID' => 'ASC'),
+            "filter" => array('IBLOCK_ID' => \Helper::CATALOG_IB_ID),
+            "select" => array('CODE'),
+
+        ));
+        while ($row = $result->fetch()) {
+            $items[] = $row['CODE'];
+        }
+
+        return $items;
     }
 }

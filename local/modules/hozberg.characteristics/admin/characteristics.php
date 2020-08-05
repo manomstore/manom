@@ -56,7 +56,7 @@ if ($request->isPost() && !empty($request->getPost("save")) && check_bitrix_sess
     }
 }
 
-$showCharacteristics = Characteristics::getShowCharacteristics();
+$showCharacteristics = Characteristics::get();
 
 $aTabs = [
     [

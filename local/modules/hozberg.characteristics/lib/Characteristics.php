@@ -14,6 +14,7 @@ class Characteristics
 {
     const MODULE_ID = "hozberg.characteristics";
     public static $LAST_ERROR = "";
+    public static $items = [];
 
     public static function HandlerOnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
     {
@@ -44,43 +45,14 @@ class Characteristics
     {
         $existError = false;
         try {
-            /** @var DataManager $entityDataClass */
-            $entityDataClass = self::getEntityDataClass(self::getHLBlockId());
-            $currentShowProperties = $entityDataClass::getList()->fetchAll();
+            $existCharacteristics = self::get();
 
-            foreach ($currentShowProperties as &$currentShowProperty){
-                if (!in_array($currentShowProperty["UF_PROPERTY_ID"],$propertyIds)){
-                    $entityDataClass::delete($currentShowProperty["ID"]);
-                    $currentShowProperty = null;
-                }
+            foreach (array_diff($existCharacteristics, $propertyIds) as $propertyId) {
+                self::delete($propertyId);
             }
-            unset($currentShowProperty);
-
-            $currentShowProperties = array_values(array_filter($currentShowProperties));
-
-            $currentShowProperties = array_map(
-                function ($item) {
-                    return (int)$item["UF_PROPERTY_ID"];
-                },
-                $currentShowProperties
-            );
 
             foreach ($propertyIds as $propertyId) {
-                if ((int)$propertyId <= 0) {
-                    continue;
-                }
-
-                if (!in_array($propertyId, $currentShowProperties)) {
-                    $resultAdd = $entityDataClass::add(
-                        [
-                            "UF_PROPERTY_ID" => $propertyId
-                        ]
-                    );
-
-                    if (!$resultAdd->isSuccess()) {
-                        throw new \Exception();
-                    }
-                }
+                self::add($propertyId);
             }
         } catch (\Exception $e) {
             $existError = true;
@@ -96,57 +68,17 @@ class Characteristics
      */
     private static function clearProperty($propertyId)
     {
-        if ((int)$propertyId <= 0) {
-            return;
-        }
-
         try {
-            /** @var DataManager $entityDataClass */
-            $entityDataClass = self::getEntityDataClass(self::getHLBlockId());
-            $row = $entityDataClass::getList(
-                [
-                    "filter" => [
-                        "UF_PROPERTY_ID" => $propertyId
-                    ],
-                    "select" => [
-                        "ID"
-                    ]
-                ])->fetch();
-
-            if (!$row) {
-                return;
-            }
-
-            $entityDataClass::delete($row["ID"]);
+            self::delete($propertyId);
         } catch (\Exception $e) {
         }
 
         \CIBlock::clearIblockTagCache(6);
     }
 
-    public static function getShowCharacteristics()
-    {
-        try {
-            /** @var DataManager $entityDataClass */
-            $entityDataClass = self::getEntityDataClass(self::getHLBlockId());
-            $currentShowProperties = $entityDataClass::getList()->fetchAll();
-
-            $currentShowProperties = array_map(
-                function ($item) {
-                    return (int)$item["UF_PROPERTY_ID"];
-                },
-                $currentShowProperties
-            );
-
-        } catch (\Exception $e) {
-        }
-
-        return $currentShowProperties;
-    }
-
     //Функция получения экземпляра класса:
     private static function getEntityDataClass($HlBlockId)
-        {
+    {
         if (empty($HlBlockId) || $HlBlockId < 1) {
             return false;
         }
@@ -161,7 +93,7 @@ class Characteristics
         $characteristicsHLId = (int)\Bitrix\Main\Config\Option::get(self::MODULE_ID, "characteristics_hl_id",
             0);
 
-        if ($characteristicsHLId < 0) {
+        if ($characteristicsHLId <= 0) {
             $characteristicsHLId = HighloadBlockTable::getList([
                 "filter" => [
                     "NAME" => "HozbergCharacteristics"
@@ -169,8 +101,99 @@ class Characteristics
             ])->fetch();
 
             $characteristicsHLId = (int)$characteristicsHLId["ID"];
+            \Bitrix\Main\Config\Option::set(
+                self::MODULE_ID,
+                "characteristics_hl_id",
+                $characteristicsHLId);
         }
 
         return $characteristicsHLId;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public static function get(): array
+    {
+        try {
+            if (empty(self::$items)) {
+                /** @var DataManager $entityDataClass */
+                $entityDataClass = self::getEntityDataClass(self::getHLBlockId());
+                $characteristics = $entityDataClass::getList()->fetchAll();
+
+                foreach ($characteristics as $characteristic) {
+                    self::$items[$characteristic["ID"]] = (int)$characteristic["UF_PROPERTY_ID"];
+                }
+            }
+
+        } catch (\Exception $e) {
+        }
+
+        return self::$items;
+    }
+
+    /**
+     * @param integer $propertyId
+     * @return bool
+     * @throws \Exception
+     */
+    public static function add($propertyId): bool
+    {
+
+        if ((int)$propertyId <= 0) {
+            return false;
+        }
+
+        if (self::isPropertyExist($propertyId)) {
+            return false;
+        }
+
+        /** @var \Bitrix\Main\ORM\Data\DataManager $entityDataClass */
+        $entityDataClass = self::getEntityDataClass(self::getHLBlockId());
+        $add = $entityDataClass::add([
+            "UF_PROPERTY_ID" => $propertyId
+        ]);
+
+        if (!$add->isSuccess()) {
+            throw new \Exception();
+        }
+        self::$items[$add->getId()] = $propertyId;
+        return true;
+    }
+
+    /**
+     * @param integer $propertyId
+     * @return bool
+     * @throws \Exception
+     */
+    public static function delete($propertyId): bool
+    {
+        /** @var \Bitrix\Main\ORM\Data\DataManager $entityDataClass */
+        $entityDataClass = self::getEntityDataClass(self::getHLBlockId());
+
+        $characteristicId = array_search($propertyId, self::get());
+
+        if (!$characteristicId) {
+            return false;
+        }
+
+        $delete = $entityDataClass::delete($characteristicId);
+        if (!$delete->isSuccess()) {
+            throw new \Exception();
+        }
+
+        unset(self::$items[$characteristicId]);
+        return true;
+    }
+
+    /**
+     * @param integer $propertyId
+     * @return bool
+     * @throws \Exception
+     */
+    public static function isPropertyExist($propertyId): bool
+    {
+        return in_array($propertyId, self::get());
     }
 }

@@ -36,12 +36,13 @@ $options = array(
     'airtableId' => '',
     'apiKey' => '',
     'sections' => array(),
+    'service_fields' => array(),
     'changeStatus' => '',
 );
 
 foreach ($options as $key => $value) {
     if (!empty($savedOptions[$key])) {
-        if ($key === 'sections') {
+        if ($key === 'sections' || $key === 'service_fields') {
             $savedOptions[$key] = explode('|', $savedOptions[$key]);
         }
         $options[$key] = $savedOptions[$key];
@@ -58,7 +59,7 @@ if ($request->isPost() && check_bitrix_sessid()) {
             Option::set($moduleId, $key, $value);
         }
 
-        if ($key === 'sections') {
+        if ($key === 'sections' || $key === 'service_fields') {
             Option::set($moduleId, $key, implode('|', array_filter($value)));
         }
     }
@@ -136,6 +137,65 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                             value="Y"
                                         <?=$options['changeStatus'] === 'Y' ? 'checked' : ''?>
                                     >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="adm-detail-content-cell-l">Служебные поля:</td>
+                                <td class="adm-detail-content-cell-r">
+                                    <table>
+                                        <tbody>
+                                        <?php if (empty($options['service_fields'])): ?>
+                                            <tr>
+                                                <td style="padding: 2px;">
+                                                    <input type="text" name="service_fields[]" value="" size="30"
+                                                           maxlength="255">
+                                                </td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <?php foreach ($options['service_fields'] as $serviceField): ?>
+                                                <tr>
+                                                    <td style="padding: 2px;">
+                                                        <input
+                                                                type="text"
+                                                                name="service_fields[]"
+                                                                value="<?= $serviceField ?>"
+                                                                size="30"
+                                                                maxlength="255"
+                                                        >
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        <tr class="js-airtable-add-service_fields-input-tr">
+                                            <td>
+                                                <a href="#" class="js-airtable-add-service_fields-input">Добавить</a>
+                                            </td>
+                                        <tr>
+                                            <td>
+                                                <a href="#"
+                                                   class="js-airtable-missing-properties-action"
+                                                   data-action="<?= $modulePath ?>/scripts/missing_fields.php"
+                                                >Получить Airtable поля без привязок</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="js-airtable-missing-properties-desc" colspan="2"
+                                    style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td class="adm-detail-content-cell-l"></td>
+                                <td class="adm-detail-content-cell-r">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="js-airtable-missing-properties"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
                             </tr>
                         </tbody>

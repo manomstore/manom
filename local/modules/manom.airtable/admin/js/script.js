@@ -8,6 +8,14 @@ $(document).ready(function()
     $('.js-airtable-add-section-input-tr').before(html);
   });
 
+  $(document).on('click', '.js-airtable-add-service_fields-input', function(e)
+  {
+    e.preventDefault();
+
+    let html = '<tr><td><input type="text" name="service_fields[]" value="" size="30" maxlength="255"></td></tr>';
+    $('.js-airtable-add-service_fields-input-tr').before(html);
+  });
+
   $(document).on('click', '.js-airtable-import-all', function(e)
   {
     e.preventDefault();
@@ -123,6 +131,43 @@ $(document).ready(function()
       });
     }
   });
+
+    $(document).on('click', '.js-airtable-missing-properties-action', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).data('action'),
+            data: {},
+            beforeSend: function () {
+                BX.showWait();
+            },
+            success: function (data) {
+                data = jQuery.parseJSON(data);
+                var $resultBlock = $(".js-airtable-missing-properties");
+                var $resultDesc = $(".js-airtable-missing-properties-desc");
+                if (data.length <= 0) {
+                    $resultDesc.html("");
+                    $resultBlock.html("").append("<p style='margin: 0'>Полей нет</p>");
+                } else {
+                    $resultBlock.html("");
+                    $resultDesc.html("").append("<p>" +
+                        "Следующие поля не имеют привязки к свойствам. <br>" +
+                        "При следующим импорте, для них будут созданы свойства автоматически. <br>" +
+                        "Вы можете добавить некоторые из них в служебные, и они будут проигнорированы." +
+                        "</p>");
+                    for (var i = 0; i < data.length; i++) {
+                        $resultBlock.append("<p style='margin: 0'>" + data[i] + "</p>")
+                    }
+                }
+
+                BX.closeWait();
+            },
+            error: function (error) {
+                BX.closeWait();
+            },
+        });
+    });
 });
 
 function executeRequest(form, options)

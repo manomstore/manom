@@ -38,7 +38,12 @@ if ($post['action'] === 'all') {
             die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
         }
     } catch (Exception $e) {
-        die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
+        $errorMes = $e->getMessage();
+        if (empty($errorMes)) {
+            $errorMes = 'Не удалось выполнить импорт';
+        }
+
+        die(json_encode(array('error' => true, 'message' => $errorMes)));
     }
 }
 
@@ -56,7 +61,12 @@ if ($post['action'] === 'sections') {
             die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
         }
     } catch (Exception $e) {
-        die(json_encode(array('error' => true, 'message' => 'Не удалось выполнить импорт')));
+        $errorMes = $e->getMessage();
+        if (empty($errorMes)) {
+            $errorMes = 'Не удалось выполнить импорт';
+        }
+
+        die(json_encode(array('error' => true, 'message' => $errorMes)));
     }
 }
 
