@@ -5,6 +5,7 @@ namespace Hozberg;
 use Bitrix\Highloadblock\HighloadBlockTable;
 use Bitrix\Iblock\PropertyTable;
 use Bitrix\Main\Entity\DataManager;
+use Bitrix\Main\Loader;
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Main\Config\Option;
 
@@ -79,6 +80,7 @@ class Characteristics
     //Функция получения экземпляра класса:
     private static function getEntityDataClass($HlBlockId)
     {
+        Loader::includeModule("highloadblock");
         if (empty($HlBlockId) || $HlBlockId < 1) {
             return false;
         }
