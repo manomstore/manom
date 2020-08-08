@@ -6181,6 +6181,10 @@ h3.tab-content__title--right {
     border-right: 1px solid #ebebeb;
   }
 
+  .cb-block__item:nth-child(15n) {
+    border-right: 0;
+  }
+
   .cb-block__item:nth-child(4n) {
     border-right: 0;
   }
