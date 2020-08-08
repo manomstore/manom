@@ -6185,11 +6185,11 @@ h3.tab-content__title--right {
     border-right: 0;
   }
 
-  .cb-block__item:last-child {
+  .cb-block__item:nth-child(4n) {
     border-right: 0;
   }
 
-  .cb-block__item:nth-child(4n) {
+  .cb-block__item:last-child {
     border-right: 0;
   }
 
@@ -6336,6 +6336,10 @@ h3.tab-content__title--right {
 
   .cb-block__item:nth-child(4n) {
     border-right: 1px solid #ebebeb;
+  }
+
+  .cb-block__item:last-child {
+    border-right: 0;
   }
 
   .cb-block__item:nth-child(3n) {
