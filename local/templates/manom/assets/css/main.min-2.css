@@ -2065,9 +2065,7 @@ line-height: 24px;
   border-right: 1px solid #ebebeb;
 }
 
-.cb-block__item:first-child,
-.cb-block__item:nth-child(2),
-.cb-block__item:nth-child(3) {
+.no-border-bottom {
   border-bottom: none;
 }
 
