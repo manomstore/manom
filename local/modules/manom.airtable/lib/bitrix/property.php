@@ -8,6 +8,7 @@ use \Bitrix\Main\SystemException;
 use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
 use \Bitrix\Iblock\PropertyTable;
+use Manom\Airtable\Import;
 
 /**
  * Class Property
@@ -129,5 +130,64 @@ class Property
         }
 
         return $items;
+    }
+
+    /**
+     * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    public function createProperty($airtableProperty, $airtableValue, Import $import): array
+    {
+        $oCIBlockProperty = new \CIBlockProperty();
+
+        $isHtmlType = strripos($airtableValue, "\n");
+        $prepareProperty = [
+            'IBLOCK_ID' => $this->iblockId,
+            'NAME' => $airtableProperty,
+            'CODE' => $this->createAtPropertyCode($airtableProperty),
+            'PROPERTY_TYPE' => 'S',
+            'USER_TYPE' => $isHtmlType ? "HTML" : null,
+            'SORT' => $isHtmlType ? 700 : 1100
+        ];
+
+        if (empty($prepareProperty["CODE"])) {
+            return [];
+        }
+
+        $aFilter = array('IBLOCK_ID' => $this->iblockId, 'CODE' => $prepareProperty['CODE']);
+        $oDbRes = \CIBlockProperty::GetList(array(), $aFilter);
+        if ($aDbRes = $oDbRes->fetch()) {
+            $import->addError('Не удалось создать ' . $prepareProperty['NAME'] .
+                '. Свойство с кодом "' . $prepareProperty['CODE'] . '" уже существует.');
+        } elseif ($propertyId = $oCIBlockProperty->Add($prepareProperty)) {
+            $prepareProperty["ID"] = $propertyId;
+            return $prepareProperty;
+        } else {
+            $import->addError('Не удалось создать свойство "' .
+                $prepareProperty['NAME'] .
+                '". Error: ' . $oCIBlockProperty->LAST_ERROR);
+        }
+        return [];
+    }
+
+    /**
+     * @return string
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    private function createAtPropertyCode($name): string
+    {
+        if (empty($name)) {
+            return false;
+        }
+
+        $code = \Cutil::translit($name, "ru");
+        if (strlen($code) > 20) {
+            $code = substr($code, 0, 10) . substr($code, -10, 10);
+        }
+        return "at_" . $code;
     }
 }

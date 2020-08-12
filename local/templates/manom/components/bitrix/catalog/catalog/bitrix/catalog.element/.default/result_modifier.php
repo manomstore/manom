@@ -69,48 +69,11 @@ if (empty($arResult['OFFERS'])) {
 }
 
 if (Loader::includeModule('hozberg.characteristics')) {
-    $characteristicsIds = Characteristics::getShowCharacteristics();
+    $characteristicsIds = Characteristics::get();
     foreach ($arResult['DISPLAY_PROPERTIES'] as $propertyCode => $property) {
         if (in_array((int)$property['ID'], $characteristicsIds, true)) {
             $arResult['CHARACTERISTICS'][$propertyCode] = $property;
         }
-    }
-} else {
-    $arResult['CHARACTERISTICS'] = $arResult['DISPLAY_PROPERTIES'];
-}
-
-$hideProperties = array(
-    'MORE_PHOTO',
-    'CML2_ARTICLE',
-    'BLOG_POST_ID',
-    'BLOG_COMMENTS_CNT',
-    // 'TEXT_UNDER_PHOTO',
-    'BS_STR',
-    'A_N_Q',
-    'RECOM',
-    'SELLOUT',
-    'DOP_SERV',
-    'brand_rs',
-    'PRODUCT_OF_THE_DAY',
-    'SELL_PROD',
-    'NEW_PRODUCT',
-    'STOCK_PRODUCT',
-    'ONLY_PREPAYMENT',
-    'ONLY_PICKUP',
-    'ONLY_CASH',
-    'YOUTUBE',
-    'TOP_FIELD_2',
-    'ACESS_STR',
-    'CML2_BAR_CODE',
-    'CML2_ATTRIBUTES',
-    'CML2_TRAITS',
-    'CML2_BASE_UNIT',
-    'CML2_TAXES',
-    'DELIVERY_DETAIL_CART',
-);
-foreach ($hideProperties as $code) {
-    if (isset($arResult['CHARACTERISTICS'][$code])) {
-        unset($arResult['CHARACTERISTICS'][$code]);
     }
 }
 
@@ -209,6 +172,9 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
     } catch (\Exception $e) {
     }
 }
+
+
+$arResult["ACCESSORIES"] = new \Manom\Accessory($arResult["SECTION"]["ID"]);
 
 function getCheaper($productId, $iblockId)
 {

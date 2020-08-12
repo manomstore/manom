@@ -528,14 +528,6 @@ function formatBytes($size, $precision = 2)
                                         <?=$delivery['DESCRIPTION']?>
                                     </div>
                                 </div>
-                                <div class="product-delivery__item">
-                                    <div class="product-delivery__item-cell">
-                                      Самовывоз
-                                    </div>
-                                    <div class="product-delivery__item-cell">
-                                      Ежедневно 11:00—19:00
-                                    </div>
-                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -650,7 +642,7 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
                 <label for="tab7">
                     <span>Аксессуары</span>
                 </label>
@@ -682,10 +674,6 @@ function formatBytes($size, $precision = 2)
                                     <?php if (!empty($arResult['DETAIL_TEXT'])): ?>
                                         <h2>Описание</h2>
                                         <?=$arResult['DETAIL_TEXT']?>
-                                    <?php endif; ?>
-                                    <?php if (!empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT'])): ?>
-                                        <h3>Отличительные особенности</h3>
-                                        <?=$arResult['PROPERTIES']['features']['~VALUE']['TEXT']?>
                                     <?php endif; ?>
                                 </div>
 	                            <?php if (!empty($arResult['PROPERTIES']['contents_of_delivery']['VALUE'])): ?>
@@ -866,7 +854,7 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($arResult['PROPERTIES']['ACESS']['VALUE'])): ?>
+            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
                 <h3 class="accord-mobile__header">
                     <label for="tab7">
                         <span>Аксессуары</span>
@@ -878,7 +866,7 @@ function formatBytes($size, $precision = 2)
                         <?php
                         global $accessoryFilter;
                         $accessoryFilter = array(
-                            'ID' => $arResult['PROPERTIES']['ACESS']['VALUE'],
+                            'ID' => $arResult["ACCESSORIES"]->getProductsId(),
                             '>CATALOG_PRICE_1' => 0,
                         );
                         ?>

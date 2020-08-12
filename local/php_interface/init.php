@@ -346,6 +346,14 @@ class Helper
 {
     const CATALOG_IB_ID = 6;
     const OFFERS_IB_ID = 7;
+
+    public static function processEmptySearchPage()
+    {
+        global $APPLICATION;
+        if (strripos($APPLICATION->GetCurPage(), SITE_DIR . "search") !== false && !isset($_REQUEST["q"])) {
+            LocalRedirect(SITE_DIR . "search?q=");
+        }
+    }
 }
 
 class MyHandlerClass
@@ -729,7 +737,7 @@ class MyHandlerClass
             }
         }
 
-        if (!$dateDeliveryExist) {
+        if (!$dateDeliveryExist || !$entity->IsNew()) {
             return;
         }
 
