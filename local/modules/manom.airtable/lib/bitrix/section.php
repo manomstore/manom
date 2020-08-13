@@ -40,7 +40,7 @@ class Section
     {
         $items = array();
 
-        $filter = array('IBLOCK_ID' => $this->iblockId);
+        $filter = array('IBLOCK_ID' => $this->iblockId, "GLOBAL_ACTIVE" => "Y");
         $select = array('IBLOCK_ID', 'ID', 'NAME');
         $result = \CIBlockSection::GetList(array(), $filter, false, $select);
         while ($row = $result->fetch()) {
