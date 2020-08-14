@@ -700,7 +700,7 @@ function formatBytes($size, $precision = 2)
             <div id="content1">
                 <section>
                     <div class="tab-content">
-                        <div class="tab-content__row tab-content__row--reverse">
+                        <div class="tab-content__row">
                             <div class="tab-content__column">
                                 <div class="instruction-wrapper tab-content__column col-4">
                                     <?php if ($arResult['PROPERTIES']['FILES']['VALUE']): ?>
