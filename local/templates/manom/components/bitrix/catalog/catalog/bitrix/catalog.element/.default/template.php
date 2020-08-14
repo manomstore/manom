@@ -702,6 +702,10 @@ function formatBytes($size, $precision = 2)
                     <div class="tab-content">
                         <div class="tab-content__row">
                             <div class="tab-content__column">
+                                <?php if (!empty($arResult['DETAIL_TEXT'])): ?>
+                                    <h2>Характеристики</h2>
+                                    <?=$arResult['DETAIL_TEXT']?>
+                                <?php endif; ?>
                                 <div class="instruction-wrapper tab-content__column col-4">
                                     <?php if ($arResult['PROPERTIES']['FILES']['VALUE']): ?>
                                         <strong class="name-properties col-12">Инструкции и сертификаты:</strong>
