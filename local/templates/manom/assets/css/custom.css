@@ -907,7 +907,7 @@ h4.p-article__sidebar_title {
   cursor: pointer;
 }
 .characteristics-wrapper {
-  width: 70%;
+  width: 100%;
 }
 .sci-top__name {
   display: flex;
@@ -1185,10 +1185,9 @@ a.top-submenu2__item:hover .top-submenu2__title {
   padding-left: 10px;
 }
 
-/* #content1 .tab-content .right-block a {
-  padding-right: 4px;
-  padding-left: 10px;
-} */
+#content1 .tab-content .right-block a {
+  color: #219fed;
+}
 .tab-content .left-block {
   width: 70%;
 }
