@@ -701,7 +701,7 @@ function formatBytes($size, $precision = 2)
                 <section>
                     <div class="tab-content">
                         <div class="tab-content__row tab-content__row--reverse">
-                            <div class="tab-content__column col-6">
+                            <div class="tab-content__column">
                                 <div class="instruction-wrapper tab-content__column col-4">
                                     <?php if ($arResult['PROPERTIES']['FILES']['VALUE']): ?>
                                         <strong class="name-properties col-12">Инструкции и сертификаты:</strong>
@@ -738,6 +738,14 @@ function formatBytes($size, $precision = 2)
                                     ); ?>
                                 </div>
                                 <div class="tab-content__column col"></div>
+                            </div>
+                            <div class="tab-content__column right-block">
+                                <h3 class="tab-content__title--right">Документация и сертификаты</h3>
+                                <ul>
+                                    <li>Сертификат EAC</li>
+                                    <li>Руководство пользователя</li>
+                                    <li>Включение и настройка iPhone</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
