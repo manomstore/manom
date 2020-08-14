@@ -4113,7 +4113,7 @@ p.price-slider {
   flex-wrap: nowrap;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 969px) {
   #content2 .tab-content__row,
   #content1 .tab-content__row {
     flex-wrap: wrap;
