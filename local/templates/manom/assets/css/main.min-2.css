@@ -4108,12 +4108,14 @@ p.price-slider {
   text-align: left;
 }
 
-#content2 .tab-content__row {
+#content2 .tab-content__row,
+#content1 .tab-content__row {
   flex-wrap: nowrap;
 }
 
 @media screen and (max-width: 767px) {
-  #content2 .tab-content__row {
+  #content2 .tab-content__row,
+  #content1 .tab-content__row {
     flex-wrap: wrap;
   }
 }
