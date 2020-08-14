@@ -2963,6 +2963,11 @@ p.price-slider {
   width: 25%;
 }
 
+.product-content input.out-of-stock + label {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 @media screen and (max-width: 767px) {
   .product-content {
     display: flex;

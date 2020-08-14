@@ -204,7 +204,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Цвет</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_COLOR'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related out-of-stock"
                                     name="color"
                                     type="radio"
                                     id="<?=$data['code']?>"
