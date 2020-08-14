@@ -743,9 +743,9 @@ function formatBytes($size, $precision = 2)
                             <div class="tab-content__column right-block">
                                 <h3 class="tab-content__title--right">Документация и сертификаты</h3>
                                 <ul>
-                                    <li>Сертификат EAC</li>
-                                    <li>Руководство пользователя</li>
-                                    <li>Включение и настройка iPhone</li>
+                                    <li><a href="#">Сертификат EAC</a></li>
+                                    <li><a href="#">Руководство пользователя</a></li>
+                                    <li><a href="#">Включение и настройка iPhone</a></li>
                                 </ul>
                             </div>
                         </div>
