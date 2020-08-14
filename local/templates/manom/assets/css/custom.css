@@ -1190,7 +1190,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 }
 
 #content1 .tab-content .right-block li:before {
-  color: #219fed;
+  background-color: #219fed;
   width: 2px;
   height: 2px;
   top: 12px;
