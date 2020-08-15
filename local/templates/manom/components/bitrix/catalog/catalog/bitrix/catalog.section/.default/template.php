@@ -45,7 +45,7 @@ $this->setFrameMode(true);
                 <option value="9999">все</option>
             </select>
         </div>
-        <div class="cb-nav-style">
+        <div class="cb-nav-style" style="display: none">
             Вид
             <div class="cb-nav-style__block">
                 <label>
