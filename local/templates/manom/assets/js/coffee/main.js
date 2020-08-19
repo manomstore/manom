@@ -2212,13 +2212,10 @@ $(document).ready(function () {
     var $deliveryTime = $('#sci-delivery-time');
     var $deliveryDate = $('.js-shopcart-datepicker');
 
-    var timeRanges = {
-      1: 6,
-      2: 9,
-      3: 12,
-      4: 15,
-      5: 18,
-    };
+    var timeRanges = window.paramTimeRanges;
+    if (!timeRanges) {
+      timeRanges = {};
+    }
 
     var selectedDate = $deliveryDate.datepicker('getDate');
 

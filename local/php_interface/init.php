@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
+use Manom\Service\TimeDelivery;
 
 require_once __DIR__.'/autoload.php';
 
@@ -74,6 +75,18 @@ AddEventHandler(
     "sale",
     "OnSaleComponentOrderUserResult",
     Array("MyHandlerClass", "OnSaleComponentOrderUserResultHandler")
+);
+
+AddEventHandler(
+    "germen.settings",
+    "OnAfterSettingsUpdate",
+    Array(TimeDelivery::class, "OnAfterSettingsUpdateHandler")
+);
+
+AddEventHandler(
+    "germen.settings",
+    "OnBeforeSettingsUpdate",
+    Array(TimeDelivery::class, "OnBeforeSettingsUpdateHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));

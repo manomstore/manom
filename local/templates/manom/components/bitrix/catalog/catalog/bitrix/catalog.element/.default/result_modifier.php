@@ -10,6 +10,7 @@ use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
 use Manom\Related;
+use Manom\Service\TimeDelivery;
 
 $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 
@@ -506,10 +507,11 @@ function getDeliveryDescription($delivery)
     if ($shop['exist'] && $delivery['id'] === 13) {
         $deliveryPeriod = $week->getTextPeriod($shop);
     } elseif ($delivery['id'] === 8) {
+        $intervals = TimeDelivery::getIntervals();
         $courier = [
             'time' => [
-                'start' => 6,
-                'end' => 18,
+                'start' => (int)array_shift($intervals),
+                'end' => (int)array_pop($intervals),
             ],
             'dates' => [
                 'start' => 1,
