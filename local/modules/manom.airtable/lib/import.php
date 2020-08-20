@@ -207,7 +207,7 @@ class Import
         $fields['DETAIL_PICTURE'] = '';
         $fields['PROPERTIES'] = array();
 
-        $fields = $this->prepareImages($airtableItem, $fields);
+        $fields = $this->prepareFiles($airtableItem, $fields);
 
         $properties = $this->prepareProperties($airtableItem, $airtableIdToXmlId);
 
@@ -221,7 +221,7 @@ class Import
      * @param array $fields
      * @return array
      */
-    private function prepareImages($airtableItem, $fields): array
+    private function prepareFiles($airtableItem, $fields): array
     {
         foreach ($this->map['properties'] as $item) {
             if (!isset($airtableItem['fields'][$item['airtable']])) {
@@ -241,6 +241,10 @@ class Import
                 }
 
                 $airtableItem['fields'][$item['airtable']] = $result['images'];
+            }
+
+            if (in_array($item['bitrix'], ["CERTIFICATE", "INSTRUCTIONS"])) {
+                $airtableItem['fields'][$item['airtable']] = $this->processFiles($airtableItem['fields'][$item['airtable']]);
             }
 
             $fields['PROPERTIES'][$item['bitrix']] = $airtableItem['fields'][$item['airtable']];
@@ -291,7 +295,7 @@ class Import
                     $airtableIdToXmlId,
                     $this->propertiesData[$item['bitrix']]['multiple']
                 );
-            } elseif ($item['bitrix'] === 'MORE_PHOTO') {
+            } elseif (in_array($item['bitrix'], ["MORE_PHOTO", "CERTIFICATE", "INSTRUCTIONS"])) {
                 continue;
             }
 
@@ -416,6 +420,29 @@ class Import
             );
         }
 
+        return $result;
+    }
+
+    /**
+     * @param array $files
+     * @return array
+     */
+    private function processFiles($files): array
+    {
+        $result = [];
+        foreach ($files as $file) {
+            if (empty($file['url'])) {
+                continue;
+            }
+
+            $newFile = \CFile::MakeFileArray($file['url']);
+            $newFile['name'] = $file['filename'];
+
+            $result[] = array(
+                'VALUE' => $newFile,
+                'DESCRIPTION' => '',
+            );
+        }
         return $result;
     }
 

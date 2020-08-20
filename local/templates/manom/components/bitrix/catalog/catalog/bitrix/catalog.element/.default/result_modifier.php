@@ -176,6 +176,18 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
 
 $arResult["ACCESSORIES"] = new \Manom\Accessory($arResult["SECTION"]["ID"]);
 
+$arResult["ATTACH_DOCS"] = [];
+$certificate = $arResult['DISPLAY_PROPERTIES']["CERTIFICATE"]["FILE_VALUE"];
+$instructions = $arResult['DISPLAY_PROPERTIES']["INSTRUCTIONS"]["FILE_VALUE"];
+
+if (!empty($certificate)) {
+    $arResult["ATTACH_DOCS"]["CERTIFICATE"] = $certificate;
+}
+
+if (!empty($instructions)) {
+    $arResult["ATTACH_DOCS"]["INSTRUCTIONS"] = $instructions;
+}
+
 function getCheaper($productId, $iblockId)
 {
     $cheaper = array();

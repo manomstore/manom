@@ -740,14 +740,23 @@ function formatBytes($size, $precision = 2)
                                 </div>
                                 <div class="tab-content__column col"></div>
                             </div>
+                            <?if (!empty($arResult["ATTACH_DOCS"])):?>
                             <div class="tab-content__column right-block">
                                 <h3 class="tab-content__title--right">Документация и сертификаты</h3>
                                 <ul>
-                                    <li><a href="#">Сертификат EAC</a></li>
-                                    <li><a href="#">Руководство пользователя</a></li>
-                                    <li><a href="#">Включение и настройка iPhone</a></li>
+                                    <? foreach ($arResult["ATTACH_DOCS"]["CERTIFICATE"] as $file): ?>
+                                        <li>
+                                            <a target="_blank" href="<?= $file["SRC"] ?>">Сертификат</a>
+                                        </li>
+                                    <? endforeach; ?>
+                                    <? foreach ($arResult["ATTACH_DOCS"]["INSTRUCTIONS"] as $file): ?>
+                                        <li>
+                                            <a target="_blank" href="<?= $file["SRC"] ?>">Инструкция по применению</a>
+                                        </li>
+                                    <? endforeach; ?>
                                 </ul>
                             </div>
+                            <?endif;?>
                         </div>
                     </div>
                 </section>
