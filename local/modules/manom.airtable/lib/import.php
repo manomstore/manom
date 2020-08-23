@@ -13,6 +13,8 @@ use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ArgumentNullException;
 use \Bitrix\Main\ArgumentOutOfRangeException;
 use \Bitrix\Main\ObjectPropertyException;
+use Manom\Content\Questions;
+use Manom\Content\Reviews;
 use Manom\Exception;
 
 /**
@@ -211,6 +213,9 @@ class Import
 
         $properties = $this->prepareProperties($airtableItem, $airtableIdToXmlId);
 
+        (new Reviews($fields["ID"]))->updateFromAT($airtableItem["fields"]["Отзывы"]);
+        (new Questions($fields["ID"]))->updateFromAT($airtableItem["fields"]["Вопрос/Ответ"]);
+
         $fields['PROPERTIES'] = array_merge($fields['PROPERTIES'], $properties);
 
         return $fields;
@@ -313,7 +318,7 @@ class Import
             }, $this->map['properties']),
             $this->map['fields'],
             $this->serviceFields
-            );
+        );
 
         foreach ($existProperties as $existProperty) {
             unset($properties[$existProperty]);

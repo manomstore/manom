@@ -239,6 +239,7 @@ function getReviews($productId)
         'PROPERTY_SOURCE',
         'PROPERTY_AUTHOR',
         'PROPERTY_RECOMMEND',
+        'PROPERTY_FROM_AT',
     );
     $result = CIBlockElement::GetList($order, $filter, false, false, $select);
     while ($row = $result->Fetch()) {
@@ -253,10 +254,13 @@ function getReviews($productId)
             'source' => $row['PROPERTY_SOURCE_VALUE'],
             'author' => trim($row['PROPERTY_AUTHOR_VALUE']),
             'disadvantages' => $row['PROPERTY_RV_DISADVANTAGES_VALUE']['TEXT'],
-            'recommend' => $row['PROPERTY_RECOMMEND_VALUE'] === 'Y',
-            'date' => $dateCreate[0],
             'user' => array(),
         );
+
+        if ($row["PROPERTY_FROM_AT_VALUE"] !== "Y") {
+            $item["recommend"] = $row['PROPERTY_RECOMMEND_VALUE'] === 'Y';
+            $item["date"] = $dateCreate[0];
+        }
 
         if (
             !empty($row['PROPERTY_RV_USER_VALUE']) &&

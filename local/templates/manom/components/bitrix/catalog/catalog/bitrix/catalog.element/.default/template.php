@@ -769,15 +769,17 @@ function formatBytes($size, $precision = 2)
                                                             style="width: <?=$value['rating'] * 20?>%;"
                                                     ></span>
                                                 </span>
-                                                <?php if ($value['recommend']): ?>
-                                                    <span class="reviews-item__recommend reviews-item__recommend--yes">
+                                                <? if (isset($value['recommend'])): ?>
+                                                    <?php if ($value['recommend']): ?>
+                                                        <span class="reviews-item__recommend reviews-item__recommend--yes">
                                                         Рекомендую
                                                     </span>
-                                                <?php else: ?>
-                                                    <span class="reviews-item__recommend reviews-item__recommend--no">
+                                                    <?php else: ?>
+                                                        <span class="reviews-item__recommend reviews-item__recommend--no">
                                                         Не рекомендую
                                                     </span>
-                                                <?php endif; ?>
+                                                    <?php endif; ?>
+                                                <? endif; ?>
                                             </div>
                                         </div>
                                         <div class="reviews-item__content">
