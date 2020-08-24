@@ -91,6 +91,7 @@ class Related
                     'url' => $relatedElementsData[$id]['url'],
                     'value' => $relatedElementsData[$id][$code],
                     'current' => (int)$id === (int)$elementId,
+                    'canBuy' => $relatedElementsData[$id]['canBuy'],
                 );
             }
         }
@@ -102,6 +103,43 @@ class Related
                 unset($result['RELATED_COLOR']);
             }
         }
+
+        $result = $this->setCanBuy($result);
+
+        return $result;
+    }
+
+    /**
+     * @param $result
+     * @return array
+     */
+    private function setCanBuy($result): array
+    {
+        $obProduct = new Product();
+
+        foreach ($result as $property => &$products) {
+            $productsId = array_map(function ($item) {
+                return (int)$item["elementId"];
+            }, $products);
+
+            if (!empty($productsId)) {
+                $ecommerceData = $obProduct->getEcommerceData($productsId, $this->iblockId);
+            }
+
+            foreach ($products as &$product) {
+                $ecommerceProduct = $ecommerceData[$product['elementId']];
+                if (!empty($ecommerceProduct)) {
+                    if (
+                        empty($ecommerceProduct['amounts']['main']) &&
+                        empty($ecommerceProduct['amounts']['second'])
+                    ) {
+                        $product["canBuy"] = false;
+                    }
+                }
+            }
+            unset($product);
+        }
+        unset($products);
 
         return $result;
     }
@@ -139,10 +177,10 @@ class Related
         $items = array();
 
         $filter = array('IBLOCK_ID' => $this->iblockId, 'ID' => $elementsId);
-        $select = array('IBLOCK_ID', 'ID', 'DETAIL_PAGE_URL');
+        $select = array('IBLOCK_ID', 'ID', 'DETAIL_PAGE_URL', "CATALOG_AVAILABLE");
 
         foreach ($this->propertiesMap as $code) {
-            $select[] = 'PROPERTY_'.$code;
+            $select[] = 'PROPERTY_' . $code;
         }
 
         $result = \CIBlockElement::GetList(array(), $filter, false, false, $select);
@@ -150,9 +188,10 @@ class Related
             $items[(int)$row['ID']] = array(
                 'id' => (int)$row['ID'],
                 'url' => $row['DETAIL_PAGE_URL'],
+                'canBuy' => $row['CATALOG_AVAILABLE'] === "Y",
             );
             foreach ($this->propertiesMap as $code => $bitrixCode) {
-                $key = 'PROPERTY_'.mb_strtoupper($bitrixCode).'_VALUE';
+                $key = 'PROPERTY_' . mb_strtoupper($bitrixCode) . '_VALUE';
 
                 $items[(int)$row['ID']][$code] = $row[$key];
             }

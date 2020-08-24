@@ -3071,6 +3071,10 @@ p.price-slider {
   background-color: #fce284;
   border-color: #fce284;
 }
+.product-content__color-purple {
+  background-color: #800080;
+  border-color: #800080;
+}
 
 .product-content__color button {
   width: 100%;
