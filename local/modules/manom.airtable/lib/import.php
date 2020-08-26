@@ -373,8 +373,19 @@ class Import
     {
         $sectionId = 0;
 
+        $sections = explode("/", $name);
+        $sectionData = [
+            "parentName" => array_shift($sections),
+            "name" => array_shift($sections),
+        ];
+
+        if (empty($sectionData["name"]) || empty($sectionData["parentName"])) {
+            return $sectionId;
+        }
+
         foreach ($this->bitrixSections as $section) {
-            if ($section['name'] === $name) {
+            if ($section['name'] === $sectionData["name"]
+                && $section["parent"]['name'] === $sectionData["parentName"]) {
                 $sectionId = $section['id'];
                 break;
             }

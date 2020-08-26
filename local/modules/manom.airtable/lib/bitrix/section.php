@@ -41,14 +41,24 @@ class Section
         $items = array();
 
         $filter = array('IBLOCK_ID' => $this->iblockId, "GLOBAL_ACTIVE" => "Y");
-        $select = array('IBLOCK_ID', 'ID', 'NAME');
+        $select = array('IBLOCK_ID', 'ID', 'NAME', 'IBLOCK_SECTION_ID');
         $result = \CIBlockSection::GetList(array(), $filter, false, $select);
         while ($row = $result->fetch()) {
             $items[(int)$row['ID']] = array(
                 'id' => (int)$row['ID'],
                 'name' => $row['NAME'],
+                'parent' => $row['IBLOCK_SECTION_ID'],
             );
         }
+
+        foreach ($items as &$item) {
+            if ($item["parent"] && array_key_exists($item["parent"], $items)) {
+                $item["parent"] = $items[$item["parent"]];
+            } else {
+                $item["parent"] = [];
+            }
+        }
+        unset($item);
 
         return $items;
     }
