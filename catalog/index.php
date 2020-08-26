@@ -173,9 +173,9 @@ $properties = Content::getPropertyCodes();
             'SEF_URL_TEMPLATES' => Array(
                 'compare' => 'compare/',
                 'element' => '#SECTION_CODE_PATH#/#ELEMENT_CODE#/',
-                'section' => '#SECTION_CODE#/',
+                'section' => '#SECTION_CODE_PATH#/',
                 'sections' => '',
-                'smart_filter' => '#SECTION_CODE#/filter/#SMART_FILTER_PATH#/apply/',
+                'smart_filter' => '#SECTION_CODE_PATH#/filter/#SMART_FILTER_PATH#/apply/',
             ),
             'SET_LAST_MODIFIED' => 'N',
             'SET_STATUS_404' => 'Y',
