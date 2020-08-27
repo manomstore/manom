@@ -945,8 +945,7 @@ class MyHandlerClass
         )->GetNext();
 
         if ($existSection) {
-            $e = new CAdminException(["id" => "CODE", "text" => "Раздел с таким символьным кодом уже существует."]);
-            $APPLICATION->throwException($e);
+            $APPLICATION->throwException("Раздел с таким символьным кодом уже существует.");
             return false;
         }
         return true;
@@ -968,8 +967,7 @@ class MyHandlerClass
         )->GetNext();
 
         if ($existSection) {
-            $e = new CAdminException(["id" => "CODE", "text" => "Раздел с таким символьным кодом уже существует."]);
-            $APPLICATION->throwException($e);
+            $APPLICATION->throwException("Раздел с таким символьным кодом уже существует.");
             return false;
         }
         return true;
