@@ -45,19 +45,19 @@ pre.dnd-dump:hover {
   margin-top: 5px;
   margin-right: 5px;
 }
-.subscribe-edit .data-table td p input[type="text"] {
+.subscribe-edit .data-table td p input[type='text'] {
   border: 1px solid #79b700;
   padding: 5px 5px;
   border-radius: 6px;
 }
-.subscribe-edit .data-table td input[type="submit"] {
+.subscribe-edit .data-table td input[type='submit'] {
   background-color: #79b700;
   border: 1px solid #79b700;
   color: #fff;
   padding: 5px 15px;
   border-radius: 6px;
 }
-.subscribe-edit .data-table td input[type="reset"] {
+.subscribe-edit .data-table td input[type='reset'] {
   background-color: #fff;
   border: 1px solid #79b700;
   color: #79b700;
@@ -78,7 +78,7 @@ pre.dnd-dump:hover {
   cursor: default;
 }
 .propDisabled::after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   top: 0;
@@ -701,7 +701,7 @@ input.pb-info__button {
   display: block;
   position: absolute;
   bottom: 110px;
-  font-family: "PT Root UI", "Arial", sans-serif;
+  font-family: 'PT Root UI', 'Arial', sans-serif;
   font-size: 36px;
   font-weight: 500;
   line-height: 1;
@@ -714,7 +714,7 @@ input.pb-info__button {
   display: block;
   position: absolute;
   bottom: 30px;
-  font-family: "PT Root UI", "Arial", sans-serif;
+  font-family: 'PT Root UI', 'Arial', sans-serif;
   font-size: 18px;
   font-weight: 700;
   line-height: 1;
@@ -907,7 +907,7 @@ h4.p-article__sidebar_title {
   cursor: pointer;
 }
 .characteristics-wrapper {
-  width: 70%;
+  width: 100%;
 }
 .sci-top__name {
   display: flex;
@@ -972,12 +972,12 @@ h4.p-article__sidebar_title {
   right: -35px;
 }
 .addToCompareList {
-  background: url("./../img/icons/compare.svg") center center no-repeat;
+  background: url('./../img/icons/compare.svg') center center no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
 }
 .addToCompareList.notActive {
-  background: url("../img/icons/compare.svg") center center no-repeat;
+  background: url('../img/icons/compare.svg') center center no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
 }
@@ -985,12 +985,12 @@ h4.p-article__sidebar_title {
   background: none;
 }
 .cb-line-nav-top__list.addToCompareList {
-  background: url("../img/top-sheets-green.svg") left center no-repeat;
+  background: url('../img/top-sheets-green.svg') left center no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
 }
 .cb-line-nav-top__list.addToCompareList.notActive {
-  background: url("../img/top-sheets.svg") left center no-repeat;
+  background: url('../img/top-sheets.svg') left center no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
 }
@@ -1179,6 +1179,22 @@ a.top-submenu2__item:hover .top-submenu2__title {
 .tab-content .right-block {
   width: 38%;
 }
+
+#content1 .tab-content .right-block {
+  padding-right: 4px;
+  padding-left: 10px;
+}
+
+#content1 .tab-content .right-block a {
+  color: #219fed;
+}
+
+#content1 .tab-content .right-block li:before {
+  background-color: #219fed;
+  width: 2px;
+  height: 2px;
+  top: 12px;
+}
 .tab-content .left-block {
   width: 70%;
 }
@@ -1314,7 +1330,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
   transition: all 0.2s ease;
 }
 .dnd-location__item::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 17px;
   left: 0;
@@ -1445,7 +1461,6 @@ a.top-submenu2__item:hover .top-submenu2__title {
   .footer {
     margin-bottom: 140px;
     margin-top: 13px;
-
   }
 }
 
@@ -1528,7 +1543,7 @@ body div.search-popup {
   box-shadow: 0px 14px 14px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   line-height: normal;
-  font-family: "PT Root UI", "Arial", sans-serif;
+  font-family: 'PT Root UI', 'Arial', sans-serif;
 }
 
 body div.search-popup-row,
@@ -1569,7 +1584,7 @@ body div.search-popup-row-active {
   color: #73737e;
   font-size: 14px;
   line-height: 18px;
-  font-family: "PT Root UI", "Arial", sans-serif;
+  font-family: 'PT Root UI', 'Arial', sans-serif;
 }
 
 .product-delivery__header {
@@ -1595,7 +1610,7 @@ body div.search-popup-row-active {
   padding-right: 20px;
   width: 38%;
   font-size: 15px;
-    line-height: 24px;
+  line-height: 24px;
 }
 
 .product-delivery__header-cell:last-child {
@@ -1626,8 +1641,6 @@ body div.search-popup-row-active {
   .product-delivery__title {
   }
 }
-
-
 
 .product-delivery__city {
   -ms-flex-wrap: nowrap;
@@ -1695,7 +1708,7 @@ body div.search-popup-row-active {
   color: #73737e;
   font-size: 14px;
   line-height: 18px;
-  font-family: "PT Root UI", "Arial", sans-serif;
+  font-family: 'PT Root UI', 'Arial', sans-serif;
 }
 
 .product-payment-methods__title {
@@ -1713,7 +1726,8 @@ body div.search-popup-row-active {
   display: -ms-flexbox;
   display: flex;
   list-style-type: none;
-  -webkit-box-align: baseline;-ms-flex-align: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
   align-items: baseline;
 }
 
@@ -1765,7 +1779,7 @@ body div.search-popup-row-active {
 }
 
 .product-payment-methods__list-item[data-title]:after {
-  content: "";
+  content: '';
   width: 7px;
   height: 7px;
   margin-bottom: 1px;

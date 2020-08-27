@@ -700,8 +700,9 @@ function formatBytes($size, $precision = 2)
             <div id="content1">
                 <section>
                     <div class="tab-content">
-                        <div class="tab-content__row tab-content__row--reverse">
-                            <div class="tab-content__column col-6">
+                        <div class="tab-content__row">
+                            <div class="tab-content__column">
+                                <h2>Характеристики</h2>
                                 <div class="instruction-wrapper tab-content__column col-4">
                                     <?php if ($arResult['PROPERTIES']['FILES']['VALUE']): ?>
                                         <strong class="name-properties col-12">Инструкции и сертификаты:</strong>
@@ -739,6 +740,23 @@ function formatBytes($size, $precision = 2)
                                 </div>
                                 <div class="tab-content__column col"></div>
                             </div>
+                            <?if (!empty($arResult["ATTACH_DOCS"])):?>
+                            <div class="tab-content__column right-block">
+                                <h3 class="tab-content__title--right">Документация и сертификаты</h3>
+                                <ul>
+                                    <? foreach ($arResult["ATTACH_DOCS"]["CERTIFICATE"] as $file): ?>
+                                        <li>
+                                            <a target="_blank" href="<?= $file["SRC"] ?>">Сертификат</a>
+                                        </li>
+                                    <? endforeach; ?>
+                                    <? foreach ($arResult["ATTACH_DOCS"]["INSTRUCTIONS"] as $file): ?>
+                                        <li>
+                                            <a target="_blank" href="<?= $file["SRC"] ?>">Инструкция по применению</a>
+                                        </li>
+                                    <? endforeach; ?>
+                                </ul>
+                            </div>
+                            <?endif;?>
                         </div>
                     </div>
                 </section>
