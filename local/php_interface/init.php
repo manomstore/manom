@@ -78,6 +78,18 @@ AddEventHandler(
 );
 
 AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockSectionUpdate",
+    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
+);
+
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockSectionAdd",
+    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
+);
+
+AddEventHandler(
     "germen.settings",
     "OnAfterSettingsUpdate",
     Array(TimeDelivery::class, "OnAfterSettingsUpdateHandler")
@@ -915,6 +927,52 @@ class MyHandlerClass
                 break;
             }
         }
+    }
+
+    function OnBeforeIBlockSectionAddHandler($arFields)
+    {
+        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+            return true;
+        }
+        global $APPLICATION;
+
+        $existSection = \CIBlockSection::GetList(
+            [],
+            [
+                "CODE" => $arFields["CODE"],
+                "SECTION_ID" => $arFields["IBLOCK_SECTION_ID"]
+            ]
+        )->GetNext();
+
+        if ($existSection) {
+            $e = new CAdminException(["id" => "CODE", "text" => "Раздел с таким символьным кодом уже существует."]);
+            $APPLICATION->throwException($e);
+            return false;
+        }
+        return true;
+    }
+
+    function OnBeforeIBlockSectionUpdateHandler($arFields)
+    {
+        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+            return true;
+        }
+        global $APPLICATION;
+
+        $existSection = \CIBlockSection::GetList(
+            [],
+            [
+                "CODE" => $arFields["CODE"],
+                "SECTION_ID" => $arFields["IBLOCK_SECTION_ID"]
+            ]
+        )->GetNext();
+
+        if ($existSection) {
+            $e = new CAdminException(["id" => "CODE", "text" => "Раздел с таким символьным кодом уже существует."]);
+            $APPLICATION->throwException($e);
+            return false;
+        }
+        return true;
     }
 }
 
