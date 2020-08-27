@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
+use Manom\Service\TimeDelivery;
 
 require_once __DIR__.'/autoload.php';
 
@@ -76,6 +77,18 @@ AddEventHandler(
     Array("MyHandlerClass", "OnSaleComponentOrderUserResultHandler")
 );
 
+AddEventHandler(
+    "germen.settings",
+    "OnAfterSettingsUpdate",
+    Array(TimeDelivery::class, "OnAfterSettingsUpdateHandler")
+);
+
+AddEventHandler(
+    "germen.settings",
+    "OnBeforeSettingsUpdate",
+    Array(TimeDelivery::class, "OnBeforeSettingsUpdateHandler")
+);
+
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUpdate"));
@@ -112,7 +125,9 @@ function getRatingAndCountReviewForList($prodIDs)
         if (!$sumRating[$resReview['PROPERTY_RV_PRODCTS_VALUE']]) {
             $sumRating[$resReview['PROPERTY_RV_PRODCTS_VALUE']] = 0;
         }
-        $sumRating[$resReview['PROPERTY_RV_PRODCTS_VALUE']] += (int)$resReview['PROPERTY_RV_RATING_VALUE'];
+        if (isset($resReview['PROPERTY_RV_RATING_VALUE'])) {
+            $sumRating[$resReview['PROPERTY_RV_PRODCTS_VALUE']] += (int)$resReview['PROPERTY_RV_RATING_VALUE'];
+        }
         $arRev[$resReview['PROPERTY_RV_PRODCTS_VALUE']][] = $resReview;
     }
     // if ($arRev) {

@@ -10,6 +10,7 @@ use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
 use Manom\Related;
+use Manom\Service\TimeDelivery;
 
 $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 
@@ -256,6 +257,7 @@ function getReviews($productId)
         'PROPERTY_SOURCE',
         'PROPERTY_AUTHOR',
         'PROPERTY_RECOMMEND',
+        'PROPERTY_FROM_AT',
     );
     $result = CIBlockElement::GetList($order, $filter, false, false, $select);
     while ($row = $result->Fetch()) {
@@ -270,10 +272,13 @@ function getReviews($productId)
             'source' => $row['PROPERTY_SOURCE_VALUE'],
             'author' => trim($row['PROPERTY_AUTHOR_VALUE']),
             'disadvantages' => $row['PROPERTY_RV_DISADVANTAGES_VALUE']['TEXT'],
-            'recommend' => $row['PROPERTY_RECOMMEND_VALUE'] === 'Y',
-            'date' => $dateCreate[0],
             'user' => array(),
         );
+
+        if ($row["PROPERTY_FROM_AT_VALUE"] !== "Y") {
+            $item["recommend"] = $row['PROPERTY_RECOMMEND_VALUE'] === 'Y';
+            $item["date"] = $dateCreate[0];
+        }
 
         if (
             !empty($row['PROPERTY_RV_USER_VALUE']) &&
@@ -524,10 +529,11 @@ function getDeliveryDescription($delivery)
     if ($shop['exist'] && $delivery['id'] === 13) {
         $deliveryPeriod = $week->getTextPeriod($shop);
     } elseif ($delivery['id'] === 8) {
+        $intervals = TimeDelivery::getIntervals();
         $courier = [
             'time' => [
-                'start' => 6,
-                'end' => 18,
+                'start' => (int)array_shift($intervals),
+                'end' => (int)array_pop($intervals),
             ],
             'dates' => [
                 'start' => 1,

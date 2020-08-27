@@ -204,7 +204,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Цвет</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_COLOR'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="color"
                                     type="radio"
                                     id="<?=$data['code']?>"
@@ -224,7 +224,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Объем памяти</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_MEMORY'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="size"
                                     type="radio"
                                     id="<?=$data['value']?>"
@@ -244,7 +244,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Обьем накопителя</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_MEMORY2'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="size"
                                     type="radio"
                                     id="<?=$data['value']?>"
@@ -264,7 +264,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Процессор</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_CPU'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="size"
                                     type="radio"
                                     id="<?=$data['value']?>"
@@ -284,7 +284,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Графический процессор</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_GPU'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="size"
                                     type="radio"
                                     id="<?=$data['value']?>"
@@ -304,7 +304,7 @@ function formatBytes($size, $precision = 2)
                         <h3>Размер экрана</h3>
                         <?php foreach ($arResult['RELATED']['RELATED_SCREEN'] as $data): ?>
                             <input
-                                    class="visually-hidden js-related"
+                                    class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="size"
                                     type="radio"
                                     id="<?=$data['value']?>"
@@ -787,15 +787,17 @@ function formatBytes($size, $precision = 2)
                                                             style="width: <?=$value['rating'] * 20?>%;"
                                                     ></span>
                                                 </span>
-                                                <?php if ($value['recommend']): ?>
-                                                    <span class="reviews-item__recommend reviews-item__recommend--yes">
+                                                <? if (isset($value['recommend'])): ?>
+                                                    <?php if ($value['recommend']): ?>
+                                                        <span class="reviews-item__recommend reviews-item__recommend--yes">
                                                         Рекомендую
                                                     </span>
-                                                <?php else: ?>
-                                                    <span class="reviews-item__recommend reviews-item__recommend--no">
+                                                    <?php else: ?>
+                                                        <span class="reviews-item__recommend reviews-item__recommend--no">
                                                         Не рекомендую
                                                     </span>
-                                                <?php endif; ?>
+                                                    <?php endif; ?>
+                                                <? endif; ?>
                                             </div>
                                         </div>
                                         <div class="reviews-item__content">
