@@ -207,12 +207,13 @@ function formatBytes($size, $precision = 2)
                                     class="visually-hidden js-related <?= !$data["canBuy"] ? "out-of-stock" : "" ?>"
                                     name="color"
                                     type="radio"
-                                    id="<?=$data['code']?>"
-                                    value="<?=$data['value']?>"
-                                    data-url="<?=$data['url']?>"
-                                <?=$data['current'] ? 'checked' : ''?>
+                                    id="<?= $data['code'] ?>"
+                                    value="<?= $data['value'] ?>"
+                                    data-url="<?= $data['url'] ?>"
+                                <?= $data['current'] ? 'checked' : '' ?>
                             >
-                            <label for="<?=$data['code']?>" class="product-content__color-<?=$data['code']?>"></label>
+                            <label for="<?= $data['code'] ?>" class="product-content__color-<?= $data['code'] ?>"
+                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;"></label>
                         <?php endforeach; ?>
                     </form>
                 </div>
