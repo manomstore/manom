@@ -3047,33 +3047,12 @@ p.price-slider {
   z-index: -1;
 }
 
-.product-content__color-black {
-  background-color: #29282c;
-  border-color: #29282c;
-}
-.product-content__color-green {
-  background-color: #a5d7c0;
-  border-color: #a5d7c0;
-}
 .product-content__color-white {
   background-color: #fefffd;
   -webkit-box-shadow: 0px 0px 0px 1px rgba(235, 235, 235, 1);
   -moz-box-shadow: 0px 0px 0px 1px rgba(235, 235, 235, 1);
   box-shadow: 0px 0px 0px 1px rgba(235, 235, 235, 1);
-  border-color: #ebebeb;
-}
-
-.product-content__color-red {
-  background-color: #b10b2d;
-  border-color: #b10b2d;
-}
-.product-content__color-yellow {
-  background-color: #fce284;
-  border-color: #fce284;
-}
-.product-content__color-purple {
-  background-color: #800080;
-  border-color: #800080;
+  border-color: #ebebeb !important;
 }
 
 .product-content__color button {
