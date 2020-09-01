@@ -934,6 +934,11 @@ class MyHandlerClass
         if ((int)$arFields["IBLOCK_ID"] !== 6) {
             return true;
         }
+
+        if (empty($arFields["CODE"])){
+            return true;
+        }
+
         global $APPLICATION;
 
         $existSection = \CIBlockSection::GetList(
@@ -966,7 +971,7 @@ class MyHandlerClass
             ]
         )->GetNext();
 
-        if ($existSection) {
+        if ($existSection && (int)$arFields["ID"] !== (int)$existSection["ID"]) {
             $APPLICATION->throwException("Раздел с таким символьным кодом уже существует.");
             return false;
         }
