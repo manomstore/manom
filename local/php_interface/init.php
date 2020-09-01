@@ -77,17 +77,17 @@ AddEventHandler(
     Array("MyHandlerClass", "OnSaleComponentOrderUserResultHandler")
 );
 
-AddEventHandler(
-    "iblock",
-    "OnBeforeIBlockSectionUpdate",
-    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
-);
-
-AddEventHandler(
-    "iblock",
-    "OnBeforeIBlockSectionAdd",
-    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
-);
+//AddEventHandler(
+//    "iblock",
+//    "OnBeforeIBlockSectionUpdate",
+//    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
+//);
+//
+//AddEventHandler(
+//    "iblock",
+//    "OnBeforeIBlockSectionAdd",
+//    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
+//);
 
 AddEventHandler(
     "germen.settings",
