@@ -2017,9 +2017,13 @@ $(document).ready(function () {
     $('.js-shopcart-datepicker').datepicker({
       language: 'ru',
       startDate: startDate,
-      beforeShowDay: function (date) {
-        return ["01.09.2020", "02.09.2020"].indexOf(date.toLocaleDateString()) >= 0;
-      },
+        beforeShowDay: function (date) {
+            if ((new Date).toLocaleDateString() < "03.09.2020") {
+                return ["01.09.2020", "02.09.2020"].indexOf(date.toLocaleDateString()) >= 0;
+            } else {
+                return [0, 6].indexOf(date.getDay()) <= -1;
+            }
+        },
     }).datepicker("setDate", startDate);
 
     checkDeliveryTime();
