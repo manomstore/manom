@@ -2018,7 +2018,7 @@ $(document).ready(function () {
       language: 'ru',
       startDate: startDate,
       beforeShowDay: function (date) {
-        return [0, 6].indexOf(date.getDay()) <= -1;
+        return ["01.09.2020", "02.09.2020"].indexOf(date.toLocaleDateString()) >= 0;
       },
     }).datepicker("setDate", startDate);
 
