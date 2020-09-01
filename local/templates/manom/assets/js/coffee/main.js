@@ -2237,10 +2237,10 @@ $(document).ready(function () {
       var hour = currentData.getHours();
       for (var key in timeRanges) {
         if (hour >= timeRanges[key] - 1) {
-          $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
+          // $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
         }
       }
-        $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
+        // $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
     } else {
         $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
         $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
