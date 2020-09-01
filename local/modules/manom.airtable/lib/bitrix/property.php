@@ -186,7 +186,7 @@ class Property
 
         $code = \Cutil::translit($name, "ru");
         if (strlen($code) > 20) {
-            $code = substr($code, 0, 10) . substr($code, -10, 10);
+            $code = substr($code, 0, 10) . substr($code, -10, 10) . strlen($code);
         }
         return "at_" . $code;
     }
