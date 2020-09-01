@@ -3295,7 +3295,7 @@ function getDeliveryTabType(deliveryId) {
   var deliveryTabType = null;
   deliveryId = parseInt(deliveryId);
 
-  if ([5, 8].indexOf(deliveryId) >= 0) {
+  if ([5, 8,15].indexOf(deliveryId) >= 0) {
     deliveryTabType = 'sci-delivery-tab1';
   }
 
