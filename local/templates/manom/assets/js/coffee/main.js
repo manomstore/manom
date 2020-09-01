@@ -2011,15 +2011,19 @@ $(document).ready(function () {
   // Инициализация календаря
   (function () {
     var startDate = new Date();
-    if (startDate.getHours() >= 17) {
-      startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-    }
+    // if (startDate.getHours() >= 17) {
+    //   startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+    // }
     $('.js-shopcart-datepicker').datepicker({
       language: 'ru',
       startDate: startDate,
-      beforeShowDay: function (date) {
-        return [0, 6].indexOf(date.getDay()) <= -1;
-      },
+        beforeShowDay: function (date) {
+            if ((new Date).toLocaleDateString() < "03.09.2020") {
+                return ["01.09.2020", "02.09.2020"].indexOf(date.toLocaleDateString()) >= 0;
+            } else {
+                return [0, 6].indexOf(date.getDay()) <= -1;
+            }
+        },
     }).datepicker("setDate", startDate);
 
     checkDeliveryTime();
@@ -2233,10 +2237,10 @@ $(document).ready(function () {
       var hour = currentData.getHours();
       for (var key in timeRanges) {
         if (hour >= timeRanges[key] - 1) {
-          $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
+          // $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
         }
       }
-        $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
+        // $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
     } else {
         $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
         $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
