@@ -2011,9 +2011,9 @@ $(document).ready(function () {
   // Инициализация календаря
   (function () {
     var startDate = new Date();
-    if (startDate.getHours() >= 17) {
-      startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-    }
+    // if (startDate.getHours() >= 17) {
+    //   startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+    // }
     $('.js-shopcart-datepicker').datepicker({
       language: 'ru',
       startDate: startDate,
