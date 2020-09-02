@@ -1,3 +1,7 @@
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetTitle("нет в наличии");
+?>
 <div class="content">
     <div class="container">
         <div class="empty">
@@ -18,3 +22,4 @@
         </div>
     </div>
 </div>
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
