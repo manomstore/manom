@@ -11990,12 +11990,16 @@ a.ui-button:active,
   }
 }
 
-.empty {
+
+.empty-container {
   display: flex;
 }
 
-.empty__block {
+.empty {
   margin: auto;
+}
+
+.empty__block {
 }
 
 .empty__text {
