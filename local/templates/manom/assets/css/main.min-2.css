@@ -11989,3 +11989,36 @@ a.ui-button:active,
     margin-top: 18px;
   }
 }
+
+.empty {
+  display: flex;
+}
+
+.empty__block {
+  margin: auto;
+}
+
+.empty__text {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #29282C;
+  text-align: center;
+}
+
+.empty__text--brand {
+  max-width: 450px;
+}
+
+.empty__text--goods {
+  max-width: 390px;
+}
+
+.empty__text a {
+  color: rgba(131, 187, 38, 0.8);
+  transition: all 0.2s ease;
+}
+
+.empty__text a:hover {
+  color: #83bb26;
+}
