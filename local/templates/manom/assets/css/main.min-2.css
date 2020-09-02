@@ -11993,10 +11993,12 @@ a.ui-button:active,
 
 .empty-container {
   display: flex;
+  height: calc(100vh - 360px);
 }
 
 .empty {
   margin: auto;
+
 }
 
 .empty__block {

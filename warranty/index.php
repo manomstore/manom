@@ -3,7 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Гарантия");
 ?>
 <div class="content">
-    <div class="container empty-container">
+    <div class="container">
         <div class="text-content text-content--container warranty">
             <?$APPLICATION->IncludeComponent(
                 "bitrix:main.include",

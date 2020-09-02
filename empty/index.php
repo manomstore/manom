@@ -3,7 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("нет в наличии");
 ?>
 <div class="content">
-    <div class="container">
+    <div class="container  empty-container">
         <div class="empty">
             <div class="empty__block empty__block--brand">
               <img src="./../local/templates/manom/assets/img/honor.svg" >
