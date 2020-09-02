@@ -12012,11 +12012,11 @@ a.ui-button:active,
   text-align: center;
 }
 
-.empty__text--brand {
+.empty__block--brand .empty__text {
   max-width: 450px;
 }
 
-.empty__text--goods {
+.empty__block--goods .empty__text {
   max-width: 390px;
 }
 
