@@ -194,6 +194,15 @@ function setDeliveryDescription($delivery) {
         return textNearestDate;
       }
 
+      if (!deliveryObj.exist) {
+        if (this.currentHour < deliveryObj.time.end) {
+          textNearestDate = 'Сегодня';
+        } else {
+          textNearestDate = 'Завтра';
+        }
+        return textNearestDate;
+      }
+
       if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
         if (this.currentHour < deliveryObj.time.end - 1) {
           textNearestDate = deliveryObj.exist ?
