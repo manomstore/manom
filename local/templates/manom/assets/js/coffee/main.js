@@ -194,6 +194,15 @@ function setDeliveryDescription($delivery) {
         return textNearestDate;
       }
 
+      if (!deliveryObj.exist) {
+        if (this.currentHour < deliveryObj.time.end) {
+          textNearestDate = 'Сегодня';
+        } else {
+          textNearestDate = 'Завтра';
+        }
+        return textNearestDate;
+      }
+
       if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
         if (this.currentHour < deliveryObj.time.end - 1) {
           textNearestDate = deliveryObj.exist ?
@@ -2010,19 +2019,29 @@ $(document).ready(function () {
 
   // Инициализация календаря
   (function () {
+    var timeRanges = window.paramTimeRanges;
     var startDate = new Date();
-    // if (startDate.getHours() >= 17) {
-    //   startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-    // }
+    var nextDay = false;
+    if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour) {
+      startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+      nextDay = true;
+    }
+
     $('.js-shopcart-datepicker').datepicker({
       language: 'ru',
       startDate: startDate,
         beforeShowDay: function (date) {
-            if ((new Date).toLocaleDateString() < "03.09.2020") {
-                return ["01.09.2020", "02.09.2020"].indexOf(date.toLocaleDateString()) >= 0;
-            } else {
-                return [0, 6].indexOf(date.getDay()) <= -1;
-            }
+          var currentDate = new Date;
+          var allowedDays = [];
+          if (nextDay) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            allowedDays.push(currentDate.toLocaleDateString());
+          } else {
+            allowedDays.push(currentDate.toLocaleDateString());
+          }
+          currentDate.setDate(currentDate.getDate() + 1);
+          allowedDays.push(currentDate.toLocaleDateString());
+          return allowedDays.indexOf(date.toLocaleDateString()) >= 0;
         },
     }).datepicker("setDate", startDate);
 
@@ -2236,11 +2255,11 @@ $(document).ready(function () {
     if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
       var hour = currentData.getHours();
       for (var key in timeRanges) {
-        if (hour >= timeRanges[key] - 1) {
-          // $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
+        if (hour >= timeRanges[key].fromHour) {
+          $deliveryTime.find('option[value=\'' + timeRanges[key].variantId + '\']').addClass('sci-hidden');
         }
       }
-        // $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
+        $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
     } else {
         $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
         $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
@@ -3295,7 +3314,7 @@ function getDeliveryTabType(deliveryId) {
   var deliveryTabType = null;
   deliveryId = parseInt(deliveryId);
 
-  if ([5, 8,15].indexOf(deliveryId) >= 0) {
+  if ([5, 8].indexOf(deliveryId) >= 0) {
     deliveryTabType = 'sci-delivery-tab1';
   }
 

@@ -169,7 +169,10 @@ class TimeDelivery
     {
         $result = [];
         foreach (self::getVariants() as $key => $variant) {
-            $result[$key + 1] = $variant["from"];
+            $result[] = [
+                "fromHour" => $variant["from"],
+                "variantId" => (int)$key + 1,
+            ];
         }
 
         return $result;

@@ -469,6 +469,16 @@ function getDeliveryDescription($delivery)
                 return $textNearestDate;
             }
 
+            if (!$deliveryObj['exist']) {
+                if ($this->currentHour < $deliveryObj['time']['end']) {
+                    $textNearestDate = 'Сегодня';
+                } else {
+                    $textNearestDate = 'Завтра';
+                }
+
+                return $textNearestDate;
+            }
+
             if (
                 $this->currentDay >= $deliveryObj['dates']['start'] &&
                 $this->currentDay <= $deliveryObj['dates']['end']
@@ -532,8 +542,8 @@ function getDeliveryDescription($delivery)
         $intervals = TimeDelivery::getIntervals();
         $courier = [
             'time' => [
-                'start' => (int)array_shift($intervals),
-                'end' => (int)array_pop($intervals),
+                'start' => (int)array_shift($intervals)["fromHour"],
+                'end' => (int)array_pop($intervals)["fromHour"],
             ],
             'dates' => [
                 'start' => 1,
