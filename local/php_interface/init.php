@@ -76,6 +76,11 @@ AddEventHandler(
     "OnSaleComponentOrderUserResult",
     Array("MyHandlerClass", "OnSaleComponentOrderUserResultHandler")
 );
+AddEventHandler(
+    "sale",
+    "onSaleDeliveryServiceCalculate",
+    Array("MyHandlerClass", "onSaleDeliveryServiceCalculateHandler")
+);
 
 //AddEventHandler(
 //    "iblock",
@@ -976,6 +981,21 @@ class MyHandlerClass
             return false;
         }
         return true;
+    }
+
+    function onSaleDeliveryServiceCalculateHandler($result, $shipment, $deliveryId)
+    {
+        if ($shipment->getDeliveryId() !== 8) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\Basket $basket */
+        $basket = $shipment->getOrder()->getBasket();
+
+        $minOrderPrice = (int)\UniPlug\Settings::get("COND_FREE_DELIVERY");
+        if ($minOrderPrice > 0 && (int)$basket->getPrice() >= $minOrderPrice) {
+            $result->setDeliveryPrice(0);
+        }
     }
 }
 
