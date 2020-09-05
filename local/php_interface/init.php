@@ -773,13 +773,14 @@ class MyHandlerClass
             return;
         }
 
-        $timeRanges = [
-            1 => 6,
-            2 => 9,
-            3 => 12,
-            4 => 15,
-            5 => 18,
-        ];
+        Loader::includeModule("germen.settings");
+
+        $intervals = TimeDelivery::getIntervals();
+        $timeRanges = [];
+
+        foreach ($intervals as $interval){
+            $timeRanges[$interval["variantId"]] = $interval["fromHour"];
+        }
 
         $currentHour = (int)date("G");
         $isPast = false;
