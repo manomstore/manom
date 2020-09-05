@@ -985,6 +985,7 @@ class MyHandlerClass
 
     function onSaleDeliveryServiceCalculateHandler($result, $shipment, $deliveryId)
     {
+        Loader::includeModule("germen.settings");
         if ($shipment->getDeliveryId() !== 8) {
             return true;
         }
