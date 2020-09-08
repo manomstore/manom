@@ -645,7 +645,7 @@ $(document).ready(function () {
 
               if ($formIsValid) {
                 if (!isValidDeliveryTime() && $('#ID_DELIVERY_ID_8').prop('checked')) {
-                  return $.fn.setPushUp('Ошибка', 'Время ожидания истекло. Просьба вернуться на страницу выбора способа доставки', false, 'message',
+                  return $.fn.setPushUp('Ошибка', 'Дата или время доставки указаны некорректно', false, 'message',
                       false, 5000);
                 }
 
