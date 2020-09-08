@@ -535,16 +535,6 @@ if (empty($productsOutOfStock)) {
                                                                 id="sci-delivery-time"
                                                                 class="sci-contact__input sci-contact__input--appearance"
                                                                 required>
-                                                            <? foreach (TimeDelivery::getVariants() as $variant): ?>
-                                                                <option
-                                                                    <?= $variant["selected"] ? "selected" : "" ?>
-                                                                        value="<?= $variant["value"] ?>"
-                                                                        data-start="<?= $variant["from"] ?>"
-                                                                        data-end="<?= $variant["to"] ?>"
-                                                                >
-                                                                    <?= $variant["formatted"] ?>
-                                                                </option>
-                                                            <? endforeach; ?>
                                                         </select>
                                                     </label>
                                                 </div>
