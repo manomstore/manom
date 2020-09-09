@@ -8,7 +8,7 @@ use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 
-require_once __DIR__.'/autoload.php';
+require_once __DIR__ . '/autoload.php';
 
 Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
@@ -365,13 +365,13 @@ function isSaleNotifyMessage($event)
 
 function cssAutoVersion($file)
 {
-    if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'].$file)) {
+    if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'] . $file)) {
         return $file;
     }
 
-    $modifyTime = filemtime($_SERVER['DOCUMENT_ROOT'].$file);
+    $modifyTime = filemtime($_SERVER['DOCUMENT_ROOT'] . $file);
 
-    return $file."?m={$modifyTime}";
+    return $file . "?m={$modifyTime}";
 }
 
 class Helper
@@ -491,7 +491,7 @@ class MyHandlerClass
             ]
         )->fetch();
 
-        $orderLocationProp = $orderProps["ORDER_PROP_".$locationProp["ID"]];
+        $orderLocationProp = $orderProps["ORDER_PROP_" . $locationProp["ID"]];
         $locationId = 0;
 
         if ((int)$orderLocationProp) {
@@ -566,7 +566,7 @@ class MyHandlerClass
         unset($arFields["SECTION_ID"]);
         unset($arFields["IBLOCK_SECTION"]);
         $arFields["IBLOCK_SECTION"] = array(204);
-        $fp = fopen(__DIR__.'/filename.txt', 'w');
+        $fp = fopen(__DIR__ . '/filename.txt', 'w');
         fwrite($fp, print_r($arFields, true));
         fclose($fp);
         return;
@@ -773,13 +773,14 @@ class MyHandlerClass
             return;
         }
 
-        $timeRanges = [
-            1 => 6,
-            2 => 9,
-            3 => 12,
-            4 => 15,
-            5 => 18,
-        ];
+        Loader::includeModule("germen.settings");
+
+        $intervals = TimeDelivery::getIntervals();
+        $timeRanges = [];
+
+        foreach ($intervals as $interval) {
+            $timeRanges[$interval["variantId"]] = $interval["fromHour"];
+        }
 
         $currentHour = (int)date("G");
         $isPast = false;
@@ -792,10 +793,8 @@ class MyHandlerClass
         }
 
         if (!$isPast && $dateDelivery === date('d.m.Y')) {
-            foreach ($timeRanges as $key => $range) {
-                if ($currentHour >= $range && $key === (int)$timeDelivery) {
-                    $isPast = true;
-                }
+            if (array_key_exists($timeDelivery, $timeRanges)) {
+                $isPast = $currentHour >= $timeRanges[$timeDelivery];
             }
         }
 
@@ -940,7 +939,7 @@ class MyHandlerClass
             return true;
         }
 
-        if (empty($arFields["CODE"])){
+        if (empty($arFields["CODE"])) {
             return true;
         }
 
@@ -1026,7 +1025,7 @@ class CUserEx
 
     function OnSendUserInfoHandler($arFields)
     {
-        $arFields["FIELDS"]["PASSWORD"] = "Пароль: ".self::$newUserPass."\n";
+        $arFields["FIELDS"]["PASSWORD"] = "Пароль: " . self::$newUserPass . "\n";
         self::$newUserPass = null;
     }
 }

@@ -644,6 +644,11 @@ $(document).ready(function () {
                 });
 
               if ($formIsValid) {
+                if (!isValidDeliveryTime() && $('#ID_DELIVERY_ID_8').prop('checked')) {
+                  return $.fn.setPushUp('Ошибка', 'Дата или время доставки указаны некорректно', false, 'message',
+                      false, 5000);
+                }
+
                 $(document).find('.shopcart-nav1 input#shopcart-tab' + (
                   parseInt(slideNum) + 1
                 ) + '').removeClass('slide-disable');
@@ -2231,41 +2236,71 @@ $(document).ready(function () {
     }
   }
 
-  function checkDeliveryTime() {
-    var $deliveryTime = $('#sci-delivery-time');
-    var $deliveryDate = $('.js-shopcart-datepicker');
+    function checkDeliveryTime() {
+        var $deliveryTime = $('#sci-delivery-time');
+        var $deliveryDate = $('.js-shopcart-datepicker');
 
-    var timeRanges = window.paramTimeRanges;
-    if (!timeRanges) {
-      timeRanges = {};
+        var timeRanges = window.paramTimeRanges;
+        if (!timeRanges) {
+            timeRanges = {};
+        }
+
+        var selectedDate = $deliveryDate.datepicker('getDate');
+      $deliveryTime.find("option").remove();
+        if (!selectedDate || (selectedDate.hasOwnProperty('length') && selectedDate.length <= 0)) {
+            timeRanges.forEach(function (range) {
+                $deliveryTime.append(getDeliveryTimeOption(range));
+            });
+            $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+            $deliveryTime.attr('disabled', true);
+            return true;
+        }
+
+        $deliveryTime.attr('disabled', false);
+
+      var currentData = new Date();
+      if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
+        var hour = currentData.getHours();
+        for (var key in timeRanges) {
+          if (hour < timeRanges[key].fromHour) {
+            $deliveryTime.append(getDeliveryTimeOption(timeRanges[key]));
+          }
+        }
+        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+      } else {
+        timeRanges.forEach(function (range) {
+          $deliveryTime.append(getDeliveryTimeOption(range));
+        });
+        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+        }
+
     }
 
-    var selectedDate = $deliveryDate.datepicker('getDate');
-
-    if (!selectedDate || (selectedDate.hasOwnProperty('length') && selectedDate.length <= 0)) {
-      $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
-      $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
-      $deliveryTime.attr('disabled', true);
+  function isValidDeliveryTime() {
+    var timeRangeId = parseInt($('#sci-delivery-time').val());
+    if (timeRangeId <= 0) {
       return true;
     }
-
-    $deliveryTime.attr('disabled', false);
-
-    var currentData = new Date();
-    if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
-      var hour = currentData.getHours();
-      for (var key in timeRanges) {
-        if (hour >= timeRanges[key].fromHour) {
-          $deliveryTime.find('option[value=\'' + timeRanges[key].variantId + '\']').addClass('sci-hidden');
+    var rangeIndex = window.paramTimeRanges.findIndex(function (element) {
+          return parseInt(element.variantId) === timeRangeId;
         }
-      }
-        $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
-    } else {
-        $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
-        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+    );
+    if (rangeIndex < 0) {
+      return false;
     }
+    var currentRange = window.paramTimeRanges[rangeIndex];
 
+    return (new Date()).getHours() < currentRange.fromHour;
   }
+
+    function getDeliveryTimeOption(timeRange) {
+        var $option = $("<option></option>");
+        $option.val(timeRange.variantId);
+        $option.data("start", timeRange.fromHour);
+        $option.data("end", timeRange.toHour);
+        $option.text(timeRange.fromHour + ":00 - " + timeRange.toHour + ":00");
+        return $option;
+    }
 });
 
 var isSideInfoInited = false;

@@ -69,13 +69,8 @@ if (empty($arResult['OFFERS'])) {
     }
 }
 
-if (Loader::includeModule('hozberg.characteristics')) {
-    $characteristicsIds = Characteristics::get();
-    foreach ($arResult['DISPLAY_PROPERTIES'] as $propertyCode => $property) {
-        if (in_array((int)$property['ID'], $characteristicsIds, true)) {
-            $arResult['CHARACTERISTICS'][$propertyCode] = $property;
-        }
-    }
+foreach ($arResult["DISPLAY_PROPERTIES"] as $propertyCode => $property) {
+    $arResult["CHARACTERISTICS"][$propertyCode] = $property;
 }
 
 $arResult['DELIVERIES'] = array(
