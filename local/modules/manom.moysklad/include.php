@@ -9,6 +9,7 @@ Loader::registerAutoLoadClasses(
         'Manom\Moysklad\Moysklad\CustomerOrder' => 'lib/moysklad/customerOrder.php',
         'Manom\Moysklad\Agent' => 'lib/Agent.php',
         'Manom\Moysklad\EventTable' => 'lib/EventTable.php',
+        'Manom\Moysklad\Handler' => 'lib/Handler.php',
     )
 );
 
