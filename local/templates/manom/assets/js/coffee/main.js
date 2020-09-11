@@ -462,9 +462,10 @@ $(document).ready(function () {
 
     $(document).find('.shopcart-nav1 input[type="radio"]').each(function () {
       var $count,
-        $formIsValid,
-        sBlock,
-        isEmailValid = false;
+          $formIsValid,
+          sBlock,
+          isEmailValid,
+          addressInvalid = false;
 
       if ($(this).prop('checked')) {
         slideNum = $(this).attr('data-num');
@@ -574,6 +575,7 @@ $(document).ready(function () {
                 }
                 if (!$(document).find('#sci-delivery-street').val()) {
                   $formIsValid = false;
+                  addressInvalid = true;
                 }
                 // if (!$(document).find('#sci-delivery-building').val()) {
                 //   $formIsValid = false;
@@ -670,8 +672,13 @@ $(document).ready(function () {
                     $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message', false,
                       5000);
                   } else {
-                    $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
-                      'message', false, 5000);
+                    if (addressInvalid){
+                      $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
+                          'message', false, 5000);
+                    }else {
+                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
+                          'message', false, 5000);
+                    }
                   }
                 }
               }
@@ -2278,6 +2285,8 @@ $(document).ready(function () {
 
   function isValidDeliveryTime() {
     var timeRangeId = parseInt($('#sci-delivery-time').val());
+    var deliveryDate = $('#sci-delivery-date').datepicker('getDate');
+    var currentDate = new Date();
     if (timeRangeId <= 0) {
       return true;
     }
@@ -2290,7 +2299,11 @@ $(document).ready(function () {
     }
     var currentRange = window.paramTimeRanges[rangeIndex];
 
-    return (new Date()).getHours() < currentRange.fromHour;
+    if (!deliveryDate || deliveryDate.toLocaleDateString() !== currentDate.toLocaleDateString()) {
+      return true;
+    }
+
+    return currentDate.getHours() < currentRange.fromHour;
   }
 
     function getDeliveryTimeOption(timeRange) {
