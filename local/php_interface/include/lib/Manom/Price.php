@@ -38,7 +38,10 @@ class Price
     private function setUserGroups(): void
     {
         global $USER;
-        $this->userGroups = $USER->GetUserGroupArray();
+
+        if (is_object($USER)) {
+            $this->userGroups = $USER->GetUserGroupArray();
+        }
     }
 
     /**
