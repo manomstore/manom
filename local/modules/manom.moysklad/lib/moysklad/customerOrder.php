@@ -116,10 +116,6 @@ class CustomerOrder
      */
     public function getStatus()
     {
-        if (empty($this->orderData->state)) {
-            throw new \Exception();
-        }
-
         return $this->orderData->state;
     }
 
@@ -130,7 +126,7 @@ class CustomerOrder
     public function getPositions()
     {
         if (empty($this->orderData->positions)) {
-            throw new \Exception();
+            $this->orderData->positions = [];
         }
 
         return $this->orderData->positions;
