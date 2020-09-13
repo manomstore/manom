@@ -112,6 +112,17 @@ class Order
         $discount->setApplyResult(array());
 
         $discount->calculate();
+
+        if (!$this->order->isPaid()) {
+            /** @var \Bitrix\Sale\PaymentCollection $paymentCollection */
+            if (($paymentCollection = $this->order->getPaymentCollection()) && count($paymentCollection) == 1) {
+                /** @var \Bitrix\Sale\Payment $payment */
+                if (($payment = $paymentCollection->rewind()) && !$payment->isPaid()) {
+                    $payment->setFieldNoDemand('SUM', $this->order->getPrice());
+                }
+            }
+        }
+
         $this->order->save();
     }
 
