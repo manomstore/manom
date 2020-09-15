@@ -234,7 +234,7 @@ class Import
             }
 
             if ($item['bitrix'] === 'MORE_PHOTO') {
-                $airtableItem['fields'][$item['airtable']] = array_reverse($airtableItem['fields'][$item['airtable']]);
+                $airtableItem['fields'][$item['airtable']] = $airtableItem['fields'][$item['airtable']];
                 $result = $this->processImages($airtableItem['fields'][$item['airtable']]);
 
                 if (!empty($result['preview'])) {
