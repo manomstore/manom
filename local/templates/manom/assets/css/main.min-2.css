@@ -427,10 +427,8 @@ h6 {
   -ms-flex-align: center;
   align-items: center;
   color: #ffffff;
-  height: 30px;
-  padding-right: 15px;
-  padding-left: 15px;
   position: relative;
+  padding: 6px 15px;
 }
 
 .top-ad-line__text {
@@ -9442,7 +9440,7 @@ h3.tab-content__title--right {
   position: relative;
   display: flex;
   align-items: flex-start;
-  margin: 0 0 15px;
+  margin: 0;
 }
 
 .top-nav__block .top-nav__logo {
