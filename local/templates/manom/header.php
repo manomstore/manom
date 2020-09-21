@@ -555,7 +555,17 @@
                                                     <!-- /location -->
                                                 </li>
                                             </ul>
-                                            <p class="top-nav__time">Ежедневно 11:00 - 19:00</p>
+                                            <?php $APPLICATION->IncludeComponent(
+                                                'bitrix:main.include',
+                                                '.default',
+                                                [
+                                                    'PATH' => '/include/time.php',
+                                                    'COMPONENT_TEMPLATE' => '.default',
+                                                    'AREA_FILE_SHOW' => 'file',
+                                                    'EDIT_TEMPLATE' => '',
+                                                ],
+                                                false
+                                            ); ?>
                                             <div class="top-nav__number">
                                                 <?php $APPLICATION->IncludeComponent(
                                                     'bitrix:main.include',
