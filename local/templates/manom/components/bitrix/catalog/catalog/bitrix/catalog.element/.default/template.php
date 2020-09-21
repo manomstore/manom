@@ -83,7 +83,9 @@ function formatBytes($size, $precision = 2)
                 <span><span class="bold">Код:</span> <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?></span>
             </div>
         <?php endif; ?>
-        <?php if (in_array('ЕАС', $arResult['PROPERTIES']['CERTIFICATES']['VALUE'], true)): ?>
+        <?php
+        $certificates = $arResult['PROPERTIES']['CERTIFICATES']['VALUE'];
+        if (in_array('ЕАС', $certificates, true) || in_array('EAC', $certificates, true)): ?>
             <div>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
