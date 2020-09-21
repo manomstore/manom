@@ -2032,6 +2032,9 @@ $(document).ready(function () {
   // Инициализация календаря
   (function () {
     var timeRanges = window.paramTimeRanges;
+    if(!timeRanges) {
+      return;
+    }
     var startDate = new Date();
     var nextDay = false;
     if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour) {
