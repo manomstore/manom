@@ -17,6 +17,10 @@ class Agent
 
             foreach ($events as $event) {
                 $customerOrder = new CustomerOrder($event["href_change"]);
+                if (!$customerOrder->getId()) {
+                    EventTable::delete($event["id"]);
+                    continue;
+                }
                 $bitrixOrder = new Order($customerOrder->getId());
                 $bitrixOrder->setCustomerOrder($customerOrder);
                 $bitrixOrder->updateBasket();
