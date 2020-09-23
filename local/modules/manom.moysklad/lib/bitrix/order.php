@@ -137,11 +137,11 @@ class Order
             return;
         }
 
-        if ($status->name === "Отменен" && !$this->order->isCanceled()) {
+        if ($status->name === "Отказ клиента" && !$this->order->isCanceled()) {
             OrderCompatibility::cancel($this->order->getId(), "Y");
         }
 
-        if ($status->name !== "Отменен" && $this->order->isCanceled()) {
+        if ($status->name !== "Отказ клиента" && $this->order->isCanceled()) {
             OrderCompatibility::cancel($this->order->getId(), "N");
         }
     }
