@@ -465,7 +465,7 @@ class MyHandlerClass
         }
 
         $propertiesValue = [
-            "ONLY_PREPAYMENT" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])["VALUES"],
+            "ONLY_PREPAYMENT" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])["VALUE"],
             "ONLY_CASH" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])["VALUE"],
             "CML2_ARTICLE" => reset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])["VALUE"],
         ];
