@@ -439,6 +439,8 @@ class MyHandlerClass
             return true;
         }
 
+        $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
+
         $properties = \Bitrix\Iblock\PropertyTable::getList(
             [
                 "filter" => [
@@ -468,51 +470,15 @@ class MyHandlerClass
             "CML2_ARTICLE" => reset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])["VALUE"],
         ];
 
-//        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
-//            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
-//            global $APPLICATION;
-//            $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
-//            return false;
-//        }
-
-        return;
-    }
-
-    function OnBeforeProductUpdateHandler(&$arFields)
-    {
-        if ((int)$arFields["IBLOCK_ID"] !== 6) {
-            return true;
-        }
-
-        $properties = \Bitrix\Iblock\PropertyTable::getList(
-            [
-                "filter" => [
-                    "IBLOCK_ID" => 6,
-                    "CODE" => [
-                        "ONLY_CASH",
-                        "ONLY_PICKUP",
-                        "ONLY_PREPAYMENT",
-                    ],
-                ],
-            ]
-        );
-
-        $arProps = [];
-
-        while ($prop = $properties->fetch()) {
-            $arProps[$prop["CODE"]] = $prop["ID"];
-        }
-
-        if (empty($arProps)) {
-            return true;
-        }
-
-        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
-            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
+        if (!empty($propertiesValue["ONLY_PREPAYMENT"])
+            && !empty($propertiesValue["ONLY_CASH"])
+            && !$isImport) {
             global $APPLICATION;
             $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
             return false;
         }
+
+        return true;
     }
 
     function OnSaleComponentOrderUserResultHandler(&$arUserResult, $request, &$arParams)
