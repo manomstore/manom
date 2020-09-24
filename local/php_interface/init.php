@@ -468,12 +468,12 @@ class MyHandlerClass
             "CML2_ARTICLE" => reset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])["VALUE"],
         ];
 
-        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
-            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
-            global $APPLICATION;
-            $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
-            return false;
-        }
+//        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
+//            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
+//            global $APPLICATION;
+//            $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
+//            return false;
+//        }
 
         return;
     }
