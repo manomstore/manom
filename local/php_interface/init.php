@@ -88,17 +88,17 @@ AddEventHandler(
     Array("MyHandlerClass", "OnBeforeIBlockPropertyUpdateHandler")
 );
 
-//AddEventHandler(
-//    "iblock",
-//    "OnBeforeIBlockSectionUpdate",
-//    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
-//);
-//
-//AddEventHandler(
-//    "iblock",
-//    "OnBeforeIBlockSectionAdd",
-//    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
-//);
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockSectionUpdate",
+    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
+);
+
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockSectionAdd",
+    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
+);
 
 AddEventHandler(
     "germen.settings",
@@ -952,7 +952,9 @@ class MyHandlerClass
 
     function OnBeforeIBlockSectionAddHandler($arFields)
     {
-        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+        $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
+
+        if ((int)$arFields["IBLOCK_ID"] !== 6 || $isImport) {
             return true;
         }
 
@@ -979,7 +981,9 @@ class MyHandlerClass
 
     function OnBeforeIBlockSectionUpdateHandler($arFields)
     {
-        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+        $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
+
+        if ((int)$arFields["IBLOCK_ID"] !== 6 || $isImport) {
             return true;
         }
         global $APPLICATION;
