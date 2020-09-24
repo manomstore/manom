@@ -82,6 +82,12 @@ AddEventHandler(
     Array("MyHandlerClass", "onSaleDeliveryServiceCalculateHandler")
 );
 
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockElementUpdate",
+    Array("MyHandlerClass", "OnBeforeIBlockPropertyUpdateHandler")
+);
+
 //AddEventHandler(
 //    "iblock",
 //    "OnBeforeIBlockSectionUpdate",
@@ -425,6 +431,51 @@ class MyHandlerClass
         unset($arFields["NAME"]);
         unset($arFields["IBLOCK_SECTION_ID"]);
         unset($arFields["IBLOCK_SECTION"]);
+    }
+
+    function OnBeforeIBlockPropertyUpdateHandler(&$arFields)
+    {
+        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+            return true;
+        }
+
+        $properties = \Bitrix\Iblock\PropertyTable::getList(
+            [
+                "filter" => [
+                    "IBLOCK_ID" => 6,
+                    "CODE" => [
+                        "ONLY_CASH",
+                        "ONLY_CASH",
+                        "CML2_ARTICLE",
+                    ],
+                ],
+            ]
+        );
+
+        $arProps = [];
+
+        while ($prop = $properties->fetch()) {
+            $arProps[$prop["CODE"]] = $prop["ID"];
+        }
+
+        if (empty($arProps)) {
+            return true;
+        }
+
+        $propertiesValue = [
+            "ONLY_PREPAYMENT" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])["VALUES"],
+            "ONLY_CASH" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])["VALUE"],
+            "CML2_ARTICLE" => reset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])["VALUE"],
+        ];
+
+        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
+            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
+            global $APPLICATION;
+            $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
+            return false;
+        }
+
+        return;
     }
 
     function OnBeforeProductUpdateHandler(&$arFields)
