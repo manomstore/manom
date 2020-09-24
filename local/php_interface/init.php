@@ -446,7 +446,7 @@ class MyHandlerClass
                 "filter" => [
                     "IBLOCK_ID" => 6,
                     "CODE" => [
-                        "ONLY_CASH",
+                        "ONLY_PREPAYMENT",
                         "ONLY_CASH",
                         "CML2_ARTICLE",
                     ],
