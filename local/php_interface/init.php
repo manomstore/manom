@@ -433,7 +433,7 @@ class MyHandlerClass
         unset($arFields["IBLOCK_SECTION"]);
     }
 
-    function OnBeforeIBlockPropertyUpdateHandler(&$arFields)
+    function OnBeforeIBlockPropertyUpdateHandler($arFields)
     {
         if ((int)$arFields["IBLOCK_ID"] !== 6) {
             return true;
@@ -464,11 +464,13 @@ class MyHandlerClass
             return true;
         }
 
-        $propertiesValue = [
-            "ONLY_PREPAYMENT" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])["VALUE"],
-            "ONLY_CASH" => reset($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])["VALUE"],
-            "CML2_ARTICLE" => reset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])["VALUE"],
-        ];
+        $propertiesValue = [];
+
+        foreach ($arProps as $code => $prop) {
+            if (!empty($arFields["PROPERTY_VALUES"][$prop])) {
+                $propertiesValue[$code] = reset($arFields["PROPERTY_VALUES"][$prop])["VALUE"];
+            }
+        }
 
         if (!empty($propertiesValue["ONLY_PREPAYMENT"])
             && !empty($propertiesValue["ONLY_CASH"])
