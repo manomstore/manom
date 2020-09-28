@@ -427,10 +427,8 @@ h6 {
   -ms-flex-align: center;
   align-items: center;
   color: #ffffff;
-  height: 30px;
-  padding-right: 15px;
-  padding-left: 15px;
   position: relative;
+  padding: 6px 15px;
 }
 
 .top-ad-line__text {
@@ -1672,7 +1670,7 @@ line-height: 24px;
   align-items: stretch;
   text-align: center;
   width: 100%;
-  margin: 30px 0;
+  margin: 60px 0;
   border-top: 1px solid #ebebeb;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -2412,6 +2410,7 @@ line-height: 24px;
   margin-right: auto;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
+  margin-top: 34px;
 }
 
 .catalog-filter .transition,
@@ -9442,7 +9441,7 @@ h3.tab-content__title--right {
   position: relative;
   display: flex;
   align-items: flex-start;
-  margin: 0 0 15px;
+  margin: 0;
 }
 
 .top-nav__block .top-nav__logo {
