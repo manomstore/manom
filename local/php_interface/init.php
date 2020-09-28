@@ -893,20 +893,10 @@ class MyHandlerClass
         $products = [];
 
         if (!empty($productsId)) {
-            $productList = \CCatalogSKU::getProductList($productsId);
-            $productList = array_map(
-                function ($item) {
-                    return $item["ID"];
-                },
-                $productList
-            );
-
-            $productList = array_unique(array_values($productList));
-
             $rsProducts = \CIBlockElement::GetList(
                 [],
                 [
-                    "ID" => $productList,
+                    "ID" => $productsId,
                     "IBLOCK_ID" => 6,
                 ],
                 false,
