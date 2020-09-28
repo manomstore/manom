@@ -294,7 +294,7 @@
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scroll.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/anchor.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/limit-img.js"></script>
-        <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+        <!-- <script src="https://unpkg.com/swiper/js/swiper.min.js"></script> -->
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/swiper-photo.js"></script>
 
         <script>
