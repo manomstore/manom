@@ -7,13 +7,11 @@ use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
-use Bitrix\Sale\Order;
 
 require_once __DIR__ . '/autoload.php';
 
 Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
-$eventManager = \Bitrix\Main\EventManager::getInstance();
 
 if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
     AddEventHandler(
@@ -62,11 +60,6 @@ AddEventHandler(
     "sale",
     "OnSaleOrderBeforeSaved",
     Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler")
-);
-$eventManager->addEventHandler(
-    "sale",
-    "OnSaleOrderSaved",
-    Array("MyHandlerClass", "OnSaleOrderSavedHandler")
 );
 AddEventHandler(
     "sale",
@@ -887,6 +880,24 @@ class MyHandlerClass
     function OnSaleOrderBeforeSavedHandler($arFields)
     {
         Loader::includeModule("catalog");
+
+        $dateCreate = $arFields->getField("DATE_INSERT");
+
+        if (!empty($dateCreate)) {
+            $dateCreate = $dateCreate->toString();
+        }
+
+        $dataLastExchange = ConvertTimeStamp(
+            \COption::GetOptionString("sale", "last_export_time_committed_/bitrix/admin/1c_excha", ""),
+            "FULL"
+        );
+
+        $dateExported = $dateCreate && $dateCreate < $dataLastExchange;
+
+        if (!$arFields->isNew() && $dateExported && !$arFields->isExternal()) {
+            $arFields->setField("EXTERNAL_ORDER", "Y");
+        }
+
         $registry = Registry::getInstance(Registry::REGISTRY_TYPE_ORDER);
 
         $productsId = [];
@@ -1019,22 +1030,6 @@ class MyHandlerClass
             return false;
         }
         return true;
-    }
-
-    function OnSaleOrderSavedHandler(\Bitrix\Main\Event $event)
-    {
-        /** @var Order $order */
-        $order = $event->getParameter("ENTITY");
-
-        $dateUpdate = $order->getField("DATE_UPDATE")->toString();
-        $dataLastExchange = ConvertTimeStamp(
-            \COption::GetOptionString("sale", "last_export_time_committed_/bitrix/admin/1c_excha", ""),
-            "FULL"
-        );
-
-        if (!$order->isNew() && $dateUpdate > $dataLastExchange && !$order->isExternal()) {
-            \Bitrix\Sale\OrderTable::update($order->getId(), ['EXTERNAL_ORDER' => "Y"]);
-        }
     }
 
     function OnBeforeIBlockSectionUpdateHandler($arFields)
