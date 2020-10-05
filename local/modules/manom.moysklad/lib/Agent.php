@@ -4,6 +4,7 @@ namespace Manom\Moysklad;
 
 use Manom\Moysklad\Moysklad\CustomerOrder;
 use \Manom\Moysklad\Bitrix\Order;
+use \Bitrix\Sale;
 
 class Agent
 {
@@ -17,7 +18,7 @@ class Agent
 
             foreach ($events as $event) {
                 $customerOrder = new CustomerOrder($event["href_change"]);
-                if (!$customerOrder->getId()) {
+                if (!$customerOrder->getId() || empty(Sale\Order::load($customerOrder->getId()))) {
                     EventTable::delete($event["id"]);
                     continue;
                 }
