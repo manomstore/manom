@@ -30,6 +30,7 @@ class Import
     private $propertiesData;
     private $bitrixElements;
     private $bitrixSections;
+    public $importDataJson;
     private $errors = [];
 
     /**
@@ -104,6 +105,9 @@ class Import
             }
         }
 
+        $this->importDataJson = json_encode($airtableData);
+
+
         $airtableIdToXmlId = $this->getAirtableIdToXmlIdLinks($airtableData);
 
         $itemsToUpdate = array();
@@ -122,7 +126,7 @@ class Import
         $this->throwErrors();
         $updated = array();
         foreach ($itemsToUpdate as $fields) {
-            if ($element->update($fields)) {
+            if ($element->update($fields, $this)) {
                 $updated[$fields['AIRTABLE_SECTION']][] = $fields['AIRTABLE_ID'];
             }
         }

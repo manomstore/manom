@@ -512,6 +512,13 @@ class MyHandlerClass
                     $logContent .= "\n -" . $item["file"] . ":" . $item["line"];
                 }
 
+                $logContent .= "\nFIELDS:";
+                ob_start();
+                var_export($arFields);
+                $fieldsExport = ob_get_clean();
+                $logContent .= "\n" . $fieldsExport;
+
+
                 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/articleDebug.log", $logContent);
             }
         }
