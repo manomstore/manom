@@ -60,7 +60,9 @@ class CustomerOrder
      */
     public function getId(): int
     {
-        return (int)$this->orderData->externalCode;
+        $extCode = $this->orderData->externalCode;
+        $extCode = !is_numeric($extCode) ? 0 : $extCode;
+        return (int)$extCode;
     }
 
     /**

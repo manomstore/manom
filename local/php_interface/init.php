@@ -906,7 +906,7 @@ class MyHandlerClass
             "FULL"
         );
 
-        $dateExported = $dateCreate && $dateCreate < $dataLastExchange;
+        $dateExported = $dateCreate && (strtotime($dateCreate) < strtotime($dataLastExchange));
 
         if (!$arFields->isNew() && $dateExported && !$arFields->isExternal()) {
             $arFields->setField("EXTERNAL_ORDER", "Y");
