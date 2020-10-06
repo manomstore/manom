@@ -435,6 +435,10 @@ class MyHandlerClass
 
     function OnBeforeIBlockPropertyUpdateHandler($arFields)
     {
+        ob_start();
+        var_export($arFields);
+        $fieldsOriginalExport = ob_get_clean();
+
         if ((int)$arFields["IBLOCK_ID"] !== 6) {
             return true;
         }
@@ -517,6 +521,9 @@ class MyHandlerClass
                 var_export($arFields);
                 $fieldsExport = ob_get_clean();
                 $logContent .= "\n" . $fieldsExport;
+
+                $logContent .= "\nORIGINAL_FIELDS:";
+                $logContent .= "\n" . $fieldsOriginalExport;
 
 
                 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/articleDebug.log", $logContent);
