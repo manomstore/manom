@@ -26,7 +26,13 @@ class CustomerOrder
      */
     public function __construct(String $orderUrl)
     {
-        $this->orderData = $this->sendRequest($orderUrl);
+        try {
+            $this->orderData = $this->sendRequest($orderUrl);
+        } catch (\Exception $e) {
+            if ($e->getCode() === 404) {
+                return false;
+            }
+        }
         $this->setState();
         $this->setPositions();
         $this->setXmlMapping();
@@ -54,10 +60,6 @@ class CustomerOrder
      */
     public function getId(): int
     {
-        if (empty($this->orderData->externalCode)) {
-            throw new \Exception();
-        }
-
         return (int)$this->orderData->externalCode;
     }
 
