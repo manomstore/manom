@@ -431,6 +431,7 @@ class MyHandlerClass
         unset($arFields["NAME"]);
         unset($arFields["IBLOCK_SECTION_ID"]);
         unset($arFields["IBLOCK_SECTION"]);
+        unset($arFields["PROPERTY_VALUES"]);
     }
 
     function OnBeforeIBlockPropertyUpdateHandler($arFields)
