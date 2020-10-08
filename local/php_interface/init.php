@@ -7,6 +7,7 @@ use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
+use \Manom\Airtable\AirtablePropertiesLinkTable;
 
 require_once __DIR__ . '/autoload.php';
 
@@ -17,7 +18,7 @@ if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
     AddEventHandler(
         "iblock",
         "OnBeforeIBlockElementUpdate",
-        Array("MyHandlerClass", "OnBeforeIBlockElementUpdateHandler")
+        Array("MyHandlerClass", "OnBeforeIBlockElementUpdateImportHandler")
     );
     AddEventHandler(
         "iblock",
@@ -85,7 +86,7 @@ AddEventHandler(
 AddEventHandler(
     "iblock",
     "OnBeforeIBlockElementUpdate",
-    Array("MyHandlerClass", "OnBeforeIBlockPropertyUpdateHandler")
+    Array("MyHandlerClass", "OnBeforeIBlockElementUpdateHandler")
 );
 
 AddEventHandler(
@@ -110,6 +111,12 @@ AddEventHandler(
     "germen.settings",
     "OnBeforeSettingsUpdate",
     Array(TimeDelivery::class, "OnBeforeSettingsUpdateHandler")
+);
+
+AddEventHandler(
+    "iblock",
+    "OnAfterIBlockPropertyDelete",
+    Array("MyHandlerClass", "OnAfterIBlockPropertyDeleteHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
@@ -426,7 +433,7 @@ class MyHandlerClass
         }
     }
 
-    function OnBeforeIBlockElementUpdateHandler(&$arFields)
+    function OnBeforeIBlockElementUpdateImportHandler(&$arFields)
     {
         unset($arFields["NAME"]);
         unset($arFields["IBLOCK_SECTION_ID"]);
@@ -434,7 +441,7 @@ class MyHandlerClass
         unset($arFields["PROPERTY_VALUES"]);
     }
 
-    function OnBeforeIBlockPropertyUpdateHandler($arFields)
+    function OnBeforeIBlockElementUpdate($arFields)
     {
         ob_start();
         var_export($arFields);
@@ -1087,6 +1094,22 @@ class MyHandlerClass
         $minOrderPrice = (int)\UniPlug\Settings::get("COND_FREE_DELIVERY");
         if ($minOrderPrice > 0 && (int)$basket->getPrice() >= $minOrderPrice) {
             $result->setDeliveryPrice(0);
+        }
+    }
+
+    function OnAfterIBlockPropertyDeleteHandler($property)
+    {
+        Loader::includeModule("manom.airtable");
+        $link = AirtablePropertiesLinkTable::getList(
+            [
+                "filter" => [
+                    "bitrix" => $property["CODE"]
+                ]
+            ]
+        )->fetch();
+
+        if ($link) {
+            AirtablePropertiesLinkTable::delete($link["id"]);
         }
     }
 }
