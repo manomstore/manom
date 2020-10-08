@@ -905,7 +905,7 @@ if (empty($productsOutOfStock)) {
                                         <span class="sci-contact__check">
                                             Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших
                                             персональных данных в соответствии
-                                            <a target="_blank" href="/public_offer_agreement/">с условиями</a>
+                                            <a target="_blank" href="/privacy_policy/">с условиями</a>
                                             .
                                         </span>
                                     </label>
