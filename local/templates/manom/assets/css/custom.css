@@ -1416,6 +1416,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 }
 .product-card__slide img {
   width: 70% !important;
+  max-height: 200px;
 }
 .message-incorrect {
   margin: 10% 20%;
