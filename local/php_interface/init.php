@@ -472,8 +472,9 @@ class MyHandlerClass
         $propertiesValue = [];
 
         foreach ($arProps as $code => $prop) {
-            if (!empty($arFields["PROPERTY_VALUES"][$prop])) {
-                $propertiesValue[$code] = reset($arFields["PROPERTY_VALUES"][$prop])["VALUE"];
+            if (array_key_exists($arFields["PROPERTY_VALUES"], $prop)) {
+                $value = reset($arFields["PROPERTY_VALUES"][$prop])["VALUE"];
+                $propertiesValue[$code] = $value;
             }
         }
 
@@ -496,7 +497,9 @@ class MyHandlerClass
 
             $elementData = $res->GetNext();
 
-            if (!empty($elementData["PROPERTY_CML2_ARTICLE_VALUE"]) && empty($propertiesValue["CML2_ARTICLE"])) {
+            if (!empty($elementData["PROPERTY_CML2_ARTICLE_VALUE"])
+                && isset($propertiesValue["CML2_ARTICLE"])
+                && empty($propertiesValue["CML2_ARTICLE"])) {
                 ob_start();
                 print_r($elementData["PROPERTY_CML2_ARTICLE_VALUE"]);
                 $oldArticlePrint = ob_get_clean();
