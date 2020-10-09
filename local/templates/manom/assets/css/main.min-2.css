@@ -12001,8 +12001,15 @@ a.ui-button:active,
 
 }
 
-.empty__block {
+.empty__block-header {
+  margin-bottom: 16px;
 }
+.empty__block-image {
+  margin-bottom: 24px;
+  width: 123px;
+  height: auto;
+}
+
 
 .empty__text {
   font-weight: 500;
