@@ -19,16 +19,26 @@
   }
 })();
 
+
 (() => {
-  const smallSlider = document.querySelector(`.product-photo__left .swiper-container`);
+  const smallSlider = document.querySelector(`.product-photo__left.swiper-container`);
   var imglist = document.querySelectorAll(".product-photo__left img");
+  const btnPrec = document.querySelector(`.product-photo__left .swiper-button-prev`);
+  const btnNext = document.querySelector(`.product-photo__left .swiper-button-next`);
 
   if (smallSlider) {
     if (imglist.length > 4) {
       new Swiper(smallSlider, {
         direction: 'vertical',
         slidesPerView: 4,
+        spaceBetween: 0,
+        navigation: {
+          nextEl: '.product-photo__left .swiper-button-next',
+          prevEl: '.product-photo__left .swiper-button-prev',
+        },
       });
+      btnPrec.classList.remove('visually-hidden');
+      btnNext.classList.remove('visually-hidden');
     } else {
       return;
     }
