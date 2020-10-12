@@ -2865,10 +2865,12 @@ p.price-slider {
 
 .product-photo .product-photo__left {
   width: 19.5%;
+  min-width: 100px;
 }
 
 .product-photo .product-photo__right {
-  width: 80%;
+  width: auto;
+  flex-shrink: 1;
 }
 
 .product-photo .interesting-fact {
@@ -2884,6 +2886,11 @@ p.price-slider {
   width: 8.3%;
   height: 290px;
   overflow: hidden;
+}
+
+.product-photo__block {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 
