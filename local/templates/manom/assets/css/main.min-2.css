@@ -2880,7 +2880,7 @@ p.price-slider {
   text-align: left;
   margin-top: 17px;
   margin-bottom: 9px;
-  padding: 0 15px 0;
+  padding: 0 15px 0 !important;
   width: 8.3%;
   height: 280px;
   overflow: hidden;
@@ -2922,34 +2922,44 @@ p.price-slider {
 }
 
 .product-photo__left .swiper-button-next {
-  bottom: 6px;
+  bottom: 0;
   top: auto;
-  width: 5px;
-  height: 5px;
-  left: 47px;
-  border-top: 1px solid #79B700;
-  border-right: 1px solid #79B700;
-  transform: rotate(135deg);
+  width: 100%;
+  height: 7px;
+  background-color: #ffffff;
+  left: 0;
 }
 
 
 .product-photo__left .swiper-button-next::after {
   content: "";
+  width: 5px;
+  height: 5px;
+  left: 47px;
+  top: 0;
+  border-top: 1px solid #79B700;
+  border-right: 1px solid #79B700;
+  transform: rotate(135deg);
 }
 
 .product-photo__left .swiper-button-prev {
   top: 23px;
-  left: 47px;
-  width: 5px;
-  height: 5px;
-  border-top: 1px solid #79B700;
-  border-right: 1px solid #79B700;
-  transform: rotate(-45deg);
+  width: 100%;
+  height: 7px;
+  background-color: #ffffff;
+  left: 0;
 }
 
 
 .product-photo__left .swiper-button-prev::after {
   content: "";
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid #79B700;
+  border-right: 1px solid #79B700;
+  transform: rotate(-45deg);
+  left: 47px;
+  top: 0;
 }
 
 .product-photo__right {
