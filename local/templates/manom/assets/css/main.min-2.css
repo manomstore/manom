@@ -2867,12 +2867,6 @@ p.price-slider {
   width: 19.5%;
   min-width: 100px;
 }
-
-.product-photo .product-photo__right {
-  width: 80%;
-  flex-shrink: 1;
-}
-
 .product-photo .interesting-fact {
   width: 100%;
   margin-left: 15px;
@@ -2976,7 +2970,7 @@ p.price-slider {
   vertical-align: middle;
   height: 350px;
   padding: 0 15px;
-  width: 80%;
+  width: 78%;
   margin-bottom: 10px;
 }
 
