@@ -18,3 +18,19 @@
     }
   }
 })();
+
+(() => {
+  const smallSlider = document.querySelector(`.product-photo__left .swiper-container`);
+  var imglist = document.querySelectorAll(".product-photo__left img");
+
+  if (smallSlider) {
+    if (imglist.length > 4) {
+      new Swiper(smallSlider, {
+        direction: 'vertical',
+        slidesPerView: 4,
+      });
+    } else {
+      return;
+    }
+  }
+})();
