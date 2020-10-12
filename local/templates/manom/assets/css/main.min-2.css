@@ -2864,7 +2864,7 @@ p.price-slider {
 }
 
 .product-photo .product-photo__left {
-  width: 19%;
+  width: 19.5%;
 }
 
 .product-photo .product-photo__right {
@@ -2882,7 +2882,7 @@ p.price-slider {
   margin-bottom: 9px;
   padding: 0 15px 0 !important;
   width: 8.3%;
-  height: 280px;
+  height: 290px;
   overflow: hidden;
 }
 
@@ -2943,9 +2943,9 @@ p.price-slider {
 }
 
 .product-photo__left .swiper-button-prev {
-  top: 23px;
+  top: 22px;
   width: 100%;
-  height: 7px;
+  height: 8px;
   background-color: #ffffff;
   left: 0;
 }
