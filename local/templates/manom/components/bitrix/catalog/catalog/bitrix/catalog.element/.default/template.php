@@ -134,7 +134,6 @@ function formatBytes($size, $precision = 2)
 
     <div class="product-main row">
         <div class="product-photo">
-            <div class="product-photo__block">
                 <div class="product-photo__left col-1 swiper-container">
                     <div class="swiper-wrapper">
                         <?php $first = true;?>
@@ -176,7 +175,6 @@ function formatBytes($size, $precision = 2)
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
-            </div>
             <div class="product-photo__info">
                 <?=$arResult['PREVIEW_TEXT']?>
             </div>
