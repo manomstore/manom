@@ -2484,6 +2484,11 @@ line-height: 24px;
   cursor: pointer;
 }
 
+.catalog-filter .catalog-filter__item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .catalog-filter .catalog-filter__item:hover:before {
   border-color: #79b700;
 }
