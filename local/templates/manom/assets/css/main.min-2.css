@@ -2520,7 +2520,7 @@ line-height: 24px;
 }
 
 .catalog-filter
-  .catalog-filter__checkbox:disabled
+  .catalog-filter__checkbox.disabled
   + .catalog-filter__item {
     opacity: 0.5;
     pointer-events: none;
