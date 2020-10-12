@@ -540,4 +540,11 @@ $(function () {
       // $(".pb-info__button").text("Редактировать");
     }
   });
+
+  // дизактивирует лэйбл у неактивного checkput
+
+  $('.catalog-filter__checkbox.disabled').parents('label').addClass('disabled');
 });
+
+
+

@@ -2509,6 +2509,7 @@ line-height: 24px;
   margin-right: 8px;
 }
 
+
 .catalog-filter .catalog-filter__checkbox {
   display: none;
 }
@@ -2539,6 +2540,10 @@ line-height: 24px;
   margin: 0;
   padding: 10px 0;
   border-bottom: 1px dotted #dce7eb;
+}
+
+.catalog-filter__li label.disabled {
+  pointer-events: none;
 }
 
 .catalog-filter ul li:last-of-type {
