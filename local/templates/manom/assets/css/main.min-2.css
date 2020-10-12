@@ -2484,10 +2484,10 @@ line-height: 24px;
   cursor: pointer;
 }
 
-.catalog-filter .catalog-filter__item.disabled {
+/* .catalog-filter .catalog-filter__item.disabled {
   opacity: 0.5;
   pointer-events: none;
-}
+} */
 
 .catalog-filter .catalog-filter__item:hover:before {
   border-color: #79b700;
@@ -2517,6 +2517,13 @@ line-height: 24px;
   .catalog-filter__checkbox:checked
   + .catalog-filter__item:before {
   color: #79b700;
+}
+
+.catalog-filter
+  .catalog-filter__checkbox.disabled
+  + .catalog-filter__item {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .catalog-filter ul {
