@@ -213,7 +213,6 @@ function formatBytes($size, $precision = 2)
                                     class="visually-hidden js-related"
                                     name="color"
                                     type="radio"
-                                    class="out-of-stock"
                                     id="<?=$data['code']?>"
                                     value="<?=$data['value']?>"
                                     data-url="<?=$data['url']?>"
