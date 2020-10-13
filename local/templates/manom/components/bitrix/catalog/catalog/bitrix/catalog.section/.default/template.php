@@ -30,7 +30,8 @@ $this->setFrameMode(true);
                 <? else: ?>
                     <option selected value="pop">по популярности</option>
                 <? endif; ?>
-                <option value="price">по цене</option>
+                <option value="price_desc">сначала дорогие</option>
+                <option value="price_asc">сначала дешевые</option>
                 <option value="name">по названию</option>
             </select>
         </div>

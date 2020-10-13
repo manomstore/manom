@@ -13,8 +13,11 @@ global $catalogFilter;
 
 $sort = 'propertysort_SALELEADER';
 $order = 'ASC';
-if ($_REQUEST['sort_by'] === 'price') {
+if ($_REQUEST['sort_by'] === 'price_asc') {
     $sort = 'CATALOG_PRICE_1';
+} elseif ($_REQUEST['sort_by'] === 'price_desc') {
+    $sort = 'CATALOG_PRICE_1';
+    $order = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'pop') {
     $sort = 'propertysort_SALELEADER';
 } elseif ($_REQUEST['sort_by'] === 'name') {
