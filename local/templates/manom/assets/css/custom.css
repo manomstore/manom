@@ -1444,7 +1444,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 .content {
   width: 100%;
   flex: 1 0 auto;
-  min-height: calc(100vh - 98px - 144px - 71px);
+  min-height: calc(100vh - 150px - 144px - 71px);
 }
 
 .content--index .slick-dots {
