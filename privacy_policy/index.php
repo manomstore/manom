@@ -4,7 +4,7 @@ $APPLICATION->SetTitle("Политика конфиденциальности");
 ?>
 <div class="content">
     <div class="container">
-        <div class="text-content text-content--container">
+        <div class="text-content text-content--container pp-block">
             <?$APPLICATION->IncludeComponent(
                 "bitrix:main.include",
                 ".default",

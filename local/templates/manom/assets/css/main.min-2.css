@@ -1058,6 +1058,12 @@ h6 {
   border-top: 0;
 }
 
+.poa-block .promotion-h2,
+.pp-block .promotion-h2 {
+  border-top: 0;
+  padding: 0;
+}
+
 .promotion__block,
 .new-product__block,
 .bestsellers__block,
