@@ -224,13 +224,13 @@
                                 ],
                                 false
                             ); ?>
-                            <div class="top-nav__number">
+                            <div class="footer-bottom__number">
                                 <img
                                     src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon-menu.svg"
                                     alt="Иконка телефона"
-                                    width="17"
-                                    height="17"
-                                    class="top-nav__number-img"
+                                    width="11"
+                                    height="11"
+                                    class="footer-bottom__number-img"
                                 >
                                 <?php $APPLICATION->IncludeComponent(
                                     'bitrix:main.include',

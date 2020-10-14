@@ -6041,6 +6041,14 @@ h3.tab-content__title--right {
   border-top: 1px solid #ebebeb;
 }
 
+.footer-bottom .top-nav__time {
+  display: none;
+}
+
+.footer-bottom__number {
+  display: none;
+}
+
 .footer-bottom__copyright {
   display: inline-block;
   -webkit-box-flex: 2;
@@ -6751,8 +6759,34 @@ h3.tab-content__title--right {
   }
 
   .footer-bottom {
-    display: block;
     text-align: justify;
+  }
+
+
+  .footer-bottom .top-nav__time {
+    font-size: 12px;
+    line-height: 24px;
+    color: #000000;
+    text-align: right;
+    font-weight: normal;
+  }
+
+  .footer-bottom__number {
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+
+  .footer-bottom__number-img {
+    width: 11px;
+    height: 11px;
+  }
+
+  .footer-bottom__number a {
+    font-size: 12px;
+    line-height: 24px;
+    color: #000000;
+    text-align: right;
+    font-weight: normal;
   }
 
   .footer-bottom__policy {
