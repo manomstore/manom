@@ -97,8 +97,9 @@ foreach ($arResult['ITEMS'] as $item) {
                         <p>
                             <label>
                                 <input
-                                    class="catalog-filter__checkbox"
+                                    class="catalog-filter__checkbox <?= $value["DISABLED"] ? 'disabled' : '' ?>"
                                     type="checkbox"
+                                    <?= $value["DISABLED"] ? 'disabled' : '' ?>
                                     name="<?=$value['CONTROL_NAME']?>"
                                     id="<?=$value['CONTROL_ID']?>"
                                     value="<?=$value['HTML_VALUE']?>"

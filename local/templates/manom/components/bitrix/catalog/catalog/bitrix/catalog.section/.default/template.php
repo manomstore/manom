@@ -67,10 +67,6 @@ $this->setFrameMode(true);
     \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
     ?>
     <div id='PROPDS_BLOCK'>
-        <?php if ($arParams['AJAX']) {
-            $APPLICATION->RestartBuffer();
-        } ?>
-
         <div class="cb-single no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-single' ? 'style="display: flex;"' : ''?>>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php
@@ -397,10 +393,10 @@ $this->setFrameMode(true);
             <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
         </div>
         <?=$arResult['NAV_STRING']?>
-        <?php if ($arParams['AJAX']) {
-            die();
-        } ?>
     </div>
+    <?php if ($arParams['AJAX']) {
+        die();
+    } ?>
     <?php /*
     <div class="cb-nav-bottom">
         <div class="cb-nav-pagination">

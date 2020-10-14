@@ -3231,7 +3231,11 @@ $.fn.ajaxLoadCatalog = function () {
       data: $data,
       success: function (data) {
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
-        $(document).find('#PROPDS_BLOCK').html(data);
+        if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
+          $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
+        }
+
+        $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());
         try {
           window.gtmActions.setProducts($(data).find('[data-gtm-products]').data('gtm-products'));
           var gtmData = $(data).find('[data-gtm-data]').data('gtm-data');
