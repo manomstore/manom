@@ -688,6 +688,15 @@
                                         ]
                                     ); ?>
                                     <div class="top-personal">
+                                        <a class="top-personal__link top-personal__link--tel"
+                                           href="tel:+74951506450">
+                                            <img
+                                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon.svg"
+                                                    alt="Иконка телефона"
+                                                    width="17"
+                                                    height="17"
+                                            >
+                                        </a>
                                         <a class="top-personal__link top-personal__link--search"
                                            href="#">
                                             <img

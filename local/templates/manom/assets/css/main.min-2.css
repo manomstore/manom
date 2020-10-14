@@ -9754,6 +9754,16 @@ button.top-nav__link {
   align-items: center;
 }
 
+.top-personal__link--tel {
+  display: none;
+}
+
+@media (max-width: 1129px) {
+  .top-personal__link--tel {
+    display: block;
+  }
+}
+
 .top-personal__link img {
   height: 17px;
   width: auto;
