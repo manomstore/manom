@@ -6769,16 +6769,22 @@ h3.tab-content__title--right {
     color: #000000;
     text-align: right;
     font-weight: normal;
+    display: block;
+    margin: 0;
   }
 
   .footer-bottom__number {
     justify-content: flex-end;
     margin-left: auto;
+    display: block;
   }
 
   .footer-bottom__number-img {
     width: 11px;
     height: 11px;
+    position: relative;
+    top: 1px;
+    right: 7px;
   }
 
   .footer-bottom__number a {

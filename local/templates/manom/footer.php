@@ -213,17 +213,7 @@
                         </div>
                         <div class="footer-bottom">
                             <p class="footer-bottom__copyright">© Manom.ru 2018-<?=date('Y')?></p>
-                            <?php $APPLICATION->IncludeComponent(
-                                'bitrix:main.include',
-                                '.default',
-                                [
-                                    'PATH' => '/include/time.php',
-                                    'COMPONENT_TEMPLATE' => '.default',
-                                    'AREA_FILE_SHOW' => 'file',
-                                    'EDIT_TEMPLATE' => '',
-                                ],
-                                false
-                            ); ?>
+
                             <div class="footer-bottom__number">
                                 <img
                                     src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon-menu.svg"
@@ -244,6 +234,17 @@
                                     false
                                 ); ?>
                             </div>
+                            <?php $APPLICATION->IncludeComponent(
+                                'bitrix:main.include',
+                                '.default',
+                                [
+                                    'PATH' => '/include/time.php',
+                                    'COMPONENT_TEMPLATE' => '.default',
+                                    'AREA_FILE_SHOW' => 'file',
+                                    'EDIT_TEMPLATE' => '',
+                                ],
+                                false
+                            ); ?>
                             <a href="/public_offer_agreement/" class="footer-bottom__contract">
                                 Договор публичной оферты
                             </a>
