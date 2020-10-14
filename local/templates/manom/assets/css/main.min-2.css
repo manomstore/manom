@@ -9744,8 +9744,17 @@ button.top-nav__link {
 }
 
 @media (max-width: 1129px) {
+  .top-nav__time {
+    margin: 0 0 9px;
+    line-height: 22px;
+  }
+
   .top-nav__number {
     flex-direction: row;
+  }
+
+  .top-nav__number a {
+    line-height: 22px;
   }
 }
 
