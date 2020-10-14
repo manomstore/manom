@@ -9721,6 +9721,10 @@ button.top-nav__link {
   flex-wrap: nowrap;
 }
 
+.top-nav__number-img {
+  margin-right: 8px;
+}
+
 .top-nav__number a {
   font-size: 14px;
   font-weight: 500;
@@ -9737,6 +9741,12 @@ button.top-nav__link {
 .top-nav__number .top-nav__call-request:hover,
 .top-nav__number .top-nav__call-request:focus {
   color: #83bb26;
+}
+
+@media (max-width: 1129px) {
+  .top-nav__number {
+    flex-direction: row;
+  }
 }
 
 .top-personal {
