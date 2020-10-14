@@ -9820,7 +9820,7 @@ button.top-nav__link {
 
 @media (max-width: 1129px) {
   .top-personal__link--tel {
-    display: block;
+    display: flex;
     margin-right: 20px;
   }
 }
