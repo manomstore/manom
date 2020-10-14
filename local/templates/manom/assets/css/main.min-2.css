@@ -3523,13 +3523,7 @@ p.price-slider {
 
 @media only screen and (max-width: 767px) {
   .product-sidebar__profit {
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 28px;
-    width: auto;
-    padding-left: 0;
-    position: static;
-    margin-right: auto;
+    display: none;
   }
 
   .product-sidebar__profit:before {
