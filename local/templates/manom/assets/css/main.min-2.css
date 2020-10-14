@@ -3910,6 +3910,7 @@ p.price-slider {
 @media screen and (max-width: 969px) {
   .product-tabs {
     border-top: 0;
+    border-bottom: 0;
     margin-top: 0;
     padding-top: 0;
   }
