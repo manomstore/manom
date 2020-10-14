@@ -9761,6 +9761,7 @@ button.top-nav__link {
 @media (max-width: 1129px) {
   .top-personal__link--tel {
     display: block;
+    margin-right: 20px;
   }
 }
 
@@ -11418,7 +11419,7 @@ button.top-nav__link {
     display: none;
   }
 
-  .top-nav__number {
+  .top-nav__call-request {
     display: none;
   }
 }

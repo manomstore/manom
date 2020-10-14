@@ -567,6 +567,12 @@
                                                 false
                                             ); ?>
                                             <div class="top-nav__number">
+                                                <img
+                                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon.svg"
+                                                    alt="Иконка телефона"
+                                                    width="17"
+                                                    height="17"
+                                                >
                                                 <?php $APPLICATION->IncludeComponent(
                                                     'bitrix:main.include',
                                                     '.default',
