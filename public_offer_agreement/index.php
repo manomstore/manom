@@ -4,7 +4,7 @@ $APPLICATION->SetTitle("Договор публичной оферты");
 ?>
 <div class="content">
     <div class="container">
-        <div class="text-content text-content--container">
+        <div class="text-content text-content--container poa-block">
             <?$APPLICATION->IncludeComponent(
                 "bitrix:main.include",
                 ".default",
