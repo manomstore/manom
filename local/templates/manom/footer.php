@@ -216,7 +216,7 @@
 
                             <div class="footer-bottom__number">
                                 <img
-                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon-menu.svg"
+                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-footer.svg"
                                     alt="Иконка телефона"
                                     width="11"
                                     height="11"

@@ -6770,7 +6770,8 @@ h3.tab-content__title--right {
     text-align: right;
     font-weight: normal;
     display: block;
-    margin: 0;
+    margin: 0 0 0 auto;
+    width: 100%;
   }
 
   .footer-bottom__number {
