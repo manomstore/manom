@@ -871,52 +871,65 @@ $(document).ready(function () {
     return false;
   });
 
-  if ($('#slider-range-alt').is('span')) {
-    $minPrice = parseInt($('#price-start-alt').attr('min'));
-    $maxPrice = parseInt($('#price-start-alt').attr('max'));
-    if ($minPrice && $maxPrice) {
-      $('#slider-range-alt').slider({
-        range: true,
-        min: $minPrice,
-        max: $maxPrice,
-        step: 100,
-        values: [$minPrice, $maxPrice],
-        slide: function (event, ui) {
-          $('#price-start-alt').val(ui.values[0]);
-          $('#price-end-alt').val(ui.values[1]);
-          $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]').prop('checked', false);
-        },
-      });
-      $('#price-start-alt').val($('#slider-range-alt').slider('values', 0));
-      $('#price-end-alt').val($('#slider-range-alt').slider('values', 1));
-      $('#price-start-alt').change(function () {
-        var inputStart;
-        $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-        inputStart = $(this).val();
-        if (inputStart > $maxPrice) {
-          inputStart = $maxPrice;
-        }
-        if (inputStart < $minPrice) {
-          inputStart = $minPrice;
-        }
-        $('#slider-range-alt').slider('values', 0, inputStart);
-        $(this).val(inputStart);
-      });
-      $('#price-end-alt').change(function () {
-        var inputEnd;
-        $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-        inputEnd = $(this).val();
-        if (inputEnd > $maxPrice) {
-          inputEnd = $maxPrice;
-        }
-        if (inputEnd < $minPrice) {
-          inputEnd = $minPrice;
-        }
-        $('#slider-range-alt').slider('values', 1, inputEnd);
-        $(this).val(inputEnd);
-      });
+  $(document).on("updateSmartFilter", function () {
+    var $sliderRange = $(document).find("#slider-range-alt");
+    var $priceStart = $(document).find("#price-start-alt");
+    var $priceEnd = $(document).find("#price-end-alt");
+
+    if ($sliderRange.is('span')) {
+      $minPrice = parseInt($priceStart.attr('min'));
+      $maxPrice = parseInt($priceStart.attr('max'));
+      if ($minPrice && $maxPrice) {
+        $sliderRange.slider({
+          range: true,
+          min: $minPrice,
+          max: $maxPrice,
+          step: 100,
+          values: [$minPrice, $maxPrice],
+          slide: function (event, ui) {
+            $priceStart.val(ui.values[0]);
+            $priceEnd.val(ui.values[1]);
+          },
+        });
+        $priceStart.val($sliderRange.slider('values', 0));
+        $priceEnd.val($sliderRange.slider('values', 1));
+      }
     }
-  }
+  });
+
+  $(document).on("change", "#price-start-alt", function (event, afterAjax) {
+    var inputStart;
+    inputStart = $(this).val();
+    if (inputStart > $maxPrice) {
+      inputStart = $maxPrice;
+    }
+    if (inputStart < $minPrice) {
+      inputStart = $minPrice;
+    }
+    $(document).find('#slider-range-alt').slider('values', 0, inputStart);
+    $(this).val(inputStart);
+    if (!afterAjax) {
+      $(document).find('input[name="' + $(this).attr('data-name') + '"]').click();
+    }
+  });
+
+  $(document).on("change", "#price-end-alt", function (event, afterAjax) {
+    var inputEnd;
+    inputEnd = $(this).val();
+    if (inputEnd > $maxPrice) {
+      inputEnd = $maxPrice;
+    }
+    if (inputEnd < $minPrice) {
+      inputEnd = $minPrice;
+    }
+    $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
+    $(this).val(inputEnd);
+    if (!afterAjax) {
+      $(document).find('input[name="' + $(this).attr('data-name') + '"]').click();
+    }
+  });
+
+  $(document).trigger("updateSmartFilter");
 
   $(document).on('click', '.offer_prop_item', function () {
     var itemID,
@@ -3233,6 +3246,21 @@ $.fn.ajaxLoadCatalog = function () {
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
+
+          var $priceStart = $(document).find("#price-start-alt");
+          var $priceEnd = $(document).find("#price-end-alt");
+
+          $(document).trigger("updateSmartFilter");
+
+          if ($priceStart.attr("value")) {
+            $priceStart.val($priceStart.attr("value"));
+            $priceStart.trigger("change", [true]);
+          }
+
+          if ($priceEnd.attr("value")) {
+            $priceEnd.val($priceEnd.attr("value"));
+            $priceEnd.trigger("change", [true]);
+          }
         }
 
         $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());

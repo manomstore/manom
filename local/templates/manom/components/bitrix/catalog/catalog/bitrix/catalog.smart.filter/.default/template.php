@@ -38,10 +38,11 @@ foreach ($arResult['ITEMS'] as $item) {
                         continue;
                     }
                     $precision = $item['DECIMALS'] ?: 0;
-                    $minVal = $item['VALUES']['MIN']['FILTERED_VALUE'] ?: $item['VALUES']['MIN']['VALUE'];
-                    $maxVal = $item['VALUES']['MAX']['FILTERED_VALUE'] ?: $item['VALUES']['MAX']['VALUE'];
+                    $minVal = $item['VALUES']['MIN']['VALUE'];
+                    $maxVal = $item['VALUES']['MAX']['VALUE'];
                     $minVal = $minVal > 0 ? $minVal : 1;
                     $maxVal = $maxVal > 0 ? $maxVal : 1;
+                    $checked = !empty($item['VALUES']['MIN']['HTML_VALUE']) || !empty($item['VALUES']['MIN']['HTML_VALUE']);
                     ?>
                     <li class="catalog-filter__li">
                         <input type="checkbox" class="checkbox-1">
@@ -52,10 +53,11 @@ foreach ($arResult['ITEMS'] as $item) {
                                 <input
                                         class="catalog-filter__checkbox catalogPrice"
                                         type="checkbox"
-                                        data-name-min="<?=$item['VALUES']['MIN']['CONTROL_NAME']?>"
-                                        data-name-max="<?=$item['VALUES']['MAX']['CONTROL_NAME']?>"
+                                    <?= $checked ? "checked" : "" ?>
+                                        data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
+                                        data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                         data-title="Стоимость: "
-                                        name="<?=$item['VALUES']['MIN']['CONTROL_NAME']?><?=$item['VALUES']['MAX']['CONTROL_NAME']?>"
+                                        name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                 >
                                 <span class="catalog-filter__item"> ₽</span>
                             </label>
@@ -63,24 +65,31 @@ foreach ($arResult['ITEMS'] as $item) {
                                     class="form-control"
                                     type="number"
                                     step="100"
-                                    min="<?=number_format($minVal, $precision, '.', '')?>"
-                                    max="<?=number_format($maxVal, $precision, '.', '')?>"
-                                    data-name="<?=$item['VALUES']['MIN']['CONTROL_NAME']?><?=$item['VALUES']['MAX']['CONTROL_NAME']?>"
-                                    name="<?=$item['VALUES']['MIN']['CONTROL_NAME']?>"
+                                    min="<?= number_format($minVal, $precision, '.', '') ?>"
+                                    max="<?= number_format($maxVal, $precision, '.', '') ?>"
+                                    data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     id="price-start-alt"
+                                <? if ($item['VALUES']['MIN']['HTML_VALUE']): ?>
+                                    value="<?= $item['VALUES']['MIN']['HTML_VALUE'] ?>"
+                                <? endif; ?>
+
                             > &mdash;
                             <input
                                     class="form-control"
                                     type="number"
                                     step="100"
-                                    min="<?=number_format($minVal, $precision, '.', '')?>"
-                                    max="<?=number_format($maxVal, $precision, '.', '')?>"
-                                    data-name="<?=$item['VALUES']['MIN']['CONTROL_NAME']?><?=$item['VALUES']['MAX']['CONTROL_NAME']?>"
-                                    name="<?=$item['VALUES']['MAX']['CONTROL_NAME']?>"
+                                    min="<?= number_format($minVal, $precision, '.', '') ?>"
+                                    max="<?= number_format($maxVal, $precision, '.', '') ?>"
+                                    data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    name="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     id="price-end-alt"
+                                <? if ($item['VALUES']['MAX']['HTML_VALUE']): ?>
+                                    value="<?= $item['VALUES']['MAX']['HTML_VALUE'] ?>"
+                                <? endif; ?>
                             >
                             ₽
-                            <span id="slider-range-alt"></span>
+                            <span id="slider-range-alt" data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"></span>
                         </p>
                     </li>
                 <?php endif; ?>
