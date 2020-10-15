@@ -386,16 +386,20 @@ function formatBytes($size, $precision = 2)
                                             type="checkbox"
                                         <?=$arResult['inFavoriteAndCompare'] ? 'checked' : ''?>
                                     >
-                                    <div
+                                    <a href="#">
+                                        <div
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$arResult['ID']?>'
-                                            title="в избранное"
-                                    ></div>
+                                            title="Добавить в избранное"
+                                        ></div>
+                                    </a>
                                 </label>
-                                <div
-                                        class="p-nav-top__list addToCompareList <?=$class2?>"
-                                        data-id='<?=$arResult['ID']?>'
-                                ></div>
+                                <a href="#" title="Добавить в сравнение">
+                                    <div
+                                            class="p-nav-top__list addToCompareList <?=$class2?>"
+                                            data-id='<?=$arResult['ID']?>'
+                                    ></div>
+                                </a>
                             </div>
                         </div>
 
