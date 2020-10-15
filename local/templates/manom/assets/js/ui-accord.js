@@ -14,7 +14,7 @@ $(function () {
     });
 
     $(".product-questions").click(function () {
-      $("#ui-id-3").trigger("click");
+      $("#ui-id-4").trigger("click");
     });
   }
 
