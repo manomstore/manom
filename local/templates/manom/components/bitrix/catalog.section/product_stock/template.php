@@ -47,10 +47,10 @@ $this->setFrameMode(true);
                                             type="checkbox"
                                         <?=$item['inFavoriteAndCompare'] ? 'checked' : ''?>
                                     >
-                                    <div
+                                    <div    title="Добавить в избранное"
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$item['id']?>'
-                                            title="Добавить в избранное"
+
                                     ></div>
                                 </label>
                                 <div title="Добавить в сравнение"
