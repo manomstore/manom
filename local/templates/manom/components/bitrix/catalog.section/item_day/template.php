@@ -55,7 +55,7 @@ $start = 0;
                         title="в избранное"
                 ></div>
             </label>
-            <div
+            <div title="Добавить в сравнение"
                     class="p-nav-top__list addToCompareList <?=$class2?>"
                     data-id='<?=$item['id']?>'
             ></div>
