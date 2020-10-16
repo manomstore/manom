@@ -897,7 +897,7 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on("change", "#price-start-alt", function (event, afterAjax) {
+  $(document).on("change", "#price-start-alt", function () {
     var inputStart;
     inputStart = $(this).val();
     if (inputStart > $maxPrice) {
@@ -908,12 +908,9 @@ $(document).ready(function () {
     }
     $(document).find('#slider-range-alt').slider('values', 0, inputStart);
     $(this).val(inputStart);
-    if (!afterAjax) {
-      $(document).find('input[name="' + $(this).attr('data-name') + '"]').click();
-    }
   });
 
-  $(document).on("change", "#price-end-alt", function (event, afterAjax) {
+  $(document).on("change", "#price-end-alt", function () {
     var inputEnd;
     inputEnd = $(this).val();
     if (inputEnd > $maxPrice) {
@@ -924,9 +921,6 @@ $(document).ready(function () {
     }
     $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
     $(this).val(inputEnd);
-    if (!afterAjax) {
-      $(document).find('input[name="' + $(this).attr('data-name') + '"]').click();
-    }
   });
 
   $(document).trigger("updateSmartFilter");
@@ -3254,12 +3248,12 @@ $.fn.ajaxLoadCatalog = function () {
 
           if ($priceStart.attr("value")) {
             $priceStart.val($priceStart.attr("value"));
-            $priceStart.trigger("change", [true]);
+            $priceStart.trigger("change");
           }
 
           if ($priceEnd.attr("value")) {
             $priceEnd.val($priceEnd.attr("value"));
-            $priceEnd.trigger("change", [true]);
+            $priceEnd.trigger("change");
           }
         }
 

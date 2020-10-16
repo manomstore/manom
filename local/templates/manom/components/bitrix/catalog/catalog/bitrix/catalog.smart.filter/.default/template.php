@@ -64,7 +64,7 @@ foreach ($arResult['ITEMS'] as $item) {
                             <input
                                     class="form-control"
                                     type="number"
-                                    step="100"
+                                    step="1000"
                                     min="<?= number_format($minVal, $precision, '.', '') ?>"
                                     max="<?= number_format($maxVal, $precision, '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
@@ -78,7 +78,7 @@ foreach ($arResult['ITEMS'] as $item) {
                             <input
                                     class="form-control"
                                     type="number"
-                                    step="100"
+                                    step="1000"
                                     min="<?= number_format($minVal, $precision, '.', '') ?>"
                                     max="<?= number_format($maxVal, $precision, '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
@@ -89,7 +89,7 @@ foreach ($arResult['ITEMS'] as $item) {
                                 <? endif; ?>
                             >
                             ₽
-                            <span id="slider-range-alt" data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"></span>
+                            <span id="slider-range-alt"></span>
                         </p>
                     </li>
                 <?php endif; ?>
