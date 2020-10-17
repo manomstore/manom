@@ -450,7 +450,7 @@
                                     </div>
                                     <!-- /time -->
                                     <!-- number -->
-                                    <div class="top-nav__number">
+                                    <div class="top-nav__number top-nav__number--desktop">
                                         <?php $APPLICATION->IncludeComponent(
                                             'bitrix:main.include',
                                             '.default',

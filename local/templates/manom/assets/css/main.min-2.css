@@ -9794,6 +9794,10 @@ button.top-nav__link {
     flex-direction: row;
   }
 
+  .top-nav__number--desktop {
+    display: none;
+  }
+
   .top-nav__number a {
     line-height: 22px;
   }
