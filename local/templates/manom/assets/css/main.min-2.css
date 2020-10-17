@@ -6042,7 +6042,8 @@ h3.tab-content__title--right {
 }
 
 .footer-bottom .top-nav__time {
-  display: none;
+  display: block;
+  margin: 0;
 }
 
 .footer-bottom__number {
@@ -6093,6 +6094,28 @@ h3.tab-content__title--right {
     display: -webkit-flex !important;
     display: -ms-flexbox !important;
     display: flex !important;
+  }
+
+  .footer-bottom__number {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 24px;
+    color: #000;
+    position: relative;
+  }
+
+  .footer-bottom__number::before {
+    position: absolute;
+    content: "";
+    width: 11px;
+    height: 11px;
+    background-image: url('../img/icons/tel-footer.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    left: 0;
+    top: 6px;
   }
 
   .footer-bottom__column {
