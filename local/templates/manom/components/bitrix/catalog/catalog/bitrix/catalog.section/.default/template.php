@@ -6,6 +6,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 ?>
+
+<?if (!empty($arResult["ITEMS"])):?>
 <section class="catalog-block" <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
     <h2 class="cb-title"><?=$arResult['NAME']?></h2>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
@@ -417,6 +419,22 @@ $this->setFrameMode(true);
     </div>
     */ ?>
 </section>
+<? else: ?>
+    <div class="content">
+        <div class="container  empty-container">
+            <div class="empty">
+                <div class="empty__block empty__block--goods">
+                    <h2 class="empty__block-header">
+                        Пылесосы
+                    </h2>
+                    <p class="empty__text">
+                        Здесь пока пусто. Посмотрите другие товары в разделе <a href="#">техника для дома</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<? endif; ?>
 <script>
     $(function () {
         window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS($arResult['GTM_PAGE_TYPE'], $arResult['GTM_DATA'])?>);
