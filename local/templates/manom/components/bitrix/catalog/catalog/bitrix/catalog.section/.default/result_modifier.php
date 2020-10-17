@@ -87,3 +87,10 @@ $arResult['GTM_DATA'] = [
     "categoryId" => (int)$arResult["ID"],
 ];
 $arResult['GTM_PAGE_TYPE'] = $arParams["IS_SEARCH"] ? "searchresults" : "category";
+
+$parentSection = false;
+if ((int)$arResult["IBLOCK_SECTION_ID"]){
+    $parentSection = \CIBlockSection::GetByID($arResult["IBLOCK_SECTION_ID"])->GetNext();
+}
+
+$arResult['PARENT_SECTION'] = $parentSection;

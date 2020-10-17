@@ -425,10 +425,17 @@ $this->setFrameMode(true);
             <div class="empty">
                 <div class="empty__block empty__block--goods">
                     <h2 class="empty__block-header">
-                        Пылесосы
+                       <?=$arResult["NAME"]?>
                     </h2>
                     <p class="empty__text">
-                        Здесь пока пусто. Посмотрите другие товары в разделе <a href="#">техника для дома</a>
+                        Здесь пока пусто. Посмотрите другие
+                        <? if ($arResult["PARENT_SECTION"]): ?>
+                            товары в разделе <a href="<?= $arResult["PARENT_SECTION"]["SECTION_PAGE_URL"] ?>">
+                                <?= $arResult["PARENT_SECTION"]["NAME"] ?>
+                            </a>
+                        <? else: ?>
+                            <a href="<?= SITE_DIR ?>catalog/">товары</a>
+                        <? endif; ?>
                     </p>
                 </div>
             </div>
