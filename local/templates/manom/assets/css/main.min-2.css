@@ -6778,6 +6778,20 @@ h3.tab-content__title--right {
     justify-content: flex-end;
     margin-left: auto;
     display: block;
+    padding-left: 23px;
+  }
+
+  .footer-bottom__number::before {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-image: url('../img/icons/tel-icon-menu.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    left: 0;
+    top: 3px;
   }
 
   .footer-bottom__number-img {
@@ -9805,6 +9819,8 @@ button.top-nav__link {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    left: 0;
+    top: 3px;
   }
 
   .top-nav__number--desktop {

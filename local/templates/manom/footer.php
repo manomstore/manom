@@ -215,13 +215,7 @@
                             <p class="footer-bottom__copyright">© Manom.ru 2018-<?=date('Y')?></p>
 
                             <div class="footer-bottom__number">
-                                <img
-                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-footer.svg"
-                                    alt="Иконка телефона"
-                                    width="11"
-                                    height="11"
-                                    class="footer-bottom__number-img"
-                                >
+
                                 <?php $APPLICATION->IncludeComponent(
                                     'bitrix:main.include',
                                     '.default',
