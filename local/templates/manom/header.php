@@ -329,7 +329,7 @@
                                                             <div v-if="isConfirmCityVisible">
                                                                 <div class="popup-block__top">
                                                                     <h2 class="popup-block__title">
-                                                                        "{{currentCity}}" - это ваш город?
+                                                                        {{currentCity}} - это ваш город?
                                                                     </h2>
                                                                     <button class="popup-block__close"
                                                                             type="button"
