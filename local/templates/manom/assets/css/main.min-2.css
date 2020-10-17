@@ -9792,6 +9792,19 @@ button.top-nav__link {
 
   .top-nav__number {
     flex-direction: row;
+    position: relative;
+    padding-left: 23px;
+  }
+
+  .top-nav__number::before {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-image: url('../img/icons/tel-icon-menu.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
   }
 
   .top-nav__number--desktop {
