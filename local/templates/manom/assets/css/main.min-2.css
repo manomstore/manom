@@ -6094,6 +6094,11 @@ h3.tab-content__title--right {
     display: -ms-flexbox !important;
     display: flex !important;
   }
+
+  .footer-bottom__column {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media only screen and (max-width: 1169px) {
