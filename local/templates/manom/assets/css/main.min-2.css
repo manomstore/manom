@@ -6042,8 +6042,7 @@ h3.tab-content__title--right {
 }
 
 .footer-bottom .top-nav__time {
-  display: block;
-  margin: 0;
+  display: none;
 }
 
 .footer-bottom__number {
@@ -6095,6 +6094,14 @@ h3.tab-content__title--right {
     display: -ms-flexbox !important;
     display: flex !important;
   }
+}
+
+.footer-bottom__column {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 1129px) {
 
   .footer-bottom__number {
     display: block;
@@ -6103,6 +6110,10 @@ h3.tab-content__title--right {
     line-height: 24px;
     color: #000;
     position: relative;
+  }
+
+  .footer-bottom__number a {
+    color: inherit;
   }
 
   .footer-bottom__number::before {
@@ -6114,13 +6125,23 @@ h3.tab-content__title--right {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    left: 0;
+    left: 13px;
     top: 6px;
   }
 
   .footer-bottom__column {
     display: flex;
     flex-direction: column;
+    text-align: right;
+  }
+
+  .footer-bottom .top-nav__time {
+    display: block;
+    margin: 0;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 24px;
+    color: #000;
   }
 }
 
@@ -6789,6 +6810,12 @@ h3.tab-content__title--right {
   .footer-bottom {
     text-align: justify;
   }
+
+  .footer-bottom__column {
+    width: 100%;
+    position: relative;
+    top: -24px;
+}
 
 
   .footer-bottom .top-nav__time {
