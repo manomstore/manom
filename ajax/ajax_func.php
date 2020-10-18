@@ -429,6 +429,41 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
     }
 
     die(json_encode($result));
+} elseif ($type === "checkPassword") {
+    try {
+        $result = [
+            "status" => false,
+        ];
+
+        if (!$request->isPost()) {
+            throw new \Exception();
+        }
+
+        if (!check_bitrix_sessid()) {
+            throw new \Exception();
+        }
+
+        if (empty($email = $request->get("email"))) {
+            throw new \Exception();
+        }
+        if (empty($password = $request->get("password"))) {
+            throw new \Exception();
+        }
+
+        $user = \CUser::GetList($by, $order, ["EMAIL" => $email])->Fetch();
+        if (!$user) {
+            throw new \Exception();
+        }
+
+        $salt = substr($user['PASSWORD'], 0, (strlen($user['PASSWORD']) - 32));
+        $realPassword = substr($user['PASSWORD'], -32);
+        $password = md5($salt . $password);
+
+        $result["status"] = $realPassword === $password;
+    } catch (\Exception $e) {
+    }
+
+    die(json_encode($result));
 }
 
 function changeValProp($code, $prod_id)
