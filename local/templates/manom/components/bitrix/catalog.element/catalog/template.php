@@ -82,7 +82,7 @@ if (!$_REQUEST['offer']){
 		<div class="p-nav-top active">
 			<label>
 					<input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
-					<div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>' title="в избранное"></div>
+					<div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>' title="Добавить в избранное"></div>
 			</label>
 			<div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_COMPARE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>'></div>
 		</div>

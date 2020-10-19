@@ -12211,3 +12211,51 @@ a.ui-button:active,
     margin-top: 18px;
   }
 }
+
+.ui-tooltip, .arrow:after {
+  background: #29282C;
+}
+.ui-tooltip {
+  padding: 6px 12px;
+  color: white;
+  border-radius: 5px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  box-shadow: none !important;
+  border: none !important;
+}
+.arrow {
+  width: 12px;
+  height: 5px;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  margin-left: -6px;
+  bottom: -5px;
+  background-image: url(./../img/icons/tooltip-arrow.svg);
+  background-repeat: no-repeat;
+}
+.arrow.top {
+  top: -16px;
+  bottom: auto;
+}
+.arrow.left {
+  left: 20%;
+}
+.arrow:after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: -20px;
+  width: 25px;
+  height: 25px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.arrow.top:after {
+  bottom: -20px;
+  top: auto;
+}
