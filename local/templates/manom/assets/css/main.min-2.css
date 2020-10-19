@@ -6041,6 +6041,14 @@ h3.tab-content__title--right {
   border-top: 1px solid #ebebeb;
 }
 
+.footer-bottom .top-nav__time {
+  display: none;
+}
+
+.footer-bottom__number {
+  display: none;
+}
+
 .footer-bottom__copyright {
   display: inline-block;
   -webkit-box-flex: 2;
@@ -6085,6 +6093,55 @@ h3.tab-content__title--right {
     display: -webkit-flex !important;
     display: -ms-flexbox !important;
     display: flex !important;
+  }
+}
+
+.footer-bottom__column {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 1129px) {
+
+  .footer-bottom__number {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 24px;
+    color: #000;
+    position: relative;
+  }
+
+  .footer-bottom__number a {
+    color: inherit;
+  }
+
+  .footer-bottom__number::before {
+    position: absolute;
+    content: "";
+    width: 11px;
+    height: 11px;
+    background-image: url('../img/icons/tel-footer.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    left: 13px;
+    top: 6px;
+  }
+
+  .footer-bottom__column {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+
+  .footer-bottom .top-nav__time {
+    display: block;
+    margin: 0;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 24px;
+    color: #000;
   }
 }
 
@@ -6751,8 +6808,62 @@ h3.tab-content__title--right {
   }
 
   .footer-bottom {
-    display: block;
     text-align: justify;
+  }
+
+  .footer-bottom__column {
+    width: 100%;
+    position: relative;
+    top: -24px;
+}
+
+
+  .footer-bottom .top-nav__time {
+    font-size: 12px;
+    line-height: 24px;
+    color: #000000;
+    text-align: right;
+    font-weight: normal;
+    display: block;
+    margin: 0 0 0 auto;
+    width: 100%;
+  }
+
+  .footer-bottom__number {
+    justify-content: flex-end;
+    margin-left: auto;
+    display: block;
+    padding-left: 19px;
+    position: relative;
+  }
+
+  .footer-bottom__number::before {
+    position: absolute;
+    content: "";
+    width: 11px;
+    height: 11px;
+    background-image: url('../img/icons/tel-footer.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    left: 0;
+    top: 6px;
+  }
+
+  .footer-bottom__number-img {
+    width: 11px;
+    height: 11px;
+    position: relative;
+    top: 1px;
+    right: 7px;
+  }
+
+  .footer-bottom__number a {
+    font-size: 12px;
+    line-height: 24px;
+    color: #000000;
+    text-align: right;
+    font-weight: normal;
   }
 
   .footer-bottom__policy {
@@ -9721,6 +9832,10 @@ button.top-nav__link {
   flex-wrap: nowrap;
 }
 
+.top-nav__number-img {
+  margin-right: 8px;
+}
+
 .top-nav__number a {
   font-size: 14px;
   font-weight: 500;
@@ -9739,6 +9854,40 @@ button.top-nav__link {
   color: #83bb26;
 }
 
+@media (max-width: 1129px) {
+  .top-nav__time {
+    margin: 0 0 9px;
+    line-height: 22px;
+  }
+
+  .top-nav__number {
+    flex-direction: row;
+    position: relative;
+    padding-left: 23px;
+  }
+
+  .top-nav__number::before {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-image: url('../img/icons/tel-icon-menu.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    left: 0;
+    top: 3px;
+  }
+
+  .top-nav__number--desktop {
+    display: none;
+  }
+
+  .top-nav__number a {
+    line-height: 22px;
+  }
+}
+
 .top-personal {
   display: flex;
   align-items: center;
@@ -9752,6 +9901,17 @@ button.top-nav__link {
   display: block;
   display: flex;
   align-items: center;
+}
+
+.top-personal__link--tel {
+  display: none;
+}
+
+@media (max-width: 1129px) {
+  .top-personal__link--tel {
+    display: flex;
+    margin-right: 20px;
+  }
 }
 
 .top-personal__link img {
@@ -11408,7 +11568,7 @@ button.top-nav__link {
     display: none;
   }
 
-  .top-nav__number {
+  .top-nav__call-request {
     display: none;
   }
 }

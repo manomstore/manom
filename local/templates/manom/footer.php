@@ -212,11 +212,43 @@
                             </div>
                         </div>
                         <div class="footer-bottom">
+
                             <p class="footer-bottom__copyright">© Manom.ru 2018-<?=date('Y')?></p>
-                            <a href="/public_offer_agreement/" class="footer-bottom__contract">
-                                Договор публичной оферты
-                            </a>
-                            <a href="/privacy_policy/" class="footer-bottom__policy">Политика конфиденциальности</a>
+
+                            <div class="footer-bottom__column">
+                                <div class="footer-bottom__number">
+
+                                    <?php $APPLICATION->IncludeComponent(
+                                        'bitrix:main.include',
+                                        '.default',
+                                        [
+                                            'PATH' => '/include/phone.php',
+                                            'COMPONENT_TEMPLATE' => '.default',
+                                            'AREA_FILE_SHOW' => 'file',
+                                            'EDIT_TEMPLATE' => '',
+                                        ],
+                                        false
+                                    ); ?>
+                                </div>
+                                <?php $APPLICATION->IncludeComponent(
+                                    'bitrix:main.include',
+                                    '.default',
+                                    [
+                                        'PATH' => '/include/time.php',
+                                        'COMPONENT_TEMPLATE' => '.default',
+                                        'AREA_FILE_SHOW' => 'file',
+                                        'EDIT_TEMPLATE' => '',
+                                    ],
+                                    false
+                                ); ?>
+                            </div>
+                            <div class="footer-bottom__column">
+                                <a href="/public_offer_agreement/" class="footer-bottom__contract">
+                                    Договор публичной оферты
+                                </a>
+                                <a href="/privacy_policy/" class="footer-bottom__policy">Политика конфиденциальности</a>
+
+                            </div>
                         </div>
                     </div>
                 </footer>
