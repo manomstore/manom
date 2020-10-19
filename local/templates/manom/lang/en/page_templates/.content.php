@@ -1,0 +1,3 @@
+<?
+$MESS ['static'] = "Static page";
+?>
