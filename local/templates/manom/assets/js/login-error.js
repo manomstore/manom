@@ -16,12 +16,15 @@ $(".popup-login__form").on("submit", function(e) {
       console.log({ data });
       if (data.status) {
         e.target.submit();
+        $('#popap-login .errortext').removeClass('show');
       } else {
         console.log("FAILED");
+        $('#popap-login .errortext').addClass('show');
       }
     },
     error: function(error) {
       console.log("FAILED");
+      $('#popap-login .errortext').addClass('show');
     },
   });
 });

@@ -577,6 +577,11 @@ pre.dnd-dump:hover {
 }
 #popap-login .errortext {
   width: 100%;
+  display: none;
+}
+
+#popap-login .errortext.show {
+  display: block;
 }
 .reg-text-complete {
   margin: 10px 0;
