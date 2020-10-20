@@ -441,7 +441,7 @@ class MyHandlerClass
         unset($arFields["PROPERTY_VALUES"]);
     }
 
-    function OnBeforeIBlockElementUpdate($arFields)
+    function OnBeforeIBlockElementUpdateHandler($arFields)
     {
         ob_start();
         var_export($arFields);
@@ -504,9 +504,16 @@ class MyHandlerClass
 
             $elementData = $res->GetNext();
 
-            if (!empty($elementData["PROPERTY_CML2_ARTICLE_VALUE"])
-                && isset($propertiesValue["CML2_ARTICLE"])
-                && empty($propertiesValue["CML2_ARTICLE"])) {
+            $articleCleared = !empty($elementData["PROPERTY_CML2_ARTICLE_VALUE"])
+                && isset($arFields["PROPERTY_VALUES"])
+                && (
+                    empty($arFields["PROPERTY_VALUES"])
+                    || !isset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])
+                    || empty($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])
+                    || !$arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]][array_key_first($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])]["VALUE"]
+                );
+
+            if ($articleCleared) {
                 ob_start();
                 print_r($elementData["PROPERTY_CML2_ARTICLE_VALUE"]);
                 $oldArticlePrint = ob_get_clean();
