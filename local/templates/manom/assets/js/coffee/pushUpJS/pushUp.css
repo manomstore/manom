@@ -12,33 +12,34 @@
     z-index: 99;
 }
 .push_up_item{
-    padding: 15px;
+    padding: 14px 40px 20px 49px;
     margin: 10px;
-    background-color: #FEFFFD;
+    background-color: #FFFFFF;
     border-radius: 3px;
     position: relative;
     display: block;
+    font-size: 12px;
+    line-height: 16px;
     font-family: "PT Root UI";
     text-decoration: none;
     text-align: left;
-    -webkit-box-shadow: 0px 20px 40px rgba(39, 39, 39, 0.15);
-    -moz-box-shadow: 0px 20px 40px rgba(39, 39, 39, 0.15);
-    box-shadow: 0px 20px 40px rgba(39, 39, 39, 0.15);
+    -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
 }
 .push_up_item:before {
-    content: "i";
-    width: 30px;
-    height: 30px;
-    margin-top: 3px;
-    float: left;
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 14px;
     border-radius: 50%;
-    background-color: #83BB26;
-    color: #fff;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 30px;
-    font-family: "PT Root UI";
-    text-align: center;
+    background-color: #ffffff;
+    border: 1.22px solid #FEBF39;
+    background-image: url(./../../img/sign.svg);
+    background-repeat: no-repeat;
+    background-size: 2px 9px;
+    background-position: center;
 }
 .push_up_item a,
 .push_up_item p{
@@ -48,7 +49,6 @@
     color: #29282C;
 }
 .push_up_item p{
-    margin-left: 45px;
     cursor: default;
 }
 .push_up_item a{
@@ -58,9 +58,9 @@
 .push_up_item p.pui_head{
     margin-bottom: 5px;
     display: block;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 24px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
 }
 .push_up_item p.pui_mess{
     color: #73737E;
