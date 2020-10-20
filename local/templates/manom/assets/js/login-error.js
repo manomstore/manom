@@ -14,8 +14,8 @@ $(".popup-login__form").on("submit", function(e) {
     success: function(data) {
       console.log({ data });
       if (data.status) {
-        window.location.reload();
-        // $(this).submit();
+        // window.location.reload();
+        $(this).submit();
       } else {
         console.log("FAILED");
       }
