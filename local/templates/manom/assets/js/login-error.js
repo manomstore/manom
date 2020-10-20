@@ -12,6 +12,7 @@ $(".popup-login__form").on("submit", function(e) {
       sessid: BX.bitrix_sessid(),
     },
     success: function(data) {
+      data = $.parseJSON(data);
       console.log({ data });
       if (data.status) {
         // window.location.reload();
