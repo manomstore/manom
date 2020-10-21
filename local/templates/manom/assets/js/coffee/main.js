@@ -532,7 +532,9 @@ $(document).ready(function () {
 
               if (!--$count) {
                 if (!phoneIsValid) {
+                  $(document).find('.push_up_item').addClass('push_up_item--error');
                   return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000);
+
                 }
                 if ($formIsValid) {
                   $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -549,6 +551,7 @@ $(document).ready(function () {
                   }
                 } else {
                   if (!isEmailValid) {
+                    $(document).find('.push_up_item').addClass('push_up_item--error');
                     return $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message',
                       false, 5000);
                   } else {
@@ -676,7 +679,7 @@ $(document).ready(function () {
                       $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
                           'message', false, 5000);
                     }else {
-                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
+                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению не были заполнены', false,
                           'message', false, 5000);
                     }
                   }

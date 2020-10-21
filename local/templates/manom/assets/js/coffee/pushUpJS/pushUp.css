@@ -151,6 +151,11 @@
 }
 
 @media screen and (max-width: 350px) {
+
+    #event_push_up {
+        width: 320px;
+    }
+
     .push_up_item{
         margin: 47px 10px;
     }
