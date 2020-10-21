@@ -90,7 +90,7 @@
         return $('#' + $(this).attr('data-for')).animate({
           opacity: 0,
           top: 50
-        }, 3000000, function() {
+        }, 300, function() {
           return $(this).remove();
         });
       });
