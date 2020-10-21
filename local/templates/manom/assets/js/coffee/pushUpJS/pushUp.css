@@ -38,6 +38,11 @@
     background-color: #ffffff;
     background-repeat: no-repeat;
     background-position: center;
+    border: 1.22px solid #FEBF39;
+    background-image: url(./../../../img/sign-warning.svg);
+    background-size: 2px 9px;
+    width: 16px;
+    height: 16px;
 }
 
 .push_up_item--warning:before {
@@ -145,35 +150,8 @@
     border-radius: 3px;
 }
 
-@media screen and (min-width: 768px) {
-    /* #event_push_up {
-        width: 313px;
+@media screen and (max-width: 350px) {
+    .push_up_item{
+        margin: 47px 10px;
     }
-
-    .push_up_item {
-        padding: 25px;
-        margin: 40px;
-    }
-
-    .push_up_item:before {
-        width: 44px;
-        height: 44px;
-        font-size: 28px;
-        line-height: 44px;
-    }
-
-    .push_up_item a.pui_head,
-    .push_up_item p.pui_head{
-        font-size: 21px;
-        line-height: 26px;
-    }
-
-    .push_up_item p{
-        margin-left: 64px;
-    }
-
-    .close_pushUp_alert {
-        top: 10px;
-        right: 13px;
-    } */
 }
