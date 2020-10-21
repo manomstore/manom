@@ -551,9 +551,8 @@ $(document).ready(function () {
                   }
                 } else {
                   if (!isEmailValid) {
-                    $(document).find('.push_up_item').addClass('push_up_item--error');
                     return $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message',
-                      false, 5000);
+                      false, 5000, undefined, 'push_up_item--error');
                   } else {
                     return $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
                       'message', false, 5000);
