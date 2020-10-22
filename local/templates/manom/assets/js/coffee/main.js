@@ -912,11 +912,18 @@ $(document).ready(function () {
   });
 
   $(document).on("change", "#price-start-alt", function () {
+    var $priceEnd = $(document).find("#price-end-alt");
+
+    $minPrice = parseInt($priceEnd.attr('min'));
+    $maxPrice = parseInt($priceEnd.attr('max'));
+    $maxPriceValue = parseInt($priceEnd.val());
+
     var inputStart;
     $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
     inputStart = $(this).val();
-    if (inputStart > $maxPrice) {
-      inputStart = $maxPrice;
+    var max = $maxPriceValue ?? $maxPrice;
+    if (inputStart > max) {
+      inputStart = max;
     }
     if (inputStart < $minPrice) {
       inputStart = $minPrice;
@@ -926,15 +933,23 @@ $(document).ready(function () {
   });
 
   $(document).on("change", "#price-end-alt", function () {
+    var $priceStart = $(document).find("#price-start-alt");
+
+    $minPrice = parseInt($priceStart.attr('min'));
+    $minPriceValue = parseInt($priceStart.val());
+    $maxPrice = parseInt($priceStart.attr('max'));
+
     var inputEnd;
     $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+    var min = $minPriceValue ?? $minPrice;
     inputEnd = $(this).val();
     if (inputEnd > $maxPrice) {
       inputEnd = $maxPrice;
     }
-    if (inputEnd < $minPrice) {
-      inputEnd = $minPrice;
+    if (inputEnd < min) {
+      inputEnd = min;
     }
+
     $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
     $(this).val(inputEnd);
   });
