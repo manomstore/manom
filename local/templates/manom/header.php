@@ -186,7 +186,7 @@
                                                         <div v-if="isConfirmCityVisible">
                                                             <div class="popup-block__top">
                                                                 <h2 class="popup-block__title">
-                                                                    "{{currentCity}}" - это ваш город?
+                                                                    {{currentCity}} - это ваш город?
                                                                 </h2>
                                                                 <button class="popup-block__close"
                                                                         type="button"
@@ -329,7 +329,7 @@
                                                             <div v-if="isConfirmCityVisible">
                                                                 <div class="popup-block__top">
                                                                     <h2 class="popup-block__title">
-                                                                        "{{currentCity}}" - это ваш город?
+                                                                        {{currentCity}} - это ваш город?
                                                                     </h2>
                                                                     <button class="popup-block__close"
                                                                             type="button"
@@ -450,7 +450,7 @@
                                     </div>
                                     <!-- /time -->
                                     <!-- number -->
-                                    <div class="top-nav__number">
+                                    <div class="top-nav__number top-nav__number--desktop">
                                         <?php $APPLICATION->IncludeComponent(
                                             'bitrix:main.include',
                                             '.default',
@@ -567,6 +567,7 @@
                                                 false
                                             ); ?>
                                             <div class="top-nav__number">
+
                                                 <?php $APPLICATION->IncludeComponent(
                                                     'bitrix:main.include',
                                                     '.default',
@@ -688,6 +689,15 @@
                                         ]
                                     ); ?>
                                     <div class="top-personal">
+                                        <a class="top-personal__link top-personal__link--tel"
+                                           href="tel:+74951506450">
+                                            <img
+                                                    src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon.svg"
+                                                    alt="Иконка телефона"
+                                                    width="17"
+                                                    height="17"
+                                            >
+                                        </a>
                                         <a class="top-personal__link top-personal__link--search"
                                            href="#">
                                             <img

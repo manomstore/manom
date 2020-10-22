@@ -162,9 +162,9 @@ $containerName = 'catalog-products-viewed-container';
                                                 'UF_FAVORITE_ID') ? 'checked' : ''; ?>>
                                             <div class="p-nav-top__favorite addToFavoriteList <?= !checkProdInFavoriteAndCompareList($arOffers['ID'],
                                                 'UF_FAVORITE_ID') ? 'notActive' : ''; ?>"
-                                                 data-id='<?= $arOffers['ID'] ?>' title="в избранное"></div>
+                                                 data-id='<?= $arOffers['ID'] ?>' title="Добавить в избранное"></div>
                                         </label>
-                                        <div class="p-nav-top__list addToCompareList <?= !checkProdInFavoriteAndCompareList($arOffers['ID'],
+                                        <div  title="Добавить в сравнение" class="p-nav-top__list addToCompareList <?= !checkProdInFavoriteAndCompareList($arOffers['ID'],
                                             'UF_COMPARE_ID') ? 'notActive' : 'alt-img'; ?>"
                                              data-id='<?= $arOffers['ID'] ?>'></div>
                                     </div>

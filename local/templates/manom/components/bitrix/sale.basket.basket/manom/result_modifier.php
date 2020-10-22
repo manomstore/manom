@@ -84,7 +84,7 @@ if (!empty($offersId)) {
 if (!empty($productsId)) {
     $properties = array('MORE_PHOTO', 'ACESS', 'DOP_SERV', 'model');
     $filter = array('IBLOCK_ID' => $productsIblockId, 'ID' => $productsId);
-    $select = array('IBLOCK_ID', 'ID');
+    $select = array('IBLOCK_ID', 'ID', "IBLOCK_SECTION_ID");
     $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
     while ($rowResult = $result->getNextElement(true, false)) {
         $row = $rowResult->getFields();
@@ -96,8 +96,10 @@ if (!empty($productsId)) {
             $productsImage[(int)$row['ID']] = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
         }
 
-        if (!empty($row['PROPERTIES']['ACESS']['VALUE'])) {
-            $productsAccessoriesId[(int)$row['ID']] = $row['PROPERTIES']['ACESS']['VALUE'];
+        $accessories = new \Manom\Accessory($row["IBLOCK_SECTION_ID"]);
+
+        if ($accessories->existProducts()) {
+            $productsAccessoriesId[(int)$row['ID']] = $accessories->getProductsId();
         }
 
         if (!empty($row['PROPERTIES']['DOP_SERV']['VALUE'])) {

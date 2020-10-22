@@ -71,4 +71,9 @@ $arUrlRewrite = array(
         'PATH' => '/bitrix/templates/manom/header.php',
         'SORT' => 100,
     ),
+    array(
+        'CONDITION' => '#^(.*)/#',
+        'RULE' => '/static$1.php',
+        'SORT' => 100,
+    ),
 );

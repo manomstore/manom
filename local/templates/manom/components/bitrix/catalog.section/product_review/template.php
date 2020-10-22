@@ -25,9 +25,9 @@
                 <div class="p-nav-top">
                     <label>
                         <input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($value['OFFERS'][0]['ID'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
-                        <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($value['OFFERS'][0]['ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$value['OFFERS'][0]['ID']?>' title="в избранное"></div>
+                        <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($value['OFFERS'][0]['ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$value['OFFERS'][0]['ID']?>' title="Добавить в избранное"></div>
                     </label>
-                    <div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($value['OFFERS'][0]['ID'], 'UF_COMPARE_ID') ? 'notActive' : '';?>" data-id='<?=$value['OFFERS'][0]['ID']?>'></div>
+                    <div title="Добавить в сравнение" class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($value['OFFERS'][0]['ID'], 'UF_COMPARE_ID') ? 'notActive' : '';?>" data-id='<?=$value['OFFERS'][0]['ID']?>'></div>
                 </div>
                 <h3 class="p-name" style="text-align:center;">
                     <a href="<?=$value['DETAIL_PAGE_URL']?>"><?=$value['NAME']?></a>

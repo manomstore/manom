@@ -134,41 +134,47 @@ function formatBytes($size, $precision = 2)
 
     <div class="product-main row">
         <div class="product-photo">
-            <div class="product-photo__left col-1">
-                <?php $first = true;?>
-                <?php foreach ($arResult['smallImages'] as $i => $image): ?>
-                    <img
-                        src="<?=$image['src']?>"
-                        data-color=""
-                        data-photo-id="<?=$i?>"
-                        class="<?=$first ? 'active' : ''?>"
-                        alt=""
-                    >
-                    <?php $first = false;?>
-                <?php endforeach; ?>
-            </div>
-            <div class="product-photo__right col-5">
-                <div class="swiper-container">
+                <div class="product-photo__left col-1 swiper-container">
                     <div class="swiper-wrapper">
                         <?php $first = true;?>
-                        <?php foreach ($arResult['images'] as $i => $image): ?>
-                            <div class="swiper-slide">
-                                <a
-                                    data-fancybox="gallery-prod"
-                                    href="<?=$image['src']?>"
-                                    data-color=""
-                                    data-photo-id="<?=$i?>"
-                                    class="pp__big_photo <?=$first ? 'active' : ''?>"
-                                >
-                                    <img src="<?=$image['src']?>" alt="">
-                                </a>
-                                <?php $first = false;?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="swiper-pagination"></div>
+                            <?php foreach ($arResult['smallImages'] as $i => $image): ?>
+                                <div class="swiper-slide">
+                                    <img
+                                        src="<?=$image['src']?>"
+                                        data-color=""
+                                        data-photo-id="<?=$i?>"
+                                        class="<?=$first ? 'active' : ''?>"
+                                        alt=""
+                                    >
+                                    <?php $first = false;?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <div class="swiper-button-prev visually-hidden"></div>
+                    <div class="swiper-button-next visually-hidden"></div>
                 </div>
-            </div>
+                <div class="product-photo__right col-5">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <?php $first = true;?>
+                            <?php foreach ($arResult['images'] as $i => $image): ?>
+                                <div class="swiper-slide">
+                                    <a
+                                        data-fancybox="gallery-prod"
+                                        href="<?=$image['src']?>"
+                                        data-color=""
+                                        data-photo-id="<?=$i?>"
+                                        class="pp__big_photo <?=$first ? 'active' : ''?>"
+                                    >
+                                        <img src="<?=$image['src']?>" alt="">
+                                    </a>
+                                    <?php $first = false;?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
             <div class="product-photo__info">
                 <?=$arResult['PREVIEW_TEXT']?>
             </div>
@@ -381,15 +387,17 @@ function formatBytes($size, $precision = 2)
                                         <?=$arResult['inFavoriteAndCompare'] ? 'checked' : ''?>
                                     >
                                     <div
-                                            class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
-                                            data-id='<?=$arResult['ID']?>'
-                                            title="в избранное"
+                                        class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
+                                        data-id='<?=$arResult['ID']?>'
+                                        title="Добавить в избранное"
                                     ></div>
                                 </label>
-                                <div
-                                        class="p-nav-top__list addToCompareList <?=$class2?>"
-                                        data-id='<?=$arResult['ID']?>'
-                                ></div>
+                                <a href="#" title="Добавить в сравнение">
+                                    <div
+                                            class="p-nav-top__list addToCompareList <?=$class2?>"
+                                            data-id='<?=$arResult['ID']?>'
+                                    ></div>
+                                </a>
                             </div>
                         </div>
 
