@@ -819,8 +819,8 @@ $(document).ready(function () {
             );
             window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
             $.fn.refreshMiniCart();
-            $messageField.html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
             $messageField.show();
+            $('.sci-login__title').hide();
             return $this.find('button, label, input').hide();
           } else {
             $messageField.html('Произошла ошибка. Повторите попытку позднее.');
