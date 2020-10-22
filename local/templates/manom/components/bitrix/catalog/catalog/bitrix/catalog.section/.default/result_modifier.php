@@ -88,8 +88,28 @@ $arResult['GTM_DATA'] = [
 ];
 $arResult['GTM_PAGE_TYPE'] = $arParams["IS_SEARCH"] ? "searchresults" : "category";
 
+if ((int)$arResult["ID"]) {
+    $sectionProps = \CIBlockSection::GetList(
+        [],
+        [
+            "IBLOCK_ID" => $arResult["IBLOCK_ID"],
+            "ID" => $arResult["ID"]
+        ],
+        false,
+        [
+            "ID",
+            "IBLOCK_ID",
+            "UF_LOGO"
+        ]
+    )->GetNext();
+}
+
+if (!empty($sectionProps["UF_LOGO"])) {
+    $arResult["BRAND_LOGO"] = \CFile::GetFileArray($sectionProps["UF_LOGO"])["SRC"];
+}
+
 $parentSection = false;
-if ((int)$arResult["IBLOCK_SECTION_ID"]){
+if ((int)$arResult["IBLOCK_SECTION_ID"]) {
     $parentSection = \CIBlockSection::GetByID($arResult["IBLOCK_SECTION_ID"])->GetNext();
 }
 
