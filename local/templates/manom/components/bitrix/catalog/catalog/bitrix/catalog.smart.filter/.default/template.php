@@ -6,6 +6,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 
+$request = \Bitrix\Main\Context::getCurrent()->getRequest();
 $hasFilterElement = false;
 foreach ($arResult['ITEMS'] as $item) {
     if (isset($item['PRICE'])) {
@@ -42,7 +43,8 @@ foreach ($arResult['ITEMS'] as $item) {
                     $maxVal = $item['VALUES']['MAX']['VALUE'];
                     $minVal = $minVal > 0 ? $minVal : 1;
                     $maxVal = $maxVal > 0 ? $maxVal : 1;
-                    $checked = !empty($item['VALUES']['MIN']['HTML_VALUE']) || !empty($item['VALUES']['MIN']['HTML_VALUE']);
+                    $priceCheckboxName = $item['VALUES']['MIN']['CONTROL_NAME'] . $item['VALUES']['MAX']['CONTROL_NAME'];
+                    $checked = !empty($request->get($priceCheckboxName));
                     ?>
                     <li class="catalog-filter__li">
                         <input type="checkbox" class="checkbox-1">
@@ -57,7 +59,7 @@ foreach ($arResult['ITEMS'] as $item) {
                                         data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                         data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                         data-title="Стоимость: "
-                                        name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                        name="<?= $priceCheckboxName ?>"
                                 >
                                 <span class="catalog-filter__item"> ₽</span>
                             </label>

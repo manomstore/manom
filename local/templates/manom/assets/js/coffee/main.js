@@ -355,7 +355,9 @@ $(document).ready(function () {
 
   var $clearAll,
     $maxPrice,
-    $minPrice;
+    $minPrice,
+    $minPriceValue,
+    $maxPriceValue;
 
   var REG_EXP_EMAIL = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
@@ -878,17 +880,29 @@ $(document).ready(function () {
 
     if ($sliderRange.is('span')) {
       $minPrice = parseInt($priceStart.attr('min'));
+      $minPriceValue = parseInt($priceStart.val());
       $maxPrice = parseInt($priceStart.attr('max'));
+      $maxPriceValue = parseInt($priceEnd.val());
+
+      if (!$minPriceValue) {
+        $minPriceValue = $minPrice;
+      }
+
+      if (!$maxPriceValue) {
+        $maxPriceValue = $maxPrice;
+      }
+
       if ($minPrice && $maxPrice) {
         $sliderRange.slider({
           range: true,
           min: $minPrice,
           max: $maxPrice,
           step: 100,
-          values: [$minPrice, $maxPrice],
+          values: [$minPriceValue, $maxPriceValue],
           slide: function (event, ui) {
             $priceStart.val(ui.values[0]);
             $priceEnd.val(ui.values[1]);
+            $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]').prop('checked', false);
           },
         });
         $priceStart.val($sliderRange.slider('values', 0));
@@ -899,6 +913,7 @@ $(document).ready(function () {
 
   $(document).on("change", "#price-start-alt", function () {
     var inputStart;
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
     inputStart = $(this).val();
     if (inputStart > $maxPrice) {
       inputStart = $maxPrice;
@@ -912,6 +927,7 @@ $(document).ready(function () {
 
   $(document).on("change", "#price-end-alt", function () {
     var inputEnd;
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
     inputEnd = $(this).val();
     if (inputEnd > $maxPrice) {
       inputEnd = $maxPrice;
@@ -990,6 +1006,7 @@ $(document).ready(function () {
         elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
         elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
         elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
+        elementFilter += '<input type="hidden" name="' + $(this).attr('name') + '" value="' + $(this).val() + '">';
         elementFilter += '<span>×</span>';
         elementFilter += '</div>';
         $(document).find('.cb-filter').prepend($(elementFilter));
@@ -3241,20 +3258,7 @@ $.fn.ajaxLoadCatalog = function () {
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
 
-          var $priceStart = $(document).find("#price-start-alt");
-          var $priceEnd = $(document).find("#price-end-alt");
-
           $(document).trigger("updateSmartFilter");
-
-          if ($priceStart.attr("value")) {
-            $priceStart.val($priceStart.attr("value"));
-            $priceStart.trigger("change");
-          }
-
-          if ($priceEnd.attr("value")) {
-            $priceEnd.val($priceEnd.attr("value"));
-            $priceEnd.trigger("change");
-          }
         }
 
         $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());
