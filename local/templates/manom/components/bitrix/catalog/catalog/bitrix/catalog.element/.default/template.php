@@ -92,6 +92,17 @@ function formatBytes($size, $precision = 2)
                 </svg>
             </div>
         <?php endif; ?>
+        <div class="product-labels">
+			<div class="product-label product-label--new">
+				<span>Новинка</span>
+			</div>
+			<div class="product-label product-label--day-offer">
+				<span>Товар дня</span>
+			</div>
+			<div class="product-label product-label--sale">
+				<span>Распродажа</span>
+            </div>
+		</div>
     </div>
 
     <div class="product-nav2">
