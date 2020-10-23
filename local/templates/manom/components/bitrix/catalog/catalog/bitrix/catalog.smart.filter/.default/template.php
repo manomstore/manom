@@ -44,6 +44,28 @@ foreach ($arResult['ITEMS'] as $item) {
                     $minVal = $minVal > 0 ? $minVal : 1;
                     $maxVal = $maxVal > 0 ? $maxVal : 1;
                     $priceCheckboxName = $item['VALUES']['MIN']['CONTROL_NAME'] . $item['VALUES']['MAX']['CONTROL_NAME'];
+
+                    $rangeSize = $maxVal - $minVal;
+                    $stepSize = 0;
+                    if ($rangeSize > 1) {
+                        $percent = 0;
+
+                        for ($i = 1; $i < $rangeSize; $i++) {
+                            if ($rangeSize % $i === 0) {
+                                $percent = ($i / $rangeSize) * 100;
+                                if ($percent <= 5) {
+                                    $stepSize = $i;
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!$stepSize) {
+                        $stepSize = 1000;
+                    }
+
                     $checked = !empty($request->get($priceCheckboxName));
                     ?>
                     <li class="catalog-filter__li">
@@ -66,7 +88,7 @@ foreach ($arResult['ITEMS'] as $item) {
                             <input
                                     class="form-control"
                                     type="number"
-                                    step="1000"
+                                    step="<?= $stepSize ?>"
                                     min="<?= number_format($minVal, $precision, '.', '') ?>"
                                     max="<?= number_format($maxVal, $precision, '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
@@ -80,7 +102,7 @@ foreach ($arResult['ITEMS'] as $item) {
                             <input
                                     class="form-control"
                                     type="number"
-                                    step="1000"
+                                    step="<?= $stepSize ?>"
                                     min="<?= number_format($minVal, $precision, '.', '') ?>"
                                     max="<?= number_format($maxVal, $precision, '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"

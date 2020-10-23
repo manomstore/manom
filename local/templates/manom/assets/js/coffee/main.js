@@ -893,20 +893,51 @@ $(document).ready(function () {
       }
 
       if ($minPrice && $maxPrice) {
+
+        var rangeSize = $maxPrice - $minPrice;
+        var stepSize = 0;
+        if (rangeSize > 1) {
+          var percent = 0;
+
+          for (var i = 1; i < rangeSize; i++) {
+            if (rangeSize % i === 0) {
+              percent = (i / rangeSize) * 100;
+              if (percent <= 5) {
+                stepSize = i;
+              } else {
+                break;
+              }
+            }
+          }
+        }
+
+        if (!stepSize) {
+          stepSize = 100;
+        }
+
         $sliderRange.slider({
           range: true,
           min: $minPrice,
           max: $maxPrice,
-          step: 100,
+          step: stepSize,
           values: [$minPriceValue, $maxPriceValue],
           slide: function (event, ui) {
-            $priceStart.val(ui.values[0]);
-            $priceEnd.val(ui.values[1]);
-            $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]').prop('checked', false);
+            var $priceCheckbox = $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]');
+            switch (ui.handleIndex) {
+              case 0:
+                $priceStart.val(ui.values[0]);
+                $priceCheckbox.prop('checked', false);
+                break;
+              case 1:
+                $priceEnd.val(ui.values[1]);
+                $priceCheckbox.prop('checked', false);
+                break;
+            }
           },
         });
-        $priceStart.val($sliderRange.slider('values', 0));
-        $priceEnd.val($sliderRange.slider('values', 1));
+
+        $priceStart.val($minPriceValue);
+        $priceEnd.val($maxPriceValue);
       }
     }
   });
@@ -952,6 +983,14 @@ $(document).ready(function () {
 
     $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
     $(this).val(inputEnd);
+  });
+
+  $(document).on("keyup", "#price-start-alt", function () {
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+  });
+
+  $(document).on("keyup", "#price-end-alt", function () {
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
   });
 
   $(document).trigger("updateSmartFilter");
