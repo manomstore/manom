@@ -7,8 +7,9 @@ use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
+use \Manom\Airtable\AirtablePropertiesLinkTable;
 
-require_once __DIR__.'/autoload.php';
+require_once __DIR__ . '/autoload.php';
 
 Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
@@ -17,7 +18,7 @@ if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
     AddEventHandler(
         "iblock",
         "OnBeforeIBlockElementUpdate",
-        Array("MyHandlerClass", "OnBeforeIBlockElementUpdateHandler")
+        Array("MyHandlerClass", "OnBeforeIBlockElementUpdateImportHandler")
     );
     AddEventHandler(
         "iblock",
@@ -76,18 +77,29 @@ AddEventHandler(
     "OnSaleComponentOrderUserResult",
     Array("MyHandlerClass", "OnSaleComponentOrderUserResultHandler")
 );
+AddEventHandler(
+    "sale",
+    "onSaleDeliveryServiceCalculate",
+    Array("MyHandlerClass", "onSaleDeliveryServiceCalculateHandler")
+);
 
-//AddEventHandler(
-//    "iblock",
-//    "OnBeforeIBlockSectionUpdate",
-//    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
-//);
-//
-//AddEventHandler(
-//    "iblock",
-//    "OnBeforeIBlockSectionAdd",
-//    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
-//);
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockElementUpdate",
+    Array("MyHandlerClass", "OnBeforeIBlockElementUpdateHandler")
+);
+
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockSectionUpdate",
+    Array("MyHandlerClass", "OnBeforeIBlockSectionUpdateHandler")
+);
+
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockSectionAdd",
+    Array("MyHandlerClass", "OnBeforeIBlockSectionAddHandler")
+);
 
 AddEventHandler(
     "germen.settings",
@@ -101,6 +113,17 @@ AddEventHandler(
     Array(TimeDelivery::class, "OnBeforeSettingsUpdateHandler")
 );
 
+AddEventHandler(
+    "iblock",
+    "OnAfterIBlockPropertyDelete",
+    Array("MyHandlerClass", "OnAfterIBlockPropertyDeleteHandler")
+);
+
+AddEventHandler(
+    "main",
+    "OnChangeFile",
+    Array("MyHandlerClass", "createIncludeForStaticPage")
+);
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUpdate"));
@@ -360,13 +383,13 @@ function isSaleNotifyMessage($event)
 
 function cssAutoVersion($file)
 {
-    if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'].$file)) {
+    if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'] . $file)) {
         return $file;
     }
 
-    $modifyTime = filemtime($_SERVER['DOCUMENT_ROOT'].$file);
+    $modifyTime = filemtime($_SERVER['DOCUMENT_ROOT'] . $file);
 
-    return $file."?m={$modifyTime}";
+    return $file . "?m={$modifyTime}";
 }
 
 class Helper
@@ -415,27 +438,34 @@ class MyHandlerClass
         }
     }
 
-    function OnBeforeIBlockElementUpdateHandler(&$arFields)
+    function OnBeforeIBlockElementUpdateImportHandler(&$arFields)
     {
         unset($arFields["NAME"]);
         unset($arFields["IBLOCK_SECTION_ID"]);
         unset($arFields["IBLOCK_SECTION"]);
+        unset($arFields["PROPERTY_VALUES"]);
     }
 
-    function OnBeforeProductUpdateHandler(&$arFields)
+    function OnBeforeIBlockElementUpdateHandler($arFields)
     {
+        ob_start();
+        var_export($arFields);
+        $fieldsOriginalExport = ob_get_clean();
+
         if ((int)$arFields["IBLOCK_ID"] !== 6) {
             return true;
         }
+
+        $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
 
         $properties = \Bitrix\Iblock\PropertyTable::getList(
             [
                 "filter" => [
                     "IBLOCK_ID" => 6,
                     "CODE" => [
-                        "ONLY_CASH",
-                        "ONLY_PICKUP",
                         "ONLY_PREPAYMENT",
+                        "ONLY_CASH",
+                        "CML2_ARTICLE",
                     ],
                 ],
             ]
@@ -451,12 +481,86 @@ class MyHandlerClass
             return true;
         }
 
-        if (!empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_PREPAYMENT"]])
-            && !empty($arFields["PROPERTY_VALUES"][$arProps["ONLY_CASH"]])) {
+        $propertiesValue = [];
+
+        foreach ($arProps as $code => $prop) {
+            if (array_key_exists($arFields["PROPERTY_VALUES"], $prop)) {
+                $value = reset($arFields["PROPERTY_VALUES"][$prop])["VALUE"];
+                $propertiesValue[$code] = $value;
+            }
+        }
+
+        $elementId = (int)$arFields["ID"];
+        if ($elementId) {
+            $res = \CIBlockElement::GetList(
+                [],
+                [
+                    "ID" => $elementId,
+                    "IBLOCK_ID" => $arFields["IBLOCK_ID"]
+                ],
+                false,
+                false,
+                [
+                    "ID",
+                    "IBLOCK_ID",
+                    "PROPERTY_CML2_ARTICLE",
+                ]
+            );
+
+            $elementData = $res->GetNext();
+
+            $articleCleared = !empty($elementData["PROPERTY_CML2_ARTICLE_VALUE"])
+                && isset($arFields["PROPERTY_VALUES"])
+                && (
+                    empty($arFields["PROPERTY_VALUES"])
+                    || !isset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])
+                    || empty($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])
+                    || !$arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]][array_key_first($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])]["VALUE"]
+                );
+
+            if ($articleCleared) {
+                ob_start();
+                print_r($elementData["PROPERTY_CML2_ARTICLE_VALUE"]);
+                $oldArticlePrint = ob_get_clean();
+
+                ob_start();
+                print_r($propertiesValue["CML2_ARTICLE"]);
+                $newArticlePrint = ob_get_clean();
+                $logContent = (string)file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/articleDebug.log");
+                $logContent .= "\n---\n";
+                $logContent .= date("d.m.Y H:i:s");
+                $logContent .= "\nPRODUCT_ID:" . $elementData["ID"];
+                $logContent .= "\nARTICLE_OLD:" . $oldArticlePrint;
+                $logContent .= "\nARTICLE_NEW:" . $newArticlePrint;
+
+                $logContent .= "\nBACKTRACE:";
+
+                foreach (debug_backtrace() as $item) {
+                    $logContent .= "\n -" . $item["file"] . ":" . $item["line"];
+                }
+
+                $logContent .= "\nFIELDS:";
+                ob_start();
+                var_export($arFields);
+                $fieldsExport = ob_get_clean();
+                $logContent .= "\n" . $fieldsExport;
+
+                $logContent .= "\nORIGINAL_FIELDS:";
+                $logContent .= "\n" . $fieldsOriginalExport;
+
+
+                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/articleDebug.log", $logContent);
+            }
+        }
+        if (!empty($propertiesValue["ONLY_PREPAYMENT"])
+            && !empty($propertiesValue["ONLY_CASH"])
+            && !$isImport) {
             global $APPLICATION;
             $APPLICATION->throwException("Нельзя ограничить по предоплате и наличным одновременно");
             return false;
         }
+
+        return true;
     }
 
     function OnSaleComponentOrderUserResultHandler(&$arUserResult, $request, &$arParams)
@@ -486,7 +590,7 @@ class MyHandlerClass
             ]
         )->fetch();
 
-        $orderLocationProp = $orderProps["ORDER_PROP_".$locationProp["ID"]];
+        $orderLocationProp = $orderProps["ORDER_PROP_" . $locationProp["ID"]];
         $locationId = 0;
 
         if ((int)$orderLocationProp) {
@@ -561,7 +665,7 @@ class MyHandlerClass
         unset($arFields["SECTION_ID"]);
         unset($arFields["IBLOCK_SECTION"]);
         $arFields["IBLOCK_SECTION"] = array(204);
-        $fp = fopen(__DIR__.'/filename.txt', 'w');
+        $fp = fopen(__DIR__ . '/filename.txt', 'w');
         fwrite($fp, print_r($arFields, true));
         fclose($fp);
         return;
@@ -768,13 +872,14 @@ class MyHandlerClass
             return;
         }
 
-        $timeRanges = [
-            1 => 6,
-            2 => 9,
-            3 => 12,
-            4 => 15,
-            5 => 18,
-        ];
+        Loader::includeModule("germen.settings");
+
+        $intervals = TimeDelivery::getIntervals();
+        $timeRanges = [];
+
+        foreach ($intervals as $interval) {
+            $timeRanges[$interval["variantId"]] = $interval["fromHour"];
+        }
 
         $currentHour = (int)date("G");
         $isPast = false;
@@ -787,10 +892,8 @@ class MyHandlerClass
         }
 
         if (!$isPast && $dateDelivery === date('d.m.Y')) {
-            foreach ($timeRanges as $key => $range) {
-                if ($currentHour >= $range && $key === (int)$timeDelivery) {
-                    $isPast = true;
-                }
+            if (array_key_exists($timeDelivery, $timeRanges)) {
+                $isPast = $currentHour >= $timeRanges[$timeDelivery];
             }
         }
 
@@ -814,6 +917,24 @@ class MyHandlerClass
     function OnSaleOrderBeforeSavedHandler($arFields)
     {
         Loader::includeModule("catalog");
+
+        $dateCreate = $arFields->getField("DATE_INSERT");
+
+        if (!empty($dateCreate)) {
+            $dateCreate = $dateCreate->toString();
+        }
+
+        $dataLastExchange = ConvertTimeStamp(
+            \COption::GetOptionString("sale", "last_export_time_committed_/bitrix/admin/1c_excha", ""),
+            "FULL"
+        );
+
+        $dateExported = $dateCreate && (strtotime($dateCreate) < strtotime($dataLastExchange));
+
+        if (!$arFields->isNew() && $dateExported && !$arFields->isExternal()) {
+            $arFields->setField("EXTERNAL_ORDER", "Y");
+        }
+
         $registry = Registry::getInstance(Registry::REGISTRY_TYPE_ORDER);
 
         $productsId = [];
@@ -827,20 +948,10 @@ class MyHandlerClass
         $products = [];
 
         if (!empty($productsId)) {
-            $productList = \CCatalogSKU::getProductList($productsId);
-            $productList = array_map(
-                function ($item) {
-                    return $item["ID"];
-                },
-                $productList
-            );
-
-            $productList = array_unique(array_values($productList));
-
             $rsProducts = \CIBlockElement::GetList(
                 [],
                 [
-                    "ID" => $productList,
+                    "ID" => $productsId,
                     "IBLOCK_ID" => 6,
                 ],
                 false,
@@ -931,11 +1042,13 @@ class MyHandlerClass
 
     function OnBeforeIBlockSectionAddHandler($arFields)
     {
-        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+        $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
+
+        if ((int)$arFields["IBLOCK_ID"] !== 6 || $isImport) {
             return true;
         }
 
-        if (empty($arFields["CODE"])){
+        if (empty($arFields["CODE"])) {
             return true;
         }
 
@@ -958,7 +1071,9 @@ class MyHandlerClass
 
     function OnBeforeIBlockSectionUpdateHandler($arFields)
     {
-        if ((int)$arFields["IBLOCK_ID"] !== 6) {
+        $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
+
+        if ((int)$arFields["IBLOCK_ID"] !== 6 || $isImport) {
             return true;
         }
         global $APPLICATION;
@@ -974,6 +1089,69 @@ class MyHandlerClass
         if ($existSection && (int)$arFields["ID"] !== (int)$existSection["ID"]) {
             $APPLICATION->throwException("Раздел с таким символьным кодом уже существует.");
             return false;
+        }
+        return true;
+    }
+
+    function onSaleDeliveryServiceCalculateHandler($result, $shipment, $deliveryId)
+    {
+        Loader::includeModule("germen.settings");
+        if ($shipment->getDeliveryId() !== 8) {
+            return true;
+        }
+
+        /** @var \Bitrix\Sale\Basket $basket */
+        $basket = $shipment->getOrder()->getBasket();
+
+        $minOrderPrice = (int)\UniPlug\Settings::get("COND_FREE_DELIVERY");
+        if ($minOrderPrice > 0 && (int)$basket->getPrice() >= $minOrderPrice) {
+            $result->setDeliveryPrice(0);
+        }
+    }
+
+    function OnAfterIBlockPropertyDeleteHandler($property)
+    {
+        Loader::includeModule("manom.airtable");
+        $link = AirtablePropertiesLinkTable::getList(
+            [
+                "filter" => [
+                    "bitrix" => $property["CODE"]
+                ]
+            ]
+        )->fetch();
+
+        if ($link) {
+            AirtablePropertiesLinkTable::delete($link["id"]);
+        }
+    }
+
+    function createIncludeForStaticPage($path)
+    {
+        $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+
+        $createPathFile = $request->get("path") . "/" . $request->get("filename");
+
+        $needAddIncForStatic = $request->getRequestedPage() === "/bitrix/admin/fileman_file_edit.php"
+            && $request->isPost()
+            && $request->get("template") === "static.php"
+            && $request->get("new") === "y"
+            && !empty($request->get("filename"));
+
+        $contentFile = $_SERVER["DOCUMENT_ROOT"] . "/include/static_" . $request->get("filename");
+
+        if ($needAddIncForStatic
+            && $createPathFile === $path
+            && !file_exists($contentFile)) {
+
+            $dummyContent = <<<CONTENT
+<h1>Заголовок</h1>
+<h2>Подзаголовок</h2>
+<p>
+ Содержимое страницы
+</p>
+CONTENT;
+
+            file_put_contents($contentFile, $dummyContent);
         }
         return true;
     }
@@ -1005,7 +1183,7 @@ class CUserEx
 
     function OnSendUserInfoHandler($arFields)
     {
-        $arFields["FIELDS"]["PASSWORD"] = "Пароль: ".self::$newUserPass."\n";
+        $arFields["FIELDS"]["PASSWORD"] = "Пароль: " . self::$newUserPass . "\n";
         self::$newUserPass = null;
     }
 }

@@ -83,7 +83,9 @@ function formatBytes($size, $precision = 2)
                 <span><span class="bold">Код:</span> <?=$arResult['PROPERTIES']['TOP_FIELD_2']['VALUE']?></span>
             </div>
         <?php endif; ?>
-        <?php if (in_array('EAC', $arResult['PROPERTIES']['CERTIFICATES']['VALUE'], true)): ?>
+        <?php
+        $certificates = $arResult['PROPERTIES']['CERTIFICATES']['VALUE'];
+        if (in_array('ЕАС', $certificates, true) || in_array('EAC', $certificates, true)): ?>
             <div>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
@@ -132,41 +134,47 @@ function formatBytes($size, $precision = 2)
 
     <div class="product-main row">
         <div class="product-photo">
-            <div class="product-photo__left col-1">
-                <?php $first = true;?>
-                <?php foreach ($arResult['smallImages'] as $i => $image): ?>
-                    <img
-                        src="<?=$image['src']?>"
-                        data-color=""
-                        data-photo-id="<?=$i?>"
-                        class="<?=$first ? 'active' : ''?>"
-                        alt=""
-                    >
-                    <?php $first = false;?>
-                <?php endforeach; ?>
-            </div>
-            <div class="product-photo__right col-5">
-                <div class="swiper-container">
+                <div class="product-photo__left col-1 swiper-container">
                     <div class="swiper-wrapper">
                         <?php $first = true;?>
-                        <?php foreach ($arResult['images'] as $i => $image): ?>
-                            <div class="swiper-slide">
-                                <a
-                                    data-fancybox="gallery-prod"
-                                    href="<?=$image['src']?>"
-                                    data-color=""
-                                    data-photo-id="<?=$i?>"
-                                    class="pp__big_photo <?=$first ? 'active' : ''?>"
-                                >
-                                    <img src="<?=$image['src']?>" alt="">
-                                </a>
-                                <?php $first = false;?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="swiper-pagination"></div>
+                            <?php foreach ($arResult['smallImages'] as $i => $image): ?>
+                                <div class="swiper-slide">
+                                    <img
+                                        src="<?=$image['src']?>"
+                                        data-color=""
+                                        data-photo-id="<?=$i?>"
+                                        class="<?=$first ? 'active' : ''?>"
+                                        alt=""
+                                    >
+                                    <?php $first = false;?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <div class="swiper-button-prev visually-hidden"></div>
+                    <div class="swiper-button-next visually-hidden"></div>
                 </div>
-            </div>
+                <div class="product-photo__right col-5">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <?php $first = true;?>
+                            <?php foreach ($arResult['images'] as $i => $image): ?>
+                                <div class="swiper-slide">
+                                    <a
+                                        data-fancybox="gallery-prod"
+                                        href="<?=$image['src']?>"
+                                        data-color=""
+                                        data-photo-id="<?=$i?>"
+                                        class="pp__big_photo <?=$first ? 'active' : ''?>"
+                                    >
+                                        <img src="<?=$image['src']?>" alt="">
+                                    </a>
+                                    <?php $first = false;?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
             <div class="product-photo__info">
                 <?=$arResult['PREVIEW_TEXT']?>
             </div>
@@ -379,15 +387,17 @@ function formatBytes($size, $precision = 2)
                                         <?=$arResult['inFavoriteAndCompare'] ? 'checked' : ''?>
                                     >
                                     <div
-                                            class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
-                                            data-id='<?=$arResult['ID']?>'
-                                            title="в избранное"
+                                        class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
+                                        data-id='<?=$arResult['ID']?>'
+                                        title="Добавить в избранное"
                                     ></div>
                                 </label>
-                                <div
-                                        class="p-nav-top__list addToCompareList <?=$class2?>"
-                                        data-id='<?=$arResult['ID']?>'
-                                ></div>
+                                <a href="#" title="Добавить в сравнение">
+                                    <div
+                                            class="p-nav-top__list addToCompareList <?=$class2?>"
+                                            data-id='<?=$arResult['ID']?>'
+                                    ></div>
+                                </a>
                             </div>
                         </div>
 
@@ -448,7 +458,15 @@ function formatBytes($size, $precision = 2)
                     <div id="popap-buy-one-click" class="popap-login">
                         <h3 class="sci-login__title">Купить в один клик</h3>
                         <form class="sci-login__form js-one-click-order">
-                            <div class="form_msg js-message-field"></div>
+                            <div class="form_msg js-message-field shopcart-success">
+                                <h2 class="shopcart-success__title">
+                                    Ваш заказ #<?=$_REQUEST['ORDER_ID']?> успешно оформлен
+                                </h2>
+                                <p class="shopcart-success__text">
+                                    В ближайшее время с вами свяжется наш менеджер для дальнейшего подверждения заказа.
+                                </p>
+                                <a class="shopcart-success__button" href="/">Класс, спасибо!</a>
+                            </div>
                             <input
                                 type="hidden"
                                 name="productId"

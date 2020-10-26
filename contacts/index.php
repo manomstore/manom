@@ -5,7 +5,7 @@ $APPLICATION->SetPageProperty("description", "Manom");
 $APPLICATION->SetPageProperty("title", "Manom");
 $APPLICATION->SetTitle("Контакты");
 ?>
-<div class="content"></div>
+<div class="content">
     <div class="container">
         <div class="text-content text-content--container">
             <?$APPLICATION->IncludeComponent(

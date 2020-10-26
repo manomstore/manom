@@ -194,6 +194,15 @@ function setDeliveryDescription($delivery) {
         return textNearestDate;
       }
 
+      if (!deliveryObj.exist) {
+        if (this.currentHour < deliveryObj.time.end) {
+          textNearestDate = 'Сегодня';
+        } else {
+          textNearestDate = 'Завтра';
+        }
+        return textNearestDate;
+      }
+
       if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
         if (this.currentHour < deliveryObj.time.end - 1) {
           textNearestDate = deliveryObj.exist ?
@@ -453,9 +462,10 @@ $(document).ready(function () {
 
     $(document).find('.shopcart-nav1 input[type="radio"]').each(function () {
       var $count,
-        $formIsValid,
-        sBlock,
-        isEmailValid = false;
+          $formIsValid,
+          sBlock,
+          isEmailValid,
+          addressInvalid = false;
 
       if ($(this).prop('checked')) {
         slideNum = $(this).attr('data-num');
@@ -565,6 +575,7 @@ $(document).ready(function () {
                 }
                 if (!$(document).find('#sci-delivery-street').val()) {
                   $formIsValid = false;
+                  addressInvalid = true;
                 }
                 // if (!$(document).find('#sci-delivery-building').val()) {
                 //   $formIsValid = false;
@@ -635,6 +646,11 @@ $(document).ready(function () {
                 });
 
               if ($formIsValid) {
+                if (!isValidDeliveryTime() && $('#ID_DELIVERY_ID_8').prop('checked')) {
+                  return $.fn.setPushUp('Ошибка', 'Дата или время доставки указаны некорректно', false, 'message',
+                      false, 5000);
+                }
+
                 $(document).find('.shopcart-nav1 input#shopcart-tab' + (
                   parseInt(slideNum) + 1
                 ) + '').removeClass('slide-disable');
@@ -656,8 +672,13 @@ $(document).ready(function () {
                     $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message', false,
                       5000);
                   } else {
-                    $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
-                      'message', false, 5000);
+                    if (addressInvalid){
+                      $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
+                          'message', false, 5000);
+                    }else {
+                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
+                          'message', false, 5000);
+                    }
                   }
                 }
               }
@@ -798,8 +819,8 @@ $(document).ready(function () {
             );
             window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
             $.fn.refreshMiniCart();
-            $messageField.html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
             $messageField.show();
+            $('.sci-login__title').hide();
             return $this.find('button, label, input').hide();
           } else {
             $messageField.html('Произошла ошибка. Повторите попытку позднее.');
@@ -2010,19 +2031,32 @@ $(document).ready(function () {
 
   // Инициализация календаря
   (function () {
+    var timeRanges = window.paramTimeRanges;
+    if(!timeRanges) {
+      return;
+    }
     var startDate = new Date();
-    // if (startDate.getHours() >= 17) {
-    //   startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-    // }
+    var nextDay = false;
+    if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour) {
+      startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+      nextDay = true;
+    }
+
     $('.js-shopcart-datepicker').datepicker({
       language: 'ru',
       startDate: startDate,
         beforeShowDay: function (date) {
-            if ((new Date).toLocaleDateString() < "03.09.2020") {
-                return ["01.09.2020", "02.09.2020"].indexOf(date.toLocaleDateString()) >= 0;
-            } else {
-                return [0, 6].indexOf(date.getDay()) <= -1;
-            }
+          var currentDate = new Date;
+          var allowedDays = [];
+          if (nextDay) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            allowedDays.push(currentDate.toLocaleDateString());
+          } else {
+            allowedDays.push(currentDate.toLocaleDateString());
+          }
+          currentDate.setDate(currentDate.getDate() + 1);
+          allowedDays.push(currentDate.toLocaleDateString());
+          return allowedDays.indexOf(date.toLocaleDateString()) >= 0;
         },
     }).datepicker("setDate", startDate);
 
@@ -2212,41 +2246,77 @@ $(document).ready(function () {
     }
   }
 
-  function checkDeliveryTime() {
-    var $deliveryTime = $('#sci-delivery-time');
-    var $deliveryDate = $('.js-shopcart-datepicker');
+    function checkDeliveryTime() {
+        var $deliveryTime = $('#sci-delivery-time');
+        var $deliveryDate = $('.js-shopcart-datepicker');
 
-    var timeRanges = window.paramTimeRanges;
-    if (!timeRanges) {
-      timeRanges = {};
+        var timeRanges = window.paramTimeRanges;
+        if (!timeRanges) {
+            timeRanges = {};
+        }
+
+        var selectedDate = $deliveryDate.datepicker('getDate');
+      $deliveryTime.find("option").remove();
+        if (!selectedDate || (selectedDate.hasOwnProperty('length') && selectedDate.length <= 0)) {
+            timeRanges.forEach(function (range) {
+                $deliveryTime.append(getDeliveryTimeOption(range));
+            });
+            $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+            $deliveryTime.attr('disabled', true);
+            return true;
+        }
+
+        $deliveryTime.attr('disabled', false);
+
+      var currentData = new Date();
+      if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
+        var hour = currentData.getHours();
+        for (var key in timeRanges) {
+          if (hour < timeRanges[key].fromHour) {
+            $deliveryTime.append(getDeliveryTimeOption(timeRanges[key]));
+          }
+        }
+        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+      } else {
+        timeRanges.forEach(function (range) {
+          $deliveryTime.append(getDeliveryTimeOption(range));
+        });
+        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+        }
+
     }
 
-    var selectedDate = $deliveryDate.datepicker('getDate');
+  function isValidDeliveryTime() {
+    var timeRangeId = parseInt($('#sci-delivery-time').val());
+    var deliveryDate = $('#sci-delivery-date').datepicker('getDate');
+    var currentDate = new Date();
+    if (timeRangeId <= 0) {
+      return true;
+    }
+    var rangeIndex = window.paramTimeRanges.findIndex(function (element) {
+          return parseInt(element.variantId) === timeRangeId;
+        }
+    );
+    if (rangeIndex < 0) {
+      return false;
+    }
+    var currentRange = window.paramTimeRanges[rangeIndex];
 
-    if (!selectedDate || (selectedDate.hasOwnProperty('length') && selectedDate.length <= 0)) {
-      $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
-      $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
-      $deliveryTime.attr('disabled', true);
+    if (!deliveryDate || deliveryDate.toLocaleDateString() !== currentDate.toLocaleDateString()) {
       return true;
     }
 
-    $deliveryTime.attr('disabled', false);
-
-    var currentData = new Date();
-    if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
-      var hour = currentData.getHours();
-      for (var key in timeRanges) {
-        if (hour >= timeRanges[key] - 1) {
-          // $deliveryTime.find('option[value=\'' + key + '\']').addClass('sci-hidden');
-        }
-      }
-        // $deliveryTime.val($deliveryTime.find('option').not('.sci-hidden').first().attr('value'));
-    } else {
-        $deliveryTime.find('option.sci-hidden').removeClass('sci-hidden');
-        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
-    }
-
+    return currentDate.getHours() < currentRange.fromHour;
   }
+
+    function getDeliveryTimeOption(timeRange) {
+        var $option = $("<option></option>");
+        $option.val(timeRange.variantId);
+        $option.data("start", timeRange.fromHour);
+        $option.data("end", timeRange.toHour);
+        $option.text(timeRange.fromHour + ":00 - " + timeRange.toHour + ":00");
+        return $option;
+    }
 });
 
 var isSideInfoInited = false;
@@ -3295,7 +3365,7 @@ function getDeliveryTabType(deliveryId) {
   var deliveryTabType = null;
   deliveryId = parseInt(deliveryId);
 
-  if ([5, 8,15].indexOf(deliveryId) >= 0) {
+  if ([5, 8].indexOf(deliveryId) >= 0) {
     deliveryTabType = 'sci-delivery-tab1';
   }
 

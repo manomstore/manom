@@ -61,7 +61,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-single-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -114,7 +114,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-single-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -167,7 +167,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-single-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -220,7 +220,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-single-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -273,7 +273,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="cb-single-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -328,7 +328,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="p-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -363,7 +363,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="p-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -398,7 +398,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="p-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -433,7 +433,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="p-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>
@@ -468,7 +468,7 @@ echo '<pre style="text-align:left;">';print_r($arResult);echo "</pre>";
 				<div class="p-nav-top">
 					<label>
 						<input class="p-nav-top__checkbox" type="checkbox" checked>
-						<div class="p-nav-top__favorite" title="в избранное"></div>
+						<div class="p-nav-top__favorite" title="Добавить в избранное"></div>
 					</label>
 					<div class="p-nav-top__list"></div>
 				</div>

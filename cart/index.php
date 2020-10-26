@@ -535,16 +535,6 @@ if (empty($productsOutOfStock)) {
                                                                 id="sci-delivery-time"
                                                                 class="sci-contact__input sci-contact__input--appearance"
                                                                 required>
-                                                            <? foreach (TimeDelivery::getVariants() as $variant): ?>
-                                                                <option
-                                                                    <?= $variant["selected"] ? "selected" : "" ?>
-                                                                        value="<?= $variant["value"] ?>"
-                                                                        data-start="<?= $variant["from"] ?>"
-                                                                        data-end="<?= $variant["to"] ?>"
-                                                                >
-                                                                    <?= $variant["formatted"] ?>
-                                                                </option>
-                                                            <? endforeach; ?>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -915,7 +905,7 @@ if (empty($productsOutOfStock)) {
                                         <span class="sci-contact__check">
                                             Нажимая «Оформить заказ» вы даете согласие на хранение и обработку ваших
                                             персональных данных в соответствии
-                                            <a target="_blank" href="/public_offer_agreement/">с условиями</a>
+                                            <a target="_blank" href="/privacy_policy/">с условиями</a>
                                             .
                                         </span>
                                     </label>

@@ -173,13 +173,13 @@
 .text-content--container {
   max-width: 740px;
   padding-top: 30px;
-  padding-bottom: 30%;
+  /* padding-bottom: 30%; */
   text-align: left;
 }
 
 @media (min-width: 768px) {
   .text-content--container {
     padding-top: 40px;
-    padding-bottom: 40%;
+    /* padding-bottom: 40%; */
   }
 }
