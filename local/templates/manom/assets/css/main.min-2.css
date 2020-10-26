@@ -8352,6 +8352,7 @@ h3.tab-content__title--right {
 
 .shopcart-success__title {
   font-size: 24px;
+  line-height: 110%;
   text-align: center;
   color: #29282c;
   font-weight: 700;
@@ -9034,7 +9035,7 @@ h3.tab-content__title--right {
 
   .shopcart-success__title {
     font-size: 36px;
-
+    line-height: 110%;
     padding-top: 179px;
   }
 
