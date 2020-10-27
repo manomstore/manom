@@ -3611,14 +3611,14 @@ p.price-slider {
 }
 
 .product-sidebar__cheap-reason {
-  background: #F2F2F2;
-  border-radius: 5px;
+
   position: relative;
   margin-bottom: 20px;
   max-height: 0;
   overflow: hidden;
   transition: max-height  0.2s;
 }
+
 .product-sidebar__cheap-reason.show {
   max-height: 200px;
 }
@@ -3631,6 +3631,7 @@ p.price-slider {
   transform: rotate(45deg);
   left: 50px;
   top: 2px;
+  background-color: #F2F2F2;
 }
 
 .product-sidebar__cheap-reason p {
@@ -3640,6 +3641,7 @@ p.price-slider {
   color: #4F4F4F;
   padding: 10px 13px;
   background-color: #F2F2F2;
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 1200px) {
