@@ -12327,5 +12327,30 @@ a.ui-button:active,
 }
 
 .watched__slider {
+  width: 268px;
+  display: flex;
+  flex-direction: column;
+  color: #000000;
+}
 
+.watched__slider img {
+  width: 175px;
+  height: 116px;
+  object-fit: contain;
+  object-position: center;
+  margin-bottom: 16px;
+}
+
+.watched__slider span {
+  display: inline-block;
+  width: 100%;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.watched__slider p {
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 22px;
 }
