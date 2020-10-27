@@ -44,3 +44,27 @@
     }
   }
 })();
+
+(() => {
+  const watchedSlider = document.querySelector(`.watched__slider.swiper-container`);
+  const btnPrev = document.querySelector(`.watched__button-prev`);
+  const btnNext = document.querySelector(`.watched__button-next`);
+  var slides = document.querySelectorAll(".watched__slide");
+
+  if (watchedSlider) {
+    if (slides.length > 4) {
+      new Swiper(watchedSlider, {
+        slidesPerView: 4,
+        spaceBetween: 32,
+        navigation: {
+          nextEl: '.watched__button-next',
+          prevEl: '.watched__button-prev',
+        },
+      });
+      btnPrev.classList.remove('visually-hidden');
+      btnNext.classList.remove('visually-hidden');
+    } else {
+      return;
+    }
+  }
+})();

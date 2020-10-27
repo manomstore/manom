@@ -1182,6 +1182,38 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
         </div>
     </div>
+
+    <div class="watched">
+        <h2 class="watched__title">Недавно просмотренные товары</h2>
+        <div class="watched__slider swiper-container">
+            <div class="swiper-wrapper">
+                <div class="watched__slide swiper-slide">
+                    <img src="" alt="">
+                    <span>119 990 ₽ </span>
+                    <p>Apple MacBook Air 13" QC i5 1,1 ГГц, 8 ГБ, 512 ГБ SSD, золотой</p>
+                </div>
+                <div class="watched__slide swiper-slide">
+                    <img src="" alt="">
+                    <span>139 990 ₽ </span>
+                    <p>Apple MacBook Pro 13" QC i5 1,4 ГГц, 8 ГБ, 512 ГБ SSD, Iris Plus 645, Touch Bar, серый космос</p>
+                </div>
+                <div class="watched__slide swiper-slide">
+                    <img src="" alt="">
+                    <span>89 990 ₽</span>
+                    <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серый космос</p>
+                </div>
+                <div class="watched__slide swiper-slide">
+                    <img src="" alt="">
+                    <span>89 990 ₽ </span>
+                    <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
+                </div>
+            </div>
+
+            <div class="swiper-button-prev watched__button-prev visually-hidden"></div>
+            <div class="swiper-button-next watched__button-next visually-hidden"></div>
+
+        </div>
+    </div>
 </main>
 
 <?php if ($arResult['PROPERTIES']['RECOM']['VALUE']): ?>

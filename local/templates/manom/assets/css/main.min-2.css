@@ -12314,3 +12314,18 @@ a.ui-button:active,
   bottom: -20px;
   top: auto;
 }
+
+.watched {
+
+}
+
+.watched__title {
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 28px;
+  color: #000000;
+}
+
+.watched__slider {
+
+}
