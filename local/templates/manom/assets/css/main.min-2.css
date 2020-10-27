@@ -12319,6 +12319,10 @@ a.ui-button:active,
   width: 100%;
 }
 
+.watched .swiper-wrapper {
+  flex-wrap: nowrap;
+}
+
 .watched__title {
   font-weight: bold;
   font-size: 22px;
@@ -12380,9 +12384,10 @@ a.ui-button:active,
 }
 
 .watched__button-prev::after {
-  transition: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .watched__button-next::after {
-  transition: rotate(45deg);
+  transform: rotate(135deg);
+  top: 19px;
 }

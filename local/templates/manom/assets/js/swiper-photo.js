@@ -60,6 +60,18 @@
           nextEl: '.watched__button-next',
           prevEl: '.watched__button-prev',
         },
+        breakpointsInverse: true,
+        breakpoints:{
+          320: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1028: {
+            slidesPerView: 4,
+          }
+        }
       });
       btnPrev.classList.remove('visually-hidden');
       btnNext.classList.remove('visually-hidden');
