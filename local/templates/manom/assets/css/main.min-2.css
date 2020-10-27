@@ -12222,6 +12222,51 @@ a.ui-button:active,
   }
 }
 
+
+.empty-container {
+  display: flex;
+  height: calc(100vh - 360px);
+}
+
+.empty {
+  margin: auto;
+
+}
+
+.empty__block-header {
+  margin-bottom: 16px;
+}
+.empty__block-image {
+  margin-bottom: 24px;
+  width: 123px;
+  height: auto;
+}
+
+
+.empty__text {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #29282C;
+  text-align: center;
+}
+
+.empty__block--brand .empty__text {
+  max-width: 450px;
+}
+
+.empty__block--goods .empty__text {
+  max-width: 390px;
+}
+
+.empty__text a {
+  color: rgba(131, 187, 38, 0.8);
+  transition: all 0.2s ease;
+}
+
+.empty__text a:hover {
+  color: #83bb26;
+}
 .ui-tooltip, .arrow:after {
   background: #29282C;
 }
