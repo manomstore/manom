@@ -3613,9 +3613,17 @@ p.price-slider {
 .product-sidebar__cheap-reason {
   background: #F2F2F2;
   border-radius: 5px;
-  padding: 10px 13px;
+
   position: relative;
   margin-bottom: 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height  0.2s;
+}
+.product-sidebar__cheap-reason.show {
+  max-height: auto;
+  overflow: visible;
+
 }
 
 .product-sidebar__cheap-reason::after {
@@ -3626,14 +3634,15 @@ p.price-slider {
   background-color: #F2F2F2;
   transform: rotate(45deg);
   left: 50px;
-  top: -8px;
+  top: -5px;
 }
 
-.product-sidebar__cheap-reason picture {
+.product-sidebar__cheap-reason p {
   margin: 0;
   font-size: 12px;
   line-height: 18px;
-  color: #4F4F4F
+  color: #4F4F4F;
+  padding: 10px 13px;
 }
 
 @media screen and (max-width: 1200px) {
