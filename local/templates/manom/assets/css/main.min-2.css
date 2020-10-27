@@ -12316,7 +12316,7 @@ a.ui-button:active,
 }
 
 .watched {
-
+  width: 100%;
 }
 
 .watched__title {
@@ -12326,7 +12326,7 @@ a.ui-button:active,
   color: #000000;
 }
 
-.watched__slider {
+.watched__slide {
   width: 268px;
   display: flex;
   flex-direction: column;
