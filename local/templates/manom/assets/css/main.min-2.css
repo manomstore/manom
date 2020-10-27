@@ -12324,6 +12324,8 @@ a.ui-button:active,
   font-size: 22px;
   line-height: 28px;
   color: #000000;
+  text-align: left;
+  margin: 50px 0 32px;
 }
 
 .watched__slide {
@@ -12331,6 +12333,7 @@ a.ui-button:active,
   display: flex;
   flex-direction: column;
   color: #000000;
+  text-align: left;
 }
 
 .watched__slider img {
@@ -12353,4 +12356,33 @@ a.ui-button:active,
   font-weight: normal;
   font-size: 15px;
   line-height: 22px;
+}
+
+.watched__button {
+  width: 48px;
+  height: 48px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.watched__button::after {
+  position: absolute;
+  content: '';
+  width: 11px;
+  height: 11px;
+  border-left: 1.5px solid #000000;
+  border-top: 1.5px solid #000000;
+  transition: rotate(-45deg);
+  top: 14px;
+  left: 17px;
+}
+
+.watched__button-prev::after {
+  transition: rotate(-45deg);
+}
+
+.watched__button-next::after {
+  transition: rotate(45deg);
 }

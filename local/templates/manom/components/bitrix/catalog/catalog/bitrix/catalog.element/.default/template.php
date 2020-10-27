@@ -1214,8 +1214,8 @@ function formatBytes($size, $precision = 2)
                 </div>
             </div>
 
-            <div class="swiper-button-prev watched__button-prev visually-hidden"></div>
-            <div class="swiper-button-next watched__button-next visually-hidden"></div>
+            <div class="swiper-button-prev watched__button watched__button-prev visually-hidden"></div>
+            <div class="swiper-button-next watched__button watched__button-next visually-hidden"></div>
 
         </div>
     </div>
