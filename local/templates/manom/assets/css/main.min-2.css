@@ -3621,7 +3621,7 @@ p.price-slider {
   transition: max-height  0.2s;
 }
 .product-sidebar__cheap-reason.show {
-  max-height: auto;
+  max-height: 200px;
   overflow: visible;
 
 }
