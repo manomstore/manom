@@ -27,7 +27,7 @@ class Notify extends \Bitrix\Sale\Notify
      * @throws Main\ObjectNotFoundException
      * @throws Main\NotImplementedException
      */
-    public static function sendOrderNew(Internals\Entity $entity)
+    public static function sendOrderConfirmAsNew(Internals\Entity $entity)
     {
         $result = new Result();
 

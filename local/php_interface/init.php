@@ -1217,7 +1217,7 @@ CONTENT;
         $isOnlinePayment = current($order->getPaySystemIdList()) === \Helper::ONLINE_PAYMENT;
 
         if ($isOnlinePayment && $order->isPaid()) {
-            Notify::sendOrderNew($order);
+            Notify::sendOrderConfirmAsNew($order);
         }
     }
 }
