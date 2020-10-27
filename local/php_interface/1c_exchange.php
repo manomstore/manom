@@ -12,7 +12,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.ph
 
 if($type=="sale")
 {
-	$APPLICATION->IncludeComponent("bitrix:sale.export.1c", "", Array(
+	$APPLICATION->IncludeComponent("manom:sale.export.1c", "", Array(
 			"SITE_LIST" => COption::GetOptionString("sale", "1C_SALE_SITE_LIST", ""),
 			"EXPORT_PAYED_ORDERS" => COption::GetOptionString("sale", "1C_EXPORT_PAYED_ORDERS", ""),
 			"EXPORT_ALLOW_DELIVERY_ORDERS" => COption::GetOptionString("sale", "1C_EXPORT_ALLOW_DELIVERY_ORDERS", ""),

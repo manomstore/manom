@@ -304,6 +304,17 @@ else
 
 		CTimeZone::Disable();
 
+        $arFilter[] = [
+            "LOGIC" => "OR",
+            [
+                "PAY_SYSTEM_ID" => Helper::ONLINE_PAYMENT,
+                "PAYED" => "Y",
+            ],
+            [
+                "!PAY_SYSTEM_ID" => Helper::ONLINE_PAYMENT,
+            ]
+        ];
+
 		if($_SESSION["BX_CML2_EXPORT"]["cmlVersion"] >= doubleval(\Bitrix\Sale\Exchange\ExportOneCBase::SHEM_VERSION_2_10))
 		{
 			//region schema Documents or Document.Subordinate
