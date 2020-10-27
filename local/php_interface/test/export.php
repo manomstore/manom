@@ -12,6 +12,9 @@ $host = ($request->isHttps() ? "https://" : "http://") . $_SERVER["HTTP_HOST"];
             $.ajax({
                 url: '/local/php_interface/1c_exchange.php?type=sale&mode=checkauth',
                 type: 'GET',
+                success: function () {
+                    $(".link").show();
+                }
             });
 
 
@@ -23,5 +26,9 @@ $host = ($request->isHttps() ? "https://" : "http://") . $_SERVER["HTTP_HOST"];
             });
         });
     </script>
-    <a class="link" href="/local/php_interface/1c_exchange.php?type=sale&mode=query" target="_blank">Открыть выгрузку</a>
+    <a class="link"
+       style="display: none"
+       href="/local/php_interface/1c_exchange.php?type=sale&mode=query"
+       target="_blank"
+    >Открыть выгрузку</a>
 <?
