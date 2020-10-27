@@ -575,12 +575,12 @@ pre.dnd-dump:hover {
   display: block;
   width: 100%;
 }
-#popap-login .errortext {
+ .errortext {
   width: 100%;
   display: none;
 }
 
-#popap-login .errortext.show {
+ .errortext.show {
   display: block;
 }
 .reg-text-complete {
