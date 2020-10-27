@@ -3610,6 +3610,32 @@ p.price-slider {
   transition: 0.1s;
 }
 
+.product-sidebar__cheap-reason {
+  background: #F2F2F2;
+  border-radius: 5px;
+  padding: 10px 13px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.product-sidebar__cheap-reason::after {
+  content: '';
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  background-color: #F2F2F2;
+  transform: rotate(45deg);
+  left: 50px;
+  top: -8px;
+}
+
+.product-sidebar__cheap-reason picture {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: #4F4F4F
+}
+
 @media screen and (max-width: 1200px) {
   .product-sidebar__cheaper,
   .product-sidebar__one-click {
