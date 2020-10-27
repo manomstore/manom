@@ -3644,6 +3644,10 @@ p.price-slider {
   border-radius: 5px;
 }
 
+.product-sidebar__cheap-reason p span {
+  white-space: nowrap;
+}
+
 @media screen and (max-width: 1200px) {
   .product-sidebar__cheaper,
   .product-sidebar__one-click {
