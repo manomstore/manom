@@ -12373,21 +12373,22 @@ a.ui-button:active,
 
 .watched__button::after {
   position: absolute;
-  content: '';
-  width: 11px;
-  height: 11px;
+  content: '' !important;
+  width: 11px !important;
+  height: 11px !important;
   border-left: 1.5px solid #000000;
   border-top: 1.5px solid #000000;
   transition: rotate(-45deg);
-  top: 14px;
-  left: 17px;
 }
 
 .watched__button-prev::after {
   transform: rotate(-45deg);
+  top: 14px;
+  left: 21px;
 }
 
 .watched__button-next::after {
   transform: rotate(135deg);
   top: 19px;
+  left: 17px;
 }
