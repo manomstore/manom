@@ -1188,27 +1188,27 @@ function formatBytes($size, $precision = 2)
         <div class="watched__slider swiper-container">
             <div class="swiper-wrapper">
                 <div class="watched__slide swiper-slide">
-                    <img src="img/category6.jpg" alt="">
+                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
                     <span>119 990 ₽ </span>
                     <p>Apple MacBook Air 13" QC i5 1,1 ГГц, 8 ГБ, 512 ГБ SSD, золотой</p>
                 </div>
                 <div class="watched__slide swiper-slide">
-                    <img src="category6.jpg" alt="">
+                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/category6.jpg" alt="">
                     <span>139 990 ₽ </span>
                     <p>Apple MacBook Pro 13" QC i5 1,4 ГГц, 8 ГБ, 512 ГБ SSD, Iris Plus 645, Touch Bar, серый космос</p>
                 </div>
                 <div class="watched__slide swiper-slide">
-                    <img src="category6.jpg" alt="">
+                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/category6.jpg" alt="">
                     <span>89 990 ₽</span>
                     <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серый космос</p>
                 </div>
                 <div class="watched__slide swiper-slide">
-                    <img src="category6.jpg" alt="">
+                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/category6.jpg" alt="">
                     <span>89 990 ₽ </span>
                     <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
                 </div>
                 <div class="watched__slide swiper-slide">
-                    <img src="category6.jpg" alt="">
+                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/category6.jpg" alt="">
                     <span>89 990 ₽ </span>
                     <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
                 </div>
