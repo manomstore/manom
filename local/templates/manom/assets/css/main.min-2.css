@@ -2435,8 +2435,8 @@ line-height: 24px;
 .catalog-filter .flipIn,
 .catalog-filter h1,
 .catalog-filter ul li {
-  -webkit-animation: flipdown 0.5s ease both;
-  animation: flipdown 0.5s ease both;
+  /* -webkit-animation: flipdown 0.5s ease both;
+  animation: flipdown 0.5s ease both; */
 }
 
 .catalog-filter .no-select,
