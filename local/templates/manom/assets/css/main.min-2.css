@@ -12319,6 +12319,10 @@ a.ui-button:active,
   width: 100%;
 }
 
+.watched__slider {
+  over
+}
+
 .watched .swiper-wrapper {
   flex-wrap: nowrap;
 }
@@ -12394,6 +12398,14 @@ a.ui-button:active,
   transition: rotate(-45deg);
 }
 
+.watched__button-prev {
+  left: 5px;
+}
+
+.watched__button-next {
+  right: 5px;
+}
+
 .watched__button-prev::after {
   transform: rotate(-45deg);
   top: 18px;
@@ -12404,4 +12416,5 @@ a.ui-button:active,
   transform: rotate(135deg);
   top: 18px;
   left: 17px;
+
 }
