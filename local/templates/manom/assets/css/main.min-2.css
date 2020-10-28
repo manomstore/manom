@@ -12340,6 +12340,12 @@ a.ui-button:active,
   text-align: left;
 }
 
+@media (max-width: 375px) {
+  .watched__slide {
+    width: 163px;
+  }
+}
+
 .watched__slider img {
   width: 175px;
   height: 116px;
@@ -12363,8 +12369,8 @@ a.ui-button:active,
 }
 
 .watched__button {
-  width: 48px;
-  height: 48px;
+  width: 48px !important;
+  height: 48px !important;
   background-color: #ffffff;
   border-radius: 50%;
   position: relative;
@@ -12383,12 +12389,12 @@ a.ui-button:active,
 
 .watched__button-prev::after {
   transform: rotate(-45deg);
-  top: 14px;
+  top: 18px;
   left: 21px;
 }
 
 .watched__button-next::after {
   transform: rotate(135deg);
-  top: 19px;
+  top: 18px;
   left: 17px;
 }
