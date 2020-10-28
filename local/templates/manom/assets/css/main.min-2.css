@@ -12354,6 +12354,13 @@ a.ui-button:active,
   margin-bottom: 16px;
 }
 
+@media (max-width: 375px) {
+  .watched__slider img   {
+    width: 163px;
+    height: 108px;
+  }
+}
+
 .watched__slider span {
   display: inline-block;
   width: 100%;
