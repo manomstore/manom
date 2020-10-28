@@ -458,14 +458,15 @@ function formatBytes($size, $precision = 2)
                     <div id="popap-buy-one-click" class="popap-login">
                         <h3 class="sci-login__title">Купить в один клик</h3>
                         <form class="sci-login__form js-one-click-order">
+                            <div class="form_err js-error-field"></div>
                             <div class="form_msg js-message-field shopcart-success">
                                 <h2 class="shopcart-success__title">
-                                    Ваш заказ #<?=$_REQUEST['ORDER_ID']?> успешно оформлен
+                                    Ваш заказ <span class="js-orderId"></span> успешно оформлен
                                 </h2>
                                 <p class="shopcart-success__text">
                                     В ближайшее время с вами свяжется наш менеджер для дальнейшего подверждения заказа.
                                 </p>
-                                <a class="shopcart-success__button" href="/">Класс, спасибо!</a>
+                                <a class="shopcart-success__button js-close-popup" href="/">Класс, спасибо!</a>
                             </div>
                             <input
                                 type="hidden"

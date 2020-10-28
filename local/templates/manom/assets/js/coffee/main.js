@@ -777,15 +777,22 @@ $(document).ready(function () {
     return false;
   });
 
+  $(document).on('click', '.js-one-click-order .js-close-popup', function (e) {
+    e.preventDefault();
+    $.fancybox.close()
+  });
+
   $(document).on('submit', '.js-one-click-order', function (e) {
     e.preventDefault();
     var $this,
       formData,
       formFields,
       $messageField,
+      $errorField,
       validFields;
     $this = $(this);
     $messageField = $this.find('.js-message-field');
+    $errorField = $this.find('.js-error-field');
     validFields = true;
     formData = {};
     formFields = $this.serializeArray();
@@ -809,28 +816,32 @@ $(document).ready(function () {
         dataType: 'json',
         data: formData,
         success: function (result) {
+          $errorField.html("").hide();
           if (result.success === true) {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push(
-              {
-                'event': 'fb-action-event',
-                'fb-action': 'Purchase',
-              },
+                {
+                  'event': 'fb-action-event',
+                  'fb-action': 'Purchase',
+                },
             );
             window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
             $.fn.refreshMiniCart();
+
+            result.orderId = Number(result.orderId);
+            if (result.orderId) {
+              $messageField.find(".js-orderId").text("#" + result.orderId);
+            }
             $messageField.show();
             $('.sci-login__title').hide();
             return $this.find('button, label, input').hide();
           } else {
-            $messageField.html('Произошла ошибка. Повторите попытку позднее.');
-            $messageField.show();
+            $errorField.html('Произошла ошибка. Повторите попытку позднее.').show();
           }
         },
       });
     } else {
-      $messageField.show();
-      $messageField.html('Заполните все поля для отправки.');
+      $errorField.html('Заполните все поля для отправки.').show();
     }
   });
 
