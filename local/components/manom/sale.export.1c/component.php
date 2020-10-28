@@ -1,6 +1,8 @@
 <?
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
+use \Manom\Sale\Export;
+
 $instance = \Bitrix\Main\Application::getInstance();
 $context = $instance->getContext();
 $request = $context->getRequest();
@@ -207,7 +209,7 @@ else
 		}
 		else
 		{
-			$export =  new CSaleExport();
+			$export =  new Export();
 		}
 
 		if (!$bCrmMode)
@@ -256,7 +258,7 @@ else
 				$arFilter["LID"] = $arParams["SITE_LIST"];
 
 			if(COption::GetOptionString("sale", "last_export_time_committed_".$curPage, "") <> '')
-				$arFilter[">=DATE_UPDATE"] = ConvertTimeStamp(COption::GetOptionString("sale", "last_export_time_committed_".$curPage, ""), "FULL");
+//				$arFilter[">=DATE_UPDATE"] = ConvertTimeStamp(COption::GetOptionString("sale", "last_export_time_committed_".$curPage, ""), "FULL");
 			COption::SetOptionString("sale", "last_export_time_".$curPage, time());
 		}
 		else
@@ -273,7 +275,7 @@ else
 
 				$arParams["MODIFICATION_LABEL"] += ($arParams["ZZZ"] - date("Z"));
 
-				$arFilter[">DATE_UPDATE"] = ConvertTimeStamp($arParams["MODIFICATION_LABEL"], "FULL");
+//				$arFilter[">DATE_UPDATE"] = ConvertTimeStamp($arParams["MODIFICATION_LABEL"], "FULL");
 			}
 
 			$arParams["IMPORT_SIZE"] = intval($arParams["IMPORT_SIZE"]);
@@ -379,7 +381,8 @@ else
 	{
 		if($_COOKIE[COption::GetOptionString("sale", "export_session_name_".$curPage, "")] == COption::GetOptionString("sale", "export_session_id_".$curPage, ""))
 		{
-			$_SESSION["BX_CML2_EXPORT"][CSaleExport::getOrderPrefix()] = 0;
+			$_SESSION["BX_CML2_EXPORT"][Export::getOrderPrefix()] = 0;
+			Export::setExportedOrders();
 
 			COption::SetOptionString("sale", "last_export_time_committed_".$curPage, COption::GetOptionString("sale", "last_export_time_".$curPage, ""));
 			global $CACHE_MANAGER;

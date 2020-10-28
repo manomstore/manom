@@ -733,12 +733,13 @@ class MyHandlerClass
         } catch (\Exception $e) {
         }
 
-        $isOnlinePayment = current($order->getPaySystemIdList()) === \Helper::ONLINE_PAYMENT;
+        if ($order) {
+            $isOnlinePayment = current($order->getPaySystemIdList()) === \Helper::ONLINE_PAYMENT;
 
-        if ($event === "SALE_NEW_ORDER" && $isOnlinePayment && !$order->isPaid()) {
-            return false;
+            if ($event === "SALE_NEW_ORDER" && $isOnlinePayment && !$order->isPaid()) {
+                return false;
+            }
         }
-
         return true;
     }
 
@@ -948,41 +949,6 @@ class MyHandlerClass
         Loader::includeModule("catalog");
         $fieldValues = $arFields->getFieldValues();
         $currentPaySystem = (int)$fieldValues["PAY_SYSTEM_ID"];
-
-        $isOnlinePayment = Helper::ONLINE_PAYMENT === $currentPaySystem;
-        $dateOrder = false;
-
-        if ($isOnlinePayment) {
-            if ($arFields->isPaid()) {
-                $payment = $arFields->getPaymentCollection()->current();
-
-                if (!empty($payment)) {
-                    $dateOrder = $payment->getField("DATE_PAID");
-                }
-
-                if (!empty($dateOrder)) {
-                    $dateOrder = $dateOrder->toString();
-                }
-            }
-        } else {
-            $dateOrder = $arFields->getField("DATE_INSERT");
-
-            if (!empty($dateOrder)) {
-                $dateOrder = $dateOrder->toString();
-            }
-        }
-
-
-        $dataLastExchange = ConvertTimeStamp(
-            \COption::GetOptionString("sale", "last_export_time_committed_/local/php_interface/1", ""),
-            "FULL"
-        );
-
-        $dateExported = $dateOrder && (strtotime($dateOrder) < strtotime($dataLastExchange));
-
-        if (!$arFields->isNew() && $dateExported && !$arFields->isExternal()) {
-            $arFields->setField("EXTERNAL_ORDER", "Y");
-        }
 
         $registry = Registry::getInstance(Registry::REGISTRY_TYPE_ORDER);
 
