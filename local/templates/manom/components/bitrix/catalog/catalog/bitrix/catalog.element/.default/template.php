@@ -437,9 +437,9 @@ function formatBytes($size, $precision = 2)
                     <div class="product-sidebar__buttons">
                         <?php
                         $class = 'product-sidebar__cheaper';
-                        if (empty($arResult['CHEAPER'])) {
-                            $class .= ' product-sidebar__cheaper__disbled';
-                        }
+                        // if (empty($arResult['CHEAPER'])) {
+                        //     $class .= ' product-sidebar__cheaper__disbled';
+                        // }
                         ?>
                         <div class="<?=$class?>">
                             Купить дешевле
@@ -453,6 +453,10 @@ function formatBytes($size, $precision = 2)
                         >
                             Купить в один клик
                         </div>
+                    </div>
+
+                    <div class="product-sidebar__cheap-reason">
+                        <p>Этот товар доступен для продажи с незначительными повреждениями по заниженной цене. За подробной информацией обращайтесь по телефону <span>8 (495) 150-64-50</span></p>
                     </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
