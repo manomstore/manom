@@ -104,8 +104,8 @@ class Import
                 $airtableData[$section] = $api->getFromSection($section);
             }
         }
-
         $this->importDataJson = json_encode($airtableData);
+        $this->trimFields($airtableData);
 
 
         $airtableIdToXmlId = $this->getAirtableIdToXmlIdLinks($airtableData);
@@ -618,5 +618,24 @@ class Import
         if (!empty($error) && is_string($error)) {
             $this->errors[] = $error;
         }
+    }
+
+    /**
+     * @param array $airtableData
+     */
+    private function trimFields(array &$airtableData): void
+    {
+        foreach ($airtableData as &$section) {
+            foreach ($section as &$item) {
+                foreach ($item["fields"] as &$field) {
+                    if (is_string($field)) {
+                        $field = trim($field);
+                    }
+                }
+                unset($field);
+            }
+            unset($item);
+        }
+        unset($section);
     }
 }
