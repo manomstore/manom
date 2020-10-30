@@ -95,10 +95,10 @@ $this->setFrameMode(true);
                                     <div
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$item['id']?>'
-                                            title="в избранное"
+                                            title="Добавить в избранное"
                                     ></div>
                                 </label>
-                                <div
+                                <div title="Добавить в сравнение"
                                         class="p-nav-top__list addToCompareList <?=$class2?>"
                                         data-id='<?=$item['id']?>'
                                 ></div>
@@ -202,10 +202,10 @@ $this->setFrameMode(true);
                                     <div
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$item['id']?>'
-                                            title="в избранное"
+                                            title="Добавить в избранное"
                                     ></div>
                                 </label>
-                                <div
+                                <div title="Добавить в сравнение"
                                         class="p-nav-top__list addToCompareList <?=$class2?>"
                                         data-id='<?=$item['id']?>'
                                 ></div>
@@ -341,7 +341,7 @@ $this->setFrameMode(true);
                                             В&nbsp;избранное
                                         </div>
                                     </label>
-                                    <div
+                                    <div title="Добавить в сравнение"
                                             class="cb-line-nav-top__list addToCompareList <?=$class2?>"
                                             data-id='<?=$item['id']?>'
                                     >

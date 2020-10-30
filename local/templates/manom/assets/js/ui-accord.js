@@ -13,8 +13,12 @@ $(function () {
       }
     });
 
-    $(".product-questions").click(function () {
+    $(".product-comments").click(function () {
       $("#ui-id-3").trigger("click");
+    });
+
+    $(".product-questions").click(function () {
+      $("#ui-id-4").trigger("click");
     });
   }
 

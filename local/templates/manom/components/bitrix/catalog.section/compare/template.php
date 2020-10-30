@@ -69,7 +69,7 @@ $this->setFrameMode(true);
                                         <div
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$item['id']?>'
-                                            title="в избранное"
+                                            title="Добавить в избранное"
                                         ></div>
                                     </label>
                                 </div>

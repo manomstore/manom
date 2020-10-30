@@ -119,6 +119,11 @@ AddEventHandler(
     Array("MyHandlerClass", "OnAfterIBlockPropertyDeleteHandler")
 );
 
+AddEventHandler(
+    "main",
+    "OnChangeFile",
+    Array("MyHandlerClass", "createIncludeForStaticPage")
+);
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUpdate"));
@@ -1118,6 +1123,37 @@ class MyHandlerClass
         if ($link) {
             AirtablePropertiesLinkTable::delete($link["id"]);
         }
+    }
+
+    function createIncludeForStaticPage($path)
+    {
+        $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+
+        $createPathFile = $request->get("path") . "/" . $request->get("filename");
+
+        $needAddIncForStatic = $request->getRequestedPage() === "/bitrix/admin/fileman_file_edit.php"
+            && $request->isPost()
+            && $request->get("template") === "static.php"
+            && $request->get("new") === "y"
+            && !empty($request->get("filename"));
+
+        $contentFile = $_SERVER["DOCUMENT_ROOT"] . "/include/static_" . $request->get("filename");
+
+        if ($needAddIncForStatic
+            && $createPathFile === $path
+            && !file_exists($contentFile)) {
+
+            $dummyContent = <<<CONTENT
+<h1>Заголовок</h1>
+<h2>Подзаголовок</h2>
+<p>
+ Содержимое страницы
+</p>
+CONTENT;
+
+            file_put_contents($contentFile, $dummyContent);
+        }
+        return true;
     }
 }
 
