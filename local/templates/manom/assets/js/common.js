@@ -541,13 +541,6 @@ $(function () {
     }
   });
 
-  // дизактивирует лэйбл у неактивного checkput
-
-  $('.catalog-filter__checkbox.disabled').parents('label').addClass('disabled');
-});
-
-
-
   $(".popup-login__form").on("submit", function(e) {
     e.preventDefault();
     var email = this["USER_LOGIN"].value;

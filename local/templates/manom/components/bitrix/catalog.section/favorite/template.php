@@ -52,10 +52,10 @@ $this->setFrameMode(true);
                 </div>
             </div>
         </div>
-        <?php if ($arParams['AJAX']) {
-            $GLOBALS['APPLICATION']->RestartBuffer();
-        } ?>
         <div id='PROPDS_BLOCK'>
+            <?php if ($arParams['AJAX']) {
+                $GLOBALS['APPLICATION']->RestartBuffer();
+            } ?>
             <?
             \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true, "productId");
             ?>
@@ -383,10 +383,10 @@ $this->setFrameMode(true);
                 <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
             </div>
             <?=$arResult['NAV_STRING']?>
+            <?php if ($arParams['AJAX']) {
+                die();
+            } ?>
         </div>
-        <?php if ($arParams['AJAX']) {
-            die();
-        } ?>
         <?php /*
         <div class="cb-nav-bottom">
             <div class="cb-nav-pagination">
