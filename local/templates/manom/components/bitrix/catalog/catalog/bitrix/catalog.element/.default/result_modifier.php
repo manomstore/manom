@@ -190,6 +190,22 @@ if (!empty($instructions)) {
     $arResult["ATTACH_DOCS"]["INSTRUCTIONS"] = $instructions;
 }
 
+$labels = [];
+
+if ($arResult["DISPLAY_PROPERTIES"]["NEW_PRODUCT"]["VALUE"] === "Да") {
+    $labels["NEW"] = true;
+}
+
+if ($arResult["DISPLAY_PROPERTIES"]["PRODUCT_OF_THE_DAY"]["VALUE"] === "Да") {
+    $labels["PRODUCT_DAY"] = true;
+}
+
+if ($arResult["DISPLAY_PROPERTIES"]["SELL_PROD"]["VALUE"] === "Да") {
+    $labels["SALE"] = true;
+}
+
+$arResult["LABELS"] = $labels;
+
 function getCheaper($productId, $iblockId)
 {
     $cheaper = array();

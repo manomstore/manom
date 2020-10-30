@@ -534,7 +534,9 @@ $(document).ready(function () {
 
               if (!--$count) {
                 if (!phoneIsValid) {
-                  return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000);
+                  $(document).find('.push_up_item').addClass('push_up_item--error');
+                  return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000, undefined, 'push_up_item--error');
+
                 }
                 if ($formIsValid) {
                   $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -552,10 +554,10 @@ $(document).ready(function () {
                 } else {
                   if (!isEmailValid) {
                     return $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message',
-                      false, 5000);
+                      false, 5000, undefined, 'push_up_item--error');
                   } else {
                     return $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
-                      'message', false, 5000);
+                      'message', false, 5000, undefined, 'push_up_item--warning');
                   }
                 }
               }
@@ -650,7 +652,7 @@ $(document).ready(function () {
               if ($formIsValid) {
                 if (!isValidDeliveryTime() && $('#ID_DELIVERY_ID_8').prop('checked')) {
                   return $.fn.setPushUp('Ошибка', 'Дата или время доставки указаны некорректно', false, 'message',
-                      false, 5000);
+                      false, 5000, undefined, 'push_up_item--error');
                 }
 
                 $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -668,18 +670,18 @@ $(document).ready(function () {
               } else {
                 if (!isDeliveryChecked) {
                   $.fn.setPushUp('Не выбрана доставка', 'Необходимо выбрать доставку из списка', false, 'message',
-                    false, 5000);
+                    false, 5000, undefined, 'push_up_item--warning');
                 } else {
                   if (!isEmailValid) {
                     $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message', false,
-                      5000);
+                      5000, undefined, 'push_up_item--error');
                   } else {
                     if (addressInvalid){
                       $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
-                          'message', false, 5000);
+                          'message', false, 5000, undefined, 'push_up_item--warning');
                     }else {
-                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
-                          'message', false, 5000);
+                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению не были заполнены', false,
+                          'message', false, 5000, undefined, 'push_up_item--warning');
                     }
                   }
                 }
@@ -779,15 +781,22 @@ $(document).ready(function () {
     return false;
   });
 
+  $(document).on('click', '.js-one-click-order .js-close-popup', function (e) {
+    e.preventDefault();
+    $.fancybox.close()
+  });
+
   $(document).on('submit', '.js-one-click-order', function (e) {
     e.preventDefault();
     var $this,
       formData,
       formFields,
       $messageField,
+      $errorField,
       validFields;
     $this = $(this);
     $messageField = $this.find('.js-message-field');
+    $errorField = $this.find('.js-error-field');
     validFields = true;
     formData = {};
     formFields = $this.serializeArray();
@@ -811,28 +820,32 @@ $(document).ready(function () {
         dataType: 'json',
         data: formData,
         success: function (result) {
+          $errorField.html("").hide();
           if (result.success === true) {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push(
-              {
-                'event': 'fb-action-event',
-                'fb-action': 'Purchase',
-              },
+                {
+                  'event': 'fb-action-event',
+                  'fb-action': 'Purchase',
+                },
             );
             window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
             $.fn.refreshMiniCart();
-            $messageField.html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
+
+            result.orderId = Number(result.orderId);
+            if (result.orderId) {
+              $messageField.find(".js-orderId").text("#" + result.orderId);
+            }
             $messageField.show();
+            $('.sci-login__title').hide();
             return $this.find('button, label, input').hide();
           } else {
-            $messageField.html('Произошла ошибка. Повторите попытку позднее.');
-            $messageField.show();
+            $errorField.html('Произошла ошибка. Повторите попытку позднее.').show();
           }
         },
       });
     } else {
-      $messageField.show();
-      $messageField.html('Заполните все поля для отправки.');
+      $errorField.html('Заполните все поля для отправки.').show();
     }
   });
 
@@ -1764,7 +1777,7 @@ $(document).ready(function () {
         if (!numberPhoneValidation(phone)) {
           $(this).removeClass('is-success');
           $(this).addClass('is-error');
-          return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000);
+          return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000, undefined, 'push_up_item--error');
         } else {
           $(this).removeClass('is-error');
           $(this).addClass('is-success');
@@ -1943,7 +1956,7 @@ $(document).ready(function () {
   $(document).on('checkoutEvent', function () {
     if (!document.querySelector('.js-shopcart-agree').checked) {
       $.fn.setPushUp('Ошибка', 'Чтобы оформить заказ необходимо активировать чекбокс согласия', false, 'message', false,
-        5000);
+        5000, undefined, 'push_up_item--error');
       return false;
     }
 
@@ -2149,12 +2162,12 @@ $(document).ready(function () {
     var email = $(this).closest('section').find('.js-email-field').val();
 
     if (email.length <= 0) {
-      $.fn.setPushUp('Ошибка авторизации', 'Не указан e-mail', false, 'message', false, 5000);
+      $.fn.setPushUp('Ошибка авторизации', 'Не указан e-mail', false, 'message', false, 5000, undefined, 'push_up_item--error');
       return false;
     }
 
     if (password.length <= 0) {
-      $.fn.setPushUp('Ошибка авторизации', 'Не указан пароль', false, 'message', false, 5000);
+      $.fn.setPushUp('Ошибка авторизации', 'Не указан пароль', false, 'message', false, 5000, undefined, 'push_up_item--error');
       return false;
     }
 
@@ -2214,6 +2227,8 @@ $(document).ready(function () {
               'message',
               false,
               5000,
+              undefined,
+              'push_up_item--success'
             );
           } else {
             $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
@@ -2226,6 +2241,8 @@ $(document).ready(function () {
                 'message',
                 false,
                 5000,
+                undefined,
+                'push_up_item--error'
               );
             }
           }
@@ -2854,7 +2871,7 @@ $.fn.updateDateSaleOrder = function () {
   }
 
   soModule.find('.errortext').each(function () {
-    return $.fn.setPushUp('Ошибка', $(this).text(), false, 'message', false, 5000);
+    return $.fn.setPushUp('Ошибка', $(this).text(), false, 'message', false, 5000, undefined, 'push_up_item--error');
   });
 
   // Обновляем маску телефона
