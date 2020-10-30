@@ -88,6 +88,21 @@ $this->setFrameMode(true);
                                             data-product-id="<?= $item['id'] ?>"
                                             data-href="<?=$item['url']?>"
                                     >
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <p class="p-label-top active">
+                                <?php if ($item['productOfTheDay']): ?>
+                                    Товар дня
+                                <?php endif; ?>
+                            </p>
+                            <div class="cb-single-nav-top">
+                                <label>
+                                    <input
+                                            class="p-nav-top__checkbox"
+                                            type="checkbox"
+                                        <?= $item['inFavoriteAndCompare'] ? 'checked' : '' ?>
+                                    >
                                     <div
                                             class="p-nav-top__favorite addToFavoriteList <?= $class1 ?>"
                                             data-id='<?= $item['id'] ?>'
