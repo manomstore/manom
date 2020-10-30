@@ -9,6 +9,9 @@ $APPLICATION->SetTitle('Каталог');
 Helper::processEmptySearchPage();
 
 global $catalogFilter;
+if (!is_array($catalogFilter)) {
+    $catalogFilter = [];
+}
 $catalogFilter = array_merge($catalogFilter, array('>CATALOG_PRICE_1' => 0));
 
 $properties = Content::getPropertyCodes();
