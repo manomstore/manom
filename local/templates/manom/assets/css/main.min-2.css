@@ -2435,8 +2435,8 @@ line-height: 24px;
 .catalog-filter .flipIn,
 .catalog-filter h1,
 .catalog-filter ul li {
-  -webkit-animation: flipdown 0.5s ease both;
-  animation: flipdown 0.5s ease both;
+  /* -webkit-animation: flipdown 0.5s ease both;
+  animation: flipdown 0.5s ease both; */
 }
 
 .catalog-filter .no-select,
@@ -2494,6 +2494,11 @@ line-height: 24px;
   cursor: pointer;
 }
 
+/* .catalog-filter .catalog-filter__item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+} */
+
 .catalog-filter .catalog-filter__item:hover:before {
   border-color: #79b700;
 }
@@ -2514,6 +2519,7 @@ line-height: 24px;
   margin-right: 8px;
 }
 
+
 .catalog-filter .catalog-filter__checkbox {
   display: none;
 }
@@ -2522,6 +2528,13 @@ line-height: 24px;
   .catalog-filter__checkbox:checked
   + .catalog-filter__item:before {
   color: #79b700;
+}
+
+.catalog-filter
+  .catalog-filter__checkbox.disabled
+  + .catalog-filter__item {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .catalog-filter ul {
@@ -2537,6 +2550,10 @@ line-height: 24px;
   margin: 0;
   padding: 10px 0;
   border-bottom: 1px dotted #dce7eb;
+}
+
+.catalog-filter__li label.disabled {
+  pointer-events: none;
 }
 
 .catalog-filter ul li:last-of-type {

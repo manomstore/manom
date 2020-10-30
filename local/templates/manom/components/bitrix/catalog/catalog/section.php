@@ -122,6 +122,11 @@ function getSection($params): array
                     </div>
                 </div>
             </div>
+            <?php
+            if ($_REQUEST['ajaxCal'] === 'Y') {
+                $GLOBALS['APPLICATION']->RestartBuffer();
+            }
+            ?>
             <?php $APPLICATION->IncludeComponent(
                 'bitrix:catalog.smart.filter',
                 '',
@@ -130,6 +135,7 @@ function getSection($params): array
                     'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                     'SECTION_ID' => $section['id'],
                     'FILTER_NAME' => $arParams['FILTER_NAME'],
+                    'PREFILTER_NAME' => $arParams['FILTER_NAME'],
                     'PRICE_CODE' => $arParams['FILTER_PRICE_CODE'],
                     'CACHE_TYPE' => $arParams['CACHE_TYPE'],
                     'CACHE_TIME' => $arParams['CACHE_TIME'],
@@ -152,11 +158,6 @@ function getSection($params): array
                 $component,
                 array('HIDE_ICONS' => 'Y')
             ); ?>
-            <?php
-            if ($_REQUEST['ajaxCal'] === 'Y') {
-                $GLOBALS['APPLICATION']->RestartBuffer();
-            }
-            ?>
             <?php $APPLICATION->IncludeComponent(
                 'bitrix:catalog.section',
                 '',
