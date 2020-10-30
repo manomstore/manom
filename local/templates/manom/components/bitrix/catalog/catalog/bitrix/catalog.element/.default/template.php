@@ -1183,82 +1183,86 @@ function formatBytes($size, $precision = 2)
         </div>
     </div>
 
-    <div class="watched">
-        <h2 class="watched__title">Недавно просмотренные товары</h2>
-        <div class="watched__slider swiper-container">
-            <div class="swiper-wrapper">
-                <div class="watched__slide swiper-slide">
-                    <a href="#">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <div class="watched__price">
-                            <?= number_format($item['price'], 0, '', ' ') ?>
-                            <span> ₽</span>
-                            <div class="watched__oldprice">
-                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
-                            </div>
-                        </div>
-                        <p>Apple MacBook Air 13" QC i5 1,1 ГГц, 8 ГБ, 512 ГБ SSD, золотой</p>
-                    </a>
-                </div>
-                <div class="watched__slide swiper-slide">
-                    <a href="#">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <div class="watched__price">
-                            <?= number_format($item['price'], 0, '', ' ') ?>
-                            <span> ₽</span>
-                            <div class="watched__oldprice">
-                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
-                            </div>
-                        </div>
-                        <p>Apple MacBook Pro 13" QC i5 1,4 ГГц, 8 ГБ, 512 ГБ SSD, Iris Plus 645, Touch Bar, серый космос</p>
-                    </a>
-                </div>
-                <div class="watched__slide swiper-slide">
-                    <a href="#">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <div class="watched__price">
-                            <?= number_format($item['price'], 0, '', ' ') ?>
-                            <span> ₽</span>
-                            <div class="watched__oldprice">
-                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
-                            </div>
-                        </div>
-                        <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серый космос</p>
-                    </a>
-                </div>
-                <div class="watched__slide swiper-slide">
-                    <a href="#">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <div class="watched__price">
-                            <?= number_format($item['price'], 0, '', ' ') ?>
-                            <span> ₽</span>
-                            <div class="watched__oldprice">
-                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
-                            </div>
-                        </div>
-                        <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
-                    </a>
-                </div>
-                <div class="watched__slide swiper-slide">
-                    <a href="#">
-                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <div class="watched__price">
-                            <?= number_format($item['price'], 0, '', ' ') ?>
-                            <span> ₽</span>
-                            <div class="watched__oldprice">
-                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
-                            </div>
-                        </div>
-                        <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
-                    </a>
-                </div>
-            </div>
+    <?
+    global $viewedFilter;
+    $viewedFilter = [
+        '!ID' => $arResult['ID'],
+        '>CATALOG_PRICE_1' => 0,
+    ];
 
-            <div class="swiper-button-prev watched__button watched__button-prev visually-hidden"></div>
-            <div class="swiper-button-next watched__button watched__button-next visually-hidden"></div>
-
-        </div>
-    </div>
+    $APPLICATION->IncludeComponent(
+        "bitrix:catalog.products.viewed",
+        "product_card",
+        Array(
+            "ACTION_VARIABLE" => "",
+            "ADDITIONAL_PICT_PROP_2" => "MORE_PHOTO",
+            "ADDITIONAL_PICT_PROP_3" => "-",
+            "ADD_PROPERTIES_TO_BASKET" => "Y",
+            "ADD_TO_BASKET_ACTION" => "BUY",
+            "BASKET_URL" => "",
+            "CACHE_GROUPS" => "Y",
+            "CACHE_TIME" => "3600",
+            "CACHE_TYPE" => "A",
+            "CART_PROPERTIES_2" => array("NEWPRODUCT","NEWPRODUCT,SALELEADER",""),
+            "CART_PROPERTIES_3" => array("COLOR_REF","SIZES_SHOES",""),
+            "CONVERT_CURRENCY" => "Y",
+            "CURRENCY_ID" => "RUB",
+            "DATA_LAYER_NAME" => "dataLayer",
+            "DEPTH" => "",
+            "DISCOUNT_PERCENT_POSITION" => "",
+            "ENLARGE_PRODUCT" => "",
+            "ENLARGE_PROP_2" => "",
+            "HIDE_NOT_AVAILABLE" => "Y",
+            "HIDE_NOT_AVAILABLE_OFFERS" => "Y",
+            "FILTER_NAME" => "viewedFilter",
+            "IBLOCK_ID" => $arParams["IBLOCK_ID"],
+            "IBLOCK_MODE" => "single",
+            "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
+            "LABEL_PROP_2" => array("NEWPRODUCT"),
+            "LABEL_PROP_MOBILE_2" => array(),
+            "LABEL_PROP_POSITION" => "top-left",
+            "MESS_BTN_ADD_TO_BASKET" => "В корзину",
+            "MESS_BTN_BUY" => "Купить",
+            "MESS_BTN_DETAIL" => "Подробнее",
+            "MESS_BTN_SUBSCRIBE" => "Подписаться",
+            "MESS_NOT_AVAILABLE" => "Нет в наличии",
+            "MESS_RELATIVE_QUANTITY_FEW" => "мало",
+            "MESS_RELATIVE_QUANTITY_MANY" => "много",
+            "MESS_SHOW_MAX_QUANTITY" => "Наличие",
+            "OFFER_TREE_PROPS_3" => array("COLOR_REF","SIZES_SHOES","SIZES_CLOTHES"),
+            "PAGE_ELEMENT_COUNT" => 10,
+            "PARTIAL_PRODUCT_PROPERTIES" => "N",
+            "PRICE_CODE" => array('Цена продажи', 'РРЦ'),
+            "PRICE_VAT_INCLUDE" => "Y",
+            "PRODUCT_BLOCKS_ORDER" => "price,props,quantityLimit,sku,quantity,buttons,compare",
+            "PRODUCT_ID_VARIABLE" => "id",
+            "PRODUCT_PROPS_VARIABLE" => "prop",
+            "PRODUCT_QUANTITY_VARIABLE" => "",
+            "PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'3','BIG_DATA':false},{'VARIANT':'3','BIG_DATA':false}]",
+            "PRODUCT_SUBSCRIPTION" => "Y",
+            "PROPERTY_CODE_" . $arParams["IBLOCK_ID"] => array("MORE_PHOTO"),
+            "PROPERTY_CODE_MOBILE_2" => array(),
+            "RELATIVE_QUANTITY_FACTOR" => "5",
+            "SECTION_CODE" => "",
+            "SECTION_ELEMENT_CODE" => "",
+            "SECTION_ELEMENT_ID" => "",
+            "SECTION_ID" => "",
+            "SHOW_CLOSE_POPUP" => "N",
+            "SHOW_DISCOUNT_PERCENT" => "Y",
+            "SHOW_FROM_SECTION" => "N",
+            "SHOW_MAX_QUANTITY" => "N",
+            "SHOW_OLD_PRICE" => "N",
+            "SHOW_PRICE_COUNT" => "1",
+            "SHOW_PRODUCTS_2" => "N",
+            "SHOW_SLIDER" => "Y",
+            "SLIDER_INTERVAL" => "3000",
+            "SLIDER_PROGRESS" => "Y",
+            "TEMPLATE_THEME" => "blue",
+            "USE_ENHANCED_ECOMMERCE" => "N",
+            "USE_PRICE_COUNT" => "N",
+            "USE_PRODUCT_QUANTITY" => "N"
+        )
+    );?>
 </main>
 
 <?php if ($arResult['PROPERTIES']['RECOM']['VALUE']): ?>
