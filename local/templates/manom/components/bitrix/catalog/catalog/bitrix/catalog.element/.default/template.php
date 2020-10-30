@@ -1198,6 +1198,13 @@ function formatBytes($size, $precision = 2)
                     <a href="#">
                         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
                         <span>139 990 ₽ </span>
+                        <div class="watched__price">
+                            <?= number_format($item['price'], 0, '', ' ') ?>
+                            <span> ₽</span>
+                            <div class="watched__oldprice">
+                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
+                            </div>
+                        </div>
                         <p>Apple MacBook Pro 13" QC i5 1,4 ГГц, 8 ГБ, 512 ГБ SSD, Iris Plus 645, Touch Bar, серый космос</p>
                     </a>
                 </div>

@@ -12319,8 +12319,8 @@ a.ui-button:active,
   width: 100%;
 }
 
-.watched__slider {
-  over
+.watched a {
+  color: inherit;
 }
 
 .watched .swiper-wrapper {
@@ -12343,6 +12343,8 @@ a.ui-button:active,
   color: #000000;
   text-align: left;
 }
+
+
 
 @media (max-width: 375px) {
   .watched__slide {
@@ -12373,10 +12375,34 @@ a.ui-button:active,
   line-height: 22px;
 }
 
+
+.watched__price {
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 22px;
+  text-align: left;
+}
+
+.watched__price span {
+  font-size: 22px;
+  margin-left: -3px;
+}
+
+.watched__oldprice {
+  font-size: 14px;
+  color: #b3b3b3;
+  text-decoration: line-through;
+}
+
 .watched__slider p {
   font-weight: normal;
   font-size: 15px;
   line-height: 22px;
+  transition: color 0.2s;
+}
+
+.watched__slide:hover p {
+  color: #78b700;
 }
 
 .watched__button {
