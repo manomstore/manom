@@ -92,6 +92,25 @@ function formatBytes($size, $precision = 2)
                 </svg>
             </div>
         <?php endif; ?>
+        <? if (!empty($arResult["LABELS"])): ?>
+            <div class="product-labels">
+                <? if ($arResult["LABELS"]["NEW"]): ?>
+                    <div class="product-label product-label--new">
+                        <span>Новинка</span>
+                    </div>
+                <? endif; ?>
+                <? if ($arResult["LABELS"]["PRODUCT_DAY"]): ?>
+                    <div class="product-label product-label--day-offer">
+                        <span>Товар дня</span>
+                    </div>
+                <? endif; ?>
+                <? if ($arResult["LABELS"]["SALE"]): ?>
+                    <div class="product-label product-label--sale">
+                        <span>Распродажа</span>
+                    </div>
+                <? endif; ?>
+            </div>
+        <? endif; ?>
     </div>
 
     <div class="product-nav2">

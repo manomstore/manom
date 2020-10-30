@@ -1563,3 +1563,39 @@ body div.search-popup-row-active {
   transition: visibility 0s ease, opacity 0.15s ease, transform 0.15s ease,
     -webkit-transform 0.15s ease;
 }
+
+.product-labels {
+  display: flex;
+  margin-left: 16px;
+}
+
+.product-label {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #FFFFFF;
+  margin-right: 16px;
+  border-radius: 3px;
+  padding: 3px 7px;
+}
+
+@media only screen and (max-width: 767px) {
+  .product-labels {
+    display: flex;
+    order: -1;
+    width: 100%;
+    margin: 0 0 16px 0;
+  }
+}
+
+.product-label--new {
+  background-color: #219FED;
+}
+
+.product-label--day-offer {
+  background-color: #9A6CE5;
+}
+
+.product-label--sale {
+  background-color: #FF5F00;
+}
