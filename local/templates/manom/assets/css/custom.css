@@ -299,8 +299,13 @@ pre.dnd-dump:hover {
   display: block;
   width: 100%;
 }
-#popap-login .errortext {
+ .errortext {
   width: 100%;
+  display: none;
+}
+
+ .errortext.show {
+  display: block;
 }
 .reg-text-complete {
   margin: 10px 0;
