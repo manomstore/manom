@@ -65,28 +65,46 @@ $this->setFrameMode(true);
                 </div>
             </div>
         </div>
-    </div>
-    <?
-    \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
-    ?>
-    <div id='PROPDS_BLOCK'>
-        <div class="cb-single no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-single' ? 'style="display: flex;"' : ''?>>
-            <?php foreach ($arResult['ITEMS'] as $item): ?>
-                <?php
-                $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
-                $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
-                ?>
-                <div class="cb-single__item col-6">
-                    <div class="product-card cb-single-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
-                        <div class="product-card__img cb-single-card__img">
-                            <?php foreach ($item['images'] as $image): ?>
-                                <div class="product-card__slide cb-single-card__slide">
-                                    <img
-                                            src="<?=$image['src']?>"
-                                            alt="<?=$item['name']?>"
-                                            data-product-list="section"
-                                            data-product-id="<?= $item['id'] ?>"
-                                            data-href="<?=$item['url']?>"
+        <?
+        \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
+        ?>
+        <div id='PROPDS_BLOCK'>
+            <?php if ($arParams['AJAX']) {
+                $APPLICATION->RestartBuffer();
+            } ?>
+
+            <div class="cb-single no-gutters" <?= $arParams['BLOCK_STYLE'] === 'v-single' ? 'style="display: flex;"' : '' ?>>
+                <?php foreach ($arResult['ITEMS'] as $item): ?>
+                    <?php
+                    $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
+                    $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
+                    ?>
+                    <div class="cb-single__item col-6">
+                        <div class="product-card cb-single-card <?= $item['canBuy'] ? 'enable' : 'disable' ?>">
+                            <div class="product-card__img cb-single-card__img">
+                                <?php foreach ($item['images'] as $image): ?>
+                                    <div class="product-card__slide cb-single-card__slide">
+                                        <img
+                                                src="<?= $image['src'] ?>"
+                                                alt="<?= $item['name'] ?>"
+                                                data-product-list="section"
+                                                data-product-id="<?= $item['id'] ?>"
+                                                data-href="<?= $item['url'] ?>"
+                                        >
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <p class="p-label-top active">
+                                <?php if ($item['productOfTheDay']): ?>
+                                    Товар дня
+                                <?php endif; ?>
+                            </p>
+                            <div class="cb-single-nav-top">
+                                <label>
+                                    <input
+                                            class="p-nav-top__checkbox"
+                                            type="checkbox"
+                                        <?= $item['inFavoriteAndCompare'] ? 'checked' : '' ?>
                                     >
                                     <div
                                             class="p-nav-top__favorite addToFavoriteList <?= $class1 ?>"
@@ -388,12 +406,7 @@ $this->setFrameMode(true);
                 die();
             } ?>
         </div>
-        <?=$arResult['NAV_STRING']?>
-    </div>
-    <?php if ($arParams['AJAX']) {
-        die();
-    } ?>
-    <?php /*
+        <?php /*
     <div class="cb-nav-bottom">
         <div class="cb-nav-pagination">
             <div class="cb-nav-pagination__item active">1</div>

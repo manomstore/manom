@@ -44,8 +44,8 @@ global $glob_sectionInfo, $new_offer_filter;
 
         </div>
     </div>
-    <?if($_REQUEST['ajaxCal'] == 'Y') $GLOBALS['APPLICATION']->RestartBuffer();?>
     <div id='PROPDS_BLOCK'>
+        <?if($_REQUEST['ajaxCal'] == 'Y') $GLOBALS['APPLICATION']->RestartBuffer();?>
         <?//print_r($new_offer_filter);?>
         <div class="cb-single no-gutters"<?=$_REQUEST['styleBlock'] == 'v-single' ? 'style="display: flex;"' : '';?>>
             <?foreach ($arResult['ITEMS'] as $key => $arItems) {?>
@@ -356,8 +356,8 @@ global $glob_sectionInfo, $new_offer_filter;
 
         <!-- Пагинация -->
         <?=$arResult["NAV_STRING"]?>
+        <?if($_REQUEST['ajaxCal'] == 'Y') die();?>
     </div>
-    <?if($_REQUEST['ajaxCal'] == 'Y') die();?>
     <!-- <div class="cb-nav-bottom">
         <div class="cb-nav-pagination">
             <div class="cb-nav-pagination__item active">1</div>
