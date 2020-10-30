@@ -8,11 +8,14 @@ use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
+use Manom\Sale\Notify;
 
 require_once __DIR__ . '/autoload.php';
 
 Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
+
+Helper::customRegistry();
 
 if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
     AddEventHandler(
@@ -38,7 +41,7 @@ if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
 endif;
 
 AddEventHandler(
-    "sale",
+    "main",
     "OnBeforeEventAdd",
     Array("MyHandlerClass", "OnBeforeEventAddHandler")
 );
@@ -124,6 +127,13 @@ AddEventHandler(
     "OnChangeFile",
     Array("MyHandlerClass", "createIncludeForStaticPage")
 );
+
+AddEventHandler(
+    "sale",
+    "OnSalePayOrder",
+    Array("MyHandlerClass", "OnSalePayOrderHandler")
+);
+
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUpdate"));
@@ -396,12 +406,24 @@ class Helper
 {
     const CATALOG_IB_ID = 6;
     const OFFERS_IB_ID = 7;
+    const ONLINE_PAYMENT = 4;
 
     public static function processEmptySearchPage()
     {
         global $APPLICATION;
         if (strripos($APPLICATION->GetCurPage(), SITE_DIR . "search") !== false && !isset($_REQUEST["q"])) {
             LocalRedirect(SITE_DIR . "search?q=");
+        }
+    }
+
+    public static function customRegistry()
+    {
+        try {
+            if (Loader::includeModule('sale')) {
+                Registry::getInstance(Registry::REGISTRY_TYPE_ORDER)
+                    ->set(Registry::ENTITY_NOTIFY, Notify::class);
+            }
+        } catch (\Exception $e) {
         }
     }
 }
@@ -710,6 +732,14 @@ class MyHandlerClass
             }
         } catch (\Exception $e) {
         }
+
+        if ($order) {
+            $isOnlinePayment = current($order->getPaySystemIdList()) === \Helper::ONLINE_PAYMENT;
+
+            if ($event === "SALE_NEW_ORDER" && $isOnlinePayment && !$order->isPaid()) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -917,23 +947,8 @@ class MyHandlerClass
     function OnSaleOrderBeforeSavedHandler($arFields)
     {
         Loader::includeModule("catalog");
-
-        $dateCreate = $arFields->getField("DATE_INSERT");
-
-        if (!empty($dateCreate)) {
-            $dateCreate = $dateCreate->toString();
-        }
-
-        $dataLastExchange = ConvertTimeStamp(
-            \COption::GetOptionString("sale", "last_export_time_committed_/bitrix/admin/1c_excha", ""),
-            "FULL"
-        );
-
-        $dateExported = $dateCreate && (strtotime($dateCreate) < strtotime($dataLastExchange));
-
-        if (!$arFields->isNew() && $dateExported && !$arFields->isExternal()) {
-            $arFields->setField("EXTERNAL_ORDER", "Y");
-        }
+        $fieldValues = $arFields->getFieldValues();
+        $currentPaySystem = (int)$fieldValues["PAY_SYSTEM_ID"];
 
         $registry = Registry::getInstance(Registry::REGISTRY_TYPE_ORDER);
 
@@ -942,8 +957,6 @@ class MyHandlerClass
             $productsId[] = $basketItem->getProductId();
         }
 
-        $fieldValues = $arFields->getFieldValues();
-        $currentPaySystem = (int)$fieldValues["PAY_SYSTEM_ID"];
         $currentDelivery = (int)$fieldValues["DELIVERY_ID"];
         $products = [];
 
@@ -1154,6 +1167,24 @@ CONTENT;
             file_put_contents($contentFile, $dummyContent);
         }
         return true;
+    }
+
+    /**
+     * @param $orderId
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ArgumentNullException
+     * @throws \Bitrix\Main\ArgumentTypeException
+     * @throws \Bitrix\Main\NotImplementedException
+     * @throws \Bitrix\Main\ObjectNotFoundException
+     */
+    function OnSalePayOrderHandler($orderId)
+    {
+        $order = \Bitrix\Sale\Order::load($orderId);
+        $isOnlinePayment = current($order->getPaySystemIdList()) === \Helper::ONLINE_PAYMENT;
+
+        if ($isOnlinePayment && $order->isPaid()) {
+            Notify::sendOrderConfirmAsNew($order);
+        }
     }
 }
 
