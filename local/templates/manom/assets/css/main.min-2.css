@@ -12367,15 +12367,6 @@ a.ui-button:active,
   }
 }
 
-.watched__slider span {
-  display: inline-block;
-  width: 100%;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-}
-
-
 .watched__price {
   font-weight: bold;
   font-size: 15px;
@@ -12384,7 +12375,7 @@ a.ui-button:active,
 }
 
 .watched__price span {
-  font-size: 22px;
+  font-size: 15px;
   margin-left: -3px;
 }
 

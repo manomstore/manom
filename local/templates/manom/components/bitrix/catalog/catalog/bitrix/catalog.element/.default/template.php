@@ -1190,14 +1190,19 @@ function formatBytes($size, $precision = 2)
                 <div class="watched__slide swiper-slide">
                     <a href="#">
                         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <span>119 990 ₽ </span>
+                        <div class="watched__price">
+                            <?= number_format($item['price'], 0, '', ' ') ?>
+                            <span> ₽</span>
+                            <div class="watched__oldprice">
+                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
+                            </div>
+                        </div>
                         <p>Apple MacBook Air 13" QC i5 1,1 ГГц, 8 ГБ, 512 ГБ SSD, золотой</p>
                     </a>
                 </div>
                 <div class="watched__slide swiper-slide">
                     <a href="#">
                         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <span>139 990 ₽ </span>
                         <div class="watched__price">
                             <?= number_format($item['price'], 0, '', ' ') ?>
                             <span> ₽</span>
@@ -1211,21 +1216,39 @@ function formatBytes($size, $precision = 2)
                 <div class="watched__slide swiper-slide">
                     <a href="#">
                         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <span>89 990 ₽</span>
+                        <div class="watched__price">
+                            <?= number_format($item['price'], 0, '', ' ') ?>
+                            <span> ₽</span>
+                            <div class="watched__oldprice">
+                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
+                            </div>
+                        </div>
                         <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серый космос</p>
                     </a>
                 </div>
                 <div class="watched__slide swiper-slide">
                     <a href="#">
                         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <span>89 990 ₽ </span>
+                        <div class="watched__price">
+                            <?= number_format($item['price'], 0, '', ' ') ?>
+                            <span> ₽</span>
+                            <div class="watched__oldprice">
+                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
+                            </div>
+                        </div>
                         <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
                     </a>
                 </div>
                 <div class="watched__slide swiper-slide">
                     <a href="#">
                         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/category6.jpg" alt="">
-                        <span>89 990 ₽ </span>
+                        <div class="watched__price">
+                            <?= number_format($item['price'], 0, '', ' ') ?>
+                            <span> ₽</span>
+                            <div class="watched__oldprice">
+                                <?= number_format($item['oldPrice'], 0, '', ' ') ?>
+                            </div>
+                        </div>
                         <p>Apple MacBook Air 13" Dual-Core i3 1,1 ГГц, 8 ГБ, 256 ГБ SSD, серебристый</p>
                     </a>
                 </div>
