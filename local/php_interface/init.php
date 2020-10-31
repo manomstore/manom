@@ -470,10 +470,6 @@ class MyHandlerClass
 
     function OnBeforeIBlockElementUpdateHandler($arFields)
     {
-        ob_start();
-        var_export($arFields);
-        $fieldsOriginalExport = ob_get_clean();
-
         if ((int)$arFields["IBLOCK_ID"] !== 6) {
             return true;
         }
@@ -487,7 +483,6 @@ class MyHandlerClass
                     "CODE" => [
                         "ONLY_PREPAYMENT",
                         "ONLY_CASH",
-                        "CML2_ARTICLE",
                     ],
                 ],
             ]
@@ -512,68 +507,6 @@ class MyHandlerClass
             }
         }
 
-        $elementId = (int)$arFields["ID"];
-        if ($elementId) {
-            $res = \CIBlockElement::GetList(
-                [],
-                [
-                    "ID" => $elementId,
-                    "IBLOCK_ID" => $arFields["IBLOCK_ID"]
-                ],
-                false,
-                false,
-                [
-                    "ID",
-                    "IBLOCK_ID",
-                    "PROPERTY_CML2_ARTICLE",
-                ]
-            );
-
-            $elementData = $res->GetNext();
-
-            $articleCleared = !empty($elementData["PROPERTY_CML2_ARTICLE_VALUE"])
-                && isset($arFields["PROPERTY_VALUES"])
-                && (
-                    empty($arFields["PROPERTY_VALUES"])
-                    || !isset($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])
-                    || empty($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])
-                    || !$arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]][array_key_first($arFields["PROPERTY_VALUES"][$arProps["CML2_ARTICLE"]])]["VALUE"]
-                );
-
-            if ($articleCleared) {
-                ob_start();
-                print_r($elementData["PROPERTY_CML2_ARTICLE_VALUE"]);
-                $oldArticlePrint = ob_get_clean();
-
-                ob_start();
-                print_r($propertiesValue["CML2_ARTICLE"]);
-                $newArticlePrint = ob_get_clean();
-                $logContent = (string)file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/articleDebug.log");
-                $logContent .= "\n---\n";
-                $logContent .= date("d.m.Y H:i:s");
-                $logContent .= "\nPRODUCT_ID:" . $elementData["ID"];
-                $logContent .= "\nARTICLE_OLD:" . $oldArticlePrint;
-                $logContent .= "\nARTICLE_NEW:" . $newArticlePrint;
-
-                $logContent .= "\nBACKTRACE:";
-
-                foreach (debug_backtrace() as $item) {
-                    $logContent .= "\n -" . $item["file"] . ":" . $item["line"];
-                }
-
-                $logContent .= "\nFIELDS:";
-                ob_start();
-                var_export($arFields);
-                $fieldsExport = ob_get_clean();
-                $logContent .= "\n" . $fieldsExport;
-
-                $logContent .= "\nORIGINAL_FIELDS:";
-                $logContent .= "\n" . $fieldsOriginalExport;
-
-
-                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/articleDebug.log", $logContent);
-            }
-        }
         if (!empty($propertiesValue["ONLY_PREPAYMENT"])
             && !empty($propertiesValue["ONLY_CASH"])
             && !$isImport) {
