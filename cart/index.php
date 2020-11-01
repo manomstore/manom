@@ -935,6 +935,12 @@ if (empty($productsOutOfStock)) {
                             */ ?>
 
                             <div class="shopcart-sidebar__check">
+                                <div class="shopcart-sidebar__free-delivery">
+                                    <p class="shopcart-sidebar__free-delivery-text">
+                                    <span>242</span> ₽ до бесплатной доставки
+                                    </p>
+                                    <div class="shopcart-sidebar__free-delivery-line"></div>
+                                </div>
                                 <?php $APPLICATION->IncludeComponent(
                                     'bitrix:sale.basket.basket.line',
                                     'cart_info',
