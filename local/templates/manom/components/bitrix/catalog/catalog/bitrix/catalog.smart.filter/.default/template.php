@@ -73,7 +73,18 @@ foreach ($arResult['ITEMS'] as $item) {
                         <i></i>
                         <h3>Стоимость</h3>
                         <p class="price-slider">
-
+                            <label>
+                                <input
+                                        class="catalog-filter__checkbox catalogPrice"
+                                        type="checkbox"
+                                    <?= $checked ? "checked" : "" ?>
+                                        data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
+                                        data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                        data-title="Стоимость: "
+                                        name="<?= $priceCheckboxName ?>"
+                                >
+                                <span class="catalog-filter__item"> ₽</span>
+                            </label>
                             <input
                                     class="form-control"
                                     type="number"
@@ -101,8 +112,8 @@ foreach ($arResult['ITEMS'] as $item) {
                                     value="<?= $item['VALUES']['MAX']['HTML_VALUE'] ?>"
                                 <? endif; ?>
                             >
-                            <!-- ₽ -->
-                            <!-- <span id="slider-range-alt"></span> -->
+                            <!-- ₽
+                            <span id="slider-range-alt"></span> -->
                         </p>
                     </li>
                 <?php endif; ?>
