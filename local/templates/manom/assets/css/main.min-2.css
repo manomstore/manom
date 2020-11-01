@@ -2454,7 +2454,7 @@ line-height: 24px;
   line-height: 2.5;
   font-weight: 600;
   display: block;
-  padding-left: 30px;
+  padding-left: 0;
   cursor: pointer;
 }
 
@@ -2566,7 +2566,7 @@ line-height: 24px;
   -ms-transform: translate(-6px, 0);
   transform: translate(-6px, 0);
   margin-top: 13px;
-  right: 20px;
+  right: 0;
 }
 
 .catalog-filter ul li i:before,
@@ -2689,18 +2689,30 @@ line-height: 24px;
   margin-left: 21px;
   height: 8px;
   background-color: #ebebeb;
+  margin-bottom: 10px;
+
 }
 
 input.form-control {
-  width: 75px;
-  padding: 2px 0 2px 8px;
-  border: 1px solid #c4c4c4;
+  width: 104px;
+  height: 36px;
+  padding: 2px 8px 2px 8px;
+  border: 1px solid #E0E0E0;
   -webkit-border-radius: 5px;
-  border-radius: 5px;
+  border-radius: 3px;
+  text-align: center;
+  color: #ABABB2;
 }
 
 p.price-slider {
-  height: 55px;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+p.price-slider label {
+  display: none;
 }
 
 .ui-slider-handle.ui-corner-all.ui-state-default {
