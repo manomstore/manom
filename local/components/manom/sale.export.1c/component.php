@@ -313,7 +313,13 @@ else
                 "PAYED" => "Y",
             ],
             [
-                "!PAY_SYSTEM_ID" => Helper::ONLINE_PAYMENT,
+                "LOGIC" => "OR",
+                [
+                    "!PAY_SYSTEM_ID" => Helper::ONLINE_PAYMENT,
+                ],
+                [
+                    "PAY_SYSTEM_ID" => false
+                ]
             ]
         ];
 
