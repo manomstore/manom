@@ -71,6 +71,13 @@ pre.dnd-dump:hover {
   font-weight: 600;
   display: none;
 }
+
+.form_err {
+  width: 100%;
+  color: red;
+  font-weight: 600;
+  display: none;
+}
 .offer_prop_item {
   position: relative;
 }
@@ -102,347 +109,64 @@ pre.dnd-dump:hover {
 .windows8 {
   position: absolute;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
-  width: 90px;
-  height: 90px;
+  width: 59px;
+  height: 59px;
   margin: auto;
+  border: 5px solid #E7E9EA;
+  border-left-color: #85BA35;
+  border-radius: 50%;
+  background: transparent;
+
+  animation-name: rotate-s-loader;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  position: relative;
 }
 
-.windows8 .wBall {
-  position: absolute;
-  width: 72px;
-  height: 72px;
-  opacity: 0;
-  transform: rotate(225deg);
-  -o-transform: rotate(225deg);
-  -ms-transform: rotate(225deg);
-  -webkit-transform: rotate(225deg);
-  -moz-transform: rotate(225deg);
-  animation: orbit 6.96s infinite;
-  -o-animation: orbit 6.96s infinite;
-  -ms-animation: orbit 6.96s infinite;
-  -webkit-animation: orbit 6.96s infinite;
-  -moz-animation: orbit 6.96s infinite;
-}
-
-.windows8 .wBall .wInnerBall {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  background: rgb(87, 173, 0);
-  left: 0px;
-  top: 0px;
-  border-radius: 9px;
-}
-
-.windows8 #wBall_1 {
-  animation-delay: 1.52s;
-  -o-animation-delay: 1.52s;
-  -ms-animation-delay: 1.52s;
-  -webkit-animation-delay: 1.52s;
-  -moz-animation-delay: 1.52s;
-}
-
-.windows8 #wBall_2 {
-  animation-delay: 0.3s;
-  -o-animation-delay: 0.3s;
-  -ms-animation-delay: 0.3s;
-  -webkit-animation-delay: 0.3s;
-  -moz-animation-delay: 0.3s;
-}
-
-.windows8 #wBall_3 {
-  animation-delay: 0.61s;
-  -o-animation-delay: 0.61s;
-  -ms-animation-delay: 0.61s;
-  -webkit-animation-delay: 0.61s;
-  -moz-animation-delay: 0.61s;
-}
-
-.windows8 #wBall_4 {
-  animation-delay: 0.91s;
-  -o-animation-delay: 0.91s;
-  -ms-animation-delay: 0.91s;
-  -webkit-animation-delay: 0.91s;
-  -moz-animation-delay: 0.91s;
-}
-
-.windows8 #wBall_5 {
-  animation-delay: 1.22s;
-  -o-animation-delay: 1.22s;
-  -ms-animation-delay: 1.22s;
-  -webkit-animation-delay: 1.22s;
-  -moz-animation-delay: 1.22s;
-}
-
-@keyframes orbit {
-  0% {
-    opacity: 1;
-    z-index: 99;
-    transform: rotate(180deg);
-    animation-timing-function: ease-out;
+@keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
   }
-
-  7% {
-    opacity: 1;
-    transform: rotate(300deg);
-    animation-timing-function: linear;
-    origin: 0%;
-  }
-
-  30% {
-    opacity: 1;
-    transform: rotate(410deg);
-    animation-timing-function: ease-in-out;
-    origin: 7%;
-  }
-
-  39% {
-    opacity: 1;
-    transform: rotate(645deg);
-    animation-timing-function: linear;
-    origin: 30%;
-  }
-
-  70% {
-    opacity: 1;
-    transform: rotate(770deg);
-    animation-timing-function: ease-out;
-    origin: 39%;
-  }
-
-  75% {
-    opacity: 1;
-    transform: rotate(900deg);
-    animation-timing-function: ease-out;
-    origin: 70%;
-  }
-
-  76% {
-    opacity: 0;
-    transform: rotate(900deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform: rotate(900deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@-o-keyframes orbit {
-  0% {
-    opacity: 1;
-    z-index: 99;
-    -o-transform: rotate(180deg);
-    -o-animation-timing-function: ease-out;
+@-o-keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
   }
-
-  7% {
-    opacity: 1;
-    -o-transform: rotate(300deg);
-    -o-animation-timing-function: linear;
-    -o-origin: 0%;
-  }
-
-  30% {
-    opacity: 1;
-    -o-transform: rotate(410deg);
-    -o-animation-timing-function: ease-in-out;
-    -o-origin: 7%;
-  }
-
-  39% {
-    opacity: 1;
-    -o-transform: rotate(645deg);
-    -o-animation-timing-function: linear;
-    -o-origin: 30%;
-  }
-
-  70% {
-    opacity: 1;
-    -o-transform: rotate(770deg);
-    -o-animation-timing-function: ease-out;
-    -o-origin: 39%;
-  }
-
-  75% {
-    opacity: 1;
-    -o-transform: rotate(900deg);
-    -o-animation-timing-function: ease-out;
-    -o-origin: 70%;
-  }
-
-  76% {
-    opacity: 0;
-    -o-transform: rotate(900deg);
-  }
-
-  100% {
-    opacity: 0;
-    -o-transform: rotate(900deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@-ms-keyframes orbit {
-  0% {
-    opacity: 1;
-    z-index: 99;
-    -ms-transform: rotate(180deg);
-    -ms-animation-timing-function: ease-out;
+@-ms-keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
   }
-
-  7% {
-    opacity: 1;
-    -ms-transform: rotate(300deg);
-    -ms-animation-timing-function: linear;
-    -ms-origin: 0%;
-  }
-
-  30% {
-    opacity: 1;
-    -ms-transform: rotate(410deg);
-    -ms-animation-timing-function: ease-in-out;
-    -ms-origin: 7%;
-  }
-
-  39% {
-    opacity: 1;
-    -ms-transform: rotate(645deg);
-    -ms-animation-timing-function: linear;
-    -ms-origin: 30%;
-  }
-
-  70% {
-    opacity: 1;
-    -ms-transform: rotate(770deg);
-    -ms-animation-timing-function: ease-out;
-    -ms-origin: 39%;
-  }
-
-  75% {
-    opacity: 1;
-    -ms-transform: rotate(900deg);
-    -ms-animation-timing-function: ease-out;
-    -ms-origin: 70%;
-  }
-
-  76% {
-    opacity: 0;
-    -ms-transform: rotate(900deg);
-  }
-
-  100% {
-    opacity: 0;
-    -ms-transform: rotate(900deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@-webkit-keyframes orbit {
-  0% {
-    opacity: 1;
-    z-index: 99;
-    -webkit-transform: rotate(180deg);
-    -webkit-animation-timing-function: ease-out;
+@-webkit-keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
   }
-
-  7% {
-    opacity: 1;
-    -webkit-transform: rotate(300deg);
-    -webkit-animation-timing-function: linear;
-    -webkit-origin: 0%;
-  }
-
-  30% {
-    opacity: 1;
-    -webkit-transform: rotate(410deg);
-    -webkit-animation-timing-function: ease-in-out;
-    -webkit-origin: 7%;
-  }
-
-  39% {
-    opacity: 1;
-    -webkit-transform: rotate(645deg);
-    -webkit-animation-timing-function: linear;
-    -webkit-origin: 30%;
-  }
-
-  70% {
-    opacity: 1;
-    -webkit-transform: rotate(770deg);
-    -webkit-animation-timing-function: ease-out;
-    -webkit-origin: 39%;
-  }
-
-  75% {
-    opacity: 1;
-    -webkit-transform: rotate(900deg);
-    -webkit-animation-timing-function: ease-out;
-    -webkit-origin: 70%;
-  }
-
-  76% {
-    opacity: 0;
-    -webkit-transform: rotate(900deg);
-  }
-
-  100% {
-    opacity: 0;
-    -webkit-transform: rotate(900deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@-moz-keyframes orbit {
-  0% {
-    opacity: 1;
-    z-index: 99;
-    -moz-transform: rotate(180deg);
-    -moz-animation-timing-function: ease-out;
+@-moz-keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
   }
-
-  7% {
-    opacity: 1;
-    -moz-transform: rotate(300deg);
-    -moz-animation-timing-function: linear;
-    -moz-origin: 0%;
-  }
-
-  30% {
-    opacity: 1;
-    -moz-transform: rotate(410deg);
-    -moz-animation-timing-function: ease-in-out;
-    -moz-origin: 7%;
-  }
-
-  39% {
-    opacity: 1;
-    -moz-transform: rotate(645deg);
-    -moz-animation-timing-function: linear;
-    -moz-origin: 30%;
-  }
-
-  70% {
-    opacity: 1;
-    -moz-transform: rotate(770deg);
-    -moz-animation-timing-function: ease-out;
-    -moz-origin: 39%;
-  }
-
-  75% {
-    opacity: 1;
-    -moz-transform: rotate(900deg);
-    -moz-animation-timing-function: ease-out;
-    -moz-origin: 70%;
-  }
-
-  76% {
-    opacity: 0;
-    -moz-transform: rotate(900deg);
-  }
-
-  100% {
-    opacity: 0;
-    -moz-transform: rotate(900deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 .catalog-main {
@@ -575,8 +299,13 @@ pre.dnd-dump:hover {
   display: block;
   width: 100%;
 }
-#popap-login .errortext {
+ .errortext {
   width: 100%;
+  display: none;
+}
+
+ .errortext.show {
+  display: block;
 }
 .reg-text-complete {
   margin: 10px 0;
@@ -1838,4 +1567,40 @@ body div.search-popup-row-active {
   transition: visibility 0s ease, opacity 0.15s ease, transform 0.15s ease;
   transition: visibility 0s ease, opacity 0.15s ease, transform 0.15s ease,
     -webkit-transform 0.15s ease;
+}
+
+.product-labels {
+  display: flex;
+  margin-left: 16px;
+}
+
+.product-label {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #FFFFFF;
+  margin-right: 16px;
+  border-radius: 3px;
+  padding: 3px 7px;
+}
+
+@media only screen and (max-width: 767px) {
+  .product-labels {
+    display: flex;
+    order: -1;
+    width: 100%;
+    margin: 0 0 16px 0;
+  }
+}
+
+.product-label--new {
+  background-color: #219FED;
+}
+
+.product-label--day-offer {
+  background-color: #9A6CE5;
+}
+
+.product-label--sale {
+  background-color: #FF5F00;
 }

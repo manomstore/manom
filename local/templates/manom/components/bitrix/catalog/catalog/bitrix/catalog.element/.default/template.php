@@ -92,6 +92,25 @@ function formatBytes($size, $precision = 2)
                 </svg>
             </div>
         <?php endif; ?>
+        <? if (!empty($arResult["LABELS"])): ?>
+            <div class="product-labels">
+                <? if ($arResult["LABELS"]["NEW"]): ?>
+                    <div class="product-label product-label--new">
+                        <span>Новинка</span>
+                    </div>
+                <? endif; ?>
+                <? if ($arResult["LABELS"]["PRODUCT_DAY"]): ?>
+                    <div class="product-label product-label--day-offer">
+                        <span>Товар дня</span>
+                    </div>
+                <? endif; ?>
+                <? if ($arResult["LABELS"]["SALE"]): ?>
+                    <div class="product-label product-label--sale">
+                        <span>Распродажа</span>
+                    </div>
+                <? endif; ?>
+            </div>
+        <? endif; ?>
     </div>
 
     <div class="product-nav2">
@@ -437,9 +456,9 @@ function formatBytes($size, $precision = 2)
                     <div class="product-sidebar__buttons">
                         <?php
                         $class = 'product-sidebar__cheaper';
-                        if (empty($arResult['CHEAPER'])) {
-                            $class .= ' product-sidebar__cheaper__disbled';
-                        }
+                        // if (empty($arResult['CHEAPER'])) {
+                        //     $class .= ' product-sidebar__cheaper__disbled';
+                        // }
                         ?>
                         <div class="<?=$class?>">
                             Купить дешевле
@@ -455,10 +474,23 @@ function formatBytes($size, $precision = 2)
                         </div>
                     </div>
 
+                    <div class="product-sidebar__cheap-reason">
+                        <p>Этот товар доступен для продажи с незначительными повреждениями по заниженной цене. За подробной информацией обращайтесь по телефону <span>8 (495) 150-64-50</span></p>
+                    </div>
+
                     <div id="popap-buy-one-click" class="popap-login">
                         <h3 class="sci-login__title">Купить в один клик</h3>
                         <form class="sci-login__form js-one-click-order">
-                            <div class="form_msg js-message-field"></div>
+                            <div class="form_err js-error-field"></div>
+                            <div class="form_msg js-message-field shopcart-success">
+                                <h2 class="shopcart-success__title">
+                                    Ваш заказ <span class="js-orderId"></span> успешно оформлен
+                                </h2>
+                                <p class="shopcart-success__text">
+                                    В ближайшее время с вами свяжется наш менеджер для дальнейшего подверждения заказа.
+                                </p>
+                                <a class="shopcart-success__button js-close-popup" href="/">Класс, спасибо!</a>
+                            </div>
                             <input
                                 type="hidden"
                                 name="productId"

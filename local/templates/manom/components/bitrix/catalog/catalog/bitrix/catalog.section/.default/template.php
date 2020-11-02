@@ -6,6 +6,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 ?>
+
+<? if (!empty($arResult["ITEMS"])): ?>
 <section class="catalog-block" <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
     <h2 class="cb-title"><?=$arResult['NAME']?></h2>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
@@ -67,10 +69,6 @@ $this->setFrameMode(true);
     \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true);
     ?>
     <div id='PROPDS_BLOCK'>
-        <?php if ($arParams['AJAX']) {
-            $APPLICATION->RestartBuffer();
-        } ?>
-
         <div class="cb-single no-gutters" <?=$arParams['BLOCK_STYLE'] === 'v-single' ? 'style="display: flex;"' : ''?>>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php
@@ -113,6 +111,7 @@ $this->setFrameMode(true);
                             <div  title="Добавить в сравнение"
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
+                                        title="Добавить в избранное"
                             ></div>
                         </div>
                         <div class="p-nav-middle">
@@ -222,6 +221,7 @@ $this->setFrameMode(true);
                                 <div
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
+                                        title="Добавить в избранное"
                                 ></div>
                             </a>
                         </div>
@@ -399,10 +399,10 @@ $this->setFrameMode(true);
             <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
         </div>
         <?=$arResult['NAV_STRING']?>
-        <?php if ($arParams['AJAX']) {
-            die();
-        } ?>
     </div>
+    <?php if ($arParams['AJAX']) {
+        die();
+    } ?>
     <?php /*
     <div class="cb-nav-bottom">
         <div class="cb-nav-pagination">
@@ -418,7 +418,48 @@ $this->setFrameMode(true);
         </div>
     </div>
     */ ?>
-</section>
+    </section>
+<? else: ?>
+    <div class="content">
+        <div class="container  empty-container">
+            <div class="empty">
+                <? if (!empty($arResult["BRAND_LOGO"])): ?>
+                    <div class="empty__block empty__block--brand">
+                        <img class="empty__block-image" src="<?= $arResult["BRAND_LOGO"] ?>">
+                        <p class="empty__text">
+                            Здесь пока пусто. Посмотрите другие
+                            <? if ($arResult["PARENT_SECTION"]): ?>
+                                <a href="<?= $arResult["PARENT_SECTION"]["SECTION_PAGE_URL"] ?>">
+                                    <?= $arResult["PARENT_SECTION"]["NAME"] ?>
+                                </a>
+                            <? else: ?>
+                                <a href="<?= SITE_DIR ?>catalog/">
+                                    товары
+                                </a>
+                            <? endif; ?>
+                        </p>
+                    </div>
+                <? else: ?>
+                    <div class="empty__block empty__block--goods">
+                        <h2 class="empty__block-header">
+                            <?= $arResult["NAME"] ?>
+                        </h2>
+                        <p class="empty__text">
+                            Здесь пока пусто. Посмотрите другие
+                            <? if ($arResult["PARENT_SECTION"]): ?>
+                                товары в разделе <a href="<?= $arResult["PARENT_SECTION"]["SECTION_PAGE_URL"] ?>">
+                                    <?= $arResult["PARENT_SECTION"]["NAME"] ?>
+                                </a>
+                            <? else: ?>
+                                <a href="<?= SITE_DIR ?>catalog/">товары</a>
+                            <? endif; ?>
+                        </p>
+                    </div>
+                <? endif; ?>
+            </div>
+        </div>
+    </div>
+<? endif; ?>
 <script>
     $(function () {
         window.gtmActions.initCommonData(<?=\Manom\GTM::getDataJS($arResult['GTM_PAGE_TYPE'], $arResult['GTM_DATA'])?>);

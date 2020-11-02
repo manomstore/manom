@@ -329,8 +329,9 @@
         <!-- <script src="https://unpkg.com/swiper/js/swiper.min.js"></script> -->
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/swiper.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/swiper-photo.js"></script>
-        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/tooltip.js"></script>
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/login-error.js"></script>
 
+        <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/tooltip.js"></script>
         <script>
           //Маска для ввода телефона
           $(function()
