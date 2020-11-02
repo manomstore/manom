@@ -6,13 +6,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 
-global $hasSubSec;
-$hasSubSec = false;
 ?>
 <?php if (!empty($arResult['SECTIONS'])): ?>
-    <?php
-    $hasSubSec = true;
-    ?>
     <section class='sc-banner'>
         <div class="container">
             <h2 class="sc-banner__h2"><?=$arParams['TITLE']?></h2>
