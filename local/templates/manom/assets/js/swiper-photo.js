@@ -52,34 +52,58 @@
   var slides = document.querySelectorAll(".watched__slide");
 
   if (watchedSlider) {
-    if (slides.length > 4) {
-      new Swiper(watchedSlider, {
-        slidesPerView: 4,
 
-        navigation: {
-          nextEl: '.watched__button-next',
-          prevEl: '.watched__button-prev',
-        },
-        breakpointsInverse: true,
-        breakpoints:{
-          320: {
-            slidesPerView: 2,
-            spaceBetween: 16,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 32,
-          },
-          1028: {
-            slidesPerView: 4,
-            spaceBetween: 32,
+    if (isDesktop()) {
+      if (slides.length > 4) {
+        new Swiper(watchedSlider, {
+          slidesPerView: 4,
+          spaceBetween: 32,
+          navigation: {
+            nextEl: '.watched__button-next',
+            prevEl: '.watched__button-prev',
           }
-        }
-      });
-      btnPrev.classList.remove('visually-hidden');
-      btnNext.classList.remove('visually-hidden');
-    } else {
-      return;
+        });
+        btnPrev.classList.remove('visually-hidden');
+        btnNext.classList.remove('visually-hidden');
+      } else {
+        return;
+      }
     }
+
+    if (isTablet()) {
+      if (slides.length > 3) {
+        new Swiper(watchedSlider, {
+          slidesPerView: 3,
+          spaceBetween: 32,
+          navigation: {
+            nextEl: '.watched__button-next',
+            prevEl: '.watched__button-prev',
+          },
+        });
+        btnPrev.classList.remove('visually-hidden');
+        btnNext.classList.remove('visually-hidden');
+      } else {
+        return;
+      }
+    }
+
+    if (isMobileSwiper()) {
+      if (slides.length > 2) {
+        new Swiper(watchedSlider, {
+          slidesPerView: 4,
+          slidesPerView: 2,
+          spaceBetween: 16,
+          navigation: {
+            nextEl: '.watched__button-next',
+            prevEl: '.watched__button-prev',
+          },
+        });
+        btnPrev.classList.remove('visually-hidden');
+        btnNext.classList.remove('visually-hidden');
+      } else {
+        return;
+      }
+    }
+
   }
 })();
