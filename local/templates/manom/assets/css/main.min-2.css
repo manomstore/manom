@@ -12349,7 +12349,7 @@ a.ui-button:active,
 
 @media (max-width: 375px) {
   .swiper-slide.watched__slide {
-    width: 163px;
+    width: calc(50% - 16px);
   }
 }
 

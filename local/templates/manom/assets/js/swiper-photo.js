@@ -54,7 +54,7 @@
   if (watchedSlider) {
 
     if (isDesktop()) {
-      if (slides.length > 3) {
+      if (slides.length > 4) {
         new Swiper(watchedSlider, {
           slidesPerView: 4,
           spaceBetween: 32,
