@@ -12342,6 +12342,7 @@ a.ui-button:active,
   flex-direction: column;
   color: #000000;
   text-align: left;
+  margin-right: 32px;
 }
 
 
