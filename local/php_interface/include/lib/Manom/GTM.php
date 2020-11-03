@@ -310,6 +310,7 @@ class GTM
                 "position" => $arProduct["position"] ?? $idx + 1,
                 "name" => $arProduct["NAME"],
                 "url" => $domain . $arProduct["DETAIL_PAGE_URL"],
+                "in_stock" => (int)$arProduct["ecommerceData"]["storeData"]["main"]["amount"] > 0,
             ];
 
             if (!empty($arProduct["list"])) {
