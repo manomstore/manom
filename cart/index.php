@@ -1,6 +1,7 @@
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 
+use Bitrix\Main\Loader;
 use Manom\Basket;
 use Manom\Service\TimeDelivery;
 
@@ -8,6 +9,7 @@ $APPLICATION->SetTitle('Корзина');
 
 CModule::IncludeModule('statistic');
 CModule::IncludeModule('sale');
+Loader::includeModule("germen.settings");
 
 global $USER;
 
@@ -935,9 +937,15 @@ if (empty($productsOutOfStock)) {
                             */ ?>
 
                             <div class="shopcart-sidebar__check">
-                                <div class="shopcart-sidebar__free-delivery">
+                                <div style="display: none;" class="shopcart-sidebar__free-delivery not_enough">
                                     <p class="shopcart-sidebar__free-delivery-text">
-                                    <span>242</span> ₽ до бесплатной доставки
+                                    <span class="free-delivery-remains"></span> ₽ до бесплатной доставки
+                                    </p>
+                                    <div class="shopcart-sidebar__free-delivery-line"></div>
+                                </div>
+                                <div style="display: none;" class="shopcart-sidebar__free-delivery allright">
+                                    <p class="shopcart-sidebar__free-delivery-text">
+                                      Доставка бесплатна
                                     </p>
                                     <div class="shopcart-sidebar__free-delivery-line"></div>
                                 </div>
@@ -1276,6 +1284,7 @@ if (empty($productsOutOfStock)) {
 <script>
   var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
   window.paramTimeRanges = <?=\CUtil::PhpToJSObject(TimeDelivery::getIntervals())?>;
+  window.COND_FREE_DELIVERY = <?=(int)\UniPlug\Settings::get("COND_FREE_DELIVERY")?>;
 </script>
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');
