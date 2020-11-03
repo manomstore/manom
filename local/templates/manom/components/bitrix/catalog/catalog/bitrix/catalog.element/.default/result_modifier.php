@@ -566,3 +566,5 @@ function getDeliveryDescription($delivery)
 
     return ($deliveryPeriod ? $deliveryPeriod.', ' : '').$delivery['price'];
 }
+
+$this->__component->SetResultCacheKeys(["PROPERTIES"]);
