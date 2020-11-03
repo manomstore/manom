@@ -11271,7 +11271,7 @@ button.top-nav__link {
   }
 
   .top-personal__count {
-    top: 11px;
+    top: -11px;
     right: -2px;
   }
 

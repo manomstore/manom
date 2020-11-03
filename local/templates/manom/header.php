@@ -818,6 +818,7 @@
                                             <div class="top-personal__block top-personal__block--compare">
                                                 <a
                                                         class="top-personal__link top-personal__link--compare"
+                                                        title="Добавить в сравнение"
                                                         id="mini_compare_header_counter"
                                                 >
                                                     <img
