@@ -12348,7 +12348,7 @@ a.ui-button:active,
 
 
 @media (max-width: 375px) {
-  .watched__slide {
+  .swiper-slide.watched__slide {
     width: 163px;
   }
 }

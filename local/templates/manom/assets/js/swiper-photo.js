@@ -88,9 +88,8 @@
     }
 
     if (isMobileSwiper()) {
-      if (slides.length > 2) {
+      if (slides.length > 1) {
         new Swiper(watchedSlider, {
-          slidesPerView: 4,
           slidesPerView: 2,
           spaceBetween: 16,
           navigation: {
