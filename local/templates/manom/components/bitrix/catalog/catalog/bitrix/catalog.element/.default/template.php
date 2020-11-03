@@ -240,7 +240,7 @@ function formatBytes($size, $precision = 2)
                                 <?= $data['current'] ? 'checked' : '' ?>
                             >
                             <label for="<?= $data['code'] ?>" class="product-content__color-<?= $data['code'] ?>"
-                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;"></label>
+                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title=<?= $data['value'] ?>;></label>
                         <?php endforeach; ?>
                     </form>
                 </div>
