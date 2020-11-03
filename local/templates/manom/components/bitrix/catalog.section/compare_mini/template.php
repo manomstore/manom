@@ -15,6 +15,7 @@ $count = 0;
     <a
             <?=count($arResult['ITEMS']) > 0 ? "href='/catalog/compare/'" : ''?>
             class="top-personal__link"
+            title="Добавить в избранное"
             id="mini_compare_header_counter"
     >
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/compare.svg" alt="Иконка сравнения" width="16" height="15">

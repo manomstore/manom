@@ -11233,7 +11233,8 @@ button.top-nav__link {
     color: #73737e;
     font-weight: 500;
 
-    padding: 18px 0;
+    padding: 0 0 18px;
+    margin-top: 18px;
   }
 
   .top-personal__cart img {
