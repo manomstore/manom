@@ -4,7 +4,7 @@ $APPLICATION->SetTitle("нет в наличии");
 ?>
 <div class="content">
     <div class="container  empty-container">
-        <div class="empty">
+        <div class="empty-page">
             <div class="empty__block empty__block--brand">
               <img class="empty__block-image" src="./../local/templates/manom/assets/img/honor.svg" >
               <p class="empty__text">

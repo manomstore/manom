@@ -422,7 +422,7 @@ $this->setFrameMode(true);
 <? else: ?>
     <div class="content">
         <div class="container  empty-container">
-            <div class="empty">
+            <div class="empty-page">
                 <? if (!empty($arResult["BRAND_LOGO"])): ?>
                     <div class="empty__block empty__block--brand">
                         <img class="empty__block-image" src="<?= $arResult["BRAND_LOGO"] ?>">
