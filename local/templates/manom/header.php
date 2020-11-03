@@ -690,6 +690,7 @@
                                     ); ?>
                                     <div class="top-personal">
                                         <a class="top-personal__link top-personal__link--tel"
+                                           title="Позвонить"
                                            href="tel:+74951506450">
                                             <img
                                                     src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon.svg"
@@ -699,6 +700,7 @@
                                             >
                                         </a>
                                         <a class="top-personal__link top-personal__link--search"
+                                           title="Поиск"
                                            href="#">
                                             <img
                                                     src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/search.svg"
@@ -738,6 +740,7 @@
                                             <?php if ($USER->IsAuthorized()) { ?>
                                                 <a
                                                         class="top-personal__link js-user-block"
+                                                        title="Личный кабинет"
                                                         href="#"
                                                         aria-label="Профиль"
                                                 >

@@ -15,6 +15,7 @@ $count = 0;
     <a
             <?=count($arResult['ITEMS']) > 0 ? "href='/user/favorite/'" : ''?>
             class="top-personal__link"
+            title="Добавить в избранное"
             id="mini_favorite_header_counter"
     >
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg" alt="Иконка избранного" width="17" height="15">
