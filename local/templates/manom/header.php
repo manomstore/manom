@@ -798,6 +798,7 @@
                                                         class="top-personal__link"
                                                         data-fancybox
                                                         data-src="#popap-login"
+                                                        title="Личный кабинет"
                                                         href="javascript:;"
                                                         aria-label="Вход"
                                                 >
@@ -961,7 +962,7 @@
                                                 <?php $APPLICATION->RestartBuffer(); ?>
                                             <?php endif; ?>
                                             <div class="top-personal__block">
-                                                <a class="top-personal__link" id="mini_favorite_header_counter">
+                                                <a class="top-personal__link" id="mini_favorite_header_counter" title="Добавить в избранное">
                                                     <img
                                                             src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg"
                                                             alt="Иконка избранного"
