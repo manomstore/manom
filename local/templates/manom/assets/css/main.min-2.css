@@ -12336,7 +12336,7 @@ a.ui-button:active,
   margin: 50px 0 32px;
 }
 
-.watched__slide {
+.swiper-slide.watched__slide {
   width: 268px;
   display: flex;
   flex-direction: column;
