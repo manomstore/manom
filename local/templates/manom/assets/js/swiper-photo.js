@@ -54,7 +54,7 @@
   if (watchedSlider) {
 
     if (isDesktop()) {
-      if (slides.length > 4) {
+      if (slides.length > 3) {
         new Swiper(watchedSlider, {
           slidesPerView: 4,
           spaceBetween: 32,
@@ -71,7 +71,7 @@
     }
 
     if (isTablet()) {
-      if (slides.length > 3) {
+      if (slides.length > 2) {
         new Swiper(watchedSlider, {
           slidesPerView: 3,
           spaceBetween: 32,
