@@ -818,7 +818,7 @@
                                             <div class="top-personal__block top-personal__block--compare">
                                                 <a
                                                         class="top-personal__link top-personal__link--compare"
-                                                        title="Добавить в сравнение"
+                                                        title="Сравнение товаров"
                                                         id="mini_compare_header_counter"
                                                 >
                                                     <img
@@ -963,7 +963,7 @@
                                                 <?php $APPLICATION->RestartBuffer(); ?>
                                             <?php endif; ?>
                                             <div class="top-personal__block">
-                                                <a class="top-personal__link" id="mini_favorite_header_counter" title="Сравнение товаров">
+                                                <a class="top-personal__link" id="mini_favorite_header_counter" title="Избранное">
                                                     <img
                                                             src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg"
                                                             alt="Иконка избранного"
