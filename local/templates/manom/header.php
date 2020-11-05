@@ -963,7 +963,7 @@
                                                 <?php $APPLICATION->RestartBuffer(); ?>
                                             <?php endif; ?>
                                             <div class="top-personal__block">
-                                                <a class="top-personal__link" id="mini_favorite_header_counter" title="Добавить в избранное">
+                                                <a class="top-personal__link" id="mini_favorite_header_counter" title="Сравнение товаров">
                                                     <img
                                                             src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg"
                                                             alt="Иконка избранного"
