@@ -127,8 +127,8 @@ foreach ($arResult['ITEMS'] as $item) {
                     <i></i>
                     <h3><?=$item['NAME']?></h3>
                     <?php foreach ($item['VALUES'] as $value): ?>
-                        <p>
-                            <label>
+                        <p class="<?= $value["SHOW"] ? "show" : "hidden" ?>">
+                        <label>
                                 <input
                                     class="catalog-filter__checkbox <?= $value["DISABLED"] ? 'disabled' : '' ?>"
                                     type="checkbox"
