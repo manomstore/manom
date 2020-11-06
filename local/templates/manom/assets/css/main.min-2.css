@@ -1449,12 +1449,15 @@ line-height: 24px;
 
 .p-nav-middle__sale {
   display: inline-block;
-  background-color: #c4e7a2;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  padding: 2px 10px;
   font-size: 10px;
   visibility: hidden;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #FFFFFF;
+  border-radius: 3px;
+  padding: 3px 7px;
+  background-color: #FF5F00;
 }
 
 .p-nav-middle__sale.active {
