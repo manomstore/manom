@@ -248,7 +248,7 @@ if (empty($productsOutOfStock)) {
                                                     <input type="password"
                                                            name="sci-contact__ur-password"
                                                            id="sci-contact__ur-password"
-                                                           class="sci-contact__input js-email-field"
+                                                           class="sci-contact__input js-password-field"
                                                            placeholder="Ваш пароль">
                                                 </label>
                                                 <button class="shopcart-sidebar__button js-auth" type="button">
