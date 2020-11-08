@@ -12091,7 +12091,7 @@ a.files-item:hover {
   width: 15px;
   height: 15px;
   cursor: pointer;
-  right: -3px;
+  right: 0;
   top: 15px;
 }
 .ui-accordion-header-icon.ui-icon-triangle-1-s:before {
