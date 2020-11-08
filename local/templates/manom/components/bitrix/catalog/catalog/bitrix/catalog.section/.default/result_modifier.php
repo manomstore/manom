@@ -72,6 +72,7 @@ foreach ($arResult['ITEMS'] as $item) {
         'oldPrice' => $item['oldPrice'],
         'canBuy' => $canBuy,
         'productOfTheDay' => $item['PROPERTIES']['PRODUCT_OF_THE_DAY']['VALUE'] === 'Да',
+        'newProduct' => $item['PROPERTIES']['NEW_PRODUCT']['VALUE'] === 'Да',
         'sale' => $item['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да',
         'inFavoriteAndCompare' => checkProdInFavoriteAndCompareList((int)$item['ID'], 'UF_FAVORITE_ID'),
         'rating' => $rating[(int)$item['ID']],

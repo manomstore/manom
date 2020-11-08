@@ -1432,10 +1432,7 @@ line-height: 24px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -1447,17 +1444,8 @@ line-height: 24px;
   height: 17px;
 }
 
-.p-nav-middle__sale {
-  display: inline-block;
-  font-size: 10px;
-  visibility: hidden;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  color: #FFFFFF;
-  border-radius: 3px;
-  padding: 3px 7px;
-  background-color: #FF5F00;
+.p-nav-middle .product-label:nth-child(3) {
+  display: none;
 }
 
 .p-nav-middle__sale.active {

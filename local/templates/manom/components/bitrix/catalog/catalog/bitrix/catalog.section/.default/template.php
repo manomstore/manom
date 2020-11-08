@@ -90,11 +90,7 @@ $this->setFrameMode(true);
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <p class="p-label-top active">
-                            <?php if ($item['productOfTheDay']): ?>
-                                Товар дня
-                            <?php endif; ?>
-                        </p>
+
                         <div class="cb-single-nav-top">
                             <label>
                                 <input
@@ -117,6 +113,12 @@ $this->setFrameMode(true);
                         <div class="p-nav-middle">
                             <?php if ($item['sale']): ?>
                                 <div class="p-nav-middle__sale active">Распродажа</div>
+                            <?php endif; ?>
+                            <?php if ($item['productOfTheDay']): ?>
+                                <div class="product-label product-label--day-offer active">Товар дня</div>
+                            <?php endif; ?>
+                            <?php if ($item['newProduct']): ?>
+                                <div class="product-label product-label--new active">Новинка</div>
                             <?php endif; ?>
 
                             <?php /*
@@ -199,11 +201,7 @@ $this->setFrameMode(true);
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <p class="p-label-top active">
-                            <?php if ($item['productOfTheDay']): ?>
-                                Товар дня
-                            <?php endif; ?>
-                        </p>
+
                         <div class="p-nav-top">
                             <label>
                                 <input
@@ -230,7 +228,13 @@ $this->setFrameMode(true);
                                 <div class="p-nav-middle__sale active">Нет в наличии</div>
                             <?php endif; ?>
                             <?php if ($item['sale']): ?>
-                                <div class="p-nav-middle__sale active">Распродажа</div>
+                                <div class="product-label product-label--sale active">Распродажа</div>
+                            <?php endif; ?>
+                            <?php if ($item['productOfTheDay']): ?>
+                                <div class="product-label product-label--day-offer active">Товар дня</div>
+                            <?php endif; ?>
+                            <?php if ($item['newProduct']): ?>
+                                <div class="product-label product-label--new active">Новинка</div>
                             <?php endif; ?>
 
                             <?php /*
