@@ -33,6 +33,7 @@ foreach ($arResult['ITEMS'] as $item) {
         <div class="catalog-filter__close"></div>
         <ul class="catalog-filter__ul">
             <li class="catalog-filter__category">
+                <h3>Смартфоны</h3>
                 <p><a class="catalog-filter__category-link">Apple</a></p>
                 <p><a class="catalog-filter__category-link">Samsung</a></p>
                 <p><a class="catalog-filter__category-link">Huawei</a></p>
