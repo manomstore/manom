@@ -400,8 +400,8 @@ $(document).ready(function () {
       }
       var btnPrev = $(".sci-add .slick-prev");
       var btnNext = $(".sci-add .slick-next");
-      btnPrev.classList.add('show');
-      btnNext.classList.add('show');
+      btnPrev.addClass('show');
+      btnNext.addClass('show');
     });
   }
 
