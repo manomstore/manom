@@ -369,9 +369,9 @@ $(document).ready(function () {
 
     $slider.slick({
       dots: false,
-      infinite: false,
+      infinite: true,
       speed: 300,
-      variableWidth: true,
+      slidesToShow: 5,
     });
 
     $slider.find('.slick-slide').each(function () {
