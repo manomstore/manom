@@ -156,7 +156,9 @@ function getSection($params): array
                 $component,
                 array('HIDE_ICONS' => 'Y')
             ); ?>
-            <?php $APPLICATION->IncludeComponent(
+            <?php
+            global $hideSmartFilter;
+            $APPLICATION->IncludeComponent(
                 'bitrix:catalog.section',
                 '',
                 array(
@@ -276,6 +278,7 @@ function getSection($params): array
                     'IS_BRAND' => false,
                     'AJAX' => $_REQUEST['ajaxCal'] === 'Y',
                     'BLOCK_STYLE' => $_REQUEST['styleBlock'],
+                    'HIDE_SMART_FILTER' => (bool)$hideSmartFilter,
                 ),
                 $component
             ); ?>

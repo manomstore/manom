@@ -20,3 +20,22 @@ foreach ($arResult['ITEMS'] as &$item) {
 }
 
 unset($item);
+
+$arResult["HAS_FILTER_ELEMENT"] = false;
+foreach ($arResult['ITEMS'] as $item) {
+    if (isset($item['PRICE'])) {
+        if ($item['VALUES']['MAX']['VALUE'] - $item['VALUES']['MIN']['VALUE'] <= 0) {
+            continue;
+        }
+
+        $arResult["HAS_FILTER_ELEMENT"] = true;
+    }
+
+    if (isset($item['PRICE']) || !$item['DISPLAY_TYPE'] || count((array)$item['VALUES']) <= 1) {
+        continue;
+    }
+
+    $arResult["HAS_FILTER_ELEMENT"] = true;
+}
+
+$this->__component->SetResultCacheKeys(["HAS_FILTER_ELEMENT"]);

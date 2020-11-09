@@ -114,3 +114,5 @@ if ((int)$arResult["IBLOCK_SECTION_ID"]) {
 }
 
 $arResult['PARENT_SECTION'] = $parentSection;
+
+$arParams["HIDE_SMART_FILTER"] = $arParams["HIDE_SMART_FILTER"] === true;

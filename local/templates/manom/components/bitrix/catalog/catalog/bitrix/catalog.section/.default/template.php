@@ -8,7 +8,8 @@ $this->setFrameMode(true);
 ?>
 
 <? if (!empty($arResult["ITEMS"])): ?>
-<section class="catalog-block" <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
+    <section class="catalog-block <?= $arParams["HIDE_SMART_FILTER"] ? "full-screen-content" : "" ?>"
+    <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
     <h2 class="cb-title"><?=$arResult['NAME']?></h2>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
     <label class="filter-burger" for="filter-burger" title="Фильтр"></label>
