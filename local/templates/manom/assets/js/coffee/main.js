@@ -366,66 +366,37 @@ $(document).ready(function () {
   $('.sci-add__products').each(function () {
     var $slider = $(this),
       slidesWidth = 0;
-    var slidelist = $(".sci-add__prod.slick-slide");
 
-    if (isMobileSwiper() && slidelist.length > 3) {
-      $slider.slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 3,
-      });
+    $slider.slick({
+      dots: false,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 5,
+      responsive: [
+        {
+          breakpoint: 678,
+          settings: {
+            slidesToShow: 4,
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 3,
+          }
+        }
+      ]
+    });
 
-      $slider.find('.slick-slide').each(function () {
-        var $slide = $(this);
+    $slider.find('.slick-slide').each(function () {
+      var $slide = $(this);
 
-        slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
-      });
+      slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
+    });
 
-      if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
-        $slider.find('.slick-arrow').hide();
-      }
+    if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
+      $slider.find('.slick-arrow').hide();
     }
-
-
-    if (isMobile() && slidelist.length > 4) {
-      $slider.slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-      });
-
-      $slider.find('.slick-slide').each(function () {
-        var $slide = $(this);
-
-        slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
-      });
-
-      if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
-        $slider.find('.slick-arrow').hide();
-      }
-    }
-
-    if (isTablet() && slidelist.length > 5) {
-      $slider.slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 5,
-      });
-
-      $slider.find('.slick-slide').each(function () {
-        var $slide = $(this);
-
-        slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
-      });
-
-      if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
-        $slider.find('.slick-arrow').hide();
-      }
-    }
-
   });
 
   $('.top-nav__button-show').click(function (evt) {
