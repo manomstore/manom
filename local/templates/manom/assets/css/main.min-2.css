@@ -7743,6 +7743,11 @@ h3.tab-content__title--right {
   .sci-add .slick-prev {
     left: -30px;
   }
+
+  .sci-add__picture {
+    width: 94px;
+    height: 94px;
+  }
 }
 
 
