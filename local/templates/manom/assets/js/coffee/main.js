@@ -363,41 +363,54 @@ $(document).ready(function () {
 
   app.shopcart.$el = $('.shopcart');
 
-  $('.sci-add__products').each(function () {
-    var $slider = $(this),
-      slidesWidth = 0;
+  if (shouldShowSlider()) {
+    $('.sci-add__products').each(function () {
+      var $slider = $(this),
+        slidesWidth = 0;
 
-    $slider.slick({
-      dots: false,
-      infinite: true,
-      speed: 300,
-      slidesToShow: 5,
-      responsive: [
-        {
-          breakpoint: 678,
-          settings: {
-            slidesToShow: 4,
+      $slider.slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 5,
+        responsive: [
+          {
+            breakpoint: 678,
+            settings: {
+              slidesToShow: 4,
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 3,
+            }
           }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 3,
-          }
-        }
-      ]
+        ]
+      });
+
+      $slider.find('.slick-slide').each(function () {
+        var $slide = $(this);
+
+        slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
+      });
+
+      if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
+        $slider.find('.slick-arrow').hide();
+      }
     });
+  }
 
-    $slider.find('.slick-slide').each(function () {
-      var $slide = $(this);
-
-      slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
-    });
-
-    if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
-      $slider.find('.slick-arrow').hide();
+  function shouldShowSlider() {
+    var length = $(".sci-add__prod").length;
+    if (window.isMobileSwiper()) {
+      return length > 5;
     }
-  });
+    if (window.isMobile()) {
+      return length > 4;
+    }
+    return length > 3
+  }
 
   $('.top-nav__button-show').click(function (evt) {
     evt.preventDefault();
