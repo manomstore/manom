@@ -127,8 +127,8 @@ foreach ($arResult['ITEMS'] as $item) {
                     <i></i>
                     <h3><?=$item['NAME']?></h3>
                     <?php foreach ($item['VALUES'] as $value): ?>
-                        <p class="<?= $value["SHOW"] ? "show" : "hidden" ?>">
-                        <label>
+                        <p class="<?= $value["SHOW"] ? "top" : "" ?> catalog-filter__list-item">
+                            <label>
                                 <input
                                     class="catalog-filter__checkbox <?= $value["DISABLED"] ? 'disabled' : '' ?>"
                                     type="checkbox"
@@ -142,7 +142,9 @@ foreach ($arResult['ITEMS'] as $item) {
                                 <span class="catalog-filter__item"><?=$value['VALUE']?></span>
                             </label>
                         </p>
+
                     <?php endforeach; ?>
+                    <button type="button" class="toggle-button"><span class="show-all">Показать все</span><span class="fold">Свернуть</span></button>
                 </li>
             <?php endforeach; ?>
         </ul>
