@@ -2548,6 +2548,18 @@ line-height: 24px;
   margin: 0;
 }
 
+.catalog-filter__category {
+  display: block;
+}
+
+.catalog-filter__category-link {
+  transition: color 0.2s;
+}
+
+.catalog-filter__category-link:hover {
+  color: #79b700;
+}
+
 .catalog-filter ul li {
   position: relative;
   margin: 0;

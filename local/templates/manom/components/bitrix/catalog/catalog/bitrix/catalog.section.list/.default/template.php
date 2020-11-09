@@ -25,27 +25,5 @@ $this->setFrameMode(true);
             <?php endif; ?>
         </div>
     </section>
-    <section class="sc-category">
-        <div class="container">
-            <div class="sc-category__block">
-                <?php foreach ($arResult['SECTIONS'] as $item): ?>
-                    <?php
-                    if ((int)$item['ID'] === (int)$arParams['DISCOUNTED_SECTION_ID']) {
-                        continue;
-                    }
-                    $img = CFile::ResizeImageGet(
-                        $item['PICTURE']['ID'],
-                        array('width' => 250, 'height' => 250),
-                        BX_RESIZE_IMAGE_PROPORTIONAL,
-                        true
-                    );
-                    ?>
-                    <a href="<?=$item['SECTION_PAGE_URL']?>" class="sc-category-card">
-                        <div class="sc-category-card__img" style="background: url('<?=$img['src']?>') center no-repeat;"></div>
-                        <h3 class="sc-category-card__title"><?=$item['NAME']?></h3>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
+
 <?php endif; ?>
