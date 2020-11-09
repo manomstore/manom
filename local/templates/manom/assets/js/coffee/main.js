@@ -372,6 +372,20 @@ $(document).ready(function () {
       infinite: true,
       speed: 300,
       slidesToShow: 5,
+      responsive: [
+        {
+          breakpoint: 678,
+          settings: {
+            slidesToShow: 4,
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 3,
+          }
+        }
+      ]
     });
 
     $slider.find('.slick-slide').each(function () {
