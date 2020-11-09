@@ -7721,11 +7721,18 @@ h3.tab-content__title--right {
 .sci-add .slick-next{
   top: calc(50% - 17px);
   right: -40px;
+  visibility: hidden;
+}
+
+.sci-add .slick-next.show,
+.sci-add .slick-prev.show {
+  visibility: visible;
 }
 
 .sci-add .slick-prev {
   top: calc(50% - 17px);
   left: -40px;
+  visibility: hidden;
 }
 
 @media (max-width: 767px) {

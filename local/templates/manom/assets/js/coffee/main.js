@@ -398,18 +398,22 @@ $(document).ready(function () {
       if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
         $slider.find('.slick-arrow').hide();
       }
+      var btnPrev = $(".sci-add .slick-prev");
+      var btnNext = $(".sci-add .slick-next");
+      btnPrev.classList.add('show');
+      btnNext.classList.add('show');
     });
   }
 
   function shouldShowSlider() {
     var length = $(".sci-add__prod").length;
     if (window.isMobileSwiper()) {
-      return length > 5;
+      return length > 3;
     }
     if (window.isMobile()) {
       return length > 4;
     }
-    return length > 3
+    return length > 5
   }
 
   $('.top-nav__button-show').click(function (evt) {
