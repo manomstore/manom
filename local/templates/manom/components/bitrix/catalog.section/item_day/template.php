@@ -90,10 +90,7 @@ $start = 0;
         </h3>
         <div class="p-nav-bottom">
             <div class="p-nav-bottom__price">
-                <?php if (
-                    !empty((int)$item['oldPrice']) &&
-                    (int)$item['price'] !== (int)$item['oldPrice']
-                ): ?>
+                <?php if ($item['showOldPrice']): ?>
                     <div class="p-nav-bottom__price">
                         <?=number_format($item['price'], 0, '', ' ')?>
                         <span> ₽</span>

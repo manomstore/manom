@@ -47,7 +47,7 @@ $count = 0;
                         <div class="preview-prod__descr">
                             <div class="preview-prod-bottom">
                                 <div class="preview-prod-bottom__price">
-                                    <?php if (!empty((int)$item['oldPrice']) && (int)$item['price'] !== (int)$item['oldPrice']): ?>
+                                    <?php if ($item['showOldPrice']): ?>
                                         <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
                                             <?=number_format($item['price'], 0, '.', ' ')?> ₽
                                         </span>

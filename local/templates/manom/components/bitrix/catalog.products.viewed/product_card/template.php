@@ -19,10 +19,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                             <div class="watched__price">
                                 <?= number_format($item['price'], 0, '', ' ') ?>
                                 <span> ₽</span>
-                                <?php if (
-                                    !empty((int)$item['oldPrice']) &&
-                                    (int)$item['price'] !== (int)$item['oldPrice']
-                                ): ?>
+                                <?php if ($item['showOldPrice']): ?>
                                     <div class="watched__oldprice">
                                         <?= number_format($item['oldPrice'], 0, '', ' ') ?>
                                     </div>

@@ -381,7 +381,7 @@ function formatBytes($size, $precision = 2)
                                 <span id="ruble">&nbsp;₽</span>
                             </div>
 
-                            <?php if (!empty($arResult['oldPrice']) && $arResult['price'] !== $arResult['oldPrice']): ?>
+                            <?php if ($arResult['showOldPrice']): ?>
                                 <p class="product-sidebar__old-price">
                                     <span>
                                         <?=number_format($arResult['oldPrice'], 0, '', ' ')?>

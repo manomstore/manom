@@ -140,10 +140,7 @@ $this->setFrameMode(true);
                                 <?php endforeach; ?>
                             </div>
                             <div class="p-nav-bottom">
-                                <?php if (
-                                    !empty((int)$item['oldPrice']) &&
-                                    (int)$item['price'] !== (int)$item['oldPrice']
-                                ): ?>
+                                <?php if ($item['showOldPrice']): ?>
                                     <div class="p-nav-bottom__price">
                                         <?=number_format($item['price'], 0, '', ' ')?>
                                         <span> ₽</span>
@@ -244,10 +241,7 @@ $this->setFrameMode(true);
                                 ><?=$item['name']?></a>
                             </h3>
                             <div class="p-nav-bottom">
-                                <?php if (
-                                    !empty((int)$item['oldPrice']) &&
-                                    (int)$item['price'] !== (int)$item['oldPrice']
-                                ): ?>
+                                <?php if ($item['showOldPrice']): ?>
                                     <div class="p-nav-bottom__price">
                                         <?=number_format($item['price'], 0, '', ' ')?>
                                         <span> ₽</span>
@@ -355,10 +349,7 @@ $this->setFrameMode(true);
                             </div>
                             <div class="p-nav-bottom cb-line-bottom">
                                 <div class="p-nav-bottom">
-                                    <?php if (
-                                        !empty((int)$item['oldPrice']) &&
-                                        (int)$item['price'] !== (int)$item['oldPrice']
-                                    ): ?>
+                                    <?php if ($item['showOldPrice']): ?>
                                         <div class="p-nav-bottom__price">
                                             <?=number_format($item['price'], 0, '', ' ')?>
                                             <span> ₽</span>
