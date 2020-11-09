@@ -144,7 +144,12 @@ foreach ($arResult['ITEMS'] as $item) {
                         </p>
 
                     <?php endforeach; ?>
-                    <button type="button" class="toggle-button"><span class="show-all">Показать все</span><span class="fold">Свернуть</span></button>
+                    <? if (!$value["SHOW"]): ?>
+                        <button type="button" class="toggle-button">
+                            <span class="show-all">Показать все</span>
+                            <span class="fold">Свернуть</span>
+                        </button>
+                    <? endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
