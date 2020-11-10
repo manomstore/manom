@@ -8,7 +8,6 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 
-global $hasSubSec;
 global $catalogFilter;
 
 $sort = 'propertysort_SALELEADER';
@@ -103,7 +102,6 @@ function getSection($params): array
     $component,
     array('HIDE_ICONS' => 'Y')
 ); ?>
-<?php if (!$hasSubSec): ?>
     <main class="catalog container">
         <div class="catalog-main">
             <div class="preloaderCatalog">
@@ -286,4 +284,3 @@ function getSection($params): array
             ); ?>
         </div>
     </main>
-<?php endif; ?>
