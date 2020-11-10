@@ -5,7 +5,6 @@ namespace Manom\Airtable\Bitrix;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
-use Manom\Airtable\Import;
 
 /**
  * Class Element
@@ -62,13 +61,9 @@ class Element
      * @param array $fields
      * @return bool
      */
-    public function update($fields, Import $import): bool
+    public function update($fields): bool
     {
         $result = false;
-
-        if (isset($fields["PROPERTY_VALUES"])) {
-            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/articleATDebug.log", $import->importDataJson);
-        }
 
         if ($this->bitrixElement->Update($fields['ID'], $fields)) {
             $result = true;

@@ -355,7 +355,9 @@ $(document).ready(function () {
 
   var $clearAll,
     $maxPrice,
-    $minPrice;
+    $minPrice,
+    $minPriceValue,
+    $maxPriceValue;
 
   var REG_EXP_EMAIL = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
@@ -532,7 +534,9 @@ $(document).ready(function () {
 
               if (!--$count) {
                 if (!phoneIsValid) {
-                  return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000);
+                  $(document).find('.push_up_item').addClass('push_up_item--error');
+                  return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000, undefined, 'push_up_item--error');
+
                 }
                 if ($formIsValid) {
                   $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -550,10 +554,10 @@ $(document).ready(function () {
                 } else {
                   if (!isEmailValid) {
                     return $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message',
-                      false, 5000);
+                      false, 5000, undefined, 'push_up_item--error');
                   } else {
                     return $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
-                      'message', false, 5000);
+                      'message', false, 5000, undefined, 'push_up_item--warning');
                   }
                 }
               }
@@ -648,7 +652,7 @@ $(document).ready(function () {
               if ($formIsValid) {
                 if (!isValidDeliveryTime() && $('#ID_DELIVERY_ID_8').prop('checked')) {
                   return $.fn.setPushUp('Ошибка', 'Дата или время доставки указаны некорректно', false, 'message',
-                      false, 5000);
+                      false, 5000, undefined, 'push_up_item--error');
                 }
 
                 $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -666,18 +670,18 @@ $(document).ready(function () {
               } else {
                 if (!isDeliveryChecked) {
                   $.fn.setPushUp('Не выбрана доставка', 'Необходимо выбрать доставку из списка', false, 'message',
-                    false, 5000);
+                    false, 5000, undefined, 'push_up_item--warning');
                 } else {
                   if (!isEmailValid) {
                     $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message', false,
-                      5000);
+                      5000, undefined, 'push_up_item--error');
                   } else {
                     if (addressInvalid){
                       $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
-                          'message', false, 5000);
+                          'message', false, 5000, undefined, 'push_up_item--warning');
                     }else {
-                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
-                          'message', false, 5000);
+                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению не были заполнены', false,
+                          'message', false, 5000, undefined, 'push_up_item--warning');
                     }
                   }
                 }
@@ -777,15 +781,22 @@ $(document).ready(function () {
     return false;
   });
 
+  $(document).on('click', '.js-one-click-order .js-close-popup', function (e) {
+    e.preventDefault();
+    $.fancybox.close()
+  });
+
   $(document).on('submit', '.js-one-click-order', function (e) {
     e.preventDefault();
     var $this,
       formData,
       formFields,
       $messageField,
+      $errorField,
       validFields;
     $this = $(this);
     $messageField = $this.find('.js-message-field');
+    $errorField = $this.find('.js-error-field');
     validFields = true;
     formData = {};
     formFields = $this.serializeArray();
@@ -809,28 +820,32 @@ $(document).ready(function () {
         dataType: 'json',
         data: formData,
         success: function (result) {
+          $errorField.html("").hide();
           if (result.success === true) {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push(
-              {
-                'event': 'fb-action-event',
-                'fb-action': 'Purchase',
-              },
+                {
+                  'event': 'fb-action-event',
+                  'fb-action': 'Purchase',
+                },
             );
             window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
             $.fn.refreshMiniCart();
-            $messageField.html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
+
+            result.orderId = Number(result.orderId);
+            if (result.orderId) {
+              $messageField.find(".js-orderId").text("#" + result.orderId);
+            }
             $messageField.show();
+            $('.sci-login__title').hide();
             return $this.find('button, label, input').hide();
           } else {
-            $messageField.html('Произошла ошибка. Повторите попытку позднее.');
-            $messageField.show();
+            $errorField.html('Произошла ошибка. Повторите попытку позднее.').show();
           }
         },
       });
     } else {
-      $messageField.show();
-      $messageField.html('Заполните все поля для отправки.');
+      $errorField.html('Заполните все поля для отправки.').show();
     }
   });
 
@@ -871,52 +886,127 @@ $(document).ready(function () {
     return false;
   });
 
-  if ($('#slider-range-alt').is('span')) {
-    $minPrice = parseInt($('#price-start-alt').attr('min'));
-    $maxPrice = parseInt($('#price-start-alt').attr('max'));
-    if ($minPrice && $maxPrice) {
-      $('#slider-range-alt').slider({
-        range: true,
-        min: $minPrice,
-        max: $maxPrice,
-        step: 100,
-        values: [$minPrice, $maxPrice],
-        slide: function (event, ui) {
-          $('#price-start-alt').val(ui.values[0]);
-          $('#price-end-alt').val(ui.values[1]);
-          $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]').prop('checked', false);
-        },
-      });
-      $('#price-start-alt').val($('#slider-range-alt').slider('values', 0));
-      $('#price-end-alt').val($('#slider-range-alt').slider('values', 1));
-      $('#price-start-alt').change(function () {
-        var inputStart;
-        $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-        inputStart = $(this).val();
-        if (inputStart > $maxPrice) {
-          inputStart = $maxPrice;
+  $(document).on("updateSmartFilter", function () {
+    var $sliderRange = $(document).find("#slider-range-alt");
+    var $priceStart = $(document).find("#price-start-alt");
+    var $priceEnd = $(document).find("#price-end-alt");
+
+    if ($sliderRange.is('span')) {
+      $minPrice = parseInt($priceStart.attr('min'));
+      $minPriceValue = parseInt($priceStart.val());
+      $maxPrice = parseInt($priceStart.attr('max'));
+      $maxPriceValue = parseInt($priceEnd.val());
+
+      if (!$minPriceValue) {
+        $minPriceValue = $minPrice;
+      }
+
+      if (!$maxPriceValue) {
+        $maxPriceValue = $maxPrice;
+      }
+
+      if ($minPrice && $maxPrice) {
+
+        var rangeSize = $maxPrice - $minPrice;
+        var stepSize = 0;
+        if (rangeSize > 1) {
+          var percent = 0;
+
+          for (var i = 1; i < rangeSize; i++) {
+            if (rangeSize % i === 0) {
+              percent = (i / rangeSize) * 100;
+              if (percent <= 5) {
+                stepSize = i;
+              } else {
+                break;
+              }
+            }
+          }
         }
-        if (inputStart < $minPrice) {
-          inputStart = $minPrice;
+
+        if (!stepSize) {
+          stepSize = 100;
         }
-        $('#slider-range-alt').slider('values', 0, inputStart);
-        $(this).val(inputStart);
-      });
-      $('#price-end-alt').change(function () {
-        var inputEnd;
-        $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-        inputEnd = $(this).val();
-        if (inputEnd > $maxPrice) {
-          inputEnd = $maxPrice;
-        }
-        if (inputEnd < $minPrice) {
-          inputEnd = $minPrice;
-        }
-        $('#slider-range-alt').slider('values', 1, inputEnd);
-        $(this).val(inputEnd);
-      });
+
+        $sliderRange.slider({
+          range: true,
+          min: $minPrice,
+          max: $maxPrice,
+          step: stepSize,
+          values: [$minPriceValue, $maxPriceValue],
+          slide: function (event, ui) {
+            var $priceCheckbox = $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]');
+            switch (ui.handleIndex) {
+              case 0:
+                $priceStart.val(ui.values[0]);
+                $priceCheckbox.prop('checked', false);
+                break;
+              case 1:
+                $priceEnd.val(ui.values[1]);
+                $priceCheckbox.prop('checked', false);
+                break;
+            }
+          },
+        });
+
+        $priceStart.val($minPriceValue);
+        $priceEnd.val($maxPriceValue);
+      }
     }
-  }
+  });
+
+  $(document).on("change", "#price-start-alt", function () {
+    var $priceEnd = $(document).find("#price-end-alt");
+
+    $minPrice = parseInt($priceEnd.attr('min'));
+    $maxPrice = parseInt($priceEnd.attr('max'));
+    $maxPriceValue = parseInt($priceEnd.val());
+
+    var inputStart;
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+    inputStart = $(this).val();
+    var max = $maxPriceValue ?? $maxPrice;
+    if (inputStart > max) {
+      inputStart = max;
+    }
+    if (inputStart < $minPrice) {
+      inputStart = $minPrice;
+    }
+    $(document).find('#slider-range-alt').slider('values', 0, inputStart);
+    $(this).val(inputStart);
+  });
+
+  $(document).on("change", "#price-end-alt", function () {
+    var $priceStart = $(document).find("#price-start-alt");
+
+    $minPrice = parseInt($priceStart.attr('min'));
+    $minPriceValue = parseInt($priceStart.val());
+    $maxPrice = parseInt($priceStart.attr('max'));
+
+    var inputEnd;
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+    var min = $minPriceValue ?? $minPrice;
+    inputEnd = $(this).val();
+    if (inputEnd > $maxPrice) {
+      inputEnd = $maxPrice;
+    }
+    if (inputEnd < min) {
+      inputEnd = min;
+    }
+
+    $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
+    $(this).val(inputEnd);
+  });
+
+  $(document).on("keyup", "#price-start-alt", function () {
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+  });
+
+  $(document).on("keyup", "#price-end-alt", function () {
+    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+  });
+
+  $(document).trigger("updateSmartFilter");
 
   $(document).on('click', '.offer_prop_item', function () {
     var itemID,
@@ -983,6 +1073,7 @@ $(document).ready(function () {
         elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
         elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
         elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
+        elementFilter += '<input type="hidden" name="' + $(this).attr('name') + '" value="' + $(this).val() + '">';
         elementFilter += '<span>×</span>';
         elementFilter += '</div>';
         $(document).find('.cb-filter').prepend($(elementFilter));
@@ -1686,7 +1777,7 @@ $(document).ready(function () {
         if (!numberPhoneValidation(phone)) {
           $(this).removeClass('is-success');
           $(this).addClass('is-error');
-          return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000);
+          return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000, undefined, 'push_up_item--error');
         } else {
           $(this).removeClass('is-error');
           $(this).addClass('is-success');
@@ -1865,7 +1956,7 @@ $(document).ready(function () {
   $(document).on('checkoutEvent', function () {
     if (!document.querySelector('.js-shopcart-agree').checked) {
       $.fn.setPushUp('Ошибка', 'Чтобы оформить заказ необходимо активировать чекбокс согласия', false, 'message', false,
-        5000);
+        5000, undefined, 'push_up_item--error');
       return false;
     }
 
@@ -2071,12 +2162,12 @@ $(document).ready(function () {
     var email = $(this).closest('section').find('.js-email-field').val();
 
     if (email.length <= 0) {
-      $.fn.setPushUp('Ошибка авторизации', 'Не указан e-mail', false, 'message', false, 5000);
+      $.fn.setPushUp('Ошибка авторизации', 'Не указан e-mail', false, 'message', false, 5000, undefined, 'push_up_item--error');
       return false;
     }
 
     if (password.length <= 0) {
-      $.fn.setPushUp('Ошибка авторизации', 'Не указан пароль', false, 'message', false, 5000);
+      $.fn.setPushUp('Ошибка авторизации', 'Не указан пароль', false, 'message', false, 5000, undefined, 'push_up_item--error');
       return false;
     }
 
@@ -2136,6 +2227,8 @@ $(document).ready(function () {
               'message',
               false,
               5000,
+              undefined,
+              'push_up_item--success'
             );
           } else {
             $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
@@ -2148,6 +2241,8 @@ $(document).ready(function () {
                 'message',
                 false,
                 5000,
+                undefined,
+                'push_up_item--error'
               );
             }
           }
@@ -2776,7 +2871,7 @@ $.fn.updateDateSaleOrder = function () {
   }
 
   soModule.find('.errortext').each(function () {
-    return $.fn.setPushUp('Ошибка', $(this).text(), false, 'message', false, 5000);
+    return $.fn.setPushUp('Ошибка', $(this).text(), false, 'message', false, 5000, undefined, 'push_up_item--error');
   });
 
   // Обновляем маску телефона
@@ -3231,7 +3326,13 @@ $.fn.ajaxLoadCatalog = function () {
       data: $data,
       success: function (data) {
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
-        $(document).find('#PROPDS_BLOCK').html(data);
+        if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
+          $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
+
+          $(document).trigger("updateSmartFilter");
+        }
+
+        $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());
         try {
           window.gtmActions.setProducts($(data).find('[data-gtm-products]').data('gtm-products'));
           var gtmData = $(data).find('[data-gtm-data]').data('gtm-data');

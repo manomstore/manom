@@ -44,8 +44,8 @@ global $glob_sectionInfo, $new_offer_filter;
 
         </div>
     </div>
+    <?if($_REQUEST['ajaxCal'] == 'Y') $GLOBALS['APPLICATION']->RestartBuffer();?>
     <div id='PROPDS_BLOCK'>
-        <?if($_REQUEST['ajaxCal'] == 'Y') $GLOBALS['APPLICATION']->RestartBuffer();?>
         <?//print_r($new_offer_filter);?>
         <div class="cb-single no-gutters"<?=$_REQUEST['styleBlock'] == 'v-single' ? 'style="display: flex;"' : '';?>>
             <?foreach ($arResult['ITEMS'] as $key => $arItems) {?>
@@ -81,9 +81,9 @@ global $glob_sectionInfo, $new_offer_filter;
                         <div class="cb-single-nav-top">
                             <label>
                                 <input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
-                                <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$arPrice['PRODUCT_ID']?>' title="в избранное"></div>
+                                <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$arPrice['PRODUCT_ID']?>' title="Добавить в избранное"></div>
                             </label>
-                            <div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'></div>
+                            <div  title="Добавить в сравнение" class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'></div>
                         </div>
                         <div class="p-nav-middle">
                             <?if ($arItems['PROPERTIES']['SELL_PROD']['VALUE']){?>
@@ -182,9 +182,9 @@ global $glob_sectionInfo, $new_offer_filter;
                         <div class="p-nav-top">
                             <label>
                                 <input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
-                                <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$arPrice['PRODUCT_ID']?>' title="в избранное"></div>
+                                <div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$arPrice['PRODUCT_ID']?>' title="Добавить в избранное"></div>
                             </label>
-                            <div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'></div>
+                            <div  title="Добавить в сравнение" class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'></div>
                         </div>
                         <div class="p-nav-middle">
                             <?if ($arItems['CATALOG_QUANTITY'] < 1 and $arCanBuy == 0){?>
@@ -314,7 +314,7 @@ global $glob_sectionInfo, $new_offer_filter;
                                     <input class="cb-line-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
                                     <div class="cb-line-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'>В&nbsp;избранное</div>
                                 </label>
-                                <div class="cb-line-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'>Сравнить</div>
+                                <div title="Добавить в сравнение" class="cb-line-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'>Сравнить</div>
                             </div>
                         </div>
                         <div class="p-nav-bottom cb-line-bottom">
@@ -356,8 +356,8 @@ global $glob_sectionInfo, $new_offer_filter;
 
         <!-- Пагинация -->
         <?=$arResult["NAV_STRING"]?>
-        <?if($_REQUEST['ajaxCal'] == 'Y') die();?>
     </div>
+    <?if($_REQUEST['ajaxCal'] == 'Y') die();?>
     <!-- <div class="cb-nav-bottom">
         <div class="cb-nav-pagination">
             <div class="cb-nav-pagination__item active">1</div>

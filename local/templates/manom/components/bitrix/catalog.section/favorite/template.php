@@ -52,10 +52,10 @@ $this->setFrameMode(true);
                 </div>
             </div>
         </div>
+        <?php if ($arParams['AJAX']) {
+            $GLOBALS['APPLICATION']->RestartBuffer();
+        } ?>
         <div id='PROPDS_BLOCK'>
-            <?php if ($arParams['AJAX']) {
-                $GLOBALS['APPLICATION']->RestartBuffer();
-            } ?>
             <?
             \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true, "productId");
             ?>
@@ -95,10 +95,10 @@ $this->setFrameMode(true);
                                     <div
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$item['id']?>'
-                                            title="в избранное"
+                                            title="Добавить в избранное"
                                     ></div>
                                 </label>
-                                <div
+                                <div title="Добавить в сравнение"
                                         class="p-nav-top__list addToCompareList <?=$class2?>"
                                         data-id='<?=$item['id']?>'
                                 ></div>
@@ -202,10 +202,10 @@ $this->setFrameMode(true);
                                     <div
                                             class="p-nav-top__favorite addToFavoriteList <?=$class1?>"
                                             data-id='<?=$item['id']?>'
-                                            title="в избранное"
+                                            title="Добавить в избранное"
                                     ></div>
                                 </label>
-                                <div
+                                <div title="Добавить в сравнение"
                                         class="p-nav-top__list addToCompareList <?=$class2?>"
                                         data-id='<?=$item['id']?>'
                                 ></div>
@@ -341,7 +341,7 @@ $this->setFrameMode(true);
                                             В&nbsp;избранное
                                         </div>
                                     </label>
-                                    <div
+                                    <div title="Добавить в сравнение"
                                             class="cb-line-nav-top__list addToCompareList <?=$class2?>"
                                             data-id='<?=$item['id']?>'
                                     >
@@ -383,10 +383,10 @@ $this->setFrameMode(true);
                 <span style="display:none" data-gtm-products='<?= \Manom\GTM::getProductsOnPageJS() ?>'></span>
             </div>
             <?=$arResult['NAV_STRING']?>
-            <?php if ($arParams['AJAX']) {
-                die();
-            } ?>
         </div>
+        <?php if ($arParams['AJAX']) {
+            die();
+        } ?>
         <?php /*
         <div class="cb-nav-bottom">
             <div class="cb-nav-pagination">

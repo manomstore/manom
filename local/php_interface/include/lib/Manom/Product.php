@@ -139,4 +139,25 @@ class Product
 
         return $data;
     }
+
+    /**
+     * @return array
+     */
+    public function getAll(): array
+    {
+        $rsProducts = \CIBlockElement::GetList(
+            [],
+            ["IBLOCK_ID" => \Helper::CATALOG_IB_ID],
+            false,
+            false,
+            [
+                'ID',
+                'IBLOCK_ID',
+            ]
+        );
+        while ($arProduct = $rsProducts->GetNext()) {
+            $arProductIds[] = $arProduct['ID'];
+        }
+        return $arProductIds;
+    }
 }

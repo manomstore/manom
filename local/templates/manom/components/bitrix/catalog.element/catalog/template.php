@@ -82,7 +82,7 @@ if (!$_REQUEST['offer']){
 		<div class="p-nav-top active">
 			<label>
 					<input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
-					<div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>' title="в избранное"></div>
+					<div class="p-nav-top__favorite addToFavoriteList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_FAVORITE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>' title="Добавить в избранное"></div>
 			</label>
 			<div class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($actualOffer['id_offer'], 'UF_COMPARE_ID') ? 'notActive' : '';?>" data-id='<?=$actualOffer['id_offer']?>'></div>
 		</div>
@@ -144,6 +144,17 @@ if (!$_REQUEST['offer']){
 			<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path fill-rule="evenodd" clip-rule="evenodd" d="M9.34048 0H12.0002V1.33798H10.6599V10.662H12.0002V12H9.34048V0ZM0 0H2.65973V1.33798H1.34034V5.33101H2.68068V6.66899H1.34034V10.662H2.68068V12H0V0ZM4.00007 0H8.00014V11.9791H6.65981V6.64808H5.31947V11.9791H3.97913V0H4.00007ZM5.34041 5.33101H6.68075V1.33798H5.34041V5.33101Z" fill="#ABABB2"/>
 			</svg>
+		</div>
+		<div class="product-labels">
+			<div class="product-label product-label--new">
+				<span>Новинка</span>
+			</div>
+			<div class="product-label product-label--day-offer">
+				<span>Товар дня</span>
+			</div>
+			<div class="product-label product-label--sale">
+				<span>Распродажа</span>
+      </div>
 		</div>
 		<? endif; ?>
 	</div>
