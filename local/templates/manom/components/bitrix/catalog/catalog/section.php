@@ -1,6 +1,7 @@
 <?php
 
 use Manom\Content;
+use Manom\Price;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -13,9 +14,9 @@ global $catalogFilter;
 $sort = 'propertysort_SALELEADER';
 $order = 'ASC';
 if ($_REQUEST['sort_by'] === 'price_asc') {
-    $sort = 'CATALOG_PRICE_1';
+    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
 } elseif ($_REQUEST['sort_by'] === 'price_desc') {
-    $sort = 'CATALOG_PRICE_1';
+    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
     $order = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'pop') {
     $sort = 'propertysort_SALELEADER';
@@ -167,8 +168,6 @@ function getSection($params): array
                     'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                     'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
                     'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
-                    'ELEMENT_SORT_FIELD2' => $arParams['ELEMENT_SORT_FIELD2'],
-                    'ELEMENT_SORT_ORDER2' => $arParams['ELEMENT_SORT_ORDER2'],
                     'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                     'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],
                     'META_KEYWORDS' => $arParams['LIST_META_KEYWORDS'],
