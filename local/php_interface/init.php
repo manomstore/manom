@@ -8,7 +8,9 @@ use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
-use Manom\Sale\Notify;
+use \Manom\Sale\Notify;
+use \Manom\Price;
+use \Manom\Product;
 
 require_once __DIR__ . '/autoload.php';
 
@@ -132,6 +134,12 @@ AddEventHandler(
     "sale",
     "OnSalePayOrder",
     Array("MyHandlerClass", "OnSalePayOrderHandler")
+);
+
+AddEventHandler(
+    "catalog",
+    "OnSuccessCatalogImport1C",
+    Array("MyHandlerClass", "OnSuccessCatalogImport1CHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
@@ -1118,6 +1126,28 @@ CONTENT;
         if ($isOnlinePayment && $order->isPaid()) {
             Notify::sendOrderConfirmAsNew($order);
         }
+    }
+
+
+    /**
+     * @param $arFields
+     * @param $filename
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     * @throws \Manom\Exception
+     */
+    function OnSuccessCatalogImport1CHandler($arFields, $filename)
+    {
+        $isOffers = strpos($filename, 'offers') !== false;
+
+        if (!$isOffers) {
+            return;
+        }
+
+        $price = new Price();
+        $price->recalculateTypeCurrent((new Product())->getAll());
     }
 }
 

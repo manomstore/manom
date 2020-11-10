@@ -3,11 +3,15 @@
 namespace Manom;
 
 use \Bitrix\Catalog\PriceTable;
+use \Bitrix\Currency\CurrencyManager;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
+use \Bitrix\Main\SiteTable;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
+use \Helper;
+use \Bitrix\Catalog\Model;
 
 /**
  * Class Price
@@ -15,6 +19,10 @@ use \Bitrix\Main\ObjectPropertyException;
  */
 class Price
 {
+    const SELLING_TYPE_ID = 1;
+    const RRC_TYPE_TYPE_ID = 2;
+    const CURRENT_TYPE_ID = 3;
+
     private $userGroups;
     private $pricesId = array();
 
@@ -212,12 +220,20 @@ class Price
      * @param array $userGroups
      * @param array $price
      * @return array
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
      */
     private function getItemPriceWithDiscount($itemId, $iblockId, $userGroups, $price): array
     {
         $price['ELEMENT_IBLOCK_ID'] = $iblockId;
+        $siteId = SITE_ID;
 
-        $optimalPrice = \CCatalogProduct::GetOptimalPrice($itemId, 1, $userGroups, 'N', array($price));
+        if (defined("ADMIN_SECTION")) {
+            $siteId = SiteTable::getList(["order" => ["SORT" => "ASC"]])->fetch()["LID"];
+        }
+
+        $optimalPrice = \CCatalogProduct::GetOptimalPrice($itemId, 1, $userGroups, 'N', [$price], $siteId);
         if (empty($optimalPrice['DISCOUNT'])) {
             $price['DISCOUNT_PRICE'] = $price['PRICE'];
             $price['DISCOUNT'] = false;
@@ -293,5 +309,61 @@ class Price
         }
 
         return $prices;
+    }
+
+    /**
+     * @param array $productsId
+     * @throws ArgumentException
+     * @throws Exception
+     * @throws LoaderException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    public function recalculateTypeCurrent(array $productsId): void
+    {
+        $product = new Product();
+        $ecommerceData = $product->getEcommerceData($productsId, Helper::CATALOG_IB_ID);
+        foreach ($ecommerceData as $productId => $item) {
+            $prices = Content::getPricesFromStoreData($item['storeData']);
+            $this->updatePrice($productId, $prices["price"], static::CURRENT_TYPE_ID);
+        }
+    }
+
+    /**
+     * @param int $productId
+     * @param float $value
+     * @param int $typeId
+     * @return bool
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     * @throws \Bitrix\Main\ObjectNotFoundException
+     */
+    public function updatePrice(int $productId, float $value, int $typeId): bool
+    {
+        $res = Model\Price::getList(
+            [
+                "filter" => [
+                    "PRODUCT_ID"       => $productId,
+                    "CATALOG_GROUP_ID" => $typeId
+                ]
+            ]
+        );
+
+        if ($price = $res->Fetch()) {
+            $price["PRICE"] = $value;
+            $result = Model\Price::Update($price["ID"], $price);
+            $success = $result->isSuccess();
+        } else {
+            $result = Model\Price::Add([
+                "PRODUCT_ID"       => $productId,
+                "CATALOG_GROUP_ID" => $typeId,
+                "PRICE"            => $value,
+                "CURRENCY"         => CurrencyManager::getBaseCurrency(),
+            ]);
+            $success = $result->isSuccess();
+        }
+
+        return $success;
     }
 }
