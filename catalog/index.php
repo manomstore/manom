@@ -264,7 +264,7 @@ $properties = Content::getPropertyCodes();
                 'USER_NAME',
             ),
             'FILTER_PROPERTY_CODE' => $properties,
-            'FILTER_PRICE_CODE' => array('Цена продажи'),
+            'FILTER_PRICE_CODE' => array('Текущая цена'),
             'FILTER_OFFERS_FIELD_CODE' => array(),
             'FILTER_OFFERS_PROPERTY_CODE' => array(),
         )
