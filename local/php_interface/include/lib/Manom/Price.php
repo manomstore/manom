@@ -229,7 +229,7 @@ class Price
         $price['ELEMENT_IBLOCK_ID'] = $iblockId;
         $siteId = SITE_ID;
 
-        if (defined("ADMIN_SECTION")) {
+        if (defined("ADMIN_SECTION") || \Helper::isImport()) {
             $siteId = SiteTable::getList(["order" => ["SORT" => "ASC"]])->fetch()["LID"];
         }
 

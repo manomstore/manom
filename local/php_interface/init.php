@@ -11,6 +11,7 @@ use \Manom\Airtable\AirtablePropertiesLinkTable;
 use \Manom\Sale\Notify;
 use \Manom\Price;
 use \Manom\Product;
+use \Bitrix\Main\Context;
 
 require_once __DIR__ . '/autoload.php';
 
@@ -433,6 +434,12 @@ class Helper
             }
         } catch (\Exception $e) {
         }
+    }
+
+    public static function isImport()
+    {
+        $request = Context::getCurrent()->getRequest();
+        return $request->get("type") === "catalog" && $request->get("mode") === "import";
     }
 }
 
@@ -1081,7 +1088,7 @@ class MyHandlerClass
 
     function createIncludeForStaticPage($path)
     {
-        $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+        $request = Context::getCurrent()->getRequest();
 
         $createPathFile = $request->get("path") . "/" . $request->get("filename");
 
