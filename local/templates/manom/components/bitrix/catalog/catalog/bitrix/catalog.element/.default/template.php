@@ -239,7 +239,7 @@ function formatBytes($size, $precision = 2)
                                 <?= $data['current'] ? 'checked' : '' ?>
                             >
                             <label for="<?= $data['code'] ?>" class="product-content__color-<?= $data['code'] ?>"
-                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;"></label>
+                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title="<?= $data['name'] ?>"></label>
                         <?php endforeach; ?>
                     </form>
                 </div>
@@ -966,7 +966,7 @@ function formatBytes($size, $precision = 2)
                                 'DISPLAY_BOTTOM_PAGER' => 'N',
                                 'DISPLAY_TOP_PAGER' => 'N',
                                 'ELEMENT_SORT_FIELD' => 'sort',
-                                'ELEMENT_SORT_FIELD2' => 'id',
+                                'ELEMENT_SORT_FIELD2' => 'rand',
                                 'ELEMENT_SORT_ORDER' => 'asc',
                                 'ELEMENT_SORT_ORDER2' => 'desc',
                                 'ENLARGE_PRODUCT' => '',

@@ -20,6 +20,31 @@ if ($_REQUEST['sort_by'] === 'price') {
     $sort = 'NAME';
 }
 
+
+$pageCountList = [
+    "3" => [
+        "NAME" => "3",
+    ],
+    "6" => [
+        "NAME" => "6",
+    ],
+    "12" => [
+        "NAME" => "12",
+    ],
+    "24" => [
+        "NAME" => "24",
+    ],
+    "9999" => [
+        "NAME" => "все",
+    ],
+];
+
+$pageCount = 12;
+if (array_key_exists($_REQUEST["countOnPage"], $pageCountList)) {
+    $pageCount = $_REQUEST["countOnPage"];
+}
+$pageCountList[$pageCount]["SELECTED"] = true;
+
 $section = Content::returnResultCache(
     'section'.$arParams['IBLOCK_ID'].$arResult['VARIABLES']['SECTION_ID'].$arResult['VARIABLES']['SECTION_CODE'],
     'getSection',
@@ -190,7 +215,8 @@ function getSection($params): array
                     'SHOW_404' => $arParams['SHOW_404'],
                     'FILE_404' => $arParams['FILE_404'],
                     'DISPLAY_COMPARE' => $arParams['USE_COMPARE'],
-                    'PAGE_ELEMENT_COUNT' => $arParams['PAGE_ELEMENT_COUNT'],
+                    'PAGE_ELEMENT_COUNT' => $pageCount,
+                    'PAGE_COUNT_LIST' => $pageCountList,
                     'LINE_ELEMENT_COUNT' => $arParams['LINE_ELEMENT_COUNT'],
                     'PRICE_CODE' => $arParams['~PRICE_CODE'],
                     'USE_PRICE_COUNT' => $arParams['USE_PRICE_COUNT'],

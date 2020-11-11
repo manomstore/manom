@@ -84,8 +84,9 @@ class Accessory {
 			$products
 		);
 
-		$this->productsId = $products && !is_array($products)
-			? (array) $products : $products;
+        $this->productsId = $products && !is_array($products)
+            ? (array)$products : $products;
+        shuffle($this->productsId);
 	}
 
 	/**

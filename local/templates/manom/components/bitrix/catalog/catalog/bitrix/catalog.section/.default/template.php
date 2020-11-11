@@ -40,11 +40,11 @@ $this->setFrameMode(true);
             <?=$arResult['NAV_STRING']?>
             <span class="cb-nav__text">Товаров на странице</span>
             <select name="countOnPage" required>
-                <option value="3">3</option>
-                <option value="6">6</option>
-                <option value="12" selected>12</option>
-                <option value="24">24</option>
-                <option value="9999">все</option>
+                <? foreach ($arParams["PAGE_COUNT_LIST"] as $pageCount => $data): ?>
+                    <option value="<?= $pageCount ?>" <?= $data["SELECTED"] ? "selected" : "" ?>>
+                        <?= $data["NAME"] ?>
+                    </option>
+                <? endforeach; ?>
             </select>
         </div>
         <div class="cb-nav-style" style="display: none">

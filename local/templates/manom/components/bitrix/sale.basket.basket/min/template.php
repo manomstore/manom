@@ -18,6 +18,7 @@ $count = 0;
     <a
         <?=$arResult['PRODUCTS_COUNT'] > 0 ? "href='/cart/'" : ''?>
             class="top-personal__link top-personal__cart <?=$class?>"
+            title="Корзина"
             id="mini_cart_header_counter"
     >
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/cart.svg" alt="Иконка корзины" width="20" height="16">
