@@ -33,6 +33,7 @@ foreach ($arResult['ITEMS'] as $item) {
         'properties' => $properties,
         'price' => $item['price'],
         'oldPrice' => $item['oldPrice'],
+        'showOldPrice' => $item['showOldPrice'],
         'canBuy' => $canBuy,
     );
 }
