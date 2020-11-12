@@ -474,7 +474,19 @@ function formatBytes($size, $precision = 2)
                     </div>
 
                     <div class="product-sidebar__cheap-reason">
-                        <p>Этот товар доступен для продажи с незначительными повреждениями по заниженной цене. За подробной информацией обращайтесь по телефону <span>8 (495) 150-64-50</span></p>
+                        <p>
+                            <?php $APPLICATION->IncludeComponent(
+                                'bitrix:main.include',
+                                '.default',
+                                [
+                                    'PATH'               => '/include/cheap-reason.php',
+                                    'COMPONENT_TEMPLATE' => '.default',
+                                    'AREA_FILE_SHOW'     => 'file',
+                                    'EDIT_TEMPLATE'      => '',
+                                ],
+                                false
+                            ); ?>
+                        </p>
                     </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
