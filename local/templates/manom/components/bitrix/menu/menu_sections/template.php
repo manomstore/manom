@@ -34,26 +34,34 @@ $this->setFrameMode(true); ?>
                             <div class="main-nav__inner">
                                 <div  class="main-nav__sublist">
                                     <span class="main-nav__sublist-header">Категории</span>
-                                    <ul>
-                                        <? foreach ($arItem["CHILDREN"] as $children): ?>
-                                            <li>
-                                                <a class="main-nav__link main-nav__link--lv2" href="<?= $children["LINK"] ?>">
-                                                    <?= $children["TEXT"] ?>
-                                                </a>
-                                            </li>
-                                        <? endforeach; ?>
-                                    </ul>
+                                    <div class="main-nav__list-pack">
+                                        <ul>
+                                            <? foreach ($arItem["CHILDREN"] as $children): ?>
+                                                <li>
+                                                    <a class="main-nav__link main-nav__link--lv2" href="<?= $children["LINK"] ?>">
+                                                        <?= $children["TEXT"] ?>
+                                                    </a>
+                                                </li>
+                                            <? endforeach; ?>
+                                        </ul>
+
+                                    </div>
+                                </div>
                                 <? if (!empty($arItem['BRANDS'])): ?>
-                                    <ul class="main-nav__sublist main-nav__sublist--brands">
+                                    <div class="main-nav__sublist main-nav__sublist--brands">
                                         <span class="main-nav__sublist-header">Бренды</span>
-                                        <? foreach ($arItem['BRANDS'] as $brand): ?>
-                                            <li>
-                                                <a href="/catalog/<?= $arItem["CODE"] ?>/brand/<?= $brand["code"] ?>/">
-                                                    <img src="<?= $brand["logo"] ?>" alt="<?= $brand["name"] ?>">
-                                                </a>
-                                            </li>
-                                        <? endforeach; ?>
-                                    </ul>
+                                        <div class="main-nav__list-pack">
+                                            <ul>
+                                                <? foreach ($arItem['BRANDS'] as $brand): ?>
+                                                    <li>
+                                                        <a href="/catalog/<?= $arItem["CODE"] ?>/brand/<?= $brand["code"] ?>/">
+                                                            <img src="<?= $brand["logo"] ?>" alt="<?= $brand["name"] ?>">
+                                                        </a>
+                                                    </li>
+                                                <? endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 <? endif; ?>
                             </div>
                         </div>
