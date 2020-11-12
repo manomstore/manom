@@ -11368,6 +11368,11 @@ button.top-nav__link {
     flex-wrap: wrap;
   }
 
+  .main-nav__list-pack {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
   .main-nav__sublist ul li:nth-child(8) {
     position: relative;
   }
@@ -11435,11 +11440,18 @@ button.top-nav__link {
     min-width: 335px;
   }
 
+  .main-nav__sublist ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+
   .main-nav__sublist--brands {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 10px;
+
   }
 
   .main-nav__sublist-header {
