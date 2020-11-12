@@ -3350,6 +3350,45 @@ p.price-slider {
   }
 }
 
+.product-sidebar__cheap-reason {
+
+  position: relative;
+  margin-bottom: 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height  0.2s;
+}
+
+.product-sidebar__cheap-reason.show {
+  max-height: 200px;
+}
+
+.product-sidebar__cheap-reason::after {
+  content: '';
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  transform: rotate(45deg);
+  left: 50px;
+  top: 2px;
+  background-color: #F2F2F2;
+}
+
+.product-sidebar__cheap-reason p {
+  margin: 7px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: #4F4F4F;
+  padding: 10px 13px;
+  background-color: #F2F2F2;
+  border-radius: 5px;
+}
+
+.product-sidebar__cheap-reason p span {
+  white-space: nowrap;
+}
+
+
 .square-color {
   display: inline-block;
   width: 30px;
