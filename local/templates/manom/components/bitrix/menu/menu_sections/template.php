@@ -32,16 +32,17 @@ $this->setFrameMode(true); ?>
                     <? if (!empty($arItem["CHILDREN"])): ?>
                         <div class="main-nav__list-wrapper">
                             <div class="main-nav__inner">
-                                <ul class="main-nav__sublist">
+                                <div  class="main-nav__sublist">
                                     <span class="main-nav__sublist-header">Категории</span>
-                                    <? foreach ($arItem["CHILDREN"] as $children): ?>
-                                        <li>
-                                            <a class="main-nav__link main-nav__link--lv2" href="<?= $children["LINK"] ?>">
-                                                <?= $children["TEXT"] ?>
-                                            </a>
-                                        </li>
-                                    <? endforeach; ?>
-                                </ul>
+                                    <ul>
+                                        <? foreach ($arItem["CHILDREN"] as $children): ?>
+                                            <li>
+                                                <a class="main-nav__link main-nav__link--lv2" href="<?= $children["LINK"] ?>">
+                                                    <?= $children["TEXT"] ?>
+                                                </a>
+                                            </li>
+                                        <? endforeach; ?>
+                                    </ul>
                                 <ul class="main-nav__sublist main-nav__sublist--brands">
                                     <span class="main-nav__sublist-header">Бренды</span>
                                     <li>

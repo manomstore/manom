@@ -11362,6 +11362,22 @@ button.top-nav__link {
     margin: 0;
   }
 
+  .main-nav__sublist ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .main-nav__sublist ul li:nth-child(8) {
+    position: relative;
+  }
+
+  .main-nav__sublist ul li:nth-child(8) ::after{
+    position: relative;
+    content: '';
+    height: 100%;
+  }
+
   .main-nav__sublist li,
   .main-nav__innerlist li {
     margin: 0 0 20px;
