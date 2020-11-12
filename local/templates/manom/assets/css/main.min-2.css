@@ -11385,7 +11385,7 @@ button.top-nav__link {
 
   .main-nav__sublist li,
   .main-nav__innerlist li {
-    margin: 0 0 20px;
+    margin: 0 15px 20px 0;
   }
 
   .main-nav__sublist li:last-child,
