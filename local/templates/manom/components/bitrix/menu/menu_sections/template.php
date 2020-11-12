@@ -43,44 +43,18 @@ $this->setFrameMode(true); ?>
                                             </li>
                                         <? endforeach; ?>
                                     </ul>
-                                <ul class="main-nav__sublist main-nav__sublist--brands">
-                                    <span class="main-nav__sublist-header">Бренды</span>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-apple.svg" alt="apple">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-lg.svg" alt="lg">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-philips.svg" alt="philips">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-xiaomi.svg" alt="xiaomi">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-honor.svg" alt="honor">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-samsung.svg" alt="samsung">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="" href="#">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/brand-dell.svg" alt="dell">
-                                        </a>
-                                    </li>
-                                </ul>
+                                <? if (!empty($arItem['BRANDS'])): ?>
+                                    <ul class="main-nav__sublist main-nav__sublist--brands">
+                                        <span class="main-nav__sublist-header">Бренды</span>
+                                        <? foreach ($arItem['BRANDS'] as $brand): ?>
+                                            <li>
+                                                <a href="/catalog/<?= $arItem["CODE"] ?>/brand/<?= $brand["code"] ?>/">
+                                                    <img src="<?= $brand["logo"] ?>" alt="<?= $brand["name"] ?>">
+                                                </a>
+                                            </li>
+                                        <? endforeach; ?>
+                                    </ul>
+                                <? endif; ?>
                             </div>
                         </div>
                     <? endif; ?>

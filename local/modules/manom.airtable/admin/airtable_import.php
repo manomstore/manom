@@ -43,6 +43,7 @@ $sections = $tools->getSections();
                 <div class="airtable-success js-airtable-success">
                     <p>Выгрузка успешно выполнена.</p>
                 </div>
+                <div class="airtable-message js-airtable-message"></div>
                 <div class="airtable-error js-airtable-error">
                     <p>Не удалось выполнить выгрузку. Errors:</p>
                     <div class="js-airtable-errors"></div>

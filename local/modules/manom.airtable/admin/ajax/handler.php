@@ -28,6 +28,7 @@ if (!Loader::includeModule('manom.airtable')) {
     die(json_encode(array('error' => true, 'Не подключен модуль manom.airtable')));
 }
 
+$message = '';
 $post = $request->getPostList()->toArray();
 
 if ($post['action'] === 'all') {
@@ -45,6 +46,8 @@ if ($post['action'] === 'all') {
 
         die(json_encode(array('error' => true, 'message' => $errorMes)));
     }
+
+    $message = $import->getBrandResultMessage();
 }
 
 if ($post['action'] === 'sections') {
@@ -68,6 +71,8 @@ if ($post['action'] === 'sections') {
 
         die(json_encode(array('error' => true, 'message' => $errorMes)));
     }
+
+    $message = $import->getBrandResultMessage();
 }
 
 if ($post['action'] === 'element') {
@@ -88,4 +93,4 @@ if ($post['action'] === 'deleteLink') {
     }
 }
 
-die(json_encode(array('error' => false, 'message' => '')));
+die(json_encode(array('error' => false, 'message' => $message)));

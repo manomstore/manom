@@ -11,3 +11,7 @@
     display: none;
     color: red;
 }
+
+.airtable-message {
+    display: none;
+}

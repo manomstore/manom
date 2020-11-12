@@ -177,6 +177,7 @@ $properties = Content::getPropertyCodes();
                 'compare' => 'compare/',
                 'element' => '#SECTION_CODE_PATH#/#ELEMENT_CODE#/',
                 'section' => '#SECTION_CODE_PATH#/',
+                'brand' => '#SECTION_CODE_PATH#/brand/#BRAND_CODE#/',
                 'sections' => '',
                 'smart_filter' => '#SECTION_CODE_PATH#/filter/#SMART_FILTER_PATH#/apply/',
             ),
