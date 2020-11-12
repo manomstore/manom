@@ -7,24 +7,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 $this->setFrameMode(true);
 
 $request = \Bitrix\Main\Context::getCurrent()->getRequest();
-$hasFilterElement = false;
-foreach ($arResult['ITEMS'] as $item) {
-    if (isset($item['PRICE'])) {
-        if ($item['VALUES']['MAX']['VALUE'] - $item['VALUES']['MIN']['VALUE'] <= 0) {
-            continue;
-        }
-
-        $hasFilterElement = true;
-    }
-
-    if (isset($item['PRICE']) || !$item['DISPLAY_TYPE'] || !$item['VALUES']) {
-        continue;
-    }
-
-    $hasFilterElement = true;
-}
 ?>
-<?php if ($hasFilterElement): ?>
+<?php if ($arResult["HAS_FILTER_ELEMENT"]): ?>
     <aside class="catalog-filter" data-action="<?=$arResult['FORM_ACTION']?>">
         <input type="hidden" name="set_filter" value="Y">
         <?php foreach ($arResult['HIDDEN'] as $item): ?>

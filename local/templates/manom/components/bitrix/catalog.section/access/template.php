@@ -54,10 +54,7 @@ $this->setFrameMode(true);
                             <div class="p-nav-bottom__price">
                                 <?=number_format($item['price'], 0, '', ' ')?>
                                 <span> ₽</span>
-                                <?php if (
-                                    !empty((int)$item['oldPrice']) &&
-                                    (int)$item['price'] !== (int)$item['oldPrice']
-                                ): ?>
+                                <?php if ($item['showOldPrice']): ?>
                                     <div class="p-nav-bottom__oldprice">
                                         <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                     </div>

@@ -35,6 +35,8 @@ $prices = Content::getPricesFromStoreData($arParams['ECOMMERCE_DATA']['storeData
 
 $arResult['price'] = $prices['price'];
 $arResult['oldPrice'] = $prices['oldPrice'];
+$arResult['showOldPrice'] = !empty((int)$arResult['oldPrice'])
+    && (int)$arResult['price'] !== (int)$arResult['oldPrice'];
 
 if (
     empty($arParams['ECOMMERCE_DATA']['amounts']['main']) &&
@@ -200,7 +202,7 @@ if ($arResult["DISPLAY_PROPERTIES"]["PRODUCT_OF_THE_DAY"]["VALUE"] === "Да") {
     $labels["PRODUCT_DAY"] = true;
 }
 
-if ($arResult["DISPLAY_PROPERTIES"]["SELL_PROD"]["VALUE"] === "Да") {
+if ($arResult["DISPLAY_PROPERTIES"]["SELL_PROD"]["VALUE"] === "Да" || $arResult['showOldPrice']) {
     $labels["SALE"] = true;
 }
 

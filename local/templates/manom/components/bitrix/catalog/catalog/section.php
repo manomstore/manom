@@ -72,10 +72,10 @@ function getSection($params): array
     }
 
     $filter = array('ACTIVE' => 'Y', 'IBLOCK_ID' => (int)$params['iblockId']);
-    if (!empty($params['sectionCode'])) {
-        $filter['CODE'] = $params['sectionCode'];
-    } elseif (!empty((int)$params['sectionId'])) {
-        $filter['ID'] = (int)$params['sectionId'];
+    if (!empty($params['sectionId'])) {
+        $filter['ID'] = $params['sectionId'];
+    } elseif (!empty((int)$params['sectionCode'])) {
+        $filter['CODE'] = (int)$params['sectionCode'];
     }
     $select = array('IBLOCK_ID', 'ID', 'NAME');
     $result = CIBlockSection::GetList(array(), $filter, false, $select);
@@ -181,7 +181,9 @@ function getSection($params): array
                 $component,
                 array('HIDE_ICONS' => 'Y')
             ); ?>
-            <?php $APPLICATION->IncludeComponent(
+            <?php
+            global $hideSmartFilter;
+            $APPLICATION->IncludeComponent(
                 'bitrix:catalog.section',
                 '',
                 array(
@@ -302,6 +304,7 @@ function getSection($params): array
                     'IS_BRAND' => false,
                     'AJAX' => $_REQUEST['ajaxCal'] === 'Y',
                     'BLOCK_STYLE' => $_REQUEST['styleBlock'],
+                    'HIDE_SMART_FILTER' => (bool)$hideSmartFilter,
                 ),
                 $component
             ); ?>
