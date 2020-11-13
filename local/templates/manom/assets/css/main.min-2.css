@@ -11450,7 +11450,6 @@ button.top-nav__link {
   .main-nav__sublist--brands {
     display: flex;
     flex-direction: column;
-    align-items: center;
 
   }
 
