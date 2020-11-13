@@ -361,7 +361,7 @@ class Brand
      * @param $name
      * @return bool
      */
-    public function create($name): bool
+    public function create($name, $test = false): bool
     {
         $name = trim($name);
         if ($this->exist($name) || $this->inRecentlyCreated($name)) {
@@ -369,12 +369,19 @@ class Brand
         }
 
         $element = new \CIBlockElement();
-        $brandId = $element->Add([
+        $fields = [
             "NAME"      => $name,
             "CODE"      => \CUtil::translit($name, "en", ["max_len" => 10]),
             "IBLOCK_ID" => $this->iblockId,
             "ACTIVE"    => "Y",
-        ]);
+        ];
+
+        if ($test) {
+            $fields["PROPERTY_VALUES"] = [
+                "LOGO" => \CFile::MakeFileArray("/upload/test_brand.svg"),
+            ];
+        }
+        $brandId = $element->Add($fields);
 
         $success = (int)$brandId > 0;
 
@@ -401,5 +408,33 @@ class Brand
     {
         $this->type = $type;
         return $this;
+    }
+
+    public function getImportCreatedInfo(): string
+    {
+        $message = "";
+        $createdBrands = $this->getRecentlyCreated();
+        if (!empty($createdBrands) && is_array($createdBrands)) {
+            $message = "<p>В процессе импорта были созданы новые бренды. Нужно добавить им логотипы по ссылкам ниже:</p>";
+            $linkTemplate = "/bitrix/admin/iblock_element_edit.php?IBLOCK_ID=#IBLOCK_ID#&type=#IBLOCK_TYPE#&lang=ru&ID=#BRAND_ID#";
+            foreach ($createdBrands as $brand) {
+                $link = str_replace(
+                    [
+                        "#IBLOCK_ID#",
+                        "#IBLOCK_TYPE#",
+                        "#BRAND_ID#"
+                    ],
+                    [
+                        $this->iblockId,
+                        $this->iblockType,
+                        $brand["id"]
+                    ],
+                    $linkTemplate);
+                $message .= "<a href='{$link}' target='_blank'>Добавить логотип для {$brand["name"]}</a><br>";
+            }
+            $message .= "<p>(До тех пор, пока не будут добавлены логотипы, бренд не будет отображаться на сайте)</p>";
+        }
+
+        return $message;
     }
 }

@@ -37,3 +37,9 @@ if ($brand) {
     }
     unset($arItem);
 }
+
+foreach ($arResult as &$arItem) {
+    $arItem["CHILDREN"] = array_chunk($arItem["CHILDREN"], 8);
+    $arItem["BRANDS"] = array_chunk($arItem["BRANDS"], 8);
+}
+unset($arItem);

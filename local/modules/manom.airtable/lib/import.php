@@ -647,32 +647,4 @@ class Import
         }
         unset($section);
     }
-
-    public function getBrandResultMessage(): string
-    {
-        $message = "";
-        $createdBrands = $this->brand->getRecentlyCreated();
-        if (!empty($createdBrands) && is_array($createdBrands)) {
-            $message = "<p>В процессе импорта были созданы новые бренды. Нужно добавить им логотипы по ссылкам ниже:</p>";
-            $linkTemplate = "/bitrix/admin/iblock_element_edit.php?IBLOCK_ID=#IBLOCK_ID#&type=#IBLOCK_TYPE#&lang=ru&ID=#BRAND_ID#";
-            foreach ($createdBrands as $brand) {
-                $link = str_replace(
-                    [
-                        "#IBLOCK_ID#",
-                        "#IBLOCK_TYPE#",
-                        "#BRAND_ID#"
-                    ],
-                    [
-                        $this->brand->iblockId,
-                        $this->brand->iblockType,
-                        $brand["id"]
-                    ],
-                    $linkTemplate);
-                $message .= "<a href='{$link}' target='_blank'>Добавить логотип для {$brand["name"]}</a><br>";
-            }
-            $message .= "<p>(До тех пор, пока не будут добавлены логотипы, бренд не будет отображаться на сайте)</p>";
-        }
-
-        return $message;
-    }
 }

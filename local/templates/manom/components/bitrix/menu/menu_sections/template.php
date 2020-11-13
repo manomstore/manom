@@ -32,34 +32,39 @@ $this->setFrameMode(true); ?>
                     <? if (!empty($arItem["CHILDREN"])): ?>
                         <div class="main-nav__list-wrapper">
                             <div class="main-nav__inner">
-                                <div  class="main-nav__sublist">
+                                <div class="main-nav__sublist">
                                     <span class="main-nav__sublist-header">Категории</span>
                                     <div class="main-nav__list-pack">
-                                        <ul>
-                                            <? foreach ($arItem["CHILDREN"] as $children): ?>
-                                                <li>
-                                                    <a class="main-nav__link main-nav__link--lv2" href="<?= $children["LINK"] ?>">
-                                                        <?= $children["TEXT"] ?>
-                                                    </a>
-                                                </li>
-                                            <? endforeach; ?>
-                                        </ul>
-
+                                        <? foreach ($arItem["CHILDREN"] as $childrenChunk): ?>
+                                            <ul>
+                                                <? foreach ($childrenChunk as $children): ?>
+                                                    <li>
+                                                        <a class="main-nav__link main-nav__link--lv2"
+                                                           href="<?= $children["LINK"] ?>">
+                                                            <?= $children["TEXT"] ?>
+                                                        </a>
+                                                    </li>
+                                                <? endforeach; ?>
+                                            </ul>
+                                        <? endforeach; ?>
                                     </div>
                                 </div>
                                 <? if (!empty($arItem['BRANDS'])): ?>
                                     <div class="main-nav__sublist main-nav__sublist--brands">
                                         <span class="main-nav__sublist-header">Бренды</span>
                                         <div class="main-nav__list-pack">
-                                            <ul>
-                                                <? foreach ($arItem['BRANDS'] as $brand): ?>
-                                                    <li>
-                                                        <a href="/catalog/<?= $arItem["CODE"] ?>/brand/<?= $brand["code"] ?>/">
-                                                            <img src="<?= $brand["logo"] ?>" alt="<?= $brand["name"] ?>">
-                                                        </a>
-                                                    </li>
-                                                <? endforeach; ?>
-                                            </ul>
+                                            <? foreach ($arItem['BRANDS'] as $brandsChunk): ?>
+                                                <ul>
+                                                    <? foreach ($brandsChunk as $brand): ?>
+                                                        <li>
+                                                            <a href="/catalog/<?= $arItem["CODE"] ?>/brand/<?= $brand["code"] ?>/">
+                                                                <img src="<?= $brand["logo"] ?>"
+                                                                     alt="<?= $brand["name"] ?>">
+                                                            </a>
+                                                        </li>
+                                                    <? endforeach; ?>
+                                                </ul>
+                                            <? endforeach; ?>
                                         </div>
                                     </div>
                                 <? endif; ?>

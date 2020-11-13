@@ -47,7 +47,7 @@ if ($post['action'] === 'all') {
         die(json_encode(array('error' => true, 'message' => $errorMes)));
     }
 
-    $message = $import->getBrandResultMessage();
+    $message = $import->brand->getImportCreatedInfo();
 }
 
 if ($post['action'] === 'sections') {
@@ -72,7 +72,7 @@ if ($post['action'] === 'sections') {
         die(json_encode(array('error' => true, 'message' => $errorMes)));
     }
 
-    $message = $import->getBrandResultMessage();
+    $message = $import->brand->getImportCreatedInfo();
 }
 
 if ($post['action'] === 'element') {
