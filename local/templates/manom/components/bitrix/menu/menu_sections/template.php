@@ -33,7 +33,9 @@ $this->setFrameMode(true); ?>
                         <div class="main-nav__list-wrapper">
                             <div class="main-nav__inner">
                                 <div class="main-nav__sublist">
-                                    <span class="main-nav__sublist-header">Категории</span>
+                                    <? if (!empty($arItem['BRANDS'])): ?>
+                                        <span class="main-nav__sublist-header">Категории</span>
+                                    <? endif; ?>
                                     <div class="main-nav__list-pack">
                                         <? foreach ($arItem["CHILDREN"] as $childrenChunk): ?>
                                             <ul>
