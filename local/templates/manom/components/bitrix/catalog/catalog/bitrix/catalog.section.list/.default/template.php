@@ -8,22 +8,18 @@ $this->setFrameMode(true);
 
 ?>
 <?php if (!empty($arResult['SECTIONS'])): ?>
-    <section class='sc-banner'>
-        <div class="container">
-            <h2 class="sc-banner__h2"><?=$arParams['TITLE']?></h2>
-            <?php if (!empty($arResult['BANNER']['img'])): ?>
-                <div class="sc-banner__block" style="background-image: url('<?=$arResult['BANNER']['img']?>');">
-                    <?php if (!empty($arResult['BANNER']['text'])): ?>
-                        <h1 class="sc-banner__title"><?=$arResult['BANNER']['text']?></h1>
-                    <?php endif; ?>
-                    <?php if (!empty($arResult['BANNER']['btn_link']) && !empty($arResult['BANNER']['btn_text'])): ?>
-                        <a href="<?=$arResult['BANNER']['btn_link']?>" class="sc-banner__button">
-                            <?=$arResult['BANNER']['btn_text']?>
-                        </a>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </section>
-
-<?php endif; ?>
+    <ul>
+        <li class="catalog-filter__category">
+            <? if (!empty($arResult["SECTION"]["NAME"])): ?>
+                <h3><?= $arResult["SECTION"]["NAME"] ?></h3>
+            <? endif; ?>
+            <? foreach ($arResult["SECTIONS"] as $section): ?>
+                <p>
+                    <a class="catalog-filter__category-link" href="<?= $section["SECTION_PAGE_URL"] ?>">
+                        <?= $section["NAME"] ?>
+                    </a>
+                </p>
+            <? endforeach; ?>
+        </li>
+    </ul>
+<? endif; ?>
