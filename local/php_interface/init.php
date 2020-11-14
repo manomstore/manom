@@ -8,7 +8,10 @@ use Bitrix\Sale\Registry;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
-use Manom\Sale\Notify;
+use \Manom\Sale\Notify;
+use \Manom\Price;
+use \Manom\Product;
+use \Bitrix\Main\Context;
 
 require_once __DIR__ . '/autoload.php';
 
@@ -132,6 +135,12 @@ AddEventHandler(
     "sale",
     "OnSalePayOrder",
     Array("MyHandlerClass", "OnSalePayOrderHandler")
+);
+
+AddEventHandler(
+    "catalog",
+    "OnSuccessCatalogImport1C",
+    Array("MyHandlerClass", "OnSuccessCatalogImport1CHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
@@ -425,6 +434,12 @@ class Helper
             }
         } catch (\Exception $e) {
         }
+    }
+
+    public static function isImport()
+    {
+        $request = Context::getCurrent()->getRequest();
+        return $request->get("type") === "catalog" && $request->get("mode") === "import";
     }
 }
 
@@ -1073,7 +1088,7 @@ class MyHandlerClass
 
     function createIncludeForStaticPage($path)
     {
-        $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+        $request = Context::getCurrent()->getRequest();
 
         $createPathFile = $request->get("path") . "/" . $request->get("filename");
 
@@ -1118,6 +1133,28 @@ CONTENT;
         if ($isOnlinePayment && $order->isPaid()) {
             Notify::sendOrderConfirmAsNew($order);
         }
+    }
+
+
+    /**
+     * @param $arFields
+     * @param $filename
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     * @throws \Manom\Exception
+     */
+    function OnSuccessCatalogImport1CHandler($arFields, $filename)
+    {
+        $isOffers = strpos($filename, 'offers') !== false;
+
+        if (!$isOffers) {
+            return;
+        }
+
+        $price = new Price();
+        $price->recalculateTypeCurrent((new Product())->getAll());
     }
 }
 
