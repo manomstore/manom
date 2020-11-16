@@ -2672,7 +2672,8 @@ line-height: 24px;
 }
 
 .catalog-filter ul li .checkbox-1:checked ~ p,
-.catalog-filter ul li .checkbox-1:checked ~ .toggle-button {
+.catalog-filter ul li .checkbox-1:checked ~ .toggle-button,
+.catalog-filter ul li .checkbox-1:checked ~ span  {
   margin-top: 0;
   max-height: 0;
   opacity: 0;
