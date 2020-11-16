@@ -8,11 +8,12 @@ $this->setFrameMode(true);
 
 ?>
 <?php if (!empty($arResult['SECTIONS'])): ?>
-    <ul>
-        <li class="catalog-filter__category">
-            <? if (!empty($arResult["SECTION"]["NAME"])): ?>
+    <ul class="catalog-filter__category-cover">
+        <? if (!empty($arResult["SECTION"]["NAME"])): ?>
                 <h3><?= $arResult["SECTION"]["NAME"] ?></h3>
-            <? endif; ?>
+        <? endif; ?>
+        <li class="catalog-filter__category">
+
             <? foreach ($arResult["SECTIONS"] as $section): ?>
                 <p>
                     <a class="catalog-filter__category-link" href="<?= $section["SECTION_PAGE_URL"] ?>">
