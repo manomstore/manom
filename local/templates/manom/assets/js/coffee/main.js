@@ -1079,7 +1079,11 @@ $(document).ready(function () {
         $(document).find('.cb-filter').prepend($(elementFilter));
       }
     }
+    if ($('.catalog-filter__list-item input').prop('checked')) {
+      $(this).closest('.catalog-filter__list-item').addClass('top')
+    }
     return $.fn.ajaxLoadCatalog();
+
   });
 
   $clearAll = false;
