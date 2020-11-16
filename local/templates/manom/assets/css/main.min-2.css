@@ -7781,7 +7781,9 @@ h3.tab-content__title--right {
 }
 
 .sci-gift {
-  margin: 20px 0 50px;
+  padding: 20px 40px 50px;
+  width: 100%;
+  background-color: #fff;
 }
 
 .sci-gift__input {
@@ -7815,7 +7817,8 @@ h3.tab-content__title--right {
   border: 1px solid #83BB26;
   background-image:  url('./../img/icons/checkbox-tick.svg');
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 80%;
+  background-position: center;
 }
 
 .sci-gift__label::after {
@@ -7824,10 +7827,10 @@ h3.tab-content__title--right {
   width: 26px;
   height: 26px;
   padding: 3px;
-  right: 0;
-  top: -2px;
+  right: -26px;
+  top: -1px;
   box-sizing: border-box;
-  background-image:  url('./../img/icons/gift.svg');
+  background-image:  url('./../img/icons/gift-icon.svg');
   background-repeat: no-repeat;
   background-size: 100%;
 }
@@ -7998,6 +8001,10 @@ h3.tab-content__title--right {
 .sci-contact__checkbox:checked ~ .sci-contact__check::after {
   border-right-color: #83bb26;
   border-bottom-color: #83bb26;
+}
+
+.sci-gift {
+  padding: 10px 20px 20px;
 }
 
 .sci-contact__button-wrapper {
@@ -8803,6 +8810,10 @@ h3.tab-content__title--right {
     border: none;
   }
 
+  .sci-gift {
+    padding: 20px;
+  }
+
   .sci-contact__button-wrapper {
     padding: 20px;
     border-top: 1px solid #f2f2f2;
@@ -9400,6 +9411,10 @@ h3.tab-content__title--right {
   .sci-contact__button-back {
     padding-top: 18px;
     padding-bottom: 18px;
+  }
+
+  .sci-gift {
+    padding: 20px 40px 50px;
   }
 
   .sci-contact__button-wrapper {
