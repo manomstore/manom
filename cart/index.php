@@ -401,6 +401,18 @@ if (empty($productsOutOfStock)) {
                                     </section>
                                 </div>
                             </div>
+                            <div class="sci-gift">
+                              <input type="checkbox"
+                                data-prop=""
+                                name="sci-gift"
+                                id="sci-gift"
+                                class="sci-gift__input"
+                              >
+                              <label for="sci-gift" class="sci-gift__label">
+                                Подарочная упаковка
+                              </label>
+
+                            </div>
                             <div class="sci-contact__button-wrapper">
                                 <a class="sci-contact__button-back js-shopcart-back" href="#" aria-label="Вернуться назад">
                                     Вернуться в корзину

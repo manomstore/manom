@@ -7780,6 +7780,58 @@ h3.tab-content__title--right {
   display: block;
 }
 
+.sci-gift {
+  margin: 20px 0 50px;
+}
+
+.sci-gift__input {
+  display: none;
+}
+
+.sci-gift__label {
+  display: block;
+  padding: 0 10px 0 44px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  position: relative;
+}
+
+.sci-gift__label::before {
+  position: absolute;
+  content: '';
+  width: 23px;
+  height: 23px;
+  padding: 4px;
+  left: 0;
+  top: 0;
+  border: 1px solid rgb(156, 156, 95);
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.sci-gift__input:checked ~ .sci-gift__label::before {
+  background: #83BB26;
+  border: 1px solid #83BB26;
+  background-image:  url('./../img/icons/checkbox-tick.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.sci-gift__label::after {
+  position: absolute;
+  content: '';
+  width: 26px;
+  height: 26px;
+  padding: 3px;
+  right: 0;
+  top: -2px;
+  box-sizing: border-box;
+  background-image:  url('./../img/icons/gift.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
 .sci-contact__input {
   font-family: inherit;
   font-size: 16px;
