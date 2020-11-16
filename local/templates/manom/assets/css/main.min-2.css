@@ -7781,7 +7781,7 @@ h3.tab-content__title--right {
 }
 
 .sci-gift {
-  padding: 20px 40px 50px;
+  padding: 0px 40px 50px;
   width: 100%;
   background-color: #fff;
 }
@@ -8812,7 +8812,7 @@ h3.tab-content__title--right {
   }
 
   .sci-gift {
-    padding: 20px;
+    padding: 0 20px 40px;
   }
 
   .sci-contact__button-wrapper {
@@ -9415,7 +9415,7 @@ h3.tab-content__title--right {
   }
 
   .sci-gift {
-    padding: 20px 40px 50px;
+    padding: 0px 40px 50px;
   }
 
   .sci-contact__button-wrapper {
