@@ -8,7 +8,7 @@ foreach ($arResult['ITEMS'] as &$item) {
         $counter = 0;
         array_walk($item["VALUES"], function (&$value, $key, &$counter) {
             $counter++;
-            $value["SHOW"] = $counter <= 5;
+            $value["SHOW"] = $counter <= 5 || $value["CHECKED"];
 
         }, $counter);
     }
