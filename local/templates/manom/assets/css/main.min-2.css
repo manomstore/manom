@@ -7792,11 +7792,12 @@ h3.tab-content__title--right {
 
 .sci-gift__label {
   display: block;
-  padding: 0 10px 0 44px;
+  padding: 0 10px 0 34px;
   font-weight: 500;
   font-size: 18px;
   line-height: 23px;
   position: relative;
+  width: fit-content;
 }
 
 .sci-gift__label::before {
@@ -7828,7 +7829,7 @@ h3.tab-content__title--right {
   height: 26px;
   padding: 3px;
   right: -26px;
-  top: -1px;
+  top: -2px;
   box-sizing: border-box;
   background-image:  url('./../img/icons/gift-icon.svg');
   background-repeat: no-repeat;
