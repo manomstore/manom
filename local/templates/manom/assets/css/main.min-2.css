@@ -2555,7 +2555,7 @@ line-height: 24px;
 }
 
 .catalog-filter__li {
-  max-height: auto;
+  max-height: fit-content;
   overflow: hidden;
   transition: max-height 0.2s;
 }
@@ -2671,7 +2671,8 @@ line-height: 24px;
   opacity: 0;
 }
 
-.catalog-filter ul li .checkbox-1:checked ~ p {
+.catalog-filter ul li .checkbox-1:checked ~ p,
+.catalog-filter ul li .checkbox-1:checked ~ .toggle-button {
   margin-top: 0;
   max-height: 0;
   opacity: 0;
