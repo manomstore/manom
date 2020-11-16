@@ -2672,14 +2672,17 @@ line-height: 24px;
 }
 
 .catalog-filter ul li .checkbox-1:checked ~ p,
-.catalog-filter ul li .checkbox-1:checked ~ .toggle-button,
-.catalog-filter ul li .checkbox-1:checked ~ .toggle-button span  {
+.catalog-filter ul li .checkbox-1:checked ~ .toggle-button  {
   margin-top: 0;
   max-height: 0;
   opacity: 0;
   -webkit-transform: translate(0, 50%);
   -ms-transform: translate(0, 50%);
   transform: translate(0, 50%);
+}
+
+.catalog-filter ul li .checkbox-1:checked ~ .toggle-button span {
+  display: none;
 }
 
 .catalog-filter ul li .checkbox-1:checked ~ i:before {
