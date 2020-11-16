@@ -11401,6 +11401,12 @@ button.top-nav__link {
     margin: 0;
   }
 
+  .main-nav__sublist.disabled,
+  .main-nav__innerlist.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
   .main-nav__sublist li,
   .main-nav__innerlist li {
     margin: 0 0 20px;
