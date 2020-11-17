@@ -8,6 +8,7 @@ use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
+use \Manom\Nextjs\Api\Store;
 
 /**
  * Class Content
@@ -366,5 +367,23 @@ class Content
         }
 
         return $items;
+    }
+
+    public static function showCallbackForm()
+    {
+        if (!Loader::includeModule("manom.nextjs")) {
+            return false;
+        }
+
+        $mainStore = (new Store())->getMain();
+
+        if (empty($mainStore) || empty($mainStore["schedule"])) {
+            return false;
+        }
+
+        $week = new WeekTools();
+        $scheduleData = $week->parseScheduleShop($mainStore["schedule"]);
+
+        return !$scheduleData["isOpen"];
     }
 }

@@ -11,6 +11,7 @@ use Bitrix\Main\Context;
 use Bitrix\Sale\Basket;
 use Bitrix\Sale\Fuser;
 use Manom\Product;
+use \Manom\WeekTools;
 
 $request = Context::getCurrent()->getRequest();
 
@@ -220,6 +221,7 @@ if (!empty($id)) {
         'BASKET' => $basket,
         'CURRENT_DIR' => $APPLICATION->GetCurDir(),
         'ECOMMERCE_DATA' => $ecommerceData,
+        'CACHE_CLEANER' => (new WeekTools())->getDateCacheCleaner(),
     ),
     $component
 ); ?>
