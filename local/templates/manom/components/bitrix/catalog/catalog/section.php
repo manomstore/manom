@@ -24,6 +24,31 @@ if ($_REQUEST['sort_by'] === 'price_asc') {
     $sort = 'NAME';
 }
 
+
+$pageCountList = [
+    "3" => [
+        "NAME" => "3",
+    ],
+    "6" => [
+        "NAME" => "6",
+    ],
+    "12" => [
+        "NAME" => "12",
+    ],
+    "24" => [
+        "NAME" => "24",
+    ],
+    "9999" => [
+        "NAME" => "все",
+    ],
+];
+
+$pageCount = 12;
+if (array_key_exists($_REQUEST["countOnPage"], $pageCountList)) {
+    $pageCount = $_REQUEST["countOnPage"];
+}
+$pageCountList[$pageCount]["SELECTED"] = true;
+
 $section = Content::returnResultCache(
     'section'.$arParams['IBLOCK_ID'].$arResult['VARIABLES']['SECTION_ID'].$arResult['VARIABLES']['SECTION_CODE'],
     'getSection',
@@ -51,10 +76,10 @@ function getSection($params): array
     }
 
     $filter = array('ACTIVE' => 'Y', 'IBLOCK_ID' => (int)$params['iblockId']);
-    if (!empty($params['sectionCode'])) {
-        $filter['CODE'] = $params['sectionCode'];
-    } elseif (!empty((int)$params['sectionId'])) {
-        $filter['ID'] = (int)$params['sectionId'];
+    if (!empty($params['sectionId'])) {
+        $filter['ID'] = $params['sectionId'];
+    } elseif (!empty((int)$params['sectionCode'])) {
+        $filter['CODE'] = (int)$params['sectionCode'];
     }
     $select = array('IBLOCK_ID', 'ID', 'NAME');
     $result = CIBlockSection::GetList(array(), $filter, false, $select);
@@ -160,7 +185,9 @@ function getSection($params): array
                 $component,
                 array('HIDE_ICONS' => 'Y')
             ); ?>
-            <?php $APPLICATION->IncludeComponent(
+            <?php
+            global $hideSmartFilter;
+            $APPLICATION->IncludeComponent(
                 'bitrix:catalog.section',
                 '',
                 array(
@@ -192,7 +219,8 @@ function getSection($params): array
                     'SHOW_404' => $arParams['SHOW_404'],
                     'FILE_404' => $arParams['FILE_404'],
                     'DISPLAY_COMPARE' => $arParams['USE_COMPARE'],
-                    'PAGE_ELEMENT_COUNT' => $arParams['PAGE_ELEMENT_COUNT'],
+                    'PAGE_ELEMENT_COUNT' => $pageCount,
+                    'PAGE_COUNT_LIST' => $pageCountList,
                     'LINE_ELEMENT_COUNT' => $arParams['LINE_ELEMENT_COUNT'],
                     'PRICE_CODE' => $arParams['~PRICE_CODE'],
                     'USE_PRICE_COUNT' => $arParams['USE_PRICE_COUNT'],
@@ -278,6 +306,7 @@ function getSection($params): array
                     'IS_BRAND' => false,
                     'AJAX' => $_REQUEST['ajaxCal'] === 'Y',
                     'BLOCK_STYLE' => $_REQUEST['styleBlock'],
+                    'HIDE_SMART_FILTER' => (bool)$hideSmartFilter,
                 ),
                 $component
             ); ?>

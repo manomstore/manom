@@ -218,6 +218,8 @@ class Content
 
             $item['price'] = $prices['price'];
             $item['oldPrice'] = $prices['oldPrice'];
+            $item['showOldPrice'] = !empty((int)$prices['oldPrice'])
+                && (int)$item['price'] !== (int)$prices['oldPrice'];
 
             if (
                 empty($item['ecommerceData']['amounts']['main']) &&

@@ -4,6 +4,7 @@ namespace Manom;
 
 use \Bitrix\Catalog\PriceTable;
 use \Bitrix\Currency\CurrencyManager;
+use \Bitrix\Iblock\PropertyIndex\Manager;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SiteTable;
@@ -364,6 +365,9 @@ class Price
             $success = $result->isSuccess();
         }
 
+        if ($success) {
+            Manager::updateElementIndex(\Helper::CATALOG_IB_ID, $productId);
+        }
         return $success;
     }
 }

@@ -239,7 +239,7 @@ function formatBytes($size, $precision = 2)
                                 <?= $data['current'] ? 'checked' : '' ?>
                             >
                             <label for="<?= $data['code'] ?>" class="product-content__color-<?= $data['code'] ?>"
-                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;"></label>
+                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title="<?= $data['name'] ?>"></label>
                         <?php endforeach; ?>
                     </form>
                 </div>
@@ -381,7 +381,7 @@ function formatBytes($size, $precision = 2)
                                 <span id="ruble">&nbsp;₽</span>
                             </div>
 
-                            <?php if (!empty($arResult['oldPrice']) && $arResult['price'] !== $arResult['oldPrice']): ?>
+                            <?php if ($arResult['showOldPrice']): ?>
                                 <p class="product-sidebar__old-price">
                                     <span>
                                         <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
@@ -474,7 +474,19 @@ function formatBytes($size, $precision = 2)
                     </div>
 
                     <div class="product-sidebar__cheap-reason">
-                        <p>Этот товар доступен для продажи с незначительными повреждениями по заниженной цене. За подробной информацией обращайтесь по телефону <span>8 (495) 150-64-50</span></p>
+                        <p>
+                            <?php $APPLICATION->IncludeComponent(
+                                'bitrix:main.include',
+                                '.default',
+                                [
+                                    'PATH'               => '/include/cheap-reason.php',
+                                    'COMPONENT_TEMPLATE' => '.default',
+                                    'AREA_FILE_SHOW'     => 'file',
+                                    'EDIT_TEMPLATE'      => '',
+                                ],
+                                false
+                            ); ?>
+                        </p>
                     </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
@@ -966,7 +978,7 @@ function formatBytes($size, $precision = 2)
                                 'DISPLAY_BOTTOM_PAGER' => 'N',
                                 'DISPLAY_TOP_PAGER' => 'N',
                                 'ELEMENT_SORT_FIELD' => 'sort',
-                                'ELEMENT_SORT_FIELD2' => 'id',
+                                'ELEMENT_SORT_FIELD2' => 'rand',
                                 'ELEMENT_SORT_ORDER' => 'asc',
                                 'ELEMENT_SORT_ORDER2' => 'desc',
                                 'ENLARGE_PRODUCT' => '',
