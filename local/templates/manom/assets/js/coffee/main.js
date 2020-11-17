@@ -464,6 +464,7 @@ $(document).ready(function () {
 
     $(document).find('.shopcart-nav1 input[type="radio"]').each(function () {
       var $count,
+          requiredError,
           $formIsValid,
           sBlock,
           isEmailValid,
@@ -472,7 +473,7 @@ $(document).ready(function () {
       if ($(this).prop('checked')) {
         slideNum = $(this).attr('data-num');
       }
-
+      requiredError = 0;
       if (!--inputCount) {
         if (parseInt(slideNum) === 1) {
           $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -504,6 +505,7 @@ $(document).ready(function () {
 
               if (!inputValue && $input.prop('required')) {
                 $formIsValid = false;
+                requiredError++;
                 $input.addClass('is-error');
               } else {
                 $input.removeClass('is-error');
@@ -533,10 +535,14 @@ $(document).ready(function () {
               }
 
               if (!--$count) {
+                  if (requiredError > 1) {
+                      $(document).find('.push_up_item').addClass('push_up_item--error');
+                      return $.fn.setPushUp('Не заполнены поля', 'Поля, обязательные к заполнению, не были заполнены', false, 'message', false, 5000, undefined, 'push_up_item--error');
+                  }
+
                 if (!phoneIsValid) {
                   $(document).find('.push_up_item').addClass('push_up_item--error');
                   return $.fn.setPushUp('Ошибка', 'Введён некорректный номер телефона', false, 'message', false, 5000, undefined, 'push_up_item--error');
-
                 }
                 if ($formIsValid) {
                   $(document).find('.shopcart-nav1 input#shopcart-tab' + (
@@ -556,7 +562,7 @@ $(document).ready(function () {
                     return $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message',
                       false, 5000, undefined, 'push_up_item--error');
                   } else {
-                    return $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению небыли заполнены', false,
+                    return $.fn.setPushUp('Не заполнены поля', 'Поля, обязательные к заполнению, не были заполнены', false,
                       'message', false, 5000, undefined, 'push_up_item--warning');
                   }
                 }
@@ -680,7 +686,7 @@ $(document).ready(function () {
                       $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
                           'message', false, 5000, undefined, 'push_up_item--warning');
                     }else {
-                      $.fn.setPushUp('Не заполнены поля', 'Поля обязательные к заполнению не были заполнены', false,
+                      $.fn.setPushUp('Не заполнены поля', 'Поля, обязательные к заполнению не были заполнены', false,
                           'message', false, 5000, undefined, 'push_up_item--warning');
                     }
                   }

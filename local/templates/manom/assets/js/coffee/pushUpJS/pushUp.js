@@ -14,6 +14,9 @@
     if (head) {
       $indexID = $('#event_push_up>.push_up_item').length;
       $indexID++;
+      if($indexID>1) {
+        $('#event_push_up').html('');
+      }
       $itemID = "push_up_item_" + $indexID;
       $('#event_push_up').append(
         "<a class='push_up_item" + (modClass ? " " + modClass : "") + "' id='" + $itemID + "'></a>"
