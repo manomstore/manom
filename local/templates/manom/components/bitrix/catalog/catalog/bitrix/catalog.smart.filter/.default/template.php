@@ -102,6 +102,46 @@ $request = \Bitrix\Main\Context::getCurrent()->getRequest();
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>
+                <li class="catalog-filter__li">
+                    <input type="checkbox" class="checkbox-1">
+                    <i></i>
+                    <h3>Цвет</h3>
+                    <div class="catalog-filter__color">
+                        <p>
+                            <input
+                                    name="color"
+                                    type="checkbox"
+                                    <?= $value["DISABLED"] ? 'disabled' : '' ?>
+                                    id="1"
+                                    value="<?= $data['value'] ?>"
+                            >
+                            <label for="1" class="product-content__color-<?= $data['code'] ?>"
+                                    style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title="<?= $data['name'] ?>"></label>
+                        </p>
+                        <p>
+                           <input
+                                    name="color"
+                                    type="checkbox"
+                                    <?= $value["DISABLED"] ? 'disabled' : '' ?>
+                                    id="2"
+                                    value="<?= $data['value'] ?>"
+                            >
+                            <label for="2" class="product-content__color-<?= $data['code'] ?>"
+                                    style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title="<?= $data['name'] ?>"></label>
+                        </p>
+                        <p>
+                           <input
+                                    name="color"
+                                    type="checkbox"
+                                    <?= $value["DISABLED"] ? 'disabled' : '' ?>
+                                    id="3"
+                                    value="<?= $data['value'] ?>"
+                            >
+                            <label for="3" class="product-content__color-<?= $data['code'] ?>"
+                                    style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title="<?= $data['name'] ?>"></label>
+                        </p>
+                    </div>
+                </li>
             <?php foreach ($arResult['ITEMS'] as $item): ?>
                 <?php if (isset($item['PRICE']) || !$item['DISPLAY_TYPE'] || count((array)$item['VALUES']) <= 1) {
                     continue;
