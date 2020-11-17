@@ -38,26 +38,7 @@ foreach ($arResult['ITEMS'] as $item) {
 
     $images = Content::getCatalogItemImages($item);
 
-    $properties = array();
-    foreach ($item['DISPLAY_PROPERTIES'] as $property) {
-        if (is_array($property['VALUE'])) {
-            continue;
-        }
-
-        $properties[] = $property;
-    }
-
-    if (empty($properties) && !empty($item['OFFERS'])) {
-        foreach ($item['OFFERS'] as $offer) {
-            foreach ($offer['DISPLAY_PROPERTIES'] as $property) {
-                if (is_array($property['DISPLAY_VALUE'])) {
-                    $property['DISPLAY_VALUE'] = implode(',', $property['DISPLAY_VALUE']);
-                }
-
-                $properties[] = $property;
-            }
-        }
-    }
+    $content = new Content();
 
     $items[] = array(
         'id' => (int)$item['ID'],
@@ -65,7 +46,7 @@ foreach ($arResult['ITEMS'] as $item) {
         'name' => $item['NAME'],
         'url' => $item['DETAIL_PAGE_URL'],
         'images' => $images,
-        'properties' => $properties,
+        'properties' => $content->getDisplayedProperties($item['DISPLAY_PROPERTIES']),
         'price' => $item['price'],
         'oldPrice' => $item['oldPrice'],
         'canBuy' => $canBuy,
