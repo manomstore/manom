@@ -3325,6 +3325,11 @@ $.fn.ajaxLoadCatalog = function () {
       type: 'GET',
       data: $data,
       success: function (data) {
+        if (history.pushState && sort_by) {
+          var urlObj = new URL(window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search);
+          urlObj.searchParams.set("sort_by", sort_by);
+          history.pushState(null, null, urlObj.href);
+        }
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());

@@ -11,7 +11,7 @@ $this->setFrameMode(true);
 
 global $catalogFilter;
 
-$sort = 'propertysort_SALELEADER';
+$sortCode = $_REQUEST['sort_by'];
 $order = 'ASC';
 if ($_REQUEST['sort_by'] === 'price_asc') {
     $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
@@ -22,6 +22,9 @@ if ($_REQUEST['sort_by'] === 'price_asc') {
     $sort = 'propertysort_SALELEADER';
 } elseif ($_REQUEST['sort_by'] === 'name') {
     $sort = 'NAME';
+} else {
+    $sort = 'propertysort_SALELEADER';
+    $sortCode = "pop";
 }
 
 
@@ -195,6 +198,7 @@ function getSection($params): array
                     'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                     'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
                     'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
+                    'SORT_CODE' => $sortCode,
                     'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                     'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],
                     'META_KEYWORDS' => $arParams['LIST_META_KEYWORDS'],

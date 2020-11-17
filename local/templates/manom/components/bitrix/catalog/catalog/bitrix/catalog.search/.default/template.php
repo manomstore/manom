@@ -22,6 +22,7 @@ $elementOrder = array();
 
 $sort = '';
 $order = 'ASC';
+$sortCode = $_REQUEST['sort_by'];
 switch ($_REQUEST['sort_by']) {
     case "price_asc":
         $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
@@ -39,6 +40,7 @@ switch ($_REQUEST['sort_by']) {
     default:
         $sort = "ID";
         $order = $arElements;
+        $sortCode = "relevance";
         break;
 }
 
@@ -174,6 +176,7 @@ if (!empty($searchFilter) && is_array($searchFilter))
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
         'PAGE_ELEMENT_COUNT' => $pageCount,
+        'SORT_CODE' => $sortCode,
         'PAGE_COUNT_LIST' => $pageCountList,
 		"LINE_ELEMENT_COUNT" => $arParams["LINE_ELEMENT_COUNT"],
 		"PROPERTY_CODE" => $arParams["PROPERTY_CODE"],
