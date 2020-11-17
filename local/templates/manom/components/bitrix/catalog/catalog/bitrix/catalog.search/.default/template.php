@@ -1,17 +1,7 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-/** @var array $arParams */
-/** @var array $arResult */
-/** @global CMain $APPLICATION */
-/** @global CUser $USER */
-/** @global CDatabase $DB */
-/** @var CBitrixComponentTemplate $this */
-/** @var string $templateName */
-/** @var string $templateFile */
-/** @var string $templateFolder */
-/** @var string $componentPath */
-/** @var CBitrixComponent $component */
+<?php
 
 use Bitrix\Main\Loader;
+use \Manom\Price;
 
 $this->setFrameMode(true);
 
@@ -27,6 +17,60 @@ if ($arParams['USE_SEARCH_RESULT_ORDER'] === 'N')
 		"ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
 	);
 }
+
+$elementOrder = array();
+
+$sort = '';
+$order = 'ASC';
+switch ($_REQUEST['sort_by']) {
+    case "price_asc":
+        $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+        break;
+    case "price_desc":
+        $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+        $order = 'DESC';
+        break;
+    case "pop":
+        $sort = 'propertysort_SALELEADER';
+        break;
+    case "name":
+        $sort = 'NAME';
+        break;
+    default:
+        $sort = "ID";
+        $order = $arElements;
+        break;
+}
+
+
+$elementOrder = [
+    "ELEMENT_SORT_FIELD" => $sort,
+    "ELEMENT_SORT_ORDER" => $order
+];
+
+$pageCountList = [
+    "3"    => [
+        "NAME" => "3",
+    ],
+    "6"    => [
+        "NAME" => "6",
+    ],
+    "12"   => [
+        "NAME" => "12",
+    ],
+    "24"   => [
+        "NAME" => "24",
+    ],
+    "9999" => [
+        "NAME" => "все",
+    ],
+];
+
+$pageCount = 12;
+if (array_key_exists($_REQUEST["countOnPage"], $pageCountList)) {
+    $pageCount = $_REQUEST["countOnPage"];
+}
+$pageCountList[$pageCount]["SELECTED"] = true;
 
 if (Loader::includeModule('search'))
 {
@@ -92,8 +136,6 @@ if (Loader::includeModule('search'))
 
     global $searchFilter;
 
-    $elementOrder = array();
-
     if (!isset($_REQUEST["q"])) {
         LocalRedirect(SITE_DIR . "catalog");
     } elseif (!empty($arElements) && is_array($arElements)) {
@@ -111,29 +153,6 @@ if (Loader::includeModule('search'))
         <?
         return;
     }
-
-    $sort = '';
-    $order = 'ASC';
-    switch ($_REQUEST['sort_by']) {
-        case "price":
-            $sort = 'CATALOG_PRICE_1';
-            break;
-        case "pop":
-            $sort = 'propertysort_SALELEADER';
-            break;
-        case "name":
-            $sort = 'NAME';
-            break;
-        default:
-            $sort = "ID";
-            $order = $arElements;
-            break;
-    }
-    $elementOrder = array(
-        "ELEMENT_SORT_FIELD" => $sort,
-        "ELEMENT_SORT_ORDER" => $order
-    );
-
 }
 else
 {
@@ -154,7 +173,8 @@ if (!empty($searchFilter) && is_array($searchFilter))
 	$componentParams = array(
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-		"PAGE_ELEMENT_COUNT" => $arParams["PAGE_ELEMENT_COUNT"],
+        'PAGE_ELEMENT_COUNT' => $pageCount,
+        'PAGE_COUNT_LIST' => $pageCountList,
 		"LINE_ELEMENT_COUNT" => $arParams["LINE_ELEMENT_COUNT"],
 		"PROPERTY_CODE" => $arParams["PROPERTY_CODE"],
 		"PROPERTY_CODE_MOBILE" => (isset($arParams["PROPERTY_CODE_MOBILE"]) ? $arParams["PROPERTY_CODE_MOBILE"] : []),
