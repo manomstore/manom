@@ -1,5 +1,7 @@
 <?php
 
+use Manom\Related;
+
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
@@ -16,6 +18,20 @@ foreach ($arResult['ITEMS'] as &$item) {
             }
             return ($a["NUM_VALUE"] < $b["NUM_VALUE"]) ? -1 : 1;
         });
+    }
+
+    if ($item["CODE"] === "color") {
+        try {
+            $related = new Related();
+            $item["VALUES"] = array_map(function ($item) {
+                $item["value"] = $item["VALUE"];
+                return $item;
+            }, $item["VALUES"]);
+
+            $item["VALUES"] = $related->processColors($item["VALUES"]);
+        } catch (\Exception $e) {
+            $item["VALUES"] = [];
+        }
     }
 }
 
