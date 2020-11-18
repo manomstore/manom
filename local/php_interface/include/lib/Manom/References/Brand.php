@@ -361,7 +361,7 @@ class Brand
      * @param $name
      * @return bool
      */
-    public function create($name, $test = false): bool
+    public function create($name): bool
     {
         $name = trim($name);
         if ($this->exist($name) || $this->inRecentlyCreated($name)) {
@@ -376,11 +376,6 @@ class Brand
             "ACTIVE"    => "Y",
         ];
 
-        if ($test) {
-            $fields["PROPERTY_VALUES"] = [
-                "LOGO" => \CFile::MakeFileArray("/upload/test_brand.svg"),
-            ];
-        }
         $brandId = $element->Add($fields);
 
         $success = (int)$brandId > 0;
