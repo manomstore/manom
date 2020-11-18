@@ -16,6 +16,11 @@ use Bitrix\Main\SystemException;
 class Content
 {
     /**
+     * @var bool|array
+     */
+    private $propertiesToShow = false;
+
+    /**
      * Content constructor.
      */
     public function __construct()
@@ -366,5 +371,66 @@ class Content
         }
 
         return $items;
+    }
+
+    /**
+     * @return bool
+     * @throws LoaderException
+     */
+    public function setPropertiesToShow(): bool
+    {
+        if (!Loader::includeModule('redsign.grupper')) {
+            return false;
+        }
+
+        $this->propertiesToShow = [];
+
+        $rsGroups = \CRSGGroups::GetList(["SORT" => "ASC", "ID" => "ASC"], []);
+        while ($arGroup = $rsGroups->Fetch()) {
+            $rsBinds = \CRSGBinds::GetList(["SORT" => "ASC"], ["GROUP_ID" => $arGroup["ID"]]);
+            while ($arBind = $rsBinds->Fetch()) {
+                $this->propertiesToShow[] = $arBind["IBLOCK_PROPERTY_ID"];
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $properties
+     * @return array
+     */
+    public function getDisplayedProperties($properties): array
+    {
+        if ($this->propertiesToShow === false) {
+            try {
+                $this->setPropertiesToShow();
+            } catch (\Exception $e) {
+            }
+        }
+
+        if (!is_array($this->propertiesToShow)) {
+            return $properties;
+        }
+
+        $idToCode = array_map(function ($properties) {
+            return $properties["ID"];
+        }, $properties);
+        $idToCode = array_flip($idToCode);
+
+        $resultProperties = [];
+
+        $intersectSlice = array_intersect($this->propertiesToShow, array_keys($idToCode));
+        foreach ($intersectSlice as $propertyId) {
+            if (!array_key_exists($propertyId, $idToCode)) {
+                continue;
+            }
+            $property = $properties[$idToCode[$propertyId]];
+            if (is_array($property['VALUE'])) {
+                continue;
+            }
+            $resultProperties[] = $property;
+        }
+        return $resultProperties;
     }
 }

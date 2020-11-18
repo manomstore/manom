@@ -232,7 +232,7 @@ img {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.slick-prev {
+ .slick-prev {
   left: -25px;
 }
 
@@ -7636,8 +7636,12 @@ h3.tab-content__title--right {
 .sci-add {
   position: relative;
   margin: 38px -20px 0;
-  padding: 20px 0 0 20px;
+  padding: 20px 0 0 0;
   border-top: 1px solid #f2f2f2;
+}
+
+.sci-add__block {
+  padding: 0 30px;
 }
 
 .sci-add__services {
@@ -7672,7 +7676,7 @@ h3.tab-content__title--right {
   height: auto;
   flex-direction: column;
   width: 100px;
-  margin-right: 20px;
+  margin: 0 10px;
 }
 
 .sci-add__picture {
@@ -7689,6 +7693,10 @@ h3.tab-content__title--right {
 
 .sci-add__picture img {
   flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .sci-add__name {
@@ -7738,6 +7746,39 @@ h3.tab-content__title--right {
   color: #fff;
   background-color: #5c8911;
 }
+
+.sci-add .slick-next{
+  top: calc(50% - 17px);
+  right: -40px;
+  visibility: hidden;
+}
+
+.sci-add .slick-next.show,
+.sci-add .slick-prev.show {
+  visibility: visible;
+}
+
+.sci-add .slick-prev {
+  top: calc(50% - 17px);
+  left: -40px;
+  visibility: hidden;
+}
+
+@media (max-width: 767px) {
+  .sci-add .slick-next{
+    right: -30px;
+  }
+
+  .sci-add .slick-prev {
+    left: -30px;
+  }
+
+  .sci-add__picture {
+    width: 94px;
+    height: 94px;
+  }
+}
+
 
 .shopcart-items {
   width: 100%;
@@ -9323,7 +9364,6 @@ h3.tab-content__title--right {
 
   .sci-add__prod {
     width: 140px;
-    margin-right: 40px;
   }
 
   .sci-add__prod:hover .sci-add__picture {
@@ -9331,8 +9371,8 @@ h3.tab-content__title--right {
   }
 
   .sci-add__picture {
-    width: 140px;
-    height: 140px;
+    width: 123px;
+    height: 123px;
     margin: 0 0 14px;
     padding: 15px;
   }
