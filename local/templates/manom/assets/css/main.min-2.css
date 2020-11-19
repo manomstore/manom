@@ -7798,6 +7798,14 @@ h3.tab-content__title--right {
   line-height: 23px;
   position: relative;
   width: fit-content;
+  margin-top: 40px;
+}
+
+@media (max-width: 767px) {
+  .sci-gift__label {
+    font-size: 14px;
+    line-height: 20px;
+  }
 }
 
 .sci-gift__label::before {
@@ -7811,6 +7819,16 @@ h3.tab-content__title--right {
   border: 1px solid rgb(156, 156, 95);
   box-sizing: border-box;
   border-radius: 3px;
+}
+
+@media (max-width: 767px) {
+  .sci-gift__label::after {
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    right: -20px;
+    top: -1px;
+  }
 }
 
 .sci-gift__input:checked ~ .sci-gift__label::before {
@@ -7834,6 +7852,21 @@ h3.tab-content__title--right {
   background-image:  url('./../img/icons/gift-icon.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+}
+
+@media (max-width: 767px) {
+  .sci-gift__label::before {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sci-gift__label::after {
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    right: -20px;
+    top: -1px;
+  }
 }
 
 .sci-contact__input {
