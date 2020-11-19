@@ -10,6 +10,7 @@ class WeekTools
 {
     public $currentDay = 0;
     public $currentHour = 0;
+    public $currentTimeString = "";
     public $days = [
         'вс',
         'пн',
@@ -24,6 +25,7 @@ class WeekTools
     {
         $this->currentDay = (int)date('w');
         $this->currentHour = (int)date('G');
+        $this->currentTimeString = date("G:i");
     }
 
     public function calcDiffDay($startDay, $endDay): int
@@ -159,17 +161,20 @@ class WeekTools
         $schedule = is_array($schedule) ? $schedule : [];
         $time = array_pop($schedule);
         $time = explode('-', $time);
-        $scheduleData['timeStart'] = (int)array_shift($time);
-        $scheduleData['timeEnd'] = (int)array_shift($time);
+        $scheduleData['fullTimeStart'] = array_shift($time);
+        $scheduleData['fullTimeEnd'] = array_shift($time);
+        $scheduleData['hourStart'] = (int)$scheduleData['fullTimeStart'];
+        $scheduleData['hourEnd'] = (int)$scheduleData['fullTimeEnd'];
         $days = array_pop($schedule);
         $days = explode('-', $days);
         $scheduleData['dayStart'] = array_search(array_shift($days), $this->days, true);
         $scheduleData['dayEnd'] = array_search(array_shift($days), $this->days, true);
 
+
         $scheduleData['isOpen'] = ($this->currentDay >= $scheduleData['dayStart']
                 && $this->currentDay <= $scheduleData['dayEnd'])
-            && ($this->currentHour >= $scheduleData['timeStart']
-                && $this->currentHour <= $scheduleData['timeEnd']);
+            && (strtotime($this->currentTimeString) >= strtotime($scheduleData['fullTimeStart'])
+                && strtotime($this->currentTimeString) <= strtotime($scheduleData['fullTimeEnd']));
 
         return $scheduleData;
     }

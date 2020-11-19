@@ -401,8 +401,8 @@ function getDeliveryDescription($delivery)
     if ($shop['exist'] && $delivery['id'] === 13) {
         $scheduleData = $week->parseScheduleShop($delivery['selfDeliveryPoints'][0]['schedule']);
 
-        $shop['time']['start'] = $scheduleData["timeStart"];
-        $shop['time']['end'] = $scheduleData["timeEnd"];
+        $shop['time']['start'] = $scheduleData["hourStart"];
+        $shop['time']['end'] = $scheduleData["hourEnd"];
         $shop['dates']['start'] = $scheduleData["dayStart"];
         $shop['dates']['end'] = $scheduleData["dayEnd"];
     }
