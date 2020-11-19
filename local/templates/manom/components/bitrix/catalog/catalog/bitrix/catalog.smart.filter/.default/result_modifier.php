@@ -11,6 +11,10 @@ foreach ($arResult['ITEMS'] as &$item) {
             $value["SHOW"] = $counter <= 5 || $value["CHECKED"];
 
         }, $counter);
+
+        $item["SHOW_MORE"] = count(array_filter($item["VALUES"], function ($value) {
+                return $value["SHOW"] === false;
+            })) >= 1;
     }
     if ($item["CODE"] === "memory_size") {
         foreach ($item["VALUES"] as &$value) {
