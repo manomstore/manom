@@ -108,7 +108,6 @@ $this->setFrameMode(true);
                             <div  title="Добавить в сравнение"
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
-                                        title="Добавить в избранное"
                             ></div>
                         </div>
                         <div class="p-nav-middle">
@@ -217,7 +216,7 @@ $this->setFrameMode(true);
                                 <div
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
-                                        title="Добавить в избранное"
+                                    title="Добавить в сравнение"
                                 ></div>
                             </a>
                         </div>
