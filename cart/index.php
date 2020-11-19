@@ -209,6 +209,17 @@ if (empty($productsOutOfStock)) {
                                                    required>
                                             <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
                                         </div>
+                                        <div class="sci-contact__field">
+                                            <input type="checkbox"
+                                                   data-prop=""
+                                                   name="sci-gift"
+                                                   id="sci-gift"
+                                                   class="sci-gift__input"
+                                            >
+                                            <label for="sci-gift" class="sci-gift__label">
+                                                Подарочная упаковка
+                                            </label>
+                                        </div>
                                     </section>
                                     <section class="sci-contact-content" id="sci-contact-content2">
                                         <div class="sci-contact__field">
@@ -398,19 +409,19 @@ if (empty($productsOutOfStock)) {
                                                       placeholder="Контакты">
                                             </textarea>
                                         </div>
+                                        <div class="sci-contact__field">
+                                            <input type="checkbox"
+                                                   data-prop=""
+                                                   name="sci-gift"
+                                                   id="sci-gift"
+                                                   class="sci-gift__input"
+                                            >
+                                            <label for="sci-gift" class="sci-gift__label">
+                                                Подарочная упаковка
+                                            </label>
+                                        </div>
                                     </section>
                                 </div>
-                            </div>
-                            <div class="sci-gift">
-                              <input type="checkbox"
-                                data-prop=""
-                                name="sci-gift"
-                                id="sci-gift"
-                                class="sci-gift__input"
-                              >
-                              <label for="sci-gift" class="sci-gift__label">
-                                Подарочная упаковка
-                              </label>
                             </div>
                             <div class="sci-contact__button-wrapper">
                                 <a class="sci-contact__button-back js-shopcart-back" href="#" aria-label="Вернуться назад">
