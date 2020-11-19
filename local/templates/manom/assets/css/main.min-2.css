@@ -1789,7 +1789,7 @@ line-height: 24px;
 
 .catalog-filter__color input:disabled ~ label,
 .catalog-filter__color input.disabled ~ label {
-  opacity: 0.6;
+  opacity: 0.3;
   pointer-events: none;
 }
 
