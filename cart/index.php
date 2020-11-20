@@ -211,9 +211,10 @@ if (empty($productsOutOfStock)) {
                                         </div>
                                         <div class="sci-contact__field">
                                             <input type="checkbox"
-                                                   data-prop=""
+                                                   data-prop="ORDER_PROP_44"
                                                    name="sci-gift"
                                                    id="sci-gift"
+                                                   value="Y"
                                                    class="sci-gift__input"
                                             >
                                             <label for="sci-gift" class="sci-gift__label">
@@ -411,12 +412,13 @@ if (empty($productsOutOfStock)) {
                                         </div>
                                         <div class="sci-contact__field">
                                             <input type="checkbox"
-                                                   data-prop=""
+                                                   data-prop="ORDER_PROP_45"
                                                    name="sci-gift"
-                                                   id="sci-gift"
+                                                   id="sci-gift-ur"
+                                                   value="Y"
                                                    class="sci-gift__input"
                                             >
-                                            <label for="sci-gift" class="sci-gift__label">
+                                            <label for="sci-gift-ur" class="sci-gift__label">
                                                 Подарочная упаковка
                                             </label>
                                         </div>

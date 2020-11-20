@@ -2009,10 +2009,19 @@ $(document).ready(function () {
           if ($(this).is('select')) {
             soModule.find('[name="' + $(this).attr('data-prop') + '"] option[value="' + valEl + '"]').prop('selected',
               true);
-          } else {
+          } else if ($(this).is('[type="checkbox"]')) {
+            var $soModuleField = soModule.find('[name="' + $(this).attr('data-prop') + '"]');
+            if ($soModuleField.is('[type="checkbox"]')) {
+              $soModuleField.prop("checked", $(this).prop('checked'));
+            } else {
+              $soModuleField.val($(this).prop('checked') ? "Да" : "Нет");
+            }
+          }else {
             soModule.find('[name="' + $(this).attr('data-prop') + '"]').val(valEl);
           }
         }
+
+        var fizPerson = soModule.find('#PERSON_TYPE_1').prop('checked');
 
         if (!--inputCount) {
           if (!hasError) {
@@ -2021,7 +2030,8 @@ $(document).ready(function () {
                 secondBlock + ' input, ' + secondBlock + ' textarea, ' + secondBlock + ' select').length;
               return $(document).find(
                 secondBlock + ' input, ' + secondBlock + ' textarea, ' + secondBlock + ' select').each(function () {
-                  if ($(this).attr('data-prop')) {
+                  var propertyName = fizPerson ? $(this).attr('data-prop') : $(this).attr('data-prop-alt');
+                  if (propertyName) {
                     valEl = $(this).val();
                     if ($(this).prop('required') && !valEl) {
                       $(document).find('#shopcart-tab3').click();
@@ -2035,7 +2045,7 @@ $(document).ready(function () {
                       });
                       hasError = true;
                     }
-                    soModule.find('[name="' + $(this).attr('data-prop') + '"]').val(valEl);
+                    soModule.find('[name="' + propertyName + '"]').val(valEl);
                   }
 
                   if (!--inputCount) {
