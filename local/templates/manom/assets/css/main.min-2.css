@@ -7635,12 +7635,14 @@ h3.tab-content__title--right {
   width: 100%;
   margin: auto;
   overflow: hidden;
+  position: relative;
 }
 
 .sci-add__picture:before {
-  content: "";
+  content: '';
+  display: block;
   padding-top: 100%;
-  float: left;
+  width: 100%;
 }
 
 .sci-add__prices {
@@ -7730,8 +7732,8 @@ h3.tab-content__title--right {
   }
 
   .sci-add__picture {
-    width: 94px;
-    height: 94px;
+    /* width: 94px;
+    height: 94px; */
   }
 }
 
