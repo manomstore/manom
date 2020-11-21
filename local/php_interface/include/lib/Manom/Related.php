@@ -206,7 +206,7 @@ class Related
      * @throws Exception
      * @throws LoaderException
      */
-    private function processColors($items): array
+    public function processColors($items): array
     {
         $result = array();
 
