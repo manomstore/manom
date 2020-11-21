@@ -123,6 +123,9 @@ $this->setFrameMode(true);
                             <?php if ($item['newProduct']): ?>
                                 <div class="product-label product-label--new active">Новинка</div>
                             <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
 
                             <?php /*
                             <div class="p-nav-middle__rating">
@@ -236,6 +239,10 @@ $this->setFrameMode(true);
                             <?php if ($item['newProduct']): ?>
                                 <div class="product-label product-label--new active">Новинка</div>
                             <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
+
 
                             <?php /*
                             <div class="p-nav-middle__rating">

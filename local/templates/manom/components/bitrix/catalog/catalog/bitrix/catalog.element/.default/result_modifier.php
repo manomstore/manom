@@ -206,6 +206,10 @@ if ($arResult["DISPLAY_PROPERTIES"]["SELL_PROD"]["VALUE"] === "Да" || $arResul
     $labels["SALE"] = true;
 }
 
+if ($arResult["DISPLAY_PROPERTIES"]["PREORDER"]["VALUE"] === "Да") {
+    $labels["PREORDER"] = true;
+}
+
 $arResult["LABELS"] = $labels;
 
 function getCheaper($productId, $iblockId)

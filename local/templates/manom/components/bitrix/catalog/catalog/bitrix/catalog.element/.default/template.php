@@ -108,6 +108,11 @@ function formatBytes($size, $precision = 2)
                         <span>Распродажа</span>
                     </div>
                 <? endif; ?>
+                <? if ($arResult["LABELS"]["PREORDER"]): ?>
+                    <div class="product-label product-label--preorder">
+                        <span>Предзаказ</span>
+                    </div>
+                <? endif; ?>
             </div>
         <? endif; ?>
     </div>

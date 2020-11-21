@@ -1616,3 +1616,7 @@ body div.search-popup-row-active {
 .product-label--sale {
   background-color: #FF5F00;
 }
+
+.product-label--preorder {
+  background-color: #83BB26;
+}
