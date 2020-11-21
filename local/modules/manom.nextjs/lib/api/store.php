@@ -61,4 +61,9 @@ class Store
 
         return $stores;
     }
+
+    public function getMain()
+    {
+        return current($this->getStoresById([1]));
+    }
 }

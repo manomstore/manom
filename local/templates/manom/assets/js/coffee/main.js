@@ -818,7 +818,7 @@ $(document).ready(function () {
         },
         success: function (data) {
           $this.find('.form_msg').css('display', 'block');
-          $this.find('.form_msg').html('Ваша заявка принятя. Наши менеджеры свяжутся с вами, ожидайте.');
+          $this.find('.form_msg').html('Ваша заявка принята. Наши менеджеры свяжутся с вами, ожидайте.');
           return $this.find('button, label, input').css('display', 'none');
         },
       });
@@ -920,7 +920,7 @@ $(document).ready(function () {
         },
         success: function (data) {
           $this.find('.form_msg').css('display', 'block');
-          $this.find('.form_msg').html('Ваша заявка принятя. Наши менеджеры свяжутся с вами в течении 15 минут.');
+          $this.find('.form_msg').html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
           $this.find('button, label, input').css('display', 'none');
           return setTimeout(function () {
             return $.fn.refreshCart();
