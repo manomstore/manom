@@ -2564,6 +2564,8 @@ line-height: 24px;
   max-height: 0;
   overflow: hidden;
   transition: all 0.2s;
+  color: #000000;
+  opacity: 0;
 }
 
 .catalog-filter p.catalog-filter__list-item input:checked span {
@@ -2574,6 +2576,7 @@ line-height: 24px;
 
 .catalog-filter p.catalog-filter__list-item.top {
   max-height: 100px;
+  opacity: 1;
 }
 
 .catalog-filter__li label.disabled {
@@ -2611,10 +2614,12 @@ line-height: 24px;
 
 .catalog-filter__li.unfolded {
   height: fit-content;
+
 }
 
 .catalog-filter__li.unfolded p.catalog-filter__list-item {
   max-height: 100px;
+  opacity: 1;
 }
 
 .catalog-filter__li.unfolded .toggle-button .fold {
