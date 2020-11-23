@@ -1273,6 +1273,7 @@ line-height: 24px;
 .product-card__slide {
   height: 230px;
   position: relative;
+  width: 100%;
 }
 
 .product-card__slide img {
