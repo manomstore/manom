@@ -1161,7 +1161,7 @@ $(document).ready(function () {
     return false;
   });
 
-  $(document).on('mouseenter', '.product-card', function () {
+  $(document).on('mouseenter', '.product-card:not(.no-hover)', function () {
     $(this).children('.product-card__img').slick({
       arrows: true,
       dots: false,
@@ -1171,7 +1171,7 @@ $(document).ready(function () {
     return $(this).children('.p-nav-top').fadeIn(200);
   });
 
-  $(document).on('mouseleave', '.product-card', function () {
+  $(document).on('mouseleave', '.product-card:not(.no-hover)', function () {
     $(this).children('.product-card__img').slick('unslick');
     $(this).children('.p-nav-top').fadeOut(200);
   });
