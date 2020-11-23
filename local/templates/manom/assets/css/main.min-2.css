@@ -2590,6 +2590,7 @@ line-height: 24px;
   cursor: pointer;
   width: 100%;
   text-align: left;
+  z-index: 100;
 }
 
 .catalog-filter__li button.show-button {
