@@ -5,12 +5,16 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $this->setFrameMode(true);
+
 ?>
 
 <? if (!empty($arResult["ITEMS"])): ?>
-    <section class="catalog-block <?= $arParams["HIDE_SMART_FILTER"] ? "full-screen-content" : "" ?>"
-    <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
-    <h2 class="cb-title"><?=$arResult['NAME']?></h2>
+<section class="catalog-block">
+    <? if (!empty($arParams["BRAND_DATA"])): ?>
+        <h2 class="cb-title"><?= $arParams["BRAND_DATA"]["name"] ?></h2>
+    <?else:?>
+        <h2 class="cb-title"><?= $arResult['NAME'] ?></h2>
+    <? endif; ?>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
     <label class="filter-burger" for="filter-burger" title="Фильтр"></label>
     <div class="cb-filter">
@@ -19,9 +23,7 @@ $this->setFrameMode(true);
         <div class="cb-filter__param">Цвет: Белый<span>×</span></div>
         <div class="cb-filter__param">Экран: 1920х1080<span>×</span></div>
         */ ?>
-        <?php if (!$arParams['IS_BRAND']): ?>
-            <div class="cb-filter__clear dnd-hide">Очистить фильтры</div>
-        <?php endif; ?>
+        <div class="cb-filter__clear dnd-hide">Очистить фильтры</div>
     </div>
     <div class="cb-nav">
         <div class="cb-nav-sort">
@@ -29,12 +31,19 @@ $this->setFrameMode(true);
             <select required name="sort_by">
                 <? if ($arParams["IS_SEARCH"]): ?>
                     <option selected value="relevance">по релевантности</option>
-                    <option value="pop">по популярности</option>
+                    <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
+                            value="pop">по популярности</option>
                 <? else: ?>
-                    <option selected value="pop">по популярности</option>
+                    <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
+                            value="pop">по популярности</option>
                 <? endif; ?>
-                <option value="price">по цене</option>
-                <option value="name">по названию</option>
+                <option <?= $arParams["SORT_CODE"] === "price_desc" ? "selected" : "" ?>
+                        value="price_desc">сначала дорогие
+                </option>
+                <option <?= $arParams["SORT_CODE"] === "price_asc" ? "selected" : "" ?>
+                        value="price_asc">сначала дешевые</option>
+                <option  <?= $arParams["SORT_CODE"] === "name" ? "selected" : "" ?>
+                        value="name">по названию</option>
             </select>
         </div>
         <div class="cb-nav-count catTopCount">
@@ -108,7 +117,6 @@ $this->setFrameMode(true);
                             <div  title="Добавить в сравнение"
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
-                                        title="Добавить в избранное"
                             ></div>
                         </div>
                         <div class="p-nav-middle">
@@ -120,6 +128,9 @@ $this->setFrameMode(true);
                             <?php endif; ?>
                             <?php if ($item['newProduct']): ?>
                                 <div class="product-label product-label--new active">Новинка</div>
+                            <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
                             <?php endif; ?>
 
                             <?php /*
@@ -183,7 +194,7 @@ $this->setFrameMode(true);
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
                 ?>
-                <div class="cb-block__item col-3<?=$arParams['IS_BRAND'] ? ' block__item__brand' : ''?>">
+                <div class="cb-block__item col-3">
 
                     <div class="product-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
                         <div class="product-card__img">
@@ -217,7 +228,7 @@ $this->setFrameMode(true);
                                 <div
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
-                                        title="Добавить в избранное"
+                                    title="Добавить в сравнение"
                                 ></div>
                             </a>
                         </div>
@@ -234,6 +245,10 @@ $this->setFrameMode(true);
                             <?php if ($item['newProduct']): ?>
                                 <div class="product-label product-label--new active">Новинка</div>
                             <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
+
 
                             <?php /*
                             <div class="p-nav-middle__rating">
@@ -418,21 +433,15 @@ $this->setFrameMode(true);
 <? else: ?>
     <div class="content">
         <div class="container  empty-container">
-            <div class="empty">
-                <? if (!empty($arResult["BRAND_LOGO"])): ?>
+            <div class="empty-page">
+                <? if (!empty($arParams["BRAND_DATA"])): ?>
                     <div class="empty__block empty__block--brand">
-                        <img class="empty__block-image" src="<?= $arResult["BRAND_LOGO"] ?>">
+                        <img class="empty__block-image" src="<?= $arParams["BRAND_DATA"]["logo"] ?>">
                         <p class="empty__text">
                             Здесь пока пусто. Посмотрите другие
-                            <? if ($arResult["PARENT_SECTION"]): ?>
-                                <a href="<?= $arResult["PARENT_SECTION"]["SECTION_PAGE_URL"] ?>">
-                                    <?= $arResult["PARENT_SECTION"]["NAME"] ?>
-                                </a>
-                            <? else: ?>
-                                <a href="<?= SITE_DIR ?>catalog/">
-                                    товары
-                                </a>
-                            <? endif; ?>
+                            <a href="<?= $arResult["SECTION_PAGE_URL"] ?>">
+                                <?= $arResult['NAME'] ?>
+                            </a>
                         </p>
                     </div>
                 <? else: ?>

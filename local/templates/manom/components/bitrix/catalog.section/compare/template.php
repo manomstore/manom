@@ -79,6 +79,9 @@ $this->setFrameMode(true);
                                     <?php if ($item['newProduct']): ?>
                                         <div class="product-label product-label--new active">Новинка</div>
                                     <?php endif; ?>
+                                    <?php if ($item['productPreorder']): ?>
+                                        <div class="product-label product-label--preorder active">Предзаказ</div>
+                                    <?php endif; ?>
 
                                     <?php /*
                                     <div class="p-nav-middle__rating">
@@ -114,7 +117,7 @@ $this->setFrameMode(true);
                                     </div>
                                     <div
                                         class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                        data-id='<?=$arPrice['PRODUCT_ID']?>'
+                                        data-id='<?= $item['productId'] ?>'
                                         <?=$item['canBuy'] ? 'enable' : 'disable'?>
                                     ></div>
                                 </div>
@@ -131,7 +134,7 @@ $this->setFrameMode(true);
                                 <span class="compare__basket hidden-remove" style="display:none;"></span>
                                 <div
                                         class="compare__basket addToCompareList <?=$class1?>"
-                                        data-id='<?=$arPrice['PRODUCT_ID']?>'
+                                        data-id='<?= $item['productId'] ?>'
                                 >
                                     Удалить из сравнения
                                 </div>

@@ -182,6 +182,7 @@ function executeRequest(form, options)
       $('.js-airtable-success').hide();
       $('.js-airtable-errors').html('');
       $('.js-airtable-error').hide();
+      $('.js-airtable-message').html('').hide();
       $('.js-airtable-info').show();
       BX.showWait();
     },
@@ -193,6 +194,9 @@ function executeRequest(form, options)
         $('.js-airtable-errors').html('<p>' + data.message + '</p>');
         $('.js-airtable-error').show();
       } else {
+        if (data.message) {
+          $('.js-airtable-message').html(data.message).show();
+        }
         $('.js-airtable-success').show();
       }
 

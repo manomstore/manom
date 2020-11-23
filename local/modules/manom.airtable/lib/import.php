@@ -16,6 +16,7 @@ use \Bitrix\Main\ObjectPropertyException;
 use Manom\Content\Questions;
 use Manom\Content\Reviews;
 use Manom\Exception;
+use Manom\References\Brand;
 
 /**
  * Class Import
@@ -31,6 +32,10 @@ class Import
     private $bitrixElements;
     private $bitrixSections;
     private $errors = [];
+    /**
+     * @var Brand
+     */
+    public $brand;
 
     /**
      * Import constructor.
@@ -40,6 +45,7 @@ class Import
      * @throws SystemException
      * @throws ArgumentException
      * @throws ObjectPropertyException
+     * @throws Exception
      */
     public function __construct()
     {
@@ -55,6 +61,7 @@ class Import
 
         $section = new Section($this->iblockId);
         $this->bitrixSections = $section->getItems();
+        $this->brand = new Brand();
     }
 
     /**
@@ -276,6 +283,10 @@ class Import
         foreach ($this->map['properties'] as $item) {
             if (!isset($airtableItem['fields'][$item['airtable']])) {
                 continue;
+            }
+
+            if ($this->brand->isBrandProperty($item["bitrix"])) {
+                $this->brand->create($airtableItem['fields'][$item['airtable']]);
             }
 
             if ($item['bitrix'] === 'FEATURES2' || $item['bitrix'] === 'contents_of_delivery') {

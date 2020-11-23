@@ -32,16 +32,44 @@ $this->setFrameMode(true); ?>
                     <? if (!empty($arItem["CHILDREN"])): ?>
                         <div class="main-nav__list-wrapper">
                             <div class="main-nav__inner">
-                                <ul class="main-nav__sublist">
-                                    <? foreach ($arItem["CHILDREN"] as $children): ?>
-                                        <li class="<?= $children["DISABLED"] ? "disabled" : "" ?>">
-                                            <a class="main-nav__link main-nav__link--lv2"
-                                               href="<?= $children["LINK"] ?>">
-                                                <?= $children["TEXT"] ?>
-                                            </a>
-                                        </li>
-                                    <? endforeach; ?>
-                                </ul>
+                                <div class="main-nav__sublist">
+                                    <? if (!empty($arItem['BRANDS'])): ?>
+                                        <span class="main-nav__sublist-header">Категории</span>
+                                    <? endif; ?>
+                                    <div class="main-nav__list-pack">
+                                        <? foreach ($arItem["CHILDREN"] as $childrenChunk): ?>
+                                            <ul>
+                                                <? foreach ($childrenChunk as $children): ?>
+                                                    <li class="<?= $children["DISABLED"] ? "disabled" : "" ?>">
+                                                        <a class="main-nav__link main-nav__link--lv2"
+                                                           href="<?= $children["LINK"] ?>">
+                                                            <?= $children["TEXT"] ?>
+                                                        </a>
+                                                    </li>
+                                                <? endforeach; ?>
+                                            </ul>
+                                        <? endforeach; ?>
+                                    </div>
+                                </div>
+                                <? if (!empty($arItem['BRANDS'])): ?>
+                                    <div class="main-nav__sublist main-nav__sublist--brands">
+                                        <span class="main-nav__sublist-header">Бренды</span>
+                                        <div class="main-nav__list-pack">
+                                            <? foreach ($arItem['BRANDS'] as $brandsChunk): ?>
+                                                <ul>
+                                                    <? foreach ($brandsChunk as $brand): ?>
+                                                        <li>
+                                                            <a href="/catalog/<?= $arItem["CODE"] ?>/brand/<?= $brand["code"] ?>/">
+                                                                <img src="<?= $brand["logo"] ?>"
+                                                                     alt="<?= $brand["name"] ?>">
+                                                            </a>
+                                                        </li>
+                                                    <? endforeach; ?>
+                                                </ul>
+                                            <? endforeach; ?>
+                                        </div>
+                                    </div>
+                                <? endif; ?>
                             </div>
                         </div>
                     <? endif; ?>

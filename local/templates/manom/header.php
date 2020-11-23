@@ -30,6 +30,8 @@
         <?php
         // CJSCore::Init(array("jquery"));
         $APPLICATION->AddHeadScript('https://code.jquery.com/jquery-3.3.1.min.js');
+
+        use Manom\Content;
         ?>
 
         <meta charset="utf-8">
@@ -157,7 +159,7 @@
                                             'USE_EXT' => 'Y',
                                             'DELAY' => 'N',
                                             'ALLOW_MULTI_SELECT' => 'Y',
-                                            'MENU_CACHE_TYPE' => 'N',
+                                            'MENU_CACHE_TYPE' => 'Y',
                                             'MENU_CACHE_TIME' => '3600',
                                             'MENU_CACHE_USE_GROUPS' => 'Y',
                                             'MENU_CACHE_GET_VARS' => '',
@@ -462,9 +464,11 @@
                                             ],
                                             false
                                         ); ?>
+                                        <?if (Content::showCallbackForm()):?>
                                         <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__call-request">
                                             Заказать звонок
                                         </a>
+                                        <?endif;?>
                                     </div>
                                     <!-- Всплывающее окно Заказать звонок -->
                                     <div id="popap-call" class="popup-block popup-block--call">
@@ -473,6 +477,7 @@
                                                 <h2 class="popup-block__title">Заказать обратный звонок</h2>
                                             </div>
                                             <form action="" method="get">
+                                                <div class="form_msg"></div>
                                                 <input type="hidden" name="form_id" value="1">
                                                 <div class="popup-block__field">
                                                     <label class="popup-block__label" for="sci-login__name">

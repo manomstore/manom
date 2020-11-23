@@ -72,6 +72,7 @@ foreach ($arResult['ITEMS'] as $item) {
         'oldPrice' => $item['oldPrice'],
         'canBuy' => $canBuy,
         'productOfTheDay' => $item['PROPERTIES']['PRODUCT_OF_THE_DAY']['VALUE'] === 'Да',
+        'productPreorder' => $item['PROPERTIES']['PREORDER']['VALUE'] === 'Да',
         'newProduct' => $item['PROPERTIES']['NEW_PRODUCT']['VALUE'] === 'Да',
         'sale' => $item['PROPERTIES']['SELL_PROD']['VALUE'] === 'Да' || $item['showOldPrice'],
         'showOldPrice' => $item['showOldPrice'],
@@ -89,26 +90,6 @@ $arResult['GTM_DATA'] = [
     "categoryId" => (int)$arResult["ID"],
 ];
 $arResult['GTM_PAGE_TYPE'] = $arParams["IS_SEARCH"] ? "searchresults" : "category";
-
-if ((int)$arResult["ID"]) {
-    $sectionProps = \CIBlockSection::GetList(
-        [],
-        [
-            "IBLOCK_ID" => $arResult["IBLOCK_ID"],
-            "ID" => $arResult["ID"]
-        ],
-        false,
-        [
-            "ID",
-            "IBLOCK_ID",
-            "UF_LOGO"
-        ]
-    )->GetNext();
-}
-
-if (!empty($sectionProps["UF_LOGO"])) {
-    $arResult["BRAND_LOGO"] = \CFile::GetFileArray($sectionProps["UF_LOGO"])["SRC"];
-}
 
 $parentSection = false;
 if ((int)$arResult["IBLOCK_SECTION_ID"]) {

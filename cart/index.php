@@ -209,6 +209,18 @@ if (empty($productsOutOfStock)) {
                                                    required>
                                             <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
                                         </div>
+                                        <div class="sci-contact__field">
+                                            <input type="checkbox"
+                                                   data-prop="ORDER_PROP_44"
+                                                   name="sci-gift"
+                                                   id="sci-gift"
+                                                   value="Y"
+                                                   class="sci-gift__input"
+                                            >
+                                            <label for="sci-gift" class="sci-gift__label">
+                                                Подарочная упаковка
+                                            </label>
+                                        </div>
                                     </section>
                                     <section class="sci-contact-content" id="sci-contact-content2">
                                         <div class="sci-contact__field">
@@ -397,6 +409,18 @@ if (empty($productsOutOfStock)) {
                                                       class="sci-contact__input sci-contact__input--area"
                                                       placeholder="Контакты">
                                             </textarea>
+                                        </div>
+                                        <div class="sci-contact__field">
+                                            <input type="checkbox"
+                                                   data-prop="ORDER_PROP_45"
+                                                   name="sci-gift"
+                                                   id="sci-gift-ur"
+                                                   value="Y"
+                                                   class="sci-gift__input"
+                                            >
+                                            <label for="sci-gift-ur" class="sci-gift__label">
+                                                Подарочная упаковка
+                                            </label>
                                         </div>
                                     </section>
                                 </div>

@@ -363,27 +363,75 @@ $(document).ready(function () {
 
   app.shopcart.$el = $('.shopcart');
 
-  $('.sci-add__products').each(function () {
-    var $slider = $(this),
-      slidesWidth = 0;
-
-    $slider.slick({
-      dots: false,
-      infinite: false,
-      speed: 300,
-      variableWidth: true,
-    });
-
-    $slider.find('.slick-slide').each(function () {
-      var $slide = $(this);
-
-      slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
-    });
-
-    if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
-      $slider.find('.slick-arrow').hide();
-    }
+  initCartRecommendationsSlider();
+  $(document).bind("ajaxSuccess", function(){
+    initCartRecommendationsSlider();
   });
+
+  function initCartRecommendationsSlider() {
+    $('.sci-add__products').each(function () {
+      var slider = $(this);
+      try {
+        slider.slick('unslick');
+      } catch (error) {
+      }
+    });
+
+    if (shouldShowSlider()) {
+      $('.sci-add__products').each(function () {
+        if ($('.sci-add__products').length === 0) {
+          return;
+        }
+        var $slider = $(this),
+          slidesWidth = 0;
+
+        $slider.slick({
+          dots: false,
+          infinite: true,
+          speed: 300,
+          slidesToShow: 5,
+          responsive: [
+            {
+              breakpoint: 678,
+              settings: {
+                slidesToShow: 4,
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 3,
+              }
+            }
+          ]
+        });
+
+        $slider.find('.slick-slide').each(function () {
+          var $slide = $(this);
+          slidesWidth += $slide.outerWidth() + parseInt($slide.css('margin-right'));
+        });
+
+        if (slidesWidth - parseInt($slider.find('.slick-slide').css('margin-right')) <= $slider.width()) {
+          $slider.find('.slick-arrow').hide();
+        }
+        var btnPrev = $(".sci-add .slick-prev");
+        var btnNext = $(".sci-add .slick-next");
+        btnPrev.addClass('show');
+        btnNext.addClass('show');
+      });
+    }
+  }
+
+  function shouldShowSlider() {
+    var length = $(".sci-add__prod").length;
+    if (window.isMobileSwiper()) {
+      return length > 3;
+    }
+    if (window.isMobile()) {
+      return length > 4;
+    }
+    return length > 5
+  }
 
   $('.top-nav__button-show').click(function (evt) {
     evt.preventDefault();
@@ -770,7 +818,7 @@ $(document).ready(function () {
         },
         success: function (data) {
           $this.find('.form_msg').css('display', 'block');
-          $this.find('.form_msg').html('Ваша заявка принятя. Наши менеджеры свяжутся с вами, ожидайте.');
+          $this.find('.form_msg').html('Ваша заявка принята. Наши менеджеры свяжутся с вами, ожидайте.');
           return $this.find('button, label, input').css('display', 'none');
         },
       });
@@ -872,7 +920,7 @@ $(document).ready(function () {
         },
         success: function (data) {
           $this.find('.form_msg').css('display', 'block');
-          $this.find('.form_msg').html('Ваша заявка принятя. Наши менеджеры свяжутся с вами в течении 15 минут.');
+          $this.find('.form_msg').html('Ваша заявка принята. Наши менеджеры свяжутся с вами в течении 15 минут.');
           $this.find('button, label, input').css('display', 'none');
           return setTimeout(function () {
             return $.fn.refreshCart();
@@ -2009,10 +2057,19 @@ $(document).ready(function () {
           if ($(this).is('select')) {
             soModule.find('[name="' + $(this).attr('data-prop') + '"] option[value="' + valEl + '"]').prop('selected',
               true);
-          } else {
+          } else if ($(this).is('[type="checkbox"]')) {
+            var $soModuleField = soModule.find('[name="' + $(this).attr('data-prop') + '"]');
+            if ($soModuleField.is('[type="checkbox"]')) {
+              $soModuleField.prop("checked", $(this).prop('checked'));
+            } else {
+              $soModuleField.val($(this).prop('checked') ? "Да" : "Нет");
+            }
+          }else {
             soModule.find('[name="' + $(this).attr('data-prop') + '"]').val(valEl);
           }
         }
+
+        var fizPerson = soModule.find('#PERSON_TYPE_1').prop('checked');
 
         if (!--inputCount) {
           if (!hasError) {
@@ -2021,7 +2078,8 @@ $(document).ready(function () {
                 secondBlock + ' input, ' + secondBlock + ' textarea, ' + secondBlock + ' select').length;
               return $(document).find(
                 secondBlock + ' input, ' + secondBlock + ' textarea, ' + secondBlock + ' select').each(function () {
-                  if ($(this).attr('data-prop')) {
+                  var propertyName = fizPerson ? $(this).attr('data-prop') : $(this).attr('data-prop-alt');
+                  if (propertyName) {
                     valEl = $(this).val();
                     if ($(this).prop('required') && !valEl) {
                       $(document).find('#shopcart-tab3').click();
@@ -2035,7 +2093,7 @@ $(document).ready(function () {
                       });
                       hasError = true;
                     }
-                    soModule.find('[name="' + $(this).attr('data-prop') + '"]').val(valEl);
+                    soModule.find('[name="' + propertyName + '"]').val(valEl);
                   }
 
                   if (!--inputCount) {
@@ -3325,6 +3383,11 @@ $.fn.ajaxLoadCatalog = function () {
       type: 'GET',
       data: $data,
       success: function (data) {
+        if (history.pushState && sort_by) {
+          var urlObj = new URL(window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search);
+          urlObj.searchParams.set("sort_by", sort_by);
+          history.pushState(null, null, urlObj.href);
+        }
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
@@ -3686,3 +3749,4 @@ window.gtmActions = {
     this.initCommonData(eventObj);
   },
 };
+
