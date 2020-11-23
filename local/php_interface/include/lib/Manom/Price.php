@@ -25,6 +25,7 @@ class Price
     const CURRENT_TYPE_ID = 3;
 
     private $userGroups;
+    private $currency;
     private $pricesId = array();
 
     /**
@@ -39,6 +40,7 @@ class Price
         }
 
         $this->setUserGroups();
+        $this->setCurrency();
     }
 
     /**
@@ -50,6 +52,18 @@ class Price
 
         if (is_object($USER)) {
             $this->userGroups = $USER->GetUserGroupArray();
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function setCurrency(): void
+    {
+        $this->currency = \CCurrency::GetByID(CurrencyManager::getBaseCurrency());
+
+        if (!$this->currency) {
+            throw new Exception("Валюта не определена");
         }
     }
 
@@ -353,6 +367,7 @@ class Price
 
         if ($price = $res->Fetch()) {
             $price["PRICE"] = $value;
+            $price["PRICE_SCALE"] = $value * $this->currency["CURRENT_BASE_RATE"];
             $result = Model\Price::Update($price["ID"], $price);
             $success = $result->isSuccess();
         } else {
@@ -360,7 +375,8 @@ class Price
                 "PRODUCT_ID"       => $productId,
                 "CATALOG_GROUP_ID" => $typeId,
                 "PRICE"            => $value,
-                "CURRENCY"         => CurrencyManager::getBaseCurrency(),
+                "PRICE_SCALE"      => $value * $this->currency["CURRENT_BASE_RATE"],
+                "CURRENCY"         => $this->currency["CURRENCY"],
             ]);
             $success = $result->isSuccess();
         }
