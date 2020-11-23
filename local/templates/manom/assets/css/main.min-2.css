@@ -2133,6 +2133,21 @@ line-height: 24px;
   margin: 15px auto;
 }
 
+.cb-block__item .product-card .product-card__img {
+  display: flex;
+}
+
+.cb-block__item .product-card .product-card__img  img {
+  width: 70% !important;
+  margin: auto;
+}
+
+
+.cb-block__item .product-card .p-name {
+  font-size: 14px;
+  line-height: 18px;
+}
+
 .cb-line {
   display: none;
   -webkit-box-pack: center;
