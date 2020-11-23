@@ -1,10 +1,17 @@
-<? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
+<?
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
+use Manom\Content\Section;
+
 $arResultNew = $arParents = [];
 
+$section = new Section();
+$section->checkEmptySectionsOnLevel(2);
+
 foreach ($arResult as &$arItem) {
+    $arItem["DISABLED"] = $section->isDisabled($arItem["PARAMS"]["SECTION_ID"]);
     $arItem['CHILDREN'] = [];
     if ( isset($arParents[$arItem['DEPTH_LEVEL']]) ) {
         unset($arParents[$arItem['DEPTH_LEVEL']]);

@@ -131,8 +131,9 @@ foreach($arResult["SECTIONS"] as $arSection)
 		$arResult["ELEMENT_LINKS"][$arSection["ID"]],
 		array(
 			"FROM_IBLOCK" => true,
-			"IS_PARENT" => false,
+			"IS_PARENT"   => false,
 			"DEPTH_LEVEL" => $arSection["DEPTH_LEVEL"],
+			"SECTION_ID"  => (int)$arSection["ID"],
 		),
 	);
 }

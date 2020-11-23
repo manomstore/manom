@@ -34,8 +34,9 @@ $this->setFrameMode(true); ?>
                             <div class="main-nav__inner">
                                 <ul class="main-nav__sublist">
                                     <? foreach ($arItem["CHILDREN"] as $children): ?>
-                                        <li>
-                                            <a class="main-nav__link main-nav__link--lv2" href="<?= $children["LINK"] ?>">
+                                        <li class="<?= $children["DISABLED"] ? "disabled" : "" ?>">
+                                            <a class="main-nav__link main-nav__link--lv2"
+                                               href="<?= $children["LINK"] ?>">
                                                 <?= $children["TEXT"] ?>
                                             </a>
                                         </li>
