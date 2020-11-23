@@ -2585,9 +2585,11 @@ line-height: 24px;
   font-size: 14px;
   line-height: 25px;
   border: none;
-  background-color: transparent;
+  background-color: #ffffff;
   color: #95C54D;
   cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .catalog-filter__li button.show-button {
