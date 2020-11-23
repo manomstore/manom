@@ -166,12 +166,25 @@ class Section
      * @param int $sectionId
      * @return bool
      */
-    public function isDisabled(int $sectionId)
+    public function isDisabled(int $sectionId): bool
     {
         if (empty($this->sections[$sectionId])) {
             return false;
         }
 
         return (bool)$this->sections[$sectionId]["disabled"];
+    }
+
+    /**
+     * @param int $sectionId
+     * @return string
+     */
+    public function getCode(int $sectionId): string
+    {
+        if (empty($this->sections[$sectionId])) {
+            return "";
+        }
+
+        return (string)$this->sections[$sectionId]["code"];
     }
 }
