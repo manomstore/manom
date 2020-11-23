@@ -1171,8 +1171,16 @@ $(document).ready(function () {
     return $(this).children('.p-nav-top').fadeIn(200);
   });
 
+  $(document).on('mouseenter', '.product-card.no-hover', function () {
+    return $(this).children('.p-nav-top').fadeIn(200);
+  });
+
   $(document).on('mouseleave', '.product-card:not(.no-hover)', function () {
     $(this).children('.product-card__img').slick('unslick');
+    $(this).children('.p-nav-top').fadeOut(200);
+  });
+
+  $(document).on('mouseleave', '.product-card.no-hover', function () {
     $(this).children('.p-nav-top').fadeOut(200);
   });
 
