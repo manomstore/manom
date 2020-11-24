@@ -2147,6 +2147,7 @@ line-height: 24px;
 .cb-block__item .product-card .p-name {
   font-size: 14px;
   line-height: 18px;
+  height: 54px;
 }
 
 .cb-line {
