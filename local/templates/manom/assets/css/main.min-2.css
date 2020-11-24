@@ -7691,12 +7691,18 @@ h3.tab-content__title--right {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
   border: 1px solid #f2f2f2;
   background-color: #fff;
   padding: 10px;
+  width: 100%;
   margin: 0 0 10px;
+  overflow: hidden;
+  position: relative;
+  height: 100px;
+}
+
+.sci-add__prices {
+  margin: 10px 0 0;
 }
 
 .sci-add__picture img {
@@ -7782,8 +7788,8 @@ h3.tab-content__title--right {
   }
 
   .sci-add__picture {
-    width: 94px;
-    height: 94px;
+    /* width: 94px;
+    height: 94px; */
   }
 }
 
@@ -9476,10 +9482,9 @@ h3.tab-content__title--right {
   }
 
   .sci-add__picture {
-    width: 123px;
-    height: 123px;
     margin: 0 0 14px;
     padding: 15px;
+    height: 130px;
   }
 
   .sci-add {
