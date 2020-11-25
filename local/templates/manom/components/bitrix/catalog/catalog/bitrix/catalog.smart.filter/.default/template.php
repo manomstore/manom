@@ -136,27 +136,34 @@ $request = \Bitrix\Main\Context::getCurrent()->getRequest();
                     </li>
                 <? else: ?>
                     <li class="catalog-filter__li">
-                        <input type="checkbox" class="checkbox-1">
-                        <i></i>
-                        <h3><?= $item['NAME'] ?></h3>
-                        <?php foreach ($item['VALUES'] as $value): ?>
-                            <p>
-                                <label>
-                                    <input
-                                            class="catalog-filter__checkbox <?= $value["DISABLED"] ? 'disabled' : '' ?>"
-                                            type="checkbox"
-                                        <?= $value["DISABLED"] ? 'disabled' : '' ?>
-                                            name="<?= $value['CONTROL_NAME'] ?>"
-                                            id="<?= $value['CONTROL_ID'] ?>"
-                                            value="<?= $value['HTML_VALUE'] ?>"
-                                            data-title="<?= $item['NAME'] ?>: "
-                                            data-value="<?= $value['VALUE'] ?>"
-                                        <?= $value['CHECKED'] ? 'checked="checked"' : '' ?>>
-                                    <span class="catalog-filter__item"><?= $value['VALUE'] ?></span>
-                                </label>
-                            </p>
-                        <?php endforeach; ?>
-                    </li>
+                    <input type="checkbox" class="checkbox-1">
+                    <i></i>
+                    <h3><?=$item['NAME']?></h3>
+                    <?php foreach ($item['VALUES'] as $value): ?>
+                        <p class="<?= $value["SHOW"] ? "top" : "" ?> catalog-filter__list-item">
+                            <label>
+                                <input
+                                    class="catalog-filter__checkbox <?= $value["DISABLED"] ? 'disabled' : '' ?>"
+                                    type="checkbox"
+                                    <?= $value["DISABLED"] ? 'disabled' : '' ?>
+                                    name="<?=$value['CONTROL_NAME']?>"
+                                    id="<?=$value['CONTROL_ID']?>"
+                                    value="<?=$value['HTML_VALUE']?>"
+                                    data-title="<?=$item['NAME']?>: "
+                                    data-value="<?=$value['VALUE']?>"
+                                    <?=$value['CHECKED'] ? 'checked="checked"' : ''?>>
+                                <span class="catalog-filter__item"><?=$value['VALUE']?></span>
+                            </label>
+                        </p>
+
+                    <?php endforeach; ?>
+                    <? if ($item["SHOW_MORE"]): ?>
+                        <button type="button" class="toggle-button">
+                            <span class="show-all">Показать все</span>
+                            <span class="fold">Свернуть</span>
+                        </button>
+                    <? endif; ?>
+                </li>
                 <? endif; ?>
             <?php endforeach; ?>
         </ul>
