@@ -54,11 +54,7 @@ $this->setFrameMode(true);
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-                                <p class="p-label-top active">
-                                    <?php if ($item['productOfTheDay']): ?>
-                                        Товар дня
-                                    <?php endif; ?>
-                                </p>
+
                                 <div class="p-nav-top">
                                     <label>
                                         <input
@@ -75,7 +71,16 @@ $this->setFrameMode(true);
                                 </div>
                                 <div class="p-nav-middle">
                                     <?php if ($item['sale']): ?>
-                                        <div class="p-nav-middle__sale active">Распродажа</div>
+                                        <div class="product-label product-label--sale active">Распродажа</div>
+                                    <?php endif; ?>
+                                    <?php if ($item['productOfTheDay']): ?>
+                                        <div class="product-label product-label--day-offer active">Товар дня</div>
+                                    <?php endif; ?>
+                                    <?php if ($item['newProduct']): ?>
+                                        <div class="product-label product-label--new active">Новинка</div>
+                                    <?php endif; ?>
+                                    <?php if ($item['productPreorder']): ?>
+                                        <div class="product-label product-label--preorder active">Предзаказ</div>
                                     <?php endif; ?>
 
                                     <?php /*
@@ -104,10 +109,7 @@ $this->setFrameMode(true);
                                     <div class="p-nav-bottom__price">
                                         <?=number_format($item['price'], 0, '', ' ')?>
                                         <span> ₽</span>
-                                        <?php if (
-                                            !empty((int)$item['oldPrice']) &&
-                                            (int)$item['price'] !== (int)$item['oldPrice']
-                                        ): ?>
+                                        <?php if ($item['showOldPrice']): ?>
                                             <div class="p-nav-bottom__oldprice">
                                                 <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                             </div>
@@ -115,7 +117,7 @@ $this->setFrameMode(true);
                                     </div>
                                     <div
                                         class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                        data-id='<?=$arPrice['PRODUCT_ID']?>'
+                                        data-id='<?= $item['productId'] ?>'
                                         <?=$item['canBuy'] ? 'enable' : 'disable'?>
                                     ></div>
                                 </div>
@@ -132,7 +134,7 @@ $this->setFrameMode(true);
                                 <span class="compare__basket hidden-remove" style="display:none;"></span>
                                 <div
                                         class="compare__basket addToCompareList <?=$class1?>"
-                                        data-id='<?=$arPrice['PRODUCT_ID']?>'
+                                        data-id='<?= $item['productId'] ?>'
                                 >
                                     Удалить из сравнения
                                 </div>

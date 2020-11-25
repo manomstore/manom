@@ -5,11 +5,16 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $this->setFrameMode(true);
+
 ?>
 
 <? if (!empty($arResult["ITEMS"])): ?>
-<section class="catalog-block" <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
-    <h2 class="cb-title"><?=$arResult['NAME']?></h2>
+<section class="catalog-block">
+    <? if (!empty($arParams["BRAND_DATA"])): ?>
+        <h2 class="cb-title"><?= $arParams["BRAND_DATA"]["name"] ?></h2>
+    <?else:?>
+        <h2 class="cb-title"><?= $arResult['NAME'] ?></h2>
+    <? endif; ?>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
     <label class="filter-burger" for="filter-burger" title="Фильтр"></label>
     <div class="cb-filter">
@@ -18,9 +23,7 @@ $this->setFrameMode(true);
         <div class="cb-filter__param">Цвет: Белый<span>×</span></div>
         <div class="cb-filter__param">Экран: 1920х1080<span>×</span></div>
         */ ?>
-        <?php if (!$arParams['IS_BRAND']): ?>
-            <div class="cb-filter__clear dnd-hide">Очистить фильтры</div>
-        <?php endif; ?>
+        <div class="cb-filter__clear dnd-hide">Очистить фильтры</div>
     </div>
     <div class="cb-nav">
         <div class="cb-nav-sort">
@@ -28,23 +31,30 @@ $this->setFrameMode(true);
             <select required name="sort_by">
                 <? if ($arParams["IS_SEARCH"]): ?>
                     <option selected value="relevance">по релевантности</option>
-                    <option value="pop">по популярности</option>
+                    <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
+                            value="pop">по популярности</option>
                 <? else: ?>
-                    <option selected value="pop">по популярности</option>
+                    <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
+                            value="pop">по популярности</option>
                 <? endif; ?>
-                <option value="price">по цене</option>
-                <option value="name">по названию</option>
+                <option <?= $arParams["SORT_CODE"] === "price_desc" ? "selected" : "" ?>
+                        value="price_desc">сначала дорогие
+                </option>
+                <option <?= $arParams["SORT_CODE"] === "price_asc" ? "selected" : "" ?>
+                        value="price_asc">сначала дешевые</option>
+                <option  <?= $arParams["SORT_CODE"] === "name" ? "selected" : "" ?>
+                        value="name">по названию</option>
             </select>
         </div>
         <div class="cb-nav-count catTopCount">
             <?=$arResult['NAV_STRING']?>
             <span class="cb-nav__text">Товаров на странице</span>
             <select name="countOnPage" required>
-                <option value="3">3</option>
-                <option value="6">6</option>
-                <option value="12" selected>12</option>
-                <option value="24">24</option>
-                <option value="9999">все</option>
+                <? foreach ($arParams["PAGE_COUNT_LIST"] as $pageCount => $data): ?>
+                    <option value="<?= $pageCount ?>" <?= $data["SELECTED"] ? "selected" : "" ?>>
+                        <?= $data["NAME"] ?>
+                    </option>
+                <? endforeach; ?>
             </select>
         </div>
         <div class="cb-nav-style" style="display: none">
@@ -90,11 +100,7 @@ $this->setFrameMode(true);
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <p class="p-label-top active">
-                            <?php if ($item['productOfTheDay']): ?>
-                                Товар дня
-                            <?php endif; ?>
-                        </p>
+
                         <div class="cb-single-nav-top">
                             <label>
                                 <input
@@ -111,12 +117,20 @@ $this->setFrameMode(true);
                             <div  title="Добавить в сравнение"
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
-                                        title="Добавить в избранное"
                             ></div>
                         </div>
                         <div class="p-nav-middle">
                             <?php if ($item['sale']): ?>
                                 <div class="p-nav-middle__sale active">Распродажа</div>
+                            <?php endif; ?>
+                            <?php if ($item['productOfTheDay']): ?>
+                                <div class="product-label product-label--day-offer active">Товар дня</div>
+                            <?php endif; ?>
+                            <?php if ($item['newProduct']): ?>
+                                <div class="product-label product-label--new active">Новинка</div>
+                            <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
                             <?php endif; ?>
 
                             <?php /*
@@ -149,10 +163,7 @@ $this->setFrameMode(true);
                             <?php endforeach; ?>
                         </div>
                         <div class="p-nav-bottom">
-                            <?php if (
-                                !empty((int)$item['oldPrice']) &&
-                                (int)$item['price'] !== (int)$item['oldPrice']
-                            ): ?>
+                            <?php if ($item['showOldPrice']): ?>
                                 <div class="p-nav-bottom__price">
                                     <?=number_format($item['price'], 0, '', ' ')?>
                                     <span> ₽</span>
@@ -183,7 +194,7 @@ $this->setFrameMode(true);
                 $class1 = $item['inFavoriteAndCompare'] ? '' : 'notActive';
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
                 ?>
-                <div class="cb-block__item col-3<?=$arParams['IS_BRAND'] ? ' block__item__brand' : ''?>">
+                <div class="cb-block__item col-3">
 
                     <div class="product-card <?=$item['canBuy'] ? 'enable' : 'disable'?>">
                         <div class="product-card__img">
@@ -199,11 +210,7 @@ $this->setFrameMode(true);
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <p class="p-label-top active">
-                            <?php if ($item['productOfTheDay']): ?>
-                                Товар дня
-                            <?php endif; ?>
-                        </p>
+
                         <div class="p-nav-top">
                             <label>
                                 <input
@@ -221,7 +228,7 @@ $this->setFrameMode(true);
                                 <div
                                     class="p-nav-top__list addToCompareList <?=$class2?>"
                                     data-id='<?=$item['id']?>'
-                                        title="Добавить в избранное"
+                                    title="Добавить в сравнение"
                                 ></div>
                             </a>
                         </div>
@@ -230,8 +237,18 @@ $this->setFrameMode(true);
                                 <div class="p-nav-middle__sale active">Нет в наличии</div>
                             <?php endif; ?>
                             <?php if ($item['sale']): ?>
-                                <div class="p-nav-middle__sale active">Распродажа</div>
+                                <div class="product-label product-label--sale active">Распродажа</div>
                             <?php endif; ?>
+                            <?php if ($item['productOfTheDay']): ?>
+                                <div class="product-label product-label--day-offer active">Товар дня</div>
+                            <?php endif; ?>
+                            <?php if ($item['newProduct']): ?>
+                                <div class="product-label product-label--new active">Новинка</div>
+                            <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
+
 
                             <?php /*
                             <div class="p-nav-middle__rating">
@@ -255,10 +272,7 @@ $this->setFrameMode(true);
                             ><?=$item['name']?></a>
                         </h3>
                         <div class="p-nav-bottom">
-                            <?php if (
-                                !empty((int)$item['oldPrice']) &&
-                                (int)$item['price'] !== (int)$item['oldPrice']
-                            ): ?>
+                            <?php if ($item['showOldPrice']): ?>
                                 <div class="p-nav-bottom__price">
                                     <?=number_format($item['price'], 0, '', ' ')?>
                                     <span> ₽</span>
@@ -366,10 +380,7 @@ $this->setFrameMode(true);
                         </div>
                         <div class="p-nav-bottom cb-line-bottom">
                             <div class="p-nav-bottom">
-                                <?php if (
-                                    !empty((int)$item['oldPrice']) &&
-                                    (int)$item['price'] !== (int)$item['oldPrice']
-                                ): ?>
+                                <?php if ($item['showOldPrice']): ?>
                                     <div class="p-nav-bottom__price">
                                         <?=number_format($item['price'], 0, '', ' ')?>
                                         <span> ₽</span>
@@ -422,21 +433,15 @@ $this->setFrameMode(true);
 <? else: ?>
     <div class="content">
         <div class="container  empty-container">
-            <div class="empty">
-                <? if (!empty($arResult["BRAND_LOGO"])): ?>
+            <div class="empty-page">
+                <? if (!empty($arParams["BRAND_DATA"])): ?>
                     <div class="empty__block empty__block--brand">
-                        <img class="empty__block-image" src="<?= $arResult["BRAND_LOGO"] ?>">
+                        <img class="empty__block-image" src="<?= $arParams["BRAND_DATA"]["logo"] ?>">
                         <p class="empty__text">
                             Здесь пока пусто. Посмотрите другие
-                            <? if ($arResult["PARENT_SECTION"]): ?>
-                                <a href="<?= $arResult["PARENT_SECTION"]["SECTION_PAGE_URL"] ?>">
-                                    <?= $arResult["PARENT_SECTION"]["NAME"] ?>
-                                </a>
-                            <? else: ?>
-                                <a href="<?= SITE_DIR ?>catalog/">
-                                    товары
-                                </a>
-                            <? endif; ?>
+                            <a href="<?= $arResult["SECTION_PAGE_URL"] ?>">
+                                <?= $arResult['NAME'] ?>
+                            </a>
                         </p>
                     </div>
                 <? else: ?>

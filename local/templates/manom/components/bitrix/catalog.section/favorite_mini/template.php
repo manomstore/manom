@@ -15,6 +15,7 @@ $count = 0;
     <a
             <?=count($arResult['ITEMS']) > 0 ? "href='/user/favorite/'" : ''?>
             class="top-personal__link"
+            title="Добавить в избранное"
             id="mini_favorite_header_counter"
     >
         <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg" alt="Иконка избранного" width="17" height="15">
@@ -46,7 +47,7 @@ $count = 0;
                         <div class="preview-prod__descr">
                             <div class="preview-prod-bottom">
                                 <div class="preview-prod-bottom__price">
-                                    <?php if (!empty((int)$item['oldPrice']) && (int)$item['price'] !== (int)$item['oldPrice']): ?>
+                                    <?php if ($item['showOldPrice']): ?>
                                         <span class="preview-prod-bottom__value preview-prod-bottom__value--new">
                                             <?=number_format($item['price'], 0, '.', ' ')?> ₽
                                         </span>

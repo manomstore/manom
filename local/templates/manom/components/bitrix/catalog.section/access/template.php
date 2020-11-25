@@ -19,7 +19,7 @@ $this->setFrameMode(true);
                 $class2 = $item['inFavoriteAndCompare'] ? 'alt-img' : 'notActive';
                 ?>
                 <div class="cb-block__item col-3">
-                    <div class="product-card">
+                    <div class="product-card no-hover">
                         <div class="product-card__img">
                             <img src="<?=$item['images'][0]['src']?>" alt="<?=$item['name']?>">
                         </div>
@@ -54,10 +54,7 @@ $this->setFrameMode(true);
                             <div class="p-nav-bottom__price">
                                 <?=number_format($item['price'], 0, '', ' ')?>
                                 <span> ₽</span>
-                                <?php if (
-                                    !empty((int)$item['oldPrice']) &&
-                                    (int)$item['price'] !== (int)$item['oldPrice']
-                                ): ?>
+                                <?php if ($item['showOldPrice']): ?>
                                     <div class="p-nav-bottom__oldprice">
                                         <?=number_format($item['oldPrice'], 0, '', ' ')?>
                                     </div>

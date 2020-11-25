@@ -86,9 +86,7 @@ if (!function_exists("PrintPropsForm"))
 						if($arProperties["TYPE"] == "CHECKBOX")
 						{
 							?>
-
-							<input type="hidden" name="<?=$arProperties["FIELD_NAME"]?>" value="">
-							<input type="checkbox" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>" value="Y"<?if ($arProperties["CHECKED"]=="Y") echo " checked";?>>
+                            <input type="checkbox" name="<?=$arProperties["FIELD_NAME"]?>" id="<?=$arProperties["FIELD_NAME"]?>" value="Y"<?if ($arProperties["CHECKED"]=="Y") echo " checked";?>>
 							<?
 						}
 						elseif($arProperties["TYPE"] == "TEXT")

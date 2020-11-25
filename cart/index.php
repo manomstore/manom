@@ -1,6 +1,7 @@
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 
+use Bitrix\Main\Loader;
 use Manom\Basket;
 use Manom\Service\TimeDelivery;
 
@@ -8,6 +9,7 @@ $APPLICATION->SetTitle('Корзина');
 
 CModule::IncludeModule('statistic');
 CModule::IncludeModule('sale');
+Loader::includeModule("germen.settings");
 
 global $USER;
 
@@ -207,6 +209,18 @@ if (empty($productsOutOfStock)) {
                                                    required>
                                             <!-- pattern="+[0-9]{1} ([0-9]{3}) [0-9]{3}-[0-9]{4}"  -->
                                         </div>
+                                        <div class="sci-contact__field">
+                                            <input type="checkbox"
+                                                   data-prop="ORDER_PROP_44"
+                                                   name="sci-gift"
+                                                   id="sci-gift"
+                                                   value="Y"
+                                                   class="sci-gift__input"
+                                            >
+                                            <label for="sci-gift" class="sci-gift__label">
+                                                Подарочная упаковка
+                                            </label>
+                                        </div>
                                     </section>
                                     <section class="sci-contact-content" id="sci-contact-content2">
                                         <div class="sci-contact__field">
@@ -248,8 +262,8 @@ if (empty($productsOutOfStock)) {
                                                     <input type="password"
                                                            name="sci-contact__ur-password"
                                                            id="sci-contact__ur-password"
-                                                           class="sci-contact__input js-email-field"
-                                                           placeholder="Введите e-mail">
+                                                           class="sci-contact__input js-password-field"
+                                                           placeholder="Ваш пароль">
                                                 </label>
                                                 <button class="shopcart-sidebar__button js-auth" type="button">
                                                     Войти
@@ -395,6 +409,18 @@ if (empty($productsOutOfStock)) {
                                                       class="sci-contact__input sci-contact__input--area"
                                                       placeholder="Контакты">
                                             </textarea>
+                                        </div>
+                                        <div class="sci-contact__field">
+                                            <input type="checkbox"
+                                                   data-prop="ORDER_PROP_45"
+                                                   name="sci-gift"
+                                                   id="sci-gift-ur"
+                                                   value="Y"
+                                                   class="sci-gift__input"
+                                            >
+                                            <label for="sci-gift-ur" class="sci-gift__label">
+                                                Подарочная упаковка
+                                            </label>
                                         </div>
                                     </section>
                                 </div>
@@ -935,6 +961,18 @@ if (empty($productsOutOfStock)) {
                             */ ?>
 
                             <div class="shopcart-sidebar__check">
+                                <div style="display: none;" class="shopcart-sidebar__free-delivery not_enough">
+                                    <p class="shopcart-sidebar__free-delivery-text">
+                                    <span class="free-delivery-remains"></span> ₽ до бесплатной доставки
+                                    </p>
+                                    <div class="shopcart-sidebar__free-delivery-line"></div>
+                                </div>
+                                <div style="display: none;" class="shopcart-sidebar__free-delivery allright">
+                                    <p class="shopcart-sidebar__free-delivery-text">
+                                      Доставка бесплатна
+                                    </p>
+                                    <div class="shopcart-sidebar__free-delivery-line"></div>
+                                </div>
                                 <?php $APPLICATION->IncludeComponent(
                                     'bitrix:sale.basket.basket.line',
                                     'cart_info',
@@ -1270,6 +1308,7 @@ if (empty($productsOutOfStock)) {
 <script>
   var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
   window.paramTimeRanges = <?=\CUtil::PhpToJSObject(TimeDelivery::getIntervals())?>;
+  window.COND_FREE_DELIVERY = <?=(int)\UniPlug\Settings::get("COND_FREE_DELIVERY")?>;
 </script>
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');
