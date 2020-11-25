@@ -16,9 +16,8 @@ $(function () {
   });
 
   // слайдер фото в карточке товара
-  $(document).find('.product-card').hover(
+  $(document).find('.product-card:not(.no-hover)').hover(
     function () {
-      console.log('ee');
       $(this).children(".product-card__img").slick({
         arrows: true,
         dots: false,
