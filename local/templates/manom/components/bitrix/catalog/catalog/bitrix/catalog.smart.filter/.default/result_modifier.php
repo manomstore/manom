@@ -6,6 +6,18 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 foreach ($arResult['ITEMS'] as &$item) {
+    if (!isset($item['PRICE'])) {
+        $counter = 0;
+        array_walk($item["VALUES"], function (&$value, $key, &$counter) {
+            $counter++;
+            $value["SHOW"] = $counter <= 5 || $value["CHECKED"];
+
+        }, $counter);
+
+        $item["SHOW_MORE"] = count(array_filter($item["VALUES"], function ($value) {
+                return $value["SHOW"] === false;
+            })) >= 1;
+    }
     if ($item["CODE"] === "memory_size") {
         foreach ($item["VALUES"] as &$value) {
             $value["NUM_VALUE"] = (int)preg_replace('~\D+~', '', $value["VALUE"]);

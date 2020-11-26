@@ -1019,7 +1019,12 @@ $(document).ready(function () {
     var inputStart;
     $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
     inputStart = $(this).val();
-    var max = $maxPriceValue ?? $maxPrice;
+    var max = $maxPriceValue;
+
+    if (!max) {
+      max = $maxPrice;
+    }
+
     if (inputStart > max) {
       inputStart = max;
     }
@@ -1039,7 +1044,12 @@ $(document).ready(function () {
 
     var inputEnd;
     $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-    var min = $minPriceValue ?? $minPrice;
+    var min = $minPriceValue;
+
+    if (!min) {
+      min = $minPrice;
+    }
+
     inputEnd = $(this).val();
     if (inputEnd > $maxPrice) {
       inputEnd = $maxPrice;
@@ -1133,7 +1143,11 @@ $(document).ready(function () {
         $(document).find('.cb-filter').prepend($(elementFilter));
       }
     }
+    if ($('.catalog-filter__list-item input').prop('checked')) {
+      $(this).closest('.catalog-filter__list-item').addClass('top')
+    }
     return $.fn.ajaxLoadCatalog();
+
   });
 
   $clearAll = false;
