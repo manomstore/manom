@@ -40,7 +40,7 @@ $this->setFrameMode(true); ?>
                                         <? foreach ($arItem["CHILDREN"] as $childrenChunk): ?>
                                             <ul>
                                                 <? foreach ($childrenChunk as $children): ?>
-                                                    <li>
+                                                    <li class="<?= $children["DISABLED"] ? "disabled" : "" ?>">
                                                         <a class="main-nav__link main-nav__link--lv2"
                                                            href="<?= $children["LINK"] ?>">
                                                             <?= $children["TEXT"] ?>

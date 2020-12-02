@@ -6,7 +6,7 @@ if ( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true ) {
 global $APPLICATION;
 
 $aMenuLinksExt = $APPLICATION->IncludeComponent(
-    "bitrix:menu.sections",
+    "manom:menu.sections",
     "",
     array(
         "IS_SEF" => "Y",
