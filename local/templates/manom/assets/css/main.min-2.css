@@ -1794,15 +1794,15 @@ line-height: 24px;
 .filter-burger {
   display: none;
   position: absolute;
-  top: -60px;
-  right: 0;
-  width: 25px;
-  height: 25px;
+  /* top: -60px; */
+  /* right: 0; */
+  /* width: 25px; */
+  /* height: 25px; */
   cursor: pointer;
   background: url(../img/set-filter.svg) no-repeat;
   -webkit-background-size: contain;
   background-size: contain;
-  opacity: 0.8;
+  /* opacity: 0.8; */
 }
 
 .filter-burger:hover {
