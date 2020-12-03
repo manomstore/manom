@@ -1834,7 +1834,7 @@ line-height: 24px;
 }
 
 .filter-burger__checkbox:checked ~ .filter-burger {
-  background-image: url('../img/icon-cross.svg');
+  /* background-image: url('../img/icon-cross.svg'); */
 }
 
 .filter-burger__checkbox:checked ~ .filter-burger:before {
