@@ -3588,6 +3588,16 @@ function formatMoney(number) {
   });
 })();
 
+(function () {
+  $(document).ready(function () {
+    var block = $('.catTopCount');
+
+    if ($('.cb-nav-count__total').html() > 12) {
+      block.removeClass('visually-hidden');
+    }
+  });
+})();
+
 window.gtmActions = {
   currency: '',
   products: [],

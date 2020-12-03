@@ -23,12 +23,7 @@ if ($_REQUEST['sort_by'] === 'price') {
 
 
 $pageCountList = [
-    "3" => [
-        "NAME" => "3",
-    ],
-    "6" => [
-        "NAME" => "6",
-    ],
+
     "12" => [
         "NAME" => "12",
     ],

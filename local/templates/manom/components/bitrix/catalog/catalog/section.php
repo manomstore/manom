@@ -29,12 +29,7 @@ if ($_REQUEST['sort_by'] === 'price_asc') {
 
 
 $pageCountList = [
-    "3" => [
-        "NAME" => "3",
-    ],
-    "6" => [
-        "NAME" => "6",
-    ],
+
     "12" => [
         "NAME" => "12",
     ],
