@@ -6371,12 +6371,6 @@ h3.tab-content__title--right {
   .catalog-filter__category-cover {
     white-space: nowrap;
     overflow-x: auto;
-    min-width: 100vw;
-    margin-left: -15px;
-    padding-left: 15px;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 10px;
-    margin-bottom: -10px;
   }
 
   .first-scr__left {
