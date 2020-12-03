@@ -11,7 +11,7 @@ $this->setFrameMode(true);
 <section class="catalog-block" <?=$arParams['IS_BRAND'] ? 'style="width:100%;"' : ''?>>
     <h2 class="cb-title"><?=$arResult['NAME']?></h2>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
-    <label class="filter-burger" for="filter-burger" title="Фильтр"></label>
+    <label class="filter-burger" for="filter-burger" title=""></label>
     <div class="cb-filter">
         <?php /*
         <div class="cb-filter__param">Процессор: Intel Core i5<span>×</span></div>

@@ -1576,6 +1576,12 @@ line-height: 24px;
   margin: 24px 0 11px;
 }
 
+@media only screen and (max-width: 1069px) {
+  .bread-crumb {
+    display: none;
+  }
+}
+
 .bread-crumb__link {
   display: inline-block;
   color: #000000;
@@ -6359,6 +6365,7 @@ h3.tab-content__title--right {
 @media only screen and (max-width: 1069px) {
   .catalog-main {
     display: flex;
+    margin-top: 10px;
   }
 
   .catalog-filter__category-cover {
@@ -6410,6 +6417,7 @@ h3.tab-content__title--right {
     -webkit-transition: 0.3s;
     -o-transition: 0.3s;
     transition: 0.3s;
+    overflow: scroll;
   }
 
   .catalog-filter {
