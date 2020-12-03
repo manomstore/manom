@@ -2577,6 +2577,7 @@ line-height: 24px;
   width: 100%;
   opacity: 0.8;
   text-align: left;
+  padding-left: 28px;
 }
 
 .catalog-filter__category p a {
@@ -2606,6 +2607,7 @@ line-height: 24px;
   .catalog-filter__category p {
     padding-right: 15px;
     width: auto;
+    padding-left: 0;
   }
 
   .catalog-filter__category p a {
