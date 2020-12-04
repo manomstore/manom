@@ -462,7 +462,7 @@ function formatBytes($size, $precision = 2)
                         <div class="<?=$class?>">
                             Купить дешевле
                         </div>
-                        <?if((!$arResult['PROPERTIES']["ONLY_PREPAYMENT"]["VALUE"]) || (!$arResult['PROPERTIES']["ONLY_PICKUP"]["VALUE"])):?>
+                        <?if((!$arResult['PROPERTIES']["ONLY_PREPAYMENT"]["VALUE"]) && (!$arResult['PROPERTIES']["ONLY_PICKUP"]["VALUE"])):?>
                         <div
                             class="product-sidebar__one-click BOC_btn"
                             data-id="<?=$arResult['PRODUCT_ID']?>"
