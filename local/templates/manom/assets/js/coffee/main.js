@@ -558,6 +558,23 @@ $(document).ready(function () {
                     return $(document).find('#btnNextSlide').addClass('hidden');
                   }
                 } else {
+                  var $emailField = sBlock.find('#sci-contact__email');
+
+                  if ($emailField.length >= 1) {
+
+                    if (!$emailField.val() && $emailField.prop('required')) {
+                      isEmailValid = false;
+                    } else {
+                      isEmailValid = true;
+                    }
+
+                    if ($emailField.val() !== '' && $emailField.val().match(REG_EXP_EMAIL) === null) {
+                      isEmailValid = false;
+                    }
+                  } else {
+                    isEmailValid = true;
+                  }
+
                   if (!isEmailValid) {
                     return $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message',
                       false, 5000, undefined, 'push_up_item--error');
@@ -1961,8 +1978,8 @@ $(document).ready(function () {
 
   $(document).on('checkoutEvent', function () {
     if (!document.querySelector('.js-shopcart-agree').checked) {
-      $.fn.setPushUp('Ошибка', 'Чтобы оформить заказ необходимо активировать чекбокс согласия', false, 'message', false,
-        5000, undefined, 'push_up_item--error');
+      $.fn.setPushUp('Ошибка', 'Нужно ваше согласие на обработку персональных данных', false, 'message', false,
+        5000, undefined, 'push_up_item--warning');
       return false;
     }
 
