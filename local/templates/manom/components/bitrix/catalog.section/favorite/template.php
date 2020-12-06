@@ -23,12 +23,11 @@ $this->setFrameMode(true);
                     <option value="name">названию</option>
                 </select>
             </div>
-            <div class="cb-nav-count catTopCount">
+            <div class="cb-nav-count catTopCount visually-hidden">
                 <?=$arResult['NAV_STRING']?>
                 Товаров на странице
                 <select name="countOnPage" required>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
+
                     <option value="12" selected>12</option>
                     <option value="24">24</option>
                     <option value="9999">все</option>

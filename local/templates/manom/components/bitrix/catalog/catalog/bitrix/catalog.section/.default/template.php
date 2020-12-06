@@ -46,7 +46,7 @@ $this->setFrameMode(true);
                         value="name">по названию</option>
             </select>
         </div>
-        <div class="cb-nav-count catTopCount">
+        <div class="cb-nav-count catTopCount visually-hidden">
             <?=$arResult['NAV_STRING']?>
             <span class="cb-nav__text">Товаров на странице</span>
             <select name="countOnPage" required>
