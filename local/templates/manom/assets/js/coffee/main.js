@@ -1733,7 +1733,8 @@ $(document).ready(function () {
     var soModule;
     soModule = $(document).find('#module_so');
     if (soModule.find('.wrewfwer .wrewfwer_ajax').is('span')) {
-      soModule.find('.wrewfwer .wrewfwer_ajax').get(0).remove();
+      var parentElement = document.querySelector(".wrewfwer");
+      parentElement.innerHTML = '';
       return $.fn.updateDateSaleOrder();
     }
   });
