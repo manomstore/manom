@@ -1978,6 +1978,7 @@ $(document).ready(function () {
 
   $(document).on('checkoutEvent', function () {
     if (!document.querySelector('.js-shopcart-agree').checked) {
+      $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
       $.fn.setPushUp('Ошибка', 'Нужно ваше согласие на обработку персональных данных', false, 'message', false,
         5000, undefined, 'push_up_item--warning');
       return false;
