@@ -5,6 +5,8 @@ require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.ph
 use \Bitrix\Main\Application,
     \Bitrix\Currency\CurrencyManager,
     \Bitrix\Sale\Order,
+    \Bitrix\Sale\Delivery,
+    \Bitrix\Sale\PaySystem,
     \Bitrix\Sale\Basket,
     \Bitrix\Sale\Fuser,
     \Bitrix\Main\Context,
@@ -360,8 +362,10 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
             'QUANTITY' => 1,
         ];
 
+        CSaleBasket::DeleteAll(CSaleBasket::GetBasketUserID(), false);
         $r = Bitrix\Catalog\Product\Basket::addProduct($fields);
         if (!$r->isSuccess()) {
+            //$result["errors"] = $r->getErrorMessages();
             throw new \Exception();
         }
 
@@ -413,6 +417,16 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
                 $property->setValue($orderProp[$property->getField("CODE")]);
             }
         }
+
+
+        // Создаём оплату со способом #7 (наличными)
+        $paymentCollection = $order->getPaymentCollection();
+        $payment = $paymentCollection->createItem();
+        $paySystemService = PaySystem\Manager::getObjectById(7);
+        $payment->setFields(array(
+            'PAY_SYSTEM_ID' => $paySystemService->getField("PAY_SYSTEM_ID"),
+            'PAY_SYSTEM_NAME' => $paySystemService->getField("NAME"),
+        ));
 
         $order->doFinalAction(true);
         $orderResult = $order->save();
