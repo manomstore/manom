@@ -1756,7 +1756,8 @@ $(document).ready(function () {
     var soModule;
     soModule = $(document).find('#module_so');
     if (soModule.find('.wrewfwer .wrewfwer_ajax').is('span')) {
-      soModule.find('.wrewfwer .wrewfwer_ajax').remove();
+      var parentElement = document.querySelector(".wrewfwer");
+      parentElement.innerHTML = '';
       return $.fn.updateDateSaleOrder();
     }
   });
