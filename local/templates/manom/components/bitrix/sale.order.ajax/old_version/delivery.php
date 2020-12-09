@@ -33,14 +33,22 @@ if(!empty($arResult["DELIVERY"]))
                         <? if (strlen($arDelivery["DESCRIPTION"]) > 0): ?>
                             <span class="dsc_soa"><?= $arDelivery["DESCRIPTION"] ?></span><br/>
                         <? endif; ?>
-                        <? if (
+                        <?
+                        $store_id = 1;
+                        if (
                             !empty($arDelivery["STORE"])
                             && ($store = $arResult['STORE_LIST'][$arDelivery["STORE"][0]])
-                        ): ?>
+                        ):
+                            $store_id = $store["ID"];
+                            ?>
                             <span class="address_soa"><?= $store["ADDRESS"] ?></span><br/>
                             <span class="schedule_soa"><?= $store["SCHEDULE"] ?></span><br/>
                         <? endif; ?>
-
+<?
+$time = CCatalogStore::GetList([], ['ID' => $store_id], false, false, ["UF_TIME"])->GetNext()["UF_TIME"];
+if (!$time) $time = 0;
+echo "<span class='so_delivery_period_store'>".$time."</span>";
+?>
                     </label>
                 </td>
             </tr>

@@ -156,6 +156,7 @@ function setDeliveryDescription($delivery) {
         }
 
       }
+      if($delivery.find('.so_delivery_period_store').html() > 0) sumDays = sumDays + Number($delivery.find('.so_delivery_period_store').html());
       return sumDays;
     },
     getTextPeriod: function (deliveryObj) {
@@ -173,8 +174,8 @@ function setDeliveryDescription($delivery) {
         if (period.length <= 0) {
           return '';
         }
-        var periodStart = period.shift(),
-          periodEnd = period.shift(),
+        var periodStart = parseInt(period.shift())+parseInt(deliveryObj.dop_days),
+          periodEnd = parseInt(period.shift())+parseInt(deliveryObj.dop_days),
           offset = 0;
         if (periodStart) {
           if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
@@ -231,7 +232,6 @@ function setDeliveryDescription($delivery) {
             break;
         }
       }
-
       return textNearestDate;
     },
   };
@@ -263,6 +263,7 @@ function setDeliveryDescription($delivery) {
     days = days.split('-');
     shop.dates.start = week.days.indexOf(days.shift());
     shop.dates.end = week.days.indexOf(days.shift());
+    shop.dop_days = parseInt($delivery.find('.so_delivery_period_store').html());
   }
 
   if (shop.exist && deliveryId === 13) {
@@ -271,6 +272,7 @@ function setDeliveryDescription($delivery) {
     if (deliveryId === 8) {
       var $deliveryTimes = $(document).find('#sci-delivery-time option'),
         courier = {
+          dop_days: parseInt($delivery.find('.so_delivery_period_store').html()),
           time: {
             start: $deliveryTimes.first().data('start'),
             end: $deliveryTimes.last().data('start'),
@@ -286,6 +288,7 @@ function setDeliveryDescription($delivery) {
         var sdek = {
           isSdek: true,
           currentPeriod: $delivery.find('.so_delivery_period').html(),
+          dop_days: parseInt($delivery.find('.so_delivery_period_store').html()),
           time: {
             start: 0,
             end: 0,
