@@ -5,6 +5,7 @@ use Bitrix\Main\Web\Cookie;
 use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
+use Bitrix\Catalog;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
@@ -17,6 +18,7 @@ require_once __DIR__ . '/autoload.php';
 
 Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
+Loader::includeModule('catalog');
 
 Helper::customRegistry();
 
@@ -455,6 +457,10 @@ class MyHandlerClass
         foreach ($tagResultList as $offerId => $tagResult) {
             $quantityOffer = (int)$elementPropsList[$offerId]["catalog_product"]["QUANTITY"];
             $quantityOffer = $quantityOffer >= 0 ? $quantityOffer : 0;
+            $amounts = Catalog\StoreProductTable::getList(["filter"=>[">AMOUNT"=>0,"PRODUCT_ID"=>$offerId]])->fetchAll();
+            foreach ($amounts as $elem) {
+                $itemsAmount[$elem["STORE_ID"]] = $elem["AMOUNT"];
+            }
             $element = $tagResult->getXmlElement();
             if (!($element instanceof SimpleXMLElement)) {
                 continue;
@@ -464,14 +470,16 @@ class MyHandlerClass
             if (!($outlets instanceof SimpleXMLElement)) {
                 continue;
             }
-            $outlet = $outlets->addChild("outlet");
+            foreach ($itemsAmount as $key => $amount) {
+                $outlet = $outlets->addChild("outlet");
 
-            if (!($outlet instanceof SimpleXMLElement)) {
-                continue;
+                if (!($outlet instanceof SimpleXMLElement)) {
+                    continue;
+                }
+
+                $outlet->addAttribute("id", $key);
+                $outlet->addAttribute("instock", $amount);
             }
-
-            $outlet->addAttribute("id", 0);
-            $outlet->addAttribute("instock", $quantityOffer);
         }
     }
 
