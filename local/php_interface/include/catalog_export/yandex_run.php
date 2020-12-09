@@ -1346,12 +1346,14 @@ $ids = [];
 				$simpleIdsList[$id] = $id;
 		}
 		unset($row, $iterator);
-$amounts = Catalog\StoreProductTable::getList(["filter"=>[">AMOUNT"=>0,"PRODUCT_ID"=>$ids]])->fetchAll();
-$itemsAmount = [];
-foreach ($amounts as $elem) {
-    $itemsAmount[$elem["PRODUCT_ID"]][$elem["STORE_ID"]] = $elem["AMOUNT"];
-}
+if(strpos($SETUP_FILE_NAME, "goods")) {
+    $amounts = Catalog\StoreProductTable::getList(["filter"=>[">AMOUNT"=>0,"PRODUCT_ID"=>$ids]])->fetchAll();
+    $itemsAmount = [];
+    foreach ($amounts as $elem) {
+        $itemsAmount[$elem["PRODUCT_ID"]][$elem["STORE_ID"]] = $elem["AMOUNT"];
+    }
 //$stores = array_column(Catalog\StoreTable::getList(["filter"=>["ACTIVE"=>"Y"], "select"=>["ID"]])->fetchAll(), 'ID');
+}
 		if (!empty($items))
 		{
 			yandexPrepareItems($items, array(), $itemOptions);
@@ -1864,11 +1866,13 @@ foreach ($amounts as $elem) {
 									}
 							}
 						}
-                        $itemsContent .= '<outlets>'."\n";
-						foreach ($itemsAmount[$row['ID']] as $store => $amount) {
-                            $itemsContent .= '<outlet id="'.$store.'" instock="'.$amount.'" />'."\n";
+						if(count($itemsAmount[$row['ID']]) > 0) {
+                            $itemsContent .= '<outlets>'."\n";
+                            foreach ($itemsAmount[$row['ID']] as $store => $amount) {
+                                $itemsContent .= '<outlet id="'.$store.'" instock="'.$amount.'" />'."\n";
+                            }
+                            $itemsContent .= '</outlets>'."\n";
                         }
-                        $itemsContent .= '</outlets>'."\n";
 						$itemsContent .= '</offer>'."\n";
 					}
 					unset($offer);
@@ -2019,11 +2023,13 @@ foreach ($amounts as $elem) {
 								}
 						}
 					}
-                    $itemsContent .= '<outlets>'."\n";
-                    foreach ($itemsAmount[$row['ID']] as $store => $amount) {
-                        $itemsContent .= '<outlet id="'.$store.'" instock="'.$amount.'" />'."\n";
+                    if(count($itemsAmount[$row['ID']]) > 0) {
+                        $itemsContent .= '<outlets>'."\n";
+                        foreach ($itemsAmount[$row['ID']] as $store => $amount) {
+                            $itemsContent .= '<outlet id="'.$store.'" instock="'.$amount.'" />'."\n";
+                        }
+                        $itemsContent .= '</outlets>'."\n";
                     }
-                    $itemsContent .= '</outlets>'."\n";
 					$itemsContent .= "</offer>\n";
 				}
 
