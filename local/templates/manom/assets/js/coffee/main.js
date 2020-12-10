@@ -65,10 +65,10 @@ function showDeliveryPickUpContent(deliveryButton) {
   var pickupType;
 
   switch (deliveryId) {
-    case 6:
+    case deliveryService["cdekPickup"]:
       pickupType = 'pvz';
       break;
-    case 13:
+    case deliveryService["ownPickup"]:
       pickupType = 'shop';
       break;
     default:
@@ -96,15 +96,22 @@ function getDeliveryByCity(deliveryId, cityId) {
   cityId = parseInt(cityId);
   var newDeliveryId;
   var isMoscow = cityId === 84;
+  var moscowDelivery = deliveryService["ownDelivery"];
+  if (isMoscow){
+
+  }
 
   switch (deliveryId) {
-    case 5:
-    case 8:
-      newDeliveryId = isMoscow ? 8 : 5;
+    case deliveryService["cdekDelivery"]:
+    case deliveryService["ownDelivery"]:
+    case deliveryService["ownDeliveryRegion"]:
+      newDeliveryId = isMoscow ? deliveryService["ownDelivery"]
+          : deliveryService["cdekDelivery"];
       break;
-    case 6:
-    case 13:
-      newDeliveryId = isMoscow ? 13 : 6;
+    case deliveryService["cdekPickup"]:
+    case deliveryService["ownPickup"]:
+      newDeliveryId = isMoscow ? deliveryService["ownPickup"]
+          : deliveryService["cdekPickup"];
       break;
   }
   return newDeliveryId;
@@ -250,7 +257,7 @@ function setDeliveryDescription($delivery) {
 
   deliveryId = parseInt($delivery.attr('for').replace('ID_DELIVERY_ID_', ''));
   shop.exist = $delivery.hasClass('is-shop');
-  if (shop.exist && (deliveryId === 13)) {
+  if (shop.exist && (deliveryId === deliveryService["ownPickup"])) {
     var days,
       time,
       schedule = $delivery.find('.schedule_soa').text().split(' ');
@@ -265,10 +272,10 @@ function setDeliveryDescription($delivery) {
     shop.dates.end = week.days.indexOf(days.shift());
   }
 
-  if (shop.exist && deliveryId === 13) {
+  if (shop.exist && deliveryId === deliveryService["ownPickup"]) {
     deliveryPeriod = week.getTextPeriod(shop);
   } else {
-    if (deliveryId === 8) {
+    if ([deliveryService["ownDelivery"], deliveryService["ownDeliveryRegion"]].indexOf(deliveryId) >= 0) {
       var $deliveryTimes = $(document).find('#sci-delivery-time option'),
         courier = {
           time: {
@@ -282,7 +289,7 @@ function setDeliveryDescription($delivery) {
         };
       deliveryPeriod = week.getTextPeriod(courier);
     } else {
-      if ([5, 6].indexOf(deliveryId) >= 0) {
+      if ([deliveryService["cdekDelivery"], deliveryService["cdekPickup"]].indexOf(deliveryId) >= 0) {
         var sdek = {
           isSdek: true,
           currentPeriod: $delivery.find('.so_delivery_period').html(),
@@ -522,6 +529,7 @@ $(document).ready(function () {
           $formIsValid,
           sBlock,
           isEmailValid,
+          addressEmpty,
           addressInvalid = false;
 
       if ($(this).prop('checked')) {
@@ -654,7 +662,14 @@ $(document).ready(function () {
                 if (!$(document).find('#so_city_val').val()) {
                   $formIsValid = false;
                 }
-                if (!$(document).find('#sci-delivery-street').val()) {
+
+                var $addressField = $(document).find('#sci-delivery-street');
+                if (!$addressField.val()) {
+                  $formIsValid = false;
+                  addressEmpty = true;
+                }
+
+                if ($addressField.val() && $addressField.hasClass("invalid-address")) {
                   $formIsValid = false;
                   addressInvalid = true;
                 }
@@ -753,10 +768,13 @@ $(document).ready(function () {
                     $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message', false,
                       5000, undefined, 'push_up_item--error');
                   } else {
-                    if (addressInvalid){
+                    if (addressEmpty) {
                       $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
                           'message', false, 5000, undefined, 'push_up_item--warning');
-                    }else {
+                    } else if (addressInvalid) {
+                      $.fn.setPushUp('Некорректный адрес', 'Адрес доставки указан некорректно', false,
+                          'message', false, 5000, undefined, 'push_up_item--warning');
+                    } else {
                       $.fn.setPushUp('Не заполнены поля', 'Поля, обязательные к заполнению не были заполнены', false,
                           'message', false, 5000, undefined, 'push_up_item--warning');
                     }
@@ -1731,7 +1749,11 @@ $(document).ready(function () {
       $thisParent.append($('#sci-delivery-content1'));
     }
 
-    $('#sci-delivery-street').val('');
+    $('#sci-delivery-street')
+        .val('')
+        .removeClass("is-error")
+        .removeClass("is-success")
+        .removeClass("invalid-address");
 
     $.fn.toggleDeliveryPriceInfoVisibility();
   });
@@ -2216,6 +2238,30 @@ $(document).ready(function () {
       },
     },
     onSelect: function (result) {
+      var cityId = $(document).find('#so_main_block').find('#so_city').val();
+        /* Для Москвы */
+      if (parseInt(cityId) === 84) {
+          var error;
+          if (!result.data.street) {
+              error = new Error("Введите улицу и номер дома");
+          }
+
+          if (result.data.street && !result.data.house) {
+              error = new Error("Введите дом и номер квартиры");
+          }
+
+          if (result.data.house && !result.data.flat) {
+              error = new Error("Введите номер квартиры (“кв 1”, если в доме нет квартир)");
+          }
+
+          if (error instanceof Error) {
+            return setAddressError(true, error.message);
+          } else {
+            setAddressError(false);
+          }
+
+          $(this).data("inside-beltway", parseInt(result.data.beltway_hit === "IN_MKAD"));
+      }
       setZipCode(result.data.postal_code);
       suggestions.selected = true;
       suggestions.nothing = false;
@@ -2223,6 +2269,7 @@ $(document).ready(function () {
     onSelectNothing: function () {
       suggestions.nothing = true;
       suggestions.selected = false;
+      setAddressError(true, "Пожалуйста, выберите адрес из списка");
     },
     onSuggestionsFetch: function (items) {
       suggestions.lastSuggestionsItems = items;
@@ -2413,6 +2460,26 @@ $(document).ready(function () {
         soModule.find('[name="ORDER_PROP_38"]').val(zip);
       }
     }
+  }
+
+  function setAddressError(isError, errorText = "") {
+      var $deliveryStreetField = $('.js-delivery-street');
+      var cityId = $(document).find('#so_main_block').find('#so_city').val();
+      /* Только для Москвы */
+      if (parseInt(cityId) !== 84) {
+          return;
+      }
+
+      if (isError) {
+          $deliveryStreetField.addClass("invalid-address");
+          $deliveryStreetField.addClass('is-error');
+          $deliveryStreetField.removeClass('is-success');
+          $.fn.setPushUp("Некорректный адрес", errorText, false, "message", false, 5000);
+      } else {
+          $deliveryStreetField.addClass('is-success');
+          $deliveryStreetField.removeClass('is-error');
+          $deliveryStreetField.removeClass("invalid-address");
+      }
   }
 
   function numberPhoneValidation(numberPhone) {
@@ -2708,9 +2775,11 @@ $.fn.updateShopcartSidebarProducts = function () {
     var existDeliveryInLoc = $('.sci-delivery__tab[data-prop=\'' + currentDelivery.attr('id') + '\']').length;
 
     props.onlyCash = props.onlyCash && cityId !== 84;
-    props.onlyPickup = props.onlyPickup && existDeliveryInLoc && currentDeliveryId && [13, 6].indexOf(
+    props.onlyPickup = props.onlyPickup && existDeliveryInLoc
+        && currentDeliveryId && [deliveryService["ownPickup"], deliveryService["cdekPickup"]].indexOf(
       currentDeliveryId) <= -1;
-    props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId && [4, 9].indexOf(currentPaySystemId) <= -1;
+    props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId
+        && [4, 9].indexOf(currentPaySystemId) <= -1;
 
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
@@ -3582,11 +3651,15 @@ function getDeliveryTabType(deliveryId) {
   var deliveryTabType = null;
   deliveryId = parseInt(deliveryId);
 
-  if ([5, 8].indexOf(deliveryId) >= 0) {
+  if ([
+    deliveryService["cdekDelivery"],
+    deliveryService["ownDelivery"],
+    deliveryService["ownDeliveryRegion"]
+  ].indexOf(deliveryId) >= 0) {
     deliveryTabType = 'sci-delivery-tab1';
   }
 
-  if ([13, 6].indexOf(deliveryId) >= 0) {
+  if ([deliveryService["ownPickup"], deliveryService["cdekPickup"]].indexOf(deliveryId) >= 0) {
     deliveryTabType = 'sci-delivery-tab2';
   }
 
