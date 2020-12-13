@@ -95,7 +95,7 @@ $this->setFrameMode(true);
                                 ><?= $item['name'] ?></a>
                             </h3>
                             <div class="p-nav-bottom">
-                                <div class="p-nav-bottom__price">
+                                <!-- <div class="p-nav-bottom__price"> -->
                                     <?php if ($item['showOldPrice']): ?>
                                         <div class="p-nav-bottom__price">
                                             <?=number_format($item['price'], 0, '', ' ')?>
@@ -110,7 +110,7 @@ $this->setFrameMode(true);
                                             <span> ₽</span>
                                         </div>
                                     <?php endif; ?>
-                                </div>
+                                <!-- </div> -->
                                 <div
                                         class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
                                         data-id='<?=$item['productId']?>'
