@@ -1524,17 +1524,23 @@ line-height: 24px;
 .p-nav-bottom__price {
   font-size: 22px;
   text-align: left;
+  display: flex;
+  align-items: center;
+  line-height: 28px;
 }
 
 .p-nav-bottom__price span {
   font-size: 22px;
-  margin-left: -3px;
+  padding-left: 3px;
 }
 
 .p-nav-bottom__oldprice {
-  font-size: 14px;
   color: #b3b3b3;
   text-decoration: line-through;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  padding-left: 8px;
 }
 
 .p-nav-bottom__shopcart {
