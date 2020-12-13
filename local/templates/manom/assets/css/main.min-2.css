@@ -1507,14 +1507,15 @@ line-height: 24px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  flex-wrap: nowrap;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
+  -webkit-box-align: flex-start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
   color: #000000;
   font-family: 'PT Root UI', 'Arial', sans-serif;
   font-weight: 700;
@@ -1532,6 +1533,7 @@ line-height: 24px;
 .p-nav-bottom__price span {
   font-size: 22px;
   padding-left: 3px;
+  padding-right: 8px;
 }
 
 .p-nav-bottom__oldprice {
@@ -1540,7 +1542,7 @@ line-height: 24px;
   font-weight: normal;
   font-size: 18px;
   line-height: 28px;
-  padding-left: 8px;
+
 }
 
 .p-nav-bottom__shopcart {
