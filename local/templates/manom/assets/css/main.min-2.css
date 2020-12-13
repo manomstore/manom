@@ -1559,6 +1559,7 @@ line-height: 24px;
   -webkit-transition: 0.1s;
   -o-transition: 0.1s;
   transition: 0.1s;
+  align-self: flex-start;
 }
 
 .p-nav-bottom__shopcart:hover {
