@@ -201,6 +201,7 @@ $containerName = 'catalog-products-viewed-container';
                                                         <?= $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']; ?>
                                                         <span> ₽</span>
                                                         <div class="p-nav-bottom__oldprice"><?= $arPrice['RESULT_PRICE']['BASE_PRICE'] ?></div>
+                                                        <span> ₽</span>
                                                     </div>
                                                 <? } else { ?>
                                                     <div class="p-nav-bottom__price">

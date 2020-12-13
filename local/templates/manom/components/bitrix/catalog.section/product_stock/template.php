@@ -102,6 +102,7 @@ $this->setFrameMode(true);
                                             <span> ₽</span>
                                             <div class="p-nav-bottom__oldprice">
                                                 <?=number_format($item['oldPrice'], 0, '', ' ')?>
+                                                <span> ₽</span>
                                             </div>
                                         </div>
                                     <?php else: ?>
