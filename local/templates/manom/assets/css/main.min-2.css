@@ -1545,6 +1545,16 @@ line-height: 24px;
 
 }
 
+.p-nav-bottom__oldprice span {
+  font-size: 18px;
+  padding-left: 3px;
+  padding-right: 0;
+  display: inline-block;
+  margin-left: -3px;
+  text-decoration: line-through;
+}
+
+
 .p-nav-bottom__shopcart {
   height: 36px;
   width: 40px;
