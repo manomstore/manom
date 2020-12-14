@@ -2,6 +2,7 @@ var app = {};
 
 app.$doc = $(document);
 app.$win = $(window);
+app.dadataToken = "a6ed9b9ecf7cec4c7bccb4669a71bd7765e08cb0";
 
 app.utils = {
   pluralize: function (number, variants) {
@@ -90,6 +91,127 @@ app.utils = {
       return deliveries.indexOf(parseInt(deliveryId)) >= 0
     }
   };
+
+  app.deliveryAddress = {
+    addressField: null,
+    mute: false,
+    getAddressField: function () {
+      if (!(this.addressField instanceof jQuery) && $.isReady) {
+        this.addressField = $(document).find(".js-delivery-street");
+      }
+
+      if (!(this.addressField instanceof jQuery)) {
+        this.addressField = $()
+      }
+
+      return this.addressField;
+    },
+    checkPreFilled() {
+      if (!$.fn.isMoscow()) {
+        return;
+      }
+
+      if (!this.getAddressField().length || !this.getAddressField().val().length) {
+        return;
+      }
+
+      $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
+      var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+      var token = app.dadataToken;
+
+      var options = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Token " + token
+        },
+        body: JSON.stringify({
+          query: this.getAddressField().val(),
+          locations: [{city: "Москва"}],
+          restrict_value: true,
+        })
+      };
+
+      fetch(url, options)
+          .then(response => response.text())
+          .then(function (result) {
+            result = JSON.parse(result);
+            var exist = false;
+            this.mute = true;
+            $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+
+            result.suggestions.forEach(function (suggestion) {
+              if (this.getAddressField().val().length
+                  && this.getAddressField().val().trim() === suggestion.value) {
+                exist = true;
+                this.process(suggestion.data);
+              }
+            }.bind(this));
+
+            if (!exist) {
+              this.setError(true);
+            }
+            this.mute = false;
+
+          }.bind(this))
+          .catch(function (error) {
+            $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+          });
+      this.mute = false;
+    },
+    process: function (locationData) {
+      var error;
+      if (!locationData.street) {
+        error = new Error("Введите улицу и номер дома");
+      }
+
+      if (locationData.street && !locationData.house) {
+        error = new Error("Введите дом и номер квартиры");
+      }
+
+      if (locationData.house && !locationData.flat) {
+        error = new Error("Введите номер квартиры (“кв 1”, если в доме нет квартир)");
+      }
+
+      if (error instanceof Error) {
+        this.setError(true, error.message);
+        return false;
+      } else {
+        this.setError(false);
+      }
+
+      this.getAddressField().data("inside-beltway", result.data.beltway_hit === "IN_MKAD" ? "Y" : "N");
+
+      var curDeliveryTab = this.getAddressField().closest('.sci-delivery-tab').find(".sci-delivery__tab");
+      var curDeliveryRadio = this.getAddressField().closest('.sci-delivery-tab').find(".sci-delivery__radio.visually-hidden");
+      if (curDeliveryTab.length && curDeliveryRadio.prop("checked")) {
+        setDeliveryByLocation(curDeliveryTab, true);
+      }
+
+      return true;
+    },
+    setError: function (isError, errorText = "") {
+      /* Только для Москвы */
+      if (!$.fn.isMoscow()) {
+        return;
+      }
+
+      if (isError) {
+        this.getAddressField().addClass("invalid-address");
+        this.getAddressField().addClass('is-error');
+        this.getAddressField().removeClass('is-success');
+        if (!this.mute) {
+          $.fn.setPushUp("Некорректный адрес", errorText, false, "message", false, 5000);
+        }
+      } else {
+        this.getAddressField().addClass('is-success');
+        this.getAddressField().removeClass('is-error');
+        this.getAddressField().removeClass("invalid-address");
+      }
+    }
+  };
 })();
 
 function showDeliveryPickUpContent(deliveryButton) {
@@ -127,23 +249,37 @@ function setDeliveryByLocation($deliveryTab, refresh = false) {
 function getDeliveryByCity(deliveryId, cityId) {
   deliveryId = parseInt(deliveryId);
   cityId = parseInt(cityId);
-  var newDeliveryId;
-  var isMoscow = cityId === 84;
-  var moscowDelivery = app.deliveryService.get("ownDelivery");
-  if (isMoscow){
+  var newDeliveryId,
+      moscowDelivery;
+  var $streetField = $(document).find('.js-delivery-street');
 
+  // Для Москвы, если проверяли вхожджение адреса во МКАД -
+  // изменяем доставку на нужную, иначе - оставляем ту, которая была
+  if ("insideBeltway" in ($streetField.data() || {})) {
+    switch ($streetField.data("inside-beltway")) {
+      case "Y":
+      default:
+        moscowDelivery = app.deliveryService.get("ownDelivery");
+        break;
+      case "N":
+        moscowDelivery = app.deliveryService.get("ownDeliveryRegion");
+        break;
+    }
+  } else {
+    moscowDelivery = app.deliveryService.in(deliveryId, ["ownDelivery", "ownDeliveryRegion"])
+        ? deliveryId : app.deliveryService.get("ownDelivery");
   }
 
   switch (deliveryId) {
     case app.deliveryService.get("cdekDelivery"):
     case app.deliveryService.get("ownDelivery"):
     case app.deliveryService.get("ownDeliveryRegion"):
-      newDeliveryId = isMoscow ? moscowDelivery
+      newDeliveryId = $.fn.isMoscow(cityId) ? moscowDelivery
           : app.deliveryService.get("cdekDelivery");
       break;
     case app.deliveryService.get("cdekPickup"):
     case app.deliveryService.get("ownPickup"):
-      newDeliveryId = isMoscow ? app.deliveryService.get("ownPickup")
+      newDeliveryId = $.fn.isMoscow(cityId) ? app.deliveryService.get("ownPickup")
           : app.deliveryService.get("cdekPickup");
       break;
   }
@@ -769,7 +905,7 @@ $(document).ready(function () {
                 '.sci-delivery-content').find('input').each(function () {
                   if (!$(this).val() && $(this).prop('required')) {
                     $(this).addClass('is-error');
-                  } else {
+                  } else if (!$(this).hasClass("invalid-address")) {
                     $(this).removeClass('is-error');
                   }
                 });
@@ -1792,6 +1928,7 @@ $(document).ready(function () {
   });
 
   $.fn.updateDateSaleOrder();
+  app.deliveryAddress.checkPreFilled();
 
   $(document).on('click', '#soDelivPopUp', function () {
     return $(document).find('.SDEK_selectPVZ').click();
@@ -1941,7 +2078,7 @@ $(document).ready(function () {
     }
 
     if ($(this).prop('required')) {
-      if ($(this).val() !== '') {
+      if ($(this).val() !== '' && !$(this).hasClass("invalid-address")) {
         $(this).addClass('is-success');
         $(this).removeClass('is-error');
       } else {
@@ -2262,7 +2399,7 @@ $(document).ready(function () {
   });
 
   $deliveryStreetField.suggestions({
-    token: '13c28158e6b58d73020665b170c93b462e2db582',
+    token: app.dadataToken,
     type: 'ADDRESS',
     placeholder: 'Введите город доставки',
     constraints: {
@@ -2271,29 +2408,11 @@ $(document).ready(function () {
       },
     },
     onSelect: function (result) {
-      var cityId = $(document).find('#so_main_block').find('#so_city').val();
       /* Для Москвы */
-      if (parseInt(cityId) === 84) {
-          var error;
-          if (!result.data.street) {
-              error = new Error("Введите улицу и номер дома");
-          }
-
-          if (result.data.street && !result.data.house) {
-              error = new Error("Введите дом и номер квартиры");
+      if ($.fn.isMoscow()) {
+        if (!app.deliveryAddress.process(result.data)) {
+          return false;
         }
-
-          if (result.data.house && !result.data.flat) {
-              error = new Error("Введите номер квартиры (“кв 1”, если в доме нет квартир)");
-          }
-
-          if (error instanceof Error) {
-            return setAddressError(true, error.message);
-          } else {
-            setAddressError(false);
-          }
-
-          $(this).data("inside-beltway", parseInt(result.data.beltway_hit === "IN_MKAD"));
       }
       setZipCode(result.data.postal_code);
       suggestions.selected = true;
@@ -2302,7 +2421,7 @@ $(document).ready(function () {
     onSelectNothing: function () {
       suggestions.nothing = true;
       suggestions.selected = false;
-      setAddressError(true, "Пожалуйста, выберите адрес из списка");
+      app.deliveryAddress.setError(true, "Пожалуйста, выберите адрес из списка");
     },
     onSuggestionsFetch: function (items) {
       suggestions.lastSuggestionsItems = items;
@@ -2495,26 +2614,6 @@ $(document).ready(function () {
     }
   }
 
-  function setAddressError(isError, errorText = "") {
-      var $deliveryStreetField = $('.js-delivery-street');
-      var cityId = $(document).find('#so_main_block').find('#so_city').val();
-      /* Только для Москвы */
-      if (parseInt(cityId) !== 84) {
-          return;
-      }
-
-      if (isError) {
-          $deliveryStreetField.addClass("invalid-address");
-          $deliveryStreetField.addClass('is-error');
-          $deliveryStreetField.removeClass('is-success');
-          $.fn.setPushUp("Некорректный адрес", errorText, false, "message", false, 5000);
-      } else {
-          $deliveryStreetField.addClass('is-success');
-          $deliveryStreetField.removeClass('is-error');
-          $deliveryStreetField.removeClass("invalid-address");
-      }
-  }
-
   function numberPhoneValidation(numberPhone) {
     var isValid = false;
     var regs = [
@@ -2632,6 +2731,14 @@ $.fn.toggleDeliveryPriceInfoVisibility = function () {
 
   $('.shopcart-sidebar__info--delivery, .shopcart-sidebar__sum-price--delivery').toggleClass('sc-hidden',
     !isDeliveryChecked);
+};
+
+$.fn.isMoscow = function (cityId = false) {
+  if (!cityId) {
+    cityId = parseInt($(document).find('#so_main_block #so_city').val());
+  }
+
+  return cityId === 84;
 };
 
 $.fn.updateSideInfo = function () {
@@ -2787,7 +2894,6 @@ $.fn.updateShopcartAmount = function () {
 $.fn.updateShopcartSidebarProducts = function () {
   var tmplHtml = $('#tmpl-shopcart-sidebar-product').html(),
     $sidebarProductList = $('.js-shopcart-sidebar-product-list');
-  var cityId = parseInt($(document).find('#so_main_block #so_city').val());
   var currentDelivery = $(document).find('.sale_order_full_table.delivery-block input[type=\'radio\']:checked');
   var currentPaySystem = $(document).find('.sale_order_full_table.paySystem-block input[type=\'radio\']:checked');
   var currentDeliveryId = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
@@ -2807,7 +2913,7 @@ $.fn.updateShopcartSidebarProducts = function () {
 
     var existDeliveryInLoc = $('.sci-delivery__tab[data-prop=\'' + currentDelivery.attr('id') + '\']').length;
 
-    props.onlyCash = props.onlyCash && cityId !== 84;
+    props.onlyCash = props.onlyCash && $.fn.isMoscow();
     props.onlyPickup = props.onlyPickup && existDeliveryInLoc
         && currentDeliveryId && !app.deliveryService.in(currentDeliveryId, ["ownPickup", "cdekPickup"]);
     props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId
