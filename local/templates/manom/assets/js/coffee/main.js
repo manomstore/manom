@@ -57,6 +57,39 @@ app.utils = {
       }
     },
   };
+
+  app.deliveryService = {
+    deliveryServices: {},
+    setAll: function (services = {}) {
+      this.deliveryServices = services;
+    },
+    get: function (code) {
+      if (!(this.deliveryServices instanceof Object)
+          || !this.deliveryServices.hasOwnProperty(code)) {
+        return false;
+      }
+
+      return this.deliveryServices[code];
+    },
+    is: function (deliveryId, deliveryCode) {
+      if (!this.get(deliveryCode)) {
+        return false;
+      }
+
+      return parseInt(deliveryId) === parseInt(this.get(deliveryCode));
+    },
+    in: function (deliveryId, deliveryCodes = []) {
+      var deliveries = [];
+
+      deliveryCodes.forEach(function (deliveries, currentCode) {
+        if (this.get(currentCode) !== false) {
+          deliveries.push(this.get(currentCode));
+        }
+      }.bind(this, deliveries));
+
+      return deliveries.indexOf(parseInt(deliveryId)) >= 0
+    }
+  };
 })();
 
 function showDeliveryPickUpContent(deliveryButton) {
@@ -65,10 +98,10 @@ function showDeliveryPickUpContent(deliveryButton) {
   var pickupType;
 
   switch (deliveryId) {
-    case $.fn.getDeliveryService("cdekPickup"):
+    case app.deliveryService.get("cdekPickup"):
       pickupType = 'pvz';
       break;
-    case $.fn.getDeliveryService("ownPickup"):
+    case app.deliveryService.get("ownPickup"):
       pickupType = 'shop';
       break;
     default:
@@ -96,22 +129,22 @@ function getDeliveryByCity(deliveryId, cityId) {
   cityId = parseInt(cityId);
   var newDeliveryId;
   var isMoscow = cityId === 84;
-  var moscowDelivery = $.fn.getDeliveryService("ownDelivery");
+  var moscowDelivery = app.deliveryService.get("ownDelivery");
   if (isMoscow){
 
   }
 
   switch (deliveryId) {
-    case $.fn.getDeliveryService("cdekDelivery"):
-    case $.fn.getDeliveryService("ownDelivery"):
-    case $.fn.getDeliveryService("ownDeliveryRegion"):
+    case app.deliveryService.get("cdekDelivery"):
+    case app.deliveryService.get("ownDelivery"):
+    case app.deliveryService.get("ownDeliveryRegion"):
       newDeliveryId = isMoscow ? moscowDelivery
-          : $.fn.getDeliveryService("cdekDelivery");
+          : app.deliveryService.get("cdekDelivery");
       break;
-    case $.fn.getDeliveryService("cdekPickup"):
-    case $.fn.getDeliveryService("ownPickup"):
-      newDeliveryId = isMoscow ? $.fn.getDeliveryService("ownPickup")
-          : $.fn.getDeliveryService("cdekPickup");
+    case app.deliveryService.get("cdekPickup"):
+    case app.deliveryService.get("ownPickup"):
+      newDeliveryId = isMoscow ? app.deliveryService.get("ownPickup")
+          : app.deliveryService.get("cdekPickup");
       break;
   }
   return newDeliveryId;
@@ -257,7 +290,7 @@ function setDeliveryDescription($delivery) {
 
   deliveryId = parseInt($delivery.attr('for').replace('ID_DELIVERY_ID_', ''));
   shop.exist = $delivery.hasClass('is-shop');
-  if (shop.exist && (deliveryId === $.fn.getDeliveryService("ownPickup"))) {
+  if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
     var days,
       time,
       schedule = $delivery.find('.schedule_soa').text().split(' ');
@@ -272,10 +305,10 @@ function setDeliveryDescription($delivery) {
     shop.dates.end = week.days.indexOf(days.shift());
   }
 
-  if (shop.exist && deliveryId === $.fn.getDeliveryService("ownPickup")) {
+  if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
     deliveryPeriod = week.getTextPeriod(shop);
   } else {
-    if ([$.fn.getDeliveryService("ownDelivery"), $.fn.getDeliveryService("ownDeliveryRegion")].indexOf(deliveryId) >= 0) {
+    if (app.deliveryService.in(deliveryId, ["ownDelivery", "ownDeliveryRegion"])) {
       var $deliveryTimes = $(document).find('#sci-delivery-time option'),
         courier = {
           time: {
@@ -289,7 +322,7 @@ function setDeliveryDescription($delivery) {
         };
       deliveryPeriod = week.getTextPeriod(courier);
     } else {
-      if ([$.fn.getDeliveryService("cdekDelivery"), $.fn.getDeliveryService("cdekPickup")].indexOf(deliveryId) >= 0) {
+      if (app.deliveryService.in(deliveryId, ["cdekDelivery", "cdekPickup"])) {
         var sdek = {
           isSdek: true,
           currentPeriod: $delivery.find('.so_delivery_period').html(),
@@ -2601,14 +2634,6 @@ $.fn.toggleDeliveryPriceInfoVisibility = function () {
     !isDeliveryChecked);
 };
 
-$.fn.getDeliveryService = function (code) {
-  if (typeof window.deliveryService === 'undefined') {
-    return false;
-  }
-
-  return window.deliveryService[code];
-};
-
 $.fn.updateSideInfo = function () {
   var deliveryPrice,
     soBlock,
@@ -2784,8 +2809,7 @@ $.fn.updateShopcartSidebarProducts = function () {
 
     props.onlyCash = props.onlyCash && cityId !== 84;
     props.onlyPickup = props.onlyPickup && existDeliveryInLoc
-        && currentDeliveryId && [$.fn.getDeliveryService("ownPickup"), $.fn.getDeliveryService("cdekPickup")].indexOf(
-      currentDeliveryId) <= -1;
+        && currentDeliveryId && !app.deliveryService.in(currentDeliveryId, ["ownPickup", "cdekPickup"]);
     props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId
         && [4, 9].indexOf(currentPaySystemId) <= -1;
 
@@ -3659,15 +3683,11 @@ function getDeliveryTabType(deliveryId) {
   var deliveryTabType = null;
   deliveryId = parseInt(deliveryId);
 
-  if ([
-      $.fn.getDeliveryService("cdekDelivery"),
-      $.fn.getDeliveryService("ownDelivery"),
-      $.fn.getDeliveryService("ownDeliveryRegion")
-  ].indexOf(deliveryId) >= 0) {
+  if (app.deliveryService.in(deliveryId, ["cdekDelivery", "ownDelivery", "ownDeliveryRegion"])) {
     deliveryTabType = 'sci-delivery-tab1';
   }
 
-  if ([$.fn.getDeliveryService("ownPickup"), $.fn.getDeliveryService("cdekPickup")].indexOf(deliveryId) >= 0) {
+  if (app.deliveryService.in(deliveryId, ["ownPickup", "cdekPickup"])) {
     deliveryTabType = 'sci-delivery-tab2';
   }
 

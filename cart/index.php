@@ -1312,7 +1312,9 @@ $delivery = new Delivery();
   var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
   window.paramTimeRanges = <?=\CUtil::PhpToJSObject(TimeDelivery::getIntervals())?>;
   window.COND_FREE_DELIVERY = <?=(int)\UniPlug\Settings::get("COND_FREE_DELIVERY")?>;
-  window.deliveryService = <?=\CUtil::PhpToJSObject($delivery->getAll(), false, false, true)?>;
+  $(function () {
+      app.deliveryService.setAll(<?=\CUtil::PhpToJSObject($delivery->getAll(), false, false, true)?>);
+  });
 </script>
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');
