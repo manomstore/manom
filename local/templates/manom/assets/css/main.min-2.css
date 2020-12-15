@@ -1554,10 +1554,10 @@ line-height: 24px;
   text-decoration: line-through;
 }
 
-@media only screen and (max-width: 1069px) {
+@media only screen and (max-width: 1169px) {
   .p-nav-bottom__price,
   .p-nav-bottom__price span {
-    font-size: 14px;
+    font-size: 12px;
   }
   .p-nav-bottom__oldprice,
   .p-nav-bottom__oldprice span {
