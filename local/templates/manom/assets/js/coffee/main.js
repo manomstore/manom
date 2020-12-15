@@ -964,71 +964,20 @@ $(document).ready(function () {
   });
 
   $(document).on("updateSmartFilter", function () {
-    var $sliderRange = $(document).find("#slider-range-alt");
     var $priceStart = $(document).find("#price-start-alt");
     var $priceEnd = $(document).find("#price-end-alt");
 
-    if ($sliderRange.is('span')) {
-      $minPrice = parseInt($priceStart.attr('min'));
-      $minPriceValue = parseInt($priceStart.val());
-      $maxPrice = parseInt($priceStart.attr('max'));
-      $maxPriceValue = parseInt($priceEnd.val());
+    $minPrice = parseInt($priceStart.attr('min'));
+    $minPriceValue = parseInt($priceStart.val());
+    $maxPrice = parseInt($priceStart.attr('max'));
+    $maxPriceValue = parseInt($priceEnd.val());
 
-      if (!$minPriceValue) {
-        $minPriceValue = $minPrice;
-      }
+    if (!$minPriceValue) {
+      $priceStart.val($minPrice);
+    }
 
-      if (!$maxPriceValue) {
-        $maxPriceValue = $maxPrice;
-      }
-
-      if ($minPrice && $maxPrice) {
-
-        var rangeSize = $maxPrice - $minPrice;
-        var stepSize = 0;
-        if (rangeSize > 1) {
-          var percent = 0;
-
-          for (var i = 1; i < rangeSize; i++) {
-            if (rangeSize % i === 0) {
-              percent = (i / rangeSize) * 100;
-              if (percent <= 5) {
-                stepSize = i;
-              } else {
-                break;
-              }
-            }
-          }
-        }
-
-        if (!stepSize) {
-          stepSize = 100;
-        }
-
-        $sliderRange.slider({
-          range: true,
-          min: $minPrice,
-          max: $maxPrice,
-          step: stepSize,
-          values: [$minPriceValue, $maxPriceValue],
-          slide: function (event, ui) {
-            var $priceCheckbox = $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]');
-            switch (ui.handleIndex) {
-              case 0:
-                $priceStart.val(ui.values[0]);
-                $priceCheckbox.prop('checked', false);
-                break;
-              case 1:
-                $priceEnd.val(ui.values[1]);
-                $priceCheckbox.prop('checked', false);
-                break;
-            }
-          },
-        });
-
-        $priceStart.val($minPriceValue);
-        $priceEnd.val($maxPriceValue);
-      }
+    if (!$maxPriceValue) {
+      $priceEnd.val($maxPrice);
     }
   });
 
@@ -1040,7 +989,7 @@ $(document).ready(function () {
     $maxPriceValue = parseInt($priceEnd.val());
 
     var inputStart;
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+
     inputStart = $(this).val();
     var max = $maxPriceValue;
 
@@ -1054,7 +1003,6 @@ $(document).ready(function () {
     if (inputStart < $minPrice) {
       inputStart = $minPrice;
     }
-    $(document).find('#slider-range-alt').slider('values', 0, inputStart);
     $(this).val(inputStart);
   });
 
@@ -1066,7 +1014,7 @@ $(document).ready(function () {
     $maxPrice = parseInt($priceStart.attr('max'));
 
     var inputEnd;
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+
     var min = $minPriceValue;
 
     if (!min) {
@@ -1081,16 +1029,7 @@ $(document).ready(function () {
       inputEnd = min;
     }
 
-    $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
     $(this).val(inputEnd);
-  });
-
-  $(document).on("keyup", "#price-start-alt", function () {
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-  });
-
-  $(document).on("keyup", "#price-end-alt", function () {
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
   });
 
   $(document).trigger("updateSmartFilter");
@@ -1123,7 +1062,7 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on('change', 'input.catalog-filter__checkbox', function () {
+  $(document).on('change', 'input.catalog-filter__checkbox, input.catalog-filter__price', function () {
     var dataMaxName,
       dataMaxValue,
       dataMinName,
@@ -1155,16 +1094,13 @@ $(document).ready(function () {
       dataMinValue = $(document).find('.catalog-filter input[name="' + dataMinName + '"]').val();
       dataMaxValue = $(document).find('.catalog-filter input[name="' + dataMaxName + '"]').val();
       $(document).find('.cb-filter__param[data-id="' + dataMinName + dataMaxName + '"]').remove();
-      if ($(this).prop('checked')) {
-        elementFilter = '<div class="cb-filter__param cb-filter__param-hidden" data-id="' + dataMinName + dataMaxName + '">';
-        elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
-        elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
-        elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
-        elementFilter += '<input type="hidden" name="' + $(this).attr('name') + '" value="' + $(this).val() + '">';
-        elementFilter += '<span>×</span>';
-        elementFilter += '</div>';
-        $(document).find('.cb-filter').prepend($(elementFilter));
-      }
+      elementFilter = '<div class="cb-filter__param cb-filter__param-hidden" data-id="' + dataMinName + dataMaxName + '">';
+      elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
+      elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
+      elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
+      elementFilter += '<span>×</span>';
+      elementFilter += '</div>';
+      $(document).find('.cb-filter').prepend($(elementFilter));
     }
     if ($('.catalog-filter__list-item input').prop('checked')) {
       $(this).closest('.catalog-filter__list-item').addClass('top')

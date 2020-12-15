@@ -30,11 +30,11 @@ $this->setFrameMode(true);
             <span class="cb-nav__text">Сортировать</span>
             <select required name="sort_by">
                 <? if ($arParams["IS_SEARCH"]): ?>
-                    <option selected value="relevance">по релевантности</option>
+                    <option class="default" selected value="relevance">по релевантности</option>
                     <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
                             value="pop">по популярности</option>
                 <? else: ?>
-                    <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
+                    <option class="default" <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
                             value="pop">по популярности</option>
                 <? endif; ?>
                 <option <?= $arParams["SORT_CODE"] === "price_desc" ? "selected" : "" ?>
