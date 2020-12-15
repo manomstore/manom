@@ -46,7 +46,7 @@ class Section
         while ($row = $result->fetch()) {
             $items[(int)$row['ID']] = array(
                 'id' => (int)$row['ID'],
-                'name' => $row['NAME'],
+                'name' => trim($row['NAME']),
                 'parent' => $row['IBLOCK_SECTION_ID'],
             );
         }

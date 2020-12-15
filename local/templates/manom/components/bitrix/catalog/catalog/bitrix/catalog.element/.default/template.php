@@ -21,7 +21,6 @@ function formatBytes($size, $precision = 2)
 
 \Manom\GTM::setProductsOnPage([$arResult['PRODUCT_ID']]);
 ?>
-<main class="product container">
     <div class="preloaderCatalog">
         <div class="windows8">
             <div class="wBall" id="wBall_1">
@@ -107,6 +106,11 @@ function formatBytes($size, $precision = 2)
                 <? if ($arResult["LABELS"]["SALE"]): ?>
                     <div class="product-label product-label--sale">
                         <span>Распродажа</span>
+                    </div>
+                <? endif; ?>
+                <? if ($arResult["LABELS"]["PREORDER"]): ?>
+                    <div class="product-label product-label--preorder">
+                        <span>Предзаказ</span>
                     </div>
                 <? endif; ?>
             </div>
@@ -240,7 +244,7 @@ function formatBytes($size, $precision = 2)
                                 <?= $data['current'] ? 'checked' : '' ?>
                             >
                             <label for="<?= $data['code'] ?>" class="product-content__color-<?= $data['code'] ?>"
-                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;"></label>
+                                   style="  background-color: <?= $data['value'] ?>; border-color: <?= $data['value'] ?>;" title="<?= $data['name'] ?>"></label>
                         <?php endforeach; ?>
                     </form>
                 </div>
@@ -382,7 +386,7 @@ function formatBytes($size, $precision = 2)
                                 <span id="ruble">&nbsp;₽</span>
                             </div>
 
-                            <?php if (!empty($arResult['oldPrice']) && $arResult['price'] !== $arResult['oldPrice']): ?>
+                            <?php if ($arResult['showOldPrice']): ?>
                                 <p class="product-sidebar__old-price">
                                     <span>
                                         <?=number_format($arResult['oldPrice'], 0, '', ' ')?>
@@ -463,6 +467,7 @@ function formatBytes($size, $precision = 2)
                         <div class="<?=$class?>">
                             Купить дешевле
                         </div>
+                        <?if((!$arResult['PROPERTIES']["ONLY_PREPAYMENT"]["VALUE"]) && (!$arResult['PROPERTIES']["ONLY_PICKUP"]["VALUE"])):?>
                         <div
                             class="product-sidebar__one-click BOC_btn"
                             data-id="<?=$arResult['PRODUCT_ID']?>"
@@ -472,10 +477,23 @@ function formatBytes($size, $precision = 2)
                         >
                             Купить в один клик
                         </div>
+                        <?endif;?>
                     </div>
 
                     <div class="product-sidebar__cheap-reason">
-                        <p>Этот товар доступен для продажи с незначительными повреждениями по заниженной цене. За подробной информацией обращайтесь по телефону <span>8 (495) 150-64-50</span></p>
+                        <p>
+                            <?php $APPLICATION->IncludeComponent(
+                                'bitrix:main.include',
+                                '.default',
+                                [
+                                    'PATH'               => '/include/cheap-reason.php',
+                                    'COMPONENT_TEMPLATE' => '.default',
+                                    'AREA_FILE_SHOW'     => 'file',
+                                    'EDIT_TEMPLATE'      => '',
+                                ],
+                                false
+                            ); ?>
+                        </p>
                     </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
@@ -967,7 +985,7 @@ function formatBytes($size, $precision = 2)
                                 'DISPLAY_BOTTOM_PAGER' => 'N',
                                 'DISPLAY_TOP_PAGER' => 'N',
                                 'ELEMENT_SORT_FIELD' => 'sort',
-                                'ELEMENT_SORT_FIELD2' => 'id',
+                                'ELEMENT_SORT_FIELD2' => 'rand',
                                 'ELEMENT_SORT_ORDER' => 'asc',
                                 'ELEMENT_SORT_ORDER2' => 'desc',
                                 'ENLARGE_PRODUCT' => '',
@@ -1206,141 +1224,6 @@ function formatBytes($size, $precision = 2)
             <?php endif; ?>
         </div>
     </div>
-</main>
-
-<?php if ($arResult['PROPERTIES']['RECOM']['VALUE']): ?>
-    <?php
-    global $recommendedFilter;
-    $recommendedFilter = array(
-        'ID' => $arResult['PROPERTIES']['RECOM']['VALUE'],
-        '>CATALOG_PRICE_1' => 0,
-    );
-    ?>
-    <?php $APPLICATION->IncludeComponent(
-        'bitrix:catalog.section',
-        'recom',
-        Array(
-            'ACTION_VARIABLE' => '',
-            'ADD_PICT_PROP' => '',
-            'ADD_PROPERTIES_TO_BASKET' => 'N',
-            'ADD_SECTIONS_CHAIN' => 'N',
-            'ADD_TO_BASKET_ACTION' => '',
-            'AJAX_MODE' => 'N',
-            'AJAX_OPTION_ADDITIONAL' => '',
-            'AJAX_OPTION_HISTORY' => 'N',
-            'AJAX_OPTION_JUMP' => 'N',
-            'AJAX_OPTION_STYLE' => 'N',
-            'BACKGROUND_IMAGE' => '',
-            'BASKET_URL' => '',
-            'BRAND_PROPERTY' => '',
-            'BROWSER_TITLE' => '',
-            'CACHE_FILTER' => 'N',
-            'CACHE_GROUPS' => 'N',
-            'CACHE_TIME' => 36000000,
-            'CACHE_TYPE' => 'A',
-            'COMPATIBLE_MODE' => 'Y',
-            'CONVERT_CURRENCY' => 'Y',
-            'CURRENCY_ID' => 'RUB',
-            'CUSTOM_FILTER' => '',
-            'DATA_LAYER_NAME' => '',
-            'DETAIL_URL' => '',
-            'DISABLE_INIT_JS_IN_COMPONENT' => 'N',
-            'DISCOUNT_PERCENT_POSITION' => '',
-            'DISPLAY_BOTTOM_PAGER' => 'N',
-            'DISPLAY_TOP_PAGER' => 'N',
-            'ELEMENT_SORT_FIELD' => 'sort',
-            'ELEMENT_SORT_FIELD2' => 'id',
-            'ELEMENT_SORT_ORDER' => 'asc',
-            'ELEMENT_SORT_ORDER2' => 'desc',
-            'ENLARGE_PRODUCT' => '',
-            'ENLARGE_PROP' => '',
-            'FILTER_NAME' => 'recommendedFilter',
-            'HIDE_NOT_AVAILABLE' => 'Y',
-            'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
-            'IBLOCK_ID' => 6,
-            'IBLOCK_TYPE' => 'catalog',
-            'INCLUDE_SUBSECTIONS' => 'Y',
-            'LABEL_PROP' => '',
-            'LABEL_PROP_MOBILE' => '',
-            'LABEL_PROP_POSITION' => '',
-            'LAZY_LOAD' => 'N',
-            'LINE_ELEMENT_COUNT' => 0,
-            'LOAD_ON_SCROLL' => 'N',
-            'MESSAGE_404' => '',
-            'MESS_BTN_ADD_TO_BASKET' => '',
-            'MESS_BTN_BUY' => '',
-            'MESS_BTN_DETAIL' => '',
-            'MESS_BTN_LAZY_LOAD' => '',
-            'MESS_BTN_SUBSCRIBE' => '',
-            'MESS_NOT_AVAILABLE' => '',
-            'META_DESCRIPTION' => '',
-            'META_KEYWORDS' => '',
-            'OFFERS_CART_PROPERTIES' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-            'OFFERS_FIELD_CODE' => array(),
-            'OFFERS_LIMIT' => 0,
-            'OFFERS_PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-            'OFFERS_SORT_FIELD' => 'sort',
-            'OFFERS_SORT_FIELD2' => 'id',
-            'OFFERS_SORT_ORDER' => 'asc',
-            'OFFERS_SORT_ORDER2' => 'desc',
-            'OFFER_ADD_PICT_PROP' => '',
-            'OFFER_TREE_PROPS' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-            'PAGER_BASE_LINK_ENABLE' => 'N',
-            'PAGER_DESC_NUMBERING' => 'N',
-            'PAGER_DESC_NUMBERING_CACHE_TIME' => 36000,
-            'PAGER_SHOW_ALL' => 'N',
-            'PAGER_SHOW_ALWAYS' => 'N',
-            'PAGER_TEMPLATE' => '',
-            'PAGER_TITLE' => '',
-            'PAGE_ELEMENT_COUNT' => 6,
-            'PARTIAL_PRODUCT_PROPERTIES' => 'N',
-            'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
-            'PRICE_VAT_INCLUDE' => 'Y',
-            'PRODUCT_BLOCKS_ORDER' => '',
-            'PRODUCT_DISPLAY_MODE' => '',
-            'PRODUCT_ID_VARIABLE' => '',
-            'PRODUCT_PROPERTIES' => '',
-            'PRODUCT_PROPS_VARIABLE' => '',
-            'PRODUCT_QUANTITY_VARIABLE' => '',
-            'PRODUCT_ROW_VARIANTS' => '',
-            'PRODUCT_SUBSCRIPTION' => 'N',
-            'PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-            'PROPERTY_CODE_MOBILE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
-            'RCM_PROD_ID' => '',
-            'RCM_TYPE' => '',
-            'SECTION_CODE' => '',
-            'SECTION_ID' => '',
-            'SECTION_ID_VARIABLE' => '',
-            'SECTION_URL' => '',
-            'SECTION_USER_FIELDS' => array(),
-            'SEF_MODE' => 'N',
-            'SET_BROWSER_TITLE' => 'N',
-            'SET_LAST_MODIFIED' => 'N',
-            'SET_META_DESCRIPTION' => 'N',
-            'SET_META_KEYWORDS' => 'N',
-            'SET_STATUS_404' => 'N',
-            'SET_TITLE' => 'N',
-            'SHOW_404' => 'N',
-            'SHOW_ALL_WO_SECTION' => 'Y',
-            'SHOW_CLOSE_POPUP' => 'N',
-            'SHOW_DISCOUNT_PERCENT' => 'N',
-            'SHOW_FROM_SECTION' => 'N',
-            'SHOW_MAX_QUANTITY' => 'N',
-            'SHOW_OLD_PRICE' => 'N',
-            'SHOW_PRICE_COUNT' => 1,
-            'SHOW_SLIDER' => 'N',
-            'SLIDER_INTERVAL' => 3000,
-            'SLIDER_PROGRESS' => 'N',
-            'TEMPLATE_THEME' => '',
-            'USE_ENHANCED_ECOMMERCE' => 'N',
-            'USE_MAIN_ELEMENT_SECTION' => 'N',
-            'USE_PRICE_COUNT' => 'N',
-            'USE_PRODUCT_QUANTITY' => 'N',
-            'DISPLAY_COMPARE' => 'N',
-        ),
-        false
-    ); ?>
-<?php endif; ?>
 
 <script>
     $(function () {

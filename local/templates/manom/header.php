@@ -30,6 +30,8 @@
         <?php
         // CJSCore::Init(array("jquery"));
         $APPLICATION->AddHeadScript('https://code.jquery.com/jquery-3.3.1.min.js');
+
+        use Manom\Content;
         ?>
 
         <meta charset="utf-8">
@@ -462,9 +464,11 @@
                                             ],
                                             false
                                         ); ?>
+                                        <?if (Content::showCallbackForm()):?>
                                         <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__call-request">
                                             Заказать звонок
                                         </a>
+                                        <?endif;?>
                                     </div>
                                     <!-- Всплывающее окно Заказать звонок -->
                                     <div id="popap-call" class="popup-block popup-block--call">
@@ -473,6 +477,7 @@
                                                 <h2 class="popup-block__title">Заказать обратный звонок</h2>
                                             </div>
                                             <form action="" method="get">
+                                                <div class="form_msg"></div>
                                                 <input type="hidden" name="form_id" value="1">
                                                 <div class="popup-block__field">
                                                     <label class="popup-block__label" for="sci-login__name">
@@ -690,6 +695,7 @@
                                     ); ?>
                                     <div class="top-personal">
                                         <a class="top-personal__link top-personal__link--tel"
+                                           title="Позвонить"
                                            href="tel:+74951506450">
                                             <img
                                                     src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/tel-icon.svg"
@@ -699,6 +705,7 @@
                                             >
                                         </a>
                                         <a class="top-personal__link top-personal__link--search"
+                                           title="Поиск"
                                            href="#">
                                             <img
                                                     src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/search.svg"
@@ -738,6 +745,7 @@
                                             <?php if ($USER->IsAuthorized()) { ?>
                                                 <a
                                                         class="top-personal__link js-user-block"
+                                                        title="Личный кабинет"
                                                         href="#"
                                                         aria-label="Профиль"
                                                 >
@@ -795,6 +803,7 @@
                                                         class="top-personal__link"
                                                         data-fancybox
                                                         data-src="#popap-login"
+                                                        title="Личный кабинет"
                                                         href="javascript:;"
                                                         aria-label="Вход"
                                                 >
@@ -814,6 +823,7 @@
                                             <div class="top-personal__block top-personal__block--compare">
                                                 <a
                                                         class="top-personal__link top-personal__link--compare"
+                                                        title="Сравнение товаров"
                                                         id="mini_compare_header_counter"
                                                 >
                                                     <img
@@ -958,7 +968,7 @@
                                                 <?php $APPLICATION->RestartBuffer(); ?>
                                             <?php endif; ?>
                                             <div class="top-personal__block">
-                                                <a class="top-personal__link" id="mini_favorite_header_counter">
+                                                <a class="top-personal__link" id="mini_favorite_header_counter" title="Избранное">
                                                     <img
                                                             src="<?=SITE_TEMPLATE_PATH?>/assets/img/icons/heart.svg"
                                                             alt="Иконка избранного"

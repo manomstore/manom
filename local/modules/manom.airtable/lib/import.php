@@ -16,6 +16,7 @@ use \Bitrix\Main\ObjectPropertyException;
 use Manom\Content\Questions;
 use Manom\Content\Reviews;
 use Manom\Exception;
+use Manom\References\Brand;
 
 /**
  * Class Import
@@ -31,6 +32,10 @@ class Import
     private $bitrixElements;
     private $bitrixSections;
     private $errors = [];
+    /**
+     * @var Brand
+     */
+    public $brand;
 
     /**
      * Import constructor.
@@ -40,6 +45,7 @@ class Import
      * @throws SystemException
      * @throws ArgumentException
      * @throws ObjectPropertyException
+     * @throws Exception
      */
     public function __construct()
     {
@@ -55,6 +61,7 @@ class Import
 
         $section = new Section($this->iblockId);
         $this->bitrixSections = $section->getItems();
+        $this->brand = new Brand();
     }
 
     /**
@@ -103,6 +110,7 @@ class Import
                 $airtableData[$section] = $api->getFromSection($section);
             }
         }
+        $this->trimFields($airtableData);
 
 
         $airtableIdToXmlId = $this->getAirtableIdToXmlIdLinks($airtableData);
@@ -275,6 +283,10 @@ class Import
         foreach ($this->map['properties'] as $item) {
             if (!isset($airtableItem['fields'][$item['airtable']])) {
                 continue;
+            }
+
+            if ($this->brand->isBrandProperty($item["bitrix"])) {
+                $this->brand->create($airtableItem['fields'][$item['airtable']]);
             }
 
             if ($item['bitrix'] === 'FEATURES2' || $item['bitrix'] === 'contents_of_delivery') {
@@ -615,5 +627,24 @@ class Import
         if (!empty($error) && is_string($error)) {
             $this->errors[] = $error;
         }
+    }
+
+    /**
+     * @param array $airtableData
+     */
+    private function trimFields(array &$airtableData): void
+    {
+        foreach ($airtableData as &$section) {
+            foreach ($section as &$item) {
+                foreach ($item["fields"] as &$field) {
+                    if (is_string($field)) {
+                        $field = trim($field);
+                    }
+                }
+                unset($field);
+            }
+            unset($item);
+        }
+        unset($section);
     }
 }

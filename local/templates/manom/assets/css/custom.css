@@ -598,6 +598,18 @@ h4.p-article__sidebar_title {
   opacity: 1;
   transition: visibility 0s ease, opacity 0.2s ease;
 }
+
+@media screen and (max-width: 460px) {
+  .preview-heart--show {
+    position: fixed;
+    top: 100px;
+    right: 5vw;
+  }
+
+  .preview-heart--show .personal-preview__wrapper{
+    width: 90vw;
+  }
+}
 .sale_personal_order_list {
   text-align: left;
 }
@@ -836,6 +848,18 @@ a.top-submenu2__item:hover .top-submenu2__title {
 }
 .filter-burger {
   z-index: 1;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    top: unset;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-size: 50%;
+    background-position: center;
+    background-color: #ffffff;
+    opacity: 1;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
 }
 .product-sidebar__cheaper__disbled {
   opacity: 0.4;
@@ -1603,4 +1627,8 @@ body div.search-popup-row-active {
 
 .product-label--sale {
   background-color: #FF5F00;
+}
+
+.product-label--preorder {
+  background-color: #83BB26;
 }
