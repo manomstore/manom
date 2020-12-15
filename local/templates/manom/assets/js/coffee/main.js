@@ -3414,7 +3414,7 @@ $.fn.ajaxLoadCatalog = function () {
   urlForSend = $(document).find('.ajaxPageNav .cb-nav-pagination__item.active').attr('data-href');
   styleBlock = 'v-block';
   countOnPage = $(document).find('select[name="countOnPage"]').val();
-  sort_by = $(document).find('select[name="sort_by"]').val();
+  sort_by = $(document).find('select[name="sort_by"]');
   $(document).find('.cb-nav-style__block input[name="style"]').each(function () {
     if ($(this).prop('checked')) {
       return styleBlock = $(this).attr('id');
@@ -3424,7 +3424,7 @@ $.fn.ajaxLoadCatalog = function () {
     ajaxCal: 'Y',
     styleBlock: styleBlock,
     countOnPage: countOnPage,
-    sort_by: sort_by,
+    sort_by: sort_by.val(),
   };
   $(document).find('.cb-filter .cb-filter__param input').each(function () {
     $data['set_filter'] = 'Y';
@@ -3436,10 +3436,16 @@ $.fn.ajaxLoadCatalog = function () {
       type: 'GET',
       data: $data,
       success: function (data) {
-        if (history.pushState && sort_by) {
+        if (history.pushState && sort_by.val()) {
           var urlObj = new URL(window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search);
-          urlObj.searchParams.set("sort_by", sort_by);
-          history.pushState(null, null, urlObj.href);
+
+          if (sort_by.find("option.default").val() !== sort_by.val()) {
+            urlObj.searchParams.set("sort_by", sort_by.val());
+            history.pushState(null, null, urlObj.href);
+          } else if (urlObj.searchParams.has("sort_by")) {
+            urlObj.searchParams.delete("sort_by");
+            history.pushState(null, null, urlObj.href);
+          }
         }
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
