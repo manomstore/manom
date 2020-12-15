@@ -1554,7 +1554,27 @@ line-height: 24px;
   text-decoration: line-through;
 }
 
+@media only screen and (max-width: 1069px) {
+  .p-nav-bottom__price,
+  .p-nav-bottom__price span {
+    font-size: 14px;
+  }
+  .p-nav-bottom__oldprice,
+  .p-nav-bottom__oldprice span {
+    font-size: 12px;
+  }
+}
 
+@media only screen and (max-width: 499px) {
+  .p-nav-bottom__price,
+  .p-nav-bottom__price span {
+    font-size: 22px;
+  }
+  .p-nav-bottom__oldprice,
+  .p-nav-bottom__oldprice span {
+    font-size: 18px;
+  }
+}
 .p-nav-bottom__shopcart {
   height: 36px;
   width: 40px;
