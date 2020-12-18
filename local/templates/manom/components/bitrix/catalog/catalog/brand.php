@@ -2,6 +2,8 @@
 
 use Manom\Content;
 use Manom\References\Brand;
+use Manom\Price;
+
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -10,15 +12,22 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 $this->setFrameMode(true);
 
 global $catalogFilter;
+global $sectionListFilter;
 
-$sort = 'propertysort_SALELEADER';
+$sortCode = $_REQUEST['sort_by'];
 $order = 'ASC';
-if ($_REQUEST['sort_by'] === 'price') {
-    $sort = 'CATALOG_PRICE_1';
+if ($_REQUEST['sort_by'] === 'price_asc') {
+    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+} elseif ($_REQUEST['sort_by'] === 'price_desc') {
+    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+    $order = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'pop') {
     $sort = 'propertysort_SALELEADER';
 } elseif ($_REQUEST['sort_by'] === 'name') {
     $sort = 'NAME';
+} else {
+    $sort = 'propertysort_SALELEADER';
+    $sortCode = "pop";
 }
 
 
@@ -84,6 +93,15 @@ function getSection($params): array
 
     return $section;
 }
+
+try {
+    $brand = new Brand();
+    $brand->setBrandFilter($arParams['FILTER_NAME'], $arResult["VARIABLES"]["BRAND_CODE"]);
+    $brand->setBrandSectionFilter("sectionListFilter", $arResult["VARIABLES"]["BRAND_CODE"]);
+    $brandData = $brand->getByCode($arResult["VARIABLES"]["BRAND_CODE"]);
+} catch (\Exception $e) {
+    $brandData = [];
+}
 ?>
 <?php $APPLICATION->IncludeComponent(
     'bitrix:breadcrumb',
@@ -117,14 +135,34 @@ function getSection($params): array
                 </div>
             </div>
         </div>
+            <?php $APPLICATION->IncludeComponent(
+                'bitrix:catalog.section.list',
+                '',
+                array(
+                    'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
+                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                    'SECTION_ID' => $arResult['VARIABLES']['SECTION_ID'],
+                    'SECTION_CODE' => $arResult['VARIABLES']['SECTION_CODE'],
+                    'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+                    'CACHE_TIME' => $arParams['CACHE_TIME'],
+                    'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+                    'COUNT_ELEMENTS' => $arParams['SECTION_COUNT_ELEMENTS'],
+                    'TOP_DEPTH' => $arParams['SECTION_TOP_DEPTH'],
+                    'SECTION_URL' => $arResult['FOLDER'].$arResult['URL_TEMPLATES']['section'],
+                    'VIEW_MODE' => $arParams['SECTIONS_VIEW_MODE'],
+                    'SHOW_PARENT_NAME' => $arParams['SECTIONS_SHOW_PARENT_NAME'],
+                    'HIDE_SECTION_NAME' => $arParams['SECTIONS_HIDE_SECTION_NAME'] ?? 'N',
+                    'ADD_SECTIONS_CHAIN' => $arParams['ADD_SECTIONS_CHAIN'] ?? '',
+                    'DISCOUNTED_SECTION_ID' => $arParams['DISCOUNTED_SECTION_ID'],
+                    'TITLE' => $APPLICATION->GetTitle(),
+                    'BRAND_DATA' => $brandData,
+                    'FILTER_NAME' => "sectionListFilter",
+                ),
+                $component,
+                array('HIDE_ICONS' => 'Y')
+            ); ?>
+
         <?php
-        try {
-            $brand = new Brand();
-            $brand->setBrandFilter($arParams['FILTER_NAME'], $arResult["VARIABLES"]["BRAND_CODE"]);
-            $brandData = $brand->getByCode($arResult["VARIABLES"]["BRAND_CODE"]);
-        } catch (\Exception $e) {
-            $brandData = [];
-        }
 
         if ($_REQUEST['ajaxCal'] === 'Y') {
             $GLOBALS['APPLICATION']->RestartBuffer();
@@ -171,8 +209,7 @@ function getSection($params): array
                 'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                 'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
                 'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
-                'ELEMENT_SORT_FIELD2' => $arParams['ELEMENT_SORT_FIELD2'],
-                'ELEMENT_SORT_ORDER2' => $arParams['ELEMENT_SORT_ORDER2'],
+                'SORT_CODE' => $sortCode,
                 'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                 'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],
                 'META_KEYWORDS' => $arParams['LIST_META_KEYWORDS'],
