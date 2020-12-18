@@ -1526,7 +1526,7 @@ line-height: 24px;
   font-size: 22px;
   text-align: left;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   line-height: 28px;
 }
 
@@ -1561,7 +1561,7 @@ line-height: 24px;
   }
   .p-nav-bottom__oldprice,
   .p-nav-bottom__oldprice span {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -1572,7 +1572,7 @@ line-height: 24px;
   }
   .p-nav-bottom__oldprice,
   .p-nav-bottom__oldprice span {
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 .p-nav-bottom__shopcart {
@@ -3778,10 +3778,10 @@ p.price-slider {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: baseline;
-  -webkit-align-items: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
+  -webkit-box-align: flex-start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
   width: 100%;
   padding: 3px 70px 3px 0;
   position: relative;
