@@ -1,23 +1,15 @@
 <?php
 
+use Manom\References\Brand;
 use Manom\Related;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
+
+$brand = new Brand();
+
 foreach ($arResult['ITEMS'] as &$item) {
-    if (!isset($item['PRICE'])) {
-        $counter = 0;
-        array_walk($item["VALUES"], function (&$value, $key, &$counter) {
-            $counter++;
-            $value["SHOW"] = $counter <= 5 || $value["CHECKED"];
-
-        }, $counter);
-
-        $item["SHOW_MORE"] = count(array_filter($item["VALUES"], function ($value) {
-                return $value["SHOW"] === false;
-            })) >= 1;
-    }
     if ($item["CODE"] === "memory_size") {
         foreach ($item["VALUES"] as &$value) {
             $value["NUM_VALUE"] = (int)preg_replace('~\D+~', '', $value["VALUE"]);
@@ -29,6 +21,26 @@ foreach ($arResult['ITEMS'] as &$item) {
                 return 0;
             }
             return ($a["NUM_VALUE"] < $b["NUM_VALUE"]) ? -1 : 1;
+        });
+    }
+
+    if ($item["CODE"] === "brand") {
+        foreach ($item["VALUES"] as &$value) {
+            if ($brand->exist($value["VALUE"])) {
+                $brandData = $brand->getByName($value["VALUE"]);
+                $value["SORT"] = $brandData["sort"];
+            };
+        }
+        unset($value);
+
+        uasort($item["VALUES"], function ($a, $b) {
+            $a["SORT"] = (int)$a["SORT"];
+            $b["SORT"] = (int)$b["SORT"];
+
+            if ($a["SORT"] == $b["SORT"]) {
+                return 0;
+            }
+            return ($a["SORT"] < $b["SORT"]) ? -1 : 1;
         });
     }
 
@@ -44,6 +56,19 @@ foreach ($arResult['ITEMS'] as &$item) {
         } catch (\Exception $e) {
             $item["VALUES"] = [];
         }
+    }
+
+    if (!isset($item['PRICE'])) {
+        $counter = 0;
+        array_walk($item["VALUES"], function (&$value, $key, &$counter) {
+            $counter++;
+            $value["SHOW"] = $counter <= 5 || $value["CHECKED"];
+
+        }, $counter);
+
+        $item["SHOW_MORE"] = count(array_filter($item["VALUES"], function ($value) {
+                return $value["SHOW"] === false;
+            })) >= 1;
     }
 }
 
