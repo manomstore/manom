@@ -2703,8 +2703,9 @@ line-height: 24px;
   opacity: 1;
 }
 
-.catalog-filter__li label.disabled {
+.catalog-filter__li label input.disabled ~ span {
   pointer-events: none;
+  opacity: 0.3;
 }
 
 .catalog-filter__li button {
