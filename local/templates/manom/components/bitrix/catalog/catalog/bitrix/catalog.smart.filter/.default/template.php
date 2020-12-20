@@ -63,6 +63,7 @@ $this->setFrameMode(true);
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    placeholder="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     id="price-start-alt"
                                 <? if ($item['VALUES']['MIN']['HTML_VALUE']): ?>
@@ -80,6 +81,7 @@ $this->setFrameMode(true);
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    placeholder="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     name="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     id="price-end-alt"
                                 <? if ($item['VALUES']['MAX']['HTML_VALUE']): ?>
