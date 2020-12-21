@@ -1968,13 +1968,21 @@ $(document).ready(function () {
     return $(document).find('.SDEK_selectPVZ').click();
   });
 
-  $(document).on('click', '.rb_so', function () {
+  $(document).on('click', '.rb_so', function (event) {
 
     if ($(this).attr('data-prop')) {
       if ($(this).closest('.sci-delivery').length) {
         $(document).find('#module_so').find('[name=\'isChangeLocation\']').remove();
       }
-      return $.fn.changeRadioButtonSaleOrder($(this).attr('data-prop'));
+      var result = $.fn.changeRadioButtonSaleOrder($(this).attr('data-prop'));
+
+      if ($(this).attr('data-prop').indexOf("PERSON_TYPE_") >= 0
+          && event.hasOwnProperty('originalEvent')
+          && event.originalEvent.isTrusted === true) {
+        app.deliveryAddress.checkPreFilled();
+      }
+
+      return result;
     }
   });
 
