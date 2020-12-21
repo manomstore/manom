@@ -182,7 +182,7 @@ app.utils = {
         this.setError(false);
       }
 
-      this.getAddressField().data("inside-beltway", result.data.beltway_hit === "IN_MKAD" ? "Y" : "N");
+      this.getAddressField().data("inside-beltway", locationData.beltway_hit === "IN_MKAD" ? "Y" : "N");
 
       var curDeliveryTab = this.getAddressField().closest('.sci-delivery-tab').find(".sci-delivery__tab");
       var curDeliveryRadio = this.getAddressField().closest('.sci-delivery-tab').find(".sci-delivery__radio.visually-hidden");
