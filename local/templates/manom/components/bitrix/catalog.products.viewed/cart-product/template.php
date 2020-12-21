@@ -194,13 +194,14 @@ $containerName = 'catalog-products-viewed-container';
                                         <a href="<?= $detailPageUrl ?>"><?= $arOffers['NAME'] ?></a>
                                     </h3>
                                     <div class="p-nav-bottom">
-                                        <div class="p-nav-bottom__price">
+                                        <!-- <div class="p-nav-bottom__price"> -->
                                             <? if (!$arItems['OFFERS']) { ?>
                                                 <? if ($arPrice['RESULT_PRICE']['DISCOUNT'] > 0) { ?>
                                                     <div class="p-nav-bottom__price">
                                                         <?= $arPrice['RESULT_PRICE']['DISCOUNT_PRICE']; ?>
                                                         <span> ₽</span>
                                                         <div class="p-nav-bottom__oldprice"><?= $arPrice['RESULT_PRICE']['BASE_PRICE'] ?></div>
+                                                        <span> ₽</span>
                                                     </div>
                                                 <? } else { ?>
                                                     <div class="p-nav-bottom__price">
@@ -224,7 +225,7 @@ $containerName = 'catalog-products-viewed-container';
                                                     </div>
                                                 <? } ?>
                                             <? } ?>
-                                        </div>
+                                        <!-- </div> -->
                                         <div class="p-nav-bottom__shopcart <?= $arItems['CATALOG_QUANTITY'] > 0 || $arCanBuy == 1 ? 'addToCartBtn' : '' ?>"
                                              data-id='<?= $arOffers['ID'] ?>' <?= $arItems['CATALOG_QUANTITY'] > 0 || $arCanBuy == 1 ? 'enable' : 'disable' ?>></div>
                                     </div>

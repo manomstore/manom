@@ -1507,6 +1507,7 @@ line-height: 24px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  flex-wrap: nowrap;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -1514,7 +1515,7 @@ line-height: 24px;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
-  align-items: center;
+  align-items: centter;
   color: #000000;
   font-family: 'PT Root UI', 'Arial', sans-serif;
   font-weight: 700;
@@ -1524,19 +1525,56 @@ line-height: 24px;
 .p-nav-bottom__price {
   font-size: 22px;
   text-align: left;
+  display: flex;
+  align-items: flex-start;
+  line-height: 28px;
 }
 
 .p-nav-bottom__price span {
   font-size: 22px;
-  margin-left: -3px;
+  padding-left: 3px;
+  padding-right: 8px;
 }
 
 .p-nav-bottom__oldprice {
-  font-size: 14px;
   color: #b3b3b3;
+  text-decoration: line-through;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+
+}
+
+.p-nav-bottom__oldprice span {
+  font-size: 18px;
+  padding-left: 3px;
+  padding-right: 0;
+  display: inline-block;
+  margin-left: -3px;
   text-decoration: line-through;
 }
 
+@media only screen and (max-width: 1169px) {
+  .p-nav-bottom__price,
+  .p-nav-bottom__price span {
+    font-size: 16px;
+  }
+  .p-nav-bottom__oldprice,
+  .p-nav-bottom__oldprice span {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .p-nav-bottom__price,
+  .p-nav-bottom__price span {
+    font-size: 22px;
+  }
+  .p-nav-bottom__oldprice,
+  .p-nav-bottom__oldprice span {
+    font-size: 22px;
+  }
+}
 .p-nav-bottom__shopcart {
   height: 36px;
   width: 40px;
@@ -1551,6 +1589,7 @@ line-height: 24px;
   -webkit-transition: 0.1s;
   -o-transition: 0.1s;
   transition: 0.1s;
+  align-self: flex-start;
 }
 
 .p-nav-bottom__shopcart:hover {
@@ -3739,10 +3778,10 @@ p.price-slider {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: baseline;
-  -webkit-align-items: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
+  -webkit-box-align: flex-start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
   width: 100%;
   padding: 3px 70px 3px 0;
   position: relative;
