@@ -95,6 +95,7 @@ app.utils = {
   app.deliveryAddress = {
     addressField: null,
     mute: false,
+    checkPreFilledFlag: false,
     getAddressField: function () {
       if (!(this.addressField instanceof jQuery) && $.isReady) {
         this.addressField = $(document).find(".js-delivery-street");
@@ -107,6 +108,11 @@ app.utils = {
       return this.addressField;
     },
     checkPreFilled() {
+      if (this.checkPreFilledFlag !== true) {
+          return;
+      }
+      this.checkPreFilledFlag = false;
+
       if (!$.fn.isMoscow()) {
         return;
       }
@@ -160,6 +166,9 @@ app.utils = {
             $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
           });
       this.mute = false;
+    },
+    setCheckPreFilledFlag: function () {
+        this.checkPreFilledFlag = true;
     },
     process: function (locationData) {
       var error;
@@ -1961,8 +1970,8 @@ $(document).ready(function () {
     $.fn.toggleDeliveryPriceInfoVisibility();
   });
 
+  app.deliveryAddress.setCheckPreFilledFlag();
   $.fn.updateDateSaleOrder();
-  app.deliveryAddress.checkPreFilled();
 
   $(document).on('click', '#soDelivPopUp', function () {
     return $(document).find('.SDEK_selectPVZ').click();
@@ -1979,7 +1988,7 @@ $(document).ready(function () {
       if ($(this).attr('data-prop').indexOf("PERSON_TYPE_") >= 0
           && event.hasOwnProperty('originalEvent')
           && event.originalEvent.isTrusted === true) {
-        app.deliveryAddress.checkPreFilled();
+          app.deliveryAddress.setCheckPreFilledFlag();
       }
 
       return result;
@@ -3204,7 +3213,9 @@ $.fn.updateDateSaleOrder = function () {
   soBlock.find(fizPerson ? 'input[name="sci-contact__tel"]' : 'input[name="sci-contact__ur-phone"]').unmask().mask(
     '+7 (999) 999-99-99');
 
-  return soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+    soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+    app.deliveryAddress.checkPreFilled();
+    return true;
 };
 
 $.refreshCartInfo = function () {
