@@ -2939,6 +2939,34 @@ input.form-control {
   border-radius: 3px;
   text-align: center;
   color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+input.form-control::placeholder {
+  color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  opacity: 1;
+  text-align: center;
+}
+
+input.form-control:-ms-input-placeholder {
+  color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+input.form-control::-ms-input-placeholder {
+  color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
 }
 
 input.form-control.changed {
