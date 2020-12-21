@@ -32,7 +32,7 @@ class FieldsMap
             'NAME' => 'Название',
             'PREVIEW_TEXT' => 'Анонс',
             'DETAIL_TEXT' => 'Описание',
-            'IBLOCK_SECTION_ID' => 'Подкатегория',
+            'IBLOCK_SECTION' => 'Тест подкатегория',
         );
 
         $properties = $this->getList();

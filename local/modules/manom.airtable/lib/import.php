@@ -202,13 +202,13 @@ class Import
                 continue;
             }
 
-            if ($bitrix === 'IBLOCK_SECTION_ID') {
-                $sectionId = $this->getSectionId($airtableItem['fields'][$airtable]);
-                if (empty($sectionId)) {
+            if ($bitrix === 'IBLOCK_SECTION') {
+                $sectionsId = $this->getSectionsId($airtableItem['fields'][$airtable]);
+                if (empty($sectionsId)) {
                     continue;
                 }
 
-                $airtableItem['fields'][$airtable] = $sectionId;
+                $airtableItem['fields'][$airtable] = $sectionsId;
             }
 
             $fields[$bitrix] = $airtableItem['fields'][$airtable];
@@ -386,29 +386,31 @@ class Import
      * @param string $name
      * @return int
      */
-    private function getSectionId($name): int
+    private function getSectionsId($sectionsList): array
     {
-        $sectionId = 0;
+        $sectionsResult = [];
 
-        $sections = explode("/", $name);
-        $sectionData = [
-            "parentName" => array_shift($sections),
-            "name" => array_shift($sections),
-        ];
+        foreach ($sectionsList as $name) {
+            $sections = explode("/", $name);
+            $sectionData = [
+                "parentName" => array_shift($sections),
+                "name"       => array_shift($sections),
+            ];
 
-        if (empty($sectionData["name"]) || empty($sectionData["parentName"])) {
-            return $sectionId;
-        }
+            if (empty($sectionData["name"]) || empty($sectionData["parentName"])) {
+                continue;
+            }
 
-        foreach ($this->bitrixSections as $section) {
-            if ($section['name'] === $sectionData["name"]
-                && $section["parent"]['name'] === $sectionData["parentName"]) {
-                $sectionId = $section['id'];
-                break;
+            foreach ($this->bitrixSections as $section) {
+                if ($section['name'] === $sectionData["name"]
+                    && $section["parent"]['name'] === $sectionData["parentName"]) {
+                    $sectionsResult[] = $section['id'];
+                    break;
+                }
             }
         }
 
-        return $sectionId;
+        return $sectionsResult;
     }
 
     /**
