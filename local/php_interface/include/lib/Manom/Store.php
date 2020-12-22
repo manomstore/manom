@@ -106,14 +106,24 @@ class Store
             );
         }
 
-        $filter = array('PRODUCT_ID' => $productsId);
-        $select = array('ID', 'PRODUCT_ID', 'STORE_ID', 'AMOUNT');
-        $result = \CCatalogStoreProduct::GetList(array(), $filter, false, false, $select);
+        $storesId = [];
+
+        $result = \CCatalogStore::GetList([], ["ACTIVE" => "Y"]);
+
         while ($row = $result->Fetch()) {
-            if ($this->isMain((int)$row['STORE_ID'])) {
-                $amounts[$row['PRODUCT_ID']]['main'] = $row['AMOUNT'];
-            } else {
-                $amounts[$row['PRODUCT_ID']]['second'] = $row['AMOUNT'];
+            $storesId[] = (int)$row["ID"];
+        }
+
+        if (!empty($storesId)) {
+            $filter = ['PRODUCT_ID' => $productsId, "STORE_ID" => $storesId];
+            $select = ['ID', 'PRODUCT_ID', 'STORE_ID', 'AMOUNT'];
+            $result = \CCatalogStoreProduct::GetList([], $filter, false, false, $select);
+            while ($row = $result->Fetch()) {
+                if ($this->isMain((int)$row['STORE_ID'])) {
+                    $amounts[$row['PRODUCT_ID']]['main'] = $row['AMOUNT'];
+                } else {
+                    $amounts[$row['PRODUCT_ID']]['second'] = $row['AMOUNT'];
+                }
             }
         }
 

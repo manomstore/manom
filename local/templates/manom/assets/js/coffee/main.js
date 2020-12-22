@@ -1650,6 +1650,40 @@ $(document).ready(function () {
     });
   });
 
+  // Инициализация календаря
+  (function () {
+    var timeRanges = window.paramTimeRanges;
+    if (!timeRanges) {
+      return;
+    }
+    var startDate = new Date();
+    var nextDay = false;
+    if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour) {
+      startDate = new Date(startDate.setDate(startDate.getDate() + 1));
+      nextDay = true;
+    }
+
+    $('.js-shopcart-datepicker').datepicker({
+      language: 'ru',
+      startDate: startDate,
+      beforeShowDay: function (date) {
+        var currentDate = new Date;
+        var allowedDays = [];
+        if (nextDay) {
+          currentDate.setDate(currentDate.getDate() + 1);
+          allowedDays.push(currentDate.toLocaleDateString());
+        } else {
+          allowedDays.push(currentDate.toLocaleDateString());
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+        allowedDays.push(currentDate.toLocaleDateString());
+        return allowedDays.indexOf(date.toLocaleDateString()) >= 0;
+      },
+    }).datepicker("setDate", startDate);
+
+    checkDeliveryTime();
+  })();
+
   $(document).on('change', '.sci-delivery__radio', function () {
     var $this = $(this);
     var $thisParent = $this.closest('.sci-delivery-tab');
@@ -2166,40 +2200,6 @@ $(document).ready(function () {
     // в списке подсказок не показываем область
     restrict_value: true,
   }).attr('autocomplete', 'none');
-
-  // Инициализация календаря
-  (function () {
-    var timeRanges = window.paramTimeRanges;
-    if(!timeRanges) {
-      return;
-    }
-    var startDate = new Date();
-    var nextDay = false;
-    if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour) {
-      startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-      nextDay = true;
-    }
-
-    $('.js-shopcart-datepicker').datepicker({
-      language: 'ru',
-      startDate: startDate,
-        beforeShowDay: function (date) {
-          var currentDate = new Date;
-          var allowedDays = [];
-          if (nextDay) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            allowedDays.push(currentDate.toLocaleDateString());
-          } else {
-            allowedDays.push(currentDate.toLocaleDateString());
-          }
-          currentDate.setDate(currentDate.getDate() + 1);
-          allowedDays.push(currentDate.toLocaleDateString());
-          return allowedDays.indexOf(date.toLocaleDateString()) >= 0;
-        },
-    }).datepicker("setDate", startDate);
-
-    checkDeliveryTime();
-  })();
 
   $.fn.toggleDeliveryPriceInfoVisibility();
 
