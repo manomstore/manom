@@ -19,35 +19,7 @@ $this->setFrameMode(true);
                     <?php
                     if ($item['VALUES']['MAX']['VALUE'] - $item['VALUES']['MIN']['VALUE'] <= 0) {
                         continue;
-                    }
-                    $precision = $item['DECIMALS'] ?: 0;
-                    $minVal = $item['VALUES']['MIN']['VALUE'];
-                    $maxVal = $item['VALUES']['MAX']['VALUE'];
-                    $minVal = $minVal > 0 ? $minVal : 1;
-                    $maxVal = $maxVal > 0 ? $maxVal : 1;
-
-                    $rangeSize = $maxVal - $minVal;
-                    $stepSize = 0;
-                    if ($rangeSize > 1) {
-                        $percent = 0;
-
-                        for ($i = 1; $i < $rangeSize; $i++) {
-                            if ($rangeSize % $i === 0) {
-                                $percent = ($i / $rangeSize) * 100;
-                                if ($percent <= 5) {
-                                    $stepSize = $i;
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if (!$stepSize) {
-                        $stepSize = 1000;
-                    }
-
-                    ?>
+                    } ?>
                     <li class="catalog-filter__li">
                         <input type="checkbox" class="checkbox-1">
                         <i></i>
@@ -56,14 +28,14 @@ $this->setFrameMode(true);
                             <input
                                     class="form-control catalogPrice catalog-filter__price"
                                     type="number"
-                                    step="<?= $stepSize ?>"
+                                    step="<?= $item["STEP_SIZE"] ?>"
                                     data-title="Стоимость: "
-                                    min="<?= number_format($minVal, $precision, '.', '') ?>"
-                                    max="<?= number_format($maxVal, $precision, '.', '') ?>"
+                                    min="<?= number_format($item["MIN_VAL"], $item["PRECISION"], '.', '') ?>"
+                                    max="<?= number_format($item["MAX_VAL"], $item["PRECISION"], '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
-                                    placeholder="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
+                                    placeholder="<?= $item["MIN_VAL"] ?>"
                                     name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     id="price-start-alt"
                                 <? if ($item['VALUES']['MIN']['HTML_VALUE']): ?>
@@ -74,14 +46,14 @@ $this->setFrameMode(true);
                             <input
                                     class="form-control catalogPrice catalog-filter__price"
                                     type="number"
-                                    step="<?= $stepSize ?>"
+                                    step="<?= $item["STEP_SIZE"] ?>"
                                     data-title="Стоимость: "
-                                    min="<?= number_format($minVal, $precision, '.', '') ?>"
-                                    max="<?= number_format($maxVal, $precision, '.', '') ?>"
+                                    min="<?= number_format($item["MIN_VAL"], $item["PRECISION"], '.', '') ?>"
+                                    max="<?= number_format($item["MAX_VAL"], $item["PRECISION"], '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
-                                    placeholder="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    placeholder="<?= $item["MAX_VAL"] ?>"
                                     name="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     id="price-end-alt"
                                 <? if ($item['VALUES']['MAX']['HTML_VALUE']): ?>

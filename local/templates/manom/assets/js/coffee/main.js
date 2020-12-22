@@ -963,24 +963,6 @@ $(document).ready(function () {
     return false;
   });
 
-  $(document).on("updateSmartFilter", function () {
-    var $priceStart = $(document).find("#price-start-alt");
-    var $priceEnd = $(document).find("#price-end-alt");
-
-    $minPrice = parseInt($priceStart.attr('min'));
-    $minPriceValue = parseInt($priceStart.val());
-    $maxPrice = parseInt($priceStart.attr('max'));
-    $maxPriceValue = parseInt($priceEnd.val());
-
-    if (!$minPriceValue) {
-      $priceStart.val($minPrice);
-    }
-
-    if (!$maxPriceValue) {
-      $priceEnd.val($maxPrice);
-    }
-  });
-
   $(document).on("change", "#price-start-alt", function () {
     var $priceEnd = $(document).find("#price-end-alt");
 
@@ -1001,7 +983,7 @@ $(document).ready(function () {
       inputStart = max;
     }
     if (inputStart < $minPrice) {
-      inputStart = $minPrice;
+      inputStart = "";
     }
     $(this).val(inputStart);
   });
@@ -1022,17 +1004,17 @@ $(document).ready(function () {
     }
 
     inputEnd = $(this).val();
-    if (inputEnd > $maxPrice) {
-      inputEnd = $maxPrice;
-    }
+
     if (inputEnd < min) {
       inputEnd = min;
     }
 
+    if (inputEnd > $maxPrice) {
+      inputEnd = "";
+    }
+
     $(this).val(inputEnd);
   });
-
-  $(document).trigger("updateSmartFilter");
 
   $(document).on('click', '.offer_prop_item', function () {
     var itemID,
@@ -3386,8 +3368,6 @@ $.fn.ajaxLoadCatalog = function () {
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
-
-          $(document).trigger("updateSmartFilter");
         }
 
         $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());
