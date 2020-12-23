@@ -39,7 +39,14 @@ class Product
         $items = array();
 
         $filter = array('IBLOCK_ID' => $this->productsIblockId, '!XML_ID' => false);
-        $select = array('IBLOCK_ID', 'ID', 'XML_ID', 'PROPERTY_TOP_FIELD_2');
+        $select = [
+            'IBLOCK_ID',
+            'ID',
+            'XML_ID',
+            'PROPERTY_TOP_FIELD_2',
+            'PROPERTY_CML2_ARTICLE',
+            'PROPERTY_model'
+        ];
         $result = \CIBlockElement::GetList(array(), $filter, false, false, $select);
         while ($row = $result->Fetch()) {
             $key = (int)$row['ID'];
@@ -51,6 +58,8 @@ class Product
                 'id' => (int)$row['ID'],
                 'xmlId' => $row['XML_ID'],
                 'productCode' => $row['PROPERTY_TOP_FIELD_2_VALUE'],
+                'productArticle' => $row['PROPERTY_CML2_ARTICLE_VALUE'],
+                'productModel' => $row['PROPERTY_MODEL_VALUE'],
             );
         }
 
@@ -61,7 +70,7 @@ class Product
      * @throws SystemException
      * @throws Exception
      */
-    public function updateCodes(): void
+    public function updateProperties(): void
     {
         $products = $this->getProducts();
 
@@ -69,20 +78,40 @@ class Product
         $items = $assortment->getElements();
 
         foreach ($items as $item) {
-            if (
-                empty($item->fields->externalCode) ||
-                empty($item->fields->code) ||
-                empty($products[$item->fields->externalCode]) ||
-                $products[$item->fields->externalCode]['productCode'] === $item->fields->code
-            ) {
+            $updateProperty = [];
+            if (empty($item->fields->externalCode) || empty($products[$item->fields->externalCode])) {
                 continue;
             }
 
-            \CIBlockElement::SetPropertyValuesEx(
-                $products[$item->fields->externalCode]['id'],
-                $this->productsIblockId,
-                array('TOP_FIELD_2' => $item->fields->code)
-            );
+            if (
+                !empty($item->fields->code) &&
+                (
+                    $products[$item->fields->externalCode]['productCode'] !== $item->fields->code
+                    || $products[$item->fields->externalCode]['productArticle'] !== $item->fields->code
+                )
+            ) {
+                $updateProperty = array_merge($updateProperty, [
+                    "TOP_FIELD_2"  => $item->fields->code,
+                    "CML2_ARTICLE" => $item->fields->code,
+                ]);
+            }
+
+            if (
+                !empty($item->fields->article) &&
+                $products[$item->fields->externalCode]['productModel'] !== $item->fields->article
+            ) {
+                $updateProperty = array_merge($updateProperty, [
+                    "model"  => $item->fields->article,
+                ]);
+            }
+
+            if (!empty($updateProperty)) {
+                \CIBlockElement::SetPropertyValuesEx(
+                    $products[$item->fields->externalCode]['id'],
+                    $this->productsIblockId,
+                    $updateProperty
+                );
+            }
         }
     }
 }
