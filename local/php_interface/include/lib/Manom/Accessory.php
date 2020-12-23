@@ -65,24 +65,26 @@ class Accessory {
 	 */
 	private function initProducts($sectionsId) {
 
-        $result = \CIBlockElement::GetList(
-            [],
-            [
-                "IBLOCK_ID"  => $this->iblockId,
-                "SECTION_ID" => $sectionsId,
-            ],
-            false,
-            false,
-            [
-                "ID"
-            ]
-        );
-
         $products = [];
+        foreach ($sectionsId as $sectionId) {
+            $result = \CIBlockElement::GetList(
+                [],
+                [
+                    "IBLOCK_ID"  => $this->iblockId,
+                    "SECTION_ID" => $sectionId,
+                ],
+                false,
+                false,
+                [
+                    "ID"
+                ]
+            );
 
-        while ($row = $result->Fetch()){
-            $products[] = (int)$row["ID"];
+            while ($row = $result->Fetch()) {
+                $products[] = (int)$row["ID"];
+            }
         }
+
 
         $this->productsId = $products && !is_array($products)
             ? (array)$products : $products;
