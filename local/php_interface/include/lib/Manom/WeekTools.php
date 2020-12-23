@@ -114,21 +114,28 @@ class WeekTools
             return $textNearestDate;
         }
 
-        if (
-            $this->currentDay >= $deliveryObj['dates']['start'] &&
-            $this->currentDay <= $deliveryObj['dates']['end']
-        ) {
-            if ($this->currentHour < $deliveryObj['time']['end'] - 1) {
+        //fix for sunday
+        $start = $deliveryObj['dates']['start'] === 0 ? 7 : $deliveryObj['dates']['start'];
+        $end = $deliveryObj['dates']['end'] === 0 ? 7 : $deliveryObj['dates']['end'];
+        $now = $this->currentDay === 0 ? 7 : $this->currentDay;
+        //
+
+        $workingHour = $this->currentHour < $deliveryObj['time']['end'] - 1;
+        $lastWorkDay = $this->currentDay === $deliveryObj['dates']['end'];
+        if ($now >= $start && $now <= $end && ($workingHour || !$lastWorkDay)) {
+            if ($workingHour) {
                 $textNearestDate = $deliveryObj['exist'] ?
                     'Сегодня до ' . $deliveryObj['time']['end'] . ':00' :
                     'Сегодня';
-            } elseif ($this->currentDay === $deliveryObj['dates']['end']) {
-                $textNearestDate = 'Через 2 дня';
             } else {
                 $textNearestDate = 'Завтра';
             }
         } else {
             $dayOffset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
+
+            if ($dayOffset === 0 && !$workingHour) {
+                $dayOffset++;
+            }
 
             switch ($dayOffset) {
                 case 0:

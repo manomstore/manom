@@ -338,6 +338,37 @@ class Brand
     }
 
     /**
+     * @param $filterName
+     * @param $brandCode
+     */
+    public function setBrandSectionFilter($filterName, $brandCode): void
+    {
+        if (!$filterName) {
+            return;
+        }
+
+        $brand = $this->getByCode($brandCode);
+        $filterVal = !empty($brand) ? $brand["name"] : $brandCode;
+
+        if (is_array($GLOBALS[$filterName])) {
+            $GLOBALS[$filterName] = array_merge(
+                $GLOBALS[$filterName],
+                [
+                    'PROPERTY' => [
+                        "BRAND" => $filterVal,
+                    ]
+                ]
+            );
+        } else {
+            $GLOBALS[$filterName] = [
+                'PROPERTY' => [
+                    "BRAND" => $filterVal,
+                ]
+            ];
+        };
+    }
+
+    /**
      * @param $property
      * @return bool
      */
