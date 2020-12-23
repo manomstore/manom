@@ -18,7 +18,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
                             <div class="watched__price">
                                 <?= number_format($item['price'], 0, '', ' ') ?>
-                                <span> ₽</span>
+                                <span>&nbsp;₽</span>
                                 <?php if ($item['showOldPrice']): ?>
                                     <div class="watched__oldprice">
                                         <?= number_format($item['oldPrice'], 0, '', ' ') ?>
@@ -31,8 +31,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                 <? endforeach; ?>
             </div>
 
-            <div class="swiper-button-prev watched__button watched__button-prev visually-hidden"></div>
-            <div class="swiper-button-next watched__button watched__button-next visually-hidden"></div>
+
         </div>
+        <div class="swiper-button-prev watched__button watched__button-prev visually-hidden"></div>
+        <div class="swiper-button-next watched__button watched__button-next visually-hidden"></div>
     </div>
 <? endif; ?>
