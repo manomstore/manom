@@ -94,16 +94,20 @@ class Product
         $data = array();
 
         $store = new Store;
-        $storeSettings = $store->getSettings();
+        $stores = $store->getStores();
         $amounts = $store->getAmounts($productsId);
 
-        $priceCodes = array();
-        foreach ($storeSettings as $storeSetting) {
-            if (in_array($storeSetting['priceCode'], $priceCodes, true)) {
+        $priceCodes = [];
+        foreach ($stores as $store) {
+            if (empty($store['priceCode'])) {
                 continue;
             }
 
-            $priceCodes[] = $storeSetting['priceCode'];
+            if (in_array($store['priceCode'], $priceCodes, true)) {
+                continue;
+            }
+
+            $priceCodes[] = $store['priceCode'];
         }
 
         $priceObject = new Price;
@@ -122,7 +126,11 @@ class Product
                     'price' => array(),
                 );
 
-                $priceId = $pricesId[$storeSettings[$code]['priceCode']];
+                if (empty($stores[$code]['priceCode'])) {
+                    continue;
+                }
+
+                $priceId = $pricesId[$stores[$code]['priceCode']];
                 foreach ($prices as $price) {
                     if ((int)$price['CATALOG_GROUP_ID'] === (int)$priceId) {
                         $storeData[$code]['price'] = $price;
