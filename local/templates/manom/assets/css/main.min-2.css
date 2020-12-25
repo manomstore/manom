@@ -3944,7 +3944,7 @@ p.price-slider {
   flex: 1;
 }
 
-@media screen and (min-width: 970px) and (max-width: 1200px) {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
   .product-sidebar__cheaper,
   .product-sidebar__one-click {
     flex-grow: 1;
@@ -3953,12 +3953,13 @@ p.price-slider {
   }
 }
 
-@media screen and (max-width: 969px) {
+@media screen and (max-width: 767px) {
   .product-sidebar__cheaper,
   .product-sidebar__one-click {
     width: 48.6%;
     height: 38px;
     line-height: 34px;
+    padding: 0 10px;
   }
 }
 
