@@ -390,6 +390,10 @@ class Import
     {
         $sectionsResult = [];
 
+        if (!is_array($sectionsList)){
+            $sectionsList = [$sectionsList];
+        }
+
         foreach ($sectionsList as $name) {
             $sections = explode("/", $name);
             $sectionData = [
