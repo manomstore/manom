@@ -3936,11 +3936,20 @@ p.price-slider {
   transition: 0.1s;
 }
 
+.product-sidebar__cheaper {
+  margin-right: 5%;
+}
+
+.product-sidebar__one-click {
+  flex: 1;
+}
+
 @media screen and (max-width: 1200px) {
   .product-sidebar__cheaper,
   .product-sidebar__one-click {
     flex-grow: 1;
     width: 100%;
+    margin-right: 0;
   }
 }
 
