@@ -970,75 +970,6 @@ $(document).ready(function () {
     return false;
   });
 
-  $(document).on("updateSmartFilter", function () {
-    var $sliderRange = $(document).find("#slider-range-alt");
-    var $priceStart = $(document).find("#price-start-alt");
-    var $priceEnd = $(document).find("#price-end-alt");
-
-    if ($sliderRange.is('span')) {
-      $minPrice = parseInt($priceStart.attr('min'));
-      $minPriceValue = parseInt($priceStart.val());
-      $maxPrice = parseInt($priceStart.attr('max'));
-      $maxPriceValue = parseInt($priceEnd.val());
-
-      if (!$minPriceValue) {
-        $minPriceValue = $minPrice;
-      }
-
-      if (!$maxPriceValue) {
-        $maxPriceValue = $maxPrice;
-      }
-
-      if ($minPrice && $maxPrice) {
-
-        var rangeSize = $maxPrice - $minPrice;
-        var stepSize = 0;
-        if (rangeSize > 1) {
-          var percent = 0;
-
-          for (var i = 1; i < rangeSize; i++) {
-            if (rangeSize % i === 0) {
-              percent = (i / rangeSize) * 100;
-              if (percent <= 5) {
-                stepSize = i;
-              } else {
-                break;
-              }
-            }
-          }
-        }
-
-        if (!stepSize) {
-          stepSize = 100;
-        }
-
-        $sliderRange.slider({
-          range: true,
-          min: $minPrice,
-          max: $maxPrice,
-          step: stepSize,
-          values: [$minPriceValue, $maxPriceValue],
-          slide: function (event, ui) {
-            var $priceCheckbox = $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]');
-            switch (ui.handleIndex) {
-              case 0:
-                $priceStart.val(ui.values[0]);
-                $priceCheckbox.prop('checked', false);
-                break;
-              case 1:
-                $priceEnd.val(ui.values[1]);
-                $priceCheckbox.prop('checked', false);
-                break;
-            }
-          },
-        });
-
-        $priceStart.val($minPriceValue);
-        $priceEnd.val($maxPriceValue);
-      }
-    }
-  });
-
   $(document).on("change", "#price-start-alt", function () {
     var $priceEnd = $(document).find("#price-end-alt");
 
@@ -1047,7 +978,7 @@ $(document).ready(function () {
     $maxPriceValue = parseInt($priceEnd.val());
 
     var inputStart;
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+
     inputStart = $(this).val();
     var max = $maxPriceValue;
 
@@ -1059,9 +990,8 @@ $(document).ready(function () {
       inputStart = max;
     }
     if (inputStart < $minPrice) {
-      inputStart = $minPrice;
+      inputStart = "";
     }
-    $(document).find('#slider-range-alt').slider('values', 0, inputStart);
     $(this).val(inputStart);
   });
 
@@ -1073,7 +1003,7 @@ $(document).ready(function () {
     $maxPrice = parseInt($priceStart.attr('max'));
 
     var inputEnd;
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+
     var min = $minPriceValue;
 
     if (!min) {
@@ -1081,26 +1011,17 @@ $(document).ready(function () {
     }
 
     inputEnd = $(this).val();
-    if (inputEnd > $maxPrice) {
-      inputEnd = $maxPrice;
-    }
+
     if (inputEnd < min) {
       inputEnd = min;
     }
 
-    $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
+    if (inputEnd > $maxPrice) {
+      inputEnd = "";
+    }
+
     $(this).val(inputEnd);
   });
-
-  $(document).on("keyup", "#price-start-alt", function () {
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-  });
-
-  $(document).on("keyup", "#price-end-alt", function () {
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-  });
-
-  $(document).trigger("updateSmartFilter");
 
   $(document).on('click', '.offer_prop_item', function () {
     var itemID,
@@ -1130,7 +1051,7 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on('change', 'input.catalog-filter__checkbox', function () {
+  $(document).on('change', 'input.catalog-filter__checkbox, input.catalog-filter__price', function () {
     var dataMaxName,
       dataMaxValue,
       dataMinName,
@@ -1162,16 +1083,13 @@ $(document).ready(function () {
       dataMinValue = $(document).find('.catalog-filter input[name="' + dataMinName + '"]').val();
       dataMaxValue = $(document).find('.catalog-filter input[name="' + dataMaxName + '"]').val();
       $(document).find('.cb-filter__param[data-id="' + dataMinName + dataMaxName + '"]').remove();
-      if ($(this).prop('checked')) {
-        elementFilter = '<div class="cb-filter__param cb-filter__param-hidden" data-id="' + dataMinName + dataMaxName + '">';
-        elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
-        elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
-        elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
-        elementFilter += '<input type="hidden" name="' + $(this).attr('name') + '" value="' + $(this).val() + '">';
-        elementFilter += '<span>×</span>';
-        elementFilter += '</div>';
-        $(document).find('.cb-filter').prepend($(elementFilter));
-      }
+      elementFilter = '<div class="cb-filter__param cb-filter__param-hidden" data-id="' + dataMinName + dataMaxName + '">';
+      elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
+      elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
+      elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
+      elementFilter += '<span>×</span>';
+      elementFilter += '</div>';
+      $(document).find('.cb-filter').prepend($(elementFilter));
     }
     if ($('.catalog-filter__list-item input').prop('checked')) {
       $(this).closest('.catalog-filter__list-item').addClass('top')
@@ -3421,7 +3339,7 @@ $.fn.ajaxLoadCatalog = function () {
   urlForSend = $(document).find('.ajaxPageNav .cb-nav-pagination__item.active').attr('data-href');
   styleBlock = 'v-block';
   countOnPage = $(document).find('select[name="countOnPage"]').val();
-  sort_by = $(document).find('select[name="sort_by"]').val();
+  sort_by = $(document).find('select[name="sort_by"]');
   $(document).find('.cb-nav-style__block input[name="style"]').each(function () {
     if ($(this).prop('checked')) {
       return styleBlock = $(this).attr('id');
@@ -3431,7 +3349,7 @@ $.fn.ajaxLoadCatalog = function () {
     ajaxCal: 'Y',
     styleBlock: styleBlock,
     countOnPage: countOnPage,
-    sort_by: sort_by,
+    sort_by: sort_by.val(),
   };
   $(document).find('.cb-filter .cb-filter__param input').each(function () {
     $data['set_filter'] = 'Y';
@@ -3443,16 +3361,20 @@ $.fn.ajaxLoadCatalog = function () {
       type: 'GET',
       data: $data,
       success: function (data) {
-        if (history.pushState && sort_by) {
+        if (history.pushState && sort_by.val()) {
           var urlObj = new URL(window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search);
-          urlObj.searchParams.set("sort_by", sort_by);
-          history.pushState(null, null, urlObj.href);
+
+          if (sort_by.find("option.default").val() !== sort_by.val()) {
+            urlObj.searchParams.set("sort_by", sort_by.val());
+            history.pushState(null, null, urlObj.href);
+          } else if (urlObj.searchParams.has("sort_by")) {
+            urlObj.searchParams.delete("sort_by");
+            history.pushState(null, null, urlObj.href);
+          }
         }
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
-
-          $(document).trigger("updateSmartFilter");
         }
 
         $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());

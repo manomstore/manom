@@ -5,8 +5,6 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $this->setFrameMode(true);
-
-$request = \Bitrix\Main\Context::getCurrent()->getRequest();
 ?>
 <?php if ($arResult["HAS_FILTER_ELEMENT"]): ?>
     <aside class="catalog-filter" data-action="<?=$arResult['FORM_ACTION']?>">
@@ -21,61 +19,24 @@ $request = \Bitrix\Main\Context::getCurrent()->getRequest();
                     <?php
                     if ($item['VALUES']['MAX']['VALUE'] - $item['VALUES']['MIN']['VALUE'] <= 0) {
                         continue;
-                    }
-                    $precision = $item['DECIMALS'] ?: 0;
-                    $minVal = $item['VALUES']['MIN']['VALUE'];
-                    $maxVal = $item['VALUES']['MAX']['VALUE'];
-                    $minVal = $minVal > 0 ? $minVal : 1;
-                    $maxVal = $maxVal > 0 ? $maxVal : 1;
-                    $priceCheckboxName = $item['VALUES']['MIN']['CONTROL_NAME'] . $item['VALUES']['MAX']['CONTROL_NAME'];
-
-                    $rangeSize = $maxVal - $minVal;
-                    $stepSize = 0;
-                    if ($rangeSize > 1) {
-                        $percent = 0;
-
-                        for ($i = 1; $i < $rangeSize; $i++) {
-                            if ($rangeSize % $i === 0) {
-                                $percent = ($i / $rangeSize) * 100;
-                                if ($percent <= 5) {
-                                    $stepSize = $i;
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if (!$stepSize) {
-                        $stepSize = 1000;
-                    }
-
-                    $checked = !empty($request->get($priceCheckboxName));
-                    ?>
+                    } ?>
                     <li class="catalog-filter__li">
                         <input type="checkbox" class="checkbox-1">
                         <i></i>
                         <h3>Стоимость</h3>
                         <p class="price-slider">
-                            <label>
-                                <input
-                                        class="catalog-filter__checkbox catalogPrice"
-                                        type="checkbox"
-                                    <?= $checked ? "checked" : "" ?>
-                                        data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
-                                        data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
-                                        data-title="Стоимость: "
-                                        name="<?= $priceCheckboxName ?>"
-                                >
-                                <span class="catalog-filter__item"> ₽</span>
-                            </label>
                             <input
-                                    class="form-control"
+                                    class="form-control catalogPrice catalog-filter__price"
                                     type="number"
-                                    step="<?= $stepSize ?>"
-                                    min="<?= number_format($minVal, $precision, '.', '') ?>"
-                                    max="<?= number_format($maxVal, $precision, '.', '') ?>"
+                                    step="<?= $item["STEP_SIZE"] ?>"
+                                    data-title="Стоимость: "
+                                    onkeydown="return !(/^[-e.,]/.test(event.key))"
+                                    min="<?= number_format($item["MIN_VAL"], $item["PRECISION"], '.', '') ?>"
+                                    max="<?= number_format($item["MAX_VAL"], $item["PRECISION"], '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
+                                    data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    placeholder="<?= $item["MIN_VAL"] ?>"
                                     name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
                                     id="price-start-alt"
                                 <? if ($item['VALUES']['MIN']['HTML_VALUE']): ?>
@@ -84,20 +45,23 @@ $request = \Bitrix\Main\Context::getCurrent()->getRequest();
 
                             > &mdash;
                             <input
-                                    class="form-control"
+                                    class="form-control catalogPrice catalog-filter__price"
                                     type="number"
-                                    step="<?= $stepSize ?>"
-                                    min="<?= number_format($minVal, $precision, '.', '') ?>"
-                                    max="<?= number_format($maxVal, $precision, '.', '') ?>"
+                                    step="<?= $item["STEP_SIZE"] ?>"
+                                    data-title="Стоимость: "
+                                    onkeydown="return !(/^[-e.,]/.test(event.key))"
+                                    min="<?= number_format($item["MIN_VAL"], $item["PRECISION"], '.', '') ?>"
+                                    max="<?= number_format($item["MAX_VAL"], $item["PRECISION"], '.', '') ?>"
                                     data-name="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?><?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    data-name-min="<?= $item['VALUES']['MIN']['CONTROL_NAME'] ?>"
+                                    data-name-max="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
+                                    placeholder="<?= $item["MAX_VAL"] ?>"
                                     name="<?= $item['VALUES']['MAX']['CONTROL_NAME'] ?>"
                                     id="price-end-alt"
                                 <? if ($item['VALUES']['MAX']['HTML_VALUE']): ?>
                                     value="<?= $item['VALUES']['MAX']['HTML_VALUE'] ?>"
                                 <? endif; ?>
                             >
-                            ₽
-                            <span id="slider-range-alt"></span>
                         </p>
                     </li>
                 <?php endif; ?>

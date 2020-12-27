@@ -2527,7 +2527,6 @@ line-height: 24px;
   text-align: left;
   margin-right: auto;
   border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
   margin-top: 34px;
 }
 
@@ -2562,7 +2561,7 @@ line-height: 24px;
   line-height: 2.5;
   font-weight: 600;
   display: block;
-  padding-left: 30px;
+  padding-left: 0;
   cursor: pointer;
 }
 
@@ -2743,8 +2742,9 @@ line-height: 24px;
   opacity: 1;
 }
 
-.catalog-filter__li label.disabled {
+.catalog-filter__li label input.disabled ~ span {
   pointer-events: none;
+  opacity: 0.3;
 }
 
 .catalog-filter__li button {
@@ -2816,7 +2816,13 @@ line-height: 24px;
   -ms-transform: translate(-6px, 0);
   transform: translate(-6px, 0);
   margin-top: 13px;
-  right: 20px;
+  right: 0;
+}
+
+@media only screen and (max-width: 1069px) {
+  .catalog-filter ul li i {
+    right: 20px;
+  }
 }
 
 .catalog-filter ul li i:before,
@@ -2959,18 +2965,77 @@ line-height: 24px;
   margin-left: 21px;
   height: 8px;
   background-color: #ebebeb;
+  margin-bottom: 10px;
+
 }
 
 input.form-control {
-  width: 75px;
-  padding: 2px 0 2px 8px;
-  border: 1px solid #c4c4c4;
+  width: 104px;
+  height: 36px;
+  padding: 2px 8px 2px 8px;
+  border: 1px solid #E0E0E0;
   -webkit-border-radius: 5px;
-  border-radius: 5px;
+  border-radius: 3px;
+  text-align: center;
+  color: #333333;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
+input.form-control::placeholder {
+  color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  opacity: 1;
+  text-align: center;
+}
+
+input.form-control:-ms-input-placeholder {
+  color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+input.form-control::-ms-input-placeholder {
+  color: #ABABB2;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+input.form-control.changed {
+  color: #333333;
+}
+
+input.form-control::-webkit-outer-spin-button,
+input.form-control::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 p.price-slider {
-  height: 55px;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+@media only screen and (max-width: 1069px) {
+  p.price-slider {
+    padding-right: 10px;
+  }
+
+}
+
+p.price-slider label {
+  display: none;
 }
 
 .ui-slider-handle.ui-corner-all.ui-state-default {
