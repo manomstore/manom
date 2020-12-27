@@ -542,6 +542,9 @@ h4.p-article__sidebar_title {
 }
 .cb-nav-pagination__item a {
   color: #333333;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
 }
 .addToCompareList.alt-img {
   background: url(./../img/icons/compare.svg) center center no-repeat;

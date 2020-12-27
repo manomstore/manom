@@ -2510,6 +2510,40 @@ line-height: 24px;
   cursor: pointer;
 }
 
+.cb-nav-pagination__item.first {
+  position: relative;
+  margin-right: 15px;
+
+}
+
+.cb-nav-pagination__item.first::after {
+  position: absolute;
+  content: "...";
+  line-height: 16px;
+  font-size: 12px;
+  color: #000000;
+  bottom: 0;
+  right: -12px;
+  pointer-events: none;
+}
+
+.cb-nav-pagination__item.last {
+  position: relative;
+  margin-left: 15px;
+
+}
+
+.cb-nav-pagination__item.last::after {
+  position: absolute;
+  content: "...";
+  line-height: 16px;
+  font-size: 12px;
+  color: #000000;
+  bottom: 0;
+  left: -15px;
+  pointer-events: none;
+}
+
 .cb-nav-pagination__item:hover {
   background-color: #79b700;
   color: #ffffff;
