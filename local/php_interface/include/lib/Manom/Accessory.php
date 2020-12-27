@@ -64,25 +64,27 @@ class Accessory {
 	 * @throws SystemException
 	 */
 	private function initProducts($sectionsId) {
-		$products = ElementTable::getList(
-			[
-				"filter" => [
-					"IBLOCK_ID"         => $this->iblockId,
-					"IBLOCK_SECTION_ID" => $sectionsId,
-				],
-				"select" => [
-					"ID",
-				],
-			]
-		);
 
-		$products = $products->fetchAll();
-		$products = array_map(
-			function ($product) {
-				return (int) $product["ID"];
-			},
-			$products
-		);
+        $products = [];
+        foreach ($sectionsId as $sectionId) {
+            $result = \CIBlockElement::GetList(
+                [],
+                [
+                    "IBLOCK_ID"  => $this->iblockId,
+                    "SECTION_ID" => $sectionId,
+                ],
+                false,
+                false,
+                [
+                    "ID"
+                ]
+            );
+
+            while ($row = $result->Fetch()) {
+                $products[] = (int)$row["ID"];
+            }
+        }
+
 
         $this->productsId = $products && !is_array($products)
             ? (array)$products : $products;
