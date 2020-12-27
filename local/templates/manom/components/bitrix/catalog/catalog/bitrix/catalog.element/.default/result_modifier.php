@@ -10,6 +10,7 @@ use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
 use Manom\Related;
+use Manom\Service\Delivery as ServiceDelivery;
 use Manom\Service\TimeDelivery;
 use \Manom\WeekTools;
 
@@ -82,6 +83,7 @@ $arResult['DELIVERIES'] = array(
 );
 $arResult['PAY_SYSTEMS'] = array();
 
+$serviceDelivery = new ServiceDelivery();
 if (!empty((int)$arParams['LOCATION']['ID'])) {
     $arParams['LOCATION']['ZIP'] = (int)CSaleLocation::GetLocationZIP((int)$arParams['LOCATION']['ID'])->fetch();
 
@@ -104,31 +106,43 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
         $actualDeliveries = [];
         foreach ($deliveries as $delivery) {
             if ($isMoscow) {
-                if (in_array((int)$delivery['id'], [8, 13], true)) {
+                if (in_array((int)$delivery['id'], [
+                    $serviceDelivery->getId("ownDelivery"),
+                    $serviceDelivery->getId("ownPickup")
+                ], true)) {
                     $actualDeliveries[] = $delivery;
                 }
-            } elseif (in_array((int)$delivery['id'], [5, 6], true)) {
+            } elseif (in_array((int)$delivery['id'], [
+                $serviceDelivery->getId("cdekDelivery"),
+                $serviceDelivery->getId("cdekPickup")
+            ], true)) {
                 $actualDeliveries[] = $delivery;
             }
         }
 
         foreach ($actualDeliveries as $actualDelivery) {
-            if (in_array((int)$actualDelivery['id'], [5, 8], true)) {
+            if (in_array((int)$actualDelivery['id'], [
+                $serviceDelivery->getId("cdekDelivery"),
+                $serviceDelivery->getId("ownDelivery")
+            ], true)) {
                 $arResult['DELIVERIES']['COURIER'] = array_merge(
                     $arResult['DELIVERIES']['COURIER'],
                     [
-                        'DESCRIPTION' => getDeliveryDescription($actualDelivery),
+                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery),
                         'ID' => $actualDelivery['id'],
                         'EXIST' => true,
                     ]
                 );
             }
 
-            if (in_array((int)$actualDelivery['id'], [6, 13], true)) {
+            if (in_array((int)$actualDelivery['id'], [
+                $serviceDelivery->getId("cdekPickup"),
+                $serviceDelivery->getId("ownPickup")
+            ], true)) {
                 $arResult['DELIVERIES']['PICKUP'] = array_merge(
                     $arResult['DELIVERIES']['PICKUP'],
                     [
-                        'DESCRIPTION' => getDeliveryDescription($actualDelivery),
+                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery),
                         'ID' => $actualDelivery['id'],
                         'EXIST' => true,
                     ]
@@ -386,7 +400,7 @@ function getDelivery()
     return $delivery;
 }
 
-function getDeliveryDescription($delivery)
+function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
 {
     $result = null;
 
@@ -402,7 +416,7 @@ function getDeliveryDescription($delivery)
 
     $shop['exist'] = !empty($delivery['selfDeliveryPoints']);
 
-    if ($shop['exist'] && $delivery['id'] === 13) {
+    if ($shop['exist'] && $delivery['id'] === $serviceDelivery->getId("ownPickup")) {
         $scheduleData = $week->parseScheduleShop($delivery['selfDeliveryPoints'][0]['schedule']);
 
         $shop['time']['start'] = $scheduleData["hourStart"];
@@ -411,9 +425,9 @@ function getDeliveryDescription($delivery)
         $shop['dates']['end'] = $scheduleData["dayEnd"];
     }
 
-    if ($shop['exist'] && $delivery['id'] === 13) {
+    if ($shop['exist'] && $delivery['id'] === $serviceDelivery->getId("ownPickup")) {
         $deliveryPeriod = $week->getTextPeriod($shop);
-    } elseif ($delivery['id'] === 8) {
+    } elseif ($delivery['id'] === $serviceDelivery->getId("ownDelivery")) {
         $intervals = TimeDelivery::getIntervals();
         $courier = [
             'time' => [
@@ -426,7 +440,7 @@ function getDeliveryDescription($delivery)
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($courier);
-    } elseif (in_array($delivery['id'], [5, 6], true)) {
+    } elseif (in_array($delivery['id'], [$serviceDelivery->getId("cdekDelivery"), $delivery->getId("cdekPickup")], true)) {
         $sdek = [
             'isSdek' => true,
             'currentPeriod' => $deliveryPeriod,
