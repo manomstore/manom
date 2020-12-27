@@ -5,6 +5,7 @@ use Bitrix\Main\Web\Cookie;
 use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
+use Manom\Service\Delivery;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
@@ -1056,8 +1057,13 @@ class MyHandlerClass
 
     function onSaleDeliveryServiceCalculateHandler($result, $shipment, $deliveryId)
     {
+        $delivery = new Delivery();
         Loader::includeModule("germen.settings");
-        if ($shipment->getDeliveryId() !== 8) {
+        if (!in_array($shipment->getDeliveryId(),
+            [
+                $delivery->getId("ownDeliveryRegion"),
+                $delivery->getId("ownDelivery")
+            ], true)) {
             return true;
         }
 
