@@ -440,7 +440,7 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($courier);
-    } elseif (in_array($delivery['id'], [$serviceDelivery->getId("cdekDelivery"), $delivery->getId("cdekPickup")], true)) {
+    } elseif (in_array($delivery['id'], [$serviceDelivery->getId("cdekDelivery"), $serviceDelivery->getId("cdekPickup")], true)) {
         $sdek = [
             'isSdek' => true,
             'currentPeriod' => $deliveryPeriod,
