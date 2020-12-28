@@ -1059,11 +1059,7 @@ class MyHandlerClass
     {
         $delivery = new Delivery();
         Loader::includeModule("germen.settings");
-        if (!in_array($shipment->getDeliveryId(),
-            [
-                $delivery->getId("ownDeliveryRegion"),
-                $delivery->getId("ownDelivery")
-            ], true)) {
+        if ($delivery->getId("ownDelivery") !== $shipment->getDeliveryId()) {
             return true;
         }
 

@@ -3123,6 +3123,30 @@ $.fn.updateDateSaleOrder = function () {
 
   $.fn.updateSideInfo();
 
+  //Индикатор бесплатной доставки
+  var ownDeliveryTabProp = "ID_DELIVERY_ID_" + app.deliveryService.get("ownDelivery");
+  var ownDeliveryCount = $(document).find(".sci-delivery__tab.rb_so[data-prop='" + ownDeliveryTabProp + "']").length;
+  var basketPrice = parseInt($(document).find('#so_main_block #cart-price').html().replace(/\D+/g, ''));
+
+  $('.cond_free_delivery_style').remove();
+
+  if (window.COND_FREE_DELIVERY > 0 && ownDeliveryCount) {
+    if (window.COND_FREE_DELIVERY - basketPrice >= 0) {
+      var percent = Math.round(basketPrice / window.COND_FREE_DELIVERY * 100);
+      $('head').append('<style class="cond_free_delivery_style">.shopcart-sidebar__free-delivery-line::before{width:' + percent + '% !important;}</style>');
+      $('.free-delivery-remains').html(window.COND_FREE_DELIVERY - basketPrice);
+      $('.shopcart-sidebar__free-delivery.not_enough').show();
+      $('.shopcart-sidebar__free-delivery.allright').hide();
+    } else {
+      $('head').append('<style class="cond_free_delivery_style">.shopcart-sidebar__free-delivery-line::before{width:100% !important;}</style>');
+      $('.shopcart-sidebar__free-delivery.not_enough').hide();
+      $('.shopcart-sidebar__free-delivery.allright').show();
+    }
+  } else {
+    $('.shopcart-sidebar__free-delivery.not_enough').hide();
+    $('.shopcart-sidebar__free-delivery.allright').hide();
+  }
+
   if (
     typeof window.IPOLSDEK_pvz !== 'undefined'
     && window.IPOLSDEK_pvz.pvzId
