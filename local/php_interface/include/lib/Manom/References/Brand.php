@@ -99,7 +99,7 @@ class Brand
     {
         $items = [];
 
-        $filter = ['IBLOCK_ID' => $this->iblockId, 'ACTIVE' => 'Y', '!PROPERTY_LOGO' => false];
+        $filter = ['IBLOCK_ID' => $this->iblockId, 'ACTIVE' => 'Y'];
         $select = ['IBLOCK_ID', 'ID', 'CODE', 'NAME', "PROPERTY_LOGO", "SORT"];
         $result = \CIBlockElement::GetList([], $filter, false, false, $select);
         while ($row = $result->GetNext()) {
@@ -440,6 +440,9 @@ class Brand
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getImportCreatedInfo(): string
     {
         $message = "";
