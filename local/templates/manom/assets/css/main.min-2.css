@@ -11880,11 +11880,6 @@ button.top-nav__link {
     pointer-events: none;
   }
 
-  .main-nav__sublist ul {
-    display: grid;
-    grid-template-columns: repeat( 2, 1fr);
-  }
-
   .main-nav__list-pack {
     display: flex;
     flex-wrap: nowrap;
@@ -11966,10 +11961,8 @@ button.top-nav__link {
   }
 
   .main-nav__sublist ul {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    list-style: none;
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr);
   }
 
   .main-nav__sublist--brands {
@@ -11980,6 +11973,7 @@ button.top-nav__link {
   .main-nav__sublist--brands ul {
     display: grid;
     grid-template-columns: repeat( 3, 1fr);
+    width: 100%;
   }
 
   .main-nav__sublist-header {
