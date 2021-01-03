@@ -32,8 +32,7 @@ $arResult = $arResultNew;
 
 foreach ($arResult as &$arItem) {
     $sectionCode = $section->getCode($arItem["PARAMS"]["SECTION_ID"]);
-    $arItem["CHILDREN"] = array_chunk($arItem["CHILDREN"], 8);
     $arItem["CODE"] = $sectionCode;
-    $arItem["BRANDS"] = array_chunk($brand->getForSection($sectionCode), 8);
+    $arItem["BRANDS"] = $brand->getForSection($sectionCode);
 }
 unset($arItem);
