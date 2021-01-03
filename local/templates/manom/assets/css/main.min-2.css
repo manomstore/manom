@@ -11963,6 +11963,7 @@ button.top-nav__link {
   .main-nav__sublist ul {
     display: grid;
     grid-template-columns: repeat( 2, 1fr);
+    list-style: none;
   }
 
   .main-nav__sublist--brands {
