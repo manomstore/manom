@@ -11870,6 +11870,10 @@ button.top-nav__link {
     margin: 0;
   }
 
+   .main-nav__sublist:first-child {
+    margin: 0 0 30px;
+  }
+
   .main-nav__sublist li.disabled,
   .main-nav__innerlist.disabled {
     opacity: 0.6;
@@ -11877,9 +11881,8 @@ button.top-nav__link {
   }
 
   .main-nav__sublist ul {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat( 2, 1fr);
   }
 
   .main-nav__list-pack {
@@ -11904,6 +11907,9 @@ button.top-nav__link {
 
   .main-nav__sublist.main-nav__sublist--brands li{
     margin: 0 15px 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .main-nav__sublist li:last-child,
@@ -11949,6 +11955,7 @@ button.top-nav__link {
     align-items: stretch;
     justify-content: space-between;
     flex-wrap: nowrap;
+    flex-direction: column;
 
     border: 1px solid #f2f2f2;
     box-shadow: 0 14px 14px rgba(0, 0, 0, 0.1);
@@ -11968,7 +11975,11 @@ button.top-nav__link {
   .main-nav__sublist--brands {
     display: flex;
     flex-direction: column;
+  }
 
+  .main-nav__sublist--brands ul {
+    display: grid;
+    grid-template-columns: repeat( 3, 1fr);
   }
 
   .main-nav__sublist-header {
