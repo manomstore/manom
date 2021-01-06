@@ -11897,14 +11897,24 @@ button.top-nav__link {
 
   .main-nav__sublist li,
   .main-nav__innerlist li {
-    margin: 0 15px 20px 0;
+    margin: 0 50px 20px 0;
+  }
+
+  .main-nav__sublist li:nth-child(even),
+  .main-nav__innerlist li:nth-child(even) {
+    margin: 0 0 20px 0;
   }
 
   .main-nav__sublist.main-nav__sublist--brands li{
-    margin: 0 15px 10px 0;
+    margin: 0 50px 10px 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+  }
+
+  .main-nav__sublist.main-nav__sublist--brands li:nth-child(even),
+  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(even) {
+    margin: 0 0 20px 0;
   }
 
   .main-nav__sublist li:last-child,
