@@ -227,6 +227,9 @@ if ($arResult["DISPLAY_PROPERTIES"]["PREORDER"]["VALUE"] === "Да") {
 
 $arResult["LABELS"] = $labels;
 
+$defectsCount = (int)$arParams["ECOMMERCE_DATA"]["storeData"]["defects"]["amount"];
+$arResult['EXIST_DEFECTS'] = $defectsCount > 0;
+
 function getCheaper($productId, $iblockId)
 {
     $cheaper = array();

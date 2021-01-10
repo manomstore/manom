@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
 use Manom\Service\Delivery;
+use Manom\Store;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
@@ -20,6 +21,7 @@ Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
 
 Helper::customRegistry();
+$eventManager = \Bitrix\Main\EventManager::getInstance();
 
 if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
     AddEventHandler(
@@ -142,6 +144,12 @@ AddEventHandler(
     "catalog",
     "OnSuccessCatalogImport1C",
     Array("MyHandlerClass", "OnSuccessCatalogImport1CHandler")
+);
+
+$eventManager->addEventHandler(
+    'catalog',
+    'Bitrix\Catalog\Model\Product::onBeforeUpdate',
+    Array("MyHandlerClass", "OnBeforeProductUpdateHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
@@ -1157,6 +1165,25 @@ CONTENT;
 
         $price = new Price();
         $price->recalculateTypeCurrent((new Product())->getAll());
+    }
+
+    /**
+     * @param $event
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     * @throws \Manom\Exception
+     */
+    function OnBeforeProductUpdateHandler(Bitrix\Catalog\Model\Event $event)
+    {
+        $result = new \Bitrix\Catalog\Model\EventResult();
+        $data = $event->getParameters();
+        $amounts = (new Store())->getAmounts([$data["id"]]);
+        $quantity = (int)$amounts[$data["id"]]["main"] + (int)$amounts[$data["id"]]["second"];
+        $result->modifyFields(["QUANTITY" => $quantity]);
+
+        return $result;
     }
 }
 

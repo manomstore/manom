@@ -14,15 +14,11 @@ use \Bitrix\Main\ObjectPropertyException;
  */
 class Store
 {
-    private $settings = array(
-        'main' => array(
-            'id' => 1,
-            'priceCode' => 'Цена продажи',
-        ),
-        'second' => array(
-            'priceCode' => 'РРЦ',
-        ),
-    );
+    private $stores = [];
+    private $priceTypes = [
+        "main"   => 'Цена продажи',
+        "second" => 'РРЦ',
+    ];
 
     /**
      * Store constructor.
@@ -34,15 +30,61 @@ class Store
         if (!Loader::includeModule('catalog')) {
             throw new Exception('Не подключен модуль catalog');
         }
+
+        $this->initStores();
+    }
+
+    /**
+     * @return void
+     */
+    private function initStores(): void
+    {
+        $result = \CCatalogStore::GetList(
+            [],
+            [
+                "ACTIVE"   => "Y",
+                "!UF_CODE" => false
+            ],
+            false,
+            false,
+            [
+                "ID",
+                "UF_CODE",
+            ]
+        );
+
+        while ($row = $result->GetNext()) {
+            $store = [
+                "id"   => (int)$row["ID"],
+                "code" => $row["UF_CODE"]
+            ];
+
+            if (!empty($this->priceTypes[$store["code"]])) {
+                $store["priceCode"] = $this->priceTypes[$store["code"]];
+            }
+
+            $this->stores[$store["code"]] = $store;
+        }
     }
 
     /**
      * @param int $storeId
-     * @return bool
+     * @return array
      */
-    private function isMain($storeId): bool
+    private function getStoreById($storeId): array
     {
-        return $storeId === $this->settings['main']['id'];
+        $storeId = (int)$storeId;
+
+        $store = current(array_filter($this->stores, function ($store) use ($storeId) {
+            return $store["id"] === $storeId;
+        }));
+
+
+        if (empty($store)) {
+            return [];
+        }
+
+        return $store;
     }
 
     /**
@@ -80,9 +122,9 @@ class Store
     /**
      * @return array
      */
-    public function getSettings(): array
+    public function getStores(): array
     {
-        return $this->settings;
+        return $this->stores;
     }
 
     /**
@@ -119,10 +161,9 @@ class Store
             $select = ['ID', 'PRODUCT_ID', 'STORE_ID', 'AMOUNT'];
             $result = \CCatalogStoreProduct::GetList([], $filter, false, false, $select);
             while ($row = $result->Fetch()) {
-                if ($this->isMain((int)$row['STORE_ID'])) {
-                    $amounts[$row['PRODUCT_ID']]['main'] = $row['AMOUNT'];
-                } else {
-                    $amounts[$row['PRODUCT_ID']]['second'] = $row['AMOUNT'];
+                $store = $this->getStoreById($row['STORE_ID']);
+                if (!empty($store)) {
+                    $amounts[$row['PRODUCT_ID']][$store["code"]] = $row['AMOUNT'];
                 }
             }
         }
