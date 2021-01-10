@@ -20,7 +20,7 @@ class eventHandlers
     {
         if(Loader::includeModule('manom.moysklad')) {
             $product = new Product;
-            $product->updateCodes();
+            $product->updateProperties();
         }
     }
 }

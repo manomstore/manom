@@ -2,6 +2,7 @@ var app = {};
 
 app.$doc = $(document);
 app.$win = $(window);
+app.dadataToken = "a6ed9b9ecf7cec4c7bccb4669a71bd7765e08cb0";
 
 app.utils = {
   pluralize: function (number, variants) {
@@ -57,6 +58,169 @@ app.utils = {
       }
     },
   };
+
+  app.deliveryService = {
+    deliveryServices: {},
+    setAll: function (services = {}) {
+      this.deliveryServices = services;
+    },
+    get: function (code) {
+      if (!(this.deliveryServices instanceof Object)
+          || !this.deliveryServices.hasOwnProperty(code)) {
+        return false;
+      }
+
+      return this.deliveryServices[code];
+    },
+    is: function (deliveryId, deliveryCode) {
+      if (!this.get(deliveryCode)) {
+        return false;
+      }
+
+      return parseInt(deliveryId) === parseInt(this.get(deliveryCode));
+    },
+    in: function (deliveryId, deliveryCodes = []) {
+      var deliveries = [];
+
+      deliveryCodes.forEach(function (deliveries, currentCode) {
+        if (this.get(currentCode) !== false) {
+          deliveries.push(this.get(currentCode));
+        }
+      }.bind(this, deliveries));
+
+      return deliveries.indexOf(parseInt(deliveryId)) >= 0
+    }
+  };
+
+  app.deliveryAddress = {
+    addressField: null,
+    mute: false,
+    checkPreFilledFlag: false,
+    getAddressField: function () {
+      if (!(this.addressField instanceof jQuery) && $.isReady) {
+        this.addressField = $(document).find(".js-delivery-street");
+      }
+
+      if (!(this.addressField instanceof jQuery)) {
+        this.addressField = $()
+      }
+
+      return this.addressField;
+    },
+    checkPreFilled() {
+      if (this.checkPreFilledFlag !== true) {
+          return;
+      }
+      this.checkPreFilledFlag = false;
+
+      if (!$.fn.isMoscow()) {
+        return;
+      }
+
+      if (!this.getAddressField().length || !this.getAddressField().val().length) {
+        return;
+      }
+
+      $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
+      var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+      var token = app.dadataToken;
+
+      var options = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Token " + token
+        },
+        body: JSON.stringify({
+          query: this.getAddressField().val(),
+          locations: [{city: "Москва"}],
+          restrict_value: true,
+        })
+      };
+
+      fetch(url, options)
+          .then(response => response.text())
+          .then(function (result) {
+            result = JSON.parse(result);
+            var exist = false;
+            this.mute = true;
+            $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+
+            result.suggestions.forEach(function (suggestion) {
+              if (this.getAddressField().val().length
+                  && this.getAddressField().val().trim() === suggestion.value) {
+                exist = true;
+                this.process(suggestion.data);
+              }
+            }.bind(this));
+
+            if (!exist) {
+              this.setError(true);
+            }
+            this.mute = false;
+
+          }.bind(this))
+          .catch(function (error) {
+            $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+          });
+      this.mute = false;
+    },
+    setCheckPreFilledFlag: function () {
+        this.checkPreFilledFlag = true;
+    },
+    process: function (locationData) {
+      var error;
+      if (!locationData.street) {
+        error = new Error("Введите улицу и номер дома");
+      }
+
+      if (locationData.street && !locationData.house) {
+        error = new Error("Введите дом и номер квартиры");
+      }
+
+      if (locationData.house && !locationData.flat) {
+        error = new Error("Введите номер квартиры (“кв 1”, если в доме нет квартир)");
+      }
+
+      if (error instanceof Error) {
+        this.setError(true, error.message);
+        return false;
+      } else {
+        this.setError(false);
+      }
+
+      this.getAddressField().data("inside-beltway", locationData.beltway_hit === "IN_MKAD" ? "Y" : "N");
+
+      var curDeliveryTab = this.getAddressField().closest('.sci-delivery-tab').find(".sci-delivery__tab");
+      var curDeliveryRadio = this.getAddressField().closest('.sci-delivery-tab').find(".sci-delivery__radio.visually-hidden");
+      if (curDeliveryTab.length && curDeliveryRadio.prop("checked")) {
+        setDeliveryByLocation(curDeliveryTab, true);
+      }
+
+      return true;
+    },
+    setError: function (isError, errorText = "") {
+      /* Только для Москвы */
+      if (!$.fn.isMoscow()) {
+        return;
+      }
+
+      if (isError) {
+        this.getAddressField().addClass("invalid-address");
+        this.getAddressField().addClass('is-error');
+        this.getAddressField().removeClass('is-success');
+        if (!this.mute) {
+          $.fn.setPushUp("Некорректный адрес", errorText, false, "message", false, 5000);
+        }
+      } else {
+        this.getAddressField().addClass('is-success');
+        this.getAddressField().removeClass('is-error');
+        this.getAddressField().removeClass("invalid-address");
+      }
+    }
+  };
 })();
 
 function showDeliveryPickUpContent(deliveryButton) {
@@ -65,10 +229,10 @@ function showDeliveryPickUpContent(deliveryButton) {
   var pickupType;
 
   switch (deliveryId) {
-    case 6:
+    case app.deliveryService.get("cdekPickup"):
       pickupType = 'pvz';
       break;
-    case 13:
+    case app.deliveryService.get("ownPickup"):
       pickupType = 'shop';
       break;
     default:
@@ -94,17 +258,38 @@ function setDeliveryByLocation($deliveryTab, refresh = false) {
 function getDeliveryByCity(deliveryId, cityId) {
   deliveryId = parseInt(deliveryId);
   cityId = parseInt(cityId);
-  var newDeliveryId;
-  var isMoscow = cityId === 84;
+  var newDeliveryId,
+      moscowDelivery;
+  var $streetField = $(document).find('.js-delivery-street');
+
+  // Для Москвы, если проверяли вхожджение адреса во МКАД -
+  // изменяем доставку на нужную, иначе - оставляем ту, которая была
+  if ("insideBeltway" in ($streetField.data() || {})) {
+    switch ($streetField.data("inside-beltway")) {
+      case "Y":
+      default:
+        moscowDelivery = app.deliveryService.get("ownDelivery");
+        break;
+      case "N":
+        moscowDelivery = app.deliveryService.get("ownDeliveryRegion");
+        break;
+    }
+  } else {
+    moscowDelivery = app.deliveryService.in(deliveryId, ["ownDelivery", "ownDeliveryRegion"])
+        ? deliveryId : app.deliveryService.get("ownDelivery");
+  }
 
   switch (deliveryId) {
-    case 5:
-    case 8:
-      newDeliveryId = isMoscow ? 8 : 5;
+    case app.deliveryService.get("cdekDelivery"):
+    case app.deliveryService.get("ownDelivery"):
+    case app.deliveryService.get("ownDeliveryRegion"):
+      newDeliveryId = $.fn.isMoscow(cityId) ? moscowDelivery
+          : app.deliveryService.get("cdekDelivery");
       break;
-    case 6:
-    case 13:
-      newDeliveryId = isMoscow ? 13 : 6;
+    case app.deliveryService.get("cdekPickup"):
+    case app.deliveryService.get("ownPickup"):
+      newDeliveryId = $.fn.isMoscow(cityId) ? app.deliveryService.get("ownPickup")
+          : app.deliveryService.get("cdekPickup");
       break;
   }
   return newDeliveryId;
@@ -203,19 +388,26 @@ function setDeliveryDescription($delivery) {
         return textNearestDate;
       }
 
-      if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
-        if (this.currentHour < deliveryObj.time.end - 1) {
+      //fix for sunday
+      var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
+      var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
+      var now = this.currentDay === 0 ? 7 : this.currentDay;
+      //
+      var workingHour = this.currentHour < deliveryObj.time.end - 1;
+      var lastWorkDay = this.currentDay === deliveryObj.dates.end;
+      if (now >= start && now <= end && (workingHour || !lastWorkDay)) {
+        if (workingHour) {
           textNearestDate = deliveryObj.exist ?
-            'Сегодня до ' + String(deliveryObj.time.end) + ':00' : 'Сегодня';
+              'Сегодня до ' + String(deliveryObj.time.end) + ':00' : 'Сегодня';
         } else {
-          if (this.currentDay === deliveryObj.dates.end) {
-            textNearestDate = 'Через 2 дня';
-          } else {
-            textNearestDate = 'Завтра';
-          }
+          textNearestDate = 'Завтра';
         }
       } else {
         var dayOffset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+        if (dayOffset === 0 && !workingHour) {
+          dayOffset++;
+        }
+
         switch (dayOffset) {
           case 0:
             textNearestDate = 'Сегодня';
@@ -250,7 +442,7 @@ function setDeliveryDescription($delivery) {
 
   deliveryId = parseInt($delivery.attr('for').replace('ID_DELIVERY_ID_', ''));
   shop.exist = $delivery.hasClass('is-shop');
-  if (shop.exist && (deliveryId === 13)) {
+  if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
     var days,
       time,
       schedule = $delivery.find('.schedule_soa').text().split(' ');
@@ -265,10 +457,10 @@ function setDeliveryDescription($delivery) {
     shop.dates.end = week.days.indexOf(days.shift());
   }
 
-  if (shop.exist && deliveryId === 13) {
+  if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
     deliveryPeriod = week.getTextPeriod(shop);
   } else {
-    if (deliveryId === 8) {
+    if (app.deliveryService.in(deliveryId, ["ownDelivery", "ownDeliveryRegion"])) {
       var $deliveryTimes = $(document).find('#sci-delivery-time option'),
         courier = {
           time: {
@@ -282,7 +474,7 @@ function setDeliveryDescription($delivery) {
         };
       deliveryPeriod = week.getTextPeriod(courier);
     } else {
-      if ([5, 6].indexOf(deliveryId) >= 0) {
+      if (app.deliveryService.in(deliveryId, ["cdekDelivery", "cdekPickup"])) {
         var sdek = {
           isSdek: true,
           currentPeriod: $delivery.find('.so_delivery_period').html(),
@@ -522,6 +714,7 @@ $(document).ready(function () {
           $formIsValid,
           sBlock,
           isEmailValid,
+          addressEmpty,
           addressInvalid = false;
 
       if ($(this).prop('checked')) {
@@ -654,7 +847,14 @@ $(document).ready(function () {
                 if (!$(document).find('#so_city_val').val()) {
                   $formIsValid = false;
                 }
-                if (!$(document).find('#sci-delivery-street').val()) {
+
+                var $addressField = $(document).find('#sci-delivery-street');
+                if (!$addressField.val()) {
+                  $formIsValid = false;
+                  addressEmpty = true;
+                }
+
+                if ($addressField.val() && $addressField.hasClass("invalid-address")) {
                   $formIsValid = false;
                   addressInvalid = true;
                 }
@@ -721,7 +921,7 @@ $(document).ready(function () {
                 '.sci-delivery-content').find('input').each(function () {
                   if (!$(this).val() && $(this).prop('required')) {
                     $(this).addClass('is-error');
-                  } else {
+                  } else if (!$(this).hasClass("invalid-address")) {
                     $(this).removeClass('is-error');
                   }
                 });
@@ -753,10 +953,13 @@ $(document).ready(function () {
                     $.fn.setPushUp('Ошибка валидации E-mail', 'Неверно заполнено поле E-mail', false, 'message', false,
                       5000, undefined, 'push_up_item--error');
                   } else {
-                    if (addressInvalid){
+                    if (addressEmpty) {
                       $.fn.setPushUp('Не указан адрес', 'Укажите, пожалуйста, адрес доставки', false,
                           'message', false, 5000, undefined, 'push_up_item--warning');
-                    }else {
+                    } else if (addressInvalid) {
+                      $.fn.setPushUp('Некорректный адрес', 'Адрес доставки указан некорректно', false,
+                          'message', false, 5000, undefined, 'push_up_item--warning');
+                    } else {
                       $.fn.setPushUp('Не заполнены поля', 'Поля, обязательные к заполнению не были заполнены', false,
                           'message', false, 5000, undefined, 'push_up_item--warning');
                     }
@@ -963,75 +1166,6 @@ $(document).ready(function () {
     return false;
   });
 
-  $(document).on("updateSmartFilter", function () {
-    var $sliderRange = $(document).find("#slider-range-alt");
-    var $priceStart = $(document).find("#price-start-alt");
-    var $priceEnd = $(document).find("#price-end-alt");
-
-    if ($sliderRange.is('span')) {
-      $minPrice = parseInt($priceStart.attr('min'));
-      $minPriceValue = parseInt($priceStart.val());
-      $maxPrice = parseInt($priceStart.attr('max'));
-      $maxPriceValue = parseInt($priceEnd.val());
-
-      if (!$minPriceValue) {
-        $minPriceValue = $minPrice;
-      }
-
-      if (!$maxPriceValue) {
-        $maxPriceValue = $maxPrice;
-      }
-
-      if ($minPrice && $maxPrice) {
-
-        var rangeSize = $maxPrice - $minPrice;
-        var stepSize = 0;
-        if (rangeSize > 1) {
-          var percent = 0;
-
-          for (var i = 1; i < rangeSize; i++) {
-            if (rangeSize % i === 0) {
-              percent = (i / rangeSize) * 100;
-              if (percent <= 5) {
-                stepSize = i;
-              } else {
-                break;
-              }
-            }
-          }
-        }
-
-        if (!stepSize) {
-          stepSize = 100;
-        }
-
-        $sliderRange.slider({
-          range: true,
-          min: $minPrice,
-          max: $maxPrice,
-          step: stepSize,
-          values: [$minPriceValue, $maxPriceValue],
-          slide: function (event, ui) {
-            var $priceCheckbox = $(document).find('input[name="' + $('#price-end-alt').attr('data-name') + '"]');
-            switch (ui.handleIndex) {
-              case 0:
-                $priceStart.val(ui.values[0]);
-                $priceCheckbox.prop('checked', false);
-                break;
-              case 1:
-                $priceEnd.val(ui.values[1]);
-                $priceCheckbox.prop('checked', false);
-                break;
-            }
-          },
-        });
-
-        $priceStart.val($minPriceValue);
-        $priceEnd.val($maxPriceValue);
-      }
-    }
-  });
-
   $(document).on("change", "#price-start-alt", function () {
     var $priceEnd = $(document).find("#price-end-alt");
 
@@ -1040,7 +1174,7 @@ $(document).ready(function () {
     $maxPriceValue = parseInt($priceEnd.val());
 
     var inputStart;
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+
     inputStart = $(this).val();
     var max = $maxPriceValue;
 
@@ -1052,9 +1186,8 @@ $(document).ready(function () {
       inputStart = max;
     }
     if (inputStart < $minPrice) {
-      inputStart = $minPrice;
+      inputStart = "";
     }
-    $(document).find('#slider-range-alt').slider('values', 0, inputStart);
     $(this).val(inputStart);
   });
 
@@ -1066,7 +1199,7 @@ $(document).ready(function () {
     $maxPrice = parseInt($priceStart.attr('max'));
 
     var inputEnd;
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
+
     var min = $minPriceValue;
 
     if (!min) {
@@ -1074,26 +1207,17 @@ $(document).ready(function () {
     }
 
     inputEnd = $(this).val();
-    if (inputEnd > $maxPrice) {
-      inputEnd = $maxPrice;
-    }
+
     if (inputEnd < min) {
       inputEnd = min;
     }
 
-    $(document).find('#slider-range-alt').slider('values', 1, inputEnd);
+    if (inputEnd > $maxPrice) {
+      inputEnd = "";
+    }
+
     $(this).val(inputEnd);
   });
-
-  $(document).on("keyup", "#price-start-alt", function () {
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-  });
-
-  $(document).on("keyup", "#price-end-alt", function () {
-    $(document).find('input[name="' + $(this).attr('data-name') + '"]').prop('checked', false);
-  });
-
-  $(document).trigger("updateSmartFilter");
 
   $(document).on('click', '.offer_prop_item', function () {
     var itemID,
@@ -1123,7 +1247,7 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on('change', 'input.catalog-filter__checkbox', function () {
+  $(document).on('change', 'input.catalog-filter__checkbox, input.catalog-filter__price', function () {
     var dataMaxName,
       dataMaxValue,
       dataMinName,
@@ -1155,16 +1279,13 @@ $(document).ready(function () {
       dataMinValue = $(document).find('.catalog-filter input[name="' + dataMinName + '"]').val();
       dataMaxValue = $(document).find('.catalog-filter input[name="' + dataMaxName + '"]').val();
       $(document).find('.cb-filter__param[data-id="' + dataMinName + dataMaxName + '"]').remove();
-      if ($(this).prop('checked')) {
-        elementFilter = '<div class="cb-filter__param cb-filter__param-hidden" data-id="' + dataMinName + dataMaxName + '">';
-        elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
-        elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
-        elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
-        elementFilter += '<input type="hidden" name="' + $(this).attr('name') + '" value="' + $(this).val() + '">';
-        elementFilter += '<span>×</span>';
-        elementFilter += '</div>';
-        $(document).find('.cb-filter').prepend($(elementFilter));
-      }
+      elementFilter = '<div class="cb-filter__param cb-filter__param-hidden" data-id="' + dataMinName + dataMaxName + '">';
+      elementFilter += dataPropTitle + 'от: ' + dataMinValue + ' до: ' + dataMaxValue;
+      elementFilter += '<input type="hidden" name="' + dataMinName + '" value="' + dataMinValue + '">';
+      elementFilter += '<input type="hidden" name="' + dataMaxName + '" value="' + dataMaxValue + '">';
+      elementFilter += '<span>×</span>';
+      elementFilter += '</div>';
+      $(document).find('.cb-filter').prepend($(elementFilter));
     }
     if ($('.catalog-filter__list-item input').prop('checked')) {
       $(this).closest('.catalog-filter__list-item').addClass('top')
@@ -1765,24 +1886,37 @@ $(document).ready(function () {
       $thisParent.append($('#sci-delivery-content1'));
     }
 
-    $('#sci-delivery-street').val('');
+    $('#sci-delivery-street')
+        .val('')
+        .removeClass("is-error")
+        .removeClass("is-success")
+        .removeClass("invalid-address");
 
     $.fn.toggleDeliveryPriceInfoVisibility();
   });
 
+  app.deliveryAddress.setCheckPreFilledFlag();
   $.fn.updateDateSaleOrder();
 
   $(document).on('click', '#soDelivPopUp', function () {
     return $(document).find('.SDEK_selectPVZ').click();
   });
 
-  $(document).on('click', '.rb_so', function () {
+  $(document).on('click', '.rb_so', function (event) {
 
     if ($(this).attr('data-prop')) {
       if ($(this).closest('.sci-delivery').length) {
         $(document).find('#module_so').find('[name=\'isChangeLocation\']').remove();
       }
-      return $.fn.changeRadioButtonSaleOrder($(this).attr('data-prop'));
+      var result = $.fn.changeRadioButtonSaleOrder($(this).attr('data-prop'));
+
+      if ($(this).attr('data-prop').indexOf("PERSON_TYPE_") >= 0
+          && event.hasOwnProperty('originalEvent')
+          && event.originalEvent.isTrusted === true) {
+          app.deliveryAddress.setCheckPreFilledFlag();
+      }
+
+      return result;
     }
   });
 
@@ -1920,7 +2054,7 @@ $(document).ready(function () {
     }
 
     if ($(this).prop('required')) {
-      if ($(this).val() !== '') {
+      if ($(this).val() !== '' && !$(this).hasClass("invalid-address")) {
         $(this).addClass('is-success');
         $(this).removeClass('is-error');
       } else {
@@ -2241,7 +2375,7 @@ $(document).ready(function () {
   });
 
   $deliveryStreetField.suggestions({
-    token: '13c28158e6b58d73020665b170c93b462e2db582',
+    token: app.dadataToken,
     type: 'ADDRESS',
     placeholder: 'Введите город доставки',
     constraints: {
@@ -2250,6 +2384,12 @@ $(document).ready(function () {
       },
     },
     onSelect: function (result) {
+      /* Для Москвы */
+      if ($.fn.isMoscow()) {
+        if (!app.deliveryAddress.process(result.data)) {
+          return false;
+        }
+      }
       setZipCode(result.data.postal_code);
       suggestions.selected = true;
       suggestions.nothing = false;
@@ -2257,6 +2397,7 @@ $(document).ready(function () {
     onSelectNothing: function () {
       suggestions.nothing = true;
       suggestions.selected = false;
+      app.deliveryAddress.setError(true, "Пожалуйста, выберите адрес из списка");
     },
     onSuggestionsFetch: function (items) {
       suggestions.lastSuggestionsItems = items;
@@ -2534,6 +2675,14 @@ $.fn.toggleDeliveryPriceInfoVisibility = function () {
     !isDeliveryChecked);
 };
 
+$.fn.isMoscow = function (cityId = false) {
+  if (!cityId) {
+    cityId = parseInt($(document).find('#so_main_block #so_city').val());
+  }
+
+  return cityId === 84;
+};
+
 $.fn.updateSideInfo = function () {
   var deliveryPrice,
     soBlock,
@@ -2687,7 +2836,6 @@ $.fn.updateShopcartAmount = function () {
 $.fn.updateShopcartSidebarProducts = function () {
   var tmplHtml = $('#tmpl-shopcart-sidebar-product').html(),
     $sidebarProductList = $('.js-shopcart-sidebar-product-list');
-  var cityId = parseInt($(document).find('#so_main_block #so_city').val());
   var currentDelivery = $(document).find('.sale_order_full_table.delivery-block input[type=\'radio\']:checked');
   var currentPaySystem = $(document).find('.sale_order_full_table.paySystem-block input[type=\'radio\']:checked');
   var currentDeliveryId = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
@@ -2707,10 +2855,11 @@ $.fn.updateShopcartSidebarProducts = function () {
 
     var existDeliveryInLoc = $('.sci-delivery__tab[data-prop=\'' + currentDelivery.attr('id') + '\']').length;
 
-    props.onlyCash = props.onlyCash && cityId !== 84;
-    props.onlyPickup = props.onlyPickup && existDeliveryInLoc && currentDeliveryId && [13, 6].indexOf(
-      currentDeliveryId) <= -1;
-    props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId && [4, 9].indexOf(currentPaySystemId) <= -1;
+    props.onlyCash = props.onlyCash && $.fn.isMoscow();
+    props.onlyPickup = props.onlyPickup && existDeliveryInLoc
+        && currentDeliveryId && !app.deliveryService.in(currentDeliveryId, ["ownPickup", "cdekPickup"]);
+    props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId
+        && [4, 9].indexOf(currentPaySystemId) <= -1;
 
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
@@ -2974,6 +3123,30 @@ $.fn.updateDateSaleOrder = function () {
 
   $.fn.updateSideInfo();
 
+  //Индикатор бесплатной доставки
+  var ownDeliveryTabProp = "ID_DELIVERY_ID_" + app.deliveryService.get("ownDelivery");
+  var ownDeliveryCount = $(document).find(".sci-delivery__tab.rb_so[data-prop='" + ownDeliveryTabProp + "']").length;
+  var basketPrice = parseInt($(document).find('#so_main_block #cart-price').html().replace(/\D+/g, ''));
+
+  $('.cond_free_delivery_style').remove();
+
+  if (window.COND_FREE_DELIVERY > 0 && ownDeliveryCount) {
+    if (window.COND_FREE_DELIVERY - basketPrice >= 0) {
+      var percent = Math.round(basketPrice / window.COND_FREE_DELIVERY * 100);
+      $('head').append('<style class="cond_free_delivery_style">.shopcart-sidebar__free-delivery-line::before{width:' + percent + '% !important;}</style>');
+      $('.free-delivery-remains').html(window.COND_FREE_DELIVERY - basketPrice);
+      $('.shopcart-sidebar__free-delivery.not_enough').show();
+      $('.shopcart-sidebar__free-delivery.allright').hide();
+    } else {
+      $('head').append('<style class="cond_free_delivery_style">.shopcart-sidebar__free-delivery-line::before{width:100% !important;}</style>');
+      $('.shopcart-sidebar__free-delivery.not_enough').hide();
+      $('.shopcart-sidebar__free-delivery.allright').show();
+    }
+  } else {
+    $('.shopcart-sidebar__free-delivery.not_enough').hide();
+    $('.shopcart-sidebar__free-delivery.allright').hide();
+  }
+
   if (
     typeof window.IPOLSDEK_pvz !== 'undefined'
     && window.IPOLSDEK_pvz.pvzId
@@ -2989,7 +3162,9 @@ $.fn.updateDateSaleOrder = function () {
   soBlock.find(fizPerson ? 'input[name="sci-contact__tel"]' : 'input[name="sci-contact__ur-phone"]').unmask().mask(
     '+7 (999) 999-99-99');
 
-  return soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+    soBlock.find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+    app.deliveryAddress.checkPreFilled();
+    return true;
 };
 
 $.refreshCartInfo = function () {
@@ -3414,7 +3589,7 @@ $.fn.ajaxLoadCatalog = function () {
   urlForSend = $(document).find('.ajaxPageNav .cb-nav-pagination__item.active').attr('data-href');
   styleBlock = 'v-block';
   countOnPage = $(document).find('select[name="countOnPage"]').val();
-  sort_by = $(document).find('select[name="sort_by"]').val();
+  sort_by = $(document).find('select[name="sort_by"]');
   $(document).find('.cb-nav-style__block input[name="style"]').each(function () {
     if ($(this).prop('checked')) {
       return styleBlock = $(this).attr('id');
@@ -3424,7 +3599,7 @@ $.fn.ajaxLoadCatalog = function () {
     ajaxCal: 'Y',
     styleBlock: styleBlock,
     countOnPage: countOnPage,
-    sort_by: sort_by,
+    sort_by: sort_by.val(),
   };
   $(document).find('.cb-filter .cb-filter__param input').each(function () {
     $data['set_filter'] = 'Y';
@@ -3436,16 +3611,20 @@ $.fn.ajaxLoadCatalog = function () {
       type: 'GET',
       data: $data,
       success: function (data) {
-        if (history.pushState && sort_by) {
+        if (history.pushState && sort_by.val()) {
           var urlObj = new URL(window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search);
-          urlObj.searchParams.set("sort_by", sort_by);
-          history.pushState(null, null, urlObj.href);
+
+          if (sort_by.find("option.default").val() !== sort_by.val()) {
+            urlObj.searchParams.set("sort_by", sort_by.val());
+            history.pushState(null, null, urlObj.href);
+          } else if (urlObj.searchParams.has("sort_by")) {
+            urlObj.searchParams.delete("sort_by");
+            history.pushState(null, null, urlObj.href);
+          }
         }
         $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
         if ($(document).find(".catalog-filter").length && $(data).siblings(".catalog-filter").length) {
           $(document).find(".catalog-filter").html($(data).siblings(".catalog-filter").html());
-
-          $(document).trigger("updateSmartFilter");
         }
 
         $(document).find('#PROPDS_BLOCK').html($(data).find("#PROPDS_BLOCK").html());
@@ -3582,11 +3761,11 @@ function getDeliveryTabType(deliveryId) {
   var deliveryTabType = null;
   deliveryId = parseInt(deliveryId);
 
-  if ([5, 8].indexOf(deliveryId) >= 0) {
+  if (app.deliveryService.in(deliveryId, ["cdekDelivery", "ownDelivery", "ownDeliveryRegion"])) {
     deliveryTabType = 'sci-delivery-tab1';
   }
 
-  if ([13, 6].indexOf(deliveryId) >= 0) {
+  if (app.deliveryService.in(deliveryId, ["ownPickup", "cdekPickup"])) {
     deliveryTabType = 'sci-delivery-tab2';
   }
 

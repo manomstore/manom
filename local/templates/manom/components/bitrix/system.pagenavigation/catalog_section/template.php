@@ -15,6 +15,16 @@ $this->setFrameMode(true);
 ?>
 <div class="cb-nav-bottom ajaxPageNav">
     <div class="cb-nav-pagination">
+        <? if ((int)$arResult['nStartPage'] > 1): ?>
+            <div
+                    class="cb-nav-pagination__item <?= (int)$arResult['nStartPage'] === 2 ? "" : "first" ?>"
+                    data-href="<?= $arResult["sUrlPathParams"] ?><?= $strNavQueryString ?>PAGEN_<?= $arResult["NavNum"] ?>=1"
+            >
+                <a href="<?= $arResult["sUrlPathParams"] ?><?= $strNavQueryString ?>PAGEN_<?= $arResult["NavNum"] ?>=1">
+                    1
+                </a>
+            </div>
+        <? endif; ?>
         <?for ($i=(int)$arResult['nStartPage']; $i <= (int)$arResult['nEndPage']; $i++) {?>
             <?if ($i == (int)$arResult['NavPageNomer']) {?>
                 <div class="cb-nav-pagination__item active" data-href="<?=$arResult["sUrlPathParams"]?><?=$strNavQueryString?>PAGEN_<?=$arResult["NavNum"]?>=<?=$i?>"><?=$i?></div>
@@ -24,6 +34,16 @@ $this->setFrameMode(true);
                 </div>
             <?}?>
         <?}?>
+        <? if ((int)$arResult['nEndPage'] < $arResult["NavPageCount"]): ?>
+            <div
+                    class="cb-nav-pagination__item <?= $arResult["NavPageCount"] - (int)$arResult['nEndPage'] <= 1 ? "" : "last" ?>"
+                    data-href="<?= $arResult["sUrlPathParams"] ?><?= $strNavQueryString ?>PAGEN_<?= $arResult["NavNum"] ?>=<?= $arResult["NavPageCount"] ?>"
+            >
+                <a href="<?= $arResult["sUrlPathParams"] ?><?= $strNavQueryString ?>PAGEN_<?= $arResult["NavNum"] ?>=<?= $arResult["NavPageCount"] ?>">
+                    <?= $arResult["NavPageCount"] ?>
+                </a>
+            </div>
+        <? endif; ?>
     </div>
     <div class="cb-nav-count">
         <span class="cb-nav__text">Товары </span> <span class="articles__current"><?=$arResult["NavFirstRecordShow"]?>—<?=$arResult["NavLastRecordShow"]?></span> из <span class="articles__total"><?=$arResult["NavRecordCount"]?></span>

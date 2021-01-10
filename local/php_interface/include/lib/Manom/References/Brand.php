@@ -99,8 +99,8 @@ class Brand
     {
         $items = [];
 
-        $filter = ['IBLOCK_ID' => $this->iblockId, 'ACTIVE' => 'Y', '!PROPERTY_LOGO' => false];
-        $select = ['IBLOCK_ID', 'ID', 'CODE', 'NAME', "PROPERTY_LOGO"];
+        $filter = ['IBLOCK_ID' => $this->iblockId, 'ACTIVE' => 'Y'];
+        $select = ['IBLOCK_ID', 'ID', 'CODE', 'NAME', "PROPERTY_LOGO", "SORT"];
         $result = \CIBlockElement::GetList([], $filter, false, false, $select);
         while ($row = $result->GetNext()) {
             $items[$row['NAME']] = $this->formattedData($row);
@@ -127,6 +127,10 @@ class Brand
 
         if (!empty($row["NAME"])) {
             $resultData["name"] = $row["NAME"];
+        }
+
+        if (!empty($row["SORT"])) {
+            $resultData["sort"] = $row["SORT"];
         }
 
         if (!empty($row["PROPERTY_LOGO_VALUE"])) {
@@ -266,7 +270,7 @@ class Brand
      * @param $name
      * @return bool
      */
-    private function exist($name): bool
+    public function exist($name): bool
     {
         return array_key_exists(trim($name), $this->list);
     }
@@ -338,6 +342,37 @@ class Brand
     }
 
     /**
+     * @param $filterName
+     * @param $brandCode
+     */
+    public function setBrandSectionFilter($filterName, $brandCode): void
+    {
+        if (!$filterName) {
+            return;
+        }
+
+        $brand = $this->getByCode($brandCode);
+        $filterVal = !empty($brand) ? $brand["name"] : $brandCode;
+
+        if (is_array($GLOBALS[$filterName])) {
+            $GLOBALS[$filterName] = array_merge(
+                $GLOBALS[$filterName],
+                [
+                    'PROPERTY' => [
+                        "BRAND" => $filterVal,
+                    ]
+                ]
+            );
+        } else {
+            $GLOBALS[$filterName] = [
+                'PROPERTY' => [
+                    "BRAND" => $filterVal,
+                ]
+            ];
+        };
+    }
+
+    /**
      * @param $property
      * @return bool
      */
@@ -405,6 +440,9 @@ class Brand
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getImportCreatedInfo(): string
     {
         $message = "";

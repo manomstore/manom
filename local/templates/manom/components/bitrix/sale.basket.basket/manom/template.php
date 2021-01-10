@@ -216,25 +216,6 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
 <?php if (!empty($arResult['GRID']['ROWS'])): ?>
     <button class="button-del button-del--bottom js-basket-clear" type="button">Очистить корзину</button>
 <?php endif; ?>
-	<script>
-		$(function () {
-			$('.cond_free_delivery_style').remove();
-			
-			if(window.COND_FREE_DELIVERY > 0){
-				if(window.COND_FREE_DELIVERY - <?=$arResult['allSum']?> >= 0){
-					var percent = Math.round(<?=$arResult['allSum']?> / window.COND_FREE_DELIVERY * 100);
-					$('head').append('<style class="cond_free_delivery_style">.shopcart-sidebar__free-delivery-line::before{width:' + percent + '% !important;}</style>');
-					$('.free-delivery-remains').html(window.COND_FREE_DELIVERY - <?=$arResult['allSum']?>);
-					$('.shopcart-sidebar__free-delivery.not_enough').show();
-					$('.shopcart-sidebar__free-delivery.allright').hide();
-				}else{
-					$('head').append('<style class="cond_free_delivery_style">.shopcart-sidebar__free-delivery-line::before{width:100% !important;}</style>');
-					$('.shopcart-sidebar__free-delivery.not_enough').hide();
-					$('.shopcart-sidebar__free-delivery.allright').show();
-				}
-			}
-		});
-	</script>
 <?php if ($arParams['AJAX_CART']) {
     die();
 } ?>

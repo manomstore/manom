@@ -3,6 +3,7 @@ require($_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php');
 
 use Bitrix\Main\Loader;
 use Manom\Basket;
+use Manom\Service\Delivery;
 use Manom\Service\TimeDelivery;
 
 $APPLICATION->SetTitle('Корзина');
@@ -45,6 +46,8 @@ if (empty($productsOutOfStock)) {
     $basket = new Basket;
     $productsOutOfStock = $basket->getUserOutOfStockProducts();
 }
+
+$delivery = new Delivery();
 ?>
 <div class="content">
     <main class="shopcart <?=$class?>" id="so_main_block">
@@ -1309,6 +1312,9 @@ if (empty($productsOutOfStock)) {
   var SHOPCART_STEP_TITLES = ['Корзина', 'Контактные данные', 'Выбор доставки', 'Способ оплаты'];
   window.paramTimeRanges = <?=\CUtil::PhpToJSObject(TimeDelivery::getIntervals())?>;
   window.COND_FREE_DELIVERY = <?=(int)\UniPlug\Settings::get("COND_FREE_DELIVERY")?>;
+  $(function () {
+      app.deliveryService.setAll(<?=\CUtil::PhpToJSObject($delivery->getAll(), false, false, true)?>);
+  });
 </script>
 <?php
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php');
