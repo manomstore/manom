@@ -11912,9 +11912,14 @@ button.top-nav__link {
     justify-content: flex-start;
   }
 
-  .main-nav__sublist.main-nav__sublist--brands li:nth-child(even),
-  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(even) {
-    margin: 0 0 20px 0;
+  .main-nav__sublist.main-nav__sublist--brands li:nth-child(2),
+  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(2) {
+    margin: 0 50px 10px 0;
+  }
+
+  .main-nav__sublist.main-nav__sublist--brands li:nth-child(3),
+  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(3) {
+    margin: 0 0 10px 0;
   }
 
   .main-nav__sublist li:last-child,
@@ -11973,7 +11978,7 @@ button.top-nav__link {
 
   .main-nav__sublist ul {
     display: grid;
-    grid-template-columns: repeat( 2, 1fr);
+    grid-template-columns: 1fr max-content;
     list-style: none;
     width: 100%;
   }
@@ -11985,7 +11990,7 @@ button.top-nav__link {
 
   .main-nav__sublist--brands ul {
     display: grid;
-    grid-template-columns: repeat( 3, 1fr);
+    grid-template-columns: 1fr 1fr max-content;
     width: 100%;
   }
 
