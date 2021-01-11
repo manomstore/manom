@@ -7,7 +7,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 $this->setFrameMode(true);
 ?>
 <?php if ($arResult['ITEMS']): ?>
-    <div class="tab-content">
+    <div class="tab-content tab-content--access">
 	    <h2>Аксессуары</h2>
         <div class="cb-block">
             <?
