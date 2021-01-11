@@ -11912,13 +11912,13 @@ button.top-nav__link {
     justify-content: flex-start;
   }
 
-  .main-nav__sublist.main-nav__sublist--brands li:nth-child(2),
-  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(2) {
+  .main-nav__sublist.main-nav__sublist--brands li:nth-child(2n),
+  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(2n) {
     margin: 0 50px 10px 0;
   }
 
-  .main-nav__sublist.main-nav__sublist--brands li:nth-child(3),
-  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(3) {
+  .main-nav__sublist.main-nav__sublist--brands li:nth-child(3n),
+  .main-nav__innerlist.main-nav__sublist--brands li:nth-child(3n) {
     margin: 0 0 10px 0;
   }
 
