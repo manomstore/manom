@@ -30,6 +30,7 @@ foreach ($arResult['ITEMS'] as $item) {
         'url' => $item['DETAIL_PAGE_URL'],
         'images' => $images,
         'previewPicture' => current($images),
+        'productPreorder' => $item['PROPERTIES']['PREORDER']['VALUE'] === 'Да',
         'properties' => $properties,
         'price' => $item['price'],
         'oldPrice' => $item['oldPrice'],
