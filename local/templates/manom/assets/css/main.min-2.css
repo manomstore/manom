@@ -13167,7 +13167,8 @@ a.ui-button:active,
   }
 }
 
-.watched__label {
+.watched__label,
+.sci-add__preorder {
   display: flex;
   margin-bottom: 5px;
   height: 22px;

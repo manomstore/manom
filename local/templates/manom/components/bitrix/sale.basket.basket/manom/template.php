@@ -129,6 +129,11 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     <div class="sci-add__picture">
                                         <img src="<?=$item['img']?>" alt="<?=$item['name']?>">
                                     </div>
+                                    <div class="sci-add__preorder">
+                                        <?php if ($item['productPreorder']): ?>
+                                            <div class="product-label product-label--preorder active">Предзаказ</div>
+                                        <?php endif; ?>
+                                    </div>
                                     <div class="sci-add__prices">
                                         <div class="sci-add__price">
                                             <span>
