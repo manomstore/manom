@@ -74,11 +74,13 @@ $this->setFrameMode(true);
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                <div
-                                        class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                        data-id='<?=$item['productId']?>'
-                                    <?=$item['canBuy'] ? 'enable' : 'disable'?>
-                                ></div>
+                                <? if (!$item["productPreorder"]): ?>
+                                    <div
+                                            class="p-nav-bottom__shopcart <?= $item['canBuy'] ? 'addToCartBtn' : '' ?>"
+                                            data-id='<?= $item['productId'] ?>'
+                                        <?= $item['canBuy'] ? 'enable' : 'disable' ?>
+                                    ></div>
+                                <? endif; ?>
                             </div>
                         </div>
                     </div>

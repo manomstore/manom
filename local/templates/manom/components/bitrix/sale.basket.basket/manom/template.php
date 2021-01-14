@@ -151,13 +151,15 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                             <?= $item['name'] ?>
                                         </h3>
                                     </a>
-                                    <button
-                                            class="sci-add__button addToCartBtn addToCartBtn_inCart"
-                                            data-id="<?=$item['id']?>"
-                                            type="button"
-                                    >
-                                        Добавить
-                                    </button>
+                                    <? if (!$item["preOrder"]["active"]): ?>
+                                        <button
+                                                class="sci-add__button addToCartBtn addToCartBtn_inCart"
+                                                data-id="<?= $item['id'] ?>"
+                                                type="button"
+                                        >
+                                            Добавить
+                                        </button>
+                                    <? endif; ?>
                                 </article>
                             <?php endforeach; ?>
                         </div>

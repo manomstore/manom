@@ -82,6 +82,10 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
             exit;
         }
 
+        if ($data["preOrder"]["active"]) {
+            exit;
+        }
+
         $basket = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite());
         if (!$basket->getExistsItem('catalog', $productId)) {
             $item = $basket->createItem('catalog', $productId);
