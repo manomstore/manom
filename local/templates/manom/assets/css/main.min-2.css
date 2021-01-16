@@ -13173,6 +13173,11 @@ a.ui-button:active,
   height: 22px;
 }
 
+.sci-add__preorder {
+  display: flex;
+  height: 22px;
+}
+
 .watched__price {
   font-weight: bold;
   font-size: 15px;
