@@ -18,6 +18,11 @@ class Agent
 
             foreach ($events as $event) {
                 $customerOrder = new CustomerOrder($event["href_change"]);
+
+                if ($customerOrder->errorRequest) {
+                    continue;
+                }
+
                 if (!$customerOrder->getId() || empty(Sale\Order::load($customerOrder->getId()))) {
                     EventTable::delete($event["id"]);
                     continue;

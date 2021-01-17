@@ -44,7 +44,6 @@ class PreOrder
 
         $this->productsId = $productsId;
         $this->setData();
-        return;
     }
 
     /**

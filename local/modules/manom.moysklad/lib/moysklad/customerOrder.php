@@ -2,6 +2,7 @@
 
 namespace Manom\Moysklad\Moysklad;
 
+use Bitrix\Main\Loader;
 use GuzzleHttp\Client;
 use Manom\Moysklad\Tools;
 
@@ -19,6 +20,10 @@ class CustomerOrder
      * @var array
      */
     private $idByXmlId = [];
+    /**
+     * @var bool
+     */
+    public $errorRequest = false;
 
     /**
      * CustomerOrder constructor.
@@ -32,6 +37,9 @@ class CustomerOrder
             if ($e->getCode() === 404) {
                 return false;
             }
+
+            $this->errorRequest = true;
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/preorder.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
         }
         $this->setState();
         $this->setPositions();
@@ -43,14 +51,23 @@ class CustomerOrder
      * @param String $url
      * @return \stdClass|null
      */
-    private function sendRequest(String $url)
+    private function sendRequest(String $url, $method = "GET", $body = false)
     {
         $client = new Client();
 
         $authData = Tools::getAuthData();
-        return json_decode($client->get($url, [
-            'auth' => [$authData["login"], $authData["password"]]
-        ])->getBody()->getContents());
+
+        $options = [
+            'auth'    => [$authData["login"], $authData["password"]],
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+        ];
+
+        if ($body) {
+            $options["body"] = $body;
+        }
+        return json_decode($client->request($method, $url, $options)->getBody()->getContents());
     }
 
 
@@ -110,6 +127,7 @@ class CustomerOrder
 
         if (!empty($position->quantity) && !empty($response)) {
             $response->quantity = $position->quantity;
+            $response->positionMeta = $position->meta;
         }
         $position = $response;
     }
@@ -184,5 +202,39 @@ class CustomerOrder
     {
         return array_search($id, $this->idByXmlId) === false
             ? false : true;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function resetReserves(): bool
+    {
+        Loader::includeModule("germen.settings");
+        $testOrders = array_map(function ($item) {
+            return (int)$item;
+        }, \UniPlug\Settings::get("TEST_ORDERS"));
+
+        if ($this->orderData->state->name !== "[PO] Предзаказ") {
+            return false;
+        }
+
+//        if (!$this->getId() || empty(Order::load($this->getId()))) {
+//            return false;
+//        }
+
+        if (!$this->getId() || !in_array($this->getId(), $testOrders)) {
+            return false;
+        }
+
+        foreach ($this->getPositions() as $position) {
+            $meta = $position->positionMeta;
+            if ($meta->type !== "customerorderposition") {
+                continue;
+            }
+
+            $this->sendRequest($meta->href, "PUT", '{"reserve" : 0.0}');
+        }
+        return true;
     }
 }
