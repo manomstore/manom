@@ -3140,7 +3140,9 @@ $.fn.updateDateSaleOrder = function () {
   //Индикатор бесплатной доставки
   var ownDeliveryTabProp = "ID_DELIVERY_ID_" + app.deliveryService.get("ownDelivery");
   var ownDeliveryCount = $(document).find(".sci-delivery__tab.rb_so[data-prop='" + ownDeliveryTabProp + "']").length;
+  if ($(document).find('#so_main_block #cart-price').length) {
     var basketPrice = parseInt($(document).find('#so_main_block #cart-price').html().replace(/\D+/g, ''));
+  }
 
   $('.cond_free_delivery_style').remove();
 
