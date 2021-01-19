@@ -49,60 +49,6 @@ if(\Bitrix\Main\Loader::includeModule('sale'))
 				"COUNTRY_NAME" => $arCity["COUNTRY_NAME_LANG"],
 			);
 		}
-
-		$filter = \Bitrix\Sale\SalesZone::makeSearchFilter("region", $arParams["siteId"]);
-		$filter["~REGION_NAME"] = $search."%";
-		$filter["LID"] = LANGUAGE_ID;
-		$filter["CITY_ID"] = false;
-		$rsLocationsList = CSaleLocation::GetList(
-			array(
-				"CITY_NAME_LANG" => "ASC",
-				"COUNTRY_NAME_LANG" => "ASC",
-				"SORT" => "ASC",
-			),
-			$filter,
-			false,
-			array("nTopCount" => 10),
-			array(
-				"ID", "CITY_ID", "CITY_NAME", "COUNTRY_NAME_LANG", "REGION_NAME_LANG"
-			)
-		);
-		while ($arCity = $rsLocationsList->GetNext())
-		{
-			$arResult[] = array(
-				"ID" => $arCity["ID"],
-				"NAME" => "",
-				"REGION_NAME" => $arCity["REGION_NAME_LANG"],
-				"COUNTRY_NAME" => $arCity["COUNTRY_NAME_LANG"],
-			);
-		}
-
-		$filter = \Bitrix\Sale\SalesZone::makeSearchFilter("country", $arParams["siteId"]);
-		$filter["~COUNTRY_NAME"] = $search."%";
-		$filter["LID"] = LANGUAGE_ID;
-		$filter["CITY_ID"] = false;
-		$filter["REGION_ID"] = false;
-		$rsLocationsList = CSaleLocation::GetList(
-			array(
-				"COUNTRY_NAME_LANG" => "ASC",
-				"SORT" => "ASC",
-			),
-			$filter,
-			false,
-			array("nTopCount" => 10),
-			array(
-				"ID", "COUNTRY_NAME_LANG"
-			)
-		);
-		while ($arCity = $rsLocationsList->GetNext())
-		{
-			$arResult[] = array(
-				"ID" => $arCity["ID"],
-				"NAME" => "",
-				"REGION_NAME" => "",
-				"COUNTRY_NAME" => $arCity["COUNTRY_NAME_LANG"],
-			);
-		}
 	}
 }
 
