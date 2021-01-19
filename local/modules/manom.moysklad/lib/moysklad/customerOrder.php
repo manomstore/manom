@@ -35,16 +35,21 @@ class CustomerOrder
             $this->orderData = $this->sendRequest($orderUrl);
         } catch (\Exception $e) {
             if ($e->getCode() === 404) {
-                return false;
+                return;
             }
 
             $this->errorRequest = true;
-            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/preorder.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
         }
-        $this->setState();
-        $this->setPositions();
-        $this->setXmlMapping();
-        return;
+
+        try {
+            $this->setState();
+            $this->setPositions();
+            $this->setXmlMapping();
+        } catch (\Exception $e) {
+            $this->errorRequest = true;
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
+        }
     }
 
     /**
@@ -233,7 +238,12 @@ class CustomerOrder
                 continue;
             }
 
-            $this->sendRequest($meta->href, "PUT", '{"reserve" : 0.0}');
+            try {
+                $this->sendRequest($meta->href, "PUT", '{"reserve" : 0.0}');
+            } catch (\Exception $e) {
+                $this->errorRequest = true;
+                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
+            }
         }
         return true;
     }
