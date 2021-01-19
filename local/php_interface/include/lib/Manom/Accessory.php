@@ -7,6 +7,7 @@ use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
+use Bitrix\Main\Type\Collection;
 
 /**
  * Class Accessories
@@ -14,10 +15,13 @@ use \Bitrix\Main\ObjectPropertyException;
  */
 class Accessory {
 	private $iblockId = 6;
+	private $accessToProduct = [];
+	private $sectionsId = [];
 	private $productsId = [];
 
 	/**
 	 * @param int $sectionId
+	 * @param array $accessoriesId
 	 *
 	 * @return void
 	 * @throws ArgumentException
@@ -26,9 +30,9 @@ class Accessory {
 	 * @throws ObjectPropertyException
 	 * @throws SystemException
 	 */
-	public function __construct($sectionId) {
+	public function __construct($sectionId, array $accessoriesId) {
 		$sectionId = (int) $sectionId;
-
+        $this->accessToProduct = $accessoriesId;
 		if ($sectionId <= 0) {
 			return;
 		}
@@ -47,14 +51,13 @@ class Accessory {
 		);
 
 		$section = $section->GetNext();
+        $this->sectionsId = !is_array($section["UF_ACCESSORY_LINK"])
+            ? [$section["UF_ACCESSORY_LINK"]] : $section["UF_ACCESSORY_LINK"];
 
-		if (!empty($section["UF_ACCESSORY_LINK"])) {
-			$this->initProducts($section["UF_ACCESSORY_LINK"]);
-		}
+        $this->initProducts();
 	}
 
 	/**
-	 * @param array $sectionsId
 	 *
 	 * @return void
 	 * @throws ArgumentException
@@ -63,10 +66,11 @@ class Accessory {
 	 * @throws ObjectPropertyException
 	 * @throws SystemException
 	 */
-	private function initProducts($sectionsId) {
-
+    private function initProducts()
+    {
         $products = [];
-        foreach ($sectionsId as $sectionId) {
+
+        foreach ($this->sectionsId as $sectionId) {
             $result = \CIBlockElement::GetList(
                 [],
                 [
@@ -85,11 +89,11 @@ class Accessory {
             }
         }
 
+        shuffle($products);
 
-        $this->productsId = $products && !is_array($products)
-            ? (array)$products : $products;
-        shuffle($this->productsId);
-	}
+        $this->productsId = array_merge($this->accessToProduct, $products);
+        Collection::normalizeArrayValuesByInt($this->productsId, false);
+    }
 
 	/**
 	 * @return array

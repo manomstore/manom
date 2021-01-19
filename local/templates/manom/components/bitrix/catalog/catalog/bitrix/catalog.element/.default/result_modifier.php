@@ -187,7 +187,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
 }
 
 
-$arResult["ACCESSORIES"] = new \Manom\Accessory($arResult["SECTION"]["ID"]);
+$arResult["ACCESSORIES"] = new \Manom\Accessory($arResult["SECTION"]["ID"], (array)$arResult['DISPLAY_PROPERTIES']["ACESS"]["VALUE"]);
 
 $arResult["ATTACH_DOCS"] = [];
 $certificate = $arResult['DISPLAY_PROPERTIES']["CERTIFICATE"]["FILE_VALUE"];
