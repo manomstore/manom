@@ -140,7 +140,7 @@ function JsSuggestSale(oHandler, sParams, sParser, domain, ssubmit)
 				return;
 			}
 		);
-		url = '/bitrix/components/bitrix/sale.ajax.locations/search.php';
+		url = '/local/templates/manom/components/bitrix/sale.ajax.locations/popup/search.php';
 		if(t.domain)
 			url = domain + '/bitrix/components/bitrix/sale.ajax.locations/search.php';
 		CPHttpRequest.Send(TID, url, {"search":sSearch, "params":t.sParams});
