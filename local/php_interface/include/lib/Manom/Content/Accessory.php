@@ -1,6 +1,6 @@
 <?php
 
-namespace Manom;
+namespace Manom\Content;
 
 use Bitrix\Main\Type\Collection;
 
