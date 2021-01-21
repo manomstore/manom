@@ -2,71 +2,67 @@
 
 namespace Manom;
 
-use Bitrix\Iblock\ElementTable;
-use \Bitrix\Main\LoaderException;
-use \Bitrix\Main\SystemException;
-use \Bitrix\Main\ArgumentException;
-use \Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\Type\Collection;
 
 /**
  * Class Accessories
  * @package Manom
  */
-class Accessory {
-	private $iblockId = 6;
-	private $accessToProduct = [];
-	private $sectionsId = [];
-	private $productsId = [];
+class Accessory
+{
+    /**
+     * @var int
+     */
+    private $iblockId = \Helper::CATALOG_IB_ID;
+    /**
+     * @var array
+     */
+    private $accessToProduct = [];
+    /**
+     * @var array
+     */
+    private $sectionsId = [];
+    /**
+     * @var array
+     */
+    private $productsId = [];
 
-	/**
-	 * @param int $sectionId
-	 * @param array $accessoriesId
-	 *
-	 * @return void
-	 * @throws ArgumentException
-	 * @throws Exception
-	 * @throws LoaderException
-	 * @throws ObjectPropertyException
-	 * @throws SystemException
-	 */
-	public function __construct($sectionId, array $accessoriesId) {
-		$sectionId = (int) $sectionId;
+    /**
+     * Accessory constructor.
+     * @param int $sectionId
+     * @param array $accessoriesId
+     */
+    public function __construct(int $sectionId, array $accessoriesId)
+    {
         $this->accessToProduct = $accessoriesId;
-		if ($sectionId <= 0) {
-			return;
-		}
+        if ($sectionId <= 0) {
+            return;
+        }
 
-		$section = \CIBlockSection::GetList(
-			[],
-			[
-				"ID"        => $sectionId,
-				"IBLOCK_ID" => $this->iblockId,
-			],
-			false,
-			[
-				"ID",
-				"UF_ACCESSORY_LINK",
-			]
-		);
+        $section = \CIBlockSection::GetList(
+            [],
+            [
+                "ID"        => $sectionId,
+                "IBLOCK_ID" => $this->iblockId,
+            ],
+            false,
+            [
+                "ID",
+                "UF_ACCESSORY_LINK",
+            ]
+        );
 
-		$section = $section->GetNext();
+        $section = $section->GetNext();
         $this->sectionsId = !is_array($section["UF_ACCESSORY_LINK"])
             ? [$section["UF_ACCESSORY_LINK"]] : $section["UF_ACCESSORY_LINK"];
 
         $this->initProducts();
-	}
+    }
 
-	/**
-	 *
-	 * @return void
-	 * @throws ArgumentException
-	 * @throws Exception
-	 * @throws LoaderException
-	 * @throws ObjectPropertyException
-	 * @throws SystemException
-	 */
-    private function initProducts()
+    /**
+     *
+     */
+    private function initProducts(): void
     {
         $products = [];
 
@@ -95,29 +91,19 @@ class Accessory {
         Collection::normalizeArrayValuesByInt($this->productsId, false);
     }
 
-	/**
-	 * @return array
-	 * @throws ArgumentException
-	 * @throws Exception
-	 * @throws LoaderException
-	 * @throws ObjectPropertyException
-	 * @throws SystemException
-	 */
-	public function getProductsId() {
-		return $this->productsId;
-	}
+    /**
+     * @return array
+     */
+    public function getProductsId(): array
+    {
+        return $this->productsId;
+    }
 
-	/**
-	 * @param array $sectionsId
-	 *
-	 * @return bool
-	 * @throws ArgumentException
-	 * @throws Exception
-	 * @throws LoaderException
-	 * @throws ObjectPropertyException
-	 * @throws SystemException
-	 */
-	public function existProducts() {
-		return count($this->productsId) > 0;
-	}
+    /**
+     * @return bool
+     */
+    public function existProducts(): bool
+    {
+        return count($this->productsId) > 0;
+    }
 }

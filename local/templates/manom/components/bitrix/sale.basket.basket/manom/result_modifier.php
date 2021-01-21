@@ -96,7 +96,7 @@ if (!empty($productsId)) {
             $productsImage[(int)$row['ID']] = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
         }
 
-        $accessories = new \Manom\Accessory($row["IBLOCK_SECTION_ID"], (array)$row["PROPERTIES"]["ACESS"]["VALUE"]);
+        $accessories = new \Manom\Accessory((int)$row["IBLOCK_SECTION_ID"], (array)$row["PROPERTIES"]["ACESS"]["VALUE"]);
 
         if ($accessories->existProducts()) {
             $productsAccessoriesId[(int)$row['ID']] = $accessories->getProductsId();
