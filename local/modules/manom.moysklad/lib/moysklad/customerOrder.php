@@ -3,6 +3,7 @@
 namespace Manom\Moysklad\Moysklad;
 
 use Bitrix\Main\Loader;
+use Bitrix\Sale\Order;
 use GuzzleHttp\Client;
 use Manom\Moysklad\Tools;
 
@@ -224,11 +225,7 @@ class CustomerOrder
             return false;
         }
 
-//        if (!$this->getId() || empty(Order::load($this->getId()))) {
-//            return false;
-//        }
-
-        if (!$this->getId() || !in_array($this->getId(), $testOrders)) {
+        if (!$this->getId() || empty(Order::load($this->getId()))) {
             return false;
         }
 
