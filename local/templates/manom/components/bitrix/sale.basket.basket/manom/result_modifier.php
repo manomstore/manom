@@ -99,8 +99,8 @@ if (!empty($productsId)) {
 
         $accessories = new Accessory((int)$row["IBLOCK_SECTION_ID"], (array)$row["PROPERTIES"]["ACESS"]["VALUE"]);
 
-        if ($accessories->existProducts()) {
-            $productsAccessoriesId[(int)$row['ID']] = $accessories->getProductsId();
+        if ($accessories->existItems()) {
+            $productsAccessoriesId[(int)$row['ID']] = $accessories->getItems();
         }
 
         if (!empty($row['PROPERTIES']['DOP_SERV']['VALUE'])) {

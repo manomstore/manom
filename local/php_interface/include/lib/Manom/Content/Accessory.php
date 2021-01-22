@@ -8,24 +8,16 @@ use Bitrix\Main\Type\Collection;
  * Class Accessories
  * @package Manom
  */
-class Accessory
+class Accessory extends SectionBindings
 {
     /**
      * @var int
      */
-    private $iblockId = \Helper::CATALOG_IB_ID;
+    protected static $iblockId = \Helper::CATALOG_IB_ID;
     /**
-     * @var array
+     * @var string
      */
-    private $accessToProduct = [];
-    /**
-     * @var array
-     */
-    private $sectionsId = [];
-    /**
-     * @var array
-     */
-    private $productsId = [];
+    protected static $sectionField = "UF_ACCESSORY_LINK";
 
     /**
      * Accessory constructor.
@@ -34,76 +26,16 @@ class Accessory
      */
     public function __construct(int $sectionId, array $accessoriesId)
     {
-        $this->accessToProduct = $accessoriesId;
-        if ($sectionId <= 0) {
-            return;
-        }
-
-        $section = \CIBlockSection::GetList(
-            [],
-            [
-                "ID"        => $sectionId,
-                "IBLOCK_ID" => $this->iblockId,
-            ],
-            false,
-            [
-                "ID",
-                "UF_ACCESSORY_LINK",
-            ]
-        );
-
-        $section = $section->GetNext();
-        $this->sectionsId = !is_array($section["UF_ACCESSORY_LINK"])
-            ? [$section["UF_ACCESSORY_LINK"]] : $section["UF_ACCESSORY_LINK"];
-
-        $this->initProducts();
+        parent::__construct($sectionId);
+        $this->addAccessToProduct($accessoriesId);
     }
 
     /**
-     *
+     * @param array $accessoriesId
      */
-    private function initProducts(): void
+    private function addAccessToProduct(array $accessoriesId): void
     {
-        $products = [];
-
-        foreach ($this->sectionsId as $sectionId) {
-            $result = \CIBlockElement::GetList(
-                [],
-                [
-                    "IBLOCK_ID"  => $this->iblockId,
-                    "SECTION_ID" => $sectionId,
-                ],
-                false,
-                false,
-                [
-                    "ID"
-                ]
-            );
-
-            while ($row = $result->Fetch()) {
-                $products[] = (int)$row["ID"];
-            }
-        }
-
-        shuffle($products);
-
-        $this->productsId = array_merge($this->accessToProduct, $products);
-        Collection::normalizeArrayValuesByInt($this->productsId, false);
-    }
-
-    /**
-     * @return array
-     */
-    public function getProductsId(): array
-    {
-        return $this->productsId;
-    }
-
-    /**
-     * @return bool
-     */
-    public function existProducts(): bool
-    {
-        return count($this->productsId) > 0;
+        $this->list = array_merge($accessoriesId, $this->list);
+        Collection::normalizeArrayValuesByInt($this->list, false);
     }
 }
