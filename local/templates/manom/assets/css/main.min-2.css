@@ -13167,6 +13167,17 @@ a.ui-button:active,
   }
 }
 
+.watched__label {
+  display: flex;
+  margin-bottom: 5px;
+  height: 22px;
+}
+
+.sci-add__preorder {
+  display: flex;
+  height: 22px;
+}
+
 .watched__price {
   font-weight: bold;
   font-size: 15px;

@@ -129,6 +129,11 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     <div class="sci-add__picture">
                                         <img src="<?=$item['img']?>" alt="<?=$item['name']?>">
                                     </div>
+                                    <div class="sci-add__preorder">
+                                        <?php if ($item["preOrder"]["active"]): ?>
+                                            <div class="product-label product-label--preorder active">Предзаказ</div>
+                                        <?php endif; ?>
+                                    </div>
                                     <div class="sci-add__prices">
                                         <div class="sci-add__price">
                                             <span>
@@ -151,13 +156,15 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                             <?= $item['name'] ?>
                                         </h3>
                                     </a>
-                                    <button
-                                            class="sci-add__button addToCartBtn addToCartBtn_inCart"
-                                            data-id="<?=$item['id']?>"
-                                            type="button"
-                                    >
-                                        Добавить
-                                    </button>
+                                    <? if (!$item["preOrder"]["active"]): ?>
+                                        <button
+                                                class="sci-add__button addToCartBtn addToCartBtn_inCart"
+                                                data-id="<?= $item['id'] ?>"
+                                                type="button"
+                                        >
+                                            Добавить
+                                        </button>
+                                    <? endif; ?>
                                 </article>
                             <?php endforeach; ?>
                         </div>

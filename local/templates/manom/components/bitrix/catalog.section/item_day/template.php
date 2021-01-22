@@ -57,6 +57,9 @@ $start = 0;
             ></div>
         </div>
         <div class="p-nav-middle">
+            <?php if ($item['productPreorder']): ?>
+                <div class="product-label product-label--preorder active">Предзаказ</div>
+            <?php endif; ?>
             <?php if ($item['sale']): ?>
                 <div class="product-label product-label--sale active">Распродажа</div>
             <?php endif; ?>
@@ -65,9 +68,6 @@ $start = 0;
             <?php endif; ?>
             <?php if ($item['newProduct']): ?>
                 <div class="product-label product-label--new active">Новинка</div>
-            <?php endif; ?>
-            <?php if ($item['productPreorder']): ?>
-                <div class="product-label product-label--preorder active">Предзаказ</div>
             <?php endif; ?>
 
             <?php /*
@@ -109,11 +109,13 @@ $start = 0;
                     </div>
                 <?php endif; ?>
             <!-- </div> -->
-            <div
-                    class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                    data-id='<?=$item['productId']?>'
-                <?=$item['canBuy'] ? 'enable' : 'disable'?>
-            ></div>
+            <? if (!$item["productPreorder"]): ?>
+                <div
+                        class="p-nav-bottom__shopcart <?= $item['canBuy'] ? 'addToCartBtn' : '' ?>"
+                        data-id='<?= $item['productId'] ?>'
+                    <?= $item['canBuy'] ? 'enable' : 'disable' ?>
+                ></div>
+            <? endif; ?>
         </div>
     </div>
     <?

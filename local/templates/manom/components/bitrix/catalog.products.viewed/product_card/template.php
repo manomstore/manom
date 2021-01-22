@@ -15,7 +15,11 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                             <? if (!empty($item["previewPicture"])): ?>
                                 <img src="<?= $item["previewPicture"]["src"] ?>" alt="<?= $item["name"] ?>">
                             <? endif; ?>
-
+                            <div class="watched__label">
+                                <?php if ($item['productPreorder']): ?>
+                                    <div class="product-label product-label--preorder active">Предзаказ</div>
+                                <?php endif; ?>
+                            </div>
                             <div class="watched__price">
                                 <?= number_format($item['price'], 0, '', ' ') ?>
                                 <span>&nbsp;₽</span>

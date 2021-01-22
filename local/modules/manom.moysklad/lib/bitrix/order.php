@@ -4,6 +4,7 @@ namespace Manom\Moysklad\Bitrix;
 
 use \Bitrix\Sale;
 use \Bitrix\Sale\Compatible\OrderCompatibility;
+use Manom\CatalogProvider;
 use Manom\Moysklad\Moysklad\CustomerOrder;
 
 /**
@@ -90,10 +91,10 @@ class Order
                 $basketItem = $basket->createItem('catalog', $productId);
                 $basketItem->setFields(
                     [
-                        'QUANTITY' => $orderPosition->quantity,
-                        'CURRENCY' => \Bitrix\Currency\CurrencyManager::getBaseCurrency(),
-                        'LID' => \Bitrix\Main\Context::getCurrent()->getSite(),
-                        'PRODUCT_PROVIDER_CLASS' => 'CCatalogProductProvider',
+                        'QUANTITY'               => $orderPosition->quantity,
+                        'CURRENCY'               => \Bitrix\Currency\CurrencyManager::getBaseCurrency(),
+                        'LID'                    => \Bitrix\Main\Context::getCurrent()->getSite(),
+                        'PRODUCT_PROVIDER_CLASS' => CatalogProvider::class,
                     ]
                 );
 

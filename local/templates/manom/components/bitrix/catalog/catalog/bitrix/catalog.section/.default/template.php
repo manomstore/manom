@@ -120,6 +120,9 @@ $this->setFrameMode(true);
                             ></div>
                         </div>
                         <div class="p-nav-middle">
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
                             <?php if ($item['sale']): ?>
                                 <div class="p-nav-middle__sale active">Распродажа</div>
                             <?php endif; ?>
@@ -128,9 +131,6 @@ $this->setFrameMode(true);
                             <?php endif; ?>
                             <?php if ($item['newProduct']): ?>
                                 <div class="product-label product-label--new active">Новинка</div>
-                            <?php endif; ?>
-                            <?php if ($item['productPreorder']): ?>
-                                <div class="product-label product-label--preorder active">Предзаказ</div>
                             <?php endif; ?>
 
                             <?php /*
@@ -177,11 +177,13 @@ $this->setFrameMode(true);
                                     <span> ₽</span>
                                 </div>
                             <?php endif; ?>
-                            <button
-                                    class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                    data-id='<?=$item['productId']?>'
-                                <?=$item['canBuy'] ? 'enable' : 'disable'?>
-                            ></button>
+                            <? if (!$item["productPreorder"]): ?>
+                                <button
+                                        class="p-nav-bottom__shopcart <?= $item['canBuy'] ? 'addToCartBtn' : '' ?>"
+                                        data-id='<?= $item['productId'] ?>'
+                                    <?= $item['canBuy'] ? 'enable' : 'disable' ?>
+                                ></button>
+                            <? endif; ?>
                         </div>
                     </div>
                 </div>
@@ -236,6 +238,9 @@ $this->setFrameMode(true);
                             <?php if (!$item['canBuy']): ?>
                                 <div class="p-nav-middle__sale active">Нет в наличии</div>
                             <?php endif; ?>
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
                             <?php if ($item['sale']): ?>
                                 <div class="product-label product-label--sale active">Распродажа</div>
                             <?php endif; ?>
@@ -244,9 +249,6 @@ $this->setFrameMode(true);
                             <?php endif; ?>
                             <?php if ($item['newProduct']): ?>
                                 <div class="product-label product-label--new active">Новинка</div>
-                            <?php endif; ?>
-                            <?php if ($item['productPreorder']): ?>
-                                <div class="product-label product-label--preorder active">Предзаказ</div>
                             <?php endif; ?>
 
 
@@ -286,11 +288,13 @@ $this->setFrameMode(true);
                                     <span> ₽</span>
                                 </div>
                             <?php endif; ?>
-                            <button
-                                    class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                    data-id='<?=$item['productId']?>'
-                                <?=$item['canBuy'] ? 'enable' : 'disable'?>
-                            ></button>
+                            <? if (!$item["productPreorder"]): ?>
+                                <button
+                                        class="p-nav-bottom__shopcart <?= $item['canBuy'] ? 'addToCartBtn' : '' ?>"
+                                        data-id='<?= $item['productId'] ?>'
+                                    <?= $item['canBuy'] ? 'enable' : 'disable' ?>
+                                ></button>
+                            <? endif; ?>
                         </div>
                     </div>
                 </div>
@@ -395,13 +399,15 @@ $this->setFrameMode(true);
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            <button
-                                    class="cb-line-bottom__buy <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                    data-id='<?=$item['productId']?>'
-                                <?=$item['canBuy'] ? 'enable' : 'disable'?>
-                            >
-                                Купить
-                            </button>
+                            <? if (!$item["productPreorder"]): ?>
+                                <button
+                                        class="cb-line-bottom__buy <?= $item['canBuy'] ? 'addToCartBtn' : '' ?>"
+                                        data-id='<?= $item['productId'] ?>'
+                                    <?= $item['canBuy'] ? 'enable' : 'disable' ?>
+                                >
+                                    Купить
+                                </button>
+                            <? endif; ?>
                         </div>
                     </div>
                 </div>

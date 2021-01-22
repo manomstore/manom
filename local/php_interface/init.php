@@ -5,6 +5,7 @@ use Bitrix\Main\Web\Cookie;
 use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
+use Manom\PreOrder;
 use Manom\Service\Delivery;
 use Manom\Store;
 use Rover\GeoIp\Location;
@@ -461,6 +462,8 @@ class MyHandlerClass
         /** @var SimpleXMLElement $outlets */
         /** @var SimpleXMLElement $outlet */
 
+        $preOrder = new PreOrder(array_keys($tagResultList));
+
         foreach ($tagResultList as $offerId => $tagResult) {
             $quantityOffer = (int)$elementPropsList[$offerId]["catalog_product"]["QUANTITY"];
             $quantityOffer = $quantityOffer >= 0 ? $quantityOffer : 0;
@@ -468,6 +471,13 @@ class MyHandlerClass
             if (!($element instanceof SimpleXMLElement)) {
                 continue;
             }
+
+            $preOrderData = $preOrder->getByProductId($offerId);
+
+            if ($preOrderData["active"]) {
+                $element->addAttribute("available", "false");
+            }
+
             $outlets = $element->addChild("outlets");
 
             if (!($outlets instanceof SimpleXMLElement)) {
@@ -1180,8 +1190,10 @@ CONTENT;
         $result = new \Bitrix\Catalog\Model\EventResult();
         $data = $event->getParameters();
         $amounts = (new Store())->getAmounts([$data["id"]]);
+        $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
+
         $quantity = (int)$amounts[$data["id"]]["main"] + (int)$amounts[$data["id"]]["second"];
-        $result->modifyFields(["QUANTITY" => $quantity]);
+        $result->modifyFields(["QUANTITY" => $quantity, "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"]);
 
         return $result;
     }

@@ -23,12 +23,6 @@ $this->setFrameMode(true);
                         <div class="product-card__img">
                             <img src="<?=$item['images'][0]['src']?>" alt="<?=$item['name']?>">
                         </div>
-                        <h3 class="p-name">
-                            <a href="<?= $item['url'] ?>"
-                               data-product-list="recommend"
-                               data-product-id="<?= $item['id'] ?>"
-                            ><?=$item['name']?></a>
-                        </h3>
                         <div class="p-nav-top">
                             <label>
                                 <input class="p-nav-top__checkbox" type="checkbox" <?=checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_FAVORITE_ID') ? 'checked' : '';?>>
@@ -36,6 +30,18 @@ $this->setFrameMode(true);
                             </label>
                             <div title="Добавить в сравнение" class="p-nav-top__list addToCompareList <?=!checkProdInFavoriteAndCompareList($arPrice['PRODUCT_ID'], 'UF_COMPARE_ID') ? 'notActive' : 'alt-img';?>" data-id='<?=$arPrice['PRODUCT_ID']?>'></div>
                         </div>
+                        <div class="p-nav-middle">
+                            <?php if ($item['productPreorder']): ?>
+                                <div class="product-label product-label--preorder active">Предзаказ</div>
+                            <?php endif; ?>
+                        </div>
+                        <h3 class="p-name">
+                            <a href="<?= $item['url'] ?>"
+                               data-product-list="recommend"
+                               data-product-id="<?= $item['id'] ?>"
+                            ><?=$item['name']?></a>
+                        </h3>
+
                         <?php if ($value['PROPERTIES']['ACESS_STR']['VALUE']): ?>
                             <div class="preview-prod1__text">
                                 <?php foreach ($value['PROPERTIES']['ACESS_STR']['~VALUE'] as $str): ?>
@@ -60,11 +66,13 @@ $this->setFrameMode(true);
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            <div
-                                    class="p-nav-bottom__shopcart <?=$item['canBuy'] ? 'addToCartBtn' : ''?>"
-                                    data-id='<?=$item['productId']?>'
-                                <?=$item['canBuy'] ? 'enable' : 'disable'?>
-                            ></div>
+                            <? if (!$item["productPreorder"]): ?>
+                                <div
+                                        class="p-nav-bottom__shopcart <?= $item['canBuy'] ? 'addToCartBtn' : '' ?>"
+                                        data-id='<?= $item['productId'] ?>'
+                                    <?= $item['canBuy'] ? 'enable' : 'disable' ?>
+                                ></div>
+                            <? endif; ?>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,8 @@ use \Bitrix\Main\Application,
     \Bitrix\Main\Context,
     \Bitrix\Main\Loader,
     \Bitrix\Main\Web\Cookie;
+use Manom\CatalogProvider;
+use Manom\PreOrder;
 
 Loader::IncludeModule('main');
 Loader::IncludeModule('iblock');
@@ -324,6 +326,7 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
 <?php } elseif ($type === "makeOrder") {
     require_once $_SERVER['DOCUMENT_ROOT'].'/roistat/autoload.php';
     $roistatText = 'Страница: '.$_SERVER['HTTP_REFERER'].'. Ид продукта: '.$request->get('productId');
+    $isPreOrder = $request->get('isPreOrder') === "Y";
 
     $roistatData = array(
         'name' => $request->get('name'),
@@ -331,7 +334,9 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
         'email' => $request->get('email'),
         'text' => $roistatText,
     );
-    \Roistat\RoistatSender::processQuickOrder($roistatData);
+    if (!$isPreOrder) {
+        \Roistat\RoistatSender::processQuickOrder($roistatData);
+    }
     $result = [
         "success" => false,
     ];
@@ -357,22 +362,25 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
             throw new \Exception();
         }
 
-        $fields = [
-            'PRODUCT_ID' => $request->get("productId"),
-            'QUANTITY' => 1,
-        ];
-
         CSaleBasket::DeleteAll(CSaleBasket::GetBasketUserID(), false);
-        $r = Bitrix\Catalog\Product\Basket::addProduct($fields);
+
+        $obBasket = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite());
+        if (!$obBasket->getExistsItem('catalog', $productId)) {
+            $item = $obBasket->createItem('catalog', $request->get("productId"));
+            $item->setFields([
+                'QUANTITY' => 1,
+                'CURRENCY' => CurrencyManager::getBaseCurrency(),
+                'LID' => Context::getCurrent()->getSite(),
+                'PRODUCT_PROVIDER_CLASS' => CatalogProvider::class,
+            ]);
+        }
+
+        /** @var \Bitrix\Sale\Result|\Bitrix\Main\Result $r */
+        $r = $obBasket->save();
         if (!$r->isSuccess()) {
             //$result["errors"] = $r->getErrorMessages();
             throw new \Exception();
         }
-
-        $obBasket = Basket::loadItemsForFUser(
-            Fuser::getId(),
-            Context::getCurrent()->getSite()
-        );
 
         $request = Context::getCurrent()->getRequest();
         $personTypeId = 1;
@@ -399,6 +407,10 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
             Context::getCurrent()->getSite(),
             $userId
         );
+
+        if ($isPreOrder) {
+            $order->setField("STATUS_ID", PreOrder::STATUS_ID);
+        }
 
         /** @var $obBasket Basket; */
 

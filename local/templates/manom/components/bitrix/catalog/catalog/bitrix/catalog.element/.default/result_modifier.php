@@ -35,6 +35,7 @@ foreach ($images as $imageId) {
 
 $prices = Content::getPricesFromStoreData($arParams['ECOMMERCE_DATA']['storeData']);
 
+$arResult["preOrder"] = $arParams['ECOMMERCE_DATA']["preOrder"];
 $arResult['price'] = $prices['price'];
 $arResult['oldPrice'] = $prices['oldPrice'];
 $arResult['showOldPrice'] = !empty((int)$arResult['oldPrice'])
@@ -42,7 +43,8 @@ $arResult['showOldPrice'] = !empty((int)$arResult['oldPrice'])
 
 if (
     empty($arParams['ECOMMERCE_DATA']['amounts']['main']) &&
-    empty($arParams['ECOMMERCE_DATA']['amounts']['second'])
+    empty($arParams['ECOMMERCE_DATA']['amounts']['second']) &&
+    !$arResult["preOrder"]["active"]
 ) {
     $arResult['CATALOG_AVAILABLE'] = 'N';
 }
@@ -221,9 +223,7 @@ if ($arResult["DISPLAY_PROPERTIES"]["SELL_PROD"]["VALUE"] === "Да" || $arResul
     $labels["SALE"] = true;
 }
 
-if ($arResult["DISPLAY_PROPERTIES"]["PREORDER"]["VALUE"] === "Да") {
-    $labels["PREORDER"] = true;
-}
+$labels["PREORDER"] = $arResult["preOrder"]["active"];
 
 $arResult["LABELS"] = $labels;
 

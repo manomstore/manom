@@ -31,7 +31,15 @@ class EventTable extends DataManager
         );
     }
 
-    public static function add(array $data)
+    /**
+     * @param array $data
+     * @return bool
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     * @throws \Exception
+     */
+    public static function add(array $data): bool
     {
         if (empty($data["href_change"])) {
             return false;

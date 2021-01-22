@@ -96,6 +96,7 @@ class Product
         $store = new Store;
         $stores = $store->getStores();
         $amounts = $store->getAmounts($productsId);
+        $preOrder = new PreOrder($productsId);
 
         $priceCodes = [];
         foreach ($stores as $store) {
@@ -142,6 +143,7 @@ class Product
                 'amounts' => $amounts[$productId],
                 'prices' => $prices,
                 'storeData' => $storeData,
+                'preOrder' => $preOrder->getByProductId($productId),
             );
         }
 

@@ -181,8 +181,8 @@ if (!empty($accessoriesAndAdditionalServicesId)) {
             'name' => $row['NAME'],
             'url' => $row['DETAIL_PAGE_URL'],
             'img' => $image['src'],
-            'prices' => $prices,
-
+            'prices'   => $prices,
+            'preOrder' => $ecommerceData[(int)$row['ID']]['preOrder'],
         );
     }
 }

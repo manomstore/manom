@@ -229,7 +229,8 @@ class Content
 
             if (
                 empty($item['ecommerceData']['amounts']['main']) &&
-                empty($item['ecommerceData']['amounts']['second'])
+                empty($item['ecommerceData']['amounts']['second']) &&
+                !$item['ecommerceData']["preOrder"]["active"]
             ) {
                 $item['CAN_BUY'] = false;
             }

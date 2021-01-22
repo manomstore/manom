@@ -131,7 +131,8 @@ class Related
                 if (!empty($ecommerceProduct)) {
                     if (
                         empty($ecommerceProduct['amounts']['main']) &&
-                        empty($ecommerceProduct['amounts']['second'])
+                        empty($ecommerceProduct['amounts']['second']) &&
+                        !$ecommerceProduct["preOrder"]["active"]
                     ) {
                         $product["canBuy"] = false;
                     }

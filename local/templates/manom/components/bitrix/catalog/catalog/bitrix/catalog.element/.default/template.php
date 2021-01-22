@@ -215,11 +215,13 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
-                <div class="product-content__available">В наличии</div>
-            <?php else: ?>
-                <div class="product-content__available">Нет в наличии</div>
-            <?php endif; ?>
+            <? if (!$arResult["preOrder"]["active"]): ?>
+                <?php if ($arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
+                    <div class="product-content__available">В наличии</div>
+                <?php else: ?>
+                    <div class="product-content__available">Нет в наличии</div>
+                <?php endif; ?>
+            <? endif; ?>
 
             <?php if (!empty($arResult['PROPERTIES']['FEATURES2']['VALUE'])): ?>
                 <ul class="product-content__info">
@@ -377,11 +379,8 @@ function formatBytes($size, $precision = 2)
                     <div class="product-sidebar--fixed">
                         <div class="product-sidebar__total mainBlockPrice">
                             <div class="product-sidebar__total_price">
-                                <span
-                                    class="product-sidebar__total-price-price addToCartBtn"
-                                    data-id='<?=$arResult['PRODUCT_ID']?>'
-                                >
-                                    <?=number_format($arResult['price'], 0, '', ' ')?>
+                                <span class="product-sidebar__total-price-price">
+                                    <?= number_format($arResult['price'], 0, '', ' ') ?>
                                 </span>
                                 <span id="ruble">&nbsp;₽</span>
                             </div>
@@ -434,29 +433,42 @@ function formatBytes($size, $precision = 2)
                             <div class="<?=$class?>">Доступен для заказа в Москве</div>
                         <?php endif; ?>
 
-                        <div class="js-allow_loc_buy <?=$arResult['locationDisallowBuy'] ? 'dnd-hide' : ''?>">
-                            <?php
-                            $class = 'product-sidebar__button addToCartBtn addToCartBtn_mainPage';
-                            if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])) {
-                                $class .= ' dsb-hidden';
-                            }
-                            ?>
-                            <a class="<?=$class?>" data-id="<?=$arResult['PRODUCT_ID']?>">
-                                Купить
-                            </a>
-
-                            <?php if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])): ?>
-                                <a
-                                    class="product-sidebar__button goToFcnCart"
-                                    href="/cart/"
-                                    data-id="<?=$arResult['PRODUCT_ID']?>"
+                        <? if ($arResult["preOrder"]["active"]): ?>
+                            <div class="js-allow_loc_buy <?= $arResult['locationDisallowBuy'] ? 'dnd-hide' : '' ?>">
+                                <a class="product-sidebar__button addToCartBtn_mainPage"
+                                   data-id="<?= $arResult['PRODUCT_ID'] ?>"
+                                   data-fancybox
+                                   data-src="#popap-buy-one-click"
+                                   href="javascript:;"
                                 >
-                                Купить
+                                    Предзаказ
                                 </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+                            </div>
+                             <? else: ?>
+                            <div class="js-allow_loc_buy <?= $arResult['locationDisallowBuy'] ? 'dnd-hide' : '' ?>">
+                                <?php
+                                $class = 'product-sidebar__button addToCartBtn addToCartBtn_mainPage';
+                                if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])) {
+                                    $class .= ' dsb-hidden';
+                                }
+                                ?>
+                                <a class="<?= $class ?>" data-id="<?= $arResult['PRODUCT_ID'] ?>">
+                                    Купить
+                                </a>
 
+                                <?php if (!empty($arParams['BASKET'][$arResult['PRODUCT_ID']])): ?>
+                                    <a
+                                            class="product-sidebar__button goToFcnCart"
+                                            href="/cart/"
+                                            data-id="<?= $arResult['PRODUCT_ID'] ?>"
+                                    >
+                                        Купить
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        <? endif; ?>
+                    </div>
+                <?if (!$arResult["preOrder"]["active"]):?>
                     <div class="product-sidebar__buttons">
                         <?php
                         $class = 'product-sidebar__cheaper';
@@ -481,7 +493,7 @@ function formatBytes($size, $precision = 2)
                         </div>
                         <?endif;?>
                     </div>
-
+                <?endif;?>
                     <div class="product-sidebar__cheap-reason">
                         <p>
                             <?php $APPLICATION->IncludeComponent(
@@ -499,7 +511,11 @@ function formatBytes($size, $precision = 2)
                     </div>
 
                     <div id="popap-buy-one-click" class="popap-login">
-                        <h3 class="sci-login__title">Купить в один клик</h3>
+                        <? if ($arResult["preOrder"]["active"]): ?>
+                            <h3 class="sci-login__title">Предзаказ</h3>
+                        <? else: ?>
+                            <h3 class="sci-login__title">Купить в один клик</h3>
+                        <? endif; ?>
                         <form class="sci-login__form js-one-click-order">
                             <div class="form_err js-error-field"></div>
                             <div class="form_msg js-message-field shopcart-success">
@@ -548,6 +564,9 @@ function formatBytes($size, $precision = 2)
                                     required
                                 >
                             <?php endif; ?>
+                            <? if ($arResult["preOrder"]["active"]): ?>
+                                <input type="hidden" name="isPreOrder" value="Y">
+                            <? endif; ?>
                             <button class="sci-login__button">Купить</button>
                         </form>
                     </div>
@@ -581,18 +600,20 @@ function formatBytes($size, $precision = 2)
                                 </div>
                             </div>
                         </div>
-                        <div class="js-delivery_block">
-                            <?php foreach ($arResult['DELIVERIES'] as $delivery): ?>
-                                <div class="product-delivery__item">
-                                    <div class="product-delivery__item-cell">
-                                        <?=$delivery['NAME']?>
+                        <? if (!$arResult["preOrder"]["active"]): ?>
+                            <div class="js-delivery_block">
+                                <?php foreach ($arResult['DELIVERIES'] as $delivery): ?>
+                                    <div class="product-delivery__item">
+                                        <div class="product-delivery__item-cell">
+                                            <?= $delivery['NAME'] ?>
+                                        </div>
+                                        <div class="product-delivery__item-cell">
+                                            <?= $delivery['DESCRIPTION'] ?>
+                                        </div>
                                     </div>
-                                    <div class="product-delivery__item-cell">
-                                        <?=$delivery['DESCRIPTION']?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <? endif; ?>
                     </div>
                 </div>
 

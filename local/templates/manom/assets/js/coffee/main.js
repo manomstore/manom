@@ -221,6 +221,15 @@ app.utils = {
       }
     }
   };
+
+  app.loader = {
+    show: function () {
+      $(document).find('.preloaderCatalog').addClass('preloaderCatalogActive');
+    },
+    hide: function () {
+      $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
+    },
+  };
 })();
 
 function showDeliveryPickUpContent(deliveryButton) {
@@ -1094,12 +1103,14 @@ $(document).ready(function () {
     formData.type = 'makeOrder';
 
     if (validFields) {
+      app.loader.show();
       $.ajax({
         url: '/ajax/ajax_func.php',
         type: 'POST',
         dataType: 'json',
         data: formData,
         success: function (result) {
+          app.loader.hide();
           $errorField.html("").hide();
           if (result.success === true) {
             window.dataLayer = window.dataLayer || [];
@@ -1122,6 +1133,9 @@ $(document).ready(function () {
           } else {
             $errorField.html('Произошла ошибка. Повторите попытку позднее.').show();
           }
+        },
+        error: function (error) {
+          app.loader.hide();
         },
       });
     } else {
