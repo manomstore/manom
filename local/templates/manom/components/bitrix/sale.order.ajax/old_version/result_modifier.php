@@ -1,6 +1,8 @@
 <?php
 global $USER;
 
+use Manom\Product;
+
 $request = \Bitrix\Main\Context::getCurrent()->getRequest();
 
 if ((!$USER->IsAuthorized() && $request->get("is_ajax_post") !== "Y") || $request->get("isChangeLocation") === "Y") {
@@ -31,6 +33,12 @@ if (!$isMoscowLocations || $pickUpShop) {
 }
 
 $totalQuantity = 0;
+$productIds = array_map(function ($item) {
+    return $item["data"]["PRODUCT_ID"];
+}, $arResult["GRID"]["ROWS"]);
+
+$product = new Product();
+$ecommerceData = $product->getEcommerceData(array_values($productIds), 6);
 
 foreach ($arResult["GRID"]["ROWS"] as &$row) {
     $dataAttrs = [];
@@ -38,6 +46,9 @@ foreach ($arResult["GRID"]["ROWS"] as &$row) {
     $dataAttrs["name"] = $row["data"]["NAME"];
     $dataAttrs["image"] = $row["data"]["PREVIEW_PICTURE_SRC"];
     $dataAttrs["sum"] = $row["data"]["SUM"];
+    if ($ecommerceData[$row["data"]["PRODUCT_ID"]]["isService"] && (int)$dataAttrs["sum"] <= 0) {
+        $dataAttrs["sum"] = "Бесплатно";
+    }
     $dataAttrs["oldSum"] = $row["data"]["SUM_BASE_FORMATED"];
     $dataAttrs["quantity"] = $row["data"]["QUANTITY"];
     $dataAttrs["existDiscount"] = $row["data"]["DISCOUNT_PRICE_PERCENT"] > 0;
