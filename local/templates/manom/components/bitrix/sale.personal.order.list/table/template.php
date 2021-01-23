@@ -5,7 +5,8 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $bNoOrder = true;
-?>
+
+use Manom\Product; ?>
 <table class="personal" border="0" cellspacing="0" cellpadding="5">
     <tr>
         <td width="25%" rowspan="3" valign="top" class="history-left-menu">
@@ -57,7 +58,9 @@ $bNoOrder = true;
             }
             ?>
             <?
-            \Manom\GTM::setProductsOnPage($products)
+            \Manom\GTM::setProductsOnPage($products);
+            $product = new Product();
+            $ecommerceData = $product->getEcommerceData($products, 6);
             ?>
             <?php foreach ($arResult['ORDER_BY_STATUS'] as $status => $statusOrders): ?>
                 <?php
@@ -142,7 +145,10 @@ $bNoOrder = true;
                                         <tr>
                                             <td width="0%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td width="100%">
-                                                <?php if (strlen($item['DETAIL_PAGE_URL']) > 0): ?>
+                                                <?php if (
+                                                !$ecommerceData[$item["PRODUCT_ID"]]["isService"]
+                                                && strlen($item['DETAIL_PAGE_URL']) > 0
+                                                ): ?>
                                                     <a
                                                             class="link-sale_personal_order_list-alt"
                                                             data-product-list="order"

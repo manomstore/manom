@@ -691,6 +691,7 @@ function formatBytes($size, $precision = 2)
         <input id="tab5" type="radio" name="tabs">
         <input id="tab6" type="radio" name="tabs">
         <input id="tab7" type="radio" name="tabs">
+        <input id="tab9" type="radio" name="tabs">
         <input id="tab8" type="radio" name="tabs">
 
         <div class="product-tabs__nav">
@@ -729,6 +730,12 @@ function formatBytes($size, $precision = 2)
             <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
                 <label for="tab7">
                     <span>Аксессуары</span>
+                </label>
+            <?php endif; ?>
+
+            <?php if ($arResult["SERVICES"]->existItems()): ?>
+                <label for="tab9">
+                    <span>Услуги</span>
                 </label>
             <?php endif; ?>
 
@@ -1017,6 +1024,148 @@ function formatBytes($size, $precision = 2)
                                 'HIDE_NOT_AVAILABLE' => 'Y',
                                 'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
                                 'IBLOCK_ID' => 6,
+                                'IBLOCK_TYPE' => 'catalog',
+                                'INCLUDE_SUBSECTIONS' => 'Y',
+                                'LABEL_PROP' => '',
+                                'LABEL_PROP_MOBILE' => '',
+                                'LABEL_PROP_POSITION' => '',
+                                'LAZY_LOAD' => 'N',
+                                'LINE_ELEMENT_COUNT' => 0,
+                                'LOAD_ON_SCROLL' => 'N',
+                                'MESSAGE_404' => '',
+                                'MESS_BTN_ADD_TO_BASKET' => '',
+                                'MESS_BTN_BUY' => '',
+                                'MESS_BTN_DETAIL' => '',
+                                'MESS_BTN_LAZY_LOAD' => '',
+                                'MESS_BTN_SUBSCRIBE' => '',
+                                'MESS_NOT_AVAILABLE' => '',
+                                'META_DESCRIPTION' => '',
+                                'META_KEYWORDS' => '',
+                                'OFFERS_CART_PROPERTIES' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'OFFERS_FIELD_CODE' => array(),
+                                'OFFERS_LIMIT' => 0,
+                                'OFFERS_PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'OFFERS_SORT_FIELD' => 'sort',
+                                'OFFERS_SORT_FIELD2' => 'id',
+                                'OFFERS_SORT_ORDER' => 'asc',
+                                'OFFERS_SORT_ORDER2' => 'desc',
+                                'OFFER_ADD_PICT_PROP' => '',
+                                'OFFER_TREE_PROPS' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'PAGER_BASE_LINK_ENABLE' => 'N',
+                                'PAGER_DESC_NUMBERING' => 'N',
+                                'PAGER_DESC_NUMBERING_CACHE_TIME' => 36000,
+                                'PAGER_SHOW_ALL' => 'N',
+                                'PAGER_SHOW_ALWAYS' => 'N',
+                                'PAGER_TEMPLATE' => '',
+                                'PAGER_TITLE' => '',
+                                'PAGE_ELEMENT_COUNT' => 6,
+                                'PARTIAL_PRODUCT_PROPERTIES' => 'N',
+                                'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
+                                'PRICE_VAT_INCLUDE' => 'Y',
+                                'PRODUCT_BLOCKS_ORDER' => '',
+                                'PRODUCT_DISPLAY_MODE' => '',
+                                'PRODUCT_ID_VARIABLE' => '',
+                                'PRODUCT_PROPERTIES' => '',
+                                'PRODUCT_PROPS_VARIABLE' => '',
+                                'PRODUCT_QUANTITY_VARIABLE' => '',
+                                'PRODUCT_ROW_VARIANTS' => '',
+                                'PRODUCT_SUBSCRIPTION' => 'N',
+                                'PROPERTY_CODE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'PROPERTY_CODE_MOBILE' => array('MORE_PHOTO', 'ACESS_STR', 'BS_STR'),
+                                'RCM_PROD_ID' => '',
+                                'RCM_TYPE' => '',
+                                'SECTION_CODE' => '',
+                                'SECTION_ID' => '',
+                                'SECTION_ID_VARIABLE' => '',
+                                'SECTION_URL' => '',
+                                'SECTION_USER_FIELDS' => array(),
+                                'SEF_MODE' => 'N',
+                                'SET_BROWSER_TITLE' => 'N',
+                                'SET_LAST_MODIFIED' => 'N',
+                                'SET_META_DESCRIPTION' => 'N',
+                                'SET_META_KEYWORDS' => 'N',
+                                'SET_STATUS_404' => 'N',
+                                'SET_TITLE' => 'N',
+                                'SHOW_404' => 'N',
+                                'SHOW_ALL_WO_SECTION' => 'Y',
+                                'SHOW_CLOSE_POPUP' => 'N',
+                                'SHOW_DISCOUNT_PERCENT' => 'N',
+                                'SHOW_FROM_SECTION' => 'N',
+                                'SHOW_MAX_QUANTITY' => 'N',
+                                'SHOW_OLD_PRICE' => 'N',
+                                'SHOW_PRICE_COUNT' => 1,
+                                'SHOW_SLIDER' => 'N',
+                                'SLIDER_INTERVAL' => 3000,
+                                'SLIDER_PROGRESS' => 'N',
+                                'TEMPLATE_THEME' => '',
+                                'USE_ENHANCED_ECOMMERCE' => 'N',
+                                'USE_MAIN_ELEMENT_SECTION' => 'N',
+                                'USE_PRICE_COUNT' => 'N',
+                                'USE_PRODUCT_QUANTITY' => 'N',
+                                'DISPLAY_COMPARE' => 'N',
+                            ),
+                            false
+                        ); ?>
+                    </section>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($arResult["SERVICES"]->existItems()): ?>
+                <h3 class="accord-mobile__header">
+                    <label for="tab9">
+                        <span>Услуги</span>
+                    </label>
+                </h3>
+                <div id="content9">
+                    <section>
+
+                        <?php
+                        global $serviceFilter;
+                        $serviceFilter = array(
+                            'ID' => $arResult["SERVICES"]->getItems(),
+                        );
+                        ?>
+
+                        <?php $APPLICATION->IncludeComponent(
+                            'bitrix:catalog.section',
+                            'services',
+                            Array(
+                                'ACTION_VARIABLE' => '',
+                                'ADD_PICT_PROP' => '',
+                                'ADD_PROPERTIES_TO_BASKET' => 'N',
+                                'ADD_SECTIONS_CHAIN' => 'N',
+                                'ADD_TO_BASKET_ACTION' => '',
+                                'AJAX_MODE' => 'N',
+                                'AJAX_OPTION_ADDITIONAL' => '',
+                                'AJAX_OPTION_HISTORY' => 'N',
+                                'AJAX_OPTION_JUMP' => 'N',
+                                'AJAX_OPTION_STYLE' => 'N',
+                                'BACKGROUND_IMAGE' => '',
+                                'BASKET_URL' => '',
+                                'BRAND_PROPERTY' => '',
+                                'BROWSER_TITLE' => '',
+                                'CACHE_FILTER' => 'N',
+                                'CACHE_GROUPS' => 'N',
+                                'CACHE_TIME' => 36000000,
+                                'CACHE_TYPE' => 'A',
+                                'COMPATIBLE_MODE' => 'Y',
+                                'CONVERT_CURRENCY' => 'Y',
+                                'CURRENCY_ID' => 'RUB',
+                                'CUSTOM_FILTER' => '',
+                                'DATA_LAYER_NAME' => '',
+                                'DETAIL_URL' => '',
+                                'DISABLE_INIT_JS_IN_COMPONENT' => 'N',
+                                'DISCOUNT_PERCENT_POSITION' => '',
+                                'DISPLAY_BOTTOM_PAGER' => 'N',
+                                'DISPLAY_TOP_PAGER' => 'N',
+                                'ELEMENT_SORT_FIELD' => 'rand',
+                                'ELEMENT_SORT_ORDER' => 'desc',
+                                'ENLARGE_PRODUCT' => '',
+                                'ENLARGE_PROP' => '',
+                                'FILTER_NAME' => 'serviceFilter',
+                                'HIDE_NOT_AVAILABLE' => 'Y',
+                                'HIDE_NOT_AVAILABLE_OFFERS' => 'Y',
+                                'IBLOCK_ID' => \Helper::SERVICE_IB_ID,
                                 'IBLOCK_TYPE' => 'catalog',
                                 'INCLUDE_SUBSECTIONS' => 'Y',
                                 'LABEL_PROP' => '',

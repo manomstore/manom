@@ -36,6 +36,7 @@ $(function () {
     $("#tab5").prop('checked', false);
     $("#tab6").prop('checked', false);
     $("#tab7").prop('checked', false);
+    $("#tab9").prop('checked', false);
     $("#tab8").prop('checked', false);
 
   });

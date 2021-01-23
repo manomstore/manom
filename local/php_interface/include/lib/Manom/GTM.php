@@ -248,7 +248,7 @@ class GTM
             [],
             [
                 "ID" => $itemsId,
-                "IBLOCK_ID" => \Helper::CATALOG_IB_ID,
+                "IBLOCK_ID" => [\Helper::CATALOG_IB_ID, \Helper::SERVICE_IB_ID],
             ],
             false,
             false,
@@ -492,7 +492,7 @@ class GTM
         $basketProducts = \CIBlockElement::GetList(
             [],
             [
-                "IBLOCK_ID" => \Helper::CATALOG_IB_ID,
+                "IBLOCK_ID" => [\Helper::CATALOG_IB_ID, \Helper::SERVICE_IB_ID],
                 "=ID" => $productsId,
             ],
             false,

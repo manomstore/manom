@@ -4553,6 +4553,7 @@ p.price-slider label {
 #tab5:checked ~ #accord-mobile #content5,
 #tab6:checked ~ #accord-mobile #content6,
 #tab7:checked ~ #accord-mobile #content7,
+#tab9:checked ~ #accord-mobile #content9,
 #tab8:checked ~ #accord-mobile #content8 {
   display: block;
 }
@@ -4579,6 +4580,7 @@ p.price-slider label {
 #tab5:checked ~ .product-tabs__nav label[for='tab5'],
 #tab6:checked ~ .product-tabs__nav label[for='tab6'],
 #tab7:checked ~ .product-tabs__nav label[for='tab7'],
+#tab9:checked ~ .product-tabs__nav label[for='tab9'],
 #tab8:checked ~ .product-tabs__nav label[for='tab8'] {
   color: #79b700;
   background: #f9fbf5;

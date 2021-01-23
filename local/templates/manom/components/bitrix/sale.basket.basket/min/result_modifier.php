@@ -1,5 +1,6 @@
 <?php
 
+use Manom\Content;
 use Manom\Product;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
@@ -68,18 +69,19 @@ if (!empty($offersId)) {
 
 if (!empty($productsId)) {
     $properties = array('MORE_PHOTO');
-    $filter = array('IBLOCK_ID' => $productsIblockId, 'ID' => $productsId);
-    $select = array('IBLOCK_ID', 'ID');
+    $filter = array('IBLOCK_ID' => [$productsIblockId, \Helper::SERVICE_IB_ID], 'ID' => $productsId);
+    $select = array('IBLOCK_ID', 'ID', "PREVIEW_PICTURE", "DETAIL_PICTURE");
     $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
     while ($rowResult = $result->getNextElement(true, false)) {
         $row = $rowResult->getFields();
+        $row["PREVIEW_PICTURE"] = ["ID" => $row["PREVIEW_PICTURE"]];
+        $row["DETAIL_PICTURE"] = ["ID" => $row["DETAIL_PICTURE"]];
+
         foreach ($properties as $code) {
             $row['PROPERTIES'][$code] = $rowResult->getProperty($code);
         }
 
-        if (!empty($row['PROPERTIES']['MORE_PHOTO']['VALUE'])) {
-            $productsImage[(int)$row['ID']] = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
-        }
+        $productsImage[(int)$row['ID']] = Content::getCatalogItemImages($row);
     }
 }
 
@@ -109,19 +111,11 @@ foreach ($arResult['ITEMS']['AnDelCanBuy'] as $i => $item) {
         $offerId = $item['PRODUCT_ID'];
     }
 
-    $imageId = $productsImage[$productId];
-    if (!empty($item['IBLOCK_ID']) && !empty($offersImage[$offerId])) {
-        $imageId = $offersImage[$offerId];
+    if (!empty($productsImage[$productId])) {
+        $item['PIC'] = $productsImage[$productId][0];
     }
 
-    if (empty($item['PIC']['src']) && !empty($imageId)) {
-        $item['PIC'] = CFile::ResizeImageGet(
-            $imageId,
-            array('width' => 350, 'height' => 350),
-            BX_RESIZE_IMAGE_PROPORTIONAL,
-            true
-        );
-    }
+    $item["isService"] = $ecommerceData[$item['PRODUCT_ID']]['isService'];
 
     $arResult['ITEMS']['AnDelCanBuy'][$i] = $item;
 }

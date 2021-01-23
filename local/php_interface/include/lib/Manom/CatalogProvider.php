@@ -71,6 +71,11 @@ class CatalogProvider extends \Bitrix\Catalog\Product\CatalogProvider
         foreach ($products as $product) {
             $storeData = $ecommerceData[$product['PRODUCT_ID']]['storeData'];
 
+            if ($ecommerceData[$product['PRODUCT_ID']]['isService']) {
+                $productsPrice[$product['PRODUCT_ID']] = $storeData['main']['price'];
+                continue;
+            }
+
             if (
                 !empty($userBasketProductsPriceId[$product['PRODUCT_ID']]) &&
                 (int)$storeData['main']['price']['ID'] === $userBasketProductsPriceId[$product['PRODUCT_ID']]
