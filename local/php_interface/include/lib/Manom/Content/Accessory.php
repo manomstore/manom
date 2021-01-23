@@ -27,6 +27,7 @@ class Accessory extends SectionBindings
     public function __construct(int $sectionId, array $accessoriesId)
     {
         parent::__construct($sectionId);
+        $this->initList();
         $this->addAccessToProduct($accessoriesId);
     }
 

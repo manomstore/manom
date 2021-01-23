@@ -39,7 +39,7 @@ abstract class SectionBindings
             [],
             [
                 "ID"        => $sectionId,
-                "IBLOCK_ID" => static::$iblockId,
+                "IBLOCK_ID" => \Helper::CATALOG_IB_ID,
             ],
             false,
             [
@@ -52,14 +52,12 @@ abstract class SectionBindings
 
         $this->sectionsId = !is_array($section[static::$sectionField])
             ? [$section[static::$sectionField]] : $section[static::$sectionField];
-
-        $this->initList();
     }
 
     /**
      * @return void
      */
-    private function initList(): void
+    protected function initList(): void
     {
         $this->list = [];
 
