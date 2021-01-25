@@ -46,7 +46,8 @@ foreach ($arResult["GRID"]["ROWS"] as &$row) {
     $dataAttrs["name"] = $row["data"]["NAME"];
     $dataAttrs["image"] = $row["data"]["PREVIEW_PICTURE_SRC"];
     $dataAttrs["sum"] = $row["data"]["SUM"];
-    if ($ecommerceData[$row["data"]["PRODUCT_ID"]]["isService"] && (int)$dataAttrs["sum"] <= 0) {
+    $dataAttrs["isService"] = $ecommerceData[$row["data"]["PRODUCT_ID"]]["isService"];
+    if ($dataAttrs["isService"] && (int)$dataAttrs["sum"] <= 0) {
         $dataAttrs["sum"] = "Бесплатно";
     }
     $dataAttrs["oldSum"] = $row["data"]["SUM_BASE_FORMATED"];
