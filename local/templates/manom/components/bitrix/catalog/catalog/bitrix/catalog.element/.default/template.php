@@ -726,7 +726,7 @@ function formatBytes($size, $precision = 2)
                 </label>
             <?php endif; ?>
 
-            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
+            <?php if ($arResult["ACCESSORIES"]->existItems()): ?>
                 <label for="tab7">
                     <span>Аксессуары</span>
                 </label>
@@ -958,7 +958,7 @@ function formatBytes($size, $precision = 2)
                 </div>
             <?php endif; ?>
 
-            <?php if ($arResult["ACCESSORIES"]->existProducts()): ?>
+            <?php if ($arResult["ACCESSORIES"]->existItems()): ?>
                 <h3 class="accord-mobile__header">
                     <label for="tab7">
                         <span>Аксессуары</span>
@@ -970,7 +970,7 @@ function formatBytes($size, $precision = 2)
                         <?php
                         global $accessoryFilter;
                         $accessoryFilter = array(
-                            'ID' => $arResult["ACCESSORIES"]->getProductsId(),
+                            'ID' => $arResult["ACCESSORIES"]->getItems(),
                             '>CATALOG_PRICE_1' => 0,
                         );
                         ?>
@@ -1007,10 +1007,8 @@ function formatBytes($size, $precision = 2)
                                 'DISCOUNT_PERCENT_POSITION' => '',
                                 'DISPLAY_BOTTOM_PAGER' => 'N',
                                 'DISPLAY_TOP_PAGER' => 'N',
-                                'ELEMENT_SORT_FIELD' => 'sort',
-                                'ELEMENT_SORT_FIELD2' => 'rand',
-                                'ELEMENT_SORT_ORDER' => 'asc',
-                                'ELEMENT_SORT_ORDER2' => 'desc',
+                                'ELEMENT_SORT_FIELD' => 'ID',
+                                'ELEMENT_SORT_ORDER' => $arResult["ACCESSORIES"]->getItems(),
                                 'ENLARGE_PRODUCT' => '',
                                 'ENLARGE_PROP' => '',
                                 'FILTER_NAME' => 'accessoryFilter',
