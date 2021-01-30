@@ -4,6 +4,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
+use Manom\Content\Accessory;
 use Manom\Product;
 use Manom\Content;
 
@@ -96,10 +97,10 @@ if (!empty($productsId)) {
             $productsImage[(int)$row['ID']] = (int)current($row['PROPERTIES']['MORE_PHOTO']['VALUE']);
         }
 
-        $accessories = new \Manom\Accessory($row["IBLOCK_SECTION_ID"]);
+        $accessories = new Accessory((int)$row["IBLOCK_SECTION_ID"], (array)$row["PROPERTIES"]["ACESS"]["VALUE"]);
 
-        if ($accessories->existProducts()) {
-            $productsAccessoriesId[(int)$row['ID']] = $accessories->getProductsId();
+        if ($accessories->existItems()) {
+            $productsAccessoriesId[(int)$row['ID']] = $accessories->getItems();
         }
 
         if (!empty($row['PROPERTIES']['DOP_SERV']['VALUE'])) {
@@ -140,6 +141,9 @@ if (!empty($accessoriesAndAdditionalServicesId)) {
         'ACTIVE' => 'Y',
         'CATALOG_AVAILABLE' => 'Y',
     );
+    $sort = array(
+        'id' => $accessoriesAndAdditionalServicesId,
+    );
     $select = array(
         'IBLOCK_ID',
         'ID',
@@ -148,7 +152,7 @@ if (!empty($accessoriesAndAdditionalServicesId)) {
         'PREVIEW_PICTURE',
         'DETAIL_PICTURE',
     );
-    $result = CIBlockElement::GetList(array(), $filter, false, false, $select);
+    $result = CIBlockElement::GetList($sort, $filter, false, false, $select);
     while ($rowResult = $result->getNextElement(true, false)) {
         $row = $rowResult->getFields();
         foreach ($properties as $code) {

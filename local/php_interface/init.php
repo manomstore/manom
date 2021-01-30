@@ -166,6 +166,7 @@ AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUp
 AddEventHandler("main", "OnAfterUserAdd", Array("CUserEx", "OnAfterUserAddHandler"));
 AddEventHandler("main", "OnSendUserInfo", Array("CUserEx", "OnSendUserInfoHandler"));
 AddEventHandler("main", "OnAfterUserRegister", array('UserHandler', 'afterRegister'));
+AddEventHandler("main", "OnAfterUserAuthorize", array('UserHandler', 'OnAfterUserAuthorizeHandler'));
 
 // AddEventHandler("iblock", "OnBeforeIBlockElementAdd", Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler"));
 // AddEventHandler("iblock", "OnAfterIBlockSectionAdd", Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler"));
@@ -434,6 +435,7 @@ class Helper
     const SERVICE_IB_ID = 16;
     const OFFERS_IB_ID = 7;
     const ONLINE_PAYMENT = 4;
+    const SUPPORT_GROUP_ID = 8;
 
     public static function processEmptySearchPage()
     {
@@ -1280,6 +1282,15 @@ class UserHandler
             'PASS' => $new_password,
         );
         CEvent::Send("USER_INFO", s1, $msgData, 'Y', 2);
+    }
+
+    function OnAfterUserAuthorizeHandler()
+    {
+        $groups = $_SESSION["SESS_AUTH"]["GROUPS"];
+
+        if (is_array($groups) && in_array(\Helper::SUPPORT_GROUP_ID, $groups)) {
+            $_SESSION["SESS_AUTH"]["ADMIN"] = true;
+        }
     }
 }
 

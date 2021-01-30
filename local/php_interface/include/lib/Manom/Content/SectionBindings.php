@@ -51,9 +51,9 @@ abstract class SectionBindings
         $section = $section->GetNext();
 
         if ($section[static::$sectionField]) {
-            $this->sectionsId = !is_array($section[static::$sectionField])
-                ? [$section[static::$sectionField]] : $section[static::$sectionField];
-        }
+        $this->sectionsId = !is_array($section[static::$sectionField])
+            ? [$section[static::$sectionField]] : $section[static::$sectionField];
+    }
     }
 
     /**
