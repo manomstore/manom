@@ -75,6 +75,11 @@ AddEventHandler(
 );
 AddEventHandler(
     "sale",
+    "OnSaleOrderSaved",
+    Array("MyHandlerClass", "OnSaleOrderSavedHandler")
+);
+AddEventHandler(
+    "sale",
     "OnSaleOrderBeforeSaved",
     Array("MyHandlerClass", "roistatOnSaleOrderBeforeSaved")
 );
@@ -1026,6 +1031,17 @@ class MyHandlerClass
                     }
                 }
                 break;
+            }
+        }
+    }
+
+    function OnSaleOrderSavedHandler(\Bitrix\Sale\Order $entity, $isNew, $isChanged, $values)
+    {
+        if ($isNew) {
+            $orderPrice = (int)$entity->getPrice();
+            $paySystemId = (int)$entity->getField("PAY_SYSTEM_ID");
+            if ($orderPrice === 0 && $paySystemId === \Helper::ONLINE_PAYMENT) {
+                \Bitrix\Sale\Compatible\OrderCompatibility::pay($entity->getId(), ["PAYED" => "Y"]);
             }
         }
     }
