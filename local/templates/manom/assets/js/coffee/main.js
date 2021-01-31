@@ -3201,7 +3201,7 @@ $.refreshCartInfo = function () {
 $.fn.updateCartInfo = function (data) {
   var $ft;
   $ft = $('<div></div>').append(data);
-  return $(document).find('#cart_info_block').html($ft.html());
+  return $(document).find('#cart_info_block').html($ft.find('#cart_info_block').html());
 };
 
 $.fn.updateCartHeader = function () {

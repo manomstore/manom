@@ -6,6 +6,7 @@ use Bitrix\Sale\Basket;
 use BItrix\Sale\Fuser;
 use Manom\Product;
 use Manom\CatalogProvider;
+use Manom\Store\StoreData;
 
 require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php';
 
@@ -51,16 +52,19 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
 
                 $product = new Product;
                 $ecommerceData = $product->getEcommerceData(array($basketProduct['productId']), 6);
-                $ecommerceData = $ecommerceData[$basketProduct['productId']];
+                /** @var StoreData $storeData */
+                $storeData = $ecommerceData[$basketProduct['productId']]['storeData'];
+                $mainStore = $storeData->getMain();
+                $rrcStore = $storeData->getRrc();
 
                 if (
-                    $basketProduct['priceId'] === $ecommerceData['storeData']['main']['price']['ID'] &&
-                    $ecommerceData['storeData']['main']['amount'] >= $count
+                    $basketProduct['priceId'] === $mainStore['price']['ID'] &&
+                    $mainStore['amount'] >= $count
                 ) {
                     $flag = true;
                 } elseif (
-                    $basketProduct['priceId'] === $ecommerceData['storeData']['second']['price']['ID'] &&
-                    $ecommerceData['storeData']['second']['amount'] >= $count
+                    $basketProduct['priceId'] === $rrcStore['price']['ID'] &&
+                    $rrcStore['amount'] >= $count
                 ) {
                     $flag = true;
                 }
@@ -77,8 +81,10 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
     } elseif ($_REQUEST['METHOD_CART'] === 'add') {
         $data = $product->getEcommerceData(array($productId), 6);
         $data = $data[$productId];
+        /** @var StoreData $storeData */
+        $storeData = $data["storeData"];
 
-        if (empty($data['amounts']['main']) && empty($data['amounts']['second'])) {
+        if (!$storeData->canBuy()) {
             exit;
         }
 

@@ -5,6 +5,7 @@ namespace Manom;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use \Manom\References\Color;
+use Manom\Store\StoreData;
 
 /**
  * Class Related
@@ -128,10 +129,10 @@ class Related
 
             foreach ($products as &$product) {
                 $ecommerceProduct = $ecommerceData[$product['elementId']];
+                /** @var StoreData $storeData */
+                $storeData = $ecommerceProduct["storeData"];
                 if (!empty($ecommerceProduct)) {
-                    if (
-                        empty($ecommerceProduct['amounts']['main']) &&
-                        empty($ecommerceProduct['amounts']['second']) &&
+                    if (!$storeData->canBuy() &&
                         !$ecommerceProduct["preOrder"]["active"]
                     ) {
                         $product["canBuy"] = false;

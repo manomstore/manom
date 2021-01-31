@@ -7,6 +7,7 @@ use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
+use Manom\Store\StoreData;
 
 /**
  * Class Basket
@@ -74,9 +75,13 @@ class Basket
         $ecommerceData = $product->getEcommerceData($productsId, 6);
 
         foreach ($ecommerceData as $productId => $productEcommerceData) {
+            /** @var StoreData $storeData */
+            $storeData = $productEcommerceData['storeData'];
+            $mainStore = $storeData->getMain();
+
             if (
-                $productEcommerceData['storeData']['main']['price']['ID'] === $productsPriceId[$productId] &&
-                empty($productEcommerceData['storeData']['main']['amount'])
+                $mainStore['price']['ID'] === $productsPriceId[$productId] &&
+                empty($mainStore['amount'])
             ) {
                 $productsOutOfStock[] = $productId;
             }

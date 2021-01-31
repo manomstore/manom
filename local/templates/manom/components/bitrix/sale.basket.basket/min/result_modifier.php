@@ -1,6 +1,7 @@
 <?php
 
 use Manom\Product;
+use Manom\Store\StoreData;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -87,16 +88,20 @@ $product = new Product;
 $ecommerceData = $product->getEcommerceData($arResult['PRODUCTS_ID'], $productsIblockId);
 
 foreach ($arResult['ITEMS']['AnDelCanBuy'] as $i => $item) {
-    $toreData = $ecommerceData[$item['PRODUCT_ID']]['storeData'];
+    /** @var StoreData $storeData */
+    $storeData = $ecommerceData[$item['PRODUCT_ID']]['storeData'];
 
+    $mainStore = $storeData->getMain();
+    $rrcStore = $storeData->getRrc();
+    $prices = $storeData->getPrices();
     $item['price'] = $item['PRICE'];
     $item['oldPrice'] = 0;
 
-    if ((int)$toreData['main']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
-        $item['price'] = $toreData['main']['price']['PRICE'];
-        $item['oldPrice'] = $toreData['second']['price']['PRICE'];
-    } elseif ((int)$toreData['second']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
-        $item['price'] = $toreData['second']['price']['PRICE'];
+    if ((int)$mainStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $mainStore['price']['PRICE'];
+        $item['oldPrice'] = $prices["oldPrice"];
+    } elseif ((int)$rrcStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $rrcStore['price']['PRICE'];
     }
 
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];

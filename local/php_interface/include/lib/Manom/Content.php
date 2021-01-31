@@ -9,6 +9,7 @@ use \Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 use \Manom\Nextjs\Api\Store;
+use Manom\Store\StoreData;
 
 /**
  * Class Content
@@ -219,8 +220,10 @@ class Content
             }
 
             $item['ecommerceData'] = $ecommerceData[$item['ID']];
+            /** @var StoreData $storeData */
+            $storeData = $item['ecommerceData']['storeData'];
 
-            $prices = self::getPricesFromStoreData($item['ecommerceData']['storeData']);
+            $prices = $storeData->getPrices();
 
             $item['price'] = $prices['price'];
             $item['oldPrice'] = $prices['oldPrice'];
@@ -228,8 +231,7 @@ class Content
                 && (int)$item['price'] !== (int)$prices['oldPrice'];
 
             if (
-                empty($item['ecommerceData']['amounts']['main']) &&
-                empty($item['ecommerceData']['amounts']['second']) &&
+                !$storeData->canBuy() &&
                 !$item['ecommerceData']["preOrder"]["active"]
             ) {
                 $item['CAN_BUY'] = false;
@@ -239,58 +241,6 @@ class Content
         }
 
         return $arResult;
-    }
-
-    /**
-     * @param array $storeData
-     * @return array
-     */
-    public static function getPricesFromStoreData($storeData): array
-    {
-        $return = array(
-            'price' => 0,
-            'oldPrice' => 0,
-        );
-
-        $mainStoreData = $storeData['main'];
-        $secondStoreData = $storeData['second'];
-
-        if (
-            !empty($mainStoreData['price']['DISCOUNT_PRICE']) &&
-            $mainStoreData['price']['DISCOUNT_PRICE'] !== $mainStoreData['price']['PRICE']
-        ) {
-            $mainPrice = $mainStoreData['price']['DISCOUNT_PRICE'];
-        } else {
-            $mainPrice = $mainStoreData['price']['PRICE'];
-        }
-
-        if (
-            !empty($secondStoreData['price']['DISCOUNT_PRICE']) &&
-            $secondStoreData['price']['DISCOUNT_PRICE'] !== $secondStoreData['price']['PRICE']
-        ) {
-            $secondPrice = $secondStoreData['price']['DISCOUNT_PRICE'];
-        } else {
-            $secondPrice = $secondStoreData['price']['PRICE'];
-        }
-
-        if (!empty($mainStoreData['amount']) && !empty($secondStoreData['amount'])) {
-            $return['price'] = $mainPrice;
-            $return['oldPrice'] = $secondPrice;
-        } elseif (!empty($mainStoreData['amount'])) {
-            $return['price'] = $mainPrice;
-        } elseif (!empty($secondStoreData['amount'])) {
-            $return['price'] = $secondPrice;
-        } elseif ($mainPrice > $secondPrice) {
-            $return['price'] = $mainPrice;
-        } else {
-            $return['price'] = $secondPrice;
-        }
-
-        if ($return['price'] === $return['oldPrice']) {
-            $return['oldPrice'] = 0;
-        }
-
-        return $return;
     }
 
     /**

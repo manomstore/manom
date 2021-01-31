@@ -8,6 +8,7 @@ use Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 use Bitrix\Sale\Result;
+use Manom\Store\StoreData;
 
 /**
  * Class CatalogProvider
@@ -69,17 +70,20 @@ class CatalogProvider extends \Bitrix\Catalog\Product\CatalogProvider
 
         $productsPrice = array();
         foreach ($products as $product) {
+            /** @var StoreData $storeData */
             $storeData = $ecommerceData[$product['PRODUCT_ID']]['storeData'];
+            $mainStore = $storeData->getMain();
+            $rrcStore = $storeData->getRrc();
 
             if (
                 !empty($userBasketProductsPriceId[$product['PRODUCT_ID']]) &&
-                (int)$storeData['main']['price']['ID'] === $userBasketProductsPriceId[$product['PRODUCT_ID']]
+                (int)$mainStore['price']['ID'] === $userBasketProductsPriceId[$product['PRODUCT_ID']]
             ) {
-                $productsPrice[$product['PRODUCT_ID']] = $storeData['main']['price'];
-            } elseif (empty($storeData['main']['amount'])) {
-                $productsPrice[$product['PRODUCT_ID']] = $storeData['second']['price'];
+                $productsPrice[$product['PRODUCT_ID']] = $mainStore['price'];
+            } elseif (empty($mainStore['amount'])) {
+                $productsPrice[$product['PRODUCT_ID']] = $rrcStore['price'];
             } else {
-                $productsPrice[$product['PRODUCT_ID']] = $storeData['main']['price'];
+                $productsPrice[$product['PRODUCT_ID']] = $mainStore['price'];
             }
         }
 

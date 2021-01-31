@@ -1191,11 +1191,14 @@ CONTENT;
     {
         $result = new \Bitrix\Catalog\Model\EventResult();
         $data = $event->getParameters();
-        $amounts = (new Store())->getAmounts([$data["id"]]);
         $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
 
-        $quantity = (int)$amounts[$data["id"]]["main"] + (int)$amounts[$data["id"]]["second"];
-        $result->modifyFields(["QUANTITY" => $quantity, "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"]);
+        $result->modifyFields(
+            [
+                "QUANTITY"     => Store\Amount::getAvailableQuantity($data["id"]),
+                "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"
+            ]
+        );
 
         return $result;
     }

@@ -14,6 +14,7 @@ use Manom\Related;
 use Manom\Service\Delivery as ServiceDelivery;
 use Manom\Service\TimeDelivery;
 use \Manom\WeekTools;
+use \Manom\Store\StoreData;
 
 $isMoscow = (int)$arParams['LOCATION']['ID'] === 84;
 
@@ -34,7 +35,13 @@ foreach ($images as $imageId) {
     );
 }
 
-$prices = Content::getPricesFromStoreData($arParams['ECOMMERCE_DATA']['storeData']);
+/** @var StoreData $storeData */
+$storeData = $arParams['ECOMMERCE_DATA']['storeData'];
+if (!($storeData instanceof StoreData)) {
+    $storeData = new StoreData();
+}
+
+$prices = $storeData->getPrices();
 
 $arResult["preOrder"] = $arParams['ECOMMERCE_DATA']["preOrder"];
 $arResult['price'] = $prices['price'];
@@ -43,8 +50,7 @@ $arResult['showOldPrice'] = !empty((int)$arResult['oldPrice'])
     && (int)$arResult['price'] !== (int)$arResult['oldPrice'];
 
 if (
-    empty($arParams['ECOMMERCE_DATA']['amounts']['main']) &&
-    empty($arParams['ECOMMERCE_DATA']['amounts']['second']) &&
+    !$storeData->canBuy() &&
     !$arResult["preOrder"]["active"]
 ) {
     $arResult['CATALOG_AVAILABLE'] = 'N';
@@ -228,8 +234,7 @@ $labels["PREORDER"] = $arResult["preOrder"]["active"];
 
 $arResult["LABELS"] = $labels;
 
-$defectsCount = (int)$arParams["ECOMMERCE_DATA"]["storeData"]["defects"]["amount"];
-$arResult['EXIST_DEFECTS'] = $defectsCount > 0;
+$arResult['EXIST_DEFECTS'] = $storeData->existDefects();
 
 function getCheaper($productId, $iblockId)
 {
