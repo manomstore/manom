@@ -84,12 +84,14 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
         /** @var StoreData $storeData */
         $storeData = $data["storeData"];
 
-        if (!$storeData->canBuy()) {
-            exit;
-        }
+        if (!$data["isService"]) {
+            if (!$storeData->canBuy()) {
+                exit;
+            }
 
-        if ($data["preOrder"]["active"]) {
-            exit;
+            if ($data["preOrder"]["active"]) {
+                exit;
+            }
         }
 
         $basket = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite());

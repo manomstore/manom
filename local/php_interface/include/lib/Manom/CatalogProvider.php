@@ -75,6 +75,11 @@ class CatalogProvider extends \Bitrix\Catalog\Product\CatalogProvider
             $mainStore = $storeData->getMain();
             $rrcStore = $storeData->getRrc();
 
+            if ($ecommerceData[$product['PRODUCT_ID']]['isService']) {
+                $productsPrice[$product['PRODUCT_ID']] = $storeData['main']['price'];
+                continue;
+            }
+
             if (
                 !empty($userBasketProductsPriceId[$product['PRODUCT_ID']]) &&
                 (int)$mainStore['price']['ID'] === $userBasketProductsPriceId[$product['PRODUCT_ID']]

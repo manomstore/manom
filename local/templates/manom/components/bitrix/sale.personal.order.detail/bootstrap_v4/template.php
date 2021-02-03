@@ -3,6 +3,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\Page\Asset;
+use Manom\Product;
 
 if ($arParams['GUEST_MODE'] !== 'Y')
 {
@@ -740,7 +741,13 @@ else
 											</thead>
 											<tbody>
                                             <?
-                                            \Manom\GTM::setProductsOnPage($arResult['BASKET'], true, "PRODUCT_ID")
+                                            \Manom\GTM::setProductsOnPage($arResult['BASKET'], true, "PRODUCT_ID");
+                                            $productIds = array_map(function ($item) {
+                                                return (int)$item["PRODUCT_ID"];
+                                            }, $arResult['BASKET']);
+
+                                            $product = new Product();
+                                            $ecommerceData = $product->getEcommerceData($productIds, 6);
                                             ?>
 											<?foreach ($arResult['BASKET'] as $basketItem)
 											{
@@ -764,11 +771,19 @@ else
 															<div class="sale-order-detail-order-item-img-container" style="background-image: url(<?=$imageSrc?>);"></div>
 														</a>
 													</td>
-													<td class="sale-order-detail-order-item-properties" style="min-width: 250px;">
-														<a class="sale-order-detail-order-item-title"
-                                                           data-product-list="order"
-                                                           data-product-id="<?= $basketItem['PRODUCT_ID'] ?>"
-														   href="<?=$basketItem['DETAIL_PAGE_URL']?>"><?=htmlspecialcharsbx($basketItem['NAME'])?></a>
+                                                    <td class="sale-order-detail-order-item-properties"
+                                                        style="min-width: 250px;">
+                                                        <?
+                                                        if ($ecommerceData[$basketItem['PRODUCT_ID']]["isService"]):?>
+                                                            <span class="sale-order-detail-order-item-title"
+                                                                  data-product-list="order"
+                                                                  data-product-id="<?= $basketItem['PRODUCT_ID'] ?>"><?= htmlspecialcharsbx($basketItem['NAME']) ?></span>
+                                                        <? else: ?>
+                                                            <a class="sale-order-detail-order-item-title"
+                                                               data-product-list="order"
+                                                               data-product-id="<?= $basketItem['PRODUCT_ID'] ?>"
+                                                               href="<?= $basketItem['DETAIL_PAGE_URL'] ?>"><?= htmlspecialcharsbx($basketItem['NAME']) ?></a>
+                                                        <? endif; ?>
 														<? if (isset($basketItem['PROPS']) && is_array($basketItem['PROPS']))
 														{
 															foreach ($basketItem['PROPS'] as $itemProps)

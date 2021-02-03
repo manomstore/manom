@@ -5616,6 +5616,7 @@ p.price-slider {
 #tab5:checked ~ #content5,
 #tab6:checked ~ #content6,
 #tab7:checked ~ #content7,
+#tab9:checked ~ #content9,
 #tab8:checked ~ #content8 {
   display: block;
 }

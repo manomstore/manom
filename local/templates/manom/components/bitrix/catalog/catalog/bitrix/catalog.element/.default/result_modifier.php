@@ -7,6 +7,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 use Bitrix\Main\Loader;
 use Manom\Content;
 use Manom\Content\Accessory;
+use Manom\Content\Service;
 use Manom\Nextjs\Api\Delivery;
 use Manom\Nextjs\Api\PaySystem;
 use Hozberg\Characteristics;
@@ -108,8 +109,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
             array(
                 'locationId' => (int)$arParams['LOCATION']['ID'],
                 'zip' => $arParams['LOCATION']['ZIP'],
-            ),
-            $arResult['PRODUCT_ID']
+            )
         );
 
         $actualDeliveries = [];
@@ -197,6 +197,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
 
 
 $arResult["ACCESSORIES"] = new Accessory((int)$arResult["SECTION"]["ID"], (array)$arResult['DISPLAY_PROPERTIES']["ACESS"]["VALUE"]);
+$arResult["SERVICES"] = new Service((int)$arResult["SECTION"]["ID"]);
 
 $arResult["ATTACH_DOCS"] = [];
 $certificate = $arResult['DISPLAY_PROPERTIES']["CERTIFICATE"]["FILE_VALUE"];

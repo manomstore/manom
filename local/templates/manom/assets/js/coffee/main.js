@@ -3302,7 +3302,7 @@ $.fn.updateMiniCart = function (data) {
     $miniCartCounter.addClass('top-personal__cart--full');
     $miniCartCounter.attr('href', '/cart/');
   } else {
-    $miniCart.addClass(emptyMiniCartClass);
+    $miniCart.removeClass("preview-card--show").addClass(emptyMiniCartClass);
     $miniCartCounter.removeClass('top-personal__cart--full');
     $miniCartCounter.removeAttr('href');
   }

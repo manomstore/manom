@@ -1301,9 +1301,11 @@ $delivery = new Delivery();
         {{#onlyPrepayment}}
           <div class="sci-product__note sci-product__note--red">Не доступен для оплаты наличными</div>
         {{/onlyPrepayment}}
+        {{^isService}}
         <div class="sci-product__count-block">
           <span class="sci-product__name">{{quantity}} шт.</span>
         </div>
+        {{/isService}}
       </div>
     </div>
   </div>

@@ -81,7 +81,8 @@ class Basket
 
             if (
                 $mainStore['price']['ID'] === $productsPriceId[$productId] &&
-                empty($mainStore['amount'])
+                empty($mainStore['amount']) &&
+                !$productEcommerceData["isService"]
             ) {
                 $productsOutOfStock[] = $productId;
             }

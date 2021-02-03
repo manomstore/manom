@@ -62,10 +62,14 @@ $count = 0;
                                         &#8381;
                                     </span>
                                 <?php else: ?>
-                                    <span class="preview-prod-bottom__value">
-                                        <?=number_format($item['sum'], 0, '', ' ')?>
+                                    <? if ($item['sum'] <= 0 && $item['isService']): ?>
+                                        <span class="preview-prod-bottom__value">Бесплатно</span>
+                                    <? else: ?>
+                                        <span class="preview-prod-bottom__value">
+                                        <?= number_format($item['sum'], 0, '', ' ') ?>
                                         &#8381;
                                     </span>
+                                    <? endif; ?>
                                 <?php endif; ?>
                             </div>
                             <button
@@ -76,14 +80,25 @@ $count = 0;
                                 data-product-id="<?=$item['PRODUCT_ID']?>"
                             ></button>
                         </div>
-                        <h3 class="preview-prod__name">
-                            <a href="<?=$item['DETAIL_PAGE_URL']?>"
-                               data-product-list="cart"
-                               data-product-id="<?=$item['PRODUCT_ID']?>"
-                            >
-                                <?=$item['NAME']?> (<?=$item['QUANTITY']?>шт.)
-                            </a>
-                        </h3>
+
+                        <? if ($item['isService']): ?>
+                            <h3 class="preview-prod__name no-link">
+                                <span data-product-list="cart"
+                                      data-product-id="<?= $item['PRODUCT_ID'] ?>"
+                                >
+                                    <?= $item['NAME'] ?>
+                                </span>
+                            </h3>
+                        <? else: ?>
+                            <h3 class="preview-prod__name">
+                                <a href="<?= $item['DETAIL_PAGE_URL'] ?>"
+                                   data-product-list="cart"
+                                   data-product-id="<?= $item['PRODUCT_ID'] ?>"
+                                >
+                                    <?= $item['NAME'] ?> (<?= $item['QUANTITY'] ?>шт.)
+                                </a>
+                            </h3>
+                        <? endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
