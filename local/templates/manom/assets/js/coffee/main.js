@@ -2722,7 +2722,7 @@ $.fn.updateSideInfo = function () {
   soBlock.find('.shopcart-sidebar__buyer-tel').html(soBlock.find(uPhone).val());
   soBlock.find('.shopcart-sidebar__buyer-email').html(soBlock.find(uEmail).val());
 
-  uCity = soBlock.find('[name="so_city_val"]').val();
+  uCity = soBlock.find('[name="so_city_val"]').val() + ", ";
   uAddress = '';
   if (soBlock.find('[name="sci-delivery-street"]').val()) {
     uAddress += soBlock.find('[name="sci-delivery-street"]').val() + ' ';
@@ -2775,6 +2775,7 @@ $.fn.updateSideInfo = function () {
         typeof window.IPOLSDEK_pvz !== 'undefined'
         && window.IPOLSDEK_pvz.pvzId
       ) {
+        uCity = '';
         uAddress = window.IPOLSDEK_pvz.pvzAdress;
       }
     }
@@ -2789,8 +2790,7 @@ $.fn.updateSideInfo = function () {
     soBlock.find('.pickup_date span').html(uDeliveryPeriod);
   }
   if (soModule.find('#ID_DELIVERY_ID_13').prop('checked')) {
-    uCity = '';
-    uAddress = $(document).find('label[for="ID_DELIVERY_ID_13"] .dsc_soa').html();
+    uAddress = $(document).find('label[for="ID_DELIVERY_ID_13"] .address_soa').html();
     deliveryPrice = $(document).find('label[for="ID_DELIVERY_ID_13"] .prs_soa').html().replace('руб.', '');
     uDeliveryPeriod = $(document).find('label[for="ID_DELIVERY_ID_13"] .so_delivery_period').html();
     soBlock.find('.js-shop-address').html($(document).find('label[for="ID_DELIVERY_ID_13"] .address_soa').html());
@@ -2825,7 +2825,16 @@ $.fn.updateSideInfo = function () {
     '#sci-delivery-date').val() || ''
   ).trim();
 
-  soBlock.find('.shopcart-sidebar__delivery-city').html(uCity);
+  var currentDelivery = $(document).find('.sale_order_full_table.delivery-block input[type=\'radio\']:checked');
+  var currentDeliveryId = currentDelivery.length > 0 ? parseInt(currentDelivery.val()) : 0;
+
+  if (app.deliveryService.in(currentDeliveryId, ["ownPickup", "cdekPickup"])) {
+    soBlock.find('.shopcart-sidebar__delivery-title').html("Самовывоз:");
+  } else {
+    soBlock.find('.shopcart-sidebar__delivery-title').html("Доставка:");
+  }
+
+  uAddress = uCity + uAddress;
   soBlock.find('.shopcart-sidebar__delivery-address').html(uAddress);
 
   isSideInfoInited = true;
@@ -2836,6 +2845,12 @@ $.fn.updateSideInfo = function () {
   soBlock.find('.shopcart-sidebar__delivery-date')[uDeliveryDate === '' ? 'hide' : 'show']();
   soBlock.find('.shopcart-sidebar__delivery-time span').html(uDeliveryTime);
   soBlock.find('.shopcart-sidebar__delivery-time')[uDeliveryTime === '' ? 'hide' : 'show']();
+
+  if (app.deliveryService.is(currentDeliveryId, "ownDelivery")) {
+    soBlock.find('.shopcart-sidebar__delivery-date').closest(".shopcart-sidebar__text").show();
+  } else {
+    soBlock.find('.shopcart-sidebar__delivery-date').closest(".shopcart-sidebar__text").hide();
+  }
 };
 
 $.fn.updateShopcartAmount = function () {
