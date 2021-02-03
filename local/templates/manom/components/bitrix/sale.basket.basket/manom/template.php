@@ -37,9 +37,13 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                 <?=number_format($row['oldSum'], 0, '', ' ')?> ₽
                             </span>
                         <?php else: ?>
+                        <? if ($row['sum'] <= 0 && $row['isService']): ?>
+                            <span class="product-price__value">Бесплатно</span>
+                        <? else: ?>
                             <span class="product-price__value">
                                 <?=number_format($row['sum'], 0, '', ' ')?> ₽
                             </span>
+                        <? endif; ?>
                         <?php endif; ?>
                     </div>
                     <button
@@ -51,65 +55,80 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                     >
                     </button>
                 </div>
-                <a class="sci-product__name-link"
-                   data-product-list="cart"
-                   data-product-id="<?= $row['PRODUCT_ID'] ?>"
-                   href="<?=$row['DETAIL_PAGE_URL']?>"
-                >
-                    <h3 class="sci-product__name">
-                        <?=$row['NAME']?>
-                    </h3>
-                </a>
+                <? if ($row["isService"]): ?>
+                    <span class="sci-product__name-link"
+                          data-product-list="cart"
+                          data-product-id="<?= $row['PRODUCT_ID'] ?>"
+                    >
+                        <h3 class="sci-product__name">
+                            <?= $row['NAME'] ?>
+                        </h3>
+                    </span>
+                <? else: ?>
+                    <a class="sci-product__name-link"
+                       data-product-list="cart"
+                       data-product-id="<?= $row['PRODUCT_ID'] ?>"
+                       href="<?= $row['DETAIL_PAGE_URL'] ?>"
+                    >
+                        <h3 class="sci-product__name">
+                            <?= $row['NAME'] ?>
+                        </h3>
+                    </a>
+                <? endif; ?>
                 <?php if (!empty($row['MODEL'])): ?>
                     <p class="sci-product__model"><?=$row['MODEL']?></p>
                 <?php endif; ?>
-                <p class="sci-product__status">
-                    <?php if(in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])): ?>
-                        <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
-                    <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
-                        Есть в наличии
-                    <?php else: ?>
-                        Товар закончился
-                    <?php endif; ?>
-                </p>
+                <? if (!$row["isService"]): ?>
+                    <p class="sci-product__status">
+                        <?php if (in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])): ?>
+                            <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
+                        <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
+                            Есть в наличии
+                        <?php else: ?>
+                            Товар закончился
+                        <?php endif; ?>
+                    </p>
+                <? endif; ?>
                 <div class="sci-product__counter-wrapper">
-                    <div class="sci-product__counter">
-                        <button
-                                class="sci-top__count-down"
-                                type="button"
-                                aria-label="Уменьшить количество"
+                    <? if (!$row["isService"]): ?>
+                        <div class="sci-product__counter">
+                            <button
+                                    class="sci-top__count-down"
+                                    type="button"
+                                    aria-label="Уменьшить количество"
 
-                                data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
+                                    data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
                                 <?= $row['QUANTITY'] == 1 ? 'disabled' : '' ?>
-                        >
-                            <svg width="8" height="8">
-                                <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
-                            </svg>
-                        </button>
-                        <input
-                                type="text"
-                                readonly
-                                value="<?=$row['QUANTITY']?>"
-                                name="QUANTITY"
-                        >
-                        <button
-                                class="sci-top__count-up"
+                            >
+                                <svg width="8" height="8">
+                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
+                                </svg>
+                            </button>
+                            <input
+                                    type="text"
+                                    readonly
+                                    value="<?= $row['QUANTITY'] ?>"
+                                    name="QUANTITY"
+                            >
+                            <button
+                                    class="sci-top__count-up"
 
-                                type="button"
-                                aria-label="Увеличить количество"
-                                data-id="<?=$row['ID']?>" data-q="<?=$row['QUANTITY']?>"
-	                        <?= $row['QUANTITY'] >= (int) $row['AVAILABLE_QUANTITY'] ? 'disabled' : '' ?>
-                                <?=in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?'disabled':''?>
-                        >
-                            <svg width="8" height="8">
-                                <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
-                                <line x1="4" y1="0" x2="4" y2="8" stroke="#343434" stroke-width="1"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <span class="sci-product__price">
-                        <?=number_format($row['price'], 0, '', ' ')?> ₽
+                                    type="button"
+                                    aria-label="Увеличить количество"
+                                    data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
+                                <?= $row['QUANTITY'] >= (int)$row['AVAILABLE_QUANTITY'] ? 'disabled' : '' ?>
+                                <?= in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock']) ? 'disabled' : '' ?>
+                            >
+                                <svg width="8" height="8">
+                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
+                                    <line x1="4" y1="0" x2="4" y2="8" stroke="#343434" stroke-width="1"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="sci-product__price">
+                        <?= number_format($row['price'], 0, '', ' ') ?> ₽
                     </span>
+                    <? endif; ?>
                 </div>
             </div>
         </div>

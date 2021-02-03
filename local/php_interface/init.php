@@ -1,5 +1,6 @@
 <?php
 
+use Bitrix\Iblock\ElementTable;
 use Bitrix\Main\Application;
 use Bitrix\Main\Web\Cookie;
 use Bitrix\Main\Loader;
@@ -71,6 +72,11 @@ AddEventHandler(
     "sale",
     "OnSaleOrderBeforeSaved",
     Array("MyHandlerClass", "OnSaleOrderBeforeSavedHandler")
+);
+AddEventHandler(
+    "sale",
+    "OnSaleOrderSaved",
+    Array("MyHandlerClass", "OnSaleOrderSavedHandler")
 );
 AddEventHandler(
     "sale",
@@ -151,6 +157,12 @@ $eventManager->addEventHandler(
     'catalog',
     'Bitrix\Catalog\Model\Product::onBeforeUpdate',
     Array("MyHandlerClass", "OnBeforeProductUpdateHandler")
+);
+
+$eventManager->addEventHandler(
+    'catalog',
+    'Bitrix\Catalog\Model\Product::onBeforeAdd',
+    Array("MyHandlerClass", "OnBeforeProductAddHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
@@ -425,6 +437,7 @@ function cssAutoVersion($file)
 class Helper
 {
     const CATALOG_IB_ID = 6;
+    const SERVICE_IB_ID = 16;
     const OFFERS_IB_ID = 7;
     const ONLINE_PAYMENT = 4;
     const SUPPORT_GROUP_ID = 8;
@@ -1022,6 +1035,17 @@ class MyHandlerClass
         }
     }
 
+    function OnSaleOrderSavedHandler(\Bitrix\Sale\Order $entity, $isNew, $isChanged, $values)
+    {
+        if ($isNew) {
+            $orderPrice = (int)$entity->getPrice();
+            $paySystemId = (int)$entity->getField("PAY_SYSTEM_ID");
+            if ($orderPrice === 0 && $paySystemId === \Helper::ONLINE_PAYMENT) {
+                \Bitrix\Sale\Compatible\OrderCompatibility::pay($entity->getId(), ["PAYED" => "Y"]);
+            }
+        }
+    }
+
     function OnBeforeIBlockSectionAddHandler($arFields)
     {
         $isImport = $_GET["type"] === "catalog" && $_GET["mode"] === "import";
@@ -1191,11 +1215,37 @@ CONTENT;
     {
         $result = new \Bitrix\Catalog\Model\EventResult();
         $data = $event->getParameters();
-        $amounts = (new Store())->getAmounts([$data["id"]]);
-        $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
 
-        $quantity = (int)$amounts[$data["id"]]["main"] + (int)$amounts[$data["id"]]["second"];
-        $result->modifyFields(["QUANTITY" => $quantity, "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"]);
+        $product = ElementTable::getList(["filter" => ["ID" => $data["id"]]])->fetch();
+        if ((int)$product["IBLOCK_ID"] === \Helper::SERVICE_IB_ID) {
+            $result->modifyFields(["QUANTITY" => 1]);
+        } else {
+            $amounts = (new Store())->getAmounts([$data["id"]]);
+            $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
+
+            $quantity = (int)$amounts[$data["id"]]["main"] + (int)$amounts[$data["id"]]["second"];
+            $result->modifyFields(["QUANTITY" => $quantity, "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"]);
+        }
+        return $result;
+    }
+
+    /**
+     * @param $event
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     * @throws \Manom\Exception
+     */
+    function OnBeforeProductAddHandler(Bitrix\Catalog\Model\Event $event)
+    {
+        $result = new \Bitrix\Catalog\Model\EventResult();
+        $data = $event->getParameters();
+
+        $product = ElementTable::getList(["filter" => ["ID" => $data["fields"]["ID"]]])->fetch();
+        if ((int)$product["IBLOCK_ID"] === \Helper::SERVICE_IB_ID) {
+            $result->modifyFields(["QUANTITY" => 1]);
+        }
 
         return $result;
     }

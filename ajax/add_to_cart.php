@@ -78,12 +78,14 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
         $data = $product->getEcommerceData(array($productId), 6);
         $data = $data[$productId];
 
-        if (empty($data['amounts']['main']) && empty($data['amounts']['second'])) {
-            exit;
-        }
+        if (!$data["isService"]) {
+            if (empty($data['amounts']['main']) && empty($data['amounts']['second'])) {
+                exit;
+            }
 
-        if ($data["preOrder"]["active"]) {
-            exit;
+            if ($data["preOrder"]["active"]) {
+                exit;
+            }
         }
 
         $basket = Basket::loadItemsForFUser(Fuser::getId(), Context::getCurrent()->getSite());

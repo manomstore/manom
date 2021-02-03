@@ -76,7 +76,8 @@ class Basket
         foreach ($ecommerceData as $productId => $productEcommerceData) {
             if (
                 $productEcommerceData['storeData']['main']['price']['ID'] === $productsPriceId[$productId] &&
-                empty($productEcommerceData['storeData']['main']['amount'])
+                empty($productEcommerceData['storeData']['main']['amount']) &&
+                !$productEcommerceData["isService"]
             ) {
                 $productsOutOfStock[] = $productId;
             }

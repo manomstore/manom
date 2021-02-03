@@ -3,6 +3,7 @@
 namespace Manom;
 
 use \Bitrix\Catalog\ProductTable;
+use Bitrix\Iblock\ElementTable;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
@@ -92,6 +93,22 @@ class Product
     public function getEcommerceData($productsId, $iblockId): array
     {
         $data = array();
+        $services = array();
+
+        if (!empty($productsId)) {
+            $productsData = ElementTable::getList([
+                "filter" => ["ID" => $productsId],
+                "select" => ["ID", "IBLOCK_ID"]
+            ])->fetchAll();
+
+            $productsData = array_filter($productsData, function ($item) {
+                return (int)$item["IBLOCK_ID"] === \Helper::SERVICE_IB_ID;
+            });
+
+            $services = array_map(function ($item) {
+                return (int)$item["ID"];
+            }, $productsData);
+        }
 
         $store = new Store;
         $stores = $store->getStores();
@@ -145,6 +162,10 @@ class Product
                 'storeData' => $storeData,
                 'preOrder' => $preOrder->getByProductId($productId),
             );
+
+            if (in_array($productId, $services)) {
+                $data[$productId]["isService"] = true;
+            }
         }
 
         return $data;

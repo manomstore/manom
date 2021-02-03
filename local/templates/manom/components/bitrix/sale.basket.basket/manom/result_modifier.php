@@ -262,6 +262,7 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
 
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
     $item['oldSum'] = (int)$item['QUANTITY'] * $item['oldPrice'];
+    $item['isService'] = (bool)$basketEcommerceData[$productId]["isService"];
 
     $arResult['GRID']['ROWS'][$i] = $item;
 }
