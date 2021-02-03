@@ -1220,7 +1220,6 @@ CONTENT;
         if ((int)$product["IBLOCK_ID"] === \Helper::SERVICE_IB_ID) {
             $result->modifyFields(["QUANTITY" => 1]);
         } else {
-            $amounts = (new Store())->getAmounts([$data["id"]]);
             $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
 
             $result->modifyFields(
