@@ -59,7 +59,7 @@ class StoreItem
      */
     public function isEmpty(): bool
     {
-        return empty($this->id) || empty($this->getCode() ?? $this->asMain);
+        return empty($this->id) || empty(!empty($this->getCode()) ? $this->getCode() : $this->asMain);
     }
 
     /**
