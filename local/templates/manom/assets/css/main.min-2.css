@@ -7036,6 +7036,7 @@ h3.tab-content__title--right {
 
 @media only screen and (max-width: 767px) {
   .top-slider__item {
+    min-height: 350px;
     position: relative;
   }
 
@@ -7256,6 +7257,7 @@ h3.tab-content__title--right {
   }
 
   .top-slider__item {
+    min-height: 300px;
   }
 
   .footer-top {
@@ -7497,6 +7499,7 @@ h3.tab-content__title--right {
   }
 
   .top-slider__item {
+    min-height: 260px;
   }
 
   .cb-block__item {
