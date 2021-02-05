@@ -940,6 +940,7 @@ h6 {
 
 .top-slider__item {
   position: relative;
+  min-height: 390px;
 }
 
 .top-slider__item::after {
