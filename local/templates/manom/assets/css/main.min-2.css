@@ -7596,6 +7596,9 @@ h3.tab-content__title--right {
 
 .shopcart .container {
   padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .shopcart {
@@ -7606,6 +7609,8 @@ h3.tab-content__title--right {
   background-color: #f9f9f9;
   padding: 0 0 30px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .shopcart-nav1 {
@@ -8952,6 +8957,7 @@ h3.tab-content__title--right {
 
 .shopcart-success {
   padding: 40px 20px;
+  margin: auto;
 }
 
 .shopcart-success__title {
