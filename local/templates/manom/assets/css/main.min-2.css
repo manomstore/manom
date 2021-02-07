@@ -940,7 +940,13 @@ h6 {
 
 .top-slider__item {
   position: relative;
-  height: 390px;
+  min-height: 390px;
+}
+
+.top-slider__item::after {
+  content: "";
+  padding-top: 66%;
+  display: block;
 }
 
 .top-slide1 {
@@ -7028,7 +7034,7 @@ h3.tab-content__title--right {
 
 @media only screen and (max-width: 767px) {
   .top-slider__item {
-    height: 350px;
+    min-height: 350px;
     position: relative;
   }
 
@@ -7249,7 +7255,7 @@ h3.tab-content__title--right {
   }
 
   .top-slider__item {
-    height: 300px;
+    min-height: 300px;
   }
 
   .footer-top {
@@ -7491,7 +7497,7 @@ h3.tab-content__title--right {
   }
 
   .top-slider__item {
-    height: 260px;
+    min-height: 260px;
   }
 
   .cb-block__item {
