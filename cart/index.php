@@ -1077,7 +1077,6 @@ $delivery = new Delivery();
                                 <a
                                         class="shopcart-sidebar__button <?=(empty($productsOutOfStock))?'js-shopcart-next':''?>"
                                         href="#"
-                                        title="Оформить заказ"
                                 >
                                     Оформить заказ
                                 </a>
