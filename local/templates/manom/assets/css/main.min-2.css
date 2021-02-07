@@ -7602,10 +7602,10 @@ h3.tab-content__title--right {
   font-family: 'PT Root UI', 'Arial', sans-serif;
   line-height: normal;
   text-align: left;
-
   display: block;
   background-color: #f9f9f9;
   padding: 0 0 30px;
+  flex-grow: 1;
 }
 
 .shopcart-nav1 {
