@@ -1077,7 +1077,6 @@ $delivery = new Delivery();
                                 <a
                                         class="shopcart-sidebar__button <?=(empty($productsOutOfStock))?'js-shopcart-next':''?>"
                                         href="#"
-                                        title="Оформить заказ"
                                 >
                                     Оформить заказ
                                 </a>
@@ -1099,7 +1098,7 @@ $delivery = new Delivery();
                             </div>
                         </div>
                         <div class="shopcart-sidebar__back-wrapper">
-                            <a class="shopcart-sidebar__back-shopping" href="/catalog/" title="Вернуться к покупкам">
+                            <a class="shopcart-sidebar__back-shopping" href="/catalog/">
                                 Вернуться к покупкам
                             </a>
                         </div>
