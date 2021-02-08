@@ -189,4 +189,18 @@ class StoreData
 
         return $quantity > 0;
     }
+
+    /**
+     * @return int
+     */
+    public function getQuantityAllMain(): int
+    {
+        $quantity = 0;
+        foreach ($this->storeList->getMain() as $mainStore) {
+            /** @var StoreItem $mainStore */
+            $quantity += $this->data[$mainStore->getId()]["amount"];
+        }
+
+        return $quantity;
+    }
 }
