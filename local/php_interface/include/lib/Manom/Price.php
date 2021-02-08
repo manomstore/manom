@@ -13,6 +13,7 @@ use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
 use \Helper;
 use \Bitrix\Catalog\Model;
+use Manom\Store\StoreData;
 
 /**
  * Class Price
@@ -339,7 +340,9 @@ class Price
         $product = new Product();
         $ecommerceData = $product->getEcommerceData($productsId, Helper::CATALOG_IB_ID);
         foreach ($ecommerceData as $productId => $item) {
-            $prices = Content::getPricesFromStoreData($item['storeData']);
+            /** @var StoreData $storeData */
+            $storeData = $item['storeData'];
+            $prices = $storeData->getPrices();
             $this->updatePrice($productId, $prices["price"], static::CURRENT_TYPE_ID);
         }
     }

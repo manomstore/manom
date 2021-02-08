@@ -9,6 +9,9 @@ use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
+use Manom\Store\Amount;
+use Manom\Store\StoreData;
+use Manom\Store\StoreList;
 
 class Product
 {
@@ -110,48 +113,32 @@ class Product
             }, $productsData);
         }
 
-        $store = new Store;
-        $stores = $store->getStores();
-        $amounts = $store->getAmounts($productsId);
+        $storeList = StoreList::getInstance();
+        $amounts = Amount::getAmounts($productsId);
         $preOrder = new PreOrder($productsId);
-
-        $priceCodes = [];
-        foreach ($stores as $store) {
-            if (empty($store['priceCode'])) {
-                continue;
-            }
-
-            if (in_array($store['priceCode'], $priceCodes, true)) {
-                continue;
-            }
-
-            $priceCodes[] = $store['priceCode'];
-        }
 
         $priceObject = new Price;
         $userGroups = $priceObject->getUserGroups();
-        $priceObject->setPricesIdByName($priceCodes);
+        $priceObject->setPricesIdByName($storeList->getPriceCodes());
         $pricesId = $priceObject->getPricesId();
 
         foreach ($productsId as $productId) {
             $prices = $priceObject->getItemPrices($productId, $iblockId, $pricesId, $userGroups);
 
-            $storeData = array();
+            $storeData = new StoreData();
 
-            foreach ($amounts[$productId] as $code => $amount) {
-                $storeData[$code] = array(
-                    'amount' => $amount,
-                    'price' => array(),
-                );
+            foreach ($amounts[$productId] as $index => $amount) {
+                $storeData->setAmount($index, $amount);
 
-                if (empty($stores[$code]['priceCode'])) {
+                $priceCode = $storeList->getByindex($index)->getPriceCode();
+                if (empty($priceCode)) {
                     continue;
                 }
 
-                $priceId = $pricesId[$stores[$code]['priceCode']];
+                $priceId = $pricesId[$priceCode];
                 foreach ($prices as $price) {
                     if ((int)$price['CATALOG_GROUP_ID'] === (int)$priceId) {
-                        $storeData[$code]['price'] = $price;
+                        $storeData->setPrice($index, $price);
                     }
                 }
             }
