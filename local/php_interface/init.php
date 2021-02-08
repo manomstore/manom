@@ -1220,11 +1220,14 @@ CONTENT;
         if ((int)$product["IBLOCK_ID"] === \Helper::SERVICE_IB_ID) {
             $result->modifyFields(["QUANTITY" => 1]);
         } else {
-            $amounts = (new Store())->getAmounts([$data["id"]]);
             $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
 
-            $quantity = (int)$amounts[$data["id"]]["main"] + (int)$amounts[$data["id"]]["second"];
-            $result->modifyFields(["QUANTITY" => $quantity, "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"]);
+            $result->modifyFields(
+                [
+                    "QUANTITY"     => Store\Amount::getAvailableQuantity($data["id"]),
+                    "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"
+                ]
+            );
         }
         return $result;
     }
