@@ -3,6 +3,8 @@
 namespace Manom;
 
 
+use Manom\Store\StoreData;
+
 class GTM
 {
     private static $resultDataJS = [];
@@ -304,13 +306,16 @@ class GTM
 
         foreach ($arProducts as $idx => $arProduct) {
             $image = reset(\Manom\Content::getCatalogItemImages($arProduct));
+            /** @var StoreData $storeData */
+            $storeData = $arProduct["ecommerceData"]["storeData"];
+            $mainStore = $storeData->getMain();
 
             $productObject = [
                 "id" => (int)$arProduct["ID"],
                 "position" => $arProduct["position"] ?? $idx + 1,
                 "name" => $arProduct["NAME"],
                 "url" => $domain . $arProduct["DETAIL_PAGE_URL"],
-                "in_stock" => (int)$arProduct["ecommerceData"]["storeData"]["main"]["amount"] > 0,
+                "in_stock" => $mainStore["amount"] > 0,
             ];
 
             if (!empty($arProduct["list"])) {

@@ -7,6 +7,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 use Manom\Content\Accessory;
 use Manom\Product;
 use Manom\Content;
+use Manom\Store\StoreData;
 
 $productsIblockId = 6;
 $offersIblockId = 7;
@@ -178,7 +179,9 @@ if (!empty($accessoriesAndAdditionalServicesId)) {
             );
         }
 
-        $prices = Content::getPricesFromStoreData($ecommerceData[(int)$row['ID']]['storeData']);
+        /** @var StoreData $storeData */
+        $storeData = $ecommerceData[(int)$row['ID']]['storeData'];
+        $prices = $storeData->getPrices();
 
         $accessoriesAndAdditionalServices[(int)$row['ID']] = array(
             'id' => (int)$row['ID'],
@@ -248,16 +251,19 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
         $item['ADDITIONAL_SERVICES'][] = $accessoriesAndAdditionalServices[$id];
     }
 
-    $toreData = $basketEcommerceData[$productId]['storeData'];
+    /** @var StoreData $storeData */
+    $storeData = $basketEcommerceData[$productId]['storeData'];
+    $mainStore = $storeData->getMain();
+    $rrcStore = $storeData->getRrc();
 
     $item['price'] = $item['PRICE'];
     $item['oldPrice'] = 0;
 
-    if ((int)$toreData['main']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
-        $item['price'] = $toreData['main']['price']['PRICE'];
-        $item['oldPrice'] = $toreData['second']['price']['PRICE'];
-    } elseif ((int)$toreData['second']['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
-        $item['price'] = $toreData['second']['price']['PRICE'];
+    if ((int)$mainStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $mainStore['price']['PRICE'];
+        $item['oldPrice'] = $rrcStore['price']['PRICE'];
+    } elseif ((int)$rrcStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
+        $item['price'] = $rrcStore['price']['PRICE'];
     }
 
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
