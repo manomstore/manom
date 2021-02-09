@@ -1021,10 +1021,8 @@ $delivery = new Delivery();
                                     </p>
                                 </div>
                                 <div class="shopcart-sidebar__info shopcart-sidebar__info--delivery sc-hidden">
-                                    <h3 class="shopcart-sidebar__title">Доставка:</h3>
+                                    <h3 class="shopcart-sidebar__title shopcart-sidebar__delivery-title">Доставка:</h3>
                                     <p class="shopcart-sidebar__text">
-                                        <span class="shopcart-sidebar__delivery-city"></span>
-                                        ,
                                         <span class="shopcart-sidebar__delivery-address"></span>
                                     </p>
                                     <p class="shopcart-sidebar__text">
@@ -1079,7 +1077,6 @@ $delivery = new Delivery();
                                 <a
                                         class="shopcart-sidebar__button <?=(empty($productsOutOfStock))?'js-shopcart-next':''?>"
                                         href="#"
-                                        title="Оформить заказ"
                                 >
                                     Оформить заказ
                                 </a>
@@ -1101,7 +1098,7 @@ $delivery = new Delivery();
                             </div>
                         </div>
                         <div class="shopcart-sidebar__back-wrapper">
-                            <a class="shopcart-sidebar__back-shopping" href="/catalog/" title="Вернуться к покупкам">
+                            <a class="shopcart-sidebar__back-shopping" href="/catalog/">
                                 Вернуться к покупкам
                             </a>
                         </div>
