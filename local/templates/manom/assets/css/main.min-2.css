@@ -7608,7 +7608,11 @@ h3.tab-content__title--right {
   display: block;
   background-color: #f9f9f9;
   padding: 0 0 30px;
-  height: calc(100vh - 46px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .shopcart-nav1 {
@@ -9709,7 +9713,6 @@ h3.tab-content__title--right {
 
   .shopcart {
     padding: 0 0 50px;
-    height: calc(100vh - 50px);
   }
 
   .shopcart-main,
