@@ -7608,9 +7608,11 @@ h3.tab-content__title--right {
   display: block;
   background-color: #f9f9f9;
   padding: 0 0 30px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .shopcart-nav1 {
