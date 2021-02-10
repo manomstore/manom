@@ -7608,11 +7608,7 @@ h3.tab-content__title--right {
   display: block;
   background-color: #f9f9f9;
   padding: 0 0 30px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  min-height: calc(100vh - 93px);
 }
 
 .shopcart-nav1 {
@@ -8164,6 +8160,12 @@ h3.tab-content__title--right {
   .sci-add__picture {
     /* width: 94px;
     height: 94px; */
+  }
+}
+
+@media (min-width: 767px) {
+  .shopcart {
+    min-height: calc(100vh - 46px);
   }
 }
 
@@ -9713,6 +9715,7 @@ h3.tab-content__title--right {
 
   .shopcart {
     padding: 0 0 50px;
+    min-height: calc(100vh - 50px);
   }
 
   .shopcart-main,
