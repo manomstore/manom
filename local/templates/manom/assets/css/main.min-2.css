@@ -7609,6 +7609,8 @@ h3.tab-content__title--right {
   background-color: #f9f9f9;
   padding: 0 0 30px;
   min-height: calc(100vh - 93px);
+  display: flex;
+  flex-direction: column;
 }
 
 .shopcart-nav1 {
@@ -8962,6 +8964,10 @@ h3.tab-content__title--right {
 .shopcart-success {
   padding: 40px 20px;
   margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .shopcart-success__title {
@@ -9683,7 +9689,7 @@ h3.tab-content__title--right {
   }
 
   .shopcart-success {
-    padding: 139px 40px;
+    padding: 40px;
   }
 
   .shopcart-success__title {
