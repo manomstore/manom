@@ -109,7 +109,8 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
             array(
                 'locationId' => (int)$arParams['LOCATION']['ID'],
                 'zip' => $arParams['LOCATION']['ZIP'],
-            )
+            ),
+            $arResult['PRODUCT_ID']
         );
 
         $actualDeliveries = [];
