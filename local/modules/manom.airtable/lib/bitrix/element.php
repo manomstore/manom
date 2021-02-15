@@ -2,6 +2,7 @@
 
 namespace Manom\Airtable\Bitrix;
 
+use Bitrix\Catalog\Model\Product;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
@@ -72,6 +73,10 @@ class Element
                 foreach ($fields['PROPERTIES'] as $code => $value) {
                     \CIBlockElement::SetPropertyValuesEx($fields['ID'], $this->iblockId, array($code => $value));
                 }
+            }
+
+            if (!empty($fields['PRODUCT'])) {
+                Product::update($fields['ID'], $fields['PRODUCT']);
             }
         } else {
             echo '<pre>'.print_r($this->bitrixElement->LAST_ERROR, true).'</pre>';
