@@ -498,6 +498,11 @@ class MyHandlerClass
                 $element->addAttribute("available", "false");
             }
 
+            if (!$preOrderData["active"] && $quantityOffer <= 0) {
+                $tagResult->invalidate();
+                continue;
+            }
+
             $outlets = $element->addChild("outlets");
 
             if (!($outlets instanceof SimpleXMLElement)) {
