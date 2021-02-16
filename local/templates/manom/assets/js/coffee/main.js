@@ -388,49 +388,47 @@ function setDeliveryDescription($delivery) {
         return textNearestDate;
       }
 
-      if (!deliveryObj.exist) {
-        if (this.currentHour < deliveryObj.time.end) {
-          textNearestDate = 'Сегодня';
-        } else {
-          textNearestDate = 'Завтра';
-        }
-        return textNearestDate;
-      }
+      var workingHour = true;
+      var dayOffset = 0;
 
-      //fix for sunday
-      var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
-      var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
-      var now = this.currentDay === 0 ? 7 : this.currentDay;
-      //
-      var workingHour = this.currentHour < deliveryObj.time.end - 1;
-      var lastWorkDay = this.currentDay === deliveryObj.dates.end;
-      if (now >= start && now <= end && (workingHour || !lastWorkDay)) {
-        if (workingHour) {
-          textNearestDate = deliveryObj.exist ?
-              'Сегодня до ' + String(deliveryObj.time.end) + ':00' : 'Сегодня';
-        } else {
-          textNearestDate = 'Завтра';
+      if (deliveryObj.exist) {
+        workingHour = this.currentHour < deliveryObj.time.end - 1;
+
+        //fix for sunday
+        var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
+        var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
+        var now = this.currentDay === 0 ? 7 : this.currentDay;
+        //
+        var lastWorkDay = this.currentDay === deliveryObj.dates.end;
+
+        if (!(now >= start && now <= end && (workingHour || !lastWorkDay))) {
+          dayOffset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
         }
       } else {
-        var dayOffset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
-        if (dayOffset === 0 && !workingHour) {
-          dayOffset++;
-        }
+        workingHour = this.currentHour < deliveryObj.time.end;
+      }
 
-        switch (dayOffset) {
-          case 0:
+      if (dayOffset === 0 && !workingHour) {
+        dayOffset++;
+      }
+
+      switch (dayOffset) {
+        case 0:
+          if (deliveryObj.exist) {
+            textNearestDate = 'Сегодня до ' + String(deliveryObj.time.end) + ':00';
+          } else {
             textNearestDate = 'Сегодня';
-            break;
-          case 1:
-            textNearestDate = 'Завтра';
-            break;
-          case 2:
-            textNearestDate = 'Послезавтра';
-            break;
-          default:
-            textNearestDate = 'Через ' + dayOffset + ' дня';
-            break;
-        }
+          }
+          break;
+        case 1:
+          textNearestDate = 'Завтра';
+          break;
+        case 2:
+          textNearestDate = 'Послезавтра';
+          break;
+        default:
+          textNearestDate = 'Через ' + dayOffset + ' дня';
+          break;
       }
 
       return textNearestDate;
@@ -1867,6 +1865,7 @@ $(document).ready(function () {
       startDate: startDate,
       beforeShowDay: function (date) {
         var currentDate = new Date;
+
         var allowedDays = [];
         if (nextDay) {
           currentDate.setDate(currentDate.getDate() + 1);
