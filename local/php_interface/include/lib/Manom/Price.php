@@ -319,6 +319,11 @@ class Price
             }
         } else {
             $prices = current($this->getItemsPrices($itemId, $pricesId));
+
+            if (!is_array($prices)) {
+                $prices = [];
+            }
+
             foreach ($prices as $i => $price) {
                 $prices[$i] = $this->getItemPriceWithDiscount($itemId, $iblockId, $userGroups, $price);
             }
