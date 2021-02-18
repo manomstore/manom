@@ -2890,6 +2890,14 @@ $.fn.updateShopcartSidebarProducts = function () {
     props.onlyPrepayment = props.onlyPrepayment && currentPaySystemId
         && [4, 9].indexOf(currentPaySystemId) <= -1;
 
+    if (props.sum.toString().indexOf("руб.") >= 0) {
+      props.sum = props.sum.toString().replace('руб.', '₽');
+    }
+
+    if (props.oldSum.toString().indexOf("руб.") >= 0) {
+      props.oldSum = props.oldSum.toString().replace('руб.', '₽');
+    }
+
     $sidebarProductList.append(Mustache.render(tmplHtml, props));
   });
 };
