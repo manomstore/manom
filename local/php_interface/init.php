@@ -9,6 +9,7 @@ use Bitrix\Sale\Registry;
 use Manom\PreOrder;
 use Manom\Service\Delivery;
 use Manom\Store;
+use Manom\Store\StoreData;
 use Rover\GeoIp\Location;
 use Manom\Service\TimeDelivery;
 use \Manom\Airtable\AirtablePropertiesLinkTable;
@@ -1220,12 +1221,15 @@ CONTENT;
         if ((int)$product["IBLOCK_ID"] === \Helper::SERVICE_IB_ID) {
             $result->modifyFields(["QUANTITY" => 1]);
         } else {
-            $preOrder = (new PreOrder($data["id"]))->getByProductId($data["id"]);
+            $ecommerceData = (new Product())->getEcommerceData([$data["id"]], Helper::CATALOG_IB_ID);
+            $ecommerceData = $ecommerceData[$data["id"]];
+            /** @var StoreData $storeData */
+            $storeData = $ecommerceData["storeData"];
 
             $result->modifyFields(
                 [
                     "QUANTITY"     => Store\Amount::getAvailableQuantity($data["id"]),
-                    "CAN_BUY_ZERO" => $preOrder["active"] ? "Y" : "D"
+                    "CAN_BUY_ZERO" => ($ecommerceData["preOrder"]["active"] || $storeData->isUnlimited()) ? "Y" : "D"
                 ]
             );
         }

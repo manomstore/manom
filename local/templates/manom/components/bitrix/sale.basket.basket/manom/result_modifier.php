@@ -270,6 +270,10 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
     $item['oldSum'] = (int)$item['QUANTITY'] * $item['oldPrice'];
     $item['isService'] = (bool)$basketEcommerceData[$productId]["isService"];
+    $item['canIncrease'] = ($item['QUANTITY'] < (int)$item['AVAILABLE_QUANTITY']) || $storeData->isUnlimited();
+    if (in_array($item['PRODUCT_ID'], $arParams['productsOutOfStock'])) {
+        $item['canIncrease'] = false;
+    }
 
     $arResult['GRID']['ROWS'][$i] = $item;
 }
