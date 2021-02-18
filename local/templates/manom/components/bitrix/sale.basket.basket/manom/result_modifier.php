@@ -255,13 +255,14 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $storeData = $basketEcommerceData[$productId]['storeData'];
     $mainStore = $storeData->getMain();
     $rrcStore = $storeData->getRrc();
+    $prices = $storeData->getPrices();
 
     $item['price'] = $item['PRICE'];
     $item['oldPrice'] = 0;
 
     if ((int)$mainStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
         $item['price'] = $mainStore['price']['PRICE'];
-        $item['oldPrice'] = $rrcStore['price']['PRICE'];
+        $item['oldPrice'] = $prices["oldPrice"];
     } elseif ((int)$rrcStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
         $item['price'] = $rrcStore['price']['PRICE'];
     }
