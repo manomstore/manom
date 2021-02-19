@@ -7825,14 +7825,22 @@ h3.tab-content__title--right {
 .sci-product__counter button {
   padding: 0;
   border: none;
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
   background-color: #f4f4f4;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.sci-top__count-down {
+  margin-right: -2px;
+}
+
+.sci-top__count-up {
+  margin-left: -2px;
 }
 
 .sci-product__counter button:hover,
@@ -7855,9 +7863,10 @@ h3.tab-content__title--right {
   color: #000000;
   text-align: center;
 
-  width: 25px;
-  height: 20px;
+  width: 39px;
+  height: 32px;
   border: none;
+  border: 1px solid #F2F2F2;
 }
 
 .sci-product__price {
@@ -9782,7 +9791,7 @@ h3.tab-content__title--right {
   }
 
   .sci-product__name-link {
-    width: 240px;
+    width: 260px;
     order: 1;
   }
 
@@ -9792,7 +9801,7 @@ h3.tab-content__title--right {
     min-width: 210px;
     order: 2;
     margin-top: -10px;
-    margin-left: 25px;
+    margin-left: 32px;
   }
 
   .sci-product__counter {
@@ -9819,7 +9828,7 @@ h3.tab-content__title--right {
     flex-grow: 1;
     align-items: flex-start;
     order: 3;
-    margin-left: 25px;
+    margin-left: 32px;
   }
 
   .shopcart-sidebar__wrapper .sci-product__sum-price {
