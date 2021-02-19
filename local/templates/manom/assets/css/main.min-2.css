@@ -7813,11 +7813,10 @@ h3.tab-content__title--right {
 }
 
 .sci-product__counter {
-  height: 22px;
+  height: 20px;
   display: flex;
   align-items: center;
   margin-right: 12px;
-  border: 1px solid #f5f5f5;
   border-radius: 1px;
   overflow: hidden;
 }
@@ -7834,6 +7833,18 @@ h3.tab-content__title--right {
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 1;
+}
+
+@media (max-width: 1219px) {
+  .sci-product__counter button {
+  width: 20px;
+  height: 20px;
+  }
+
+  .sci-product__counter button svg {
+    width: 8px;
+    height: 8px;
+    }
 }
 
 .sci-top__count-down {
