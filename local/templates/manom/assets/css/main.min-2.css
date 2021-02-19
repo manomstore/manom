@@ -7835,18 +7835,6 @@ h3.tab-content__title--right {
   z-index: 1;
 }
 
-@media (max-width: 1219px) {
-  .sci-product__counter button {
-  width: 20px;
-  height: 20px;
-  }
-
-  .sci-product__counter button svg {
-    width: 8px;
-    height: 8px;
-    }
-}
-
 .sci-top__count-down {
   margin-right: -2px;
 }
@@ -7879,6 +7867,22 @@ h3.tab-content__title--right {
   height: 32px;
   border: none;
   border: 1px solid #F2F2F2;
+}
+
+
+@media (max-width: 1219px) {
+  .sci-product__counter button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sci-product__counter button svg {
+    width: 8px;
+    height: 8px;
+  }
+  .sci-product__counter input {
+    height: 20px;
+  }
 }
 
 .sci-product__price {
