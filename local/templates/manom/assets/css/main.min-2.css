@@ -7867,6 +7867,7 @@ h3.tab-content__title--right {
   height: 32px;
   border: none;
   border: 1px solid #F2F2F2;
+  line-height: 32px;
 }
 
 
@@ -7882,6 +7883,7 @@ h3.tab-content__title--right {
   }
   .sci-product__counter input {
     height: 20px;
+    line-height: 20px;
   }
 }
 
