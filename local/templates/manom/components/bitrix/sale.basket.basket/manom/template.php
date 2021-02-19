@@ -101,7 +101,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                 <?= $row['QUANTITY'] == 1 ? 'disabled' : '' ?>
                             >
                                 <svg width="10" height="10">
-                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
+                                    <line x1="0" y1="4" x2="10" y2="4" stroke="#343434" stroke-width="1"/>
                                 </svg>
                             </button>
                             <input

@@ -9799,9 +9799,9 @@ h3.tab-content__title--right {
   .sci-product__counter-wrapper {
     flex-direction: row-reverse;
     justify-content: space-between;
-    min-width: 210px;
+    min-width: 203px;
     order: 2;
-    margin-top: -10px;
+    margin-top: -8px;
     margin-left: 32px;
   }
 
