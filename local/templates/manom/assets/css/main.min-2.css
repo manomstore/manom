@@ -4947,6 +4947,7 @@ h3.tab-content__title--right {
   -webkit-align-items: flex-start;
   -ms-flex-align: start;
   align-items: flex-start;
+  width: 100%;
 }
 
 #shopcart-item2,
@@ -7817,22 +7818,23 @@ h3.tab-content__title--right {
   display: flex;
   align-items: center;
   margin-right: 12px;
-  border: 1px solid #f5f5f5;
   border-radius: 1px;
   overflow: hidden;
+  border: 1px solid #F2F2F2;
 }
 
 .sci-product__counter button {
   padding: 0;
   border: none;
-  width: 20px;
-  height: 20px;
-  background-color: #f4f4f4;
+  width: 30px;
+  height: 30px;
+  background-color: #F4F4F4;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 1;
 }
 
 .sci-product__counter button:hover,
@@ -7855,9 +7857,32 @@ h3.tab-content__title--right {
   color: #000000;
   text-align: center;
 
-  width: 25px;
-  height: 20px;
+  width: 37px;
+  height: 30px;
   border: none;
+
+  line-height: 30px;
+  background: transparent;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+@media (max-width: 1219px) {
+  .sci-product__counter button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sci-product__counter button svg {
+    width: 8px;
+    height: 8px;
+  }
+  .sci-product__counter input {
+    height: 20px;
+    line-height: 20px;
+  }
 }
 
 .sci-product__price {
@@ -9782,27 +9807,25 @@ h3.tab-content__title--right {
   }
 
   .sci-product__name-link {
-    width: 240px;
+    width: 260px;
     order: 1;
   }
 
   .sci-product__counter-wrapper {
     flex-direction: row-reverse;
     justify-content: space-between;
-    min-width: 210px;
+    min-width: 203px;
     order: 2;
-    margin-top: -10px;
-    margin-left: 25px;
+    margin-top: -6px;
+    margin-left: 32px;
   }
 
   .sci-product__counter {
-    width: 100px;
-    height: 40px;
-    padding: 9px;
+    width: 102px;
+    height: 32px;
     background-color: #fff;
     margin: 0;
     margin-left: 5px;
-    border-color: transparent;
   }
 
   .sci-product__counter input {
@@ -9819,7 +9842,7 @@ h3.tab-content__title--right {
     flex-grow: 1;
     align-items: flex-start;
     order: 3;
-    margin-left: 25px;
+    margin-left: 32px;
   }
 
   .shopcart-sidebar__wrapper .sci-product__sum-price {

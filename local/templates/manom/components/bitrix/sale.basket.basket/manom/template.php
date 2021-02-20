@@ -100,13 +100,12 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
                                 <?= $row['QUANTITY'] == 1 ? 'disabled' : '' ?>
                             >
-                                <svg width="8" height="8">
-                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
-                                </svg>
+                            <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 1H0" stroke="#343434"/>
+                            </svg>
                             </button>
                             <input
                                     type="text"
-                                    readonly
                                     value="<?= $row['QUANTITY'] ?>"
                                     name="QUANTITY"
                             >
@@ -118,9 +117,8 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
                                 <?= !$row['canIncrease'] ? 'disabled' : '' ?>
                             >
-                                <svg width="8" height="8">
-                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
-                                    <line x1="4" y1="0" x2="4" y2="8" stroke="#343434" stroke-width="1"/>
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 5H0M5 10L5 0" stroke="#343434"/>
                                 </svg>
                             </button>
                         </div>
