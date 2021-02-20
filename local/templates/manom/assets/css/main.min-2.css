@@ -9815,13 +9815,13 @@ h3.tab-content__title--right {
     justify-content: space-between;
     min-width: 203px;
     order: 2;
-    margin-top: -8px;
+    margin-top: -6px;
     margin-left: 32px;
   }
 
   .sci-product__counter {
     width: 102px;
-    height: 40px;
+    height: 32px;
     background-color: #fff;
     margin: 0;
     margin-left: 5px;
