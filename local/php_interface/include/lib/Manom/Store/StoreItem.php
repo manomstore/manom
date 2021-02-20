@@ -30,6 +30,10 @@ class StoreItem
      * @var
      */
     private $priceCode;
+    /**
+     * @var string
+     */
+    private $schedule;
 
     /**
      * StoreItem constructor.
@@ -51,6 +55,10 @@ class StoreItem
 
         if (isset($itemData["UF_AS_MAIN"])) {
             $this->asMain = (bool)$itemData["UF_AS_MAIN"];
+        }
+
+        if (isset($itemData["SCHEDULE"])) {
+            $this->schedule = (string)$itemData["SCHEDULE"];
         }
     }
 
@@ -125,5 +133,13 @@ class StoreItem
     public function getPriceCode(): ?string
     {
         return $this->priceCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSchedule(): string
+    {
+        return (string)$this->schedule;
     }
 }

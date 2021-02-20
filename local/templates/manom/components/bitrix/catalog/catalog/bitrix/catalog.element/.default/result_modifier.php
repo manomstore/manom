@@ -14,6 +14,7 @@ use Hozberg\Characteristics;
 use Manom\Related;
 use Manom\Service\Delivery as ServiceDelivery;
 use Manom\Service\TimeDelivery;
+use Manom\Store\StoreList;
 use \Manom\WeekTools;
 use \Manom\Store\StoreData;
 
@@ -410,6 +411,13 @@ function getDelivery()
     return $delivery;
 }
 
+/**
+ * @param $delivery
+ * @param ServiceDelivery $serviceDelivery
+ * @return string
+ * @throws \Bitrix\Main\LoaderException
+ * @throws \Manom\Exception
+ */
 function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
 {
     $result = null;
@@ -424,15 +432,16 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
         'dates' => ['start' => 0, 'end' => 0],
     ];
 
+    $shopSchedule = $week->parseScheduleShop(StoreList::getInstance()->getShop()->getSchedule());
     $shop['exist'] = !empty($delivery['selfDeliveryPoints']);
 
     if ($shop['exist'] && $delivery['id'] === $serviceDelivery->getId("ownPickup")) {
-        $scheduleData = $week->parseScheduleShop($delivery['selfDeliveryPoints'][0]['schedule']);
 
-        $shop['time']['start'] = $scheduleData["hourStart"];
-        $shop['time']['end'] = $scheduleData["hourEnd"];
-        $shop['dates']['start'] = $scheduleData["dayStart"];
-        $shop['dates']['end'] = $scheduleData["dayEnd"];
+
+        $shop['time']['start'] = $shopSchedule["hourStart"];
+        $shop['time']['end'] = $shopSchedule["hourEnd"];
+        $shop['dates']['start'] = $shopSchedule["dayStart"];
+        $shop['dates']['end'] = $shopSchedule["dayEnd"];
     }
 
     if ($shop['exist'] && $delivery['id'] === $serviceDelivery->getId("ownPickup")) {
@@ -445,8 +454,8 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
                 'end' => (int)array_pop($intervals)["fromHour"],
             ],
             'dates' => [
-                'start' => 1,
-                'end' => 5,
+                'start' => $shopSchedule["dayStart"],
+                'end' => $shopSchedule["dayEnd"],
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($courier);
@@ -459,8 +468,8 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
                 'end' => 0,
             ],
             'dates' => [
-                'start' => 1,
-                'end' => 5,
+                'start' => $shopSchedule["dayStart"],
+                'end' => $shopSchedule["dayEnd"],
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($sdek);

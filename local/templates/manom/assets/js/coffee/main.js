@@ -306,12 +306,11 @@ function getDeliveryByCity(deliveryId, cityId) {
 
 function setDeliveryDescription($delivery) {
   var deliveryId,
-    cntDays;
+    shopSchedule;
   var currentDate = new Date();
   var currentDay = window.curDay !== undefined ? window.curDay : currentDate.getDay();
   var currentHour = window.curHour !== undefined ? window.curHour : currentDate.getHours();
   var deliveryPeriod;
-
   var week = {
     days: [
       'вс',
@@ -354,6 +353,12 @@ function setDeliveryDescription($delivery) {
     },
     getTextPeriod: function (deliveryObj) {
       var textNearestDate = '';
+      //fix for sunday
+      var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
+      var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
+      var now = this.currentDay === 0 ? 7 : this.currentDay;
+      //
+
       if (deliveryObj.isSdek) {
         var newCurPeriod = '';
         for (i = 0; i < deliveryObj.currentPeriod.length; i++) {
@@ -370,18 +375,17 @@ function setDeliveryDescription($delivery) {
         var periodStart = period.shift(),
           periodEnd = period.shift(),
           offset = 0;
-        if (periodStart) {
-          if (this.currentDay >= deliveryObj.dates.start && this.currentDay <= deliveryObj.dates.end) {
-            offset = 0;
-          } else {
-            offset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+
+          if (!(now >= start && now <= end)) {
+              offset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
           }
 
-          textNearestDate = String(offset + parseInt(periodStart));
-        }
-        if (periodEnd) {
-          textNearestDate += '-' + String(offset + parseInt(periodEnd));
-        }
+          if (periodStart) {
+              textNearestDate = String(offset + parseInt(periodStart));
+          }
+          if (periodEnd) {
+              textNearestDate += '-' + String(offset + parseInt(periodEnd));
+          }
         if (textNearestDate.length > 0) {
           textNearestDate += ' дня';
         }
@@ -394,11 +398,6 @@ function setDeliveryDescription($delivery) {
       if (deliveryObj.exist) {
         workingHour = this.currentHour < deliveryObj.time.end - 1;
 
-        //fix for sunday
-        var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
-        var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
-        var now = this.currentDay === 0 ? 7 : this.currentDay;
-        //
         var lastWorkDay = this.currentDay === deliveryObj.dates.end;
 
         if (!(now >= start && now <= end && (workingHour || !lastWorkDay))) {
@@ -433,7 +432,27 @@ function setDeliveryDescription($delivery) {
 
       return textNearestDate;
     },
+    parseScheduleShop: function (schedule) {
+      var days,
+          time,
+          result = {}
+      ;
+      schedule = schedule.toString().split(' ');
+      schedule = Array.isArray(schedule) ? schedule : [];
+      time = schedule.pop();
+      time = time.split('-');
+      result.hourStart = parseInt(time.shift());
+      result.hourEnd = parseInt(time.shift());
+      days = schedule.pop();
+      days = days.split('-');
+      result.dayStart = week.days.indexOf(days.shift());
+      result.dayEnd = week.days.indexOf(days.shift());
+
+      return result;
+    },
   };
+
+  shopSchedule = week.parseScheduleShop($delivery.find(".js-shop-schedule").text());
 
   var shop = {
     exist: false,
@@ -450,18 +469,10 @@ function setDeliveryDescription($delivery) {
   deliveryId = parseInt($delivery.attr('for').replace('ID_DELIVERY_ID_', ''));
   shop.exist = $delivery.hasClass('is-shop');
   if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
-    var days,
-      time,
-      schedule = $delivery.find('.schedule_soa').text().split(' ');
-    schedule = Array.isArray(schedule) ? schedule : [];
-    time = schedule.pop();
-    time = time.split('-');
-    shop.time.start = parseInt(time.shift());
-    shop.time.end = parseInt(time.shift());
-    days = schedule.pop();
-    days = days.split('-');
-    shop.dates.start = week.days.indexOf(days.shift());
-    shop.dates.end = week.days.indexOf(days.shift());
+    shop.time.start = shopSchedule.hourStart;
+    shop.time.end = shopSchedule.hourEnd;
+    shop.dates.start = shopSchedule.dayStart;
+    shop.dates.end = shopSchedule.dayEnd;
   }
 
   if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
@@ -475,8 +486,8 @@ function setDeliveryDescription($delivery) {
             end: $deliveryTimes.last().data('start'),
           },
           dates: {
-            start: 1,
-            end: 5,
+            start: shopSchedule.dayStart || 1,
+            end: shopSchedule.dayEnd || 5,
           },
         };
       deliveryPeriod = week.getTextPeriod(courier);
@@ -490,8 +501,8 @@ function setDeliveryDescription($delivery) {
             end: 0,
           },
           dates: {
-            start: 1,
-            end: 5,
+            start: shopSchedule.dayStart || 1,
+            end: shopSchedule.dayEnd || 5,
           },
         };
         deliveryPeriod = week.getTextPeriod(sdek);
@@ -500,12 +511,6 @@ function setDeliveryDescription($delivery) {
       }
     }
   }
-
-  // if (deliveryId)
-
-  // if (deliveryId === 8){
-  //     cntDays = 0;
-  // }
 
   var deliveryPrice = $delivery.find('.prs_soa').html();
 

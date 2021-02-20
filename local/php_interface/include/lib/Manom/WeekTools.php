@@ -62,6 +62,12 @@ class WeekTools
     public function getTextPeriod($deliveryObj): string
     {
         $textNearestDate = '';
+        //fix for sunday
+        $start = $deliveryObj['dates']['start'] === 0 ? 7 : $deliveryObj['dates']['start'];
+        $end = $deliveryObj['dates']['end'] === 0 ? 7 : $deliveryObj['dates']['end'];
+        $now = $this->currentDay === 0 ? 7 : $this->currentDay;
+        //
+
         if ($deliveryObj['isSdek']) {
             $newCurPeriod = '';
             for ($i = 0, $iMax = strlen($deliveryObj["currentPeriod"]); $i < $iMax; $i++) {
@@ -80,16 +86,11 @@ class WeekTools
             $periodEnd = array_shift($period);
             $offset = 0;
 
-            if ($periodStart) {
-                if (
-                    $this->currentDay >= (int)$deliveryObj['dates']['start'] &&
-                    $this->currentDay <= $deliveryObj['dates']['end']
-                ) {
-                    $offset = 0;
-                } else {
-                    $offset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
-                }
+            if (!($now >= $start && $now <= $end)) {
+                $offset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
+            }
 
+            if ($periodStart) {
                 $textNearestDate = (string)($offset + (int)$periodStart);
             }
 
@@ -110,11 +111,6 @@ class WeekTools
         if ($deliveryObj['exist']) {
             $workingHour = $this->currentHour < $deliveryObj['time']['end'] - 1;
 
-            //fix for sunday
-            $start = $deliveryObj['dates']['start'] === 0 ? 7 : $deliveryObj['dates']['start'];
-            $end = $deliveryObj['dates']['end'] === 0 ? 7 : $deliveryObj['dates']['end'];
-            $now = $this->currentDay === 0 ? 7 : $this->currentDay;
-            //
             $lastWorkDay = $this->currentDay === $deliveryObj['dates']['end'];
 
             if (!($now >= $start && $now <= $end && ($workingHour || !$lastWorkDay))) {
