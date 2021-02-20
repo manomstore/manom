@@ -7819,13 +7819,14 @@ h3.tab-content__title--right {
   margin-right: 12px;
   border-radius: 1px;
   overflow: hidden;
+  border: 1px solid #F2F2F2;
 }
 
 .sci-product__counter button {
   padding: 0;
   border: none;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   background-color: #F4F4F4;
   display: flex;
   align-items: center;
@@ -7833,14 +7834,6 @@ h3.tab-content__title--right {
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 1;
-}
-
-.sci-top__count-down {
-  margin-right: -2px;
-}
-
-.sci-top__count-up {
-  margin-left: -2px;
 }
 
 .sci-product__counter button:hover,
@@ -7863,10 +7856,10 @@ h3.tab-content__title--right {
   color: #000000;
   text-align: center;
 
-  width: 39px;
-  height: 32px;
+  width: 37px;
+  height: 30px;
   border: none;
-  border: 1px solid #F2F2F2;
+
   line-height: 32px;
   background: transparent;
     outline: none;
