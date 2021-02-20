@@ -108,7 +108,6 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     type="text"
                                     value="<?= $row['QUANTITY'] ?>"
                                     name="QUANTITY"
-                                    readonly
                             >
                             <button
                                     class="sci-top__count-up"
