@@ -51,7 +51,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                             type="button" aria-label="Удалить товар"
                             data-id="<?=$row['ID']?>"
                             data-product-id="<?=$row['PRODUCT_ID']?>"
-                            data-out-of-stock="<?=(int)in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?>"
+                            data-out-of-stock="<?= (int)$row["outOfStock"] ?>"
                     >
                     </button>
                 </div>
@@ -80,7 +80,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                 <?php endif; ?>
                 <? if (!$row["isService"]): ?>
                     <p class="sci-product__status">
-                        <?php if (in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])): ?>
+                        <?php if ($row["outOfStock"]): ?>
                             <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
                         <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
                             Есть в наличии
@@ -98,7 +98,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     aria-label="Уменьшить количество"
 
                                     data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
-                                <?= $row['QUANTITY'] == 1 ? 'disabled' : '' ?>
+                                <?= $row['disableDownButton'] ? 'disabled' : '' ?>
                             >
                             <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10 1H0" stroke="#343434"/>
@@ -108,6 +108,10 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     type="text"
                                     value="<?= $row['QUANTITY'] ?>"
                                     name="QUANTITY"
+                                    data-id="<?= $row['ID'] ?>"
+                                    data-q="<?= $row['QUANTITY'] ?>"
+                                    class="sci-top__count-change"
+                                <?= $row["outOfStock"] ? 'disabled' : '' ?>
                             >
                             <button
                                     class="sci-top__count-up"
@@ -115,7 +119,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     type="button"
                                     aria-label="Увеличить количество"
                                     data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
-                                <?= !$row['canIncrease'] ? 'disabled' : '' ?>
+                                <?= $row['disableUpButton'] ? 'disabled' : '' ?>
                             >
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M10 5H0M5 10L5 0" stroke="#343434"/>
