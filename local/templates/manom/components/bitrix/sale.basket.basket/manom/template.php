@@ -18,7 +18,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
 ?>
 <?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
-    <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
+    <article class="sci-product <?=$row['canBuy'] ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
         <div class="sci-product__wrapper">
             <div class="sci-product__picture">
                 <img src="<?=$row['PIC']['src']?>" alt="<?=$row['NAME']?>">
@@ -82,7 +82,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                     <p class="sci-product__status">
                         <?php if ($row["outOfStock"]): ?>
                             <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
-                        <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
+                        <?php elseif ($row['canBuy']): ?>
                             Есть в наличии
                         <?php else: ?>
                             Товар закончился
@@ -111,7 +111,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     data-id="<?= $row['ID'] ?>"
                                     data-q="<?= $row['QUANTITY'] ?>"
                                     class="sci-top__count-change"
-                                <?= $row["outOfStock"] ? 'disabled' : '' ?>
+                                <?= $row["outOfStock"] || !$row["canBuy"] ? 'disabled' : '' ?>
                             >
                             <button
                                     class="sci-top__count-up"

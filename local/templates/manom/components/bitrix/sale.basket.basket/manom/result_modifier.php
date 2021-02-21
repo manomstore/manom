@@ -273,8 +273,9 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $item["disableUpButton"] = !(($item['QUANTITY'] < (int)$item['AVAILABLE_QUANTITY']) || $storeData->isUnlimited());
     $item["disableDownButton"] = (int)$item['QUANTITY'] === 1;
     $item["outOfStock"] = in_array($item['PRODUCT_ID'], $arParams['productsOutOfStock']);
+    $item["canBuy"] = $item['CAN_BUY'] === "Y";
 
-    if ($item["outOfStock"]) {
+    if ($item["outOfStock"] || !$item["canBuy"]) {
         $item["disableUpButton"] = true;
         $item["disableDownButton"] = true;
     }
