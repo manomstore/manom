@@ -105,9 +105,10 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                             </svg>
                             </button>
                             <input
-                                    type="text"
+                                    type="number"
                                     value="<?= $row['QUANTITY'] ?>"
                                     name="QUANTITY"
+                                    min="1"
                                     data-id="<?= $row['ID'] ?>"
                                     data-q="<?= $row['QUANTITY'] ?>"
                                     class="sci-top__count-change"
