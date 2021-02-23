@@ -348,7 +348,9 @@ class Price
             /** @var StoreData $storeData */
             $storeData = $item['storeData'];
             $prices = $storeData->getPrices();
-            $this->updatePrice($productId, $prices["price"], static::CURRENT_TYPE_ID);
+            if (isset($prices["price"])) {
+                $this->updatePrice($productId, $prices["price"], static::CURRENT_TYPE_ID);
+            }
         }
     }
 
