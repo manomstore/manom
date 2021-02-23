@@ -566,8 +566,10 @@ function formatBytes($size, $precision = 2)
                             <?php endif; ?>
                             <? if ($arResult["preOrder"]["active"]): ?>
                                 <input type="hidden" name="isPreOrder" value="Y">
+                                <button class="sci-login__button">Оформить</button>
+                            <? else: ?>
+                                <button class="sci-login__button">Купить</button>
                             <? endif; ?>
-                            <button class="sci-login__button">Купить</button>
                         </form>
                     </div>
                 <?php endif; ?>
