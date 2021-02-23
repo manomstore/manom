@@ -36,11 +36,11 @@ class FieldsMap
         );
 
         $product = [
-            "Вес с упаковкой2" => "WEIGHT",
-            "Вес2"             => "WEIGHT",
-            "Длина2"           => "LENGTH",
-            "Ширина2"          => "WIDTH",
-            "Толщина2"         => "HEIGHT",
+            "Вес с упаковкой" => "WEIGHT",
+            "Вес"             => "WEIGHT",
+            "Длина"           => "LENGTH",
+            "Ширина"          => "WIDTH",
+            "Толщина"         => "HEIGHT",
         ];
 
         $properties = $this->getList();
