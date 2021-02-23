@@ -255,13 +255,14 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $storeData = $basketEcommerceData[$productId]['storeData'];
     $mainStore = $storeData->getMain();
     $rrcStore = $storeData->getRrc();
+    $prices = $storeData->getPrices();
 
     $item['price'] = $item['PRICE'];
     $item['oldPrice'] = 0;
 
     if ((int)$mainStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
         $item['price'] = $mainStore['price']['PRICE'];
-        $item['oldPrice'] = $rrcStore['price']['PRICE'];
+        $item['oldPrice'] = $prices["oldPrice"];
     } elseif ((int)$rrcStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
         $item['price'] = $rrcStore['price']['PRICE'];
     }
@@ -269,6 +270,10 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
     $item['oldSum'] = (int)$item['QUANTITY'] * $item['oldPrice'];
     $item['isService'] = (bool)$basketEcommerceData[$productId]["isService"];
+    $item['canIncrease'] = ($item['QUANTITY'] < (int)$item['AVAILABLE_QUANTITY']) || $storeData->isUnlimited();
+    if (in_array($item['PRODUCT_ID'], $arParams['productsOutOfStock'])) {
+        $item['canIncrease'] = false;
+    }
 
     $arResult['GRID']['ROWS'][$i] = $item;
 }

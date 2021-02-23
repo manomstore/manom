@@ -16,6 +16,7 @@ use \Bitrix\Main\ObjectPropertyException;
 use Manom\Content\Questions;
 use Manom\Content\Reviews;
 use Manom\Exception;
+use Manom\Product;
 use Manom\References\Brand;
 
 /**
@@ -32,6 +33,7 @@ class Import
     private $bitrixElements;
     private $bitrixSections;
     private $errors = [];
+    private $warnings = [];
     /**
      * @var Brand
      */
@@ -226,6 +228,7 @@ class Import
         (new Questions($fields["ID"]))->updateFromAT($airtableItem["fields"]["Вопрос/Ответ"]);
 
         $fields['PROPERTIES'] = array_merge($fields['PROPERTIES'], $properties);
+        $fields['PRODUCT'] = $this->prepareProductFields($airtableItem);
 
         return $fields;
     }
@@ -318,6 +321,37 @@ class Import
             }
 
             $items[$item['bitrix']] = $airtableItem['fields'][$item['airtable']];
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param array $airtableItem
+     * @return array
+     * @throws LoaderException
+     * @throws SystemException
+     */
+    private function prepareProductFields(array $airtableItem): array
+    {
+        $items = [];
+
+        foreach ($this->map["product"] as $airtable => $bitrix) {
+            if (empty($airtableItem['fields'][$airtable])) {
+                continue;
+            }
+
+            $convertedVal = Product::convertDimensions($airtableItem["fields"][$airtable], $bitrix === "WEIGHT");
+
+            if ($convertedVal === null) {
+                $this->addWarning("Значение поля '{$airtable}' имеет некорректный формат " .
+                    "веса или габарит [XML_ID: {$airtableItem["fields"]["Внешний код"]}, Раздел: {$airtableItem["section"]}]");
+                continue;
+            }
+
+            if (empty($items[$bitrix])) {
+                $items[$bitrix] = $convertedVal;
+            }
         }
 
         return $items;
@@ -636,18 +670,46 @@ class Import
     }
 
     /**
+     * @param string $error
+     * @return void
+     */
+    public function addWarning($warning): void
+    {
+        if (!empty($warning) && is_string($warning)) {
+            $this->warnings[] = $warning;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getWarnings(): string
+    {
+        $message = "";
+
+        foreach ($this->warnings as $warning) {
+            $message .= "<p>{$warning}</p>";
+        }
+
+        return $message;
+    }
+
+    /**
      * @param array $airtableData
      */
     private function trimFields(array &$airtableData): void
     {
         foreach ($airtableData as &$section) {
             foreach ($section as &$item) {
-                foreach ($item["fields"] as &$field) {
+                $trimmedFields = [];
+                foreach ($item["fields"] as $key => $field) {
                     if (is_string($field)) {
                         $field = trim($field);
                     }
+
+                    $trimmedFields[trim($key)] = $field;
                 }
-                unset($field);
+                $item["fields"] = $trimmedFields;
             }
             unset($item);
         }

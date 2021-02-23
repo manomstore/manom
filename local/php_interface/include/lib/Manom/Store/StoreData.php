@@ -203,4 +203,15 @@ class StoreData
 
         return $quantity;
     }
+
+    /**
+     * @return bool
+     */
+    public function isUnlimited(): bool
+    {
+        $mainStore = $this->getMain();
+        $rrcStore = $this->getRrc();
+
+        return $mainStore["amount"] <= 0 && $rrcStore["amount"] > 0;
+    }
 }
