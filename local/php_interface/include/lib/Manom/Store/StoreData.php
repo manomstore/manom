@@ -191,6 +191,20 @@ class StoreData
     }
 
     /**
+     * @return int
+     */
+    public function getQuantityAllMain(): int
+    {
+        $quantity = 0;
+        foreach ($this->storeList->getMain() as $mainStore) {
+            /** @var StoreItem $mainStore */
+            $quantity += $this->data[$mainStore->getId()]["amount"];
+        }
+
+        return $quantity;
+    }
+
+    /**
      * @return bool
      */
     public function isUnlimited(): bool

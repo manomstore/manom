@@ -478,11 +478,15 @@ class MyHandlerClass
         /** @var SimpleXMLElement $outlets */
         /** @var SimpleXMLElement $outlet */
 
-        $preOrder = new PreOrder(array_keys($tagResultList));
+        $preOrder = new PreOrder(array_keys($elementList));
+
+        $ecommerceData = (new Product())->getEcommerceData(array_keys($elementList), \Helper::CATALOG_IB_ID);
 
         foreach ($tagResultList as $offerId => $tagResult) {
-            $quantityOffer = (int)$elementPropsList[$offerId]["catalog_product"]["QUANTITY"];
-            $quantityOffer = $quantityOffer >= 0 ? $quantityOffer : 0;
+            /** @var StoreData $storeData */
+            $storeData = $ecommerceData[$offerId]["storeData"];
+
+            $quantityOffer = $storeData->getQuantityAllMain();
             $element = $tagResult->getXmlElement();
             if (!($element instanceof SimpleXMLElement)) {
                 continue;
@@ -492,6 +496,11 @@ class MyHandlerClass
 
             if ($preOrderData["active"]) {
                 $element->addAttribute("available", "false");
+            }
+
+            if (!$preOrderData["active"] && $quantityOffer <= 0) {
+                $tagResult->invalidate();
+                continue;
             }
 
             $outlets = $element->addChild("outlets");
