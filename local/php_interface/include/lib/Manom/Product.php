@@ -178,4 +178,36 @@ class Product
         }
         return $arProductIds;
     }
+
+    /**
+     * @param string $dimension
+     * @param bool $isWeight
+     * @return int|null
+     */
+    public static function convertDimensions(string $dimension, bool $isWeight = false): ?int
+    {
+        $measures = $isWeight ?
+            [
+                "г"  => 1,
+                "кг" => 1000,
+            ] :
+            [
+                "мм" => 1,
+                "см" => 10,
+                "м"  => 1000
+            ];
+
+        $data = explode(" ", trim($dimension));
+        $data = array_values(array_filter($data));
+        $result = null;
+
+        $measure = $data[1];
+        $value = (float)$data[0];
+
+        if (in_array($measure, array_keys($measures), true) && $value > 0) {
+            $result = $value * $measures[$measure];
+        }
+
+        return $result;
+    }
 }

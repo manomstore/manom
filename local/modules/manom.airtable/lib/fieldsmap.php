@@ -35,9 +35,17 @@ class FieldsMap
             'IBLOCK_SECTION' => 'Подкатегория',
         );
 
+        $product = [
+            "Вес с упаковкой2" => "WEIGHT",
+            "Вес2"             => "WEIGHT",
+            "Длина2"           => "LENGTH",
+            "Ширина2"          => "WIDTH",
+            "Толщина2"         => "HEIGHT",
+        ];
+
         $properties = $this->getList();
 
-        return array('fields' => $fields, 'properties' => $properties);
+        return array('fields' => $fields, 'properties' => $properties, 'product' => $product);
     }
 
     /**

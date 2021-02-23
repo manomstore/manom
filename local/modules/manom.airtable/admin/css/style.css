@@ -15,3 +15,10 @@
 .airtable-message {
     display: none;
 }
+
+.airtable-warnings {
+    display: none;
+    background-color: #ffeb3b;
+    color: black;
+    padding: 1%;
+}

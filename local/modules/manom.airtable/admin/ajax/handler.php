@@ -29,6 +29,7 @@ if (!Loader::includeModule('manom.airtable')) {
 }
 
 $message = '';
+$warnings = '';
 $post = $request->getPostList()->toArray();
 
 if ($post['action'] === 'all') {
@@ -48,6 +49,7 @@ if ($post['action'] === 'all') {
     }
 
     $message = $import->brand->getImportCreatedInfo();
+    $warnings = $import->getWarnings();
 }
 
 if ($post['action'] === 'sections') {
@@ -73,6 +75,7 @@ if ($post['action'] === 'sections') {
     }
 
     $message = $import->brand->getImportCreatedInfo();
+    $warnings = $import->getWarnings();
 }
 
 if ($post['action'] === 'element') {
@@ -93,4 +96,4 @@ if ($post['action'] === 'deleteLink') {
     }
 }
 
-die(json_encode(array('error' => false, 'message' => $message)));
+die(json_encode(array('error' => false, 'message' => $message, 'warnings' => $warnings)));
