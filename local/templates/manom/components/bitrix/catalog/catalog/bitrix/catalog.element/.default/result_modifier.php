@@ -50,11 +50,11 @@ $arResult['oldPrice'] = $prices['oldPrice'];
 $arResult['showOldPrice'] = !empty((int)$arResult['oldPrice'])
     && (int)$arResult['price'] !== (int)$arResult['oldPrice'];
 
-if (
-    !$storeData->canBuy() &&
-    !$arResult["preOrder"]["active"]
-) {
-    $arResult['CATALOG_AVAILABLE'] = 'N';
+
+if (!$arResult["preOrder"]["active"]) {
+    if (!$storeData->canBuy() || $arResult['price'] <= 0) {
+        $arResult['CATALOG_AVAILABLE'] = 'N';
+    }
 }
 
 $arResult['onlyCash'] = $arResult['PROPERTIES']['ONLY_CASH']['VALUE'] === 'Y';
