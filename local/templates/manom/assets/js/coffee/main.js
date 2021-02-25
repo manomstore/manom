@@ -230,6 +230,147 @@ app.utils = {
       $(document).find('.preloaderCatalog').removeClass('preloaderCatalogActive');
     },
   };
+
+  app.weekTools = {
+    days: [
+      'вс',
+      'пн',
+      'вт',
+      'ср',
+      'чт',
+      'пт',
+      'сб',
+    ],
+    currentDay: new Date().getDay(),
+    currentHour: new Date().getHours(),
+    calcDiffDay: function (startDay, endDay) {
+      var sumDays = 0;
+      var roundNum = 0;
+      if (endDay > this.days.length) {
+        return sumDays;
+      }
+      var i = startDay;
+      while (i < this.days.length) {
+        if (roundNum <= 0) {
+          roundNum = 1;
+        }
+        if (i > startDay || roundNum > 1) {
+          sumDays++;
+        }
+
+        if (i === endDay) {
+          break;
+        }
+        if (i === (this.days.length - 1)) {
+          i = 0;
+          roundNum++;
+        } else {
+          i++;
+        }
+
+      }
+      return sumDays;
+    },
+    getTextPeriod: function (deliveryObj) {
+      var textNearestDate = '';
+      //fix for sunday
+      var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
+      var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
+      var now = this.currentDay === 0 ? 7 : this.currentDay;
+      //
+
+      if (deliveryObj.isSdek) {
+        var newCurPeriod = '';
+        for (i = 0; i < deliveryObj.currentPeriod.length; i++) {
+          if (!isNaN(parseInt(deliveryObj.currentPeriod[i])) || deliveryObj.currentPeriod[i] === '-') {
+            newCurPeriod += deliveryObj.currentPeriod[i];
+          }
+        }
+        deliveryObj.currentPeriod = newCurPeriod;
+
+        var period = deliveryObj.currentPeriod.split('-');
+        if (period.length <= 0) {
+          return '';
+        }
+        var periodStart = period.shift(),
+            periodEnd = period.shift(),
+            offset = 0;
+
+        if (!(now >= start && now <= end)) {
+          offset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+        }
+
+        if (periodStart) {
+          textNearestDate = String(offset + parseInt(periodStart));
+        }
+        if (periodEnd) {
+          textNearestDate += '-' + String(offset + parseInt(periodEnd));
+        }
+        if (textNearestDate.length > 0) {
+          textNearestDate += ' дня';
+        }
+        return textNearestDate;
+      }
+
+      var workingHour = true;
+      var dayOffset = 0;
+
+      if (deliveryObj.exist) {
+        workingHour = this.currentHour < deliveryObj.time.end - 1;
+
+        var lastWorkDay = this.currentDay === deliveryObj.dates.end;
+
+        if (!(now >= start && now <= end && (workingHour || !lastWorkDay))) {
+          dayOffset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+        }
+      } else {
+        workingHour = this.currentHour < deliveryObj.time.end;
+      }
+
+      if (dayOffset === 0 && !workingHour) {
+        dayOffset++;
+      }
+
+      switch (dayOffset) {
+        case 0:
+          if (deliveryObj.exist) {
+            textNearestDate = 'Сегодня до ' + String(deliveryObj.time.end) + ':00';
+          } else {
+            textNearestDate = 'Сегодня';
+          }
+          break;
+        case 1:
+          textNearestDate = 'Завтра';
+          break;
+        case 2:
+          textNearestDate = 'Послезавтра';
+          break;
+        default:
+          textNearestDate = 'Через ' + dayOffset + ' дня';
+          break;
+      }
+
+      return textNearestDate;
+    },
+    parseScheduleShop: function (schedule) {
+      var days,
+          time,
+          result = {}
+      ;
+      schedule = schedule.toString().split(' ');
+      schedule = Array.isArray(schedule) ? schedule : [];
+      time = schedule.pop();
+      time = time.split('-');
+      result.hourStart = parseInt(time.shift());
+      result.hourEnd = parseInt(time.shift());
+      days = schedule.pop();
+      days = days.split('-');
+      result.dayStart = app.weekTools.days.indexOf(days.shift());
+      result.dayEnd = app.weekTools.days.indexOf(days.shift());
+
+      return result;
+    },
+  };
 })();
 
 function showDeliveryPickUpContent(deliveryButton) {
@@ -307,152 +448,9 @@ function getDeliveryByCity(deliveryId, cityId) {
 function setDeliveryDescription($delivery) {
   var deliveryId,
     shopSchedule;
-  var currentDate = new Date();
-  var currentDay = window.curDay !== undefined ? window.curDay : currentDate.getDay();
-  var currentHour = window.curHour !== undefined ? window.curHour : currentDate.getHours();
   var deliveryPeriod;
-  var week = {
-    days: [
-      'вс',
-      'пн',
-      'вт',
-      'ср',
-      'чт',
-      'пт',
-      'сб',
-    ],
-    currentDay: currentDay,
-    currentHour: currentHour,
-    calcDiffDay: function (startDay, endDay) {
-      var sumDays = 0;
-      var roundNum = 0;
-      if (endDay > this.days.length) {
-        return sumDays;
-      }
-      var i = startDay;
-      while (i < this.days.length) {
-        if (roundNum <= 0) {
-          roundNum = 1;
-        }
-        if (i > startDay || roundNum > 1) {
-          sumDays++;
-        }
 
-        if (i === endDay) {
-          break;
-        }
-        if (i === (this.days.length - 1)) {
-          i = 0;
-          roundNum++;
-        } else {
-          i++;
-        }
-
-      }
-      return sumDays;
-    },
-    getTextPeriod: function (deliveryObj) {
-      var textNearestDate = '';
-      //fix for sunday
-      var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
-      var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
-      var now = this.currentDay === 0 ? 7 : this.currentDay;
-      //
-
-      if (deliveryObj.isSdek) {
-        var newCurPeriod = '';
-        for (i = 0; i < deliveryObj.currentPeriod.length; i++) {
-          if (!isNaN(parseInt(deliveryObj.currentPeriod[i])) || deliveryObj.currentPeriod[i] === '-') {
-            newCurPeriod += deliveryObj.currentPeriod[i];
-          }
-        }
-        deliveryObj.currentPeriod = newCurPeriod;
-
-        var period = deliveryObj.currentPeriod.split('-');
-        if (period.length <= 0) {
-          return '';
-        }
-        var periodStart = period.shift(),
-          periodEnd = period.shift(),
-          offset = 0;
-
-          if (!(now >= start && now <= end)) {
-              offset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
-          }
-
-          if (periodStart) {
-              textNearestDate = String(offset + parseInt(periodStart));
-          }
-          if (periodEnd) {
-              textNearestDate += '-' + String(offset + parseInt(periodEnd));
-          }
-        if (textNearestDate.length > 0) {
-          textNearestDate += ' дня';
-        }
-        return textNearestDate;
-      }
-
-      var workingHour = true;
-      var dayOffset = 0;
-
-      if (deliveryObj.exist) {
-        workingHour = this.currentHour < deliveryObj.time.end - 1;
-
-        var lastWorkDay = this.currentDay === deliveryObj.dates.end;
-
-        if (!(now >= start && now <= end && (workingHour || !lastWorkDay))) {
-          dayOffset = week.calcDiffDay(this.currentDay, deliveryObj.dates.start);
-        }
-      } else {
-        workingHour = this.currentHour < deliveryObj.time.end;
-      }
-
-      if (dayOffset === 0 && !workingHour) {
-        dayOffset++;
-      }
-
-      switch (dayOffset) {
-        case 0:
-          if (deliveryObj.exist) {
-            textNearestDate = 'Сегодня до ' + String(deliveryObj.time.end) + ':00';
-          } else {
-            textNearestDate = 'Сегодня';
-          }
-          break;
-        case 1:
-          textNearestDate = 'Завтра';
-          break;
-        case 2:
-          textNearestDate = 'Послезавтра';
-          break;
-        default:
-          textNearestDate = 'Через ' + dayOffset + ' дня';
-          break;
-      }
-
-      return textNearestDate;
-    },
-    parseScheduleShop: function (schedule) {
-      var days,
-          time,
-          result = {}
-      ;
-      schedule = schedule.toString().split(' ');
-      schedule = Array.isArray(schedule) ? schedule : [];
-      time = schedule.pop();
-      time = time.split('-');
-      result.hourStart = parseInt(time.shift());
-      result.hourEnd = parseInt(time.shift());
-      days = schedule.pop();
-      days = days.split('-');
-      result.dayStart = week.days.indexOf(days.shift());
-      result.dayEnd = week.days.indexOf(days.shift());
-
-      return result;
-    },
-  };
-
-  shopSchedule = week.parseScheduleShop($delivery.find(".js-shop-schedule").text());
+  shopSchedule = app.weekTools.parseScheduleShop($delivery.find(".js-shop-schedule").text());
 
   var shop = {
     exist: false,
@@ -476,7 +474,7 @@ function setDeliveryDescription($delivery) {
   }
 
   if (shop.exist && app.deliveryService.is(deliveryId, "ownPickup")) {
-    deliveryPeriod = week.getTextPeriod(shop);
+    deliveryPeriod = app.weekTools.getTextPeriod(shop);
   } else {
     if (app.deliveryService.in(deliveryId, ["ownDelivery", "ownDeliveryRegion"])) {
       var $deliveryTimes = $(document).find('#sci-delivery-time option'),
@@ -490,7 +488,7 @@ function setDeliveryDescription($delivery) {
             end: shopSchedule.dayEnd || 5,
           },
         };
-      deliveryPeriod = week.getTextPeriod(courier);
+      deliveryPeriod = app.weekTools.getTextPeriod(courier);
     } else {
       if (app.deliveryService.in(deliveryId, ["cdekDelivery", "cdekPickup"])) {
         var sdek = {
@@ -505,7 +503,7 @@ function setDeliveryDescription($delivery) {
             end: shopSchedule.dayEnd || 5,
           },
         };
-        deliveryPeriod = week.getTextPeriod(sdek);
+        deliveryPeriod = app.weekTools.getTextPeriod(sdek);
       } else {
         deliveryPeriod = $delivery.find('.so_delivery_period').html();
       }
