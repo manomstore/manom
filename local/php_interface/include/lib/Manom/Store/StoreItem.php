@@ -31,6 +31,10 @@ class StoreItem
      */
     private $priceCode;
     /**
+     * @var int
+     */
+    private $assemblyTime;
+    /**
      * @var string
      */
     private $schedule;
@@ -60,6 +64,8 @@ class StoreItem
         if (isset($itemData["SCHEDULE"])) {
             $this->schedule = (string)$itemData["SCHEDULE"];
         }
+
+        $this->assemblyTime = (int)$itemData["UF_TIME"];
     }
 
     /**
@@ -133,6 +139,14 @@ class StoreItem
     public function getPriceCode(): ?string
     {
         return $this->priceCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAssemblyTime(): int
+    {
+        return (int)$this->assemblyTime;
     }
 
     /**

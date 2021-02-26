@@ -18,7 +18,10 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
 ?>
 <?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
-    <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?>" data-id="<?=$row['ID']?>">
+    <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?> js-basket-item"
+             data-id="<?= $row['ID'] ?>"
+             data-assembly-time="<?= $row['assemblyTime'] ?>"
+    >
         <div class="sci-product__wrapper">
             <div class="sci-product__picture">
                 <img src="<?=$row['PIC']['src']?>" alt="<?=$row['NAME']?>">

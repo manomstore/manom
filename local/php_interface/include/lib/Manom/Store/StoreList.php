@@ -63,6 +63,7 @@ class StoreList
                 "SORT",
                 "UF_CODE",
                 "UF_AS_MAIN",
+                "UF_TIME",
                 "SCHEDULE",
             ]
         );

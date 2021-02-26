@@ -294,20 +294,24 @@ app.utils = {
         }
         var periodStart = period.shift(),
             periodEnd = period.shift(),
-            offset = 0;
+            cdekOffset = 0;
 
         if (!(now >= start && now <= end)) {
-          offset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+          cdekOffset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
         }
 
+        cdekOffset += $.fn.getOrderAssemblyTimeObj(true).days;
+
         if (periodStart) {
-          textNearestDate = String(offset + parseInt(periodStart));
+          periodStart = cdekOffset + parseInt(periodStart);
+          textNearestDate = String(periodStart);
         }
         if (periodEnd) {
-          textNearestDate += '-' + String(offset + parseInt(periodEnd));
+          periodEnd = cdekOffset + parseInt(periodEnd);
+          textNearestDate += '-' + String(periodEnd);
         }
         if (textNearestDate.length > 0) {
-          textNearestDate += ' дня';
+          textNearestDate += ' ' + app.utils.pluralize(parseInt(periodEnd), ['день', 'дня', 'дней']);
         }
         return textNearestDate;
       }
@@ -326,6 +330,8 @@ app.utils = {
       } else {
         workingHour = this.currentHour < deliveryObj.time.end;
       }
+
+      dayOffset += $.fn.getOrderAssemblyTimeObj().days;
 
       if (dayOffset === 0 && !workingHour) {
         dayOffset++;
@@ -346,7 +352,7 @@ app.utils = {
           textNearestDate = 'Послезавтра';
           break;
         default:
-          textNearestDate = 'Через ' + dayOffset + ' дня';
+          textNearestDate = 'Через ' + dayOffset + ' ' + app.utils.pluralize(dayOffset, ['день', 'дня', 'дней']);
           break;
       }
 
@@ -1857,11 +1863,15 @@ $(document).ready(function () {
       return;
     }
     var startDate = new Date();
+    var assemblyDays = $.fn.getOrderAssemblyTimeObj().days;
     var nextDay = false;
-    if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour) {
+    if (startDate.getHours() >= timeRanges[timeRanges.length - 1].fromHour && assemblyDays <= 0) {
       startDate = new Date(startDate.setDate(startDate.getDate() + 1));
       nextDay = true;
     }
+
+    // К базовой дате прибавляем срок сборки
+    startDate.setDate(startDate.getDate() + assemblyDays);
 
     $('.js-shopcart-datepicker').datepicker({
       language: 'ru',
@@ -1872,10 +1882,11 @@ $(document).ready(function () {
         var allowedDays = [];
         if (nextDay) {
           currentDate.setDate(currentDate.getDate() + 1);
-          allowedDays.push(currentDate.toLocaleDateString());
-        } else {
-          allowedDays.push(currentDate.toLocaleDateString());
         }
+
+        // К базовой дате прибавляем срок сборки
+        currentDate.setDate(currentDate.getDate() + assemblyDays);
+        allowedDays.push(currentDate.toLocaleDateString());
         currentDate.setDate(currentDate.getDate() + 1);
         allowedDays.push(currentDate.toLocaleDateString());
         return allowedDays.indexOf(date.toLocaleDateString()) >= 0;
@@ -2619,6 +2630,7 @@ $(document).ready(function () {
         }
 
         var selectedDate = $deliveryDate.datepicker('getDate');
+        var startDate = $deliveryDate.datepicker('getStartDate');
       $deliveryTime.find("option").remove();
         if (!selectedDate || (selectedDate.hasOwnProperty('length') && selectedDate.length <= 0)) {
             timeRanges.forEach(function (range) {
@@ -2631,22 +2643,23 @@ $(document).ready(function () {
 
         $deliveryTime.attr('disabled', false);
 
-      var currentData = new Date();
-      if (selectedDate.toLocaleDateString() === currentData.toLocaleDateString()) {
-        var hour = currentData.getHours();
-        for (var key in timeRanges) {
-          if (hour < timeRanges[key].fromHour) {
-            $deliveryTime.append(getDeliveryTimeOption(timeRanges[key]));
-          }
-        }
-        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
-      } else {
-        timeRanges.forEach(function (range) {
-          $deliveryTime.append(getDeliveryTimeOption(range));
-        });
-        $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
+      var currentDate = new Date();
+      var isToday = selectedDate.toLocaleDateString() === currentDate.toLocaleDateString();
+      var isStartDate = selectedDate.toLocaleDateString() === startDate.toLocaleDateString();
+      var needReduceIntervals = $.fn.getOrderAssemblyTimeObj().limitStartDate && isStartDate;
+
+      timeRanges.forEach(function (range, index, array) {
+        if (isToday && currentDate.getHours() >= range.fromHour) {
+          return true;
         }
 
+        if (needReduceIntervals && index < array.length - 1) {
+          return true;
+        }
+
+        $deliveryTime.append(getDeliveryTimeOption(range));
+      });
+      $deliveryTime.val($deliveryTime.find('option').first().attr('value'));
     }
 
   function isValidDeliveryTime() {
@@ -2689,6 +2702,38 @@ $.fn.toggleDeliveryPriceInfoVisibility = function () {
 
   $('.shopcart-sidebar__info--delivery, .shopcart-sidebar__sum-price--delivery').toggleClass('sc-hidden',
     !isDeliveryChecked);
+};
+
+$.fn.getOrderAssemblyTimeObj = function (isExtDelivery = false) {
+  var orderAssembly = {
+    days: 0,
+    limitStartDate: false,
+  };
+
+  $(".js-basket-item").each(function (idx, basketItem) {
+    var assemblyTime = parseInt($(basketItem).data("assembly-time")) || 0;
+    if (assemblyTime > orderAssembly.days) {
+      orderAssembly.days = assemblyTime;
+    }
+  });
+
+  if (isExtDelivery) {
+    return orderAssembly;
+  }
+
+  if (orderAssembly.days <= 0) {
+    return orderAssembly;
+  }
+
+  //Добавляем текущий день к сроку сборки, если сейчас больше 9 утра
+  if (app.weekTools.currentHour >= 9) {
+    orderAssembly.days++;
+  } else {
+    //Или урезаем интервалы для следующего дня
+    orderAssembly.limitStartDate = true
+  }
+
+  return orderAssembly;
 };
 
 $.fn.isMoscow = function (cityId = false) {

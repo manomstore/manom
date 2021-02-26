@@ -8,6 +8,7 @@ use Manom\Content\Accessory;
 use Manom\Product;
 use Manom\Content;
 use Manom\Store\StoreData;
+use Manom\Store\StoreItem;
 
 $productsIblockId = 6;
 $offersIblockId = 7;
@@ -259,16 +260,23 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $item['price'] = $item['PRICE'];
     $item['oldPrice'] = 0;
 
+    /** @var StoreItem|null $currentStore */
+    $currentStore = null;
     if ((int)$mainStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
         $item['price'] = $mainStore['price']['PRICE'];
         $item['oldPrice'] = $rrcStore['price']['PRICE'];
+        $currentStore = $mainStore["store"];
     } elseif ((int)$rrcStore['price']['ID'] === (int)$item['PRODUCT_PRICE_ID']) {
         $item['price'] = $rrcStore['price']['PRICE'];
+        $currentStore = $rrcStore["store"];
     }
 
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
     $item['oldSum'] = (int)$item['QUANTITY'] * $item['oldPrice'];
     $item['isService'] = (bool)$basketEcommerceData[$productId]["isService"];
+
+    $item['assemblyTime'] = $currentStore instanceof StoreItem ?
+        $currentStore->getAssemblyTime() : 0;
 
     $arResult['GRID']['ROWS'][$i] = $item;
 }
