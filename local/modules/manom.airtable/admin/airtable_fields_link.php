@@ -133,6 +133,12 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                                 <td width="50%">Изображения</td>
                                                 <td width="50%">DETAIL_PICTURE</td>
                                             </tr>
+                                            <?php foreach ($map['product'] as $airtable => $bitrix): ?>
+                                                <tr>
+                                                    <td width="50%"><?= $airtable ?></td>
+                                                    <td width="50%"><?= $bitrix ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </td>

@@ -473,11 +473,9 @@ input.pb-info__button {
 }
 .slick-prev {
   left: -15px;
-  top: 59%;
 }
 .slick-next {
   right: -15px;
-  top: 59%;
 }
 /* .addToFavoriteList.notActive {
   -webkit-filter: grayscale(1)!important;

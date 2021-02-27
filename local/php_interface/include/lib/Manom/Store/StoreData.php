@@ -189,4 +189,29 @@ class StoreData
 
         return $quantity > 0;
     }
+
+    /**
+     * @return int
+     */
+    public function getQuantityAllMain(): int
+    {
+        $quantity = 0;
+        foreach ($this->storeList->getMain() as $mainStore) {
+            /** @var StoreItem $mainStore */
+            $quantity += $this->data[$mainStore->getId()]["amount"];
+        }
+
+        return $quantity;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnlimited(): bool
+    {
+        $mainStore = $this->getMain();
+        $rrcStore = $this->getRrc();
+
+        return $mainStore["amount"] <= 0 && $rrcStore["amount"] > 0;
+    }
 }
