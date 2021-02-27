@@ -7,7 +7,10 @@ use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
 use \Bitrix\Main\ArgumentException;
 use \Bitrix\Main\ObjectPropertyException;
+use Bitrix\Sale\BasketItem;
 use Manom\Store\StoreData;
+use Manom\Store\StoreItem;
+use \Manom\Nextjs\Api;
 
 /**
  * Class Basket
@@ -89,5 +92,44 @@ class Basket
         }
 
         return $productsOutOfStock;
+    }
+
+    /**
+     * @param int $productId
+     * @return int
+     */
+    public static function getAssemblyTimeData($productId = 0): int
+    {
+        try {
+            if (!Loader::includeModule("manom.nextjs")) {
+                throw new Exception();
+            }
+
+            $basket = new Api\Basket(0, $productId);
+            $ecommerceData = (new Product())->getEcommerceData($basket->getOffersId(), \Helper::CATALOG_IB_ID);
+
+            $assemblyTime = 0;
+            foreach ($basket->getBitrixBasket()->getBasketItems() as $item) {
+                /** @var BasketItem $item */
+                /** @var StoreData $storeData */
+                $storeData = $ecommerceData[$item->getField("PRODUCT_ID")]['storeData'];
+                $mainStore = $storeData->getMain();
+                $rrcStore = $storeData->getRrc();
+
+                /** @var StoreItem|null $currentStore */
+                $currentStore = null;
+                if ((int)$mainStore['price']['ID'] === (int)$item->getField('PRODUCT_PRICE_ID')) {
+                    $currentStore = $mainStore["store"];
+                } elseif ((int)$rrcStore['price']['ID'] === (int)$item->getField('PRODUCT_PRICE_ID')) {
+                    $currentStore = $rrcStore["store"];
+                }
+
+                $assemblyTime += $currentStore instanceof StoreItem ?
+                    $currentStore->getAssemblyTime() : 0;
+            }
+        } catch (\Exception $e) {
+            $assemblyTime = 0;
+        }
+        return $assemblyTime;
     }
 }

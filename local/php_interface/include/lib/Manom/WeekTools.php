@@ -2,9 +2,7 @@
 
 namespace Manom;
 
-
-use Bitrix\Main\Loader;
-use Manom\Nextjs\Api\Store;
+use Manom\Store\StoreList;
 
 class WeekTools
 {
@@ -21,11 +19,16 @@ class WeekTools
         'сб',
     ];
 
-    public function __construct()
+    /**
+     * WeekTools constructor.
+     * @param int $productId
+     */
+    public function __construct($productId = 0)
     {
         $this->currentDay = (int)date('w');
         $this->currentHour = (int)date('G');
         $this->currentTimeString = date("G:i");
+        $this->assemblyTime = Basket::getAssemblyTimeData($productId);
     }
 
     public function calcDiffDay($startDay, $endDay): int
@@ -84,28 +87,31 @@ class WeekTools
 
             $periodStart = array_shift($period);
             $periodEnd = array_shift($period);
-            $offset = 0;
+            $cdekOffset = 0;
 
             if (!($now >= $start && $now <= $end)) {
-                $offset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
+                $cdekOffset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
             }
 
+            $cdekOffset += $this->assemblyTime;
+
             if ($periodStart) {
-                $textNearestDate = (string)($offset + (int)$periodStart);
+                $periodStart = $cdekOffset + (int)$periodStart;
+                $textNearestDate = (string)$periodStart;
             }
 
             if ($periodEnd) {
-                $textNearestDate .= '-' . ($offset + (int)$periodEnd);
+                $periodEnd = $cdekOffset + (int)$periodEnd;
+                $textNearestDate .= '-' . (string)$periodEnd;
             }
 
             if ($textNearestDate !== '') {
-                $textNearestDate .= ' дня';
+                $textNearestDate .= " " . Content::getNumEnding($periodEnd, ['день', 'дня', 'дней']);
             }
 
             return $textNearestDate;
         }
 
-        $workingHour = true;
         $dayOffset = 0;
 
         if ($deliveryObj['exist']) {
@@ -119,6 +125,13 @@ class WeekTools
         } else {
             $workingHour = $this->currentHour < $deliveryObj['time']['end'];
         }
+
+        //Добавляем текущий день к сроку сборки, если сейчас больше 9 утра
+        if ($this->currentHour >= 9) {
+            $this->assemblyTime++;
+        }
+
+        $dayOffset += $this->assemblyTime;
 
         if ($dayOffset === 0 && !$workingHour) {
             $dayOffset++;
@@ -139,7 +152,11 @@ class WeekTools
                 $textNearestDate = 'Послезавтра';
                 break;
             default:
-                $textNearestDate = 'Через ' . $dayOffset . ' дня';
+                $textNearestDate = 'Через ' . $dayOffset . " " . Content::getNumEnding($dayOffset, [
+                        'день',
+                        'дня',
+                        'дней'
+                    ]);
                 break;
         }
 
@@ -184,12 +201,8 @@ class WeekTools
     {
         $cleaner = "$this->currentHour;$this->currentDay;";
         try {
-            if (!Loader::includeModule("manom.nextjs")) {
-                return $cleaner;
-            }
-
-            $mainStore = (new Store())->getMain();
-            $cleaner .= "{$mainStore["schedule"]};";
+            $schedule = StoreList::getInstance()->getShop()->getSchedule();
+            $cleaner .= "{$schedule};";
         } catch (\Exception $e) {
         }
 

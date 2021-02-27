@@ -139,7 +139,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
                 $arResult['DELIVERIES']['COURIER'] = array_merge(
                     $arResult['DELIVERIES']['COURIER'],
                     [
-                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery),
+                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery, $arResult['PRODUCT_ID']),
                         'ID' => $actualDelivery['id'],
                         'EXIST' => true,
                     ]
@@ -153,7 +153,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
                 $arResult['DELIVERIES']['PICKUP'] = array_merge(
                     $arResult['DELIVERIES']['PICKUP'],
                     [
-                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery),
+                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery, $arResult['PRODUCT_ID']),
                         'ID' => $actualDelivery['id'],
                         'EXIST' => true,
                     ]
@@ -419,13 +419,13 @@ function getDelivery()
  * @throws \Bitrix\Main\LoaderException
  * @throws \Manom\Exception
  */
-function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
+function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery, int $productId)
 {
     $result = null;
 
     $deliveryPeriod = $delivery['period'];
 
-    $week = new WeekTools();
+    $week = new WeekTools($productId);
 
     $shop = [
         'exist' => false,
