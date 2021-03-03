@@ -270,9 +270,14 @@ foreach ($arResult['GRID']['ROWS'] as $i => $item) {
     $item['sum'] = (int)$item['QUANTITY'] * $item['price'];
     $item['oldSum'] = (int)$item['QUANTITY'] * $item['oldPrice'];
     $item['isService'] = (bool)$basketEcommerceData[$productId]["isService"];
-    $item['canIncrease'] = ($item['QUANTITY'] < (int)$item['AVAILABLE_QUANTITY']) || $storeData->isUnlimited();
-    if (in_array($item['PRODUCT_ID'], $arParams['productsOutOfStock'])) {
-        $item['canIncrease'] = false;
+    $item["disableUpButton"] = !(($item['QUANTITY'] < (int)$item['AVAILABLE_QUANTITY']) || $storeData->isUnlimited());
+    $item["disableDownButton"] = (int)$item['QUANTITY'] === 1;
+    $item["outOfStock"] = in_array($item['PRODUCT_ID'], $arParams['productsOutOfStock']);
+    $item["canBuy"] = $item['CAN_BUY'] === "Y";
+
+    if ($item["outOfStock"] || !$item["canBuy"]) {
+        $item["disableUpButton"] = true;
+        $item["disableDownButton"] = true;
     }
 
     $arResult['GRID']['ROWS'][$i] = $item;

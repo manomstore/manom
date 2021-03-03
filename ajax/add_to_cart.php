@@ -6,6 +6,7 @@ use Bitrix\Sale\Basket;
 use BItrix\Sale\Fuser;
 use Manom\Product;
 use Manom\CatalogProvider;
+use Manom\Store\Amount;
 use Manom\Store\StoreData;
 
 require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php';
@@ -27,7 +28,7 @@ if (!$_REQUEST['METHOD_CART']) {
 if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
     $productId = (int)$_REQUEST['PRODUCT_ID'];
 
-    if ($_REQUEST['METHOD_CART'] === 'CHANGE_COUNT' && (int)$_REQUEST['COUNT'] >= 0) {
+    if ($_REQUEST['METHOD_CART'] === 'CHANGE_COUNT' && (int)$_REQUEST['COUNT'] > 0) {
         $flag = false;
         $count = (int)$_REQUEST['COUNT'];
 
@@ -48,7 +49,7 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
             if ($basketProduct['quantity'] >= $count) {
                 $flag = true;
             } else {
-                $count -= $basketProduct['quantity'];
+                $diffCount = $count - $basketProduct['quantity'];
 
                 $product = new Product;
                 $ecommerceData = $product->getEcommerceData(array($basketProduct['productId']), 6);
@@ -59,20 +60,31 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
 
                 if (
                     $basketProduct['priceId'] === $mainStore['price']['ID'] &&
-                    $mainStore['amount'] >= $count
+                    $mainStore['amount'] >= $diffCount
                 ) {
                     $flag = true;
                 } elseif (
                     $basketProduct['priceId'] === $rrcStore['price']['ID'] &&
-                    $rrcStore['amount'] >= $count
+                    $rrcStore['amount'] >= $diffCount
                 ) {
                     $flag = true;
                 }
             }
         }
 
+        if (!$flag) {
+            if ($storeData->isUnlimited()) {
+                $flag = true;
+            } else {
+                $count = Amount::getAvailableQuantity($basketProduct['productId']);
+                if ($count > 0) {
+                    $flag = true;
+                }
+            }
+        }
+
         if ($flag) {
-            $res = CSaleBasket::Update($productId, array('QUANTITY' => $_REQUEST['COUNT']));
+            $res = CSaleBasket::Update($productId, array('QUANTITY' => $count));
         }
 
         if ($_REQUEST['AJAX_CART'] === 'Y') {
