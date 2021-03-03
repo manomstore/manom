@@ -126,9 +126,11 @@ class WeekTools
             $workingHour = $this->currentHour < $deliveryObj['time']['end'];
         }
 
-        //Добавляем текущий день к сроку сборки, если сейчас больше 9 утра
-        if ($this->currentHour >= 9) {
-            $this->assemblyTime++;
+        if ($this->assemblyTime > 0) {
+            //Добавляем текущий день к сроку сборки, если сейчас больше 9 утра
+            if ($this->currentHour >= 9) {
+                $this->assemblyTime++;
+            }
         }
 
         $dayOffset += $this->assemblyTime;
