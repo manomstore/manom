@@ -611,8 +611,8 @@
                                     </div>
                                     <a href="/" class="top-nav__logo-link">
                                         <picture>
-                                            <source media="(min-width: 768px)" srcset="<?=SITE_TEMPLATE_PATH?>/assets/img/logo.svg">
-                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo-mobile.svg" alt="Логотип интернет магазина Manom.ru">
+                                            <source media="(min-width: 768px)" srcset="<?=SITE_TEMPLATE_PATH?>/assets/img/logo-new.svg">
+                                            <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo-new-mobile.svg" alt="Логотип интернет магазина Manom.ru">
                                         </picture>
                                     </a>
 

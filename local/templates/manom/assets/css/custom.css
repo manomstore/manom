@@ -30,7 +30,7 @@ pre.dnd-dump:hover {
   padding: 25px 0;
 }
 .subscribe-edit a {
-  color: #79b700;
+  color: #3D8E65;
 }
 .subscribe-edit h1 {
   margin-bottom: 15px;
@@ -46,28 +46,28 @@ pre.dnd-dump:hover {
   margin-right: 5px;
 }
 .subscribe-edit .data-table td p input[type='text'] {
-  border: 1px solid #79b700;
+  border: 1px solid #3D8E65;
   padding: 5px 5px;
   border-radius: 6px;
 }
 .subscribe-edit .data-table td input[type='submit'] {
-  background-color: #79b700;
-  border: 1px solid #79b700;
+  background-color: #3D8E65;
+  border: 1px solid #3D8E65;
   color: #fff;
   padding: 5px 15px;
   border-radius: 6px;
 }
 .subscribe-edit .data-table td input[type='reset'] {
   background-color: #fff;
-  border: 1px solid #79b700;
-  color: #79b700;
+  border: 1px solid #3D8E65;
+  color: #3D8E65;
   padding: 5px 15px;
   border-radius: 6px;
 }
 .form_msg {
   width: 100%;
   padding: 25px 0;
-  color: #79b700;
+  color: #3D8E65;
   font-weight: 600;
   display: none;
 }
@@ -233,7 +233,7 @@ pre.dnd-dump:hover {
   color: #454545;
 }
 .top-nav .top-sign a:hover {
-  color: #79b700;
+  color: #3D8E65;
 }
 .top-nav .top-sign form {
   display: inline-block;
@@ -241,7 +241,7 @@ pre.dnd-dump:hover {
 .top-nav .top-sign form input {
   background-color: transparent;
   border: none;
-  color: #79b700;
+  color: #3D8E65;
   font-size: 12px;
 }
 .top-sign {
@@ -268,7 +268,7 @@ pre.dnd-dump:hover {
   margin: 35px 0px;
   max-width: 725px;
   padding: 0px 30px;
-  border: 1px solid #79b700;
+  border: 1px solid #3D8E65;
 }
 .bx-auth-reg .text-message {
   margin: 25px 0px;
@@ -320,8 +320,8 @@ pre.dnd-dump:hover {
 }
 .bx-authform .alert-success {
   color: #fff;
-  background-color: #79b700;
-  border-color: #79b700;
+  background-color: #3D8E65;
+  border-color: #3D8E65;
 }
 .password-input,
 .email-input {
@@ -344,7 +344,7 @@ pre.dnd-dump:hover {
   font-size: 14px;
 }
 .auth-link {
-  color: #79b700;
+  color: #3D8E65;
   font-size: 13px;
   font-weight: 500;
   margin-top: 5px;
@@ -450,7 +450,7 @@ input.pb-info__button {
   color: #000;
   text-align: center;
   width: 300px;
-  background-color: #79b700;
+  background-color: #3D8E65;
   -webkit-border-radius: 10px;
   border-radius: 10px;
   padding: 20px 0;
@@ -497,7 +497,7 @@ input.pb-info__button {
   color: #333;
 }
 .p-article__sidebar_item a:hover {
-  color: #79b700;
+  color: #3D8E65;
 }
 h4.p-article__sidebar_title {
   margin-top: 15px;
@@ -515,7 +515,7 @@ h4.p-article__sidebar_title {
   color: #333333;
 }
 .preview-prod1__name a:hover {
-  color: #79b700;
+  color: #3D8E65;
 }
 .sci-top__name a {
   -webkit-transition: 0.2s;
@@ -524,7 +524,7 @@ h4.p-article__sidebar_title {
   color: #333333;
 }
 .sci-top__name a:hover {
-  color: #79b700;
+  color: #3D8E65;
 }
 .sci-add__name a {
   -webkit-transition: 0.2s;
@@ -533,7 +533,7 @@ h4.p-article__sidebar_title {
   color: #333333;
 }
 .sci-add__name a:hover {
-  color: #79b700;
+  color: #3D8E65;
 }
 .shipping-item .payment__item .payment__item_text {
   text-align: justify;
@@ -807,11 +807,11 @@ input {
     margin-left: 0;
     width: 100%;
     text-align: right;
-    color: #79b700;
+    color: #3D8E65;
   }
   .footer-bottom__policy {
     text-align: right;
-    color: #79b700;
+    color: #3D8E65;
   }
 }
 
@@ -819,10 +819,10 @@ input {
   display: none;
 }
 a.top-submenu2__item:hover .top-submenu2__title {
-  color: #79b700;
+  color: #3D8E65;
 }
 .sc-category-card:hover .sc-category-card__title {
-  color: #79b700;
+  color: #3D8E65;
 }
 .btn-bestseller-mobile {
   display: none;
@@ -837,7 +837,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 }
 .btn-bestseller-mobile {
   padding: 10px 14px;
-  border: 2px solid #79b700;
+  border: 2px solid #3D8E65;
   color: #333;
   border-radius: 5px;
 }
@@ -998,7 +998,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
   white-space: nowrap;
 }
 .dnd-location-curent i {
-  color: #79b700;
+  color: #3D8E65;
   font-size: 14px;
   margin-right: 5px;
 }
@@ -1012,14 +1012,14 @@ a.top-submenu2__item:hover .top-submenu2__title {
 /*top: 25px;*/
 /*background-color: #fff;*/
 /*z-index: 9;*/
-/*border: 3px solid #79b700;*/
+/*border: 3px solid #3D8E65;*/
 /*border-radius: 3px;*/
 /*}*/
 /*.dnd-location-specify::after, .dnd-location-change-city::after {*/
 /*content: '';*/
 /*position: absolute;*/
 /*border: 10px solid transparent;*/
-/*border-bottom: 10px solid #79b700;*/
+/*border-bottom: 10px solid #3D8E65;*/
 /*bottom: 100%;*/
 /*left: 32px;*/
 /*}*/
@@ -1060,7 +1060,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
 /*.dnd-location-change-city-form input{*/
 /*font-size: 20px;*/
 /*border: 0;*/
-/*border-bottom: 1px solid #79b700;*/
+/*border-bottom: 1px solid #3D8E65;*/
 /*padding: 5px;*/
 /*margin-bottom: 15px;*/
 /*text-align: center;*/
