@@ -7,7 +7,7 @@ $APPLICATION->SetTitle("404");
       <div class="not-found__cover">
         <img class="not-found__image" src="./../local/templates/manom/assets/img/404.svg" >
         <h2 class="not-found__title"><span>Хм, это сбивает с толку.</span> <span>Куда делась страница?!</span></h2>
-        <p class="not-found__text">Вы можете перейти на <a href="">главную страницу</a><br> или воспользоваться <a href="">каталогом товаров.</a></p>
+        <p class="not-found__text">Вы можете перейти на <a href="https://manom.ru/">главную страницу</a><br> или воспользоваться <a href="https://manom.ru/catalog/">каталогом товаров.</a></p>
       </div>
     </div>
 </div>
