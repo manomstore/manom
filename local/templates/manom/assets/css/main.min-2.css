@@ -13306,3 +13306,57 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.not-found__image {
+  margin-bottom: 32px;
+  width: 395px;
+  height: 166px;
+}
+
+.not-found__title {
+  font-size: 22px;
+  line-height: 28px;
+  color: #29282C;
+  margin-bottom: 20px;
+}
+
+.not-found__text {
+  font-size: 18px;
+  line-height: 23px;
+  color: #73737E;
+}
+
+.not-found__text a {
+  color: #3D8E65;
+}
+
+@media screen and (max-width: 768px) {
+  .not-found__image {
+    width: 200px;
+    height: 84px;
+  }
+
+  .not-found__title {
+    font-size: 20px;
+    line-height: 24px;
+    color: #29282C;
+    margin-bottom: 20px;
+  }
+
+  .not-found__title span {
+    display: block;
+  }
+
+  .not-found__text {
+    font-size: 15px;
+    line-height: 20px;
+  }
+}
