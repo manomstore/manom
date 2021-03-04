@@ -10303,7 +10303,7 @@ h3.tab-content__title--right {
 }
 
 .top-nav .container {
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 .top-nav__block {
@@ -10436,13 +10436,13 @@ h3.tab-content__title--right {
 
 .top-nav__logo-link {
   display: block;
-  width: 20px;
+  width: 21px;
   height: 23px;
   margin-top: -4px;
 }
 
 .top-nav__logo-link img {
-  width: 20px;
+  width: 21px;
   height: 23px;
 }
 
@@ -11724,15 +11724,15 @@ button.top-nav__link {
 
   .top-nav__logo-link {
     display: block;
-    width: 152px;
-    height: 27px;
+    width: 163px;
+    height: 30px;
     margin-right: 40px;
     margin-top: 0;
   }
 
   .top-nav__logo-link img {
-    width: 152px;
-    height: 27px;
+    width: 100px;
+    height: 16px;
   }
 
   .top-personal__block:hover .personal-preview,

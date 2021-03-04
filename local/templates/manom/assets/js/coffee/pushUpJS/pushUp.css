@@ -54,7 +54,7 @@
 }
 
 .push_up_item--success:before {
-    border: 1.22px solid #85BA35;
+    border: 1.22px solid #3D8E65;
     background-image: url(./../../../img/sign-success.svg);
     background-size: 2px 9px;
     width: 16px;
