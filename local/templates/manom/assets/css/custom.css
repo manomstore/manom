@@ -1043,7 +1043,7 @@ a.top-submenu2__item:hover .top-submenu2__title {
   padding: 5px 20px;
   margin: 0 5px;
   border: none;
-  background-color: #83bb26;
+  background-color: #3D8E65;
   border-radius: 3px;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -1095,22 +1095,22 @@ a.top-submenu2__item:hover .top-submenu2__title {
   border-right: 2px solid transparent;
 }
 .dnd-location__item:hover {
-  color: #83bb26;
+  color: #3D8E65;
 }
 .dnd-location__item:hover::before {
   border-top-color: rgba(153, 152, 157, 0.3);
   border-right-color: rgba(153, 152, 157, 0.3);
 }
 .dnd-location__item--active {
-  color: #83bb26;
+  color: #3D8E65;
 }
 .dnd-location__item--active::before {
-  border-top-color: #83bb26;
-  border-right-color: #83bb26;
+  border-top-color: #3D8E65;
+  border-right-color: #3D8E65;
 }
 .dnd-location__item--active:hover::before {
-  border-top-color: #83bb26;
-  border-right-color: #83bb26;
+  border-top-color: #3D8E65;
+  border-right-color: #3D8E65;
 }
 #dnd-location {
   position: relative;
@@ -1631,5 +1631,5 @@ body div.search-popup-row-active {
 }
 
 .product-label--preorder {
-  background-color: #83BB26;
+  background-color: #3D8E65;
 }
