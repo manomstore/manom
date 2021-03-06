@@ -127,7 +127,7 @@
                     <div class="container">
                         <div class="top-nav">
                             <a class="top-nav__logo" href="/">
-                                <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo.svg"
+                                <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo-new.svg"
                                      class="top-nav__picture"
                                      alt="Логотип интернет магазина Manom.ru"
                                      width="130"
