@@ -47,7 +47,9 @@ switch ($_REQUEST['sort_by']) {
 
 $elementOrder = [
     "ELEMENT_SORT_FIELD" => $sort,
-    "ELEMENT_SORT_ORDER" => $order
+    "ELEMENT_SORT_ORDER" => $order,
+    'ELEMENT_SORT_FIELD2' =>  "SORT",
+    'ELEMENT_SORT_ORDER2' => "ASC",
 ];
 
 $pageCountList = [
