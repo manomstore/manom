@@ -9,6 +9,7 @@ class WeekTools
     public $currentDay = 0;
     public $currentHour = 0;
     public $currentTimeString = "";
+    public $assemblyTime = 0;
     public $days = [
         'вс',
         'пн',

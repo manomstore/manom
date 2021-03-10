@@ -108,7 +108,7 @@ class Basket
             $basket = new Api\Basket(0, $productId);
             $ecommerceData = (new Product())->getEcommerceData($basket->getOffersId(), \Helper::CATALOG_IB_ID);
 
-            $assemblyTime = 0;
+            $commonAssemblyTime = 0;
             foreach ($basket->getBitrixBasket()->getBasketItems() as $item) {
                 /** @var BasketItem $item */
                 /** @var StoreData $storeData */
@@ -124,12 +124,16 @@ class Basket
                     $currentStore = $rrcStore["store"];
                 }
 
-                $assemblyTime += $currentStore instanceof StoreItem ?
+                $assemblyTime = $currentStore instanceof StoreItem ?
                     $currentStore->getAssemblyTime() : 0;
+
+                if ($assemblyTime > $commonAssemblyTime) {
+                    $commonAssemblyTime = $assemblyTime;
+                }
             }
         } catch (\Exception $e) {
-            $assemblyTime = 0;
+            $commonAssemblyTime = 0;
         }
-        return $assemblyTime;
+        return $commonAssemblyTime;
     }
 }
