@@ -585,5 +585,5 @@ function addCookie($code, $val)
     $cookie->setDomain($context->getServer()->getHttpHost());
     $cookie->setHttpOnly(false);
     $context->getResponse()->addCookie($cookie);
-    $context->getResponse()->flush("");
+    $context->getResponse()->writeHeaders();
 }

@@ -209,6 +209,8 @@ try {
                 'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                 'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
                 'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
+                'ELEMENT_SORT_FIELD2' => "SORT",
+                'ELEMENT_SORT_ORDER2' => "ASC",
                 'SORT_CODE' => $sortCode,
                 'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                 'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],

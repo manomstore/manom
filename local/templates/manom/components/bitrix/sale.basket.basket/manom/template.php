@@ -18,7 +18,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
 ?>
 <?php foreach ($arResult['GRID']['ROWS'] as $key => $row): ?>
-    <article class="sci-product <?=$row['CAN_BUY'] === 'Y' ? '' : 'sci-product--off'?> js-basket-item"
+    <article class="sci-product <?=$row['canBuy'] ? '' : 'sci-product--off'?> js-basket-item"
              data-id="<?= $row['ID'] ?>"
              data-assembly-time="<?= $row['assemblyTime'] ?>"
     >
@@ -54,7 +54,7 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                             type="button" aria-label="Удалить товар"
                             data-id="<?=$row['ID']?>"
                             data-product-id="<?=$row['PRODUCT_ID']?>"
-                            data-out-of-stock="<?=(int)in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])?>"
+                            data-out-of-stock="<?= (int)$row["outOfStock"] ?>"
                     >
                     </button>
                 </div>
@@ -83,9 +83,9 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                 <?php endif; ?>
                 <? if (!$row["isService"]): ?>
                     <p class="sci-product__status">
-                        <?php if (in_array($row['PRODUCT_ID'], $arParams['productsOutOfStock'])): ?>
+                        <?php if ($row["outOfStock"]): ?>
                             <span style="color: red;">Товар закончился, удалите его, чтобы продолжить</span>
-                        <?php elseif ($row['CAN_BUY'] === 'Y'): ?>
+                        <?php elseif ($row['canBuy']): ?>
                             Есть в наличии
                         <?php else: ?>
                             Товар закончился
@@ -101,17 +101,21 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     aria-label="Уменьшить количество"
 
                                     data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
-                                <?= $row['QUANTITY'] == 1 ? 'disabled' : '' ?>
+                                <?= $row['disableDownButton'] ? 'disabled' : '' ?>
                             >
-                                <svg width="8" height="8">
-                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
-                                </svg>
+                            <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 1H0" stroke="#343434"/>
+                            </svg>
                             </button>
                             <input
-                                    type="text"
-                                    readonly
+                                    type="number"
                                     value="<?= $row['QUANTITY'] ?>"
                                     name="QUANTITY"
+                                    min="1"
+                                    data-id="<?= $row['ID'] ?>"
+                                    data-q="<?= $row['QUANTITY'] ?>"
+                                    class="sci-top__count-change"
+                                <?= $row["outOfStock"] || !$row["canBuy"] ? 'disabled' : '' ?>
                             >
                             <button
                                     class="sci-top__count-up"
@@ -119,11 +123,10 @@ GTM::setProductsOnPage($arResult['GRID']['ROWS'], true, 'PRODUCT_ID');
                                     type="button"
                                     aria-label="Увеличить количество"
                                     data-id="<?= $row['ID'] ?>" data-q="<?= $row['QUANTITY'] ?>"
-                                <?= !$row['canIncrease'] ? 'disabled' : '' ?>
+                                <?= $row['disableUpButton'] ? 'disabled' : '' ?>
                             >
-                                <svg width="8" height="8">
-                                    <line x1="0" y1="4" x2="8" y2="4" stroke="#343434" stroke-width="1"/>
-                                    <line x1="4" y1="0" x2="4" y2="8" stroke="#343434" stroke-width="1"/>
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 5H0M5 10L5 0" stroke="#343434"/>
                                 </svg>
                             </button>
                         </div>
