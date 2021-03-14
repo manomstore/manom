@@ -10,7 +10,7 @@ use \Bitrix\Main\ObjectPropertyException;
 use Bitrix\Sale\BasketItem;
 use Manom\Store\StoreData;
 use Manom\Store\StoreItem;
-use \Manom\Nextjs\Api;
+use \Manom\Custom;
 
 /**
  * Class Basket
@@ -101,11 +101,7 @@ class Basket
     public static function getAssemblyTimeData($productId = 0): int
     {
         try {
-            if (!Loader::includeModule("manom.nextjs")) {
-                throw new Exception();
-            }
-
-            $basket = new Api\Basket(0, $productId);
+            $basket = new Custom\Basket(0, $productId);
             $ecommerceData = (new Product())->getEcommerceData($basket->getOffersId(), \Helper::CATALOG_IB_ID);
 
             $commonAssemblyTime = 0;

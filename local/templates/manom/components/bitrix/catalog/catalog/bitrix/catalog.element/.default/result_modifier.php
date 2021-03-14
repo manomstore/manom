@@ -455,8 +455,8 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery, int
                 'end' => (int)array_pop($intervals)["fromHour"],
             ],
             'dates' => [
-                'start' => $shopSchedule["dayStart"],
-                'end' => $shopSchedule["dayEnd"],
+                'start' => is_numeric($shopSchedule["dayStart"]) ? (int)$shopSchedule["dayStart"] : 1,
+                'end'   => is_numeric($shopSchedule["dayEnd"]) ? (int)$shopSchedule["dayEnd"] : 5,
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($courier);
@@ -469,8 +469,8 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery, int
                 'end' => 0,
             ],
             'dates' => [
-                'start' => $shopSchedule["dayStart"],
-                'end' => $shopSchedule["dayEnd"],
+                'start' => is_numeric($shopSchedule["dayStart"]) ? (int)$shopSchedule["dayStart"] : 1,
+                'end'   => is_numeric($shopSchedule["dayEnd"]) ? (int)$shopSchedule["dayEnd"] : 5,
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($sdek);

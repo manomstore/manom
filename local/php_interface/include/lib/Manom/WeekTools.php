@@ -66,6 +66,10 @@ class WeekTools
     public function getTextPeriod($deliveryObj): string
     {
         $textNearestDate = '';
+        $existRestDay = !(
+            array_search("пн", $this->days) === $deliveryObj["dates"]["start"]
+            && array_search("вс", $this->days) === $deliveryObj["dates"]["end"]
+        );
         //fix for sunday
         $start = $deliveryObj['dates']['start'] === 0 ? 7 : $deliveryObj['dates']['start'];
         $end = $deliveryObj['dates']['end'] === 0 ? 7 : $deliveryObj['dates']['end'];
@@ -90,7 +94,7 @@ class WeekTools
             $periodEnd = array_shift($period);
             $cdekOffset = 0;
 
-            if (!($now >= $start && $now <= $end)) {
+            if (!($now >= $start && $now <= $end) && $existRestDay) {
                 $cdekOffset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
             }
 
@@ -120,8 +124,10 @@ class WeekTools
 
             $lastWorkDay = $this->currentDay === $deliveryObj['dates']['end'];
 
-            if (!($now >= $start && $now <= $end && ($workingHour || !$lastWorkDay))) {
-                $dayOffset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
+            if (!($now >= $start && $now <= $end) && $existRestDay) {
+                if ($workingHour || !$lastWorkDay) {
+                    $dayOffset = $this->calcDiffDay($this->currentDay, $deliveryObj['dates']['start']);
+                }
             }
         } else {
             $workingHour = $this->currentHour < $deliveryObj['time']['end'];

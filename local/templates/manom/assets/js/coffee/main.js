@@ -273,6 +273,11 @@ app.utils = {
     },
     getTextPeriod: function (deliveryObj) {
       var textNearestDate = '';
+      var existRestDay = !(
+          this.days.indexOf("пн") === deliveryObj.dates.start
+          && this.days.indexOf("вс") === deliveryObj.dates.end
+      );
+
       //fix for sunday
       var start = deliveryObj.dates.start === 0 ? 7 : deliveryObj.dates.start;
       var end = deliveryObj.dates.end === 0 ? 7 : deliveryObj.dates.end;
@@ -296,7 +301,7 @@ app.utils = {
             periodEnd = period.shift(),
             cdekOffset = 0;
 
-        if (!(now >= start && now <= end)) {
+        if (!(now >= start && now <= end) && existRestDay) {
           cdekOffset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
         }
 
@@ -324,8 +329,10 @@ app.utils = {
 
         var lastWorkDay = this.currentDay === deliveryObj.dates.end;
 
-        if (!(now >= start && now <= end && (workingHour || !lastWorkDay))) {
-          dayOffset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+        if (!(now >= start && now <= end) && existRestDay) {
+          if (workingHour || !lastWorkDay) {
+            dayOffset = app.weekTools.calcDiffDay(this.currentDay, deliveryObj.dates.start);
+          }
         }
       } else {
         workingHour = this.currentHour < deliveryObj.time.end;
@@ -490,8 +497,8 @@ function setDeliveryDescription($delivery) {
             end: $deliveryTimes.last().data('start'),
           },
           dates: {
-            start: shopSchedule.dayStart || 1,
-            end: shopSchedule.dayEnd || 5,
+            start: !isNaN(shopSchedule.dayStart) ? shopSchedule.dayStart : 1,
+            end: !isNaN(shopSchedule.dayStart) ? shopSchedule.dayStart : 5,
           },
         };
       deliveryPeriod = app.weekTools.getTextPeriod(courier);
@@ -505,8 +512,8 @@ function setDeliveryDescription($delivery) {
             end: 0,
           },
           dates: {
-            start: shopSchedule.dayStart || 1,
-            end: shopSchedule.dayEnd || 5,
+            start: !isNaN(shopSchedule.dayStart) ? shopSchedule.dayStart : 1,
+            end: !isNaN(shopSchedule.dayEnd) ? shopSchedule.dayEnd : 5,
           },
         };
         deliveryPeriod = app.weekTools.getTextPeriod(sdek);
