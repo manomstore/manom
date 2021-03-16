@@ -111,6 +111,8 @@ class Product
                     $this->productsIblockId,
                     $updateProperty
                 );
+
+                (new \CIBlockElement)->UpdateSearch($products[$item->fields->externalCode]['id'], true);
             }
         }
     }
