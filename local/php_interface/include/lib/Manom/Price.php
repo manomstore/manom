@@ -340,7 +340,7 @@ class Price
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    public function recalculateTypeCurrent(array $productsId): void
+    public function processingChanges(array $productsId): void
     {
         $product = new Product();
         $ecommerceData = $product->getEcommerceData($productsId, Helper::CATALOG_IB_ID);
@@ -348,9 +348,14 @@ class Price
             /** @var StoreData $storeData */
             $storeData = $item['storeData'];
             $prices = $storeData->getPrices();
+            $showOldPrice = !empty((int)$prices['oldPrice'])
+                && (int)$item['price'] !== (int)$prices['oldPrice'];
+
             if (isset($prices["price"])) {
+                // Обновляем "Текущую цену"
                 $this->updatePrice($productId, $prices["price"], static::CURRENT_TYPE_ID);
             }
+            $product->setSaleFlag($productId, $showOldPrice);
         }
     }
 
