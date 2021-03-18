@@ -35,6 +35,11 @@ if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
     AddEventHandler(
         "iblock",
         "OnBeforeIBlockElementAdd",
+        Array("MyHandlerClass", "OnBeforeIBlockElementAddImportHandler")
+    );
+    AddEventHandler(
+        "iblock",
+        "OnBeforeIBlockElementAdd",
         Array("MyHandlerClass", "OnBeforeIBlockElementAddHandler")
     );
     AddEventHandler(
@@ -525,6 +530,12 @@ class MyHandlerClass
         unset($arFields["IBLOCK_SECTION_ID"]);
         unset($arFields["IBLOCK_SECTION"]);
         unset($arFields["PROPERTY_VALUES"]);
+        unset($arFields["PREVIEW_TEXT"]);
+    }
+
+    function OnBeforeIBlockElementAddImportHandler(&$arFields)
+    {
+        unset($arFields["PREVIEW_TEXT"]);
     }
 
     function OnBeforeIBlockElementUpdateHandler($arFields)
