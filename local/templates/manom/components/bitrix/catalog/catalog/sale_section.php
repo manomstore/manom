@@ -10,6 +10,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 $this->setFrameMode(true);
 
 global $catalogFilter;
+global $sectionListFilter;
 
 $sortCode = $_REQUEST['sort_by'];
 $order = 'ASC';
@@ -91,8 +92,30 @@ function getSection($params): array
     return $section;
 }
 
+$catalogFilter = array_merge(
+    is_array($catalogFilter) ? $catalogFilter : [],
+    [
+        "PROPERTY_SELL_PROD_VALUE" => "Да"
+    ]
+);
+
+$filterEnum = [
+    "CODE"      => "SELL_PROD",
+    "IBLOCK_ID" => \Helper::CATALOG_IB_ID
+];
+$enum = \CIBlockPropertyEnum::GetList([], $filterEnum)->GetNext();
+
+$sectionListFilter = array_merge(
+    is_array($sectionListFilter) ? $sectionListFilter : [],
+    [
+        "PROPERTY" => [
+            "SELL_PROD" => $enum["ID"],
+        ]
+    ]
+);
+
 if ($section) {
-    Content::addSectionNavChain($section["id"]);
+    Content::addSectionNavChain($section["id"], "sale/");
 }
 ?>
 <?php $APPLICATION->IncludeComponent(
@@ -146,6 +169,8 @@ if ($section) {
                     'ADD_SECTIONS_CHAIN' => $arParams['ADD_SECTIONS_CHAIN'] ?? '',
                     'DISCOUNTED_SECTION_ID' => $arParams['DISCOUNTED_SECTION_ID'],
                     'TITLE' => $APPLICATION->GetTitle(),
+                    'PREFIX' => "sale/",
+                    'FILTER_NAME' => "sectionListFilter",
                 ),
                 $component,
                 array('HIDE_ICONS' => 'Y')
@@ -243,8 +268,6 @@ if ($section) {
                     'PAGER_DESC_NUMBERING' => $arParams['PAGER_DESC_NUMBERING'],
                     'PAGER_DESC_NUMBERING_CACHE_TIME' => $arParams['PAGER_DESC_NUMBERING_CACHE_TIME'],
                     'PAGER_SHOW_ALL' => $arParams['PAGER_SHOW_ALL'],
-                    'PAGER_BASE_LINK_ENABLE' => $arParams['PAGER_BASE_LINK_ENABLE'],
-                    'PAGER_BASE_LINK' => $arParams['PAGER_BASE_LINK'],
                     'PAGER_PARAMS_NAME' => $arParams['PAGER_PARAMS_NAME'],
                     'LAZY_LOAD' => $arParams['LAZY_LOAD'],
                     'MESS_BTN_LAZY_LOAD' => $arParams['~MESS_BTN_LAZY_LOAD'],
@@ -312,8 +335,14 @@ if ($section) {
                     'AJAX' => $_REQUEST['ajaxCal'] === 'Y',
                     'BLOCK_STYLE' => $_REQUEST['styleBlock'],
                     'HIDE_SMART_FILTER' => (bool)$hideSmartFilter,
+                    'PAGER_BASE_LINK' => $APPLICATION->GetCurPage(),
+                    'PAGER_BASE_LINK_ENABLE' => "Y",
+                    'IS_SALE' => true,
                 ),
                 $component
-            ); ?>
+            );
+
+            $APPLICATION->SetPageProperty("title", "Распродажа");
+            ?>
         </div>
     </main>
