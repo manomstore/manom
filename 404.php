@@ -1,9 +1,6 @@
-<?
+<? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 CHTTP::SetStatus("404 Not Found");
 @define("ERROR_404", "Y");
-
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("404");
 ?>
 <div class="content not-found">
     <div class="container">

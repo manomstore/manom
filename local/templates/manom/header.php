@@ -28,10 +28,13 @@
         <meta name="yandex-verification" content="ffd678aa654fbf92"/>
 
         <?php
+        global $APPLICATION;
+
         // CJSCore::Init(array("jquery"));
         $APPLICATION->AddHeadScript('https://code.jquery.com/jquery-3.3.1.min.js');
 
         use Manom\Content;
+
         ?>
 
         <meta charset="utf-8">
