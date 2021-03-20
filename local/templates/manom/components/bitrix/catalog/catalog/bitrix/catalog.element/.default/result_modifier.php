@@ -14,6 +14,7 @@ use Hozberg\Characteristics;
 use Manom\Related;
 use Manom\Service\Delivery as ServiceDelivery;
 use Manom\Service\TimeDelivery;
+use Manom\Store\StoreList;
 use \Manom\WeekTools;
 use \Manom\Store\StoreData;
 
@@ -138,7 +139,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
                 $arResult['DELIVERIES']['COURIER'] = array_merge(
                     $arResult['DELIVERIES']['COURIER'],
                     [
-                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery),
+                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery, $arResult['PRODUCT_ID']),
                         'ID' => $actualDelivery['id'],
                         'EXIST' => true,
                     ]
@@ -152,7 +153,7 @@ if (!empty((int)$arParams['LOCATION']['ID'])) {
                 $arResult['DELIVERIES']['PICKUP'] = array_merge(
                     $arResult['DELIVERIES']['PICKUP'],
                     [
-                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery),
+                        'DESCRIPTION' => getDeliveryDescription($actualDelivery, $serviceDelivery, $arResult['PRODUCT_ID']),
                         'ID' => $actualDelivery['id'],
                         'EXIST' => true,
                     ]
@@ -411,13 +412,20 @@ function getDelivery()
     return $delivery;
 }
 
-function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
+/**
+ * @param $delivery
+ * @param ServiceDelivery $serviceDelivery
+ * @return string
+ * @throws \Bitrix\Main\LoaderException
+ * @throws \Manom\Exception
+ */
+function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery, int $productId)
 {
     $result = null;
 
     $deliveryPeriod = $delivery['period'];
 
-    $week = new WeekTools();
+    $week = new WeekTools($productId);
 
     $shop = [
         'exist' => false,
@@ -425,15 +433,16 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
         'dates' => ['start' => 0, 'end' => 0],
     ];
 
+    $shopSchedule = $week->parseScheduleShop(StoreList::getInstance()->getShop()->getSchedule());
     $shop['exist'] = !empty($delivery['selfDeliveryPoints']);
 
     if ($shop['exist'] && $delivery['id'] === $serviceDelivery->getId("ownPickup")) {
-        $scheduleData = $week->parseScheduleShop($delivery['selfDeliveryPoints'][0]['schedule']);
 
-        $shop['time']['start'] = $scheduleData["hourStart"];
-        $shop['time']['end'] = $scheduleData["hourEnd"];
-        $shop['dates']['start'] = $scheduleData["dayStart"];
-        $shop['dates']['end'] = $scheduleData["dayEnd"];
+
+        $shop['time']['start'] = $shopSchedule["hourStart"];
+        $shop['time']['end'] = $shopSchedule["hourEnd"];
+        $shop['dates']['start'] = $shopSchedule["dayStart"];
+        $shop['dates']['end'] = $shopSchedule["dayEnd"];
     }
 
     if ($shop['exist'] && $delivery['id'] === $serviceDelivery->getId("ownPickup")) {
@@ -446,8 +455,8 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
                 'end' => (int)array_pop($intervals)["fromHour"],
             ],
             'dates' => [
-                'start' => 1,
-                'end' => 5,
+                'start' => is_numeric($shopSchedule["dayStart"]) ? (int)$shopSchedule["dayStart"] : 1,
+                'end'   => is_numeric($shopSchedule["dayEnd"]) ? (int)$shopSchedule["dayEnd"] : 5,
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($courier);
@@ -460,8 +469,8 @@ function getDeliveryDescription($delivery, ServiceDelivery $serviceDelivery)
                 'end' => 0,
             ],
             'dates' => [
-                'start' => 1,
-                'end' => 5,
+                'start' => is_numeric($shopSchedule["dayStart"]) ? (int)$shopSchedule["dayStart"] : 1,
+                'end'   => is_numeric($shopSchedule["dayEnd"]) ? (int)$shopSchedule["dayEnd"] : 5,
             ],
         ];
         $deliveryPeriod = $week->getTextPeriod($sdek);

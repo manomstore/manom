@@ -24,6 +24,14 @@ Loader::includeModule('rover.geoip');
 Loader::includeModule('sale');
 
 Helper::customRegistry();
+
+\CModule::AddAutoloadClasses(
+    "",
+    [
+        "\Manom\Nextjs\Api\Basket" => "/local/modules/manom.nextjs/lib/api/basket.php",
+    ]
+);
+
 $eventManager = \Bitrix\Main\EventManager::getInstance();
 
 if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):

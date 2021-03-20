@@ -29,6 +29,8 @@ class Price
     private $currency;
     private $pricesId = array();
 
+    public static $useRealPriceType = false;
+
     /**
      * Price constructor.
      * @throws Exception

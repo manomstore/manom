@@ -19,7 +19,7 @@ use Bitrix\Sale\SectionTable;
 class Basket
 {
     /** @var BasketBase  $basket*/
-    private $basket;
+    protected $basket;
     private $locationId;
 
     /**
@@ -110,7 +110,7 @@ class Basket
      * @throws \Bitrix\Main\NotImplementedException
      * @throws \Bitrix\Main\NotImplementedException
      */
-    private function addBasketItem($productId)
+    protected function addBasketItem($productId)
     {
         if ((int)$productId <= 0) {
             return;
