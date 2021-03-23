@@ -77,14 +77,16 @@ if ($request->get("apply")) {
                     <table class="adm-detail-content-table edit-table" style="margin-bottom: 2%;">
                         <tbody>
                         <tr>
-                            <td class="adm-detail-content-cell-l">Код свойства</td>
+                            <td class="adm-detail-content-cell-l">
+                                <span class="adm-required-field">Код свойства:</span>
+                            </td>
                             <td class="adm-detail-content-cell-r">
                                 <input type="text" name="property_code" value="<?= $propertyCode ?>" size="30"
                                        maxlength="255">
                             </td>
                         </tr>
                         <tr>
-                            <td class="adm-detail-content-cell-l">Значение свойства</td>
+                            <td class="adm-detail-content-cell-l">Значение свойства:</td>
                             <td class="adm-detail-content-cell-r">
                                 <input type="text" name="property_value" value="<?= $propertyValue ?>" size="30"
                                        maxlength="255">
