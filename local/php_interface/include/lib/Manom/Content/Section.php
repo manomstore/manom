@@ -59,19 +59,25 @@ class Section
                 "RIGHT_MARGIN",
                 "DEPTH_LEVEL",
                 "SECTION_PAGE_URL",
+                "IBLOCK_SECTION_ID",
             ]
         );
 
-        while ($section = $sections->GetNext()) {
-            $this->sections[$section["ID"]] = [
-                "id"          => (int)$section["ID"],
-                "code"        => $section["CODE"],
-                "name"        => $section["NAME"],
-                "leftMargin"  => (int)$section["LEFT_MARGIN"],
-                "rightMargin" => (int)$section["RIGHT_MARGIN"],
-                "depthLevel"  => (int)$section["DEPTH_LEVEL"],
-                "sectionUrl"  => $section["SECTION_PAGE_URL"],
+        while ($row = $sections->GetNext()) {
+            $section = [
+                "id"          => (int)$row["ID"],
+                "code"        => $row["CODE"],
+                "name"        => $row["NAME"],
+                "leftMargin"  => (int)$row["LEFT_MARGIN"],
+                "rightMargin" => (int)$row["RIGHT_MARGIN"],
+                "depthLevel"  => (int)$row["DEPTH_LEVEL"],
+                "sectionUrl"  => $row["SECTION_PAGE_URL"],
             ];
+
+            if ($row["IBLOCK_SECTION_ID"]) {
+                $section["parentId"] = (int)$row["IBLOCK_SECTION_ID"];
+            }
+            $this->sections[$section["id"]] = $section;
         }
     }
 
@@ -186,5 +192,44 @@ class Section
         }
 
         return (string)$this->sections[$sectionId]["code"];
+    }
+
+    /**
+     * @param array $param
+     * @return array
+     */
+    public function get(array $param = []): array
+    {
+        $sections = $this->sections;
+
+        if (isset($param["id"])) {
+            $sections = array_filter($sections, function ($section) use ($param) {
+                return $section["id"] === (int)$param["id"];
+            });
+        }
+
+        if (isset($param["maxDepth"])) {
+            $sections = array_filter($sections, function ($section) use ($param) {
+                return $section["depthLevel"] <= $param["maxDepth"];
+            });
+        }
+
+        return $sections;
+    }
+
+    /**
+     * @param array $param
+     * @return array
+     */
+    public function getFirst(array $param = []): array
+    {
+        $sections = $this->get($param);
+
+        $section = current($sections);
+        if (!is_array($section)) {
+            $section = [];
+        }
+
+        return $section;
     }
 }

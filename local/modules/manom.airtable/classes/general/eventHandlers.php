@@ -49,6 +49,25 @@ class eventHandlers
                     'items' => array(),
                 ),
                 array(
+                    'text'      => 'Инструменты',
+                    'title'     => 'Инструменты',
+                    'url'       => '',
+                    'icon'      => '',
+                    'page_icon' => '',
+                    'module_id' => 'manom.airtable',
+                    'items_id'  => 'airtable_tools',
+                    'items'     => array(
+                        array(
+                            "parent_menu" => "airtable_tools",
+                            "text"        => "Поиск товаров",
+                            "title"       => "Поиск товаров",
+                            "url"         => "airtable_search_products.php?lang=" . LANGUAGE_ID,
+                            "icon"        => "",
+                            "sort"        => 100,
+                        ),
+                    ),
+                ),
+                array(
                     'text' => 'Привязка полей',
                     'title' => 'Привязка полей',
                     'url' => 'airtable_fields_link.php',
