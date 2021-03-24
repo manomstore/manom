@@ -1229,7 +1229,7 @@ CONTENT;
         }
 
         $price = new Price();
-        $price->recalculateTypeCurrent((new Product())->getAll());
+        $price->processingChanges((new Product())->getAll());
     }
 
     /**
