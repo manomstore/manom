@@ -61,10 +61,34 @@ if ($request->get("apply")) {
 
         $arFilter[$propertyCodeField] = $propertyValueField;
 
-        $rsData = CIBlockElement::GetList([$by => $order], $arFilter);
+        $arSelect = [
+            "ID",
+            "IBLOCK_ID",
+            "IBLOCK_TYPE_ID",
+            "NAME",
+            "XML_ID",
+            "PROPERTY_" . $propertyCode,
+        ];
+
+        $result = CIBlockElement::GetList([$by => $order], $arFilter, false, false, $arSelect);
+        $resultIds = [];
+        while ($row = $result->GetNext()) {
+            if ($propertyValueField && $row[strtoupper("PROPERTY_" . $propertyCode . "_VALUE")] !== $propertyValueField) {
+                continue;
+            }
+            $resultIds[] = $row["ID"];
+        }
+
+        if (!empty($resultIds)) {
+            $rsData = CIBlockElement::GetList([$by => $order], ["ID" => $resultIds,], false, false, $arSelect);
+        } else {
+            //Для вывода пустого списка, если в предыдущем запросе не находим эквивалентных значений
+            $rsData = new \CDBResult();
+        }
     } else {
         \CAdminMessage::ShowMessage("Код свойства не указан");
     }
+    $cdbRes = new CDBResult();
 }
 ?>
 <form action="<?= $APPLICATION->GetCurPage() ?>" method="get">
