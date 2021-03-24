@@ -13,17 +13,26 @@ global $catalogFilter;
 
 $sortCode = $_REQUEST['sort_by'];
 $order = 'ASC';
+$sort2 = "SORT";
+$order2 = "ASC";
+
 if ($_REQUEST['sort_by'] === 'price_asc') {
     $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
 } elseif ($_REQUEST['sort_by'] === 'price_desc') {
     $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
     $order = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'pop') {
-    $sort = 'propertysort_SALELEADER';
+    $sort = $sort2;
+    $order = $order2;
+    $sort2 = 'show_counter';
+    $order2 = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'name') {
     $sort = 'NAME';
 } else {
-    $sort = 'propertysort_SALELEADER';
+    $sort = $sort2;
+    $order = $order2;
+    $sort2 = 'show_counter';
+    $order2 = 'DESC';
     $sortCode = "pop";
 }
 
@@ -194,8 +203,8 @@ function getSection($params): array
                     'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                     'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
                     'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
-                    'ELEMENT_SORT_FIELD2' =>  "SORT",
-                    'ELEMENT_SORT_ORDER2' => "ASC",
+                    'ELEMENT_SORT_FIELD2' =>  $sort2,
+                    'ELEMENT_SORT_ORDER2' => $order2,
                     'SORT_CODE' => $sortCode,
                     'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                     'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],
