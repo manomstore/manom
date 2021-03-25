@@ -1,17 +1,12 @@
 <?php
 
+use Manom\Content;
+
 require $_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php';
 
 $APPLICATION->SetTitle('Избранные товары');
 
-$sort = 'propertysort_SALELEADER';
-if ($_REQUEST['sort_by'] === 'price') {
-    $sort = 'CATALOG_PRICE_1';
-} elseif ($_REQUEST['sort_by'] === 'pop') {
-    $sort = 'propertysort_SALELEADER';
-} elseif ($_REQUEST['sort_by'] === 'name') {
-    $sort = 'NAME';
-}
+$content = new Content();
 
 $favoritesId = getProdListFavoritAndCompare('UF_FAVORITE_ID');
 global $favoriteFilter;
@@ -115,10 +110,11 @@ $favoriteFilter = array('ID' => $favoritesId, '>CATALOG_PRICE_1' => 0);
                         'DISPLAY_BOTTOM_PAGER' => 'Y',
                         'DISPLAY_COMPARE' => 'N',
                         'DISPLAY_TOP_PAGER' => 'N',
-                        'ELEMENT_SORT_FIELD' => $sort,
-                        'ELEMENT_SORT_FIELD2' => 'SORT',
-                        'ELEMENT_SORT_ORDER' => 'asc',
-                        'ELEMENT_SORT_ORDER2' => 'asc',
+                        'ELEMENT_SORT_FIELD' => $content->getSortValue("field"),
+                        'ELEMENT_SORT_FIELD2' => $content->getSortValue("field2"),
+                        'ELEMENT_SORT_ORDER' => $content->getSortValue("order"),
+                        'ELEMENT_SORT_ORDER2' => $content->getSortValue("order2"),
+                        'SORT_LIST' => $content->getSortList(),
                         'ENLARGE_PRODUCT' => '',
                         'FILE_404' => '',
                         'FILTER_NAME' => 'favoriteFilter',
@@ -220,7 +216,8 @@ $favoriteFilter = array('ID' => $favoritesId, '>CATALOG_PRICE_1' => 0);
                         'PAGER_SHOW_ALWAYS' => 'N',
                         'PAGER_TEMPLATE' => 'catalog_section',
                         'PAGER_TITLE' => 'Товары',
-                        'PAGE_ELEMENT_COUNT' => 3,
+                        'PAGE_ELEMENT_COUNT' => $content->getPageCount(),
+                        'PAGE_COUNT_LIST' => $content->getPageCountList(),
                         'PARTIAL_PRODUCT_PROPERTIES' => 'N',
                         'PRICE_CODE' => array('Цена продажи', 'РРЦ'),
                         'PRICE_VAT_INCLUDE' => 'Y',

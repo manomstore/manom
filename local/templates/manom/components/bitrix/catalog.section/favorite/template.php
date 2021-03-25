@@ -18,22 +18,25 @@ $this->setFrameMode(true);
             <div class="cb-nav-sort">
                 Сортировать по
                 <select required name="sort_by">
-                    <option selected value="pop">популярности</option>
-                    <option value="price">цене</option>
-                    <option value="name">названию</option>
+                    <? foreach ($arParams["SORT_LIST"] as $sortItem): ?>
+                        <option <?= $sortItem["selected"] ? "selected" : "" ?> value="<?= $sortItem["code"] ?>">
+                            <?= $sortItem["name"] ?>
+                        </option>
+                    <? endforeach; ?>
                 </select>
             </div>
             <div class="cb-nav-count catTopCount visually-hidden">
                 <?=$arResult['NAV_STRING']?>
                 Товаров на странице
                 <select name="countOnPage" required>
-
-                    <option value="12" selected>12</option>
-                    <option value="24">24</option>
-                    <option value="9999">все</option>
+                <? foreach ($arParams["PAGE_COUNT_LIST"] as $pageCount => $data): ?>
+                    <option value="<?= $pageCount ?>" <?= $data["SELECTED"] ? "selected" : "" ?>>
+                        <?= $data["NAME"] ?>
+                    </option>
+                <? endforeach; ?>
                 </select>
             </div>
-            <div class="cb-nav-style">
+        <div class="cb-nav-style" style="display: none">
                 Вид
                 <div class="cb-nav-style__block">
                     <label>
@@ -51,9 +54,6 @@ $this->setFrameMode(true);
                 </div>
             </div>
         </div>
-        <?php if ($arParams['AJAX']) {
-            $GLOBALS['APPLICATION']->RestartBuffer();
-        } ?>
         <div id='PROPDS_BLOCK'>
             <?
             \Manom\GTM::setProductsOnPage($arResult['ITEMS'], true, "productId");
@@ -390,9 +390,6 @@ $this->setFrameMode(true);
             </div>
             <?=$arResult['NAV_STRING']?>
         </div>
-        <?php if ($arParams['AJAX']) {
-            die();
-        } ?>
         <?php /*
         <div class="cb-nav-bottom">
             <div class="cb-nav-pagination">

@@ -14,50 +14,7 @@ $this->setFrameMode(true);
 global $catalogFilter;
 global $sectionListFilter;
 
-$sortCode = $_REQUEST['sort_by'];
-$order = 'ASC';
-$sort2 = "SORT";
-$order2 = "ASC";
-
-if ($_REQUEST['sort_by'] === 'price_asc') {
-    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
-} elseif ($_REQUEST['sort_by'] === 'price_desc') {
-    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
-    $order = 'DESC';
-} elseif ($_REQUEST['sort_by'] === 'pop') {
-    $sort = $sort2;
-    $order = $order2;
-    $sort2 = 'show_counter';
-    $order2 = 'DESC';
-} elseif ($_REQUEST['sort_by'] === 'name') {
-    $sort = 'NAME';
-} else {
-    $sort = $sort2;
-    $order = $order2;
-    $sort2 = 'show_counter';
-    $order2 = 'DESC';
-    $sortCode = "pop";
-}
-
-
-$pageCountList = [
-
-    "12" => [
-        "NAME" => "12",
-    ],
-    "24" => [
-        "NAME" => "24",
-    ],
-    "9999" => [
-        "NAME" => "все",
-    ],
-];
-
-$pageCount = 12;
-if (array_key_exists($_REQUEST["countOnPage"], $pageCountList)) {
-    $pageCount = $_REQUEST["countOnPage"];
-}
-$pageCountList[$pageCount]["SELECTED"] = true;
+$content = new Content();
 
 $section = Content::returnResultCache(
     'section'.$arParams['IBLOCK_ID'].$arResult['VARIABLES']['SECTION_ID'].$arResult['VARIABLES']['SECTION_CODE'],
@@ -216,11 +173,11 @@ try {
             array(
                 'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
                 'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
-                'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
-                    'ELEMENT_SORT_FIELD2' =>  $sort2,
-                    'ELEMENT_SORT_ORDER2' => $order2,
-                'SORT_CODE' => $sortCode,
+                'ELEMENT_SORT_FIELD' => $content->getSortValue("field"),
+                'ELEMENT_SORT_ORDER' => $content->getSortValue("order"),
+                'ELEMENT_SORT_FIELD2' =>  $content->getSortValue("field2"),
+                'ELEMENT_SORT_ORDER2' => $content->getSortValue("order2"),
+                'SORT_LIST' => $content->getSortList(),
                 'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                 'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],
                 'META_KEYWORDS' => $arParams['LIST_META_KEYWORDS'],
@@ -245,8 +202,8 @@ try {
                 'SHOW_404' => $arParams['SHOW_404'],
                 'FILE_404' => $arParams['FILE_404'],
                 'DISPLAY_COMPARE' => $arParams['USE_COMPARE'],
-                'PAGE_ELEMENT_COUNT' => $pageCount,
-                'PAGE_COUNT_LIST' => $pageCountList,
+                'PAGE_ELEMENT_COUNT' => $content->getPageCount(),
+                'PAGE_COUNT_LIST' => $content->getPageCountList(),
                 'LINE_ELEMENT_COUNT' => $arParams['LINE_ELEMENT_COUNT'],
                 'PRICE_CODE' => $arParams['~PRICE_CODE'],
                 'USE_PRICE_COUNT' => $arParams['USE_PRICE_COUNT'],

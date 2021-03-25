@@ -4,6 +4,7 @@ namespace Manom;
 
 use Bitrix\Iblock\PropertyTable;
 use Bitrix\Main\ArgumentException;
+use Bitrix\Main\Context;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
@@ -23,10 +24,21 @@ class Content
     private $propertiesToShow = false;
 
     /**
+     * @var array
+     */
+    private $sortData = [];
+    /**
+     * @var array
+     */
+    private $pageCountData = [];
+
+    /**
      * Content constructor.
      */
     public function __construct()
     {
+        $this->initSortData();
+        $this->initPageCountData();
     }
 
     /**
@@ -77,7 +89,7 @@ class Content
         $order = array('SORT' => 'ASC');
         $filter = array(
             'IBLOCK_ID' => 10,
-            'ACTIVE' => 'Y',
+            'ACTIVE'    => 'Y',
         );
 
         if ((int)$sectionId > 0) {
@@ -110,8 +122,8 @@ class Content
                 $sectionBannerWithoutCategory = array(
                     'btn_link' => $row['PROPERTY_CB_BTN_LINK_VALUE'],
                     'btn_text' => $row['PROPERTY_CB_BTN_TEXT_VALUE'],
-                    'text' => $row['PROPERTY_CB_TEXT_VALUE'],
-                    'img' => $img['src'],
+                    'text'     => $row['PROPERTY_CB_TEXT_VALUE'],
+                    'img'      => $img['src'],
                 );
             } elseif (empty($sectionBanner) && (int)$sectionId > 0 && (int)$row['PROPERTY_CB_CATEGORY_VALUE'] === (int)$sectionId) {
                 $img = \CFile::ResizeImageGet(
@@ -122,8 +134,8 @@ class Content
                 $sectionBanner = array(
                     'btn_link' => $row['PROPERTY_CB_BTN_LINK_VALUE'],
                     'btn_text' => $row['PROPERTY_CB_BTN_TEXT_VALUE'],
-                    'text' => $row['PROPERTY_CB_TEXT_VALUE'],
-                    'img' => $img['src'],
+                    'text'     => $row['PROPERTY_CB_TEXT_VALUE'],
+                    'img'      => $img['src'],
                 );
             }
         }
@@ -143,7 +155,7 @@ class Content
         $result = array();
 
         $cache = new \CPHPCache();
-        if ($cache->InitCache($time, $id, '/'.SITE_ID.'/'.$id)) {
+        if ($cache->InitCache($time, $id, '/' . SITE_ID . '/' . $id)) {
             $result = $cache->GetVars();
         } elseif ($cache->StartDataCache()) {
             $result = $callback($callbackParams);
@@ -398,5 +410,176 @@ class Content
             $resultProperties[] = $property;
         }
         return $resultProperties;
+    }
+
+    /**
+     *
+     */
+    private function initSortData(): void
+    {
+        $request = Context::getCurrent()->getRequest();
+        $sortData =& $this->sortData;
+        $sortData["code"] = $request->get("sort_by");
+        $sortData["order"] = 'ASC';
+        $sortData["field2"] = 'SORT';
+        $sortData["order2"] = 'ASC';
+
+        switch ($sortData["code"]) {
+            case "price_asc":
+                $sortData["field"] = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+                break;
+            case "price_desc":
+                $sortData["field"] = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+                $sortData["order"] = 'DESC';
+                break;
+            case "pop":
+                $sortData["field"] = $sortData["field2"];
+                $sortData["order"] = $sortData["order2"];
+                $sortData["field2"] = 'show_counter';
+                $sortData["order2"] = 'DESC';
+                break;
+            case "name":
+                $sortData["field"] = 'NAME';
+                break;
+            default:
+                if ($sortData["relevanceOrder"] !== null) {
+                    $sortData["field"] = "ID";
+                    $sortData["order"] = $sortData["relevanceOrder"];
+                    $sortData["code"] = "relevance";
+                } else {
+                    $sortData["field"] = $sortData["field2"];
+                    $sortData["order"] = $sortData["order2"];
+                    $sortData["field2"] = 'show_counter';
+                    $sortData["order2"] = 'DESC';
+                    $sortData["code"] = "pop";
+                }
+                break;
+        }
+
+        $sortData["list"] = [
+            [
+                "code" => "relevance",
+                "name" => "по релевантности",
+            ],
+            [
+                "code" => "pop",
+                "name" => "по популярности",
+            ],
+            [
+                "code" => "price_desc",
+                "name" => "сначала дорогие",
+            ],
+            [
+                "code" => "price_asc",
+                "name" => "сначала дешевые",
+            ],
+            [
+                "code" => "name",
+                "name" => "по названию",
+            ],
+        ];
+
+        foreach ($sortData["list"] as &$item) {
+            if ($item["code"] === "relevance" && $sortData["relevanceOrder"] === null) {
+                $item = null;
+                continue;
+            }
+
+            $item["selected"] = $item["code"] === $sortData["code"];
+        }
+        unset($item);
+
+        $sortData["list"] = array_values(array_filter($sortData["list"]));
+
+        unset($sortData);
+    }
+
+    /**
+     * @param array $elements
+     */
+    public function setRelevanceOrder(array $elements): void
+    {
+        $this->sortData["relevanceOrder"] = $elements;
+        $this->initSortData();
+    }
+
+    /**
+     * @param string $fieldName
+     * @return string
+     */
+    public function getSortValue(string $fieldName): string
+    {
+        $value = "";
+        switch ($fieldName) {
+            case "field":
+                $value = $this->sortData["field"];
+                break;
+            case "field2":
+                $value = $this->sortData["field2"];
+                break;
+            case "order":
+                $value = $this->sortData["order"];
+                break;
+            case "order2":
+                $value = $this->sortData["order2"];
+                break;
+            case "code":
+                $value = $this->sortData["code"];
+                break;
+            case "list":
+                $value = $this->sortData["list"];
+                break;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSortList(): array
+    {
+        return $this->sortData["list"];
+    }
+
+    /**
+     *
+     */
+    private function initPageCountData(): void
+    {
+        $request = Context::getCurrent()->getRequest();
+        $this->pageCountData["list"] = [
+            "12"   => [
+                "NAME" => "12",
+            ],
+            "24"   => [
+                "NAME" => "24",
+            ],
+            "9999" => [
+                "NAME" => "все",
+            ],
+        ];
+
+        $this->pageCountData["current"] = array_key_first($this->pageCountData["list"]);
+        if (array_key_exists($request->get("countOnPage"), $this->pageCountData["list"])) {
+            $this->pageCountData["current"] = $request->get("countOnPage");
+        }
+        $this->pageCountData["list"][$this->pageCountData["current"]]["SELECTED"] = true;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPageCount(): int
+    {
+        return (int)$this->pageCountData["current"];
+    }
+
+    /**
+     * @return array
+     */
+    public function getPageCountList(): array
+    {
+        return (array)$this->pageCountData["list"];
     }
 }

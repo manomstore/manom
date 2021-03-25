@@ -1,80 +1,11 @@
 <?php
 
 use Bitrix\Main\Loader;
-use \Manom\Price;
+use Manom\Content;
 
 $this->setFrameMode(true);
 
 global $searchFilter;
-
-$elementOrder = array();
-if ($arParams['USE_SEARCH_RESULT_ORDER'] === 'N')
-{
-	$elementOrder = array(
-		"ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],
-		"ELEMENT_SORT_ORDER" => $arParams["ELEMENT_SORT_ORDER"],
-		"ELEMENT_SORT_FIELD2" => $arParams["ELEMENT_SORT_FIELD2"],
-		"ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
-	);
-}
-
-$elementOrder = array();
-
-$sort = '';
-$order = 'ASC';
-$sortCode = $_REQUEST['sort_by'];
-$sort2 = "SORT";
-$order2 = "ASC";
-switch ($_REQUEST['sort_by']) {
-    case "price_asc":
-        $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
-        break;
-    case "price_desc":
-        $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
-        $order = 'DESC';
-        break;
-    case "pop":
-        $sort = $sort2;
-        $order = $order2;
-        $sort2 = 'show_counter';
-        $order2 = 'DESC';
-        break;
-    case "name":
-        $sort = 'NAME';
-        break;
-    default:
-        $sort = "ID";
-        $order = $arElements;
-        $sortCode = "relevance";
-        break;
-}
-
-
-$elementOrder = [
-    "ELEMENT_SORT_FIELD" => $sort,
-    "ELEMENT_SORT_ORDER" => $order,
-    'ELEMENT_SORT_FIELD2' => $sort2,
-    'ELEMENT_SORT_ORDER2' => $order2,
-];
-
-$pageCountList = [
-
-    "12"   => [
-        "NAME" => "12",
-    ],
-    "24"   => [
-        "NAME" => "24",
-    ],
-    "9999" => [
-        "NAME" => "все",
-    ],
-];
-
-$pageCount = 12;
-if (array_key_exists($_REQUEST["countOnPage"], $pageCountList)) {
-    $pageCount = $_REQUEST["countOnPage"];
-}
-$pageCountList[$pageCount]["SELECTED"] = true;
 
 if (Loader::includeModule('search'))
 {
@@ -104,7 +35,7 @@ if (Loader::includeModule('search'))
             'USE_LANGUAGE_GUESS' => 'N',
             'CHECK_DATES' => 'Y',
             'USE_TITLE_RANK' => 'Y',
-            'DEFAULT_SORT' => (int)$_REQUEST['search_sort'] === 1 ? 'date' : 'rank',
+            'DEFAULT_SORT' => 'rank',
             'FILTER_NAME' => '',
             'arrFILTER' => array('iblock_catalog'),
             'SHOW_WHERE' => 'N',
@@ -172,14 +103,37 @@ else
 	unset($searchQuery);
 }
 
+$elementOrder = array();
+if ($arParams['USE_SEARCH_RESULT_ORDER'] === 'N')
+{
+    $elementOrder = array(
+        "ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],
+        "ELEMENT_SORT_ORDER" => $arParams["ELEMENT_SORT_ORDER"],
+        "ELEMENT_SORT_FIELD2" => $arParams["ELEMENT_SORT_FIELD2"],
+        "ELEMENT_SORT_ORDER2" => $arParams["ELEMENT_SORT_ORDER2"],
+    );
+}
+
+$elementOrder = array();
+
+$content = new Content();
+$content->setRelevanceOrder((array)$arElements);
+
+$elementOrder = [
+    "ELEMENT_SORT_FIELD"  => $content->getSortValue("field"),
+    "ELEMENT_SORT_ORDER"  => $content->getSortValue("order"),
+    'ELEMENT_SORT_FIELD2' => $content->getSortValue("field2"),
+    'ELEMENT_SORT_ORDER2' => $content->getSortValue("order2"),
+];
+
 if (!empty($searchFilter) && is_array($searchFilter))
 {
 	$componentParams = array(
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-        'PAGE_ELEMENT_COUNT' => $pageCount,
-        'SORT_CODE' => $sortCode,
-        'PAGE_COUNT_LIST' => $pageCountList,
+        'PAGE_ELEMENT_COUNT' => $content->getPageCount(),
+        'SORT_LIST' => $content->getSortList(),
+        'PAGE_COUNT_LIST' => $content->getPageCountList(),
 		"LINE_ELEMENT_COUNT" => $arParams["LINE_ELEMENT_COUNT"],
 		"PROPERTY_CODE" => $arParams["PROPERTY_CODE"],
 		"PROPERTY_CODE_MOBILE" => (isset($arParams["PROPERTY_CODE_MOBILE"]) ? $arParams["PROPERTY_CODE_MOBILE"] : []),
