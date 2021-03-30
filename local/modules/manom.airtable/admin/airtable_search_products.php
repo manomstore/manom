@@ -96,6 +96,7 @@ if ($request->get("apply")) {
 }
 ?>
 <form action="<?= $APPLICATION->GetCurPageParam() ?>" method="get">
+    <input type="hidden" value="<?= LANGUAGE_ID ?>">
     <div class="adm-detail-block">
         <div class="adm-detail-tabs-block"></div>
         <div class="adm-detail-content-wrap">
