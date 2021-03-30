@@ -67,16 +67,20 @@ if ($request->get("apply")) {
             "IBLOCK_TYPE_ID",
             "NAME",
             "XML_ID",
+            "IBLOCK_SECTION_ID",
             "PROPERTY_" . $propertyCode,
         ];
 
-        $result = CIBlockElement::GetList([$by => $order], $arFilter, false, false, $arSelect);
         $resultIds = [];
-        while ($row = $result->GetNext()) {
-            if ($propertyValueField && $row[strtoupper("PROPERTY_" . $propertyCode . "_VALUE")] !== $propertyValueField) {
-                continue;
+
+        if ($propertyData !== false) {
+            $result = CIBlockElement::GetList([$by => $order], $arFilter, false, false, $arSelect);
+            while ($row = $result->GetNext()) {
+                if ($propertyValueField && $row[strtoupper("PROPERTY_" . $propertyCode . "_VALUE")] !== $propertyValueField) {
+                    continue;
+                }
+                $resultIds[] = $row["ID"];
             }
-            $resultIds[] = $row["ID"];
         }
 
         if (!empty($resultIds)) {
