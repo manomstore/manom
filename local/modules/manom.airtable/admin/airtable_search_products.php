@@ -95,7 +95,7 @@ if ($request->get("apply")) {
     $cdbRes = new CDBResult();
 }
 ?>
-<form action="<?= $APPLICATION->GetCurPage() ?>" method="get">
+<form action="<?= $APPLICATION->GetCurPageParam() ?>" method="get">
     <div class="adm-detail-block">
         <div class="adm-detail-tabs-block"></div>
         <div class="adm-detail-content-wrap">
