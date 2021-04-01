@@ -104,14 +104,14 @@ class Section
     }
 
     /**
-     * @param int $depthLevel
+     * @param int|null $depthLevel
      *
      * С целью оптимизации, проверяем пустоту разделов только на задонном уровне вложенности
      */
-    public function checkEmptySectionsOnLevel(int $depthLevel): void
+    public function checkEmptySectionsOnLevel(?int $depthLevel = null): void
     {
         $depthSlice = array_filter($this->sections, function ($section) use ($depthLevel) {
-            return $section["depthLevel"] === $depthLevel;
+            return $section["depthLevel"] === $depthLevel || $depthLevel === null;
         });
 
         $this->setGroupProductBySection();
