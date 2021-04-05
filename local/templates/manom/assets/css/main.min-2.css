@@ -12006,6 +12006,8 @@ button.top-nav__link {
     align-items: center;
     flex-wrap: nowrap;
     transition: all 0.2s ease;
+
+
   }
 
   .main-nav__link--lv2 {
@@ -12018,7 +12020,7 @@ button.top-nav__link {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEwIDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05IDEuMjQyMTlMNSA1LjI3NThMMSAxLjI0MjE5IiBzdHJva2U9IiM5OTk4OUQiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjwvc3ZnPgo=");
     background-repeat: no-repeat;
     transform: rotate(-90deg);
-    right: -25px;
+    right: 0;
     width: 15px;
     height: 15px;
     top: 9px;
@@ -12083,7 +12085,7 @@ button.top-nav__link {
 
   .main-nav__sublist li,
   .main-nav__innerlist li {
-    margin: 0 50px 20px 0;
+    margin: 0 25px 20px 0;
   }
 
   .main-nav__sublist li:nth-child(even),
@@ -12118,6 +12120,7 @@ button.top-nav__link {
     align-items: center;
     justify-content: flex-start;
     white-space: nowrap;
+    padding-right: 25px;
   }
 
   .main-nav__sublist .main-nav__icon {
