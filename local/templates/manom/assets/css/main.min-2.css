@@ -12027,6 +12027,10 @@ button.top-nav__link {
     background-position: center;
   }
 
+  .brands .main-nav__link--lv2::after {
+    display: none;
+  }
+
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
     top: -36px;
     left: 100%;

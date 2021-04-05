@@ -79,7 +79,7 @@ $this->setFrameMode(true); ?>
                                 <? break; ?>
                             <? case "brands": ?>
                                 <!-- Подменю для пункта "Бренды"-->
-                                <div class="main-nav__list-wrapper">
+                                <div class="main-nav__list-wrapper brands">
                                     <div class="main-nav__inner">
                                         <div class="main-nav__sublist">
                                             <div class="main-nav__list-pack">
