@@ -12057,6 +12057,7 @@ button.top-nav__link {
     text-align: left;
     z-index: 100;
     transition: color 0.2s;
+    padding-top: 10px;
   }
 
   .brands .toggle-button-menu:hover {
@@ -12090,11 +12091,11 @@ button.top-nav__link {
     align-items: center;
   }
 
-  .brands  ul.brands__list.unfolded .toggle-button-menu .fold {
+  .brands  ul.brands__list.unfolded ~ .toggle-button-menu .fold {
     display: block;
   }
 
-  .brands ul.brands__list.unfolded .toggle-button-menu .show-all {
+  .brands ul.brands__list.unfolded ~ .toggle-button-menu .show-all {
     display: none;
   }
 
