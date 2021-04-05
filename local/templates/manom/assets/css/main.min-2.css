@@ -12043,6 +12043,8 @@ button.top-nav__link {
   .brands .main-nav__sublist li:nth-child(-n+8) {
     display: flex;
     align-items: center;
+    margin: 0 0 20px 0;
+
   }
 
   .brands .toggle-button-menu {
