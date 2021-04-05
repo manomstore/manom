@@ -12043,6 +12043,21 @@ button.top-nav__link {
     display: flex;
   }
 
+  .brands .toggle-button-menu {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+    border: none;
+    background-color: #ffffff;
+    color: #3D8E65;
+    opacity: 0.6;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    z-index: 100;
+    transition: color 0.2s;
+  }
+
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
     top: -36px;
     left: 100%;
