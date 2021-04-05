@@ -12037,6 +12037,7 @@ button.top-nav__link {
 
   .brands .main-nav__sublist li {
     display: none;
+    justify-content: space-between;
   }
 
   .brands .main-nav__sublist li:nth-child(-n+8) {
