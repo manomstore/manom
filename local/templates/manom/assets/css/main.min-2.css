@@ -12031,12 +12031,16 @@ button.top-nav__link {
     display: none;
   }
 
+  .brands .main-nav__sublist ul {
+    display: block;
+  }
+
   .brands .main-nav__sublist li {
     display: none;
   }
 
   .brands .main-nav__sublist li:nth-child(-n+8) {
-    display: block;
+    display: flex;
   }
 
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
@@ -12081,8 +12085,8 @@ button.top-nav__link {
   }
 
   .main-nav__list-pack {
-    display: flex;
-    flex-wrap: nowrap;
+    /* display: flex; */
+    /* flex-wrap: nowrap; */
   }
 
   .main-nav__sublist ul li:nth-child(8) {
