@@ -12035,7 +12035,8 @@ button.top-nav__link {
     padding-left: 40px;
   }
 
-  .main-nav__link--lv2:hover ~ .main-nav__list-wrapper {
+  .main-nav__link--lv2:hover ~ .main-nav__list-wrapper,
+  .main-nav__link--lv2 ~ .main-nav__list-wrapper:hover {
     display: block;
   }
 
