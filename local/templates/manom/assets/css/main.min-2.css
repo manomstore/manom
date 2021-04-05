@@ -12041,6 +12041,7 @@ button.top-nav__link {
 
   .brands .main-nav__sublist li:nth-child(-n+8) {
     display: flex;
+    align-items: center;
   }
 
   .brands .toggle-button-menu {
@@ -12081,10 +12082,12 @@ button.top-nav__link {
 
   .brands .main-nav__sublist ul.brands__list.unfolded {
     display: grid;
+    grid-template-columns: max-content max-content;
   }
 
   .brands .main-nav__sublist ul.brands__list.unfolded li {
-    display: block!important;
+    display: flex!important;
+    align-items: center;
   }
 
   .brands .main-nav__sublist ul.brands__list.unfolded .fold {
