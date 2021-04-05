@@ -90,7 +90,7 @@ $this->setFrameMode(true); ?>
                                                                href="<?= $submenuItem["url"] ?>">
                                                                 <?= $submenuItem["name"] ?>
                                                             </a>
-                                                            <img style="width: 50px; height: 50px"
+                                                            <img style="width: 50px; height: 50px; object-fit: contain;"
                                                                  src="<?= $submenuItem["logo"] ?>"
                                                                  alt="<?= $submenuItem["name"] ?>">
                                                         </li>

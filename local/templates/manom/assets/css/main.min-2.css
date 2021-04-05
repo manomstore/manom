@@ -12031,6 +12031,14 @@ button.top-nav__link {
     display: none;
   }
 
+  .brands .main-nav__sublist ul {
+    display: block;
+  }
+
+  .brands .main-nav__sublist li {
+    display: flex;
+  }
+
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
     top: -36px;
     left: 100%;
