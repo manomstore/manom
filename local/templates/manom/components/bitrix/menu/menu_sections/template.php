@@ -96,6 +96,10 @@ $this->setFrameMode(true); ?>
                                                         </li>
                                                     <? endforeach; ?>
                                                 </ul>
+                                                <button type="button" class="toggle-button-menu">
+                                                    <span class="show-all">Показать все</span>
+                                                    <span class="fold">Свернуть</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
