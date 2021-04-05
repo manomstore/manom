@@ -12079,16 +12079,19 @@ button.top-nav__link {
     display: block;
   }
 
-  .brands__list.unfolded {
+  .brands .main-nav__sublist ul.brands__list.unfolded {
     display: grid;
   }
 
+  .brands .main-nav__sublist ul.brands__list.unfolded li {
+    display: block!important;
+  }
 
-  .brands__list.unfolded .fold {
+  .brands .main-nav__sublist ul.brands__list.unfolded .fold {
     display: block;
   }
 
-  .brands__list.unfolded .show-all {
+  .brands .main-nav__sublist ul.brands__list.unfolded .show-all {
     display: none;
   }
 
