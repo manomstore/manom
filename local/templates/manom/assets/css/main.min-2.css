@@ -12058,6 +12058,41 @@ button.top-nav__link {
     transition: color 0.2s;
   }
 
+  .brands .toggle-button-menu:hover {
+    color: #5C8911;
+
+  }
+
+  .brands .toggle-button-menu.show-button {
+    display: block;
+  }
+
+  .brands .toggle-button-menu.hidden-button {
+    display: none;
+  }
+
+  .brands .toggle-button-menu .fold {
+    display: none;
+  }
+
+  .brands .toggle-button-menu .show-all {
+    display: block;
+  }
+
+  /* .catalog-filter__li.unfolded {
+    height: fit-content;
+  } */
+
+/*
+  .catalog-filter__li.unfolded .toggle-button .fold {
+    display: block;
+  }
+
+  .catalog-filter__li.unfolded .toggle-button .show-all {
+    display: none;
+  } */
+
+
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
     top: -36px;
     left: 100%;
