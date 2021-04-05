@@ -83,7 +83,7 @@ $this->setFrameMode(true); ?>
                                     <div class="main-nav__inner">
                                         <div class="main-nav__sublist">
                                             <div class="main-nav__list-pack">
-                                                <ul>
+                                                <ul class="brands__list">>
                                                     <? foreach ($arItem["PARAMS"]["submenu"] as $submenuItem): ?>
                                                         <li class="brands__item">
                                                             <a class="main-nav__link main-nav__link--lv2"
