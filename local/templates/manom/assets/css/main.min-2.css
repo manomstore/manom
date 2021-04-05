@@ -12031,12 +12031,12 @@ button.top-nav__link {
     display: none;
   }
 
-  .brands .main-nav__sublist ul {
-    display: block;
+  .brands .main-nav__sublist li {
+    display: none;
   }
 
-  .brands .main-nav__sublist li {
-    display: flex;
+  .brands .main-nav__sublist li:nth-child(-n+8) {
+    display: block;
   }
 
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
