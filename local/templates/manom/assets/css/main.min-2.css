@@ -12141,7 +12141,8 @@ button.top-nav__link {
   }
 
   .main-nav__sublist li.disabled,
-  .main-nav__innerlist.disabled {
+  .main-nav__innerlist.disabled,
+  .main-nav__item--dropdown.disabled {
     opacity: 0.6;
     pointer-events: none;
   }
