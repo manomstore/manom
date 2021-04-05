@@ -12028,9 +12028,8 @@ button.top-nav__link {
   }
 
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
-    right: -203%;
     top: -36px;
-    left: unset;
+    left: 100%;
     padding-top: 0;
     padding-left: 40px;
   }
