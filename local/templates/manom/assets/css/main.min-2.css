@@ -12090,12 +12090,17 @@ button.top-nav__link {
     align-items: center;
   }
 
-  .brands .main-nav__sublist ul.brands__list.unfolded .fold {
+  .brands  ul.brands__list.unfolded .toggle-button-menu .fold {
     display: block;
   }
 
-  .brands .main-nav__sublist ul.brands__list.unfolded .show-all {
+  .brands ul.brands__list.unfolded .toggle-button-menu .show-all {
     display: none;
+  }
+
+  .brands__list {
+    max-height: 70vh;
+    overflow: scroll;
   }
 
 
