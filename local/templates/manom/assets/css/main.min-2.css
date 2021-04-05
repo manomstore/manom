@@ -12079,18 +12079,18 @@ button.top-nav__link {
     display: block;
   }
 
-  /* .catalog-filter__li.unfolded {
-    height: fit-content;
-  } */
+  .brands__list.unfolded {
+    display: grid;
+  }
 
-/*
-  .catalog-filter__li.unfolded .toggle-button .fold {
+
+  .brands__list.unfolded .fold {
     display: block;
   }
 
-  .catalog-filter__li.unfolded .toggle-button .show-all {
+  .brands__list.unfolded .show-all {
     display: none;
-  } */
+  }
 
 
   .main-nav__link--lv2 ~ .main-nav__list-wrapper {
