@@ -11989,6 +11989,7 @@ button.top-nav__link {
 
   .main-nav__list li {
     margin-right: 25px;
+    position: relative;
   }
 
   .main-nav__item--dropdown {
