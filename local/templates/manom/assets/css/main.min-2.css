@@ -12031,7 +12031,7 @@ button.top-nav__link {
     top: -36px;
     left: 100%;
     padding-top: 0;
-    padding-left: 40px;
+    padding-left: 10px;
   }
 
   .main-nav__link--lv2:hover ~ .main-nav__list-wrapper,
