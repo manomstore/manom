@@ -3267,27 +3267,6 @@ $.fn.updateDateSaleOrder = function () {
     return true;
 };
 
-$.refreshCartInfo = function () {
-  return $.ajax({
-    url: '/ajax/add_to_cart.php',
-    type: 'POST',
-    data: {
-      METHOD_CART: 'refredh_cart_info',
-      AJAX_CART_INFO: 'Y',
-    },
-    success: function (data) {
-      $.fn.updateCartInfo(data);
-      return $.fn.updateCartHeader();
-    },
-  });
-};
-
-$.fn.updateCartInfo = function (data) {
-  var $ft;
-  $ft = $('<div></div>').append(data);
-  return $(document).find('#cart_info_block').html($ft.find('#cart_info_block').html());
-};
-
 $.fn.updateCartHeader = function () {
   var cartSum,
     prodCount;
@@ -3427,7 +3406,6 @@ $.fn.updateCart = function (data) {
   soBlock = $(document).find('#so_main_block');
   $(document).find('#shopcart-item1').html(data);
   soBlock.find('.preloaderCatalog').addClass('preloaderCatalogActive');
-  $.refreshCartInfo();
   return submitForm();
 };
 
