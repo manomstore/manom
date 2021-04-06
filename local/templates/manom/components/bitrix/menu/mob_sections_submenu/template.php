@@ -36,11 +36,11 @@ $this->setFrameMode(true); ?>
 <? endforeach; ?>
 
 <? foreach ($arResult["THIRD_ITEMS"] as $arItem): ?>
-    <div class="submenu-mob"
+    <div class="submenu-mob2"
          data-item-third-submenu-id='<?= $arItem["itemId"] ?>'
          data-parent-id='<?= $arItem["parentItemId"] ?>'
     >
-        <button class="submenu-mob__back" type="button" aria-label="Вернуться назад"></button>
+        <button class="submenu-mob__back2" type="button" aria-label="Вернуться назад"></button>
         <h2 class="submenu-mob__title"><?= $arItem["TEXT"] ?></h2>
         <ul class="top-nav__list">
             <? foreach ($arItem["children"] as $children): ?>
