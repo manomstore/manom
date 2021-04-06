@@ -2,11 +2,10 @@
     die();
 }
 
-$key = 0;
-foreach ($arResult as &$item) {
+foreach ($arResult as $key => &$item) {
     $item["notLink"] = $item["PARAMS"]["type"] === "brands";
     $item["disabled"] = $item["PARAMS"]["type"] === "service";
-    $key++;
-    $item["ITEM_MENU_ID"] = $key;
+    $item["itemId"] = $key + 1;
+    $item["hasChildren"] = !empty($item["PARAMS"]["submenu"]);
 }
 unset($item);
