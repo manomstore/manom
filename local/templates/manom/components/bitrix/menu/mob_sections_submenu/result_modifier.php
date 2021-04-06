@@ -2,30 +2,19 @@
     die();
 }
 
-$arResultNew = $arParents = [];
-
-foreach ($arResult as &$arItem) {
-    $arItem['CHILDREN'] = [];
-    if (isset($arParents[$arItem['DEPTH_LEVEL']])) {
-        unset($arParents[$arItem['DEPTH_LEVEL']]);
-    }
-    $arParents[$arItem['DEPTH_LEVEL']] = &$arItem;
-    if ($arItem['DEPTH_LEVEL'] > 1) {
-        $arParents[$arItem['DEPTH_LEVEL'] - 1]['CHILDREN'][] = &$arItem;
-    } else {
-        $arResultNew[] = &$arItem;
-    }
-
+foreach ($arResult as &$item) {
+    $item["notLink"] = $item["PARAMS"]["type"] === "brands";
+    $item["disabled"] = $item["PARAMS"]["type"] === "service";
 }
-unset($arItem);
+unset($item);
 
 $arResultNewOnlySubmenu = [];
 $key = 0;
 
-foreach ($arResultNew as $arItem) {
+foreach ($arResult as $arItem) {
     $key++;
     $arItem["ITEM_SUBMENU_ID"] = $key;
-    if (!empty($arItem["CHILDREN"])) {
+    if (!empty($arItem["PARAMS"]["submenu"])) {
         $arResultNewOnlySubmenu[] = $arItem;
     }
 }

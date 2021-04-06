@@ -79,7 +79,7 @@ class Section
                 "leftMargin"  => (int)$row["LEFT_MARGIN"],
                 "rightMargin" => (int)$row["RIGHT_MARGIN"],
                 "depthLevel"  => (int)$row["DEPTH_LEVEL"],
-                "sectionUrl"  => $row["SECTION_PAGE_URL"],
+                "url"         => $row["SECTION_PAGE_URL"],
                 "baseUrl"     => $row["LIST_PAGE_URL"],
             ];
 
@@ -321,8 +321,8 @@ class Section
         });
 
         array_walk($cloneThis->sections, function (&$section) {
-            $section["sectionUrl"] = str_replace($section["baseUrl"], "", $section["sectionUrl"]);
-            $section["sectionUrl"] = $section["baseUrl"] . "sale/" . $section["sectionUrl"];
+            $section["url"] = str_replace($section["baseUrl"], "", $section["url"]);
+            $section["url"] = $section["baseUrl"] . "sale/" . $section["url"];
         });
 
         return $cloneThis;
