@@ -11326,7 +11326,8 @@ button.top-nav__link {
   background-color: #dadada;
 }
 
-.submenu-mob {
+.submenu-mob,
+.submenu-mob2 {
   position: fixed;
   top: 0;
   left: -100%;
