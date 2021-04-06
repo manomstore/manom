@@ -27,7 +27,7 @@ $this->setFrameMode(true); ?>
                 <li>
                     <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
                     <? if (!empty($children["children"])): ?>
-                        <span data-item-id="<?= $children["itemId"] ?>">-></span>
+                        <span  class="js-open-sub-submenu" data-item-id="<?= $children["itemId"] ?>">-></span>
                     <? endif; ?>
                 </li>
             <? endforeach; ?>
