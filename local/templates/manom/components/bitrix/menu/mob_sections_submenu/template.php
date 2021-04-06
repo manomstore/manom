@@ -24,10 +24,10 @@ $this->setFrameMode(true); ?>
         <h2 class="submenu-mob__title"><?= $arItem["TEXT"] ?></h2>
         <ul class="top-nav__list">
             <? foreach ($arItem["children"] as $children): ?>
-                <li>
+                <li class="top-nav__list-item">
                     <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
                     <? if (!empty($children["children"])): ?>
-                        <span  class="js-open-sub-submenu" data-item-id="<?= $children["itemId"] ?>">-></span>
+                        <span  class="top-nav__link-arrow js-open-sub-submenu" data-item-id="<?= $children["itemId"] ?>">-></span>
                     <? endif; ?>
                 </li>
             <? endforeach; ?>
