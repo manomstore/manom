@@ -10472,8 +10472,10 @@ h3.tab-content__title--right {
 
 .top-nav__link-arrow {
   background-image: url(./../img/icons/icon-arrow-right.svg);
-  background-position: center;
+  background-position: 80%;
   background-repeat: no-repeat;
+  width: 50px;
+  background-size: 8px;
 }
 
 .top-nav__link {
