@@ -10460,6 +10460,22 @@ h3.tab-content__title--right {
   list-style: none;
 }
 
+.top-nav__list-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-nav__list-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-nav__link-arrow {
+  background-image: url(./../img/icons/icon-arrow-right.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .top-nav__link {
   font-size: 14px;
   font-weight: 500;
@@ -10469,6 +10485,8 @@ h3.tab-content__title--right {
   padding: 15px 0;
   border-bottom: 1px solid #f7f7f7;
   position: relative;
+
+  flex-grow: 1;
 }
 
 button.top-nav__link {
