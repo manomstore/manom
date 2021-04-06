@@ -1873,6 +1873,11 @@ line-height: 24px;
   grid-column: 2 / 3;
   grid-row: 1 / 3;
 }
+
+.catalog-block--fav {
+  width: auto !important;
+  flex-grow: 1;
+}
 .catalog-block.full-screen-content {
   width: 100%;
 }
@@ -5720,6 +5725,8 @@ h3.tab-content__title--right {
   -webkit-align-items: flex-start;
   -ms-flex-align: start;
   align-items: flex-start;
+  -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
 }
 
 .personal-block {

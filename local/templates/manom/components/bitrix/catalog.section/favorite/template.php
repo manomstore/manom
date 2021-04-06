@@ -6,7 +6,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 ?>
-<section class="catalog-block">
+<section class="catalog-block catalog-block--fav">
     <?php if ($arParams['AJAX']): ?>
         <h2 class="pb-info__title">Избранные товары:</h2>
     <?php endif; ?>
