@@ -1875,7 +1875,7 @@ line-height: 24px;
 }
 
 .catalog-block--fav {
-  width: auto;
+  width: auto !important;
   flex-grow: 1;
 }
 .catalog-block.full-screen-content {
