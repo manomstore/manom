@@ -2,31 +2,11 @@
     die();
 }
 
-$arResultNew = $arParents = [];
-
-foreach ($arResult as &$arItem) {
-    $arItem['CHILDREN'] = [];
-    if (isset($arParents[$arItem['DEPTH_LEVEL']])) {
-        unset($arParents[$arItem['DEPTH_LEVEL']]);
-    }
-    $arParents[$arItem['DEPTH_LEVEL']] = &$arItem;
-    if ($arItem['DEPTH_LEVEL'] > 1) {
-        $arParents[$arItem['DEPTH_LEVEL'] - 1]['CHILDREN'][] = &$arItem;
-    } else {
-        $arResultNew[] = &$arItem;
-    }
-
-}
-unset($arItem);
-
 $key = 0;
-
-foreach ($arResultNew as &$arItem) {
+foreach ($arResult as &$item) {
+    $item["notLink"] = $item["PARAMS"]["type"] === "brands";
+    $item["disabled"] = $item["PARAMS"]["type"] === "service";
     $key++;
-    $arItem["ITEM_MENU_ID"] = $key;
+    $item["ITEM_MENU_ID"] = $key;
 }
-
-unset($arItem);
-
-$arResult = $arResultNew;
-
+unset($item);

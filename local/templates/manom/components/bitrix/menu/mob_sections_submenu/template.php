@@ -21,9 +21,9 @@ $this->setFrameMode(true); ?>
         <button class="submenu-mob__back" type="button" aria-label="Вернуться назад"></button>
         <h2 class="submenu-mob__title"><?= $arItem["TEXT"] ?></h2>
         <ul class="top-nav__list">
-            <? foreach ($arItem["CHILDREN"] as $children): ?>
+            <? foreach ($arItem["PARAMS"]["submenu"] as $children): ?>
                 <li>
-                    <a class="top-nav__link" href="<?= $children["LINK"] ?>"><?= $children["TEXT"] ?></a>
+                    <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
                 </li>
             <? endforeach; ?>
         </ul>

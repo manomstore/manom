@@ -43,7 +43,7 @@ $this->setFrameMode(true); ?>
                                                     <? foreach ($arItem["PARAMS"]["submenu"] as $submenuItem): ?>
                                                         <li>
                                                             <a class="main-nav__link main-nav__link--lv2"
-                                                               href="<?= $submenuItem["sectionUrl"] ?>">
+                                                               href="<?= $submenuItem["url"] ?>">
                                                                 <?= $submenuItem["name"] ?>
                                                             </a>
                                                             <? if (!empty($submenuItem["children"])): ?>
@@ -56,7 +56,7 @@ $this->setFrameMode(true); ?>
                                                                                     <? foreach ($submenuItem["children"] as $children): ?>
                                                                                         <li>
                                                                                             <a class="main-nav__link main-nav__link--lv3"
-                                                                                               href="<?= $children["sectionUrl"] ?>">
+                                                                                               href="<?= $children["url"] ?>">
                                                                                                 <?= $children["name"] ?>
                                                                                             </a>
                                                                                         </li>
