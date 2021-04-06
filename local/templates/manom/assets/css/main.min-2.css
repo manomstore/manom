@@ -11345,7 +11345,8 @@ button.top-nav__link {
   left: 0;
 }
 
-.submenu-mob__back {
+.submenu-mob__back,
+.submenu-mob__back2 {
   padding: 0;
   border: none;
   background-color: transparent;
