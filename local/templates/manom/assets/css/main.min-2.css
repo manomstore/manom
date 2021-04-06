@@ -11346,6 +11346,18 @@ button.top-nav__link {
   border-bottom: 1px solid #f7f7f7;
 }
 
+.submenu-mob__link {
+  position: relative;
+}
+
+.submenu-mob__link::after {
+  position: absolute;
+  width: 30px;
+  background-image: url('./../img/icons/icon-arrow-right.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .popup-login {
   font-family: 'PT Root UI', 'Arial', sans-serif;
 
@@ -12163,9 +12175,9 @@ button.top-nav__link {
   }
 
   .main-nav__sublist ul li:nth-child(8) ::after{
-    position: relative;
-    content: '';
-    height: 100%;
+    /* position: relative; */
+    /* content: ''; */
+    /* height: 100%; */
   }
 
   .main-nav__sublist li,

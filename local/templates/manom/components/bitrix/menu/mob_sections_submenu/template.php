@@ -23,7 +23,7 @@ $this->setFrameMode(true); ?>
         <ul class="top-nav__list">
             <? foreach ($arItem["PARAMS"]["submenu"] as $children): ?>
                 <li>
-                    <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
+                    <a class="top-nav__link submenu-mob__link" href="<?= $children["LINK"] ?>"><?= $children["TEXT"] ?></a>
                 </li>
             <? endforeach; ?>
         </ul>
