@@ -505,9 +505,9 @@ class Content
 
     /**
      * @param string $fieldName
-     * @return string
+     * @return mixed
      */
-    public function getSortValue(string $fieldName): string
+    public function getSortValue(string $fieldName)
     {
         $value = "";
         switch ($fieldName) {
