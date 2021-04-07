@@ -18,10 +18,13 @@ $this->setFrameMode(true); ?>
 <? if (!empty($arResult)): ?>
     <ul class="top-nav__list">
         <? foreach ($arResult as $arItem): ?>
-            <li>
-                <a class="top-nav__link js-open-submenu" href="<?= $arItem["LINK"] ?>"><?= $arItem["TEXT"] ?></a>
+            <li class="top-nav__list-item">
+                <a class="top-nav__link <?= $arItem["disabled"] ? "disabled" : "" ?> <?= $arItem["notLink"] ? "not-link" : "" ?>"
+                   href="<?= $arItem["LINK"] ?>"><?= $arItem["TEXT"] ?></a>
                 <? if ($arItem["hasChildren"]): ?>
-                    <span class="top-nav__link" data-item-menu-id="<?= $arItem["itemId"] ?>">-></span>
+                    <span class="top-nav__link-arrow js-open-submenu" data-item-menu-id="<?= $arItem["itemId"] ?>">
+
+                    </span>
                 <? endif; ?>
             </li>
         <? endforeach; ?>

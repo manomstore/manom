@@ -79,23 +79,27 @@ $this->setFrameMode(true); ?>
                                 <? break; ?>
                             <? case "brands": ?>
                                 <!-- Подменю для пункта "Бренды"-->
-                                <div class="main-nav__list-wrapper">
+                                <div class="main-nav__list-wrapper brands">
                                     <div class="main-nav__inner">
                                         <div class="main-nav__sublist">
                                             <div class="main-nav__list-pack">
-                                                <ul>
+                                                <ul class="brands__list">
                                                     <? foreach ($arItem["PARAMS"]["submenu"] as $submenuItem): ?>
-                                                        <li>
+                                                        <li class="brands__item">
                                                             <a class="main-nav__link main-nav__link--lv2"
                                                                href="<?= $submenuItem["url"] ?>">
                                                                 <?= $submenuItem["name"] ?>
                                                             </a>
-                                                            <img style="width: 50px; height: 50px"
+                                                            <img style="width: auto; height: 35px; object-fit: contain; max-width: 50px"
                                                                  src="<?= $submenuItem["logo"] ?>"
                                                                  alt="<?= $submenuItem["name"] ?>">
                                                         </li>
                                                     <? endforeach; ?>
                                                 </ul>
+                                                <button type="button" class="toggle-button-menu">
+                                                    <span class="show-all">Показать все</span>
+                                                    <span class="fold">Свернуть</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

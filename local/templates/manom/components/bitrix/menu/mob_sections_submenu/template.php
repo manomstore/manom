@@ -24,10 +24,14 @@ $this->setFrameMode(true); ?>
         <h2 class="submenu-mob__title"><?= $arItem["TEXT"] ?></h2>
         <ul class="top-nav__list">
             <? foreach ($arItem["children"] as $children): ?>
-                <li>
+                <li class="top-nav__list-item">
                     <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
+                    <? if (!empty($children["logo"])): ?>
+                        <img style="width: 50px;height: 50px;" src="<?= $children["logo"] ?>"
+                             alt="<?= $children["name"] ?>">
+                    <? endif; ?>
                     <? if (!empty($children["children"])): ?>
-                        <span data-item-id="<?= $children["itemId"] ?>">-></span>
+                        <span  class="top-nav__link-arrow js-open-sub-submenu" data-item-id="<?= $children["itemId"] ?>"></span>
                     <? endif; ?>
                 </li>
             <? endforeach; ?>
@@ -36,16 +40,16 @@ $this->setFrameMode(true); ?>
 <? endforeach; ?>
 
 <? foreach ($arResult["THIRD_ITEMS"] as $arItem): ?>
-    <div class="submenu-mob"
+    <div class="submenu-mob2"
          data-item-third-submenu-id='<?= $arItem["itemId"] ?>'
          data-parent-id='<?= $arItem["parentItemId"] ?>'
     >
-        <button class="submenu-mob__back" type="button" aria-label="Вернуться назад"></button>
-        <h2 class="submenu-mob__title"><?= $arItem["TEXT"] ?></h2>
+        <button class="submenu-mob__back2" type="button" aria-label="Вернуться назад"></button>
+        <h2 class="submenu-mob__title"><?= $arItem["name"] ?></h2>
         <ul class="top-nav__list">
             <? foreach ($arItem["children"] as $children): ?>
                 <li>
-                    <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
+                    <a class="top-nav__link submenu-mob__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
                 </li>
             <? endforeach; ?>
         </ul>
