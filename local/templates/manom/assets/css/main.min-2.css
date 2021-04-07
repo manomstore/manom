@@ -10463,6 +10463,7 @@ h3.tab-content__title--right {
 .top-nav__list-item {
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 .top-nav__list-item .top-nav__link.disabled{
@@ -10476,6 +10477,9 @@ h3.tab-content__title--right {
   background-repeat: no-repeat;
   width: 50px;
   background-size: 8px;
+  right: 0;
+  height: 100%;
+  position: absolute;
 }
 
 .top-nav__link {
