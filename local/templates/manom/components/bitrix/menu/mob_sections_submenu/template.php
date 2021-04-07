@@ -26,6 +26,10 @@ $this->setFrameMode(true); ?>
             <? foreach ($arItem["children"] as $children): ?>
                 <li class="top-nav__list-item">
                     <a class="top-nav__link" href="<?= $children["url"] ?>"><?= $children["name"] ?></a>
+                    <? if (!empty($children["logo"])): ?>
+                        <img style="width: 50px;height: 50px;" src="<?= $children["logo"] ?>"
+                             alt="<?= $children["name"] ?>">
+                    <? endif; ?>
                     <? if (!empty($children["children"])): ?>
                         <span  class="top-nav__link-arrow js-open-sub-submenu" data-item-id="<?= $children["itemId"] ?>"></span>
                     <? endif; ?>
