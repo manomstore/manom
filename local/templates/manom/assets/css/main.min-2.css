@@ -5761,11 +5761,12 @@ h3.tab-content__title--right {
 
 .personal-nav__item {
   display: inline-block;
-  padding: 5px 20px;
+  padding: 5px 20px 5px 0;
   -webkit-transition: 0.1s;
   -o-transition: 0.1s;
   transition: 0.1s;
   color: #000000;
+  display: block;
 }
 
 .personal-nav__item:hover {
