@@ -2,10 +2,14 @@
 
 use Bitrix\Iblock\ElementTable;
 use Bitrix\Main\Application;
+use Bitrix\Main\ArgumentNullException;
+use Bitrix\Main\ArgumentOutOfRangeException;
 use Bitrix\Main\Web\Cookie;
 use Bitrix\Main\Loader;
 use Bitrix\Sale\PropertyBase;
 use Bitrix\Sale\Registry;
+use Manom\Content;
+use Manom\Content\Feed;
 use Manom\PreOrder;
 use Manom\Service\Delivery;
 use Manom\Store;
@@ -177,6 +181,12 @@ $eventManager->addEventHandler(
     'catalog',
     'Bitrix\Catalog\Model\Product::onBeforeAdd',
     Array("MyHandlerClass", "OnBeforeProductAddHandler")
+);
+
+AddEventHandler(
+    "main",
+    "OnEpilog",
+    Array("MyHandlerClass", "OnEpilogHandler")
 );
 
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
@@ -484,52 +494,20 @@ class Helper
 
 class MyHandlerClass
 {
-    function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context, $elements, $elementPropsList)
+    /**
+     * @param $tagResultList
+     * @param $elementList
+     * @param $context
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\LoaderException
+     * @throws \Bitrix\Main\ObjectPropertyException
+     * @throws \Bitrix\Main\SystemException
+     * @throws \Manom\Exception
+     */
+    function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context)
     {
-        /** @var \Yandex\Market\Result\XmlNode $tagResult */
-        /** @var SimpleXMLElement $element */
-        /** @var SimpleXMLElement $outlets */
-        /** @var SimpleXMLElement $outlet */
-
-        $preOrder = new PreOrder(array_keys($elementList));
-
-        $ecommerceData = (new Product())->getEcommerceData(array_keys($elementList), \Helper::CATALOG_IB_ID);
-
-        foreach ($tagResultList as $offerId => $tagResult) {
-            /** @var StoreData $storeData */
-            $storeData = $ecommerceData[$offerId]["storeData"];
-
-            $quantityOffer = $storeData->getQuantityAllMain();
-            $element = $tagResult->getXmlElement();
-            if (!($element instanceof SimpleXMLElement)) {
-                continue;
-            }
-
-            $preOrderData = $preOrder->getByProductId($offerId);
-
-            if ($preOrderData["active"]) {
-                $element->addAttribute("available", "false");
-            }
-
-            if (!$preOrderData["active"] && $quantityOffer <= 0) {
-                $tagResult->invalidate();
-                continue;
-            }
-
-            $outlets = $element->addChild("outlets");
-
-            if (!($outlets instanceof SimpleXMLElement)) {
-                continue;
-            }
-            $outlet = $outlets->addChild("outlet");
-
-            if (!($outlet instanceof SimpleXMLElement)) {
-                continue;
-            }
-
-            $outlet->addAttribute("id", 0);
-            $outlet->addAttribute("instock", $quantityOffer);
-        }
+        $feed = new Feed($tagResultList, $context["SETUP_ID"]);
+        $feed->processElements();
     }
 
     function OnBeforeIBlockElementUpdateImportHandler(&$arFields)
@@ -1195,7 +1173,7 @@ CONTENT;
     /**
      * @param $orderId
      * @throws \Bitrix\Main\ArgumentException
-     * @throws \Bitrix\Main\ArgumentNullException
+     * @throws ArgumentNullException
      * @throws \Bitrix\Main\ArgumentTypeException
      * @throws \Bitrix\Main\NotImplementedException
      * @throws \Bitrix\Main\ObjectNotFoundException
@@ -1283,6 +1261,15 @@ CONTENT;
         }
 
         return $result;
+    }
+
+    /**
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     */
+    function OnEpilogHandler()
+    {
+        Content::renderYMHandler();
     }
 }
 
