@@ -10465,9 +10465,9 @@ h3.tab-content__title--right {
   justify-content: space-between;
 }
 
-.top-nav__list-item {
-  display: flex;
-  justify-content: space-between;
+.top-nav__list-item .top-nav__link.disabled{
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .top-nav__link-arrow {
