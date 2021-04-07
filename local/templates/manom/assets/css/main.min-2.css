@@ -10466,6 +10466,13 @@ h3.tab-content__title--right {
   position: relative;
 }
 
+.top-nav__list-item img {
+  width: 50px;
+  height: 50px;
+  border-bottom: 1px solid #f7f7f7;
+  object-fit: contain;
+}
+
 .top-nav__list-item .top-nav__link.disabled{
   opacity: 0.6;
   pointer-events: none;
