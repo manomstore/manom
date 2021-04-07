@@ -445,7 +445,7 @@ class Content
             }
 
             $(document).ready(function () {
-                $(".adm-detail-content#tab0").find("tr:last-child")
+                $(".adm-detail-content#tab0").find("tr:last")
                     .after(
                         rowTemplate.replaceAll("#TEXT#", "Использовать зеркало")
                             .replaceAll("#FIELD_NAME#", "USE_MIRROR")
