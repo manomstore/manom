@@ -10471,6 +10471,7 @@ h3.tab-content__title--right {
   height: 50px;
   border-bottom: 1px solid #f7f7f7;
   object-fit: contain;
+  padding: 5px;
 }
 
 .top-nav__list-item .top-nav__link.disabled{
