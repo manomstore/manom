@@ -210,4 +210,25 @@ class Product
 
         return $result;
     }
+
+    /**
+     * @param int $productId
+     * @param bool $flag
+     * @return void
+     */
+    public function setSaleFlag(int $productId, bool $flag): void
+    {
+        $value = false;
+
+        if ($flag) {
+            $filterEnum = [
+                "CODE"      => "SELL_PROD",
+                "IBLOCK_ID" => \Helper::CATALOG_IB_ID
+            ];
+            $enum = \CIBlockPropertyEnum::GetList([], $filterEnum)->GetNext();
+            $value = $enum["ID"];
+        }
+
+        \CIBlockElement::SetPropertyValuesEx($productId, \Helper::CATALOG_IB_ID, ["SELL_PROD" => $value]);
+    }
 }

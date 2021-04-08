@@ -1,5 +1,7 @@
 	<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?
+use Manom\Store\StoreList;
+
 if(!empty($arResult["DELIVERY"]))
 {
 	?>
@@ -40,7 +42,7 @@ if(!empty($arResult["DELIVERY"]))
                             <span class="address_soa"><?= $store["ADDRESS"] ?></span><br/>
                             <span class="schedule_soa"><?= $store["SCHEDULE"] ?></span><br/>
                         <? endif; ?>
-
+                        <span class="js-shop-schedule"><?= StoreList::getInstance()->getShop()->getSchedule()?></span>
                     </label>
                 </td>
             </tr>

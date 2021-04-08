@@ -66,7 +66,10 @@ class CatalogProvider extends \Bitrix\Catalog\Product\CatalogProvider
         $product = new Product;
         $ecommerceData = $product->getEcommerceData($productsId, 6);
 
-        $userBasketProductsPriceId = self::getUserBasketProductsPriceId();
+        //Если флаг не установлен, используем тип цены товара из корзины
+        if (!Price::$useRealPriceType) {
+            $userBasketProductsPriceId = self::getUserBasketProductsPriceId();
+        }
 
         $productsPrice = array();
         foreach ($products as $product) {

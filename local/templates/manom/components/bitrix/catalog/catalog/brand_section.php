@@ -16,17 +16,26 @@ global $sectionListFilter;
 
 $sortCode = $_REQUEST['sort_by'];
 $order = 'ASC';
+$sort2 = "SORT";
+$order2 = "ASC";
+
 if ($_REQUEST['sort_by'] === 'price_asc') {
     $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
 } elseif ($_REQUEST['sort_by'] === 'price_desc') {
     $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
     $order = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'pop') {
-    $sort = 'propertysort_SALELEADER';
+    $sort = $sort2;
+    $order = $order2;
+    $sort2 = 'show_counter';
+    $order2 = 'DESC';
 } elseif ($_REQUEST['sort_by'] === 'name') {
     $sort = 'NAME';
 } else {
-    $sort = 'propertysort_SALELEADER';
+    $sort = $sort2;
+    $order = $order2;
+    $sort2 = 'show_counter';
+    $order2 = 'DESC';
     $sortCode = "pop";
 }
 
@@ -139,32 +148,7 @@ if ($section) {
                 </div>
             </div>
         </div>
-            <?php $APPLICATION->IncludeComponent(
-                'bitrix:catalog.section.list',
-                '',
-                array(
-                    'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
-                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                    'SECTION_ID' => $arResult['VARIABLES']['SECTION_ID'],
-                    'SECTION_CODE' => $arResult['VARIABLES']['SECTION_CODE'],
-                    'CACHE_TYPE' => $arParams['CACHE_TYPE'],
-                    'CACHE_TIME' => $arParams['CACHE_TIME'],
-                    'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
-                    'COUNT_ELEMENTS' => $arParams['SECTION_COUNT_ELEMENTS'],
-                    'TOP_DEPTH' => $arParams['SECTION_TOP_DEPTH'],
-                    'SECTION_URL' => $arResult['FOLDER'].$arResult['URL_TEMPLATES']['section'],
-                    'VIEW_MODE' => $arParams['SECTIONS_VIEW_MODE'],
-                    'SHOW_PARENT_NAME' => $arParams['SECTIONS_SHOW_PARENT_NAME'],
-                    'HIDE_SECTION_NAME' => $arParams['SECTIONS_HIDE_SECTION_NAME'] ?? 'N',
-                    'ADD_SECTIONS_CHAIN' => $arParams['ADD_SECTIONS_CHAIN'] ?? '',
-                    'DISCOUNTED_SECTION_ID' => $arParams['DISCOUNTED_SECTION_ID'],
-                    'TITLE' => $APPLICATION->GetTitle(),
-                    'PREFIX' => "brand/{$arResult["VARIABLES"]["BRAND_CODE"]}/",
-                    'FILTER_NAME' => "sectionListFilter",
-                ),
-                $component,
-                array('HIDE_ICONS' => 'Y')
-            ); ?>
+            <? $APPLICATION->ShowViewContent("sections-list"); ?>
 
         <?php
 
@@ -202,7 +186,39 @@ if ($section) {
             ),
             $component,
             array('HIDE_ICONS' => 'Y')
-        ); ?>
+            );
+
+            global $filterValues;
+            ob_start();
+            $APPLICATION->IncludeComponent(
+            'bitrix:catalog.section.list',
+            '',
+            array(
+                'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
+                'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                'SECTION_ID' => $arResult['VARIABLES']['SECTION_ID'],
+                'SECTION_CODE' => $arResult['VARIABLES']['SECTION_CODE'],
+                'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+                'CACHE_TIME' => $arParams['CACHE_TIME'],
+                'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+                'COUNT_ELEMENTS' => $arParams['SECTION_COUNT_ELEMENTS'],
+                'TOP_DEPTH' => $arParams['SECTION_TOP_DEPTH'],
+                'SECTION_URL' => $arResult['FOLDER'].$arResult['URL_TEMPLATES']['section'],
+                'VIEW_MODE' => $arParams['SECTIONS_VIEW_MODE'],
+                'SHOW_PARENT_NAME' => $arParams['SECTIONS_SHOW_PARENT_NAME'],
+                'HIDE_SECTION_NAME' => $arParams['SECTIONS_HIDE_SECTION_NAME'] ?? 'N',
+                'ADD_SECTIONS_CHAIN' => $arParams['ADD_SECTIONS_CHAIN'] ?? '',
+                'DISCOUNTED_SECTION_ID' => $arParams['DISCOUNTED_SECTION_ID'],
+                'TITLE' => $APPLICATION->GetTitle(),
+                'BRAND_DATA' => $brandData,
+                'FILTER_NAME' => "sectionListFilter",
+                'FILTER_VALUES' => $filterValues,
+            ),
+            $component,
+            array('HIDE_ICONS' => 'Y')
+        );
+            $APPLICATION->AddViewContent("sections-list",ob_get_clean());
+            ?>
             <?php
             global $hideSmartFilter;
             $APPLICATION->IncludeComponent(
@@ -213,8 +229,8 @@ if ($section) {
                 'IBLOCK_ID' => $arParams['IBLOCK_ID'],
                 'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
                 'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
-                'ELEMENT_SORT_FIELD2' => "SORT",
-                'ELEMENT_SORT_ORDER2' => "ASC",
+                    'ELEMENT_SORT_FIELD2' =>  $sort2,
+                    'ELEMENT_SORT_ORDER2' => $order2,
                 'SORT_CODE' => $sortCode,
                 'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                 'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],

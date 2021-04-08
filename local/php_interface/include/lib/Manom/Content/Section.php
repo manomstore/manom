@@ -66,6 +66,7 @@ class Section
                 "DEPTH_LEVEL",
                 "SECTION_PAGE_URL",
                 "LIST_PAGE_URL",
+                "IBLOCK_SECTION_ID",
             ]
         );
 
@@ -83,6 +84,9 @@ class Section
                 "baseUrl"     => $row["LIST_PAGE_URL"],
             ];
 
+            if ($row["IBLOCK_SECTION_ID"]) {
+                $section["parentId"] = (int)$row["IBLOCK_SECTION_ID"];
+            }
             $this->sections[$section["id"]] = $section;
 
             $maxDepthLevel = $section["depthLevel"] > $maxDepthLevel ?
@@ -121,6 +125,8 @@ class Section
     }
 
     /**
+     * @param int|null $depthLevel
+     *
      * С целью оптимизации, проверяем пустоту разделов не глубже заданного уровня вложенности
      */
     public function checkEmptySectionsMaxLevel(): void

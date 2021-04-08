@@ -30,6 +30,14 @@ class StoreItem
      * @var
      */
     private $priceCode;
+    /**
+     * @var int
+     */
+    private $assemblyTime;
+    /**
+     * @var string
+     */
+    private $schedule;
 
     /**
      * StoreItem constructor.
@@ -52,6 +60,12 @@ class StoreItem
         if (isset($itemData["UF_AS_MAIN"])) {
             $this->asMain = (bool)$itemData["UF_AS_MAIN"];
         }
+
+        if (isset($itemData["SCHEDULE"])) {
+            $this->schedule = (string)$itemData["SCHEDULE"];
+        }
+
+        $this->assemblyTime = (int)$itemData["UF_TIME"];
     }
 
     /**
@@ -125,5 +139,21 @@ class StoreItem
     public function getPriceCode(): ?string
     {
         return $this->priceCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAssemblyTime(): int
+    {
+        return (int)$this->assemblyTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSchedule(): string
+    {
+        return (string)$this->schedule;
     }
 }
