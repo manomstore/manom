@@ -170,7 +170,9 @@ class StoreList
      */
     public function getPriceCodes(): array
     {
-        $priceCodes = [];
+        $priceCodes = [
+            "Гудс"
+        ];
 
         foreach ($this->stores as $store) {
             /** @var StoreItem $store */

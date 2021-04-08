@@ -151,9 +151,6 @@ if ((int)$_REQUEST['PRODUCT_ID'] > 0) {
     if ($_REQUEST['METHOD_CART'] === 'refredh_mini_cart' && $_REQUEST['AJAX_MIN_CART'] === 'Y') {
         ajaxShowBasketMin();
     }
-    if ($_REQUEST['METHOD_CART'] === 'refredh_cart_info' && $_REQUEST['AJAX_CART_INFO'] === 'Y') {
-        ajaxShowBasketInfo();
-    }
     if ($_REQUEST['METHOD_CART'] === 'refredh_cart' && $_REQUEST['AJAX_CART'] === 'Y') {
         ajaxShowBasket();
     }
@@ -220,56 +217,6 @@ function ajaxShowBasketMin()
     $APPLICATION->IncludeComponent(
         'bitrix:sale.basket.basket',
         'min',
-        Array(
-            'ACTION_VARIABLE' => '',
-            'AUTO_CALCULATION' => 'Y',
-            'TEMPLATE_THEME' => '',
-            'COLUMNS_LIST' => array(
-                'NAME',
-                'DISCOUNT',
-                'WEIGHT',
-                'DELETE',
-                'DELAY',
-                'TYPE',
-                'PRICE',
-                'QUANTITY',
-            ),
-            'COMPONENT_TEMPLATE' => '',
-            'COUNT_DISCOUNT_4_ALL_QUANTITY' => 'N',
-            'GIFTS_BLOCK_TITLE' => '',
-            'GIFTS_CONVERT_CURRENCY' => 'Y',
-            'GIFTS_HIDE_BLOCK_TITLE' => 'N',
-            'GIFTS_HIDE_NOT_AVAILABLE' => 'N',
-            'GIFTS_MESS_BTN_BUY' => '',
-            'GIFTS_MESS_BTN_DETAIL' => '',
-            'GIFTS_PAGE_ELEMENT_COUNT' => 0,
-            'GIFTS_PRODUCT_PROPS_VARIABLE' => '',
-            'GIFTS_PRODUCT_QUANTITY_VARIABLE' => '',
-            'GIFTS_SHOW_DISCOUNT_PERCENT' => '',
-            'GIFTS_SHOW_IMAGE' => '',
-            'GIFTS_SHOW_NAME' => '',
-            'GIFTS_SHOW_OLD_PRICE' => '',
-            'GIFTS_TEXT_LABEL_GIFT' => '',
-            'GIFTS_PLACE' => '',
-            'HIDE_COUPON' => 'N',
-            'OFFERS_PROPS' => array(),
-            'PATH_TO_ORDER' => '',
-            'PRICE_VAT_SHOW_VALUE' => 'N',
-            'QUANTITY_FLOAT' => 'N',
-            'SET_TITLE' => 'N',
-            'USE_GIFTS' => 'N',
-            'USE_PREPAYMENT' => 'N',
-        ),
-        false
-    );
-}
-
-function ajaxShowBasketInfo()
-{
-    global $APPLICATION;
-    $APPLICATION->IncludeComponent(
-        'bitrix:sale.basket.basket',
-        'info',
         Array(
             'ACTION_VARIABLE' => '',
             'AUTO_CALCULATION' => 'Y',
