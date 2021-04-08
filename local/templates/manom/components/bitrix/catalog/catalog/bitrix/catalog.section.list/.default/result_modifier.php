@@ -19,7 +19,7 @@ if (!empty($arParams["PREFIX"])) {
 }
 
 $obSection = new Section();
-$obSection->checkEmptySectionsOnLevel();
+$obSection->checkEmptySectionsMaxLevel();
 
 $arParams["FILTER_VALUES"] = is_array($arParams["FILTER_VALUES"]) ? $arParams["FILTER_VALUES"] : [];
 $filterValues = array_map(function ($value) {
