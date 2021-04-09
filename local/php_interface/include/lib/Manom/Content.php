@@ -548,7 +548,7 @@ class Content
                 ],
                 [
                     "Акции",
-                    SITE_DIR . "sale/",
+                    SITE_DIR . "catalog/sale/",
                     [],
                     [
                         "type"    => "sections",
