@@ -24,6 +24,7 @@ class Price
     const SELLING_TYPE_ID = 1;
     const RRC_TYPE_TYPE_ID = 2;
     const CURRENT_TYPE_ID = 3;
+    const GOODS_TYPE_ID = 4;
 
     private $userGroups;
     private $currency;
@@ -342,7 +343,7 @@ class Price
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    public function recalculateTypeCurrent(array $productsId): void
+    public function processingChanges(array $productsId): void
     {
         $product = new Product();
         $ecommerceData = $product->getEcommerceData($productsId, Helper::CATALOG_IB_ID);
@@ -350,9 +351,14 @@ class Price
             /** @var StoreData $storeData */
             $storeData = $item['storeData'];
             $prices = $storeData->getPrices();
+            $showOldPrice = !empty((int)$prices['oldPrice'])
+                && (int)$item['price'] !== (int)$prices['oldPrice'];
+
             if (isset($prices["price"])) {
+                // Обновляем "Текущую цену"
                 $this->updatePrice($productId, $prices["price"], static::CURRENT_TYPE_ID);
             }
+            $product->setSaleFlag($productId, $showOldPrice);
         }
     }
 

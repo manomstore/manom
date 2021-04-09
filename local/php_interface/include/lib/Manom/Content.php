@@ -4,6 +4,7 @@ namespace Manom;
 
 use Bitrix\Iblock\PropertyTable;
 use Bitrix\Main\ArgumentException;
+use Bitrix\Main\Config\Option;
 use Bitrix\Main\Context;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\LoaderException;
@@ -89,7 +90,7 @@ class Content
         $order = array('SORT' => 'ASC');
         $filter = array(
             'IBLOCK_ID' => 10,
-            'ACTIVE'    => 'Y',
+            'ACTIVE' => 'Y',
         );
 
         if ((int)$sectionId > 0) {
@@ -122,8 +123,8 @@ class Content
                 $sectionBannerWithoutCategory = array(
                     'btn_link' => $row['PROPERTY_CB_BTN_LINK_VALUE'],
                     'btn_text' => $row['PROPERTY_CB_BTN_TEXT_VALUE'],
-                    'text'     => $row['PROPERTY_CB_TEXT_VALUE'],
-                    'img'      => $img['src'],
+                    'text' => $row['PROPERTY_CB_TEXT_VALUE'],
+                    'img' => $img['src'],
                 );
             } elseif (empty($sectionBanner) && (int)$sectionId > 0 && (int)$row['PROPERTY_CB_CATEGORY_VALUE'] === (int)$sectionId) {
                 $img = \CFile::ResizeImageGet(
@@ -134,8 +135,8 @@ class Content
                 $sectionBanner = array(
                     'btn_link' => $row['PROPERTY_CB_BTN_LINK_VALUE'],
                     'btn_text' => $row['PROPERTY_CB_BTN_TEXT_VALUE'],
-                    'text'     => $row['PROPERTY_CB_TEXT_VALUE'],
-                    'img'      => $img['src'],
+                    'text' => $row['PROPERTY_CB_TEXT_VALUE'],
+                    'img' => $img['src'],
                 );
             }
         }
@@ -155,7 +156,7 @@ class Content
         $result = array();
 
         $cache = new \CPHPCache();
-        if ($cache->InitCache($time, $id, '/' . SITE_ID . '/' . $id)) {
+        if ($cache->InitCache($time, $id, '/'.SITE_ID.'/'.$id)) {
             $result = $cache->GetVars();
         } elseif ($cache->StartDataCache()) {
             $result = $callback($callbackParams);
@@ -581,5 +582,64 @@ class Content
     public function getPageCountList(): array
     {
         return (array)$this->pageCountData["list"];
+    }
+
+    /**
+     * @throws \Bitrix\Main\ArgumentNullException
+     * @throws \Bitrix\Main\ArgumentOutOfRangeException
+     */
+    public static function renderYMHandler(): void
+    {
+        global $APPLICATION;
+        if ($APPLICATION->GetCurPage() !== "/bitrix/admin/yamarket_setup_edit.php") {
+            return;
+        }
+
+        $request = Context::getCurrent()->getRequest();
+        $feedData = json_decode(Option::get("yandex.market", "feed_data"), true);
+        if (!is_array($feedData)) {
+            $feedData = [];
+        }
+
+        $feedId = (int)$request->get("id");
+
+        if ($request->isPost() && check_bitrix_sessid() && $feedId > 0) {
+            $feedData[$feedId]["USE_MIRROR"] = (int)$request->get("USE_MIRROR") === 1;
+            $feedData[$feedId]["USE_PRICE_GOODS"] = (int)$request->get("USE_PRICE_GOODS") === 1;
+            Option::set("yandex.market", "feed_data", json_encode($feedData));
+        }
+
+        $feedData = $feedData[$feedId];
+
+        \CJSCore::Init(["jquery"]);
+        ?>
+        <script>
+            var rowTemplate = `<tr>
+	<td class="adm-detail-content-cell-l" width="40%" align="right" valign="top">#TEXT#</td>
+	<td class="adm-detail-content-cell-r" width="60%">
+		<input class="adm-designed-checkbox" type="checkbox" value="1" #CHECKED# name="#FIELD_NAME#" id="#FIELD_NAME#">
+		<label class="adm-designed-checkbox-label" for="#FIELD_NAME#"></label>
+    </td>
+</tr>`;
+            var feedData = <?=\CUtil::PhpToJSObject($feedData)?>;
+            if (typeof feedData !== "object") {
+                feedData = {};
+            }
+
+            $(document).ready(function () {
+                $(".adm-detail-content#tab0").find("tr:last")
+                    .after(
+                        rowTemplate.replaceAll("#TEXT#", "Использовать зеркало")
+                            .replaceAll("#FIELD_NAME#", "USE_MIRROR")
+                            .replaceAll("#CHECKED#", feedData.USE_MIRROR === true ? "checked" : "")
+                    )
+                    .after(
+                        rowTemplate.replaceAll("#TEXT#", "Использовать цены Goods")
+                            .replaceAll("#FIELD_NAME#", "USE_PRICE_GOODS")
+                            .replaceAll("#CHECKED#", feedData.USE_PRICE_GOODS === true ? "checked" : "")
+                    );
+            });
+        </script>
+        <?
     }
 }

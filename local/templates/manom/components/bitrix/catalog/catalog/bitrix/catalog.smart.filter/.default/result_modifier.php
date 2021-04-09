@@ -8,6 +8,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $brand = new Brand();
+$filterValues = [];
 
 foreach ($arResult['ITEMS'] as &$item) {
     if ($item["CODE"] === "memory_size") {
@@ -58,6 +59,12 @@ foreach ($arResult['ITEMS'] as &$item) {
         }
     }
 
+    if (in_array($item["CODE"], ["brand", "at_seriya"])) {
+        array_walk($item["VALUES"], function ($item) use (&$filterValues) {
+            $filterValues[] = $item["VALUE"];
+        });
+    }
+
     if (!isset($item['PRICE'])) {
         $counter = 0;
         array_walk($item["VALUES"], function (&$value, $key, &$counter) {
@@ -71,6 +78,8 @@ foreach ($arResult['ITEMS'] as &$item) {
             })) >= 1;
     }
 }
+
+$arResult["FILTER_VALUES"] = $filterValues;
 
 unset($item);
 
@@ -119,4 +128,4 @@ foreach ($arResult['ITEMS'] as &$item) {
 }
 unset($item);
 
-$this->__component->SetResultCacheKeys(["HAS_FILTER_ELEMENT"]);
+$this->__component->SetResultCacheKeys(["HAS_FILTER_ELEMENT", "FILTER_VALUES"]);

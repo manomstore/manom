@@ -327,6 +327,7 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
     require_once $_SERVER['DOCUMENT_ROOT'].'/roistat/autoload.php';
     $roistatText = 'Страница: '.$_SERVER['HTTP_REFERER'].'. Ид продукта: '.$request->get('productId');
     $isPreOrder = $request->get('isPreOrder') === "Y";
+    $fromShowcase = $request->get('fromShowcase') === "Y";
 
     $roistatData = array(
         'name' => $request->get('name'),
@@ -346,7 +347,7 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
             throw new \Exception();
         }
 
-        if (!check_bitrix_sessid()) {
+        if (!check_bitrix_sessid() && !$fromShowcase) {
             throw new \Exception();
         }
 
