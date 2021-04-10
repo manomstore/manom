@@ -12219,8 +12219,8 @@ button.top-nav__link {
     margin: 0 0 20px 0;
   }
 
-  .grid .main-nav__sublist li:nth-child(odd),
-  .grid .main-nav__innerlist li:nth-child(odd) {
+  .main-nav__sublist .grid li:nth-child(odd),
+  .main-nav__innerlist .grid  li:nth-child(odd) {
     margin: 0 25px 20px 0;
   }
 
