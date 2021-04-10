@@ -12219,8 +12219,8 @@ button.top-nav__link {
     margin: 0 25px 20px 0;
   }
 
-  .main-nav__sublist li:nth-child(even),
-  .main-nav__innerlist li:nth-child(even) {
+  .grid .main-nav__sublist li:nth-child(even),
+  .grid .main-nav__innerlist li:nth-child(even) {
     margin: 0 0 20px 0;
   }
 
@@ -12297,10 +12297,20 @@ button.top-nav__link {
   }
 
   .main-nav__sublist ul {
-    display: grid;
-    grid-template-columns: 1fr max-content;
+    display: flex;
+    flex-direction: column;
     list-style: none;
     width: 100%;
+  }
+
+  .main-nav__sublist ul.grid {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+  }
+
+  .main-nav__sublist ul.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr max-content max-content;
   }
 
   .main-nav__sublist--brands {
