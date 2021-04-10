@@ -12224,6 +12224,19 @@ button.top-nav__link {
     margin: 0 25px 20px 0;
   }
 
+  .main-nav__sublist .grid-2 li:nth-child(odd),
+  .main-nav__innerlist .grid-2  li:nth-child(odd) {
+    margin: 0 0 20px 0;
+  }
+  .main-nav__sublist .grid-2 li:nth-child(2n),
+  .main-nav__innerlist .grid-2  li:nth-child(2n) {
+    margin: 0 25px 20px 0;
+  }
+  .main-nav__sublist .grid-2 li:nth-child(3n),
+  .main-nav__innerlist .grid-2  li:nth-child(3n) {
+    margin: 0 25px 20px 0;
+  }
+
   .main-nav__sublist.main-nav__sublist--brands li{
     margin: 0 50px 10px 0;
     display: flex;
