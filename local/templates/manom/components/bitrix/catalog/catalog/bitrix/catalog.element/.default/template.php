@@ -602,7 +602,7 @@ function formatBytes($size, $precision = 2)
                                 </div>
                             </div>
                         </div>
-                        <? if (!$arResult["preOrder"]["active"]): ?>
+                        <? if (!$arResult["preOrder"]["active"] && $arResult['CATALOG_AVAILABLE'] === 'Y'): ?>
                             <div class="js-delivery_block">
                                 <?php foreach ($arResult['DELIVERIES'] as $delivery): ?>
                                     <div class="product-delivery__item">

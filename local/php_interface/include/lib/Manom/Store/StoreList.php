@@ -63,6 +63,8 @@ class StoreList
                 "SORT",
                 "UF_CODE",
                 "UF_AS_MAIN",
+                "UF_TIME",
+                "SCHEDULE",
             ]
         );
 
@@ -168,7 +170,9 @@ class StoreList
      */
     public function getPriceCodes(): array
     {
-        $priceCodes = [];
+        $priceCodes = [
+            "Гудс"
+        ];
 
         foreach ($this->stores as $store) {
             /** @var StoreItem $store */
@@ -206,5 +210,21 @@ class StoreList
         }
 
         return static::$instance;
+    }
+
+    /**
+     * @return StoreItem
+     */
+    public function getShop(): StoreItem
+    {
+        $shop = current($this->filter(function (StoreItem $store) {
+            return $store->getCode() === "main";
+        }));
+
+        if (!($shop instanceof StoreItem)) {
+            $shop = new StoreItem([]);
+        }
+
+        return $shop;
     }
 }

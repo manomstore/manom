@@ -23,6 +23,8 @@ $elementOrder = array();
 $sort = '';
 $order = 'ASC';
 $sortCode = $_REQUEST['sort_by'];
+$sort2 = "SORT";
+$order2 = "ASC";
 switch ($_REQUEST['sort_by']) {
     case "price_asc":
         $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
@@ -32,7 +34,10 @@ switch ($_REQUEST['sort_by']) {
         $order = 'DESC';
         break;
     case "pop":
-        $sort = 'propertysort_SALELEADER';
+        $sort = $sort2;
+        $order = $order2;
+        $sort2 = 'show_counter';
+        $order2 = 'DESC';
         break;
     case "name":
         $sort = 'NAME';
@@ -48,8 +53,8 @@ switch ($_REQUEST['sort_by']) {
 $elementOrder = [
     "ELEMENT_SORT_FIELD" => $sort,
     "ELEMENT_SORT_ORDER" => $order,
-    'ELEMENT_SORT_FIELD2' =>  "SORT",
-    'ELEMENT_SORT_ORDER2' => "ASC",
+    'ELEMENT_SORT_FIELD2' => $sort2,
+    'ELEMENT_SORT_ORDER2' => $order2,
 ];
 
 $pageCountList = [
