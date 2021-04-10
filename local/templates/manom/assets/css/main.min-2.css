@@ -12216,12 +12216,12 @@ button.top-nav__link {
 
   .main-nav__sublist li,
   .main-nav__innerlist li {
-    margin: 0 25px 20px 0;
+    margin: 0 0 20px 0;
   }
 
-  .grid .main-nav__sublist li:nth-child(even),
-  .grid .main-nav__innerlist li:nth-child(even) {
-    margin: 0 0 20px 0;
+  .grid .main-nav__sublist li:nth-child(odd),
+  .grid .main-nav__innerlist li:nth-child(odd) {
+    margin: 0 25px 20px 0;
   }
 
   .main-nav__sublist.main-nav__sublist--brands li{
