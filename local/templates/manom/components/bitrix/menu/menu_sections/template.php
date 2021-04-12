@@ -39,7 +39,7 @@ $this->setFrameMode(true); ?>
                                     <div class="main-nav__inner">
                                         <div class="main-nav__sublist">
                                             <div class="main-nav__list-pack">
-                                                <ul>
+                                                <ul class="<?= $arItem["gridClass"] ?>">
                                                     <? foreach ($arItem["PARAMS"]["submenu"] as $submenuItem): ?>
                                                         <li>
                                                             <a class="main-nav__link <?= !empty($submenuItem["children"]) ? "main-nav__link--lv2" : "" ?>"
@@ -52,7 +52,7 @@ $this->setFrameMode(true); ?>
                                                                     <div class="main-nav__inner">
                                                                         <div class="main-nav__sublist">
                                                                             <div class="main-nav__list-pack">
-                                                                                <ul>
+                                                                                <ul class="<?= $submenuItem["gridClass"] ?>">
                                                                                     <? foreach ($submenuItem["children"] as $children): ?>
                                                                                         <li>
                                                                                             <a class="main-nav__link main-nav__link--lv3"
