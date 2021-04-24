@@ -90,9 +90,11 @@ $this->setFrameMode(true); ?>
                                                                href="<?= $submenuItem["url"] ?>">
                                                                 <?= $submenuItem["name"] ?>
                                                             </a>
-                                                            <img style="width: auto; height: 35px; object-fit: contain; max-width: 50px"
-                                                                 src="<?= $submenuItem["logo"] ?>"
-                                                                 alt="<?= $submenuItem["name"] ?>">
+                                                            <a href="<?= $submenuItem["url"] ?>">
+                                                                <img style="width: auto; height: 35px; object-fit: contain; max-width: 50px"
+                                                                     src="<?= $submenuItem["logo"] ?>"
+                                                                     alt="<?= $submenuItem["name"] ?>">
+                                                            </a>
                                                         </li>
                                                     <? endforeach; ?>
                                                 </ul>
