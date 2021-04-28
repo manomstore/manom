@@ -102,7 +102,8 @@ class Element
         }
 
         foreach ($this->propertiesData as $propertyData) {
-            if (isset($properties[$propertyData["code"]])) {
+            $isYMName = $propertyData["code"] === "Name_Market";
+            if (isset($properties[$propertyData["code"]]) || $isYMName) {
                 continue;
             }
 
