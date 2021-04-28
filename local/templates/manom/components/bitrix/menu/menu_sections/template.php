@@ -20,7 +20,7 @@ $this->setFrameMode(true); ?>
         <ul class="main-nav__list">
             <? foreach ($arResult as $arItem): ?>
                 <li class="main-nav__item main-nav__item--dropdown <?= $arItem["disabled"] ? "disabled" : "" ?>">
-                    <a class="main-nav__link" <?= $arItem["notLink"] ? "onclick='return false;'" : "" ?>
+                    <a class="main-nav__link" <?= $arItem["notLink"] ? "onclick='return false;' style='pointer-events: none;'" : "" ?>
                        href="<?= $arItem["LINK"] ?>">
                         <?= $arItem["TEXT"] ?>
                         <? if (!empty($arItem["PARAMS"]["submenu"])): ?>
