@@ -168,6 +168,21 @@ $(document).ready(function()
             },
         });
     });
+
+    $(document).on("click", ".js-change-bitrix", function (event) {
+        event.preventDefault();
+        var $list = $(document).find(".js-property-select.is-pattern").first().clone();
+        var that = this;
+        $list.removeClass("is-pattern");
+        $list.attr("name", "bitrix[]");
+        $list.find("option").each(function (idx, elem) {
+            if ($(elem).val() === $(that).data("bitrix-code")) {
+                $(elem).attr("selected", true)
+            }
+        });
+        $(that).closest(".js-variable-block").html($list);
+        $list.show();
+    });
 });
 
 function executeRequest(form, options)

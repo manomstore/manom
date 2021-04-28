@@ -101,6 +101,7 @@ class Import
     public function process($sections = array()): bool
     {
         $element = new Element($this->iblockId);
+        $element->propertiesData = $this->propertiesData;
 
         $api = new Api();
 

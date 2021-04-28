@@ -64,6 +64,11 @@ if ($_GET["type"] == "catalog" && $_GET["mode"] == "import"):
         "OnBeforeIBlockSectionUpdate",
         Array("MyHandlerClass", "OnAfterIBlockSectionAddHandler")
     );
+    AddEventHandler(
+        "iblock",
+        "OnBeforeIBlockPropertyAdd",
+        Array("MyHandlerClass", "OnBeforeIBlockPropertyAddImportHandler")
+    );
 endif;
 
 AddEventHandler(
@@ -522,6 +527,18 @@ class MyHandlerClass
     function OnBeforeIBlockElementAddImportHandler(&$arFields)
     {
         unset($arFields["PREVIEW_TEXT"]);
+    }
+
+    function OnBeforeIBlockPropertyAddImportHandler($arFields)
+    {
+        $serviceProperty = [
+            "Изготовитель",
+            "Страна производитель",
+            "Категория",
+            "URL"
+        ];
+
+        return !in_array($arFields["NAME"], $serviceProperty);
     }
 
     function OnBeforeIBlockElementUpdateHandler($arFields)
