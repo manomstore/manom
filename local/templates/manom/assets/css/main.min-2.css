@@ -12289,6 +12289,10 @@ button.top-nav__link {
     border-radius: 3px;
     background-color: #fefffd;
     padding: 35px;
+    min-width: 235px;
+  }
+
+  .brands .main-nav__inner {
     min-width: 335px;
   }
 
