@@ -538,7 +538,7 @@
                                                 'bitrix:menu',
                                                 'mob_sections_with_submenu',
                                                 [
-                                                    'ROOT_MENU_TYPE' => 'sections',
+                                                    'ROOT_MENU_TYPE' => 'main', //.main.menu.php
                                                     'MAX_LEVEL' => '1',
                                                     'CHILD_MENU_TYPE' => 'top',
                                                     'USE_EXT' => 'Y',
@@ -602,7 +602,7 @@
                                             'bitrix:menu',
                                             'mob_sections_submenu',
                                             [
-                                                'ROOT_MENU_TYPE' => 'sections',
+                                                'ROOT_MENU_TYPE' => 'main', //.main.menu.php
                                                 'MAX_LEVEL' => '1',
                                                 'CHILD_MENU_TYPE' => 'top',
                                                 'USE_EXT' => 'Y',
@@ -622,72 +622,11 @@
                                         </picture>
                                     </a>
 
-                                    <?php /*
-                                    <div class="top-menu">
-                                        <?php $APPLICATION->IncludeComponent(
-                                            'bitrix:menu',
-                                            'top_menu',
-                                            [
-                                                'ROOT_MENU_TYPE' => 'top',
-                                                'MAX_LEVEL' => '1',
-                                                'CHILD_MENU_TYPE' => 'top',
-                                                'USE_EXT' => 'Y',
-                                                'DELAY' => 'N',
-                                                'ALLOW_MULTI_SELECT' => 'Y',
-                                                'MENU_CACHE_TYPE' => 'N',
-                                                'MENU_CACHE_TIME' => '3600',
-                                                'MENU_CACHE_USE_GROUPS' => 'Y',
-                                                'MENU_CACHE_GET_VARS' => '',
-                                            ]
-                                        ); ?>
-                                    </div>
-                                    <div id="popap-login" class="popap-login">
-                                        <h3 class="sci-login__title">Войти в существующий аккаунт</h3>
-                                        <form class="sci-login__form">
-                                            <label class="sci-login__label" for="sci-login__email">E-mail</label>
-                                            <input
-                                                    type="email"
-                                                    name="email"
-                                                    id="sci-login__email"
-                                                    class="sci-login__input"
-                                                    placeholder="Ваш e-mail"
-                                                    required
-                                            >
-                                            <label class="sci-login__label" for="sci-login__password">Пароль</label>
-                                            <input
-                                                    type="password"
-                                                    name="password"
-                                                    id="sci-login__password"
-                                                    class="sci-login__input"
-                                                    placeholder="Ваш пароль"
-                                                    required
-                                            >
-                                            <div class="sci-login__social">
-                                                <span>Войти через соц.сети:</span>
-                                                <a href="#" class="sci-login__social-link">
-                                                    <img src="<?=SITE_TEMPLATE_PATH?><!--/assets/img/s-instagram.png" alt="">
-                                                </a>
-                                                <a href="#" class="sci-login__social-link">
-                                                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-telegram.png" alt="">
-                                                </a>
-                                                <a href="#" class="sci-login__social-link">
-                                                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-facebook.png" alt="">
-                                                </a>
-                                                <a href="#" class="sci-login__social-link">
-                                                    <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-vk.png" alt="">
-                                                </a>
-                                            </div>
-                                            <button class="sci-login__button">Войти</button>
-                                            <a href="#" class="sci-login__forgot">Забыли пароль?</a>
-                                        </form>
-                                    </div>
-                                    */ ?>
-
                                     <?php $APPLICATION->IncludeComponent(
                                         'bitrix:menu',
                                         'menu_sections',
                                         [
-                                            'ROOT_MENU_TYPE' => 'sections',
+                                            'ROOT_MENU_TYPE' => 'main', //.main.menu.php
                                             'MAX_LEVEL' => '1',
                                             'CHILD_MENU_TYPE' => 'top',
                                             'USE_EXT' => 'Y',
@@ -1160,152 +1099,8 @@
                                         );?>
                                     </div>
                                 </div>
-                                <?php $APPLICATION->IncludeComponent(
-                                    'bitrix:menu',
-                                    'mob_sections_without_submenu',
-                                    [
-                                        'ROOT_MENU_TYPE' => 'sections',
-                                        'MAX_LEVEL' => '1',
-                                        'CHILD_MENU_TYPE' => 'top',
-                                        'USE_EXT' => 'Y',
-                                        'DELAY' => 'N',
-                                        'ALLOW_MULTI_SELECT' => 'Y',
-                                        'MENU_CACHE_TYPE' => 'N',
-                                        'MENU_CACHE_TIME' => '3600',
-                                        'MENU_CACHE_USE_GROUPS' => 'Y',
-                                        'MENU_CACHE_GET_VARS' => '',
-                                    ]
-                                ); ?>
                             </div>
                         </div>
-
-                        <?php /*
-                        <!-- Верхняя навигация 1 -->
-                        <div class="top-nav1">
-                            <div class="container">
-                                <div class="row top-nav1__block">
-                                    <a href="/" class="top-nav1__logo">
-                                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/logo.svg" class="top-nav1__logo-desk" alt="">
-                                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/a.jpg" class="top-nav1__logo-mob" alt="">
-                                    </a>
-                                    <!-- SEARCH -->
-                                    <?php $APPLICATION->IncludeComponent(
-                                        'bitrix:search.form',
-                                        'search',
-                                        [
-                                            'USE_SUGGEST' => 'N',
-                                            'PAGE' => '#SITE_DIR#search/index.php',
-                                            'COMPONENT_TEMPLATE' => 'search',
-                                        ],
-                                        false
-                                    ); ?>
-                                    <!-- /SEARCH -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Верхняя навигация 2 -->
-                        <div class="top-nav2">
-                            <div class="container">
-                                <div class="top-nav2__block">
-                                    <?php $APPLICATION->IncludeComponent(
-                                        'bitrix:catalog.section.list',
-                                        'main-menu',
-                                        [
-                                            'VIEW_MODE' => 'TEXT',
-                                            'SHOW_PARENT_NAME' => 'Y',
-                                            'IBLOCK_TYPE' => 'catalog',
-                                            'IBLOCK_ID' => '6',
-                                            'SECTION_ID' => $_REQUEST['SECTION_ID'],
-                                            'SECTION_CODE' => '',
-                                            'SECTION_URL' => '',
-                                            'COUNT_ELEMENTS' => 'Y',
-                                            'TOP_DEPTH' => '2',
-                                            'SECTION_FIELDS' => '',
-                                            'SECTION_USER_FIELDS' => '',
-                                            'ADD_SECTIONS_CHAIN' => 'Y',
-                                            'CACHE_TYPE' => 'A',
-                                            'CACHE_TIME' => '36000000',
-                                            'CACHE_NOTES' => '',
-                                            'CACHE_GROUPS' => 'Y',
-                                        ]
-                                    ); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                        $page = $APPLICATION->GetCurPage();
-                        if ($page === '/') { ?>
-                            <div class="top-nav2 mobile">
-                                <div class="container">
-                                    <div class="top-nav2__block">
-                                        <?php $APPLICATION->IncludeComponent(
-                                            'bitrix:catalog.section.list',
-                                            'main-menu',
-                                            [
-                                                'VIEW_MODE' => 'TEXT',
-                                                'SHOW_PARENT_NAME' => 'Y',
-                                                'IBLOCK_TYPE' => 'catalog',
-                                                'IBLOCK_ID' => '6',
-                                                'SECTION_ID' => $_REQUEST['SECTION_ID'],
-                                                'SECTION_CODE' => '',
-                                                'SECTION_URL' => '',
-                                                'COUNT_ELEMENTS' => 'Y',
-                                                'TOP_DEPTH' => '2',
-                                                'SECTION_FIELDS' => '',
-                                                'SECTION_USER_FIELDS' => '',
-                                                'ADD_SECTIONS_CHAIN' => 'Y',
-                                                'CACHE_TYPE' => 'A',
-                                                'CACHE_TIME' => '36000000',
-                                                'CACHE_NOTES' => '',
-                                                'CACHE_GROUPS' => 'Y',
-                                            ]
-                                        ); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <!-- Всплывающее окно Регистрация -->
-                        <div id="popap-reg" class="popap-login">
-                            <h3 class="sci-login__title">Регистрация аккаунта</h3>
-                            <form class="sci-login__form">
-                                <label class="sci-login__label" for="sci-reg__email">E-mail</label>
-                                <input
-                                        type="email"
-                                        name="email"
-                                        id="sci-reg__email"
-                                        class="sci-login__input"
-                                        placeholder="Ваш e-mail"
-                                        required
-                                >
-                                <label class="sci-login__label" for="sci-reg__password">Пароль</label>
-                                <input
-                                        type="password"
-                                        name="password"
-                                        id="sci-reg__password"
-                                        class="sci-login__input"
-                                        placeholder="Ваш пароль"
-                                        required
-                                >
-                                <div class="sci-login__social">
-                                    <span>Регистрация через соц.сети:</span>
-                                    <a href="#" class="sci-login__social-link">
-                                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-instagram.png" alt="">
-                                    </a>
-                                    <a href="#" class="sci-login__social-link">
-                                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-telegram.png" alt="">
-                                    </a>
-                                    <a href="#" class="sci-login__social-link">
-                                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-facebook.png" alt="">
-                                    </a>
-                                    <a href="#" class="sci-login__social-link">
-                                        <img src="<?=SITE_TEMPLATE_PATH?>/assets/img/s-vk.png" alt="">
-                                    </a>
-                                </div>
-                                <button class="sci-login__button">Регистрация</button>
-                            </form>
-                        </div>
-                        <!-- /Всплывающее окно Регистрация -->
-                        */ ?>
 
                         <!-- Всплывающее окно Логин -->
                         <?php $APPLICATION->IncludeComponent(

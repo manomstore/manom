@@ -737,7 +737,7 @@ function formatBytes($size, $precision = 2)
 
             <?php if ($arResult["SERVICES"]->existItems()): ?>
                 <label for="tab9">
-                    <span>Услуги</span>
+                    <span>Сервис</span>
                 </label>
             <?php endif; ?>
 
@@ -1113,7 +1113,7 @@ function formatBytes($size, $precision = 2)
             <?php if ($arResult["SERVICES"]->existItems()): ?>
                 <h3 class="accord-mobile__header">
                     <label for="tab9">
-                        <span>Услуги</span>
+                        <span>Сервис</span>
                     </label>
                 </h3>
                 <div id="content9">

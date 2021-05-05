@@ -68,6 +68,10 @@ try {
 } catch (\Exception $e) {
     $brandData = [];
 }
+
+if ($section) {
+    Content::addSectionNavChain($section["id"], "brand/{$arResult["VARIABLES"]["BRAND_CODE"]}/");
+}
 ?>
 <?php $APPLICATION->IncludeComponent(
     'bitrix:breadcrumb',

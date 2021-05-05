@@ -2,33 +2,39 @@
     die();
 }
 
-$arResultNew = $arParents = [];
+$secondItems = [];
+$thirdItems = [];
 
-foreach ($arResult as &$arItem) {
-    $arItem['CHILDREN'] = [];
-    if (isset($arParents[$arItem['DEPTH_LEVEL']])) {
-        unset($arParents[$arItem['DEPTH_LEVEL']]);
+foreach ($arResult as $key => $item) {
+    $item["itemId"] = $key + 1;
+
+    if (!empty($item["PARAMS"]["submenu"])) {
+        foreach ($item["PARAMS"]["submenu"] as $submenuKey => &$submenuItem) {
+            $submenuItem["itemId"] = $submenuKey + 1;
+            $submenuItem["parentItemId"] = $item["itemId"];
+            if (!empty($submenuItem["children"])) {
+                foreach ($submenuItem["children"] as $childrenKey => &$children) {
+                    $children["itemId"] = $childrenKey + 1;
+                    $children["parentItemId"] = $submenuItem["itemId"];
+                }
+                unset($children);
+            }
+            $thirdItems[] = $submenuItem;
+        }
+        unset($submenuItem);
     }
-    $arParents[$arItem['DEPTH_LEVEL']] = &$arItem;
-    if ($arItem['DEPTH_LEVEL'] > 1) {
-        $arParents[$arItem['DEPTH_LEVEL'] - 1]['CHILDREN'][] = &$arItem;
-    } else {
-        $arResultNew[] = &$arItem;
-    }
 
-}
-unset($arItem);
-
-$arResultNewOnlySubmenu = [];
-$key = 0;
-
-foreach ($arResultNew as $arItem) {
-    $key++;
-    $arItem["ITEM_SUBMENU_ID"] = $key;
-    if (!empty($arItem["CHILDREN"])) {
-        $arResultNewOnlySubmenu[] = $arItem;
-    }
+    $item["children"] = $item["PARAMS"]["submenu"];
+    $secondItems[] = $item;
 }
 
-$arResult = $arResultNewOnlySubmenu;
+$clearCallback = function ($item) {
+    return !empty($item["children"]) ? $item : null;
+};
 
+$secondItems = array_values(array_filter(array_map($clearCallback, $secondItems)));
+$thirdItems = array_values(array_filter(array_map($clearCallback, $thirdItems)));
+$arResult = [
+    "SECOND_ITEMS" => $secondItems,
+    "THIRD_ITEMS"  => $thirdItems,
+];

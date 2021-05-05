@@ -9,16 +9,17 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $arResult['BANNER'] = Content::getSectionBanner((int)$arResult['SECTION']['ID']);
 
-if (!empty($arParams["BRAND_DATA"] && $arParams["BRAND_DATA"]["code"])) {
+if (!empty($arParams["PREFIX"])) {
     foreach ($arResult["SECTIONS"] as &$section) {
-        $section["SECTION_PAGE_URL"] = $section["SECTION_PAGE_URL"] . "brand/{$arParams["BRAND_DATA"]["code"]}/";
+        $sectionPath = str_replace($section["LIST_PAGE_URL"], "", $section["SECTION_PAGE_URL"]);
+        $section["SECTION_PAGE_URL"] = $section["LIST_PAGE_URL"] . $arParams["PREFIX"] . $sectionPath;
     }
 
     unset($section);
 }
 
 $obSection = new Section();
-$obSection->checkEmptySectionsOnLevel();
+$obSection->checkEmptySectionsMaxLevel();
 
 $arParams["FILTER_VALUES"] = is_array($arParams["FILTER_VALUES"]) ? $arParams["FILTER_VALUES"] : [];
 $filterValues = array_map(function ($value) {

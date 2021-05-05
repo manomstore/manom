@@ -3,36 +3,37 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
-use \Manom\References\Brand;
-use \Manom\Content\Section;
-
-$arResultNew = $arParents = [];
-
-$section = new Section();
-$brand = new Brand();
-
-$section->checkEmptySectionsOnLevel(2);
-
-foreach ($arResult as &$arItem) {
-    $arItem["DISABLED"] = $section->isDisabled($arItem["PARAMS"]["SECTION_ID"]);
-    $arItem['CHILDREN'] = [];
-    if (isset($arParents[$arItem['DEPTH_LEVEL']])) {
-        unset($arParents[$arItem['DEPTH_LEVEL']]);
+/**
+ * @param $children
+ * @return string
+ */
+function getGridClass($children, $maxInColummn): string
+{
+    $class = "";
+    if (!is_array($children)) {
+        return $class;
     }
-    $arParents[$arItem['DEPTH_LEVEL']] = &$arItem;
-    if ($arItem['DEPTH_LEVEL'] > 1) {
-        $arParents[$arItem['DEPTH_LEVEL'] - 1]['CHILDREN'][] = &$arItem;
-    } else {
-        $arResultNew[] = &$arItem;
+
+    $countChildren = count($children);
+
+    if ($countChildren >= $maxInColummn * 3) {
+        $class = "grid-3";
+    } elseif ($countChildren >= $maxInColummn * 2) {
+        $class = "grid-2";
+    } elseif ($countChildren >= $maxInColummn) {
+        $class = "grid";
     }
-}
-unset($arItem);
 
-$arResult = $arResultNew;
-
-foreach ($arResult as &$arItem) {
-    $sectionCode = $section->getCode($arItem["PARAMS"]["SECTION_ID"]);
-    $arItem["CODE"] = $sectionCode;
-    $arItem["BRANDS"] = $brand->getForSection($sectionCode);
+    return $class;
 }
-unset($arItem);
+
+foreach ($arResult as &$item) {
+    $item["notLink"] = $item["PARAMS"]["type"] === "brands";
+    $item["disabled"] = $item["PARAMS"]["type"] === "service";
+    $item["gridClass"] = getGridClass($item["PARAMS"]["submenu"], 8);
+    foreach ($item["PARAMS"]["submenu"] as &$submenuItem) {
+        $submenuItem["gridClass"] = getGridClass($submenuItem["children"], 6);
+    }
+    unset($submenuItem);
+}
+unset($item);

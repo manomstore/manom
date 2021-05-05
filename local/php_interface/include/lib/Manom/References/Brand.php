@@ -99,9 +99,10 @@ class Brand
     {
         $items = [];
 
+        $order = ['SORT' => "ASC"];
         $filter = ['IBLOCK_ID' => $this->iblockId, 'ACTIVE' => 'Y'];
         $select = ['IBLOCK_ID', 'ID', 'CODE', 'NAME', "PROPERTY_LOGO", "SORT"];
-        $result = \CIBlockElement::GetList([], $filter, false, false, $select);
+        $result = \CIBlockElement::GetList($order, $filter, false, false, $select);
         while ($row = $result->GetNext()) {
             $items[$row['NAME']] = $this->formattedData($row);
         }
@@ -469,5 +470,51 @@ class Brand
         }
 
         return $message;
+    }
+
+    /**
+     * @return array
+     */
+    public function getForMenu(): array
+    {
+        $groupBrands = \CIBlockElement::GetList(
+            [],
+            [
+                "IBLOCK_ID"             => \Helper::CATALOG_IB_ID,
+                "INCLUDE_SUBSECTIONS"   => "Y",
+                "ACTIVE"                => "Y",
+                "SECTION_GLOBAL_ACTIVE" => "Y",
+                "!PROPERTY_BRAND"       => false,
+                "CATALOG_AVAILABLE"     => "Y",
+                ">CATALOG_PRICE_1"      => "0",
+            ],
+            [
+                "PROPERTY_BRAND"
+            ]
+        );
+
+        $brandGroups = [];
+        $brands = [];
+        while ($groupBrand = $groupBrands->GetNext()) {
+            $brandGroups[] = $groupBrand;
+        }
+
+        foreach ($brandGroups as $brandGroup) {
+            $brandName = $brandGroup["PROPERTY_BRAND_VALUE"];
+
+            if ($this->exist($brandName) && $this->hasLogo($brandName)) {
+                $brands[$brandName] = $this->getByName($brandName);
+                $brands[$brandName]["url"] = "/catalog/brand/" . $brands[$brandName]["code"] . "/";
+            }
+        }
+
+        uasort($brands, function ($a, $b) {
+            if ((int)$a["sort"] === (int)$b["sort"]) {
+                return 0;
+            }
+            return ((int)$a["sort"] < (int)$b["sort"]) ? -1 : 1;
+        });
+
+        return $brands;
     }
 }

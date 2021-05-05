@@ -10,8 +10,43 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 $this->setFrameMode(true);
 
 global $catalogFilter;
+global $sectionListFilter;
 
-$content = new Content();
+$sortCode = $_REQUEST['sort_by'];
+$order = 'ASC';
+if ($_REQUEST['sort_by'] === 'price_asc') {
+    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+} elseif ($_REQUEST['sort_by'] === 'price_desc') {
+    $sort = 'SCALED_PRICE_' . Price::CURRENT_TYPE_ID;
+    $order = 'DESC';
+} elseif ($_REQUEST['sort_by'] === 'pop') {
+    $sort = 'propertysort_SALELEADER';
+} elseif ($_REQUEST['sort_by'] === 'name') {
+    $sort = 'NAME';
+} else {
+    $sort = 'propertysort_SALELEADER';
+    $sortCode = "pop";
+}
+
+
+$pageCountList = [
+
+    "12" => [
+        "NAME" => "12",
+    ],
+    "24" => [
+        "NAME" => "24",
+    ],
+    "9999" => [
+        "NAME" => "все",
+    ],
+];
+
+$pageCount = 12;
+if (array_key_exists($_REQUEST["countOnPage"], $pageCountList)) {
+    $pageCount = $_REQUEST["countOnPage"];
+}
+$pageCountList[$pageCount]["SELECTED"] = true;
 
 $section = Content::returnResultCache(
     'section'.$arParams['IBLOCK_ID'].$arResult['VARIABLES']['SECTION_ID'].$arResult['VARIABLES']['SECTION_CODE'],
@@ -57,8 +92,30 @@ function getSection($params): array
     return $section;
 }
 
+$catalogFilter = array_merge(
+    is_array($catalogFilter) ? $catalogFilter : [],
+    [
+        "PROPERTY_SELL_PROD_VALUE" => "Да"
+    ]
+);
+
+$filterEnum = [
+    "CODE"      => "SELL_PROD",
+    "IBLOCK_ID" => \Helper::CATALOG_IB_ID
+];
+$enum = \CIBlockPropertyEnum::GetList([], $filterEnum)->GetNext();
+
+$sectionListFilter = array_merge(
+    is_array($sectionListFilter) ? $sectionListFilter : [],
+    [
+        "PROPERTY" => [
+            "SELL_PROD" => $enum["ID"],
+        ]
+    ]
+);
+
 if ($section) {
-    Content::addSectionNavChain($section["id"]);
+    Content::addSectionNavChain($section["id"], "sale/");
 }
 ?>
 <?php $APPLICATION->IncludeComponent(
@@ -92,7 +149,32 @@ if ($section) {
                     </div>
                 </div>
             </div>
-            <? $APPLICATION->ShowViewContent("sections-list"); ?>
+            <?php $APPLICATION->IncludeComponent(
+                'bitrix:catalog.section.list',
+                '',
+                array(
+                    'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
+                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+                    'SECTION_ID' => $arResult['VARIABLES']['SECTION_ID'],
+                    'SECTION_CODE' => $arResult['VARIABLES']['SECTION_CODE'],
+                    'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+                    'CACHE_TIME' => $arParams['CACHE_TIME'],
+                    'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+                    'COUNT_ELEMENTS' => $arParams['SECTION_COUNT_ELEMENTS'],
+                    'TOP_DEPTH' => $arParams['SECTION_TOP_DEPTH'],
+                    'SECTION_URL' => $arResult['FOLDER'].$arResult['URL_TEMPLATES']['section'],
+                    'VIEW_MODE' => $arParams['SECTIONS_VIEW_MODE'],
+                    'SHOW_PARENT_NAME' => $arParams['SECTIONS_SHOW_PARENT_NAME'],
+                    'HIDE_SECTION_NAME' => $arParams['SECTIONS_HIDE_SECTION_NAME'] ?? 'N',
+                    'ADD_SECTIONS_CHAIN' => $arParams['ADD_SECTIONS_CHAIN'] ?? '',
+                    'DISCOUNTED_SECTION_ID' => $arParams['DISCOUNTED_SECTION_ID'],
+                    'TITLE' => $APPLICATION->GetTitle(),
+                    'PREFIX' => "sale/",
+                    'FILTER_NAME' => "sectionListFilter",
+                ),
+                $component,
+                array('HIDE_ICONS' => 'Y')
+            ); ?>
 
             <?php
             if ($_REQUEST['ajaxCal'] === 'Y') {
@@ -129,37 +211,7 @@ if ($section) {
                 ),
                 $component,
                 array('HIDE_ICONS' => 'Y')
-            );
-
-            global $filterValues;
-            ob_start();
-            $APPLICATION->IncludeComponent(
-                'bitrix:catalog.section.list',
-                '',
-                array(
-                    'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
-                    'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                    'SECTION_ID' => $arResult['VARIABLES']['SECTION_ID'],
-                    'SECTION_CODE' => $arResult['VARIABLES']['SECTION_CODE'],
-                    'CACHE_TYPE' => $arParams['CACHE_TYPE'],
-                    'CACHE_TIME' => $arParams['CACHE_TIME'],
-                    'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
-                    'COUNT_ELEMENTS' => $arParams['SECTION_COUNT_ELEMENTS'],
-                    'TOP_DEPTH' => $arParams['SECTION_TOP_DEPTH'],
-                    'SECTION_URL' => $arResult['FOLDER'].$arResult['URL_TEMPLATES']['section'],
-                    'VIEW_MODE' => $arParams['SECTIONS_VIEW_MODE'],
-                    'SHOW_PARENT_NAME' => $arParams['SECTIONS_SHOW_PARENT_NAME'],
-                    'HIDE_SECTION_NAME' => $arParams['SECTIONS_HIDE_SECTION_NAME'] ?? 'N',
-                    'ADD_SECTIONS_CHAIN' => $arParams['ADD_SECTIONS_CHAIN'] ?? '',
-                    'DISCOUNTED_SECTION_ID' => $arParams['DISCOUNTED_SECTION_ID'],
-                    'TITLE' => $APPLICATION->GetTitle(),
-                    'FILTER_VALUES' => $filterValues,
-                ),
-                $component,
-                array('HIDE_ICONS' => 'Y')
-            );
-            $APPLICATION->AddViewContent("sections-list",ob_get_clean());
-            ?>
+            ); ?>
             <?php
             global $hideSmartFilter;
             $APPLICATION->IncludeComponent(
@@ -168,11 +220,11 @@ if ($section) {
                 array(
                     'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
                     'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-                    'ELEMENT_SORT_FIELD' => $content->getSortValue("field"),
-                    'ELEMENT_SORT_ORDER' => $content->getSortValue("order"),
-                    'ELEMENT_SORT_FIELD2' => $content->getSortValue("field2"),
-                    'ELEMENT_SORT_ORDER2' => $content->getSortValue("order2"),
-                    'SORT_LIST' => $content->getSortList(),
+                    'ELEMENT_SORT_FIELD' => $sort,//$arParams['ELEMENT_SORT_FIELD'],
+                    'ELEMENT_SORT_ORDER' => $order,//$arParams['ELEMENT_SORT_ORDER'],
+                    'ELEMENT_SORT_FIELD2' =>  "SORT",
+                    'ELEMENT_SORT_ORDER2' => "ASC",
+                    'SORT_CODE' => $sortCode,
                     'PROPERTY_CODE' => $arParams['LIST_PROPERTY_CODE'] ?? [],
                     'PROPERTY_CODE_MOBILE' => $arParams['LIST_PROPERTY_CODE_MOBILE'],
                     'META_KEYWORDS' => $arParams['LIST_META_KEYWORDS'],
@@ -197,8 +249,8 @@ if ($section) {
                     'SHOW_404' => $arParams['SHOW_404'],
                     'FILE_404' => $arParams['FILE_404'],
                     'DISPLAY_COMPARE' => $arParams['USE_COMPARE'],
-                    'PAGE_ELEMENT_COUNT' => $content->getPageCount(),
-                    'PAGE_COUNT_LIST' => $content->getPageCountList(),
+                    'PAGE_ELEMENT_COUNT' => $pageCount,
+                    'PAGE_COUNT_LIST' => $pageCountList,
                     'LINE_ELEMENT_COUNT' => $arParams['LINE_ELEMENT_COUNT'],
                     'PRICE_CODE' => $arParams['~PRICE_CODE'],
                     'USE_PRICE_COUNT' => $arParams['USE_PRICE_COUNT'],
@@ -216,8 +268,6 @@ if ($section) {
                     'PAGER_DESC_NUMBERING' => $arParams['PAGER_DESC_NUMBERING'],
                     'PAGER_DESC_NUMBERING_CACHE_TIME' => $arParams['PAGER_DESC_NUMBERING_CACHE_TIME'],
                     'PAGER_SHOW_ALL' => $arParams['PAGER_SHOW_ALL'],
-                    'PAGER_BASE_LINK_ENABLE' => $arParams['PAGER_BASE_LINK_ENABLE'],
-                    'PAGER_BASE_LINK' => $arParams['PAGER_BASE_LINK'],
                     'PAGER_PARAMS_NAME' => $arParams['PAGER_PARAMS_NAME'],
                     'LAZY_LOAD' => $arParams['LAZY_LOAD'],
                     'MESS_BTN_LAZY_LOAD' => $arParams['~MESS_BTN_LAZY_LOAD'],
@@ -285,8 +335,14 @@ if ($section) {
                     'AJAX' => $_REQUEST['ajaxCal'] === 'Y',
                     'BLOCK_STYLE' => $_REQUEST['styleBlock'],
                     'HIDE_SMART_FILTER' => (bool)$hideSmartFilter,
+                    'PAGER_BASE_LINK' => $APPLICATION->GetCurPage(),
+                    'PAGER_BASE_LINK_ENABLE' => "Y",
+                    'IS_SALE' => true,
                 ),
                 $component
-            ); ?>
+            );
+
+            $APPLICATION->SetPageProperty("title", "Распродажа");
+            ?>
         </div>
     </main>

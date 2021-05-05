@@ -2,6 +2,7 @@
 
 namespace Manom;
 
+use Bitrix\Iblock\InheritedProperty\SectionValues;
 use Bitrix\Iblock\PropertyTable;
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\Config\Option;
@@ -11,6 +12,8 @@ use \Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 use Manom\Store\StoreData;
+use Manom\Content\Section;
+use Manom\References\Brand;
 use \Manom\Store\StoreList;
 
 /**
@@ -23,6 +26,8 @@ class Content
      * @var bool|array
      */
     private $propertiesToShow = false;
+
+    public static $mainMenuLinks;
 
     /**
      * @var array
@@ -641,5 +646,112 @@ class Content
             });
         </script>
         <?
+    }
+
+    /**
+     * @param int $sectionId
+     * @param string $prefix
+     */
+    public static function addSectionNavChain(int $sectionId, string $prefix = ""): void
+    {
+        global $APPLICATION;
+
+        $path = [];
+        $rsPath = \CIBlockSection::GetNavChain(
+            \Helper::CATALOG_IB_ID,
+            $sectionId,
+            [
+                "ID",
+                "NAME",
+                "SECTION_PAGE_URL",
+                "LIST_PAGE_URL",
+            ]
+        );
+
+        while ($arPath = $rsPath->GetNext()) {
+            $ipropValues = new SectionValues(\Helper::CATALOG_IB_ID, $arPath["ID"]);
+            $arPath["IPROPERTY_VALUES"] = $ipropValues->getValues();
+            $path[] = $arPath;
+        }
+
+        foreach ($path as $pathItem) {
+            if (!empty($pathItem["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"])) {
+                $name = $pathItem["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"];
+            } else {
+                $name = $pathItem["NAME"];
+            }
+
+            $url = $pathItem["~SECTION_PAGE_URL"];
+
+            if (!empty($prefix)) {
+                $url = str_replace($pathItem["LIST_PAGE_URL"], "", $url);
+                $url = $pathItem["LIST_PAGE_URL"] . $prefix . $url;
+                $url = preg_replace('|([/]+)|s', '/', $url);
+            }
+
+            $APPLICATION->AddChainItem($name, $url);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getMainMenuLinks(): array
+    {
+        if (is_array(static::$mainMenuLinks)) {
+            return static::$mainMenuLinks;
+        }
+
+        try {
+            $section = new Section();
+            $brand = new Brand();
+            $section->setShowDepth(2);
+
+            static::$mainMenuLinks = [
+                [
+                    "Каталог товаров",
+                    SITE_DIR . "catalog/",
+                    [],
+                    [
+                        "type"    => "sections",
+                        "submenu" => $section->onlyWithProducts()->makeTree(),
+                    ],
+                    ""
+                ],
+                [
+                    "Бренды",
+                    "",
+                    [],
+                    [
+                        "type"    => "brands",
+                        "submenu" => $brand->getForMenu(),
+                    ],
+                    ""
+                ],
+                [
+                    "Акции",
+                    SITE_DIR . "catalog/sale/",
+                    [],
+                    [
+                        "type"    => "sections",
+                        "submenu" => $section->onlySale()->makeTree(),
+                    ],
+                    ""
+                ],
+                [
+                    "Сервис",
+                    "",
+                    [],
+                    [
+                        "type" => "service"
+                    ],
+                    ""
+                ],
+            ];
+        } catch (\Exception $e) {
+            static::$mainMenuLinks = [];
+        }
+
+        return static::$mainMenuLinks;
     }
 }

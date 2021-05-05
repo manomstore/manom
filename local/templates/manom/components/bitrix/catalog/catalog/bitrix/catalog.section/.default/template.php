@@ -12,7 +12,9 @@ $this->setFrameMode(true);
 <section class="catalog-block">
     <? if (!empty($arParams["BRAND_DATA"])): ?>
         <h2 class="cb-title"><?= $arParams["BRAND_DATA"]["name"] ?></h2>
-    <?else:?>
+    <? elseif ($arParams["IS_SALE"]): ?>
+        <h2 class="cb-title">Распродажа</h2>
+    <? else: ?>
         <h2 class="cb-title"><?= $arResult['NAME'] ?></h2>
     <? endif; ?>
     <input class="filter-burger__checkbox" type="checkbox" id="filter-burger">
