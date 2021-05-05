@@ -31,21 +31,11 @@ $this->setFrameMode(true);
         <div class="cb-nav-sort">
             <span class="cb-nav__text">Сортировать</span>
             <select required name="sort_by">
-                <? if ($arParams["IS_SEARCH"]): ?>
-                    <option class="default" selected value="relevance">по релевантности</option>
-                    <option <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
-                            value="pop">по популярности</option>
-                <? else: ?>
-                    <option class="default" <?= $arParams["SORT_CODE"] === "pop" ? "selected" : "" ?>
-                            value="pop">по популярности</option>
-                <? endif; ?>
-                <option <?= $arParams["SORT_CODE"] === "price_desc" ? "selected" : "" ?>
-                        value="price_desc">сначала дорогие
-                </option>
-                <option <?= $arParams["SORT_CODE"] === "price_asc" ? "selected" : "" ?>
-                        value="price_asc">сначала дешевые</option>
-                <option  <?= $arParams["SORT_CODE"] === "name" ? "selected" : "" ?>
-                        value="name">по названию</option>
+                <? foreach ($arParams["SORT_LIST"] as $sortItem): ?>
+                    <option <?= $sortItem["selected"] ? "selected" : "" ?> value="<?= $sortItem["code"] ?>">
+                        <?= $sortItem["name"] ?>
+                    </option>
+                <? endforeach; ?>
             </select>
         </div>
         <div class="cb-nav-count catTopCount visually-hidden">
