@@ -15,6 +15,7 @@ use \Manom\Moysklad\Moysklad\Assortment;
 class Product
 {
     private $productsIblockId;
+    private $allCnt;
 
     /**
      * Product constructor.
@@ -143,7 +144,7 @@ class Product
     /**
      *
      */
-    public function updateFields()
+    public function updateFields($updateMs = false)
     {
         $fields = [
             "brand"        => "Изготовитель",
@@ -208,13 +209,25 @@ class Product
             }
             $totalProducts = count($products);
 
-            $msProducts = $msProducts->filter(function ($product) use ($products) {
-                return in_array($product->fields->externalCode, array_keys($products));
+            $productsData = $this->getProductsFromFile();
+            $names = [];
+
+            $msProducts = $msProducts->filter(function ($product) use ($products, $productsData, &$names) {
+                $isFromFile = array_filter($productsData, function ($item) use ($product) {
+                    return $item["xmlId"] === $product->fields->externalCode;
+                });
+
+                if ($isFromFile) {
+                    $names[] = $product->fields->name;
+                }
+
+                return $isFromFile;
             });
         } catch (\Exception $e) {
             $errors[] = $e->getMessage() . "(" . $e->getFile() . ":" . $e->getLine() . ")";
         }
-        $msProducts->each(function ($product) use ($products, $attributesData, &$errors, &$updatedProducts) {
+        $tt = 1;
+        $msProducts->each(function ($product) use ($products, $attributesData, &$errors, &$updatedProducts,$updateMs) {
             $attributes = [];
             $productData = $products[$product->fields->externalCode];
             foreach ($attributesData as $code => $attributeData) {
@@ -235,9 +248,11 @@ class Product
                 ];
 
                 $body = json_encode($body);
-                $result = $this->sendRequest($url, "PUT", $body);
-                if ($result["externalCode"] === $product->fields->externalCode) {
-                    $updatedProducts = $updatedProducts + 1;
+                if ($updateMs) {
+                    $result = $this->sendRequest($url, "PUT", $body);
+                    if ($result["externalCode"] === $product->fields->externalCode) {
+                        $updatedProducts = $updatedProducts + 1;
+                    }
                 }
             } catch (\Exception $e) {
                 $errors[] = $e->getMessage() . "(" . $e->getFile() . ":" . $e->getLine() . ")";
@@ -246,6 +261,8 @@ class Product
 
         echo "Обновлено {$updatedProducts} товаров из {$totalProducts}<br>";
         echo implode($errors, "<br>");
+        echo "<br>Всего названий " . count($names) . "<br>";
+        echo implode($names, "<br>");
     }
 
     /**
@@ -253,11 +270,36 @@ class Product
      */
     public function importCategoriesFromFile()
     {
-        $data = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/upload/categories.csv");
-        $rows = explode("\n", $data);
+        $updatedCnt = 0;
+
+        $products = $this->getProductsFromFile();
+
+        foreach ($products as $productId => $data) {
+            if ((int)$productId <= 0 || empty($data["category"])) {
+                continue;
+            }
+
+            \CIBlockElement::SetPropertyValuesEx(
+                $productId,
+                \Helper::CATALOG_IB_ID,
+                [
+                    "YM_CATEGORY" => $data["category"],
+                ]
+            );
+            $updatedCnt = $updatedCnt + 1;
+        }
+
+        echo "<br>Обновлено {$updatedCnt} товаров из {$this->allCnt}<br>";
+    }
+
+    private function getProductsFromFile()
+    {
         $productsArticles = [];
         $products = [];
-        $updatedCnt = $allCnt = 0;
+
+        $data = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/upload/categories.csv");
+        $rows = explode("\n", $data);
+
         foreach ($rows as $row) {
             list($article, $category) = explode(";", $row);
             if (empty($article) || empty($category)) {
@@ -266,7 +308,7 @@ class Product
             $productsArticles[$article] = $category;
         }
 
-        $allCnt = count($productsArticles);
+        $this->allCnt = count($productsArticles);
 
         if (!empty($productsArticles)) {
             $result = \CIBlockElement::GetList(
@@ -281,6 +323,7 @@ class Product
                     "ID",
                     "PROPERTY_CML2_ARTICLE",
                     "PROPERTY_at_artikul",
+                    "XML_ID",
                 ],
                 );
 
@@ -293,27 +336,15 @@ class Product
                 }
 
                 if (!empty($article)) {
-                    $products[$row["ID"]] = $productsArticles[$article];
+                    $products[$row["ID"]] = [
+                        "category" => $productsArticles[$article],
+                        "xmlId"    => $row["XML_ID"],
+                    ];
                     unset($productsArticles[$article]);
                 }
             }
         }
 
-        foreach ($products as $productId => $category) {
-            if ((int)$productId <= 0 || empty($category)) {
-                continue;
-            }
-
-            \CIBlockElement::SetPropertyValuesEx(
-                $productId,
-                \Helper::CATALOG_IB_ID,
-                [
-                    "YM_CATEGORY" => $category,
-                ]
-            );
-            $updatedCnt = $updatedCnt + 1;
-        }
-
-        echo "<br>Обновлено {$updatedCnt} товаров из {$allCnt}<br>";
+        return $products;
     }
 }
