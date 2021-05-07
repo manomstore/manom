@@ -157,6 +157,14 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                                 <td align="center">Bitrix</td>
                                                 <td align="center"></td>
                                             </tr>
+                                            <select class="js-property-select is-pattern"">
+                                                <?php foreach ($properties as $propertyItem): ?>
+                                                    <option value="<?= $propertyItem['code'] ?>">
+                                                        <?= $propertyItem['name'] ?>
+                                                        (<?= $propertyItem['code'] ?>)
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                             <?php foreach ($map['properties'] as $item): ?>
                                                 <?php
                                                 $disabled = false;
@@ -179,19 +187,16 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                                             <?=$disabled ? 'disabled' : ''?>
                                                         >
                                                     </td>
-                                                    <td width="45%">
-                                                        <select name="bitrix[]" <?=$disabled ? 'disabled' : ''?>>
-                                                            <option value=""></option>
-                                                            <?php foreach ($properties as $propertyItem): ?>
-                                                                <option
-                                                                        value="<?=$propertyItem['code']?>"
-                                                                    <?=$propertyItem['code'] === $item['bitrix'] ? 'selected' : ''?>
-                                                                >
-                                                                    <?=$propertyItem['name']?>
-                                                                    (<?=$propertyItem['code']?>)
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+                                                    <td width="45%" class="js-variable-block">
+                                                        <p><?= $item['bitrix'] ?>
+                                                            <? if (!$disabled): ?>
+                                                                (<a class="js-change-bitrix"
+                                                                    data-bitrix-code="<?= $item['bitrix'] ?>"
+                                                                >Изменить</a>)
+                                                                <input type="hidden" name="bitrix[]"
+                                                                       value="<?= $item['bitrix'] ?>">
+                                                            <? endif; ?>
+                                                        </p>
                                                     </td>
                                                     <td>
                                                         <input type="hidden" name="id[]" value="<?=$item['id']?>">

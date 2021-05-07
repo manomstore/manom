@@ -17,6 +17,11 @@ class Element
     private $bitrixElement;
 
     /**
+     * @var array
+     */
+    public $propertiesData = [];
+
+    /**
      * Element constructor.
      * @param int $iblockId
      * @throws LoaderException
@@ -66,6 +71,7 @@ class Element
     {
         $result = false;
 
+        $this->prepareMissingProperties($fields["PROPERTIES"]);
         if ($this->bitrixElement->Update($fields['ID'], $fields)) {
             $result = true;
 
@@ -83,5 +89,46 @@ class Element
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $properties
+     * @return void
+     */
+    private function prepareMissingProperties(array &$properties): void
+    {
+        if (!is_array($this->propertiesData)) {
+            return;
+        }
+
+        foreach ($this->propertiesData as $propertyData) {
+            $isYMName = $propertyData["code"] === "Name_Market";
+            if (isset($properties[$propertyData["code"]]) || $isYMName) {
+                continue;
+            }
+
+            switch ($propertyData["type"]) {
+                case "S":
+                    $value = "";
+                    break;
+                case "E":
+                case "L":
+                    $value = false;
+                    break;
+                case "F":
+                    $value = [
+                        "VALUE"       => "",
+                        "DESCRIPTION" => "",
+                    ];
+                    break;
+                default:
+                    $value = null;
+                    break;
+            }
+
+            if (!is_null($value)) {
+                $properties[$propertyData["code"]] = $value;
+            }
+        }
     }
 }

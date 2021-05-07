@@ -682,7 +682,6 @@ function formatBytes($size, $precision = 2)
         <?php
         $checked = (
             !empty($arResult['DETAIL_TEXT']) ||
-            !empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT']) ||
             !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
         );
         ?>
@@ -699,7 +698,6 @@ function formatBytes($size, $precision = 2)
         <div class="product-tabs__nav">
             <?php if (
                 !empty($arResult['DETAIL_TEXT']) ||
-                !empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT']) ||
                 !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
             ): ?>
                 <label for="tab2">
@@ -751,7 +749,6 @@ function formatBytes($size, $precision = 2)
         <div id="accord-mobile" class="accord-mobile">
             <?php if (
                 !empty($arResult['DETAIL_TEXT']) ||
-                !empty($arResult['PROPERTIES']['features']['~VALUE']['TEXT']) ||
                 !empty($arResult['PROPERTIES']['contents_of_delivery']['~VALUE']['TEXT'])
             ): ?>
                 <h3 class="accord-mobile__header">

@@ -22,3 +22,11 @@
     color: black;
     padding: 1%;
 }
+
+.js-change-bitrix {
+    cursor: pointer;
+}
+
+.js-property-select {
+    display: none;
+}
