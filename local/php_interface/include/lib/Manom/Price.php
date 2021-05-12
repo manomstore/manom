@@ -25,6 +25,7 @@ class Price
     const RRC_TYPE_TYPE_ID = 2;
     const CURRENT_TYPE_ID = 3;
     const GOODS_TYPE_ID = 4;
+    const YM_TYPE_ID = 5;
 
     private $userGroups;
     private $currency;
