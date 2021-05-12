@@ -51,14 +51,14 @@ class Feed
      * @throws \Bitrix\Main\SystemException
      * @throws \Manom\Exception
      */
-    public function __construct(array &$tagResultList, int $feedId)
+    public function __construct(array &$tagResultList, array $context)
     {
         $offerIds = array_keys($tagResultList);
 
         $this->ecommerceData = (new Product())->getEcommerceData($offerIds, \Helper::CATALOG_IB_ID);
         $this->preOrder = new PreOrder($offerIds);
         $this->tagList = &$tagResultList;
-        $this->setFeedParams($feedId);
+        $this->setFeedParams($context);
     }
 
     /**
@@ -110,7 +110,9 @@ class Feed
      */
     private function updatePrice(): void
     {
-        if ($this->usePriceGoods() && $this->getPriceGoods() > 0) {
+        if ($this->isYmMarketplace() && $this->getPriceYMarket() > 0) {
+            $this->element->price = $this->getPriceYMarket();
+        } elseif ($this->usePriceGoods() && $this->getPriceGoods() > 0) {
             $this->element->price = $this->getPriceGoods();
         }
     }
@@ -129,7 +131,7 @@ class Feed
             }
         }
 
-        if (!$this->elementData["isPreOrder"] && $this->elementData["quantity"] <= 0) {
+        if (!$this->isYmMarketplace() && !$this->elementData["isPreOrder"] && $this->elementData["quantity"] <= 0) {
             $tagResult->invalidate();
         }
     }
@@ -197,14 +199,15 @@ class Feed
      * @throws \Bitrix\Main\ArgumentOutOfRangeException
      * @return void
      */
-    private function setFeedParams(int $feedId): void
+    private function setFeedParams(array $context): void
     {
         $feedData = Option::get("yandex.market", "feed_data");
         $feedData = json_decode($feedData, true);
         if (!is_array($feedData)) {
             $feedData = [];
         }
-        $this->feedParams = (array)$feedData[$feedId];
+        $this->feedParams = (array)$feedData[(int)$context["SETUP_ID"]];
+        $this->feedParams["exportService"] = $context["EXPORT_SERVICE"];
     }
 
     /**
@@ -224,6 +227,14 @@ class Feed
     }
 
     /**
+     * @return bool
+     */
+    private function isYmMarketplace(): bool
+    {
+        return $this->feedParams["exportService"] === "Marketplace";
+    }
+
+    /**
      * @return float
      */
     private function getPriceGoods(): float
@@ -237,5 +248,27 @@ class Feed
         }
 
         return (float)$priceGoods['PRICE'];
+    }
+
+    /**
+     * @return float
+     */
+    private function getPriceYMarket(): float
+    {
+        $prices = (array)$this->ecommerceData[$this->elementData["offerId"]]["prices"];
+        $priceGoods = current(array_filter($prices, function ($price) {
+            return (int)$price["CATALOG_GROUP_ID"] === (int)Price::YM_TYPE_ID;
+        }));
+        if (!is_array($priceGoods)) {
+            $priceGoods = [];
+        }
+
+        $price = (float)$priceGoods['PRICE'];
+
+        if ($price <= 0) {
+            $price = $this->getPriceGoods();
+        }
+
+        return $price;
     }
 }

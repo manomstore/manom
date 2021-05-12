@@ -506,7 +506,7 @@ class MyHandlerClass
      */
     function onExportOfferWriteDataHandler(&$tagResultList, $elementList, $context)
     {
-        $feed = new Feed($tagResultList, $context["SETUP_ID"]);
+        $feed = new Feed($tagResultList, $context);
         $feed->processElements();
     }
 

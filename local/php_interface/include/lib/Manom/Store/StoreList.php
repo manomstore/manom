@@ -171,7 +171,8 @@ class StoreList
     public function getPriceCodes(): array
     {
         $priceCodes = [
-            "Гудс"
+            "Гудс",
+            "Ямаркет",
         ];
 
         foreach ($this->stores as $store) {
