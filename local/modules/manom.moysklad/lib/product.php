@@ -7,6 +7,7 @@ use \Bitrix\Main\LoaderException;
 use \Bitrix\Main\SystemException;
 use \Exception;
 use \Manom\Moysklad\Moysklad\Assortment;
+use Manom\Moysklad\Moysklad\Attribute;
 
 /**
  * Class Product
@@ -15,7 +16,6 @@ use \Manom\Moysklad\Moysklad\Assortment;
 class Product
 {
     private $productsIblockId;
-    private $allCnt;
 
     /**
      * Product constructor.
@@ -119,232 +119,68 @@ class Product
     }
 
     /**
-     * @param String $url
-     * @return array|null
+     * @throws SystemException
      */
-    public function sendRequest(String $url, $method = "GET", $body = false)
-    {
-        $client = new \GuzzleHttp\Client();
-
-        $authData = \Manom\Moysklad\Tools::getAuthData();
-
-        $options = [
-            'auth'    => [$authData["login"], $authData["password"]],
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-        ];
-
-        if ($body) {
-            $options["body"] = $body;
-        }
-        return json_decode($client->request($method, $url, $options)->getBody()->getContents(), true);
-    }
-
-    /**
-     *
-     */
-    public function updateFields($updateMs = false)
+    public function updateYMarketFields(): void
     {
         $fields = [
             "brand"        => "Изготовитель",
             "manufacturer" => "Страна производитель",
-            "category"     => "Категория",
             "url"          => "URL",
+            "width"        => "Ширина",
+            "height"       => "Высота",
+            "weight"       => "Вес",
+            "package"      => "Упаковка",
         ];
-        $attributesData = [];
-        $errors = [];
-        $totalProducts = $updatedProducts = 0;
-        try {
-            $attributes = $this->sendRequest("https://online.moysklad.ru/api/remap/1.2/entity/product/metadata/attributes");
 
-            array_walk($attributes["rows"], function ($attribute) use (&$attributesData, $fields) {
-                $key = array_search($attribute["name"], $fields);
-                if ($key !== false) {
-                    $attribute["code"] = $key;
-                    $attributesData[$key] = $attribute;
-                }
-            });
+        $attribute = new Attribute($fields);
+        $product = new Assortment();
 
-            if (!empty(array_diff(array_keys($attributesData), array_keys($fields)))) {
-                $errors[] = "Недостаточно атрибутов";
+        $msProducts = $product->getElements();
+
+        $result = \CIBlockElement::GetList(
+            [],
+            [
+                "IBLOCK_ID" => \Helper::CATALOG_IB_ID,
+            ],
+            false,
+            false,
+            [
+                "IBLOCK_ID",
+                "ID",
+                "PROPERTY_brand",
+                "PROPERTY_country_manufacture",
+                "PROPERTY_at_strana_proizvoditel",
+                "DETAIL_PAGE_URL",
+                "XML_ID",
+            ]
+        );
+
+        $products = [];
+        while ($row = $result->GetNext()) {
+            $manufacturer = $row["PROPERTY_COUNTRY_MANUFACTURE_VALUE"];
+            if (empty($manufacturer)) {
+                $manufacturer = $row["PROPERTY_AT_STRANA_PROIZVODITEL_VALUE"];
             }
-            $product = new \Manom\Moysklad\Moysklad\Product();
-            $msProducts = $product->getElements();
 
-            $result = \CIBlockElement::GetList(
-                [],
-                [
-                    "IBLOCK_ID"             => \Helper::CATALOG_IB_ID,
-                    "!PROPERTY_YM_CATEGORY" => false,
-                ],
-                false,
-                false,
-                [
-                    "IBLOCK_ID",
-                    "ID",
-                    "PROPERTY_YM_CATEGORY",
-                    "PROPERTY_brand",
-                    "PROPERTY_country_manufacture",
-                    "PROPERTY_at_strana_proizvoditel",
-                    "DETAIL_PAGE_URL",
-                    "XML_ID",
-                ]
-            );
-
-            $products = [];
-            while ($row = $result->GetNext()) {
-                $manufacturer = $row["PROPERTY_COUNTRY_MANUFACTURE_VALUE"];
-                if (empty($manufacturer)) {
-                    $manufacturer = $row["PROPERTY_AT_STRANA_PROIZVODITEL_VALUE"];
-                }
-
-                $products[$row["XML_ID"]] = [
-                    "id"           => $row["ID"],
-                    "brand"        => trim($row["PROPERTY_BRAND_VALUE"]),
-                    "manufacturer" => trim($manufacturer),
-                    "category"     => trim($row["PROPERTY_YM_CATEGORY_VALUE"]),
-                    "url"          => "https://manom.ru" . $row["DETAIL_PAGE_URL"],
-                ];
-            }
-            $totalProducts = count($products);
-
-            $productsData = $this->getProductsFromFile();
-            $names = [];
-
-            $msProducts = $msProducts->filter(function ($product) use ($products, $productsData, &$names) {
-                $isFromFile = array_filter($productsData, function ($item) use ($product) {
-                    return $item["xmlId"] === $product->fields->externalCode;
-                });
-
-                if ($isFromFile) {
-                    $names[] = $product->fields->name;
-                }
-
-                return $isFromFile;
-            });
-        } catch (\Exception $e) {
-            $errors[] = $e->getMessage() . "(" . $e->getFile() . ":" . $e->getLine() . ")";
+            $products[$row["XML_ID"]] = [
+                "id"           => $row["ID"],
+                "brand"        => trim($row["PROPERTY_BRAND_VALUE"]),
+                "manufacturer" => trim($manufacturer),
+                "url"          => "https://manom.ru" . $row["DETAIL_PAGE_URL"],
+            ];
         }
-        $tt = 1;
-        $msProducts->each(function ($product) use ($products, $attributesData, &$errors, &$updatedProducts,$updateMs) {
-            $attributes = [];
-            $productData = $products[$product->fields->externalCode];
-            foreach ($attributesData as $code => $attributeData) {
-                if (empty($productData[$code])) {
-                    $errors[] = "У товара " . $product->fields->externalCode . " пустое свойство - {$attributeData["name"]}";
-                    continue;
-                }
 
-                $attributes[] = [
-                    "meta"  => $attributeData["meta"],
-                    "value" => $productData[$code],
-                ];
-            };
-            try {
+        $msProducts->each(function ($product) use ($products, $attribute) {
+            $attributes = $attribute->getForUpdate($product, $products[$product->fields->externalCode]);
+            if (!empty($attributes)) {
                 $url = "https://online.moysklad.ru/api/remap/1.2/entity/product/" . $product->fields->id;
                 $body = [
                     "attributes" => $attributes,
                 ];
 
-                $body = json_encode($body);
-                if ($updateMs) {
-                    $result = $this->sendRequest($url, "PUT", $body);
-                    if ($result["externalCode"] === $product->fields->externalCode) {
-                        $updatedProducts = $updatedProducts + 1;
-                    }
-                }
-            } catch (\Exception $e) {
-                $errors[] = $e->getMessage() . "(" . $e->getFile() . ":" . $e->getLine() . ")";
+                Tools::sendRequest($url, "PUT", json_encode($body));
             }
         });
-
-        echo "Обновлено {$updatedProducts} товаров из {$totalProducts}<br>";
-        echo implode($errors, "<br>");
-        echo "<br>Всего названий " . count($names) . "<br>";
-        echo implode($names, "<br>");
-    }
-
-    /**
-     *
-     */
-    public function importCategoriesFromFile()
-    {
-        $updatedCnt = 0;
-
-        $products = $this->getProductsFromFile();
-
-        foreach ($products as $productId => $data) {
-            if ((int)$productId <= 0 || empty($data["category"])) {
-                continue;
-            }
-
-            \CIBlockElement::SetPropertyValuesEx(
-                $productId,
-                \Helper::CATALOG_IB_ID,
-                [
-                    "YM_CATEGORY" => $data["category"],
-                ]
-            );
-            $updatedCnt = $updatedCnt + 1;
-        }
-
-        echo "<br>Обновлено {$updatedCnt} товаров из {$this->allCnt}<br>";
-    }
-
-    private function getProductsFromFile()
-    {
-        $productsArticles = [];
-        $products = [];
-
-        $data = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/upload/categories.csv");
-        $rows = explode("\n", $data);
-
-        foreach ($rows as $row) {
-            list($article, $category) = explode(";", $row);
-            if (empty($article) || empty($category)) {
-                continue;
-            }
-            $productsArticles[$article] = $category;
-        }
-
-        $this->allCnt = count($productsArticles);
-
-        if (!empty($productsArticles)) {
-            $result = \CIBlockElement::GetList(
-                [],
-                [
-                    "IBLOCK_ID" => \Helper::CATALOG_IB_ID,
-                ],
-                false,
-                false,
-                [
-                    "IBLOCK_ID",
-                    "ID",
-                    "PROPERTY_CML2_ARTICLE",
-                    "PROPERTY_at_artikul",
-                    "XML_ID",
-                ],
-                );
-
-            while ($row = $result->GetNext()) {
-                $article = "";
-                if (in_array($row["PROPERTY_CML2_ARTICLE_VALUE"], array_keys($productsArticles))) {
-                    $article = $row["PROPERTY_CML2_ARTICLE_VALUE"];
-                } elseif (in_array($row["PROPERTY_AT_ARTIKUL_VALUE"], array_keys($productsArticles))) {
-                    $article = $row["PROPERTY_AT_ARTIKUL_VALUE"];
-                }
-
-                if (!empty($article)) {
-                    $products[$row["ID"]] = [
-                        "category" => $productsArticles[$article],
-                        "xmlId"    => $row["XML_ID"],
-                    ];
-                    unset($productsArticles[$article]);
-                }
-            }
-        }
-
-        return $products;
     }
 }
