@@ -37,4 +37,12 @@ class Agent
         }
         return "\Manom\Moysklad\Agent::handleEvents();";
     }
+
+    public static function afterMSImport()
+    {
+        $documentRoot = "/var/www/manom";
+        $log = __DIR__ . "\n" . dirname(__DIR__);
+        file_put_contents($documentRoot . "/logs/agent.txt", $log);
+        return "\Manom\Moysklad\Agent::afterMSImport();";
+    }
 }
