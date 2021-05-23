@@ -33,7 +33,7 @@ class CustomerOrder
     public function __construct(String $orderUrl)
     {
         try {
-            $this->orderData = $this->sendRequest($orderUrl);
+            $this->orderData = Tools::sendRequest($orderUrl);
         } catch (\Exception $e) {
             if ($e->getCode() === 404) {
                 return;
@@ -52,30 +52,6 @@ class CustomerOrder
             file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
         }
     }
-
-    /**
-     * @param String $url
-     * @return \stdClass|null
-     */
-    private function sendRequest(String $url, $method = "GET", $body = false)
-    {
-        $client = new Client();
-
-        $authData = Tools::getAuthData();
-
-        $options = [
-            'auth'    => [$authData["login"], $authData["password"]],
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-        ];
-
-        if ($body) {
-            $options["body"] = $body;
-        }
-        return json_decode($client->request($method, $url, $options)->getBody()->getContents());
-    }
-
 
     /**
      * @return int
@@ -97,7 +73,7 @@ class CustomerOrder
             $this->orderData->state = null;
             return;
         }
-        $stateData = $this->sendRequest($this->orderData->state->meta->href);
+        $stateData = Tools::sendRequest($this->orderData->state->meta->href);
         $this->orderData->state = $stateData;
     }
 
@@ -110,7 +86,7 @@ class CustomerOrder
             $this->orderData->positions = [];
             return;
         }
-        $positionsData = $this->sendRequest($this->orderData->positions->meta->href);
+        $positionsData = Tools::sendRequest($this->orderData->positions->meta->href);
         $this->orderData->positions = $positionsData->rows;
         if (is_array($this->orderData->positions)) {
             $this->idByXmlId = [];
@@ -129,7 +105,7 @@ class CustomerOrder
      */
     private function setPositionData(&$position): void
     {
-        $response = $this->sendRequest($position->assortment->meta->href);
+        $response = Tools::sendRequest($position->assortment->meta->href);
 
         if (!empty($position->quantity) && !empty($response)) {
             $response->quantity = $position->quantity;
@@ -236,7 +212,7 @@ class CustomerOrder
             }
 
             try {
-                $this->sendRequest($meta->href, "PUT", '{"reserve" : 0.0}');
+                Tools::sendRequest($meta->href, "PUT", '{"reserve" : 0.0}');
             } catch (\Exception $e) {
                 $this->errorRequest = true;
                 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");

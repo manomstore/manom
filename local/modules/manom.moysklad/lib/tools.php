@@ -3,6 +3,7 @@
 namespace Manom\Moysklad;
 
 use \Dotenv\Dotenv;
+use GuzzleHttp\Client;
 
 /**
  * Class Tools
@@ -87,5 +88,30 @@ class Tools
     public static function getMemoryUsageHuman(): string
     {
         return (!function_exists('memory_get_usage')) ? '-' : round(memory_get_usage() / 1024 / 1024, 2).' MB';
+    }
+
+    /**
+     * @param String $url
+     * @param string $method
+     * @param bool $body
+     * @return mixed
+     */
+    public static function sendRequest(String $url, $method = "GET", $body = false)
+    {
+        $client = new Client();
+
+        $authData = static::getAuthData();
+
+        $options = [
+            'auth'    => [$authData["login"], $authData["password"]],
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+        ];
+
+        if ($body) {
+            $options["body"] = $body;
+        }
+        return json_decode($client->request($method, $url, $options)->getBody()->getContents());
     }
 }

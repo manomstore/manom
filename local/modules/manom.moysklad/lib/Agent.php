@@ -37,4 +37,9 @@ class Agent
         }
         return "\Manom\Moysklad\Agent::handleEvents();";
     }
+
+    public static function afterMSImport()
+    {
+        return "\Manom\Moysklad\Agent::afterMSImport();";
+    }
 }
