@@ -17,8 +17,14 @@ class eventHandlers
      * @throws LoaderException
      * @throws SystemException
      */
-    public static function OnSuccessCatalogImport1C($arParams, $arFields): void
+    public static function OnSuccessCatalogImport1C($arParams, $filename): void
     {
+        $isOffers = strpos($filename, 'offers') !== false;
+
+        if (!$isOffers) {
+            return;
+        }
+
         if (Loader::includeModule('manom.moysklad')) {
             Agent::setActiveAfterMSImport(true);
         }
