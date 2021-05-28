@@ -5,6 +5,7 @@ namespace Manom\Moysklad;
 use Manom\Moysklad\Moysklad\CustomerOrder;
 use \Manom\Moysklad\Bitrix\Order;
 use \Bitrix\Sale;
+use \Manom\Price;
 
 class Agent
 {
@@ -48,9 +49,10 @@ class Agent
     {
         try {
             $product = new Product;
+            $price = new Price();
             $product->updateProperties();
             $product->updateYMarketFields();
-            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/logs/ms_handler.txt", "success complete " . date("d.m.Y H:i:s"));
+            $price->processingChanges((new \Manom\Product())->getAll());
             static::setActiveAfterMSImport(false);
         } catch (\Exception $e) {
             static::addLogAfterMSImport("Error " . $e->getMessage() . ", Path:" . $e->getFile() . ":" . $e->getLine());
