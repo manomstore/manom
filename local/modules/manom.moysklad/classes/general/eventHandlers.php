@@ -3,6 +3,7 @@
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\SystemException;
+use Manom\Moysklad\Agent;
 use Manom\Moysklad\Product;
 
 /**
@@ -18,9 +19,8 @@ class eventHandlers
      */
     public static function OnSuccessCatalogImport1C($arParams, $arFields): void
     {
-        if(Loader::includeModule('manom.moysklad')) {
-            $product = new Product;
-            $product->updateProperties();
+        if (Loader::includeModule('manom.moysklad')) {
+            Agent::setActiveAfterMSImport(true);
         }
     }
 }

@@ -8,6 +8,9 @@ use \Bitrix\Sale;
 
 class Agent
 {
+    /**
+     * @return string
+     */
     public static function handleEvents()
     {
         try {
@@ -38,8 +41,50 @@ class Agent
         return "\Manom\Moysklad\Agent::handleEvents();";
     }
 
-    public static function afterMSImport()
+    /**
+     * @return string
+     */
+    public static function afterMSImport(): string
     {
+        try {
+            $product = new Product;
+            $product->updateProperties();
+            $product->updateYMarketFields();
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/logs/ms_handler.txt", "success complete " . date("d.m.Y H:i:s"));
+            static::setActiveAfterMSImport(false);
+        } catch (\Exception $e) {
+            static::addLogAfterMSImport("Error " . $e->getMessage() . ", Path:" . $e->getFile() . ":" . $e->getLine());
+        }
+
         return "\Manom\Moysklad\Agent::afterMSImport();";
+    }
+
+    /**
+     * @param bool $active
+     */
+    public static function setActiveAfterMSImport(bool $active): void
+    {
+
+        $agent = \CAgent::GetList([], ["NAME" => "\Manom\Moysklad\Agent::afterMSImport();"])->GetNext();
+        if (empty($agent)) {
+            return;
+        }
+        $agentId = (int)$agent["ID"];
+        if ($agentId <= 0) {
+            return;
+        }
+
+        \CAgent::Update($agentId, ["ACTIVE" => $active === true ? "Y" : "N"]);
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function addLogAfterMSImport(string $content): void
+    {
+        $logPath = $_SERVER["DOCUMENT_ROOT"] . "/logs/ms_handler.log";
+        $log = file_get_contents($logPath);
+        $log .= $content . "\n";
+        file_put_contents($logPath, date("d.m.Y H:i:s") . " " . $log);
     }
 }
