@@ -85,7 +85,7 @@ class Attribute
      * @param $attributeName
      * @return string
      */
-    private function getAttributeValue($msProduct, $attributeName): string
+    public function getAttributeValue($msProduct, $attributeName): string
     {
         $msAttrs = [];
         if (!empty($msProduct->fields->attributes->attrs)) {

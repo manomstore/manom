@@ -46,7 +46,9 @@ class Product
             'XML_ID',
             'PROPERTY_TOP_FIELD_2',
             'PROPERTY_CML2_ARTICLE',
-            'PROPERTY_model'
+            'PROPERTY_model',
+            'PROPERTY_shipping_weight',
+            'PROPERTY_at_gabarity_upakovki',
         ];
         $result = \CIBlockElement::GetList(array(), $filter, false, false, $select);
         while ($row = $result->Fetch()) {
@@ -61,6 +63,8 @@ class Product
                 'productCode' => $row['PROPERTY_TOP_FIELD_2_VALUE'],
                 'productArticle' => $row['PROPERTY_CML2_ARTICLE_VALUE'],
                 'productModel' => $row['PROPERTY_MODEL_VALUE'],
+                'shippingWeight' => $row['PROPERTY_SHIPPING_WEIGHT_VALUE'],
+                'packageDimensions' => $row['PROPERTY_AT_GABARITY_UPAKOVKI_VALUE'],
             );
         }
 
@@ -77,6 +81,7 @@ class Product
 
         $assortment = new Assortment;
         $items = $assortment->getElements();
+        $attribute = new Attribute([]);
 
         foreach ($items as $item) {
             $updateProperty = [];
@@ -84,27 +89,35 @@ class Product
                 continue;
             }
 
-            if (
-                !empty($item->fields->code) &&
-                (
-                    $products[$item->fields->externalCode]['productCode'] !== $item->fields->code
-                    || $products[$item->fields->externalCode]['productArticle'] !== $item->fields->code
-                )
-            ) {
+            $product = $products[$item->fields->externalCode];
+
+            if ($this->needUpdate($item->fields->code, $product['productCode'])
+                || $this->needUpdate($item->fields->code, $product['productArticle'])) {
                 $updateProperty = array_merge($updateProperty, [
                     "TOP_FIELD_2"  => $item->fields->code,
                     "CML2_ARTICLE" => $item->fields->code,
                 ]);
             }
 
-            if (
-                !empty($item->fields->article) &&
-                $products[$item->fields->externalCode]['productModel'] !== $item->fields->article
-            ) {
+            if ($this->needUpdate($item->fields->article, $product['productModel'])) {
                 $updateProperty = array_merge($updateProperty, [
-                    "model"  => $item->fields->article,
+                    "model" => $item->fields->article,
                 ]);
             }
+
+//            $shippingWeight = $this->prepareWeight($attribute->getAttributeValue($item, "Вес"), $item);
+//            if ($this->needUpdate($shippingWeight, $product['shippingWeight'])) {
+//                $updateProperty = array_merge($updateProperty, [
+//                    "shipping_weight" => $shippingWeight,
+//                ]);
+//            }
+//
+//            $packageDimensions = $this->prepareDimensions($attribute->getAttributeValue($item, "Упаковка"), $item);
+//            if ($this->needUpdate($packageDimensions, $product['packageDimensions'])) {
+//                $updateProperty = array_merge($updateProperty, [
+//                    "at_gabarity_upakovki" => $packageDimensions,
+//                ]);
+//            }
 
             if (!empty($updateProperty)) {
                 \CIBlockElement::SetPropertyValuesEx(
@@ -116,6 +129,58 @@ class Product
                 (new \CIBlockElement)->UpdateSearch($products[$item->fields->externalCode]['id'], true);
             }
         }
+    }
+
+    /**
+     * @param $msValue
+     * @param $bitrixValue
+     * @return bool
+     */
+    private function needUpdate($msValue, $bitrixValue): bool
+    {
+        return !empty($msValue) && $bitrixValue !== $msValue;
+    }
+
+    /**
+     * @param $weight
+     * @param $product
+     * @return string|null
+     */
+    private function prepareWeight($weight, $product): ?string
+    {
+        $weight = (float)$weight;
+        if ($weight <= 0) {
+            \Manom\Tools::addToLog("Некорректный вес, код - " . $product->fields->externalCode, "ms_write");
+            return null;
+        }
+        return $weight . " кг";
+    }
+
+    /**
+     * @param $dimensions
+     * @param $product
+     * @return string|null
+     */
+    private function prepareDimensions($dimensions, $product): ?string
+    {
+        $packageData = [];
+        $parsePackage = explode("/", $dimensions);
+        $packageData["length"] = (float)$parsePackage[0];
+        $packageData["width"] = (float)$parsePackage[1];
+        $packageData["height"] = (float)$parsePackage[2];
+
+        $packageData = array_filter($packageData, function ($val) {
+            return $val > 0;
+        });
+
+        $isValidPackageData = count($packageData) === 3;
+
+        if (!$isValidPackageData) {
+            \Manom\Tools::addToLog("Некорректные габариты упаковки, код - " . $product->fields->externalCode, "ms_write");
+            return null;
+        }
+
+        return implode("x", $packageData) . " см";
     }
 
     /**

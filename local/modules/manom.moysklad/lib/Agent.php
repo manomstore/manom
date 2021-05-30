@@ -6,6 +6,7 @@ use Manom\Moysklad\Moysklad\CustomerOrder;
 use \Manom\Moysklad\Bitrix\Order;
 use \Bitrix\Sale;
 use \Manom\Price;
+use Manom\Tools;
 
 class Agent
 {
@@ -55,7 +56,7 @@ class Agent
             $price->processingChanges((new \Manom\Product())->getAll());
             static::setActiveAfterMSImport(false);
         } catch (\Exception $e) {
-            static::addLogAfterMSImport("Error " . $e->getMessage() . ", Path:" . $e->getFile() . ":" . $e->getLine());
+            Tools::addToLog("Error " . $e->getMessage() . ", Path:" . $e->getFile() . ":" . $e->getLine(), "ms_handler");
         }
 
         return "\Manom\Moysklad\Agent::afterMSImport();";
@@ -77,16 +78,5 @@ class Agent
         }
 
         \CAgent::Update($agentId, ["ACTIVE" => $active === true ? "Y" : "N"]);
-    }
-
-    /**
-     * @param string $content
-     */
-    public static function addLogAfterMSImport(string $content): void
-    {
-        $logPath = $_SERVER["DOCUMENT_ROOT"] . "/logs/ms_handler.log";
-        $log = file_get_contents($logPath);
-        $log .= $content . "\n";
-        file_put_contents($logPath, date("d.m.Y H:i:s") . " " . $log);
     }
 }
