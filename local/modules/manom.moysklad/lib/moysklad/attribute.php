@@ -143,4 +143,48 @@ class Attribute
             }
         }
     }
+
+    /**
+     * @param $attributes
+     * @param $product
+     */
+    public function addDimensionsFromDescription(&$attributes, $product): void
+    {
+        $description = explode("\n", $product->fields->description);
+        $weight = (float)$description[0];
+        $parsePackage = explode("/", $description[1]);
+        $packageData["length"] = (float)$parsePackage[0];
+        $packageData["width"] = (float)$parsePackage[1];
+        $packageData["height"] = (float)$parsePackage[2];
+
+        $packageData = array_filter($packageData, function ($val) {
+            return $val > 0;
+        });
+
+        $isValidDimensions = count($packageData) === 3 && !empty($weight);
+
+        if (!$isValidDimensions) {
+            $log = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/logs/ms.txt");
+            $log .= "Неверная структура у товара " . $product->fields->externalCode . "\n";
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/logs/ms.txt", $log);
+            return;
+        }
+
+        $data["weight"] = $weight;
+        $data["package"] = implode("/", $packageData);
+
+        $checkForUpdate = [
+            "weight",
+            "package",
+        ];
+
+        foreach ($checkForUpdate as $code) {
+            if (is_array($this->list[$code]->meta)) {
+                $attributes[] = [
+                    "meta"  => $this->list[$code]->meta,
+                    "value" => (string)$data[$code],
+                ];
+            }
+        }
+    }
 }

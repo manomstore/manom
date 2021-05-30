@@ -183,4 +183,40 @@ class Product
             }
         });
     }
+
+    /**
+     * @throws SystemException
+     */
+    public static function transferDimensions(): void
+    {
+        $fields = [
+            "weight"  => "Вес",
+            "package" => "Упаковка",
+        ];
+
+        $product = new Assortment();
+        $attribute = new Attribute($fields);
+        $msProducts = $product->getElements();
+        $msProducts = $msProducts->filter(function ($product) {
+            return !empty($product->fields->description);
+        });
+
+        $msProducts = $msProducts->filter(function ($product) {
+            return $product->fields->externalCode === "M3C441jhhMHExOIqMipPE1";
+        });
+
+        $msProducts->each(function ($product) use ($attribute) {
+            $attributes = [];
+            $attribute->addDimensionsFromDescription($attributes, $product);
+
+            if (!empty($attributes)) {
+                $url = "https://online.moysklad.ru/api/remap/1.2/entity/product/" . $product->fields->id;
+                $body = [
+                    "attributes" => $attributes,
+                ];
+
+                Tools::sendRequest($url, "PUT", json_encode($body));
+            }
+        });
+    }
 }
