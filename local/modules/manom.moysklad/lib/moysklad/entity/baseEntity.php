@@ -124,18 +124,18 @@ abstract class BaseEntity
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function hasNotFoundError()
+    public function hasNotFoundError(): bool
     {
-        return $this->errorType = "notFound";
+        return $this->errorType === "notFound";
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function hasOtherError()
+    public function hasOtherError(): bool
     {
-        return $this->errorType = "otherError";
+        return $this->errorType === "otherError";
     }
 }

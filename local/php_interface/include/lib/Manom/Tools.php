@@ -17,8 +17,8 @@ class Tools
 
         $logPath = $_SERVER["DOCUMENT_ROOT"] . "/logs/{$logName}.log";
         $log = file_get_contents($logPath);
-        $log .= $content . "\n";
-        file_put_contents($logPath, date("d.m.Y H:i:s") . " " . $log);
+        $log .= date("d.m.Y H:i:s") . "\n" . $content . "\n\n";
+        file_put_contents($logPath, $log);
     }
 
     /**

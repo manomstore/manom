@@ -10,10 +10,11 @@ Loader::registerAutoLoadClasses(
         'Manom\Moysklad\EventTable' => 'lib/EventTable.php',
         'Manom\Moysklad\Handler' => 'lib/Handler.php',
         'Manom\Moysklad\Bitrix\Order' => 'lib/bitrix/order.php',
-//        'Manom\Moysklad\Moysklad\Entity\CustomerOrder' => 'lib/moysklad/entity/customerOrder.php',
-//        'Manom\Moysklad\Moysklad\Entity\Payment' => 'lib/moysklad/entity/payment.php',
-//        'Manom\Moysklad\Moysklad\Entity\Shipment' => 'lib/moysklad/entity/shipment.php',
-//        'Manom\Moysklad\Moysklad\Entity\BaseEntity' => 'lib/moysklad/entity/baseEntity.php',
+        'Manom\Moysklad\Moysklad\Entity\CustomerOrder' => 'lib/moysklad/entity/customerOrder.php',
+        'Manom\Moysklad\Moysklad\Entity\Payment' => 'lib/moysklad/entity/payment.php',
+        'Manom\Moysklad\Moysklad\Entity\Shipment' => 'lib/moysklad/entity/shipment.php',
+        'Manom\Moysklad\Moysklad\Entity\BaseEntity' => 'lib/moysklad/entity/baseEntity.php',
+        'Manom\Moysklad\Moysklad\EventHandler' => 'lib/moysklad/eventHandler.php',
     )
 );
 
