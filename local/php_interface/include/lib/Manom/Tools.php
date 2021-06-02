@@ -20,4 +20,18 @@ class Tools
         $log .= $content . "\n";
         file_put_contents($logPath, date("d.m.Y H:i:s") . " " . $log);
     }
+
+    /**
+     * @param \Exception $e
+     * @param string $logName
+     * @param string $moreInfo
+     */
+    public static function errorToLog(\Exception $e, string $logName, string $moreInfo = ""): void
+    {
+        $logText = "Error " . $e->getMessage() . ", Path:" . $e->getFile() . ":" . $e->getLine();
+        if ($moreInfo) {
+            $logText .= "\nMore info: " . $moreInfo;
+        }
+        static::addToLog($logText, $logName);
+    }
 }

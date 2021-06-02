@@ -3,7 +3,7 @@
 namespace Manom\Moysklad;
 
 
-use Manom\Moysklad\Moysklad\CustomerOrder;
+use Manom\Tools;
 
 class Handler
 {
@@ -31,29 +31,21 @@ class Handler
                     continue;
                 }
 
-                if ($this->isOrderCreateEvent($event)) {
-                    $result = (new CustomerOrder($event->meta->href))->resetReserves();
-                } elseif ($this->isOrderChangeEvent($event)) {
-                    $result = EventTable::add(["href_change" => $event->meta->href]);
-                } else {
-                    $result = true;
-                }
+                $event = [
+                    "href_entity" => $event->meta->href,
+                    "entity"      => $event->meta->type,
+                    "type"        => $event->action,
+                ];
+
+
+                $result = EventTable::add($event);
             }
 
             if ($result) {
                 header("HTTP/1.0 200 OK");
             }
         } catch (\Exception $e) {
+            Tools::errorToLog($e, "ms_handler", file_get_contents('php://input'));
         }
-    }
-
-    public function isOrderCreateEvent($event): bool
-    {
-        return $event->meta->type === "customerorder" && $event->action === "CREATE";
-    }
-
-    public function isOrderChangeEvent($event): bool
-    {
-        return $event->meta->type === "customerorder" && $event->action === "UPDATE";
     }
 }

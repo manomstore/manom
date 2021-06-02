@@ -89,6 +89,7 @@ class manom_moysklad extends CModule
         $this->createEventTable($connection);
         \CAgent::RemoveModuleAgents($this->MODULE_ID);
         \CAgent::AddAgent("\Manom\Moysklad\Agent::handleEvents();", $this->MODULE_ID, "N", 60);
+        \CAgent::AddAgent("\Manom\Moysklad\Agent::afterMSImport();", $this->MODULE_ID, "N", 60, "", "N");
 
         return true;
     }
@@ -102,7 +103,9 @@ class manom_moysklad extends CModule
         $tableName = 'ma_moysklad_event';
         $fields = array(
             'id' => '`id` int unsigned not null auto_increment',
-            'href_change' => '`href_change` text collate utf8_unicode_ci',
+            'entity' => '`entity` text collate utf8_unicode_ci',
+            'type' => '`type` text collate utf8_unicode_ci',
+            'href_entity' => '`href_entity` text collate utf8_unicode_ci',
         );
 
         $tableExits = false;
@@ -145,7 +148,7 @@ class manom_moysklad extends CModule
      */
     public function removeEventTable($connection): void
     {
-        $sql = "drop table if exists ma_airtable_properties_link;";
+        $sql = "drop table if exists ma_moysklad_event;";
         $connection->query($sql);
     }
 
