@@ -27,7 +27,9 @@ class EventTable extends DataManager
     {
         return array(
             new Entity\IntegerField("id", ["primary" => true, "autocomplete" => true]),
-            new Entity\StringField("href_change"),
+            new Entity\StringField("entity"),
+            new Entity\StringField("type"),
+            new Entity\StringField("href_entity"),
         );
     }
 
@@ -41,15 +43,28 @@ class EventTable extends DataManager
      */
     public static function add(array $data): bool
     {
-        if (empty($data["href_change"])) {
+        if (
+            empty($data["href_entity"])
+            || empty($data["type"])
+            || empty($data["entity"])
+        ) {
             return false;
         }
 
-        $existHrefChange = static::getList([
-            "filter" => ["href_change" => $data["href_change"]]
+        $existEntry = static::getList([
+            "filter" => [
+                "href_entity" => $data["href_entity"],
+                "entity"      => $data["entity"],
+                "type"        => $data["type"],
+            ]
         ])->fetch();
-        if (!$existHrefChange) {
-            parent::add($data);
+
+        if (!$existEntry) {
+            $result = parent::add($data);
+
+            if ($result->isSuccess()) {
+                Agent::setActiveAgent(true, "handleEvents");
+            }
         }
         return true;
     }

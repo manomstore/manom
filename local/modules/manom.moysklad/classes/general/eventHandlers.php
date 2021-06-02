@@ -26,7 +26,7 @@ class eventHandlers
         }
 
         if (Loader::includeModule('manom.moysklad')) {
-            Agent::setActiveAfterMSImport(true);
+            Agent::setActiveAgent(true, "afterMSImport");
         }
     }
 }

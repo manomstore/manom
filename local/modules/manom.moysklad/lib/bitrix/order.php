@@ -5,7 +5,7 @@ namespace Manom\Moysklad\Bitrix;
 use \Bitrix\Sale;
 use \Bitrix\Sale\Compatible\OrderCompatibility;
 use Manom\CatalogProvider;
-use Manom\Moysklad\Moysklad\CustomerOrder;
+use Manom\Moysklad\Moysklad\Entity\CustomerOrder;
 
 /**
  * Class Order

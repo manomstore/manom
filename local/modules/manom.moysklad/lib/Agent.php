@@ -2,40 +2,29 @@
 
 namespace Manom\Moysklad;
 
-use Manom\Moysklad\Moysklad\CustomerOrder;
-use \Manom\Moysklad\Bitrix\Order;
-use \Bitrix\Sale;
+use Manom\Moysklad\Moysklad\EventHandler;
 use \Manom\Price;
+use Manom\Tools;
 
 class Agent
 {
     /**
      * @return string
      */
-    public static function handleEvents()
+    public static function handleEvents(): string
     {
         try {
             $events = EventTable::getList()->fetchAll();
-            if (empty($events)) {
-                throw new \Exception();
+            if (!is_array($events)) {
+                $events = [];
             }
 
             foreach ($events as $event) {
-                $customerOrder = new CustomerOrder($event["href_change"]);
+                EventHandler::process($event);
+            }
 
-                if ($customerOrder->errorRequest) {
-                    continue;
-                }
-
-                if (!$customerOrder->getId() || empty(Sale\Order::load($customerOrder->getId()))) {
-                    EventTable::delete($event["id"]);
-                    continue;
-                }
-                $bitrixOrder = new Order($customerOrder->getId());
-                $bitrixOrder->setCustomerOrder($customerOrder);
-                $bitrixOrder->updateBasket();
-                $bitrixOrder->updateCancel();
-                EventTable::delete($event["id"]);
+            if (empty(EventTable::getList()->fetchAll())) {
+                Agent::setActiveAgent(false, "handleEvents");
             }
         } catch (\Exception $e) {
         }
@@ -53,9 +42,9 @@ class Agent
             $product->updateProperties();
             $product->updateYMarketFields();
             $price->processingChanges((new \Manom\Product())->getAll());
-            static::setActiveAfterMSImport(false);
+            static::setActiveAgent(false, "afterMSImport");
         } catch (\Exception $e) {
-            static::addLogAfterMSImport("Error " . $e->getMessage() . ", Path:" . $e->getFile() . ":" . $e->getLine());
+            Tools::errorToLog($e, "ms_handler");
         }
 
         return "\Manom\Moysklad\Agent::afterMSImport();";
@@ -64,10 +53,9 @@ class Agent
     /**
      * @param bool $active
      */
-    public static function setActiveAfterMSImport(bool $active): void
+    public static function setActiveAgent(bool $active, string $agentName): void
     {
-
-        $agent = \CAgent::GetList([], ["NAME" => "\Manom\Moysklad\Agent::afterMSImport();"])->GetNext();
+        $agent = \CAgent::GetList([], ["NAME" => '\\' . static::class . "::{$agentName}();"])->GetNext();
         if (empty($agent)) {
             return;
         }
@@ -77,16 +65,5 @@ class Agent
         }
 
         \CAgent::Update($agentId, ["ACTIVE" => $active === true ? "Y" : "N"]);
-    }
-
-    /**
-     * @param string $content
-     */
-    public static function addLogAfterMSImport(string $content): void
-    {
-        $logPath = $_SERVER["DOCUMENT_ROOT"] . "/logs/ms_handler.log";
-        $log = file_get_contents($logPath);
-        $log .= $content . "\n";
-        file_put_contents($logPath, date("d.m.Y H:i:s") . " " . $log);
     }
 }

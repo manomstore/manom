@@ -1,46 +1,30 @@
 <?php
 
-namespace Manom\Moysklad\Moysklad;
+namespace Manom\Moysklad\Moysklad\Entity;
 
-use Bitrix\Main\Loader;
-use Bitrix\Sale\Order;
-use GuzzleHttp\Client;
 use Manom\Moysklad\Tools;
 
 /**
  * Class CustomerOrder
- * @package Manom\Moysklad\Moysklad
+ * @package Manom\Moysklad\Moysklad\Entity
  */
-class CustomerOrder
+class CustomerOrder extends BaseEntity
 {
-    /**
-     * @var \stdClass|null
-     */
-    private $orderData = null;
     /**
      * @var array
      */
-    private $idByXmlId = [];
-    /**
-     * @var bool
-     */
-    public $errorRequest = false;
+    protected $idByXmlId = [];
 
     /**
      * CustomerOrder constructor.
      * @param String $orderUrl
      */
-    public function __construct(String $orderUrl)
+    public function __construct(String $url)
     {
-        try {
-            $this->orderData = Tools::sendRequest($orderUrl);
-        } catch (\Exception $e) {
-            if ($e->getCode() === 404) {
-                return;
-            }
+        parent::__construct($url);
 
-            $this->errorRequest = true;
-            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
+        if ($this->hasError()) {
+            return;
         }
 
         try {
@@ -48,8 +32,7 @@ class CustomerOrder
             $this->setPositions();
             $this->setXmlMapping();
         } catch (\Exception $e) {
-            $this->errorRequest = true;
-            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
+            $this->handleError($e);
         }
     }
 
@@ -59,7 +42,7 @@ class CustomerOrder
      */
     public function getId(): int
     {
-        $extCode = $this->orderData->externalCode;
+        $extCode = $this->entityData->externalCode;
         $extCode = !is_numeric($extCode) ? 0 : $extCode;
         return (int)$extCode;
     }
@@ -69,12 +52,12 @@ class CustomerOrder
      */
     private function setState(): void
     {
-        if (empty($this->orderData->state->meta->href)) {
-            $this->orderData->state = null;
+        if (empty($this->entityData->state->meta->href)) {
+            $this->entityData->state = null;
             return;
         }
-        $stateData = Tools::sendRequest($this->orderData->state->meta->href);
-        $this->orderData->state = $stateData;
+        $stateData = Tools::sendRequest($this->entityData->state->meta->href);
+        $this->entityData->state = $stateData;
     }
 
     /**
@@ -82,15 +65,15 @@ class CustomerOrder
      */
     private function setPositions(): void
     {
-        if (empty($this->orderData->positions->meta->href)) {
-            $this->orderData->positions = [];
+        if (empty($this->entityData->positions->meta->href)) {
+            $this->entityData->positions = [];
             return;
         }
-        $positionsData = Tools::sendRequest($this->orderData->positions->meta->href);
-        $this->orderData->positions = $positionsData->rows;
-        if (is_array($this->orderData->positions)) {
+        $positionsData = Tools::sendRequest($this->entityData->positions->meta->href);
+        $this->entityData->positions = $positionsData->rows;
+        if (is_array($this->entityData->positions)) {
             $this->idByXmlId = [];
-            foreach ($this->orderData->positions as &$position) {
+            foreach ($this->entityData->positions as &$position) {
                 $this->setPositionData($position);
                 if (!empty($position->externalCode)) {
                     $this->idByXmlId[] = $position->externalCode;
@@ -120,7 +103,7 @@ class CustomerOrder
      */
     public function getStatus()
     {
-        return $this->orderData->state;
+        return $this->entityData->state;
     }
 
     /**
@@ -129,11 +112,11 @@ class CustomerOrder
      */
     public function getPositions()
     {
-        if (empty($this->orderData->positions)) {
-            $this->orderData->positions = [];
+        if (empty($this->entityData->positions)) {
+            $this->entityData->positions = [];
         }
 
-        return $this->orderData->positions;
+        return $this->entityData->positions;
     }
 
     /**
@@ -190,34 +173,44 @@ class CustomerOrder
      * @return bool
      * @throws \Exception
      */
-    public function resetReserves(): bool
+    public function changeReserves(string $action): bool
     {
-        Loader::includeModule("germen.settings");
-        $testOrders = array_map(function ($item) {
-            return (int)$item;
-        }, \UniPlug\Settings::get("TEST_ORDERS"));
-
-        if ($this->orderData->state->name !== "[PO] Предзаказ") {
-            return false;
-        }
-
-        if (!$this->getId() || empty(Order::load($this->getId()))) {
+        if (!in_array($action, ["set", "reset"])) {
             return false;
         }
 
         foreach ($this->getPositions() as $position) {
             $meta = $position->positionMeta;
-            if ($meta->type !== "customerorderposition") {
+            if ($meta->type !== "customerorderposition" || empty($position->quantity)) {
                 continue;
             }
 
+            $quantityReserve = $action === "set" ? $position->quantity : 0;
+
+            $body = [
+                "reserve" => (float)$quantityReserve,
+            ];
+
             try {
-                Tools::sendRequest($meta->href, "PUT", '{"reserve" : 0.0}');
+                Tools::sendRequest($meta->href, "PUT", json_encode($body));
             } catch (\Exception $e) {
-                $this->errorRequest = true;
-                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/local/modules/manom.moysklad/handler.log", "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n");
+                $this->handleError($e);
             }
         }
         return true;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function isPreOrder(): bool
+    {
+        $status = $this->getStatus();
+        if (empty($status) || !is_object($status)) {
+            return false;
+        }
+
+        return $status->name === "[PO] Предзаказ";
     }
 }
