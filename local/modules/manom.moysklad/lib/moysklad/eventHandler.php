@@ -57,7 +57,11 @@ class EventHandler
             return;
         }
 
-        if ($customerOrder->hasNotFoundError() || empty(Sale\Order::load($customerOrder->getId()))) {
+        if (
+            $customerOrder->hasNotFoundError()
+            || !$customerOrder->getId()
+            || empty(Sale\Order::load($customerOrder->getId()))
+        ) {
             $this->removeEvent();
             return;
         }
