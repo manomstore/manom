@@ -102,17 +102,17 @@ class Order
             $basketItem->save();
         }
 
-        $basket->refresh();
-        $basket->save();
-        $this->order->refreshData();
-        $this->order->doFinalAction();
-        $discount = $this->order->getDiscount();
-        \Bitrix\Sale\DiscountCouponsManager::clearApply(true);
-        \Bitrix\Sale\DiscountCouponsManager::useSavedCouponsForApply(true);
-        $discount->setOrderRefresh(true);
-        $discount->setApplyResult(array());
-
-        $discount->calculate();
+//        $basket->refresh();
+//        $basket->save();
+//        $this->order->refreshData();
+//        $this->order->doFinalAction();
+//        $discount = $this->order->getDiscount();
+//        \Bitrix\Sale\DiscountCouponsManager::clearApply(true);
+//        \Bitrix\Sale\DiscountCouponsManager::useSavedCouponsForApply(true);
+//        $discount->setOrderRefresh(true);
+//        $discount->setApplyResult(array());
+//
+//        $discount->calculate();
 
         if (!$this->order->isPaid()) {
             /** @var \Bitrix\Sale\PaymentCollection $paymentCollection */
