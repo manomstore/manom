@@ -105,18 +105,24 @@ class Product
                 ]);
             }
 
-            $shippingWeight = $this->prepareWeight($attribute->getAttributeValue($item, "Вес"), $item);
-            if ($this->needUpdate($shippingWeight, $product['shippingWeight'])) {
-                $updateProperty = array_merge($updateProperty, [
-                    "shipping_weight" => $shippingWeight,
-                ]);
+            $rawWeight = $attribute->getAttributeValue($item, "Вес");
+            if (strlen($rawWeight) > 0) {
+                $shippingWeight = $this->prepareWeight($rawWeight, $item);
+                if ($this->needUpdate($shippingWeight, $product['shippingWeight'])) {
+                    $updateProperty = array_merge($updateProperty, [
+                        "shipping_weight" => $shippingWeight,
+                    ]);
+                }
             }
 
-            $packageDimensions = $this->prepareDimensions($attribute->getAttributeValue($item, "Упаковка"), $item);
-            if ($this->needUpdate($packageDimensions, $product['packageDimensions'])) {
-                $updateProperty = array_merge($updateProperty, [
-                    "at_gabarity_upakovki" => $packageDimensions,
-                ]);
+            $rawPackage = $attribute->getAttributeValue($item, "Упаковка");
+            if (strlen($rawPackage) > 0) {
+                $packageDimensions = $this->prepareDimensions($rawPackage, $item);
+                if ($this->needUpdate($packageDimensions, $product['packageDimensions'])) {
+                    $updateProperty = array_merge($updateProperty, [
+                        "at_gabarity_upakovki" => $packageDimensions,
+                    ]);
+                }
             }
 
             if (!empty($updateProperty)) {
