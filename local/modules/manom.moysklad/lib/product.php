@@ -156,7 +156,7 @@ class Product
     {
         $weight = (float)$weight;
         if ($weight <= 0) {
-            \Manom\Tools::addToLog("Некорректный вес, код - " . $product->fields->externalCode, "ms_handler");
+            \Manom\Tools::addToLog("Некорректный вес, код - " . $product->fields->externalCode, "ms_dimensions");
             return null;
         }
         return $weight . " кг";
@@ -182,7 +182,7 @@ class Product
         $isValidPackageData = count($packageData) === 3;
 
         if (!$isValidPackageData) {
-            \Manom\Tools::addToLog("Некорректные габариты упаковки, код - " . $product->fields->externalCode, "ms_handler");
+            \Manom\Tools::addToLog("Некорректные габариты упаковки, код - " . $product->fields->externalCode, "ms_dimensions");
             return null;
         }
 
