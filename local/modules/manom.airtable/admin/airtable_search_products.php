@@ -51,43 +51,47 @@ if ($request->get("apply")) {
             ]
         )->GetNext();
 
-        $isListType = $propertyData["PROPERTY_TYPE"] === "L";
+        if (!empty($propertyData)) {
+            $isListType = $propertyData["PROPERTY_TYPE"] === "L";
 
-        if ($propertyValueField === false) {
-            $propertyCodeField = "!" . $propertyCodeField;
-        }
-
-        $propertyCodeField .= $isListType ? "_VALUE" : "";
-
-        $arFilter[$propertyCodeField] = $propertyValueField;
-
-        $arSelect = [
-            "ID",
-            "IBLOCK_ID",
-            "IBLOCK_TYPE_ID",
-            "NAME",
-            "XML_ID",
-            "IBLOCK_SECTION_ID",
-            "PROPERTY_" . $propertyCode,
-        ];
-
-        $resultIds = [];
-
-        if ($propertyData !== false) {
-            $result = CIBlockElement::GetList([$by => $order], $arFilter, false, false, $arSelect);
-            while ($row = $result->GetNext()) {
-                if ($propertyValueField && $row[strtoupper("PROPERTY_" . $propertyCode . "_VALUE")] !== $propertyValueField) {
-                    continue;
-                }
-                $resultIds[] = $row["ID"];
+            if ($propertyValueField === false) {
+                $propertyCodeField = "!" . $propertyCodeField;
             }
-        }
 
-        if (!empty($resultIds)) {
-            $rsData = CIBlockElement::GetList([$by => $order], ["ID" => $resultIds,], false, false, $arSelect);
+            $propertyCodeField .= $isListType ? "_VALUE" : "";
+
+            $arFilter[$propertyCodeField] = $propertyValueField;
+
+            $arSelect = [
+                "ID",
+                "IBLOCK_ID",
+                "IBLOCK_TYPE_ID",
+                "NAME",
+                "XML_ID",
+                "IBLOCK_SECTION_ID",
+                "PROPERTY_" . $propertyCode,
+            ];
+
+            $resultIds = [];
+
+            if ($propertyData !== false) {
+                $result = CIBlockElement::GetList([$by => $order], $arFilter, false, false, $arSelect);
+                while ($row = $result->GetNext()) {
+                    if ($propertyValueField && $row[strtoupper("PROPERTY_" . $propertyCode . "_VALUE")] !== $propertyValueField) {
+                        continue;
+                    }
+                    $resultIds[] = $row["ID"];
+                }
+            }
+
+            if (!empty($resultIds)) {
+                $rsData = CIBlockElement::GetList([$by => $order], ["ID" => $resultIds,], false, false, $arSelect);
+            } else {
+                //Для вывода пустого списка, если в предыдущем запросе не находим эквивалентных значений
+                $rsData = new \CDBResult();
+            }
         } else {
-            //Для вывода пустого списка, если в предыдущем запросе не находим эквивалентных значений
-            $rsData = new \CDBResult();
+            \CAdminMessage::ShowMessage('Свойства с кодом "' . $propertyCode . '" не существует!');
         }
     } else {
         \CAdminMessage::ShowMessage("Код свойства не указан");

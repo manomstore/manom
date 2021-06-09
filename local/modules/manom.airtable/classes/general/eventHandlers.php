@@ -65,6 +65,14 @@ class eventHandlers
                             "icon"        => "",
                             "sort"        => 100,
                         ),
+                        array(
+                            "parent_menu" => "airtable_tools",
+                            "text"        => "Поиск полей",
+                            "title"       => "Поиск полей",
+                            "url"         => "airtable_search_fields.php?lang=" . LANGUAGE_ID,
+                            "icon"        => "",
+                            "sort"        => 100,
+                        ),
                     ),
                 ),
                 array(

@@ -18,6 +18,7 @@ class Api
     private $airtable;
     private $sections;
     public $scanTables = false;
+    public $allRecords = false;
 
     /**
      * Api constructor.
@@ -88,7 +89,9 @@ class Api
 
         if ($this->scanTables) {
             unset($params['filterByFormula']);
-            $params['maxRecords'] = 10;
+            if (!$this->allRecords) {
+                $params['maxRecords'] = 10;
+            }
         }
 
         $request = $this->airtable->getContent(rawurlencode($section), $params);
