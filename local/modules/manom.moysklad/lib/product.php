@@ -83,6 +83,8 @@ class Product
         $items = $assortment->getElements();
         $attribute = new Attribute([]);
 
+        unlink($_SERVER["DOCUMENT_ROOT"] . "/logs/ms_dimensions.log");
+
         foreach ($items as $item) {
             $updateProperty = [];
             if (empty($item->fields->externalCode) || empty($products[$item->fields->externalCode])) {
