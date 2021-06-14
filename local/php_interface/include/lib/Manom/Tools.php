@@ -17,9 +17,6 @@ class Tools
 
         $logPath = $_SERVER["DOCUMENT_ROOT"] . "/logs/{$logName}.log";
         $log = file_get_contents($logPath);
-        if ($logName === "ms_dimensions") {
-            $log = "";
-        }
         $log .= date("d.m.Y H:i:s") . "\n" . $content . "\n\n";
         file_put_contents($logPath, $log);
     }

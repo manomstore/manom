@@ -180,6 +180,36 @@ class Import
     }
 
     /**
+     * @param string $fieldName
+     * @return array
+     * @throws ArgumentNullException
+     * @throws ArgumentOutOfRangeException
+     * @throws SystemException
+     */
+    public function getSectionsForField(string $fieldName): array
+    {
+        $api = new Api();
+        $api->scanTables = true;
+        $api->allRecords = true;
+
+        $airtableData = $api->getAll();
+
+        $foundSections = [];
+        foreach ($airtableData as $section => $sectionItems) {
+            foreach ($sectionItems as $airtableItem) {
+                $fields = array_keys($airtableItem["fields"]);
+                $fields = array_map("trim", $fields);
+                if (in_array(trim($fieldName), $fields)) {
+                    $foundSections[] = $section;
+                    continue(2);
+                }
+            }
+        }
+
+        return $foundSections;
+    }
+
+    /**
      * @param array $airtableItem
      * @param array $airtableIdToXmlId
      * @return array

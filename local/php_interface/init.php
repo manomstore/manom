@@ -183,6 +183,12 @@ AddEventHandler(
     Array("MyHandlerClass", "OnEpilogHandler")
 );
 
+AddEventHandler(
+    "iblock",
+    "OnBeforeIBlockPropertyDelete",
+    Array("MyHandlerClass", "OnBeforeIBlockPropertyDeleteHandler")
+);
+
 AddEventHandler("main", "OnBeforeUserLogin", Array("CUserEx", "OnBeforeUserLogin"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserRegister"));
 AddEventHandler("main", "OnBeforeUserRegister", Array("CUserEx", "OnBeforeUserUpdate"));
@@ -1242,6 +1248,31 @@ CONTENT;
     function OnEpilogHandler()
     {
         Content::renderYMHandler();
+    }
+
+    /**
+     * @param $propertyId
+     * @return bool
+     */
+    function OnBeforeIBlockPropertyDeleteHandler($propertyId)
+    {
+        $property = CIBlockProperty::GetByID($propertyId)->GetNext();
+
+        if ((int)$property["IBLOCK_ID"] !== \Helper::CATALOG_IB_ID) {
+            return true;
+        }
+
+        $serviceProperties = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/local/php_interface/include/service_properties.txt");
+        $serviceProperties = explode("\n", $serviceProperties);
+        $serviceProperties = array_map("trim", $serviceProperties);
+
+        if (!in_array($property["CODE"], $serviceProperties)) {
+            return true;
+        }
+
+        global $APPLICATION;
+        $APPLICATION->throwException($property["NAME"] . " - Это служебное свойство. Его нельзя удалить.");
+        return false;
     }
 }
 
