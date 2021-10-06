@@ -149,9 +149,11 @@
                                     false
                                 ); ?>
                                 <button class="top-nav__button-show" type="button"></button>
+                                <?/*?>
                                 <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__request">
                                     Заказать звонок
                                 </a>
+                                <?*/?>
                             </div>
                             <div class="header__wrapper-top">
                                 <nav class="header__nav">
@@ -470,13 +472,14 @@
                                             ],
                                             false
                                         ); ?>
-                                        <?if (Content::showCallbackForm()):?>
+                                        <?if (Content::showCallbackForm() && false):?>
                                         <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__call-request">
                                             Заказать звонок
                                         </a>
                                         <?endif;?>
                                     </div>
                                     <!-- Всплывающее окно Заказать звонок -->
+                                    <?/*?>
                                     <div id="popap-call" class="popup-block popup-block--call">
                                         <div class="popup-block__wrapper">
                                             <div class="popup-block__top">
@@ -513,6 +516,7 @@
                                             </form>
                                         </div>
                                     </div>
+                                    <?*/?>
                                     <!-- /number -->
                                 </div>
                             </div>
