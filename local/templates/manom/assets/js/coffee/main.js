@@ -1165,7 +1165,24 @@ $(document).ready(function () {
   $(document).on('submit', '.js-one-click-order,#popap-call form', function (e) {
     e.preventDefault();
     app.loader.show();
-    grecaptcha.execute($(this).data("g-recaptcha-id"));
+    var that = this;
+
+    grecaptcha.execute($(that).data("g-recaptcha-id"))
+        .then(function () {
+          var token = grecaptcha.getResponse($(that).data("g-recaptcha-id"));
+          if (!token) {
+            return;
+          }
+
+          if ($(that).is("#popap-call form")) {
+            app.formSender.call(token);
+          } else if ($(that).is(".js-one-click-order")) {
+            app.formSender.oneClick(token);
+          }
+        })
+        .catch(function () {
+          app.loader.hide()
+        });
   });
 
   $(document).on('click', '.js-one-click-order .js-close-popup', function (e) {
@@ -4090,17 +4107,14 @@ function onloadRecaptcha() {
     $(document).ready(function () {
         var oneClickGR = document.querySelector(".js-one-click-order #one-click-recaptcha");
         var callSendGR = document.querySelector("#popap-call form #call-recaptcha");
-        var hideLoader = function () {
-            app.loader.hide();
-        };
 
         if (callSendGR && $(callSendGR).closest("form").length) {
             var gRecaptchaIdCall = grecaptcha.render(callSendGR, {
                 'sitekey': '6Leh9rQcAAAAAA41AoMbs93HfbzkBZ8NU4Ac8Fcr',
                 'callback': app.formSender.call,
                 'size': "invisible",
-                'expired-callback	': hideLoader,
-                'expired-error-callback	': hideLoader,
+                'expired-callback	': app.loader.hide,
+                'expired-error-callback	': app.loader.hide
             });
 
             if (gRecaptchaIdCall) {
@@ -4113,8 +4127,8 @@ function onloadRecaptcha() {
                 'sitekey': '6Leh9rQcAAAAAA41AoMbs93HfbzkBZ8NU4Ac8Fcr',
                 'callback': app.formSender.oneClick,
                 'size': "invisible",
-                'expired-callback	': hideLoader,
-                'expired-error-callback	': hideLoader,
+                'expired-callback	': app.loader.hide,
+                'expired-error-callback	': app.loader.hide,
             });
 
             if (gRecaptchaIdOneClick) {

@@ -14,6 +14,7 @@ use \Bitrix\Main\Application,
     \Bitrix\Main\Web\Cookie;
 use Manom\CatalogProvider;
 use Manom\PreOrder;
+use Manom\Tools;
 
 Loader::IncludeModule('main');
 Loader::IncludeModule('iblock');
@@ -347,8 +348,13 @@ if ($_POST['change_favorite_list'] === 'Y') { ?>
             throw new \Exception();
         }
 
-        if (!check_bitrix_sessid() && !$fromShowcase) {
-            throw new \Exception();
+        $recaptcha = $request->getPost("recaptcha");
+
+        // Не проверяем сессию и капчу, если запрос с витрины
+        if (!$fromShowcase) {
+            if (!check_bitrix_sessid() || !Tools::checkRecaptcha($recaptcha)) {
+                throw new \Exception();
+            }
         }
 
         if (
