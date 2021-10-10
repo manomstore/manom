@@ -1,10 +1,19 @@
 <?php
+use Bitrix\Main\Context;
+use Manom\Tools;
+
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("main");
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("form");
 CModule::IncludeModule("catalog");
 CModule::IncludeModule("sale");
+$request = Context::getCurrent()->getRequest();
+
+if (!Tools::checkRecaptcha($request->getPost("recaptcha"))) {
+    die();
+}
+
 if ($_REQUEST['name'] and $_REQUEST['phone'] and $_REQUEST['form_id']){
   if ($_REQUEST['form_id'] == '1') {
     $form_id = 1;

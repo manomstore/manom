@@ -14,6 +14,115 @@ app.utils = {
   },
 };
 
+app.formSender = {
+  call: function (token) {
+    var $this,
+        form_id,
+        name,
+        phone;
+
+    $this = $("#popap-call form");
+    name = $this.find('input[name="name"]').val();
+    phone = $this.find('input[name="phone"]').val();
+    form_id = $this.find('input[name="form_id"]').val();
+    if (name && phone && form_id) {
+      app.loader.show();
+      $.ajax({
+        url: '/ajax/add_cb.php',
+        type: 'POST',
+        data: {
+          name: name,
+          phone: phone,
+          form_id: form_id,
+          recaptcha: token,
+        },
+        success: function (data) {
+          app.loader.hide();
+          $this.find('.form_msg').css('display', 'block');
+          $this.find('.form_msg').html('Ваша заявка принята. Наши менеджеры свяжутся с вами, ожидайте.');
+          return $this.find('button, label, input').css('display', 'none');
+        },
+        error: function (error) {
+          app.loader.hide();
+        },
+      });
+    } else {
+      app.loader.hide();
+      $this.find('.form_msg').css('display', 'block');
+      $this.find('.form_msg').html('Заполните все поля для отправки.');
+    }
+  },
+  oneClick: function (token) {
+    var $this,
+        formData,
+        formFields,
+        $messageField,
+        $errorField,
+        validFields;
+
+    $this = $(".js-one-click-order");
+    $messageField = $this.find('.js-message-field');
+    $errorField = $this.find('.js-error-field');
+    validFields = true;
+    formData = {};
+    formFields = $this.serializeArray();
+
+    formFields.forEach(function (field) {
+      if (field.value.length <= 0) {
+        validFields = false;
+        return false;
+      }
+
+      formData[field.name] = field.value;
+    });
+
+    formData.sessid = BX.bitrix_sessid();
+    formData.recaptcha = token;
+    formData.type = 'makeOrder';
+
+    if (validFields) {
+      app.loader.show();
+      $.ajax({
+        url: '/ajax/ajax_func.php',
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        success: function (result) {
+          app.loader.hide();
+          $errorField.html("").hide();
+          if (result.success === true) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(
+                {
+                  'event': 'fb-action-event',
+                  'fb-action': 'Purchase',
+                },
+            );
+            window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
+            $.fn.refreshMiniCart();
+
+            result.orderId = Number(result.orderId);
+            if (result.orderId) {
+              $messageField.find(".js-orderId").text("#" + result.orderId);
+            }
+            $messageField.show();
+            $('.sci-login__title').hide();
+            return $this.find('button, label, input').hide();
+          } else {
+            $errorField.html('Произошла ошибка. Повторите попытку позднее.').show();
+          }
+        },
+        error: function (error) {
+          app.loader.hide();
+        },
+      });
+    } else {
+      app.loader.hide();
+      $errorField.html('Заполните все поля для отправки.').show();
+    }
+  },
+};
+
 // ЧЕКАУТ
 (function () {
   var classes = {
@@ -1053,108 +1162,32 @@ $(document).ready(function () {
     $('html, body').stop().animate({ scrollTop: scrollTopPosition }, 600);
   });
 
-  $(document).on('submit', '#popap-call form', function () {
-    var $this,
-      form_id,
-      name,
-      phone;
-    $this = $(this);
-    name = $(this).find('input[name="name"]').val();
-    phone = $(this).find('input[name="phone"]').val();
-    form_id = $(this).find('input[name="form_id"]').val();
-    if (name && phone && form_id) {
-      $.ajax({
-        url: '/ajax/add_cb.php',
-        type: 'POST',
-        data: {
-          name: name,
-          phone: phone,
-          form_id: form_id,
-        },
-        success: function (data) {
-          $this.find('.form_msg').css('display', 'block');
-          $this.find('.form_msg').html('Ваша заявка принята. Наши менеджеры свяжутся с вами, ожидайте.');
-          return $this.find('button, label, input').css('display', 'none');
-        },
-      });
-    } else {
-      $this.find('.form_msg').css('display', 'block');
-      $this.find('.form_msg').html('Заполните все поля для отправки.');
-    }
-    return false;
+  $(document).on('submit', '.js-one-click-order,#popap-call form', function (e) {
+    e.preventDefault();
+    app.loader.show();
+    var that = this;
+
+    grecaptcha.execute($(that).data("g-recaptcha-id"))
+        .then(function () {
+          var token = grecaptcha.getResponse($(that).data("g-recaptcha-id"));
+          if (!token) {
+            return;
+          }
+
+          if ($(that).is("#popap-call form")) {
+            app.formSender.call(token);
+          } else if ($(that).is(".js-one-click-order")) {
+            app.formSender.oneClick(token);
+          }
+        })
+        .catch(function () {
+          app.loader.hide()
+        });
   });
 
   $(document).on('click', '.js-one-click-order .js-close-popup', function (e) {
     e.preventDefault();
     $.fancybox.close()
-  });
-
-  $(document).on('submit', '.js-one-click-order', function (e) {
-    e.preventDefault();
-    var $this,
-      formData,
-      formFields,
-      $messageField,
-      $errorField,
-      validFields;
-    $this = $(this);
-    $messageField = $this.find('.js-message-field');
-    $errorField = $this.find('.js-error-field');
-    validFields = true;
-    formData = {};
-    formFields = $this.serializeArray();
-
-    formFields.forEach(function (field) {
-      if (field.value.length <= 0) {
-        validFields = false;
-        return false;
-      }
-
-      formData[field.name] = field.value;
-    });
-
-    formData.sessid = BX.bitrix_sessid();
-    formData.type = 'makeOrder';
-
-    if (validFields) {
-      app.loader.show();
-      $.ajax({
-        url: '/ajax/ajax_func.php',
-        type: 'POST',
-        dataType: 'json',
-        data: formData,
-        success: function (result) {
-          app.loader.hide();
-          $errorField.html("").hide();
-          if (result.success === true) {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push(
-                {
-                  'event': 'fb-action-event',
-                  'fb-action': 'Purchase',
-                },
-            );
-            window.gtmActions.purchaseHandler(JSON.parse(result.transaction));
-            $.fn.refreshMiniCart();
-
-            result.orderId = Number(result.orderId);
-            if (result.orderId) {
-              $messageField.find(".js-orderId").text("#" + result.orderId);
-            }
-            $messageField.show();
-            $('.sci-login__title').hide();
-            return $this.find('button, label, input').hide();
-          } else {
-            $errorField.html('Произошла ошибка. Повторите попытку позднее.').show();
-          }
-        },
-        error: function (error) {
-          app.loader.hide();
-        },
-      });
-    } else {
-      $errorField.html('Заполните все поля для отправки.').show();
-    }
   });
 
   $(document).on('submit', '#popap-buy-one-click-cart form', function () {
@@ -4069,4 +4102,39 @@ window.gtmActions = {
     this.initCommonData(eventObj);
   },
 };
+
+function onloadRecaptcha() {
+    $(document).ready(function () {
+        var oneClickGR = document.querySelector(".js-one-click-order #one-click-recaptcha");
+        var callSendGR = document.querySelector("#popap-call form #call-recaptcha");
+
+        if (callSendGR && $(callSendGR).closest("form").length) {
+            var gRecaptchaIdCall = grecaptcha.render(callSendGR, {
+                'sitekey': '6Leh9rQcAAAAAA41AoMbs93HfbzkBZ8NU4Ac8Fcr',
+                'callback': app.formSender.call,
+                'size': "invisible",
+                'expired-callback	': app.loader.hide,
+                'expired-error-callback	': app.loader.hide
+            });
+
+            if (gRecaptchaIdCall) {
+                $(callSendGR).closest("form").data("g-recaptcha-id", gRecaptchaIdCall);
+            }
+        }
+
+        if (oneClickGR && $(oneClickGR).closest("form").length) {
+            var gRecaptchaIdOneClick = grecaptcha.render(oneClickGR, {
+                'sitekey': '6Leh9rQcAAAAAA41AoMbs93HfbzkBZ8NU4Ac8Fcr',
+                'callback': app.formSender.oneClick,
+                'size': "invisible",
+                'expired-callback	': app.loader.hide,
+                'expired-error-callback	': app.loader.hide,
+            });
+
+            if (gRecaptchaIdOneClick) {
+                $(oneClickGR).closest("form").data("g-recaptcha-id", gRecaptchaIdOneClick);
+            }
+        }
+    });
+}
 

@@ -149,11 +149,9 @@
                                     false
                                 ); ?>
                                 <button class="top-nav__button-show" type="button"></button>
-                                <?/*?>
                                 <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__request">
                                     Заказать звонок
                                 </a>
-                                <?*/?>
                             </div>
                             <div class="header__wrapper-top">
                                 <nav class="header__nav">
@@ -472,14 +470,13 @@
                                             ],
                                             false
                                         ); ?>
-                                        <?if (Content::showCallbackForm() && false):?>
+                                        <?if (Content::showCallbackForm()):?>
                                         <a data-fancybox data-src="#popap-call" href="javascript:;" class="top-nav__call-request">
                                             Заказать звонок
                                         </a>
                                         <?endif;?>
                                     </div>
                                     <!-- Всплывающее окно Заказать звонок -->
-                                    <?/*?>
                                     <div id="popap-call" class="popup-block popup-block--call">
                                         <div class="popup-block__wrapper">
                                             <div class="popup-block__top">
@@ -508,15 +505,16 @@
                                                            name="phone"
                                                            id="sci-login__tel"
                                                            placeholder="+7 (___) ___-__-__"
+                                                           data-phone-mask
                                                            required>
                                                 </div>
                                                 <button class="popup-block__button" type="submit">
                                                     Позвоните мне
                                                 </button>
+                                                <div class="visually-hidden" id="call-recaptcha"></div>
                                             </form>
                                         </div>
                                     </div>
-                                    <?*/?>
                                     <!-- /number -->
                                 </div>
                             </div>

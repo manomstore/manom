@@ -304,14 +304,6 @@
         print_my_debug();
         ?>
 
-        <script>
-          grecaptcha.ready(function()
-          {
-            grecaptcha.execute('6LeuEIEUAAAAAFd1nHH6PD8ckNxVwX6p0_6j_Hxr', {action: 'action_name'});
-    //             .then(function(token) {});
-          });
-        </script>
-
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/scripts.min.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/coffee/pushUpJS/pushUp.js"></script>
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/jquery.maskedinput.min.js"></script>
@@ -332,12 +324,12 @@
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/login-error.js"></script>
 
         <script src="<?=SITE_TEMPLATE_PATH?>/assets/js/tooltip.js"></script>
+        <script src="//www.google.com/recaptcha/api.js?onload=onloadRecaptcha&render=explicit" async defer></script>
         <script>
           //Маска для ввода телефона
           $(function()
           {
-            $('#sci-login__tel').mask('+7 (999) 999-99-99');
-            $('#sci-login__tel_alt').mask('+7 (999) 999-99-99');
+            $('[data-phone-mask]').mask('+7 (999) 999-99-99');
             $('#sci-contact__tel').mask('+7 (999) 999-99-99');
             $('#sci-contact__ur-phone').mask('+7 (999) 999-99-99');
 

@@ -548,6 +548,7 @@ function formatBytes($size, $precision = 2)
                                     type="tel"
                                     name="phone"
                                     value="<?=$arResult['CURRENT_USER']['PHONE']?>"
+                                    data-phone-mask
                                     id="sci-login__tel_alt"
                                     class="sci-login__input"
                                     placeholder="+7 (___) ___-__-__"
@@ -570,6 +571,7 @@ function formatBytes($size, $precision = 2)
                             <? else: ?>
                                 <button class="sci-login__button">Купить</button>
                             <? endif; ?>
+                            <div class="visually-hidden" id="one-click-recaptcha"></div>
                         </form>
                     </div>
                 <?php endif; ?>
